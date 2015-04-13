@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import KeychainAccess
 
 class RDFOAuth2Token : NSObject,NSCoding {
 	var name = "";
