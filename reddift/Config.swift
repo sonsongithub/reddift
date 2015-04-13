@@ -66,8 +66,8 @@ class Config {
         if let temp = NSBundle.infoValueFromMainBundleForKey("CFBundleIdentifier") as? String{
             self.bundleIdentifier = temp
         }
-        if let path:String = NSBundle.mainBundle().pathForResource("Config", ofType: "json") as String? {
-            if let data:NSData = NSData(contentsOfFile: path) {
+        if let path = NSBundle.mainBundle().pathForResource("reddift_config", ofType: "json") as String? {
+            if let data = NSData(contentsOfFile: path) {
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
                     if let temp = json["DeveloperName"] as? String{
                         self.developerName = temp
