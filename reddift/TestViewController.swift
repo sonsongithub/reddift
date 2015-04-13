@@ -13,25 +13,25 @@ class TestViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let URL:NSURL = NSURL(string: "https://www.reddit.com/hot.json")!;
-        var URLRequest:NSMutableURLRequest = NSMutableURLRequest(URL: URL);
-        URLRequest.HTTPMethod = "GET";
-        URLRequest.setUserAgentForReddit();
-        let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration());
+        let URL:NSURL = NSURL(string: "https://www.reddit.com/hot.json")!
+        var URLRequest:NSMutableURLRequest = NSMutableURLRequest(URL: URL)
+        URLRequest.HTTPMethod = "GET"
+        URLRequest.setUserAgentForReddit()
+        let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task:NSURLSessionDataTask = session.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             
             if let httpResponse:NSHTTPURLResponse = response as? NSHTTPURLResponse {
-                println(httpResponse.allHeaderFields);
+                println(httpResponse.allHeaderFields)
             }
             
             if let aData = data {
-                var result:String = NSString(data: aData, encoding: NSUTF8StringEncoding) as! String;
-                println(result);
+                var result:String = NSString(data: aData, encoding: NSUTF8StringEncoding) as! String
+                println(result)
             }
             else {
             }
-        });
-        task.resume();
+        })
+        task.resume()
     }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -40,7 +40,7 @@ class TestViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if (indexPath.row == 0) {
-            RDFOAuth2Authorizer.sharedInstance.challengeWithAllScopes();
+            RDFOAuth2Authorizer.sharedInstance.challengeWithAllScopes()
         }
     }
 

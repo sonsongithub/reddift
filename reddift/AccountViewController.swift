@@ -9,17 +9,17 @@
 import UIKit
 
 class AccountViewController: UITableViewController {
-	var names:[String] = [];
+	var names:[String] = []
 	
 	@IBAction func addAccount(sender:AnyObject) {
-		RDFOAuth2Authorizer.sharedInstance.challengeWithAllScopes();
+		RDFOAuth2Authorizer.sharedInstance.challengeWithAllScopes()
 	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		names.removeAll(keepCapacity: false);
-		names += RDFOAuth2Token.savedNamesInKeychain();
+		names.removeAll(keepCapacity: false)
+		names += RDFOAuth2Token.savedNamesInKeychain()
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,13 +31,13 @@ class AccountViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return names.count;
+		return names.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
 		if let name:String = self.names[indexPath.row] as String? {
-			cell.textLabel?.text = name;
+			cell.textLabel?.text = name
 		}
         return cell
     }
@@ -45,7 +45,7 @@ class AccountViewController: UITableViewController {
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		if let name:String = self.names[indexPath.row] as String? {
 			if let token:RDFOAuth2Token = RDFOAuth2Token.restoreFromKeychainWithName(name) as RDFOAuth2Token? {
-				println(token);
+				println(token)
 			}
 		}
 	}

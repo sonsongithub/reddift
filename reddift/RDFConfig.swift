@@ -13,11 +13,11 @@ Class to manage parameters of reddift.
 This class is used as singleton model
 */
 class RDFConfig {
-    var version:String = "";
-    var bundleIdentifier:String = "";
-    var developerName:String = "";
-    var redirectURI:String = "";
-    var clientID:String = "";
+    var version:String = ""
+    var bundleIdentifier:String = ""
+    var developerName:String = ""
+    var redirectURI:String = ""
+    var clientID:String = ""
     
     /**
     Singleton model.
@@ -38,7 +38,7 @@ class RDFConfig {
     */
     var userAgent:String {
         get {
-            return "ios:" + self.bundleIdentifier + ":v" + self.version + "(by /u/" + self.developerName + ")";
+            return "ios:" + self.bundleIdentifier + ":v" + self.version + "(by /u/" + self.developerName + ")"
         }
     }
     
@@ -48,10 +48,10 @@ class RDFConfig {
     var redirectURIScheme:String {
         get {
             if let scheme:String = NSURL(string: self.redirectURI)?.scheme as String? {
-                return scheme;
+                return scheme
             }
             else {
-                return "";
+                return ""
             }
         }
     }
@@ -61,22 +61,22 @@ class RDFConfig {
     */
     func readFromFile() {
         if let temp = NSBundle.infoValueFromMainBundleForKey("CFBundleShortVersionString") as? String{
-            self.version = temp;
+            self.version = temp
         }
         if let temp = NSBundle.infoValueFromMainBundleForKey("CFBundleIdentifier") as? String{
-            self.bundleIdentifier = temp;
+            self.bundleIdentifier = temp
         }
         if let path:String = NSBundle.mainBundle().pathForResource("RDFConfig", ofType: "json") as String? {
             if let data:NSData = NSData(contentsOfFile: path) {
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
                     if let temp = json["DeveloperName"] as? String{
-                        self.developerName = temp;
+                        self.developerName = temp
                     }
                     if let temp = json["redirect_uri"] as? String{
-                        self.redirectURI = temp;
+                        self.redirectURI = temp
                     }
                     if let temp = json["client_id"] as? String{
-                        self.clientID = temp;
+                        self.clientID = temp
                     }
                 }
             }
@@ -84,6 +84,6 @@ class RDFConfig {
     }
     
     init() {
-        self.readFromFile();
+        self.readFromFile()
     }
 }
