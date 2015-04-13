@@ -9,19 +9,19 @@
 import UIKit
 
 extension NSBundle {
-	/**
-	Returns object from default info.plist.
-	
-	:param: key key for value
-	:returns: Value
-	*/
-	class func infoValueFromMainBundleForKey(key:String) -> AnyObject? {
-		if let obj:AnyObject = self.mainBundle().localizedInfoDictionary?[key] {
-			return obj;
-		}
-		if let obj:AnyObject = self.mainBundle().infoDictionary?[key] {
-			return obj;
-		}
-		return nil;
-	}
+    /**
+    Returns object from default info.plist.
+    
+    :param: key key for value
+    :returns: Value
+    */
+    class func infoValueFromMainBundleForKey(key:String) -> AnyObject? {
+        if let obj:AnyObject = self.mainBundle().localizedInfoDictionary?[key] {
+            return obj;
+        }
+        if let obj:AnyObject = self.mainBundle().infoDictionary?[key] {
+            return obj;
+        }
+        return nil;
+    }
 }

@@ -9,7 +9,7 @@
 import UIKit
 
 extension NSError {
-	class func errorWithCode(code:Int, userinfo:[NSObject:AnyObject]?) -> NSError {
-		return NSError(domain:RDFConfig.sharedInstance.bundleIdentifier, code:code, userInfo:userinfo);
-	}
+    class func errorWithCode(code:Int, userinfo:[NSObject:AnyObject]?) -> NSError {
+        return NSError(domain:RDFConfig.sharedInstance.bundleIdentifier, code:code, userInfo:userinfo);
+    }
 }
