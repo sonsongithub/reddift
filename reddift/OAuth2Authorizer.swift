@@ -9,7 +9,7 @@
 import UIKit
 
 class OAuth2Authorizer {
-    private var state:String = ""
+    private var state = ""
     /**
     Singleton model.
     */
@@ -29,7 +29,7 @@ class OAuth2Authorizer {
     }
     
     func challengeWithScopes(scopes:[String]) {
-        var scopeString:String = ""
+        var scopeString = ""
         for scope in scopes {
             scopeString = scopeString + scope + ","
         }
@@ -41,16 +41,16 @@ class OAuth2Authorizer {
         if let data = mutableData {
             let result = SecRandomCopyBytes(kSecRandomDefault, length, UnsafeMutablePointer<UInt8>(data.mutableBytes))
             self.state = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.EncodingEndLineWithLineFeed)
-            let authorizationURL:NSURL = NSURL(string:"https://www.reddit.com/api/v1/authorize.compact?client_id=" + Config.sharedInstance.clientID + "&response_type=code&state=" + self.state + "&redirect_uri=" + Config.sharedInstance.redirectURI + "&duration=permanent&scope=" + scopeString)!
+            let authorizationURL = NSURL(string:"https://www.reddit.com/api/v1/authorize.compact?client_id=" + Config.sharedInstance.clientID + "&response_type=code&state=" + self.state + "&redirect_uri=" + Config.sharedInstance.redirectURI + "&duration=permanent&scope=" + scopeString)!
             UIApplication.sharedApplication().openURL(authorizationURL)
         }
     }
     
     func receiveRedirect(url:NSURL, completion:(token:OAuth2Token?, error:NSError?)->Void) -> Bool{
-        var code:String = ""
-        var state:String = ""
+        var code = ""
+        var state = ""
         if (url.scheme == Config.sharedInstance.redirectURIScheme) {
-            if let components:NSURLComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: true) {
+            if let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: true) {
                 if let queryItems = components.queryItems as? [NSURLQueryItem] {
                     for queryItem in queryItems {
                         if (queryItem.name == "code") {

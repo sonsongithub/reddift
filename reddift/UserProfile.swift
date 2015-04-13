@@ -9,71 +9,71 @@
 import UIKit
 
 class UserProfile {
-    var hasMail:Bool = false
-    var name:String = ""
+    var hasMail = false
+    var name = ""
     var created:NSTimeInterval = 0
-    var hideFromRobots:Bool = false
-    var goldCreddits:Int = 0
+    var hideFromRobots = false
+    var goldCreddits = 0
     var createdUTC:NSTimeInterval = 0
-    var hasModMail:Bool = false
-    var linkKarma:Int = 0
-    var commentKarma:Int = 0
-    var over18:Bool = false
-    var isGold:Bool = false
-    var isMod:Bool = false
+    var hasModMail = false
+    var linkKarma = 0
+    var commentKarma = 0
+    var over18 = false
+    var isGold = false
+    var isMod = false
     var goldExpiration:NSTimeInterval = 0
-    var hasVerifiedMail:Bool = false
-    var id:String = ""
-    var inboxCount:Int = 0
+    var hasVerifiedMail = false
+    var id = ""
+    var inboxCount = 0
     
     func updateWithJSON(json:[String:AnyObject]) {
         if let temp = json["has_mail"] as? Bool {
-            self.hasMail = temp
+            hasMail = temp
         }
         if let temp = json["name"] as? String {
-            self.name = temp
+            name = temp
         }
         if let temp = json["created"] as? NSTimeInterval {
-            self.created = temp
+            created = temp
         }
         if let temp = json["hide_from_robots"] as? Bool {
-            self.hideFromRobots = temp
+            hideFromRobots = temp
         }
         if let temp = json["gold_creddits"] as? Int {
-            self.goldCreddits = temp
+            goldCreddits = temp
         }
         if let temp = json["created_utc"] as? NSTimeInterval {
-            self.createdUTC = temp
+            createdUTC = temp
         }
         if let temp = json["has_mod_mail"] as? Bool {
-            self.hasModMail = temp
+            hasModMail = temp
         }
         if let temp = json["link_karma"] as? Int {
-            self.linkKarma = temp
+            linkKarma = temp
         }
         if let temp = json["comment_karma"] as? Int {
-            self.commentKarma = temp
+            commentKarma = temp
         }
         if let temp = json["over_18"] as? Bool {
-            self.over18 = temp
+            over18 = temp
         }
         if let temp = json["is_gold"] as? Bool {
-            self.isGold = temp
+            isGold = temp
         }
         if let temp = json["is_mod"] as? Bool {
-            self.isMod = temp
+            isMod = temp
         }
         if let temp = json["gold_expiration"] as? Int {
-            self.linkKarma = temp
+            linkKarma = temp
         }
         if let temp = json["has_verified_email"] as? Bool {
-            self.hasVerifiedMail = temp
+            hasVerifiedMail = temp
         }
         if let temp = json["id"] as? String {
-            self.id = temp
+            id = temp
         }
         if let temp = json["inbox_count"] as? Int {
-            self.inboxCount = temp
+            inboxCount = temp
         }
     }
     

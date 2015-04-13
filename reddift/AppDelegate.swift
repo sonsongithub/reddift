@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 token.profile({ (profile:UserProfile?, error:NSError?) -> Void in
                     if (error == nil) {
-                        if let profile:UserProfile = profile as UserProfile? {
+                        if let profile = profile as UserProfile? {
                             token.saveIntoKeychainWithName(profile.name)
                         }
                     }

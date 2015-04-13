@@ -13,11 +13,11 @@ Class to manage parameters of reddift.
 This class is used as singleton model
 */
 class Config {
-    var version:String = ""
-    var bundleIdentifier:String = ""
-    var developerName:String = ""
-    var redirectURI:String = ""
-    var clientID:String = ""
+    var version = ""
+    var bundleIdentifier = ""
+    var developerName = ""
+    var redirectURI = ""
+    var clientID = ""
     
     /**
     Singleton model.
@@ -38,7 +38,7 @@ class Config {
     */
     var userAgent:String {
         get {
-            return "ios:" + self.bundleIdentifier + ":v" + self.version + "(by /u/" + self.developerName + ")"
+            return "ios:" + bundleIdentifier + ":v" + version + "(by /u/" + developerName + ")"
         }
     }
     
@@ -47,7 +47,7 @@ class Config {
     */
     var redirectURIScheme:String {
         get {
-            if let scheme:String = NSURL(string: self.redirectURI)?.scheme as String? {
+            if let scheme = NSURL(string:redirectURI)?.scheme as String? {
                 return scheme
             }
             else {
@@ -61,22 +61,22 @@ class Config {
     */
     func readFromFile() {
         if let temp = NSBundle.infoValueFromMainBundleForKey("CFBundleShortVersionString") as? String{
-            self.version = temp
+            version = temp
         }
         if let temp = NSBundle.infoValueFromMainBundleForKey("CFBundleIdentifier") as? String{
-            self.bundleIdentifier = temp
+            bundleIdentifier = temp
         }
         if let path = NSBundle.mainBundle().pathForResource("reddift_config", ofType: "json") as String? {
             if let data = NSData(contentsOfFile: path) {
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
                     if let temp = json["DeveloperName"] as? String{
-                        self.developerName = temp
+                        developerName = temp
                     }
                     if let temp = json["redirect_uri"] as? String{
-                        self.redirectURI = temp
+                        redirectURI = temp
                     }
                     if let temp = json["client_id"] as? String{
-                        self.clientID = temp
+                        clientID = temp
                     }
                 }
             }
