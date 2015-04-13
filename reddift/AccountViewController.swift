@@ -17,9 +17,9 @@ class AccountViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didSaveToken:", name: DidSaveTokenIntoOAuth2TokenRepository, object: nil);		
 		names.removeAll(keepCapacity: false)
-		names += OAuth2Token.savedNamesInKeychain()
+		names += OAuth2TokenRepository.savedNamesInKeychain()
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,11 +44,17 @@ class AccountViewController: UITableViewController {
 	
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		if let name:String = self.names[indexPath.row] as String? {
-			if let token:OAuth2Token = OAuth2Token.restoreFromKeychainWithName(name) as OAuth2Token? {
+			if let token = OAuth2TokenRepository.restoreFromKeychainWithName(name) as OAuth2Token? {
 				println(token)
 			}
 		}
 	}
+    
+    func didSaveToken(notification:NSNotification) {
+        names.removeAll(keepCapacity: false)
+        names += OAuth2TokenRepository.savedNamesInKeychain()
+        self.tableView.reloadData();
+    }
 
     /*
     // Override to support conditional editing of the table view.

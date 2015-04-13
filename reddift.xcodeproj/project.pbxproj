@@ -18,6 +18,7 @@
 		147EADB01AD78568007FA2F4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 147EADAE1AD78568007FA2F4 /* LaunchScreen.xib */; };
 		147EADBC1AD78568007FA2F4 /* reddiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147EADBB1AD78568007FA2F4 /* reddiftTests.swift */; };
 		14E790FF1ADC15460065A05A /* reddift_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 14E790FE1ADC15460065A05A /* reddift_config.json */; };
+		14E791011ADC1BC60065A05A /* OAuth2TokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E791001ADC1BC60065A05A /* OAuth2TokenRepository.swift */; };
 		14E906051ADB4F1500934D27 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E906041ADB4F1500934D27 /* UserProfile.swift */; };
 		14E906071ADB9BB500934D27 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E906061ADB9BB500934D27 /* Config.swift */; };
 		14E9060B1ADBCDA100934D27 /* NSBundle+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E9060A1ADBCDA100934D27 /* NSBundle+reddift.swift */; };
@@ -51,6 +52,7 @@
 		147EADBA1AD78568007FA2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		147EADBB1AD78568007FA2F4 /* reddiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reddiftTests.swift; sourceTree = "<group>"; };
 		14E790FE1ADC15460065A05A /* reddift_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reddift_config.json; sourceTree = "<group>"; };
+		14E791001ADC1BC60065A05A /* OAuth2TokenRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2TokenRepository.swift; sourceTree = "<group>"; };
 		14E906041ADB4F1500934D27 /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		14E906061ADB9BB500934D27 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		14E9060A1ADBCDA100934D27 /* NSBundle+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSBundle+reddift.swift"; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				147EADA51AD78568007FA2F4 /* AppDelegate.swift */,
 				14E906061ADB9BB500934D27 /* Config.swift */,
 				14E906041ADB4F1500934D27 /* UserProfile.swift */,
+				14E791001ADC1BC60065A05A /* OAuth2TokenRepository.swift */,
 				141B46231AD928C000577858 /* OAuth2Token.swift */,
 				141B462C1ADA3C9400577858 /* OAuth2Authorizer.swift */,
 				141B46251AD9B9EF00577858 /* NSError+reddift.swift */,
@@ -263,6 +266,7 @@
 			files = (
 				14E906071ADB9BB500934D27 /* Config.swift in Sources */,
 				14E9060B1ADBCDA100934D27 /* NSBundle+reddift.swift in Sources */,
+				14E791011ADC1BC60065A05A /* OAuth2TokenRepository.swift in Sources */,
 				14E9060D1ADBCE4C00934D27 /* NSMutableURLRequest+reddift.swift in Sources */,
 				141B462B1AD9CAA500577858 /* TestViewController.swift in Sources */,
 				141B46261AD9B9EF00577858 /* NSError+reddift.swift in Sources */,

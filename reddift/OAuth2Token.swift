@@ -57,16 +57,12 @@ class OAuth2Token : NSObject,NSCoding {
     }
     
     class func tokenWithJSON(json:[String:AnyObject]) -> OAuth2Token? {
-        if let temp1 = json["access_token"] as? String {
-            if let temp2 = json["token_type"] as? String {
-                if let temp3 = json["expires_in"] as? Int {
-                    if let temp4 = json["scope"] as? String {
-                        if let temp5 = json["refresh_token"] as? String {
-                            return OAuth2Token(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:temp5)
-                        }
-                    }
-                }
-            }
+        if let temp1 = json["access_token"] as? String,
+            temp2 = json["token_type"] as? String,
+            temp3 = json["expires_in"] as? Int,
+            temp4 = json["scope"] as? String,
+            temp5 = json["refresh_token"] as? String {
+                return OAuth2Token(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:temp5)
         }
         return nil
     }
@@ -101,26 +97,36 @@ class OAuth2Token : NSObject,NSCoding {
         
         let task = session.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             if (error != nil) {
-                completion(error:error)
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    completion(error:error)
+                })
             }
             else if (error == nil) {
                 var result = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
                 println(result)
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
                     if self.updateWithJSON(json) {
-                        completion(error:error)
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            completion(error:error)
+                        })
                     }
                     else {
                         if let errorMessage = json["error"] as? String {
-                            completion(error:NSError.errorWithCode(0, userinfo: ["error":errorMessage]))
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                completion(error:NSError.errorWithCode(0, userinfo: ["error":errorMessage]))
+                            })
                         }
                         else {
-                            completion(error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                completion(error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
+                            })
                         }
                     }
                 }
                 else {
-                    completion(error:error)
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        completion(error:error)
+                    })
                 }
             }
         })
@@ -130,39 +136,6 @@ class OAuth2Token : NSObject,NSCoding {
     
     func revoke(completion:(success:Bool, token:OAuth2Token?, error:NSError?)->Void) {
         
-    }
-    
-    class func restoreFromKeychainWithName(name:String) -> OAuth2Token? {
-        let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-        if let data = keychain.getData(name) as NSData? {
-            if let token = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OAuth2Token {
-                return token
-            }
-        }
-        return nil
-    }
-    
-    class func savedNamesInKeychain() -> [String] {
-        var keys:[String] = []
-        let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-        keys += keychain.allKeys()
-        return keys
-    }
-    
-    func saveIntoKeychain() {
-        saveIntoKeychainWithName(name)
-    }
-    
-    func saveIntoKeychainWithName(name:String) {
-        if (count(name) > 0) {
-            // save
-            let data = NSKeyedArchiver.archivedDataWithRootObject(self)
-            let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-            keychain.set(data, key:name)
-        }
-        else {
-            println("Error:name property is empty.")
-        }
     }
     
     func profile(completion:(profile:UserProfile?, error:NSError?)->Void) -> NSURLSessionDataTask {
@@ -183,14 +156,20 @@ class OAuth2Token : NSObject,NSCoding {
                 println(result)
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
                     var profile = UserProfile(json:json)
-                    completion(profile: profile, error: nil)
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        completion(profile: profile, error: nil)
+                    })
                 }
                 else {
-                    completion(profile:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        completion(profile:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
+                    })
                 }
             }
             else {
-                completion(profile:nil, error:error)
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    completion(profile:nil, error:error)
+                })
             }
         })
         task.resume()
@@ -206,31 +185,40 @@ class OAuth2Token : NSObject,NSCoding {
         let data = param.dataUsingEncoding(NSUTF8StringEncoding)
         URLRequest.HTTPBody = data
         URLRequest.HTTPMethod = "POST"
-        
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         
         let task = session.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             if (error != nil) {
-                completion(token:nil, error:error)
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    completion(token:nil, error:error)
+                })
             }
             else if (error == nil) {
                 var result = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
                 println(result)
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
                     if let token = OAuth2Token.tokenWithJSON(json) as OAuth2Token? {
-                        completion(token:token,  error:error)
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            completion(token:token,  error:error)
+                        })
                     }
                     else {
                         if let errorMessage:String = json["error"] as? String {
-                            completion(token:nil, error:NSError.errorWithCode(0, userinfo: ["error":errorMessage]))
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                completion(token:nil, error:NSError.errorWithCode(0, userinfo: ["error":errorMessage]))
+                            })
                         }
                         else {
-                            completion(token:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                completion(token:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
+                            })
                         }
                     }
                 }
                 else {
-                    completion(token:nil, error:error)
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        completion(token:nil, error:error)
+                    })
                 }
             }
         })
