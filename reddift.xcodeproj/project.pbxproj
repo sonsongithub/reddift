@@ -8,17 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		140086B71ADBED270095F938 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086B61ADBED270095F938 /* Keychain.swift */; };
-		141B46241AD928C000577858 /* RDFOAuth2Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B46231AD928C000577858 /* RDFOAuth2Token.swift */; };
+		141B46241AD928C000577858 /* OAuth2Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B46231AD928C000577858 /* OAuth2Token.swift */; };
 		141B46261AD9B9EF00577858 /* NSError+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B46251AD9B9EF00577858 /* NSError+reddift.swift */; };
 		141B46291AD9CA7200577858 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 141B46271AD9CA7200577858 /* Main.storyboard */; };
 		141B462B1AD9CAA500577858 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B462A1AD9CAA500577858 /* TestViewController.swift */; };
-		141B462D1ADA3C9400577858 /* RDFOAuth2Authorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B462C1ADA3C9400577858 /* RDFOAuth2Authorizer.swift */; };
+		141B462D1ADA3C9400577858 /* OAuth2Authorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B462C1ADA3C9400577858 /* OAuth2Authorizer.swift */; };
 		147EADA61AD78568007FA2F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147EADA51AD78568007FA2F4 /* AppDelegate.swift */; };
 		147EADAD1AD78568007FA2F4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 147EADAC1AD78568007FA2F4 /* Images.xcassets */; };
 		147EADB01AD78568007FA2F4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 147EADAE1AD78568007FA2F4 /* LaunchScreen.xib */; };
 		147EADBC1AD78568007FA2F4 /* reddiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147EADBB1AD78568007FA2F4 /* reddiftTests.swift */; };
-		14E906051ADB4F1500934D27 /* RDFUserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E906041ADB4F1500934D27 /* RDFUserProfile.swift */; };
-		14E906071ADB9BB500934D27 /* RDFConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E906061ADB9BB500934D27 /* RDFConfig.swift */; };
+		14E906051ADB4F1500934D27 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E906041ADB4F1500934D27 /* UserProfile.swift */; };
+		14E906071ADB9BB500934D27 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E906061ADB9BB500934D27 /* Config.swift */; };
 		14E9060B1ADBCDA100934D27 /* NSBundle+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E9060A1ADBCDA100934D27 /* NSBundle+reddift.swift */; };
 		14E9060D1ADBCE4C00934D27 /* NSMutableURLRequest+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E9060C1ADBCE4C00934D27 /* NSMutableURLRequest+reddift.swift */; };
 		14E9060F1ADBD1D700934D27 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E9060E1ADBD1D700934D27 /* AccountViewController.swift */; };
@@ -37,11 +37,11 @@
 
 /* Begin PBXFileReference section */
 		140086B61ADBED270095F938 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Keychain.swift; path = vendor/KeychainAccess/Lib/KeychainAccess/Keychain.swift; sourceTree = "<group>"; };
-		141B46231AD928C000577858 /* RDFOAuth2Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFOAuth2Token.swift; sourceTree = "<group>"; };
+		141B46231AD928C000577858 /* OAuth2Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2Token.swift; sourceTree = "<group>"; };
 		141B46251AD9B9EF00577858 /* NSError+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+reddift.swift"; sourceTree = "<group>"; };
 		141B46281AD9CA7200577858 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		141B462A1AD9CAA500577858 /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
-		141B462C1ADA3C9400577858 /* RDFOAuth2Authorizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFOAuth2Authorizer.swift; sourceTree = "<group>"; };
+		141B462C1ADA3C9400577858 /* OAuth2Authorizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2Authorizer.swift; sourceTree = "<group>"; };
 		147EADA01AD78568007FA2F4 /* reddift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = reddift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		147EADA41AD78568007FA2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		147EADA51AD78568007FA2F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -50,8 +50,8 @@
 		147EADB51AD78568007FA2F4 /* reddiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = reddiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		147EADBA1AD78568007FA2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		147EADBB1AD78568007FA2F4 /* reddiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reddiftTests.swift; sourceTree = "<group>"; };
-		14E906041ADB4F1500934D27 /* RDFUserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFUserProfile.swift; sourceTree = "<group>"; };
-		14E906061ADB9BB500934D27 /* RDFConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RDFConfig.swift; sourceTree = "<group>"; };
+		14E906041ADB4F1500934D27 /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		14E906061ADB9BB500934D27 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		14E9060A1ADBCDA100934D27 /* NSBundle+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSBundle+reddift.swift"; sourceTree = "<group>"; };
 		14E9060C1ADBCE4C00934D27 /* NSMutableURLRequest+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableURLRequest+reddift.swift"; sourceTree = "<group>"; };
 		14E9060E1ADBD1D700934D27 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
@@ -109,10 +109,10 @@
 			isa = PBXGroup;
 			children = (
 				147EADA51AD78568007FA2F4 /* AppDelegate.swift */,
-				14E906061ADB9BB500934D27 /* RDFConfig.swift */,
-				14E906041ADB4F1500934D27 /* RDFUserProfile.swift */,
-				141B46231AD928C000577858 /* RDFOAuth2Token.swift */,
-				141B462C1ADA3C9400577858 /* RDFOAuth2Authorizer.swift */,
+				14E906061ADB9BB500934D27 /* Config.swift */,
+				14E906041ADB4F1500934D27 /* UserProfile.swift */,
+				141B46231AD928C000577858 /* OAuth2Token.swift */,
+				141B462C1ADA3C9400577858 /* OAuth2Authorizer.swift */,
 				141B46251AD9B9EF00577858 /* NSError+reddift.swift */,
 				14E9060A1ADBCDA100934D27 /* NSBundle+reddift.swift */,
 				14E9060C1ADBCE4C00934D27 /* NSMutableURLRequest+reddift.swift */,
@@ -261,17 +261,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14E906071ADB9BB500934D27 /* RDFConfig.swift in Sources */,
+				14E906071ADB9BB500934D27 /* Config.swift in Sources */,
 				14E9060B1ADBCDA100934D27 /* NSBundle+reddift.swift in Sources */,
 				14E9060D1ADBCE4C00934D27 /* NSMutableURLRequest+reddift.swift in Sources */,
 				141B462B1AD9CAA500577858 /* TestViewController.swift in Sources */,
 				141B46261AD9B9EF00577858 /* NSError+reddift.swift in Sources */,
 				140086B71ADBED270095F938 /* Keychain.swift in Sources */,
-				141B462D1ADA3C9400577858 /* RDFOAuth2Authorizer.swift in Sources */,
+				141B462D1ADA3C9400577858 /* OAuth2Authorizer.swift in Sources */,
 				14E9060F1ADBD1D700934D27 /* AccountViewController.swift in Sources */,
 				147EADA61AD78568007FA2F4 /* AppDelegate.swift in Sources */,
-				141B46241AD928C000577858 /* RDFOAuth2Token.swift in Sources */,
-				14E906051ADB4F1500934D27 /* RDFUserProfile.swift in Sources */,
+				141B46241AD928C000577858 /* OAuth2Token.swift in Sources */,
+				14E906051ADB4F1500934D27 /* UserProfile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
