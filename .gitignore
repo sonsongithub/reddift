@@ -35,5 +35,5 @@ Carthage/Build
 # reddift
 \#*
 *~
-RDFConfig.json
+reddift_config.json
 .DS_Store
