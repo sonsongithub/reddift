@@ -1,5 +1,5 @@
 //
-//  RDFConfig.swift
+//  Config.swift
 //  reddift
 //
 //  Created by sonson on 2015/04/13.
@@ -12,7 +12,7 @@ import UIKit
 Class to manage parameters of reddift.
 This class is used as singleton model
 */
-class RDFConfig {
+class Config {
     var version:String = ""
     var bundleIdentifier:String = ""
     var developerName:String = ""
@@ -22,13 +22,13 @@ class RDFConfig {
     /**
     Singleton model.
     */
-    class var sharedInstance: RDFConfig {
+    class var sharedInstance: Config {
         struct Static {
             static var onceToken: dispatch_once_t = 0
-            static var instance: RDFConfig? = nil
+            static var instance: Config? = nil
         }
         dispatch_once(&Static.onceToken) {
-            Static.instance = RDFConfig()
+            Static.instance = Config()
         }
         return Static.instance!
     }
@@ -57,7 +57,7 @@ class RDFConfig {
     }
     
     /**
-    Read from info.plist and RDFConfig.json file.
+    Read from info.plist and Config.json file.
     */
     func readFromFile() {
         if let temp = NSBundle.infoValueFromMainBundleForKey("CFBundleShortVersionString") as? String{
@@ -66,7 +66,7 @@ class RDFConfig {
         if let temp = NSBundle.infoValueFromMainBundleForKey("CFBundleIdentifier") as? String{
             self.bundleIdentifier = temp
         }
-        if let path:String = NSBundle.mainBundle().pathForResource("RDFConfig", ofType: "json") as String? {
+        if let path:String = NSBundle.mainBundle().pathForResource("Config", ofType: "json") as String? {
             if let data:NSData = NSData(contentsOfFile: path) {
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
                     if let temp = json["DeveloperName"] as? String{

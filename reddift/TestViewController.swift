@@ -40,7 +40,7 @@ class TestViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if (indexPath.row == 0) {
-            RDFOAuth2Authorizer.sharedInstance.challengeWithAllScopes()
+            OAuth2Authorizer.sharedInstance.challengeWithAllScopes()
         }
     }
 

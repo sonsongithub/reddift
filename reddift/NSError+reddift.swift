@@ -1,5 +1,5 @@
 //
-//  RDF_NSError.swift
+//  NSError+reddift.swift
 //  reddift
 //
 //  Created by sonson on 2015/04/12.
@@ -10,6 +10,6 @@ import UIKit
 
 extension NSError {
     class func errorWithCode(code:Int, userinfo:[NSObject:AnyObject]?) -> NSError {
-        return NSError(domain:RDFConfig.sharedInstance.bundleIdentifier, code:code, userInfo:userinfo)
+        return NSError(domain:Config.sharedInstance.bundleIdentifier, code:code, userInfo:userinfo)
     }
 }

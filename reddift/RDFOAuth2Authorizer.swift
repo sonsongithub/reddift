@@ -1,5 +1,5 @@
 //
-//  RDFOAuth2Authorizer.swift
+//  OAuth2Authorizer.swift
 //  reddift
 //
 //  Created by sonson on 2015/04/12.
@@ -8,18 +8,18 @@
 
 import UIKit
 
-class RDFOAuth2Authorizer {
+class OAuth2Authorizer {
     private var state:String = ""
     /**
     Singleton model.
     */
-    class var sharedInstance: RDFOAuth2Authorizer {
+    class var sharedInstance: OAuth2Authorizer {
         struct Static {
             static var onceToken: dispatch_once_t = 0
-            static var instance: RDFOAuth2Authorizer? = nil
+            static var instance: OAuth2Authorizer? = nil
         }
         dispatch_once(&Static.onceToken) {
-            Static.instance = RDFOAuth2Authorizer()
+            Static.instance = OAuth2Authorizer()
         }
         return Static.instance!
     }
@@ -41,15 +41,15 @@ class RDFOAuth2Authorizer {
         if let data = mutableData {
             let result = SecRandomCopyBytes(kSecRandomDefault, length, UnsafeMutablePointer<UInt8>(data.mutableBytes))
             self.state = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.EncodingEndLineWithLineFeed)
-            let authorizationURL:NSURL = NSURL(string:"https://www.reddit.com/api/v1/authorize.compact?client_id=" + RDFConfig.sharedInstance.clientID + "&response_type=code&state=" + self.state + "&redirect_uri=" + RDFConfig.sharedInstance.redirectURI + "&duration=permanent&scope=" + scopeString)!
+            let authorizationURL:NSURL = NSURL(string:"https://www.reddit.com/api/v1/authorize.compact?client_id=" + Config.sharedInstance.clientID + "&response_type=code&state=" + self.state + "&redirect_uri=" + Config.sharedInstance.redirectURI + "&duration=permanent&scope=" + scopeString)!
             UIApplication.sharedApplication().openURL(authorizationURL)
         }
     }
     
-    func receiveRedirect(url:NSURL, completion:(token:RDFOAuth2Token?, error:NSError?)->Void) -> Bool{
+    func receiveRedirect(url:NSURL, completion:(token:OAuth2Token?, error:NSError?)->Void) -> Bool{
         var code:String = ""
         var state:String = ""
-        if (url.scheme == RDFConfig.sharedInstance.redirectURIScheme) {
+        if (url.scheme == Config.sharedInstance.redirectURIScheme) {
             if let components:NSURLComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: true) {
                 if let queryItems = components.queryItems as? [NSURLQueryItem] {
                     for queryItem in queryItems {
@@ -71,7 +71,7 @@ class RDFOAuth2Authorizer {
             println(code)
             println(state)
             self.state = ""
-            RDFOAuth2Token.download(code, completion:completion)
+            OAuth2Token.download(code, completion:completion)
             return true
         }
         return false

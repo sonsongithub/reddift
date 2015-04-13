@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RDFOAuth2Token : NSObject,NSCoding {
+class OAuth2Token : NSObject,NSCoding {
     var name = ""
     var accessToken:String = ""
     var tokenType:String = ""
@@ -56,13 +56,13 @@ class RDFOAuth2Token : NSObject,NSCoding {
         }
     }
     
-    class func tokenWithJSON(json:[String:AnyObject]) -> RDFOAuth2Token? {
+    class func tokenWithJSON(json:[String:AnyObject]) -> OAuth2Token? {
         if let temp1 = json["access_token"] as? String {
             if let temp2 = json["token_type"] as? String {
                 if let temp3 = json["expires_in"] as? Int {
                     if let temp4 = json["scope"] as? String {
                         if let temp5 = json["refresh_token"] as? String {
-                            return RDFOAuth2Token(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:temp5)
+                            return OAuth2Token(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:temp5)
                         }
                     }
                 }
@@ -128,14 +128,14 @@ class RDFOAuth2Token : NSObject,NSCoding {
         return task
     }
     
-    func revoke(completion:(success:Bool, token:RDFOAuth2Token?, error:NSError?)->Void) {
+    func revoke(completion:(success:Bool, token:OAuth2Token?, error:NSError?)->Void) {
         
     }
     
-    class func restoreFromKeychainWithName(name:String) -> RDFOAuth2Token? {
-        let keychain = Keychain(service:RDFConfig.sharedInstance.bundleIdentifier)
+    class func restoreFromKeychainWithName(name:String) -> OAuth2Token? {
+        let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
         if let data:NSData = keychain.getData(name) as NSData? {
-            if let token:RDFOAuth2Token = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? RDFOAuth2Token {
+            if let token:OAuth2Token = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OAuth2Token {
                 return token
             }
         }
@@ -144,7 +144,7 @@ class RDFOAuth2Token : NSObject,NSCoding {
     
     class func savedNamesInKeychain() -> [String] {
         var keys:[String] = []
-        let keychain = Keychain(service:RDFConfig.sharedInstance.bundleIdentifier)
+        let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
         keys += keychain.allKeys()
         return keys
     }
@@ -157,7 +157,7 @@ class RDFOAuth2Token : NSObject,NSCoding {
         if (count(name) > 0) {
             // save
             let data:NSData = NSKeyedArchiver.archivedDataWithRootObject(self)
-            let keychain = Keychain(service:RDFConfig.sharedInstance.bundleIdentifier)
+            let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
             keychain.set(data, key:name)
         }
         else {
@@ -165,7 +165,7 @@ class RDFOAuth2Token : NSObject,NSCoding {
         }
     }
     
-    func profile(completion:(profile:RDFUserProfile?, error:NSError?)->Void) -> NSURLSessionDataTask {
+    func profile(completion:(profile:UserProfile?, error:NSError?)->Void) -> NSURLSessionDataTask {
         let URL:NSURL = NSURL(string: "https://oauth.reddit.com/api/v1/me")!
         var URLRequest:NSMutableURLRequest = NSMutableURLRequest(URL: URL)
         URLRequest.setValue("bearer " + self.accessToken, forHTTPHeaderField:"Authorization")
@@ -182,7 +182,7 @@ class RDFOAuth2Token : NSObject,NSCoding {
                 var result:String = NSString(data: aData, encoding: NSUTF8StringEncoding) as! String
                 println(result)
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-                    var profile:RDFUserProfile = RDFUserProfile(json:json)
+                    var profile:UserProfile = UserProfile(json:json)
                     completion(profile: profile, error: nil)
                 }
                 else {
@@ -197,12 +197,12 @@ class RDFOAuth2Token : NSObject,NSCoding {
         return task
     }
     
-    class func download(code:String, completion:(token:RDFOAuth2Token?, error:NSError?)->Void) -> NSURLSessionDataTask {
+    class func download(code:String, completion:(token:OAuth2Token?, error:NSError?)->Void) -> NSURLSessionDataTask {
         
         var URL:NSURL = NSURL(string: "https://www.reddit.com/api/v1/access_token")!
         var URLRequest:NSMutableURLRequest = NSMutableURLRequest.redditBasicAuthenticationURLRequest(URL)
         
-        var param:String = "grant_type=authorization_code&code=" + code + "&redirect_uri=" + RDFConfig.sharedInstance.redirectURI
+        var param:String = "grant_type=authorization_code&code=" + code + "&redirect_uri=" + Config.sharedInstance.redirectURI
         let data = param.dataUsingEncoding(NSUTF8StringEncoding)
         URLRequest.HTTPBody = data
         URLRequest.HTTPMethod = "POST"
@@ -217,7 +217,7 @@ class RDFOAuth2Token : NSObject,NSCoding {
                 var result:String = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
                 println(result)
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-                    if let token:RDFOAuth2Token = RDFOAuth2Token.tokenWithJSON(json) as RDFOAuth2Token? {
+                    if let token:OAuth2Token = OAuth2Token.tokenWithJSON(json) as OAuth2Token? {
                         completion(token:token,  error:error)
                     }
                     else {

@@ -11,7 +11,7 @@ import UIKit
 extension NSMutableURLRequest {
     class func redditBasicAuthenticationURLRequest(URL:NSURL) -> NSMutableURLRequest {
         var URLRequest:NSMutableURLRequest = NSMutableURLRequest(URL: URL)
-        var basicAuthenticationChallenge:String = RDFConfig.sharedInstance.clientID + ":"
+        var basicAuthenticationChallenge:String = Config.sharedInstance.clientID + ":"
         let data:NSData = basicAuthenticationChallenge.dataUsingEncoding(NSUTF8StringEncoding)!
         let base64Str = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
         URLRequest.setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
@@ -19,6 +19,6 @@ extension NSMutableURLRequest {
     }
     
     func setUserAgentForReddit() {
-        self.setValue(RDFConfig.sharedInstance.userAgent, forHTTPHeaderField: "User-Agent")
+        self.setValue(Config.sharedInstance.userAgent, forHTTPHeaderField: "User-Agent")
     }
 }

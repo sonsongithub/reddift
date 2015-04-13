@@ -36,3 +36,4 @@ Carthage/Build
 \#*
 *~
 RDFConfig.json
+.DS_Store

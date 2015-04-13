@@ -1,5 +1,5 @@
 //
-//  RDFUserProfile.swift
+//  UserProfile.swift
 //  reddift
 //
 //  Created by sonson on 2015/04/13.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RDFUserProfile {
+class UserProfile {
     var hasMail:Bool = false
     var name:String = ""
     var created:NSTimeInterval = 0

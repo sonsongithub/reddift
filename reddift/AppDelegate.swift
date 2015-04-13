@@ -14,8 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
-        return RDFOAuth2Authorizer.sharedInstance.receiveRedirect(url, completion:{(token:RDFOAuth2Token?, error:NSError?) -> Void in
-            if let token = token as RDFOAuth2Token! {
+        return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion:{(token:OAuth2Token?, error:NSError?) -> Void in
+            if let token = token as OAuth2Token! {
                 
 //              let URL:NSURL = NSURL(string: "https://oauth.reddit.com/hot.json")!
 //              var URLRequest:NSMutableURLRequest = NSMutableURLRequest(URL: URL)
@@ -38,9 +38,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //              })
 //              task.resume()
                 
-                token.profile({ (profile:RDFUserProfile?, error:NSError?) -> Void in
+                token.profile({ (profile:UserProfile?, error:NSError?) -> Void in
                     if (error == nil) {
-                        if let profile:RDFUserProfile = profile as RDFUserProfile? {
+                        if let profile:UserProfile = profile as UserProfile? {
                             token.saveIntoKeychainWithName(profile.name)
                         }
                     }

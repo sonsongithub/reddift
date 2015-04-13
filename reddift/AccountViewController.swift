@@ -12,14 +12,14 @@ class AccountViewController: UITableViewController {
 	var names:[String] = []
 	
 	@IBAction func addAccount(sender:AnyObject) {
-		RDFOAuth2Authorizer.sharedInstance.challengeWithAllScopes()
+		OAuth2Authorizer.sharedInstance.challengeWithAllScopes()
 	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
 		
 		names.removeAll(keepCapacity: false)
-		names += RDFOAuth2Token.savedNamesInKeychain()
+		names += OAuth2Token.savedNamesInKeychain()
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,7 +44,7 @@ class AccountViewController: UITableViewController {
 	
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		if let name:String = self.names[indexPath.row] as String? {
-			if let token:RDFOAuth2Token = RDFOAuth2Token.restoreFromKeychainWithName(name) as RDFOAuth2Token? {
+			if let token:OAuth2Token = OAuth2Token.restoreFromKeychainWithName(name) as OAuth2Token? {
 				println(token)
 			}
 		}
