@@ -9,13 +9,15 @@
 import UIKit
 
 extension NSMutableURLRequest {
-    class func redditBasicAuthenticationURLRequest(URL:NSURL) -> NSMutableURLRequest {
-        var URLRequest = NSMutableURLRequest(URL: URL)
+    func setRedditBasicAuthentication() {
         var basicAuthenticationChallenge = Config.sharedInstance.clientID + ":"
         let data = basicAuthenticationChallenge.dataUsingEncoding(NSUTF8StringEncoding)!
         let base64Str = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
-        URLRequest.setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
-        return URLRequest
+        setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
+    }
+    
+    func setOAuth2Token(token:OAuth2Token) {
+        setValue("bearer " + token.accessToken, forHTTPHeaderField:"Authorization")
     }
     
     func setUserAgentForReddit() {

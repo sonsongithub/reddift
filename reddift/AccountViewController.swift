@@ -14,12 +14,17 @@ class AccountViewController: UITableViewController {
 	@IBAction func addAccount(sender:AnyObject) {
 		OAuth2Authorizer.sharedInstance.challengeWithAllScopes()
 	}
+    
+    func reload() {
+        names.removeAll(keepCapacity: false)
+        names += OAuth2TokenRepository.savedNamesInKeychain()
+        tableView.reloadData()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didSaveToken:", name: DidSaveTokenIntoOAuth2TokenRepository, object: nil);		
-		names.removeAll(keepCapacity: false)
-		names += OAuth2TokenRepository.savedNamesInKeychain()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didSaveToken:", name: OAuth2TokenRepositoryDidSaveToken, object: nil)
+        reload()
     }
 
     override func didReceiveMemoryWarning() {
@@ -36,69 +41,55 @@ class AccountViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
-		if let name:String = self.names[indexPath.row] as String? {
-			cell.textLabel?.text = name
-		}
+        if indices(names) ~= indexPath.row {
+            let name:String = names[indexPath.row]
+            cell.textLabel?.text = name
+        }
         return cell
     }
 	
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		if let name:String = self.names[indexPath.row] as String? {
-			if let token = OAuth2TokenRepository.restoreFromKeychainWithName(name) as OAuth2Token? {
-				println(token)
-			}
-		}
+        if indices(names) ~= indexPath.row {
+            let name:String = names[indexPath.row]
+            if let token = OAuth2TokenRepository.restoreFromKeychainWithName(name) {
+                println(token)
+            }
+        }
 	}
     
     func didSaveToken(notification:NSNotification) {
-        names.removeAll(keepCapacity: false)
-        names += OAuth2TokenRepository.savedNamesInKeychain()
-        self.tableView.reloadData();
+        reload()
     }
 
-    /*
-    // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
         return true
     }
-    */
 
-    /*
-    // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            if indices(names) ~= indexPath.row {
+                let name:String = names[indexPath.row]
+                OAuth2TokenRepository.removeFromKeychainTokenWithName(name)
+                names.removeAtIndex(indexPath.row)
+                tableView.beginUpdates()
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                tableView.endUpdates()
+            }
+        }
     }
-    */
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "ToUserViewController" {
+            if let con = segue.destinationViewController as? UserViewController {
+                if let selectedIndexPath = tableView.indexPathForSelectedRow() {
+                    if indices(names) ~= selectedIndexPath.row {
+                        let name:String = names[selectedIndexPath.row]
+                        if let token = OAuth2TokenRepository.restoreFromKeychainWithName(name) {
+                            con.session = Session(token: token)
+                        }
+                    }
+                }
+            }
+        }
     }
-    */
-
 }

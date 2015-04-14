@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		140086B71ADBED270095F938 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086B61ADBED270095F938 /* Keychain.swift */; };
+		140086BA1ADCA5A40095F938 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086B91ADCA5A40095F938 /* UserViewController.swift */; };
+		140086BC1ADCA7C10095F938 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086BB1ADCA7C10095F938 /* Session.swift */; };
+		140086C01ADCCE020095F938 /* Paginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086BF1ADCCE020095F938 /* Paginator.swift */; };
 		141B46241AD928C000577858 /* OAuth2Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B46231AD928C000577858 /* OAuth2Token.swift */; };
 		141B46261AD9B9EF00577858 /* NSError+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B46251AD9B9EF00577858 /* NSError+reddift.swift */; };
 		141B46291AD9CA7200577858 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 141B46271AD9CA7200577858 /* Main.storyboard */; };
@@ -38,6 +41,9 @@
 
 /* Begin PBXFileReference section */
 		140086B61ADBED270095F938 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Keychain.swift; path = vendor/KeychainAccess/Lib/KeychainAccess/Keychain.swift; sourceTree = "<group>"; };
+		140086B91ADCA5A40095F938 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
+		140086BB1ADCA7C10095F938 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		140086BF1ADCCE020095F938 /* Paginator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paginator.swift; sourceTree = "<group>"; };
 		141B46231AD928C000577858 /* OAuth2Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2Token.swift; sourceTree = "<group>"; };
 		141B46251AD9B9EF00577858 /* NSError+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+reddift.swift"; sourceTree = "<group>"; };
 		141B46281AD9CA7200577858 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -116,10 +122,13 @@
 				14E791001ADC1BC60065A05A /* OAuth2TokenRepository.swift */,
 				141B46231AD928C000577858 /* OAuth2Token.swift */,
 				141B462C1ADA3C9400577858 /* OAuth2Authorizer.swift */,
+				140086BB1ADCA7C10095F938 /* Session.swift */,
+				140086BF1ADCCE020095F938 /* Paginator.swift */,
 				141B46251AD9B9EF00577858 /* NSError+reddift.swift */,
 				14E9060A1ADBCDA100934D27 /* NSBundle+reddift.swift */,
 				14E9060C1ADBCE4C00934D27 /* NSMutableURLRequest+reddift.swift */,
 				14E9060E1ADBD1D700934D27 /* AccountViewController.swift */,
+				140086B91ADCA5A40095F938 /* UserViewController.swift */,
 				141B462A1AD9CAA500577858 /* TestViewController.swift */,
 				141B46271AD9CA7200577858 /* Main.storyboard */,
 				147EADAC1AD78568007FA2F4 /* Images.xcassets */,
@@ -264,8 +273,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				140086BC1ADCA7C10095F938 /* Session.swift in Sources */,
 				14E906071ADB9BB500934D27 /* Config.swift in Sources */,
 				14E9060B1ADBCDA100934D27 /* NSBundle+reddift.swift in Sources */,
+				140086BA1ADCA5A40095F938 /* UserViewController.swift in Sources */,
 				14E791011ADC1BC60065A05A /* OAuth2TokenRepository.swift in Sources */,
 				14E9060D1ADBCE4C00934D27 /* NSMutableURLRequest+reddift.swift in Sources */,
 				141B462B1AD9CAA500577858 /* TestViewController.swift in Sources */,
@@ -276,6 +287,7 @@
 				147EADA61AD78568007FA2F4 /* AppDelegate.swift in Sources */,
 				141B46241AD928C000577858 /* OAuth2Token.swift in Sources */,
 				14E906051ADB4F1500934D27 /* UserProfile.swift in Sources */,
+				140086C01ADCCE020095F938 /* Paginator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

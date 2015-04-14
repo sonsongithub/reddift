@@ -8,6 +8,8 @@
 
 import UIKit
 
+let OAuth2TokenDidUpdate = "OAuth2TokenDidUpdate"
+
 class OAuth2Token : NSObject,NSCoding {
     var name = ""
     var accessToken = ""
@@ -58,35 +60,33 @@ class OAuth2Token : NSObject,NSCoding {
     
     class func tokenWithJSON(json:[String:AnyObject]) -> OAuth2Token? {
         if let temp1 = json["access_token"] as? String,
-            temp2 = json["token_type"] as? String,
-            temp3 = json["expires_in"] as? Int,
-            temp4 = json["scope"] as? String,
-            temp5 = json["refresh_token"] as? String {
+               temp2 = json["token_type"] as? String,
+               temp3 = json["expires_in"] as? Int,
+               temp4 = json["scope"] as? String,
+               temp5 = json["refresh_token"] as? String {
                 return OAuth2Token(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:temp5)
         }
         return nil
     }
     
     func updateWithJSON(json:[String:AnyObject]) -> Bool {
-        if let temp1 = json["access_token"] as? String {
-            if let temp2 = json["token_type"] as? String {
-                if let temp3 = json["expires_in"] as? Int {
-                    if let temp4 = json["scope"] as? String {
-                        accessToken = temp1
-                        tokenType = temp2
-                        expiresIn = temp3
-                        scope = temp4
-                        return true
-                    }
-                }
-            }
+        if  let temp1 = json["access_token"] as? String,
+                temp2 = json["token_type"] as? String,
+                temp3 = json["expires_in"] as? Int,
+                temp4 = json["scope"] as? String {
+            accessToken = temp1
+            tokenType = temp2
+            expiresIn = temp3
+            scope = temp4
+            return true
         }
         return false
     }
     
     func refresh(completion:(error:NSError?)->Void) -> NSURLSessionDataTask {
         var URL = NSURL(string: "https://www.reddit.com/api/v1/access_token")!
-        var URLRequest = NSMutableURLRequest.redditBasicAuthenticationURLRequest(URL)
+        var URLRequest = NSMutableURLRequest(URL:URL)
+        URLRequest.setRedditBasicAuthentication()
         
         var param = "grant_type=refresh_token&refresh_token=" + refreshToken
         let data = param.dataUsingEncoding(NSUTF8StringEncoding)
@@ -96,18 +96,19 @@ class OAuth2Token : NSObject,NSCoding {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         
         let task = session.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            if (error != nil) {
+            if error != nil {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     completion(error:error)
                 })
             }
-            else if (error == nil) {
+            else if error == nil {
                 var result = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
                 println(result)
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
                     if self.updateWithJSON(json) {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            completion(error:error)
+                            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenDidUpdate, object: nil)
+                            completion(error:nil)
                         })
                     }
                     else {
@@ -125,7 +126,7 @@ class OAuth2Token : NSObject,NSCoding {
                 }
                 else {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        completion(error:error)
+                        completion(error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
                     })
                 }
             }
@@ -134,14 +135,51 @@ class OAuth2Token : NSObject,NSCoding {
         return task
     }
     
-    func revoke(completion:(success:Bool, token:OAuth2Token?, error:NSError?)->Void) {
+    func revoke(completion:(error:NSError?)->Void) -> NSURLSessionDataTask {
+        var URL = NSURL(string: "https://www.reddit.com/api/v1/revoke_token")!
+        var URLRequest = NSMutableURLRequest(URL:URL)
+        URLRequest.setRedditBasicAuthentication()
+        var param = "token=" + accessToken + "&token_type_hint=access_token"
+        let data = param.dataUsingEncoding(NSUTF8StringEncoding)
+        URLRequest.HTTPBody = data
+        URLRequest.HTTPMethod = "POST"
         
+        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+        
+        let task = session.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            if let httpResponse:NSHTTPURLResponse = response as? NSHTTPURLResponse {
+                println(httpResponse.allHeaderFields)
+                println(httpResponse.statusCode)
+                if httpResponse.statusCode == 204 {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        completion(error:nil)
+                    })
+                }
+                else {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        completion(error:NSError.errorWithCode(0, userinfo: ["error":"Unknown error"]))
+                    })
+                }
+            }
+            else if error == nil {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    completion(error:NSError.errorWithCode(0, userinfo: ["error":"Unknown error"]))
+                })
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    completion(error:error)
+                })
+            }
+        })
+        task.resume()
+        return task
     }
     
     func profile(completion:(profile:UserProfile?, error:NSError?)->Void) -> NSURLSessionDataTask {
         let URL = NSURL(string: "https://oauth.reddit.com/api/v1/me")!
         var URLRequest = NSMutableURLRequest(URL: URL)
-        URLRequest.setValue("bearer " + accessToken, forHTTPHeaderField:"Authorization")
+        URLRequest.setOAuth2Token(self)
         URLRequest.HTTPMethod = "GET"
         URLRequest.setUserAgentForReddit()
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
@@ -179,7 +217,8 @@ class OAuth2Token : NSObject,NSCoding {
     class func download(code:String, completion:(token:OAuth2Token?, error:NSError?)->Void) -> NSURLSessionDataTask {
         
         var URL = NSURL(string: "https://www.reddit.com/api/v1/access_token")!
-        var URLRequest = NSMutableURLRequest.redditBasicAuthenticationURLRequest(URL)
+        var URLRequest = NSMutableURLRequest(URL:URL)
+        URLRequest.setRedditBasicAuthentication()
         
         var param = "grant_type=authorization_code&code=" + code + "&redirect_uri=" + Config.sharedInstance.redirectURI
         let data = param.dataUsingEncoding(NSUTF8StringEncoding)
@@ -197,7 +236,7 @@ class OAuth2Token : NSObject,NSCoding {
                 var result = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
                 println(result)
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-                    if let token = OAuth2Token.tokenWithJSON(json) as OAuth2Token? {
+                    if let token = OAuth2Token.tokenWithJSON(json) {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             completion(token:token,  error:error)
                         })

@@ -13,16 +13,7 @@ class OAuth2Authorizer {
     /**
     Singleton model.
     */
-    class var sharedInstance: OAuth2Authorizer {
-        struct Static {
-            static var onceToken: dispatch_once_t = 0
-            static var instance: OAuth2Authorizer? = nil
-        }
-        dispatch_once(&Static.onceToken) {
-            Static.instance = OAuth2Authorizer()
-        }
-        return Static.instance!
-    }
+    static let sharedInstance = OAuth2Authorizer()
     
     func challengeWithAllScopes() {
         self.challengeWithScopes(["identity", "edit", "flair", "history", "modconfig", "modflair", "modlog", "modposts", "modwiki", "mysubreddits", "privatemessages", "read", "report", "save", "submit", "subscribe", "vote", "wikiedit", "wikiread"])

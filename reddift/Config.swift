@@ -22,16 +22,7 @@ class Config {
     /**
     Singleton model.
     */
-    class var sharedInstance: Config {
-        struct Static {
-            static var onceToken: dispatch_once_t = 0
-            static var instance: Config? = nil
-        }
-        dispatch_once(&Static.onceToken) {
-            Static.instance = Config()
-        }
-        return Static.instance!
-    }
+    static let sharedInstance = Config()
     
     /**
     Returns User-Agent for API
@@ -47,7 +38,7 @@ class Config {
     */
     var redirectURIScheme:String {
         get {
-            if let scheme = NSURL(string:redirectURI)?.scheme as String? {
+            if let scheme = NSURL(string:redirectURI)?.scheme {
                 return scheme
             }
             else {
@@ -66,7 +57,7 @@ class Config {
         if let temp = NSBundle.infoValueFromMainBundleForKey("CFBundleIdentifier") as? String{
             bundleIdentifier = temp
         }
-        if let path = NSBundle.mainBundle().pathForResource("reddift_config", ofType: "json") as String? {
+        if let path = NSBundle.mainBundle().pathForResource("reddift_config", ofType: "json") {
             if let data = NSData(contentsOfFile: path) {
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
                     if let temp = json["DeveloperName"] as? String{
