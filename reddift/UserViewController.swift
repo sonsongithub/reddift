@@ -24,11 +24,7 @@ class UserViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == 0 && indexPath.section == 0 {
-            session?.profile({ (profile, error) -> Void in
-                println(profile)
-            })
-        }
+        tableView.deselectRowAtIndexPath(indexPath, animated: true);
         if indexPath.row == 2 && indexPath.section == 0 {
             tableView.deselectRowAtIndexPath(indexPath, animated: true);
             if let token = session?.token{
@@ -48,13 +44,6 @@ class UserViewController: UITableViewController {
                     }
                 })
             }
-        }
-        
-        
-        if indexPath.row == 0 && indexPath.section == 1 {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true);
-//            session?.front(nil, completion: { (links, error) -> Void in
-//            })
         }
     }
     
@@ -111,14 +100,11 @@ class UserViewController: UITableViewController {
     }
     */
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "ToProfileViewController" {
+            if let con = segue.destinationViewController as? ProfileViewController {
+                con.session = self.session
+            }
+        }
     }
-    */
-
 }

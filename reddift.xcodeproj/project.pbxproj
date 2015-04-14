@@ -25,6 +25,7 @@
 		14B8DE101ADD3DF300237350 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE081ADD3DF300237350 /* Link.swift */; };
 		14B8DE111ADD3DF300237350 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE091ADD3DF300237350 /* Message.swift */; };
 		14B8DE141ADD3DF300237350 /* Subreddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE0C1ADD3DF300237350 /* Subreddit.swift */; };
+		14B8DE161ADD68D100237350 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE151ADD68D100237350 /* ProfileViewController.swift */; };
 		14E790FF1ADC15460065A05A /* reddift_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 14E790FE1ADC15460065A05A /* reddift_config.json */; };
 		14E791011ADC1BC60065A05A /* OAuth2TokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E791001ADC1BC60065A05A /* OAuth2TokenRepository.swift */; };
 		14E906071ADB9BB500934D27 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E906061ADB9BB500934D27 /* Config.swift */; };
@@ -66,6 +67,7 @@
 		14B8DE081ADD3DF300237350 /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		14B8DE091ADD3DF300237350 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		14B8DE0C1ADD3DF300237350 /* Subreddit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subreddit.swift; sourceTree = "<group>"; };
+		14B8DE151ADD68D100237350 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		14E790FE1ADC15460065A05A /* reddift_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reddift_config.json; sourceTree = "<group>"; };
 		14E791001ADC1BC60065A05A /* OAuth2TokenRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2TokenRepository.swift; sourceTree = "<group>"; };
 		14E906061ADB9BB500934D27 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				14E9060C1ADBCE4C00934D27 /* NSMutableURLRequest+reddift.swift */,
 				14E9060E1ADBD1D700934D27 /* AccountViewController.swift */,
 				140086B91ADCA5A40095F938 /* UserViewController.swift */,
+				14B8DE151ADD68D100237350 /* ProfileViewController.swift */,
 				141B462A1AD9CAA500577858 /* TestViewController.swift */,
 				141B46271AD9CA7200577858 /* Main.storyboard */,
 				147EADAC1AD78568007FA2F4 /* Images.xcassets */,
@@ -295,6 +298,7 @@
 			files = (
 				140086BC1ADCA7C10095F938 /* Session.swift in Sources */,
 				14E906071ADB9BB500934D27 /* Config.swift in Sources */,
+				14B8DE161ADD68D100237350 /* ProfileViewController.swift in Sources */,
 				14E9060B1ADBCDA100934D27 /* NSBundle+reddift.swift in Sources */,
 				140086BA1ADCA5A40095F938 /* UserViewController.swift in Sources */,
 				14E791011ADC1BC60065A05A /* OAuth2TokenRepository.swift in Sources */,
