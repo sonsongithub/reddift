@@ -26,7 +26,6 @@ class UserViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true);
         if indexPath.row == 2 && indexPath.section == 0 {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true);
             if let token = session?.token{
                 token.refresh({ (error) -> Void in
                     self.updateExpireCell(nil)
@@ -35,7 +34,6 @@ class UserViewController: UITableViewController {
             }
         }
         if indexPath.row == 3 && indexPath.section == 0 {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true);
             if let token = session?.token{
                 token.revoke({ (error) -> Void in
                     if error == nil {
@@ -44,6 +42,10 @@ class UserViewController: UITableViewController {
                     }
                 })
             }
+        }
+        if indexPath.row == 0 && indexPath.section == 1 {
+            session?.front(nil, completion: { (links, error) -> Void in
+            })
         }
     }
     

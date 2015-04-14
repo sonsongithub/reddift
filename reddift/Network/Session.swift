@@ -12,8 +12,26 @@ class Session {
     let token:OAuth2Token
     let baseURL = "https://oauth.reddit.com/"
     
+    var x_ratelimit_reset = 0
+    var x_ratelimit_used = 0
+    var x_ratelimit_remaining = 0
+    
     init(token:OAuth2Token) {
         self.token = token
+    }
+    
+    func updateRateLimitWithURLResponse(response:NSURLResponse) {
+        if let httpResponse:NSHTTPURLResponse = response as? NSHTTPURLResponse {
+            if let temp = httpResponse.allHeaderFields["x-ratelimit-reset"] as? Int {
+                x_ratelimit_reset = temp
+            }
+            if let temp = httpResponse.allHeaderFields["x-ratelimit-used"] as? Int {
+                x_ratelimit_used = temp
+            }
+            if let temp = httpResponse.allHeaderFields["x-ratelimit-remaining"] as? Int {
+                x_ratelimit_remaining = temp
+            }
+        }
     }
     
     func profile(completion:(profile:Account?, error:NSError?)->Void) -> NSURLSessionDataTask {
@@ -25,9 +43,7 @@ class Session {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             
-            if let httpResponse:NSHTTPURLResponse = response as? NSHTTPURLResponse {
-                println(httpResponse.allHeaderFields)
-            }
+            self.updateRateLimitWithURLResponse(response);
             
             if let aData = data {
                 var result = NSString(data: aData, encoding: NSUTF8StringEncoding) as! String
@@ -53,26 +69,25 @@ class Session {
         task.resume()
         return task
     }
-//    func front(paginator:Paginator?, completion:(links:[Link], error:NSError?)->Void) -> NSURLSessionDataTask {
-//        let URL = NSURL(string: "https://oauth.reddit.com/new")!
-//        var URLRequest = NSMutableURLRequest(URL: URL)
-//        URLRequest.setOAuth2Token(token)
-//        URLRequest.HTTPMethod = "GET"
-//        URLRequest.setUserAgentForReddit()
-//        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-//        let task = session.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-//            if let httpResponse:NSHTTPURLResponse = response as? NSHTTPURLResponse {
-//                println(httpResponse.allHeaderFields)
-//            }
-//            
-//            if let aData = data {
-//                var result = NSString(data: aData, encoding: NSUTF8StringEncoding) as! String
-//                println(result)
-//                if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-//                }
-//            }
-//        })
-//        task.resume()
-//        return task
-//    }
+    
+    func front(paginator:Paginator?, completion:(links:[Link], error:NSError?)->Void) -> NSURLSessionDataTask {
+        let URL = NSURL(string: "https://oauth.reddit.com/new")!
+        var URLRequest = NSMutableURLRequest(URL: URL)
+        URLRequest.setOAuth2Token(token)
+        URLRequest.HTTPMethod = "GET"
+        URLRequest.setUserAgentForReddit()
+        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+        let task = session.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            self.updateRateLimitWithURLResponse(response);
+            if let aData = data {
+                if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
+                    var links:[Link] = [];
+                    println(json)
+                    
+                }
+            }
+        })
+        task.resume()
+        return task
+    }
 }
