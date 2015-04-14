@@ -40,8 +40,8 @@ class Comment {
     /** 
     false if not edited, edit date in UTC epoch-seconds otherwise. NOTE: for some old edited comments on reddit.com, this will be set to true instead of edit date.
     */
-    let edited:[AnyObject]
-    /** 
+//    let edited:[AnyObject]
+    /**
     the number of times this comment received reddit gold
     */
     let gilded:Int
@@ -76,8 +76,8 @@ class Comment {
     /** 
     A list of replies to this comment
     */
-    let replies:[AnyObject]
-    /** 
+//    let replies:[AnyObject]
+    /**
     true if this post is saved by the logged in user
     */
     let saved:Bool
@@ -116,8 +116,8 @@ class Comment {
     /** 
     A custom data structure used to hold valuable information.  This object's format will follow the data structure respective of its kind.  See below for specific structures.
     */
-    let data:[AnyObject]
-    /** 
+//    let data:[AnyObject]
+    /**
     the time of creation in local epoch-second format. ex: 1331042771.0
     */
     let created:Int

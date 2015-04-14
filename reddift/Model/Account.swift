@@ -68,8 +68,8 @@ class Account {
     /** 
     A custom data structure used to hold valuable information.  This object's format will follow the data structure respective of its kind.  See below for specific structures.
     */
-    let data:[AnyObject]
-    /** 
+//    let data:[AnyObject]
+    /**
     the time of creation in local epoch-second format. ex: 1331042771.0
     */
     let created:Int

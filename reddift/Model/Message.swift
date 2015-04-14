@@ -24,8 +24,8 @@ class Message {
     /** 
     either null or the first message's ID represented as base 10 (wtf)
     */
-    let first_message:[AnyObject]
-    /** 
+//    let first_message:[AnyObject]
+    /**
     either null or the first message's fullname
     */
     let first_message_name:String
@@ -72,8 +72,8 @@ class Message {
     /** 
     A custom data structure used to hold valuable information.  This object's format will follow the data structure respective of its kind.  See below for specific structures.
     */
-    let data:[AnyObject]
-    /** 
+//    let data:[AnyObject]
+    /**
     the time of creation in local epoch-second format. ex: 1331042771.0
     */
     let created:Int

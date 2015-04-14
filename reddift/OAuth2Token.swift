@@ -176,7 +176,7 @@ class OAuth2Token : NSObject,NSCoding {
         return task
     }
     
-    func profile(completion:(profile:UserProfile?, error:NSError?)->Void) -> NSURLSessionDataTask {
+    func profile(completion:(profile:Account?, error:NSError?)->Void) -> NSURLSessionDataTask {
         let URL = NSURL(string: "https://oauth.reddit.com/api/v1/me")!
         var URLRequest = NSMutableURLRequest(URL: URL)
         URLRequest.setOAuth2Token(self)
@@ -193,7 +193,7 @@ class OAuth2Token : NSObject,NSCoding {
                 var result = NSString(data: aData, encoding: NSUTF8StringEncoding) as! String
                 println(result)
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-                    var profile = UserProfile(json:json)
+                    var profile = Account(json:json)
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         completion(profile: profile, error: nil)
                     })

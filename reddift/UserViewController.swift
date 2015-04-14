@@ -24,6 +24,11 @@ class UserViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.row == 0 && indexPath.section == 0 {
+            session?.profile({ (profile, error) -> Void in
+                println(profile)
+            })
+        }
         if indexPath.row == 2 && indexPath.section == 0 {
             tableView.deselectRowAtIndexPath(indexPath, animated: true);
             if let token = session?.token{

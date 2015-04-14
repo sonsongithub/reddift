@@ -52,12 +52,12 @@ class Link {
     /** 
     Used for streaming video. Detailed information about the video and it's origins are placed here
     */
-    let media:[AnyObject]
-    /** 
+//    let media:[AnyObject]
+    /**
     Used for streaming video. Technical embed specific information is found here.
     */
-    let media_embed:[AnyObject]
-    /** 
+//    let media_embed:[AnyObject]
+    /**
     the number of comments that belong to this link. includes removed comments.
     */
     let num_comments:Int
@@ -132,8 +132,8 @@ class Link {
     /** 
     A custom data structure used to hold valuable information.  This object's format will follow the data structure respective of its kind.  See below for specific structures.
     */
-    let data:[AnyObject]
-    /** 
+//    let data:[AnyObject]
+    /**
     the time of creation in local epoch-second format. ex: 1331042771.0
     */
     let created:Int

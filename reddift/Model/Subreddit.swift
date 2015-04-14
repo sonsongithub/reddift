@@ -36,8 +36,8 @@ class Subreddit {
     /** 
     width and height of the header image, or null
     */
-    let header_size:[]
-    /** 
+//    let header_size:[]
+    /**
     description of header image shown on hover, or null
     */
     let header_title:String
@@ -112,7 +112,7 @@ class Subreddit {
     /** 
     A custom data structure used to hold valuable information.  This object's format will follow the data structure respective of its kind.  See below for specific structures.
     */
-    let data:[AnyObject]
+//    let data:[AnyObject]
 
 
     init(json:[String:AnyObject]) {
@@ -152,12 +152,12 @@ class Subreddit {
         else {
             self.header_img = ""
         }
-        if let temp = json["header_size"] as? [] {
-            self.header_size = temp
-        }
-        else {
-            self.header_size = []
-        }
+//        if let temp = json["header_size"] as? [] {
+//            self.header_size = temp
+//        }
+//        else {
+//            self.header_size = []
+//        }
         if let temp = json["header_title"] as? String {
             self.header_title = temp
         }

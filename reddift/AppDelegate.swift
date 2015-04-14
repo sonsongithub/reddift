@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
         return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion:{(token:OAuth2Token?, error:NSError?) -> Void in
             if let token = token {
-                token.profile({ (profile:UserProfile?, error:NSError?) -> Void in
+                token.profile({ (profile:Account?, error:NSError?) -> Void in
                     if error == nil {
                         if let profile = profile {
                             OAuth2TokenRepository.saveIntoKeychainToken(token, name:profile.name)
