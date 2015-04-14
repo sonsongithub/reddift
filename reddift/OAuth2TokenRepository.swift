@@ -59,7 +59,6 @@ class OAuth2TokenRepository {
         if count(name) > 0 {
             let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
             keychain.remove(name);
-            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil)
         }
         else {
             println("Error:name property is empty.")
