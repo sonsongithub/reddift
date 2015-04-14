@@ -1,40 +1,3 @@
-# # URLにアクセスするためのライブラリの読み込み
-# require 'open-uri'
-# # Nokogiriライブラリの読み込み
-# require 'nokogiri'
-
-# # スクレイピング先のURL
-# url = 'https://github.com/reddit/reddit/wiki/JSON'
-
-# charset = nil
-# html = open(url, { :proxy => 'http://10.81.247.8:8080/'}) do |f|
-#   charset = f.charset # 文字種別を取得
-#   f.read # htmlを読み込んで変数htmlに渡す
-# end
-
-# # # htmlをパース(解析)してオブジェクトを生成
-# # doc = Nokogiri::HTML.parse(html, nil, charset)
-
-# # doc.xpath("//tr").each{|node|
-# #   puts "----------------"
-# #   node.children.xpath("//td").each{|node|
-# #     p node.text
-# #   }
-# # }
-
-
-$file_header_template = <<"EOS"
-//
-//  %s.swift
-//  reddift
-//
-//  Created by generator.rb via from https://github.com/reddit/reddit/wiki/JSON
-//  Created at %s
-//
-
-import UIKit
-
-EOS
 
 class SwiftClass
   def initialize(name, attributes = nil)
@@ -56,104 +19,66 @@ class SwiftClass
     }
   end
 
-  def sourceUsingLet
+  def source
     return if @property.length == 0
 
     buf = ""
     buf = buf + sprintf($file_header_template, @name.capitalize, Time.now)
     buf = buf + "class " + @name.gsub(/\s\(.+?\)/, "").capitalize + " {\n"
     @property.each{|p|
-      if p.type == "string"
-        buf = buf +  "    /**\n    " + p.comment + "\n    */\n"
-        buf = buf +  "    let " + p.name + ":String\n"
-      elsif p.type == "object"
-        buf = buf +  "    /**\n    " + p.comment + "\n    */\n"
-        buf = buf +  "    // let " + p.name + ":AnyObject\n"
-      elsif p.type == "long"
-        buf = buf +  "    /**\n    " + p.comment + "\n    */\n"
-        buf = buf +  "    let " + p.name + ":Int\n"
-      elsif p.type == "int"
-        buf = buf +  "    /**\n    " + p.comment + "\n    */\n"
-        buf = buf +  "    let " + p.name + ":Int\n"
-      elsif p.type == "boolean"
-        buf = buf +  "    /**\n    " + p.comment + "\n    */\n"
-        buf = buf +  "    let " + p.name + ":Bool\n"
-      elsif p.type == "array"
-        buf = buf +  "    /**\n    " + p.comment + "\n    */\n"
-        buf = buf +  "    let " + p.name + ":[]\n"
-      else
-        buf = buf +  "    /**\n    " + p.comment + "\n    */\n"
-        buf = buf +  "    // let " + p.name + " = [" + p.type + "]\n"
-      end
+      buf = buf + p.propertyDeclaration
     }
-    buf = sourceInit(buf)
-    buf = buf +  "}\n\n\n"
-  end
-
-  def sourceInit(buf)
-    dict = {
-      "array"=>"[]",
-      "int"=>"Int",
-      "long"=>"Int",
-      "boolean"=>"Bool",
-      "string"=>"String" 
-    }
-    value = {
-      "array"=>"[]",
-      "int"=>"0",
-      "long"=>"0",
-      "boolean"=>"false",
-      "string"=>"\"\"" 
-    }
-    availableTypes = [
-      "array",
-      "int",
-      "long",
-      "boolean",
-      "string"]
-template = <<"EOS"
-        if let temp = json["%s"] as? %s {
-            self.%s = temp
-        }
-        else {
-            self.%s = %s
-        }
-EOS
-
-template_anyobject = <<"EOS"
-//      if let temp = json["%s"] as? %s {
-//          self.%s = temp
-//      }
-//      else {
-//          self.%s = %s
-//      }
-EOS
-    buf = buf + "    init(json:[String:AnyObject]) {\n"
+    buf = buf + "\n\n    init(json:[String:AnyObject]) {\n"
     @property.each{|p|
-      if availableTypes.index(p.type) != nil
-        buf = buf + sprintf(template, p.name, dict[p.type], p.name, p.name, value[p.type])
-      else
-        buf = buf + sprintf(template_anyobject, p.name, dict[p.type], p.name, p.name, value[p.type])
-      end
+      buf = buf + p.blockInInit
     }
     buf = buf +  "    }\n"
+    buf = buf +  "}\n\n\n"
   end
 
   attr_accessor:property, :name, :attributes
 end
 
 class SwiftProperty
+  
   def initialize(type, name, comment)
     @type = type
     @name = name
     @comment = comment
+    @typeDictionary = {
+      "array"=>"[]",
+      "int"=>"Int",
+      "long"=>"Int",
+      "boolean"=>"Bool",
+      "string"=>"String" 
+    }
+    @typeDefaultValue = {
+      "array"=>"[]",
+      "int"=>"0",
+      "long"=>"0",
+      "boolean"=>"false",
+      "string"=>"\"\"" 
+    }
   end
+
+  def propertyDeclaration()
+    type = "[AnyObject]"
+    type = @typeDictionary[@type] if @typeDictionary[@type] != nil
+    sprintf($property_template, @comment, @name, type)
+  end
+
+  def blockInInit
+    if @typeDictionary[@type] != nil
+      sprintf($initialize_template, @name, @typeDictionary[@type], @name, @name, @typeDefaultValue[@type])
+    else
+      sprintf($initialize_template_comment_out, @name, @typeDictionary[@type], @name, @name, @typeDefaultValue[@type])
+    end
+  end
+
   attr_accessor:type, :name, :comment
 end
 
 def main
-  types = []
-
   implementations = []
   classes = []
 
@@ -217,10 +142,48 @@ def main
         element.addProperty(thing.property)
       end
       fw = File::open("./" + element.name.capitalize + ".swift", "w")
-      fw.write element.sourceUsingLet
+      fw.write element.source
       fw.close
     end
   }
 end
+
+$file_header_template = <<"EOS"
+//
+//  %s.swift
+//  reddift
+//
+//  Created by generator.rb via from https://github.com/reddit/reddit/wiki/JSON
+//  Created at %s
+//
+
+import UIKit
+
+EOS
+
+$initialize_template = <<"EOS"
+        if let temp = json["%s"] as? %s {
+            self.%s = temp
+        }
+        else {
+            self.%s = %s
+        }
+EOS
+
+$initialize_template_comment_out = <<"EOS"
+//      if let temp = json["%s"] as? %s {
+//          self.%s = temp
+//      }
+//      else {
+//          self.%s = %s
+//      }
+EOS
+
+$property_template = <<"EOS"
+    /** 
+    %s
+    */
+    let %s:%s
+EOS
 
 main
