@@ -9,13 +9,7 @@
 /* Begin PBXBuildFile section */
 		140086B71ADBED270095F938 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086B61ADBED270095F938 /* Keychain.swift */; };
 		140086BA1ADCA5A40095F938 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086B91ADCA5A40095F938 /* UserViewController.swift */; };
-		140086BC1ADCA7C10095F938 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086BB1ADCA7C10095F938 /* Session.swift */; };
-		140086C01ADCCE020095F938 /* Paginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086BF1ADCCE020095F938 /* Paginator.swift */; };
-		141B46241AD928C000577858 /* OAuth2Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B46231AD928C000577858 /* OAuth2Token.swift */; };
-		141B46261AD9B9EF00577858 /* NSError+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B46251AD9B9EF00577858 /* NSError+reddift.swift */; };
 		141B46291AD9CA7200577858 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 141B46271AD9CA7200577858 /* Main.storyboard */; };
-		141B462B1AD9CAA500577858 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B462A1AD9CAA500577858 /* TestViewController.swift */; };
-		141B462D1ADA3C9400577858 /* OAuth2Authorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B462C1ADA3C9400577858 /* OAuth2Authorizer.swift */; };
 		147EADA61AD78568007FA2F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147EADA51AD78568007FA2F4 /* AppDelegate.swift */; };
 		147EADAD1AD78568007FA2F4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 147EADAC1AD78568007FA2F4 /* Images.xcassets */; };
 		147EADB01AD78568007FA2F4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 147EADAE1AD78568007FA2F4 /* LaunchScreen.xib */; };
@@ -26,11 +20,16 @@
 		14B8DE111ADD3DF300237350 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE091ADD3DF300237350 /* Message.swift */; };
 		14B8DE141ADD3DF300237350 /* Subreddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE0C1ADD3DF300237350 /* Subreddit.swift */; };
 		14B8DE161ADD68D100237350 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE151ADD68D100237350 /* ProfileViewController.swift */; };
+		14B8DE211ADD721700237350 /* NSBundle+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE181ADD721700237350 /* NSBundle+reddift.swift */; };
+		14B8DE221ADD721700237350 /* NSError+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE191ADD721700237350 /* NSError+reddift.swift */; };
+		14B8DE231ADD721700237350 /* NSMutableURLRequest+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1A1ADD721700237350 /* NSMutableURLRequest+reddift.swift */; };
+		14B8DE241ADD721700237350 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1C1ADD721700237350 /* Session.swift */; };
+		14B8DE251ADD721700237350 /* OAuth2Authorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1E1ADD721700237350 /* OAuth2Authorizer.swift */; };
+		14B8DE261ADD721700237350 /* OAuth2Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1F1ADD721700237350 /* OAuth2Token.swift */; };
+		14B8DE271ADD721700237350 /* OAuth2TokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE201ADD721700237350 /* OAuth2TokenRepository.swift */; };
+		14B8DE291ADD722500237350 /* Paginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE281ADD722500237350 /* Paginator.swift */; };
+		14B8DE2B1ADD72C900237350 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE2A1ADD72C900237350 /* Config.swift */; };
 		14E790FF1ADC15460065A05A /* reddift_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 14E790FE1ADC15460065A05A /* reddift_config.json */; };
-		14E791011ADC1BC60065A05A /* OAuth2TokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E791001ADC1BC60065A05A /* OAuth2TokenRepository.swift */; };
-		14E906071ADB9BB500934D27 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E906061ADB9BB500934D27 /* Config.swift */; };
-		14E9060B1ADBCDA100934D27 /* NSBundle+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E9060A1ADBCDA100934D27 /* NSBundle+reddift.swift */; };
-		14E9060D1ADBCE4C00934D27 /* NSMutableURLRequest+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E9060C1ADBCE4C00934D27 /* NSMutableURLRequest+reddift.swift */; };
 		14E9060F1ADBD1D700934D27 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E9060E1ADBD1D700934D27 /* AccountViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,13 +46,7 @@
 /* Begin PBXFileReference section */
 		140086B61ADBED270095F938 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Keychain.swift; path = vendor/KeychainAccess/Lib/KeychainAccess/Keychain.swift; sourceTree = "<group>"; };
 		140086B91ADCA5A40095F938 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
-		140086BB1ADCA7C10095F938 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
-		140086BF1ADCCE020095F938 /* Paginator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paginator.swift; sourceTree = "<group>"; };
-		141B46231AD928C000577858 /* OAuth2Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2Token.swift; sourceTree = "<group>"; };
-		141B46251AD9B9EF00577858 /* NSError+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+reddift.swift"; sourceTree = "<group>"; };
 		141B46281AD9CA7200577858 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		141B462A1AD9CAA500577858 /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
-		141B462C1ADA3C9400577858 /* OAuth2Authorizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2Authorizer.swift; sourceTree = "<group>"; };
 		147EADA01AD78568007FA2F4 /* reddift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = reddift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		147EADA41AD78568007FA2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		147EADA51AD78568007FA2F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,11 +61,16 @@
 		14B8DE091ADD3DF300237350 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		14B8DE0C1ADD3DF300237350 /* Subreddit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subreddit.swift; sourceTree = "<group>"; };
 		14B8DE151ADD68D100237350 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		14B8DE181ADD721700237350 /* NSBundle+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSBundle+reddift.swift"; sourceTree = "<group>"; };
+		14B8DE191ADD721700237350 /* NSError+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+reddift.swift"; sourceTree = "<group>"; };
+		14B8DE1A1ADD721700237350 /* NSMutableURLRequest+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableURLRequest+reddift.swift"; sourceTree = "<group>"; };
+		14B8DE1C1ADD721700237350 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		14B8DE1E1ADD721700237350 /* OAuth2Authorizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2Authorizer.swift; sourceTree = "<group>"; };
+		14B8DE1F1ADD721700237350 /* OAuth2Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2Token.swift; sourceTree = "<group>"; };
+		14B8DE201ADD721700237350 /* OAuth2TokenRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2TokenRepository.swift; sourceTree = "<group>"; };
+		14B8DE281ADD722500237350 /* Paginator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paginator.swift; sourceTree = "<group>"; };
+		14B8DE2A1ADD72C900237350 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		14E790FE1ADC15460065A05A /* reddift_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reddift_config.json; sourceTree = "<group>"; };
-		14E791001ADC1BC60065A05A /* OAuth2TokenRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2TokenRepository.swift; sourceTree = "<group>"; };
-		14E906061ADB9BB500934D27 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
-		14E9060A1ADBCDA100934D27 /* NSBundle+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSBundle+reddift.swift"; sourceTree = "<group>"; };
-		14E9060C1ADBCE4C00934D27 /* NSMutableURLRequest+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableURLRequest+reddift.swift"; sourceTree = "<group>"; };
 		14E9060E1ADBD1D700934D27 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		8B850AF0E6766ABAF5E0E577 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -127,20 +125,13 @@
 			isa = PBXGroup;
 			children = (
 				14B8DE041ADD3DF300237350 /* Model */,
+				14B8DE171ADD721700237350 /* Extension */,
+				14B8DE1B1ADD721700237350 /* Network */,
+				14B8DE1D1ADD721700237350 /* OAuth */,
 				147EADA51AD78568007FA2F4 /* AppDelegate.swift */,
-				14E906061ADB9BB500934D27 /* Config.swift */,
-				14E791001ADC1BC60065A05A /* OAuth2TokenRepository.swift */,
-				141B46231AD928C000577858 /* OAuth2Token.swift */,
-				141B462C1ADA3C9400577858 /* OAuth2Authorizer.swift */,
-				140086BB1ADCA7C10095F938 /* Session.swift */,
-				140086BF1ADCCE020095F938 /* Paginator.swift */,
-				141B46251AD9B9EF00577858 /* NSError+reddift.swift */,
-				14E9060A1ADBCDA100934D27 /* NSBundle+reddift.swift */,
-				14E9060C1ADBCE4C00934D27 /* NSMutableURLRequest+reddift.swift */,
 				14E9060E1ADBD1D700934D27 /* AccountViewController.swift */,
 				140086B91ADCA5A40095F938 /* UserViewController.swift */,
 				14B8DE151ADD68D100237350 /* ProfileViewController.swift */,
-				141B462A1AD9CAA500577858 /* TestViewController.swift */,
 				141B46271AD9CA7200577858 /* Main.storyboard */,
 				147EADAC1AD78568007FA2F4 /* Images.xcassets */,
 				147EADAE1AD78568007FA2F4 /* LaunchScreen.xib */,
@@ -178,13 +169,43 @@
 		14B8DE041ADD3DF300237350 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				14B8DE2A1ADD72C900237350 /* Config.swift */,
 				14B8DE051ADD3DF300237350 /* Account.swift */,
 				14B8DE061ADD3DF300237350 /* Comment.swift */,
 				14B8DE081ADD3DF300237350 /* Link.swift */,
 				14B8DE091ADD3DF300237350 /* Message.swift */,
 				14B8DE0C1ADD3DF300237350 /* Subreddit.swift */,
+				14B8DE281ADD722500237350 /* Paginator.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		14B8DE171ADD721700237350 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				14B8DE181ADD721700237350 /* NSBundle+reddift.swift */,
+				14B8DE191ADD721700237350 /* NSError+reddift.swift */,
+				14B8DE1A1ADD721700237350 /* NSMutableURLRequest+reddift.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		14B8DE1B1ADD721700237350 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				14B8DE1C1ADD721700237350 /* Session.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		14B8DE1D1ADD721700237350 /* OAuth */ = {
+			isa = PBXGroup;
+			children = (
+				14B8DE1E1ADD721700237350 /* OAuth2Authorizer.swift */,
+				14B8DE1F1ADD721700237350 /* OAuth2Token.swift */,
+				14B8DE201ADD721700237350 /* OAuth2TokenRepository.swift */,
+			);
+			path = OAuth;
 			sourceTree = "<group>";
 		};
 		4B6AB4E18431CB2FAC381B80 /* Frameworks */ = {
@@ -296,26 +317,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				140086BC1ADCA7C10095F938 /* Session.swift in Sources */,
-				14E906071ADB9BB500934D27 /* Config.swift in Sources */,
+				14B8DE261ADD721700237350 /* OAuth2Token.swift in Sources */,
+				14B8DE291ADD722500237350 /* Paginator.swift in Sources */,
+				14B8DE251ADD721700237350 /* OAuth2Authorizer.swift in Sources */,
 				14B8DE161ADD68D100237350 /* ProfileViewController.swift in Sources */,
-				14E9060B1ADBCDA100934D27 /* NSBundle+reddift.swift in Sources */,
+				14B8DE2B1ADD72C900237350 /* Config.swift in Sources */,
 				140086BA1ADCA5A40095F938 /* UserViewController.swift in Sources */,
-				14E791011ADC1BC60065A05A /* OAuth2TokenRepository.swift in Sources */,
 				14B8DE0E1ADD3DF300237350 /* Comment.swift in Sources */,
+				14B8DE231ADD721700237350 /* NSMutableURLRequest+reddift.swift in Sources */,
+				14B8DE241ADD721700237350 /* Session.swift in Sources */,
 				14B8DE0D1ADD3DF300237350 /* Account.swift in Sources */,
+				14B8DE211ADD721700237350 /* NSBundle+reddift.swift in Sources */,
 				14B8DE111ADD3DF300237350 /* Message.swift in Sources */,
-				14E9060D1ADBCE4C00934D27 /* NSMutableURLRequest+reddift.swift in Sources */,
-				141B462B1AD9CAA500577858 /* TestViewController.swift in Sources */,
-				141B46261AD9B9EF00577858 /* NSError+reddift.swift in Sources */,
 				140086B71ADBED270095F938 /* Keychain.swift in Sources */,
 				14B8DE141ADD3DF300237350 /* Subreddit.swift in Sources */,
-				141B462D1ADA3C9400577858 /* OAuth2Authorizer.swift in Sources */,
 				14E9060F1ADBD1D700934D27 /* AccountViewController.swift in Sources */,
+				14B8DE271ADD721700237350 /* OAuth2TokenRepository.swift in Sources */,
+				14B8DE221ADD721700237350 /* NSError+reddift.swift in Sources */,
 				147EADA61AD78568007FA2F4 /* AppDelegate.swift in Sources */,
-				141B46241AD928C000577858 /* OAuth2Token.swift in Sources */,
 				14B8DE101ADD3DF300237350 /* Link.swift in Sources */,
-				140086C01ADCCE020095F938 /* Paginator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
