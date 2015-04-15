@@ -31,6 +31,7 @@
 		14B8DE2B1ADD72C900237350 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE2A1ADD72C900237350 /* Config.swift */; };
 		14E790FF1ADC15460065A05A /* reddift_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 14E790FE1ADC15460065A05A /* reddift_config.json */; };
 		14E9060F1ADBD1D700934D27 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E9060E1ADBD1D700934D27 /* AccountViewController.swift */; };
+		14F59B171ADE32B00056EFD0 /* LinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F59B161ADE32B00056EFD0 /* LinkViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		14B8DE2A1ADD72C900237350 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		14E790FE1ADC15460065A05A /* reddift_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reddift_config.json; sourceTree = "<group>"; };
 		14E9060E1ADBD1D700934D27 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		14F59B161ADE32B00056EFD0 /* LinkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkViewController.swift; sourceTree = "<group>"; };
 		8B850AF0E6766ABAF5E0E577 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -132,6 +134,7 @@
 				14E9060E1ADBD1D700934D27 /* AccountViewController.swift */,
 				140086B91ADCA5A40095F938 /* UserViewController.swift */,
 				14B8DE151ADD68D100237350 /* ProfileViewController.swift */,
+				14F59B161ADE32B00056EFD0 /* LinkViewController.swift */,
 				141B46271AD9CA7200577858 /* Main.storyboard */,
 				147EADAC1AD78568007FA2F4 /* Images.xcassets */,
 				147EADAE1AD78568007FA2F4 /* LaunchScreen.xib */,
@@ -329,6 +332,7 @@
 				14B8DE0D1ADD3DF300237350 /* Account.swift in Sources */,
 				14B8DE211ADD721700237350 /* NSBundle+reddift.swift in Sources */,
 				14B8DE111ADD3DF300237350 /* Message.swift in Sources */,
+				14F59B171ADE32B00056EFD0 /* LinkViewController.swift in Sources */,
 				140086B71ADBED270095F938 /* Keychain.swift in Sources */,
 				14B8DE141ADD3DF300237350 /* Subreddit.swift in Sources */,
 				14E9060F1ADBD1D700934D27 /* AccountViewController.swift in Sources */,

@@ -22,7 +22,7 @@ class ProfileViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         session?.profile({ (profile:Account?, error) -> Void in
-            println(profile)
+            print(profile?.toString())
             if let profile = profile as Account? {
                 self.cell1?.detailTextLabel?.text = profile.name
                 self.cell2?.detailTextLabel?.text = profile.id
