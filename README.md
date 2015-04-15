@@ -17,22 +17,6 @@ You have to pay attention to use this library.
 
 reddift depends on [KeychainAccess](https://github.com/kishikawakatsumi/KeychainAccess) for saving access tokens.
 
-### Support API Milestone
-
-#### [version 0.1](https://github.com/sonsongithub/reddift/wiki/version0.1---Milestone)
-
-1. listing
-1. search
-1. subreddits
-
-#### [version 0.2](https://github.com/sonsongithub/reddift/wiki/version0.2-Milestone)
-
-1. account
-2. links & comments
-3. multis
-
-#### [Remainder](https://github.com/sonsongithub/reddift/wiki/Remainder)
-
 ### License
 
 MIT License.
