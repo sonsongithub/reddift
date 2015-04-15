@@ -19,17 +19,19 @@ reddift depends on [KeychainAccess](https://github.com/kishikawakatsumi/Keychain
 
 ### Support API Milestone
 
-#### version 1.0
+#### [version 0.1](https://github.com/sonsongithub/reddift/wiki/version0.1---Milestone)
 
 1. listing
 1. search
 1. subreddits
 
-#### version 2.0
+#### [version 0.2](https://github.com/sonsongithub/reddift/wiki/version0.2-Milestone)
 
 1. account
 2. links & comments
 3. multis
+
+#### [Remainder](https://github.com/sonsongithub/reddift/wiki/Remainder)
 
 ### License
 
