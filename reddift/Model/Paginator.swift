@@ -9,5 +9,19 @@
 import UIKit
 
 class Paginator {
-   
+    var after = ""
+    var before = ""
+    
+    func parameters() -> [String:String] {
+        var dict:[String:String] = [:]
+        
+        if count(after) > 0 {
+            dict["after"] = after
+        }
+        if count(before) > 0 {
+            dict["before"] = before
+        }
+        
+        return dict
+    }
 }

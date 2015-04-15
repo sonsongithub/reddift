@@ -28,11 +28,24 @@ class SwiftClass
     @property.each{|p|
       buf = buf + p.propertyDeclaration
     }
-    buf = buf + "\n\n    init(json:[String:AnyObject]) {\n"
+
+    buf = buf + "\n    init(json:[String:AnyObject]) {\n"
+    buf = buf + "        var updates = 0\n"
+    buf = buf + "        var properties = 0\n"
     @property.each{|p|
       buf = buf + p.blockInInit
     }
+    buf = buf +  "        println(\"update items = \\(updates)/\\(properties)\")\n"
     buf = buf +  "    }\n"
+
+
+    buf = buf + "\n    func toString() -> String {\n"
+    buf = buf + "        return \""
+    @property.each{|p|
+      buf = buf + p.description
+    }
+    buf = buf +  "\"\n    }\n"
+
     buf = buf +  "}\n\n\n"
   end
 
@@ -62,17 +75,27 @@ class SwiftProperty
   end
 
   def propertyDeclaration()
-    type = "[AnyObject]"
-    type = @typeDictionary[@type] if @typeDictionary[@type] != nil
-    sprintf($property_template, @comment, @name, type)
+    if @typeDictionary[@type] != nil && @typeDictionary[@type] != "[]"
+      sprintf($property_template, @comment, @name, @typeDictionary[@type])
+    else
+      sprintf($property_template_anyobject, @comment, @name, "[AnyObject]")
+    end
   end
 
   def blockInInit
-    if @typeDictionary[@type] != nil
+    if @typeDictionary[@type] != nil && @typeDictionary[@type] != "[]"
       sprintf($initialize_template, @name, @typeDictionary[@type], @name, @name, @typeDefaultValue[@type])
     else
       sprintf($initialize_template_comment_out, @name, @typeDictionary[@type], @name, @name, @typeDefaultValue[@type])
     end
+  end
+
+  def description
+    if @typeDictionary[@type] != nil && @typeDictionary[@type] != "[]"
+      @name + "=>\\(" + @name + ") "
+    else
+      ""
+    end 
   end
 
   attr_accessor:type, :name, :comment
@@ -122,10 +145,21 @@ def main
   implementations.each{|element|
     if element.name =~ /thing/
       thing = element
+      # implementations.delete(element)
     elsif element.name =~ /votable/
       votable = element
+      # implementations.delete(element)
     elsif element.name =~ /created/
       created = element
+      # implementations.delete(element)
+    end
+  }
+
+  implementations.each{|element|
+    if element.property.length > 0
+      fw = File::open("./" + element.name.capitalize + ".swift", "w")
+      fw.write element.source
+      fw.close
     end
   }
 
@@ -164,10 +198,12 @@ EOS
 $initialize_template = <<"EOS"
         if let temp = json["%s"] as? %s {
             self.%s = temp
+            updates++
         }
         else {
             self.%s = %s
         }
+        properties++
 EOS
 
 $initialize_template_comment_out = <<"EOS"
@@ -184,6 +220,13 @@ $property_template = <<"EOS"
     %s
     */
     let %s:%s
+EOS
+
+$property_template_anyobject = <<"EOS"
+    /** 
+    %s
+    */
+//  let %s:%s
 EOS
 
 main
