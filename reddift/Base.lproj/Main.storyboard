@@ -342,7 +342,7 @@
             <objects>
                 <tableViewController id="WaC-et-0oF" customClass="LinkViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="9d6-um-uEY">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -358,10 +358,11 @@
                             <outlet property="delegate" destination="WaC-et-0oF" id="Xd7-Xc-IiX"/>
                         </connections>
                     </tableView>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ON5-Il-oZ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2605" y="1104"/>
+            <point key="canvasLocation" x="2605" y="1108"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="frh-1D-NtU">

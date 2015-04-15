@@ -64,8 +64,10 @@ class Session {
         task.resume()
         return task
     }
-    
-    func parseFrontListJSON(json:[String:AnyObject]) -> ([Link], Paginator?) {
+}
+
+extension Session {
+    func parseLinkListJSON(json:[String:AnyObject]) -> ([Link], Paginator?) {
         if let kind = json["kind"] as? String, data = json["data"] as? [String:AnyObject] {
             if kind == "Listing" {
                 if let children = data["children"] as? [AnyObject] {
@@ -96,15 +98,16 @@ class Session {
         return ([], nil)
     }
     
-    func front(paginator:Paginator?, completion:(links:[Link], paginator:Paginator?, error:NSError?)->Void) -> NSURLSessionDataTask {
-        
+    func linkList(paginator:Paginator?, sortingType:String, completion:(links:[Link], paginator:Paginator?, error:NSError?)->Void) -> NSURLSessionDataTask {
         var parameter:[String:String] = [:]
         
         if let paginator = paginator {
-            parameter = paginator.parameters()
+            if paginator.sortingType == sortingType {
+                parameter = paginator.parameters()
+            }
         }
         
-        var URLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/new", parameter:parameter, method:"GET", token:token)
+        var URLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/" + sortingType, parameter:parameter, method:"GET", token:token)
         
         let task = URLSession.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             self.updateRateLimitWithURLResponse(response)
@@ -115,8 +118,9 @@ class Session {
             }
             else {
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-                    let (links, paginator) = self.parseFrontListJSON(json)
+                    let (links, paginator) = self.parseLinkListJSON(json)
                     if links.count > 0 && paginator != nil {
+                        paginator?.sortingType = sortingType;
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             completion(links:links, paginator:paginator, error:nil)
                         })
@@ -136,5 +140,9 @@ class Session {
         })
         task.resume()
         return task
+    }
+    
+    func front(paginator:Paginator?, completion:(links:[Link], paginator:Paginator?, error:NSError?)->Void) -> NSURLSessionDataTask {
+        return self.linkList(paginator, sortingType:"new", completion:completion)
     }
 }

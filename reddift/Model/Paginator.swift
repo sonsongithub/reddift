@@ -11,6 +11,7 @@ import UIKit
 class Paginator {
     var after = ""
     var before = ""
+    var sortingType = ""
     
     func parameters() -> [String:String] {
         var dict:[String:String] = [:]
