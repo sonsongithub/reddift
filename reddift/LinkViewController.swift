@@ -74,10 +74,10 @@ class LinkViewController: UITableViewController {
         let item = UIBarButtonItem(customView: seg)
         self.toolbarItems = [space, item, space]
         self.segmentedControl = seg
+        load()
     }
     
     override func viewWillAppear(animated: Bool) {
-        load()
     }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {

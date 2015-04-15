@@ -1,29 +1,26 @@
 //
-//  Session+listings.swift
+//  Session+subreddits.swift
 //  reddift
 //
-//  Created by sonson on 2015/04/15.
+//  Created by sonson on 2015/04/16.
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
 import UIKit
 
-enum ListingSortType {
-    case Controversial
-    case Hot
-    case New
-    case Top
+enum SubredditsMineWhere {
+    case Contributor
+    case Moderator
+    case Subscriber
     
     func path () -> String {
         switch self{
-            case ListingSortType.Controversial:
-                return "controversial"
-            case ListingSortType.Hot:
-                return "hot"
-            case ListingSortType.New:
-                return "new"
-            case ListingSortType.Top:
-                return "top"
+            case SubredditsMineWhere.Contributor:
+                return "/subreddits/mine/contributor"
+            case SubredditsMineWhere.Moderator:
+                return "/subreddits/mine/moderator"
+            case SubredditsMineWhere.Subscriber:
+                return "/subreddits/mine/subscriber"
             default :
                 return ""
         }
@@ -31,18 +28,18 @@ enum ListingSortType {
 }
 
 extension Session {
-    
-    func parseLinkListJSON(json:[String:AnyObject]) -> ([Link], Paginator?) {
+    func parseSubredditListJSON(json:[String:AnyObject]) -> ([Subreddit], Paginator?) {
         if let kind = json["kind"] as? String, data = json["data"] as? [String:AnyObject] {
             if kind == "Listing" {
                 if let children = data["children"] as? [AnyObject] {
-                    var links:[Link] = []
+                    println(children)
+                    var subreddits:[Subreddit] = []
                     let paginator = Paginator()
                     for obj in children {
                         if let obj = obj as? [String:AnyObject] {
                             if let kind = obj["kind"] as? String, link = obj["data"] as? [String:AnyObject] {
-                                if kind == "t3" {
-                                    links.append(Link(json:link))
+                                if kind == "t5" {
+                                    subreddits.append(Subreddit(json:link))
                                 }
                             }
                         }
@@ -56,54 +53,45 @@ extension Session {
                     if let before = data["before"] as? String {
                         paginator.before = before
                     }
-                    return (links, paginator)
+                    return (subreddits, paginator)
                 }
             }
         }
         return ([], nil)
     }
     
-    func linkList(paginator:Paginator?, sortingType:ListingSortType, completion:(links:[Link], paginator:Paginator?, error:NSError?)->Void) -> NSURLSessionDataTask {
+    func subredditsMine(paginator:Paginator?, subredditsMineWhere:SubredditsMineWhere, completion:(subreddits:[Subreddit], paginator:Paginator?, error:NSError?)->Void) -> NSURLSessionDataTask {
         var parameter:[String:String] = [:]
-        
         if let paginator = paginator {
-            if paginator.sortingType == sortingType {
-                parameter = paginator.parameters()
-            }
+            parameter = paginator.parameters()
         }
-        
-        var URLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/" + sortingType.path(), parameter:parameter, method:"GET", token:token)
-        
+        var URLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:subredditsMineWhere.path(), parameter:parameter, method:"GET", token:token)
+
         let task = URLSession.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             self.updateRateLimitWithURLResponse(response)
             if error != nil {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    completion(links:[], paginator: nil, error: error)
+                    completion(subreddits:[], paginator: nil, error: error)
                 })
             }
             else {
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-                    let (links, paginator) = self.parseLinkListJSON(json)
-                    if links.count > 0 && paginator != nil {
-                        paginator?.sortingType = sortingType;
+                    let (subreddits, paginator) = self.parseSubredditListJSON(json)
+                    if subreddits.count > 0 && paginator != nil {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            completion(links:links, paginator:paginator, error:nil)
+                            completion(subreddits:subreddits, paginator:paginator, error:nil)
                         })
                     }
                     else {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            completion(links:links, paginator:paginator, error:NSError.errorWithCode(0, userinfo: ["error":"Can not get any contents expectedly."]))
+                            completion(subreddits:[], paginator:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not get any contents expectedly."]))
                         })
                     }
                 }
                 else {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        completion(links:[], paginator: nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
-                    })
                 }
             }
         })
         task.resume()
-        return task
-    }
+        return task}
 }

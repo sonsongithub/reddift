@@ -30,6 +30,8 @@
 		14B8DE291ADD722500237350 /* Paginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE281ADD722500237350 /* Paginator.swift */; };
 		14B8DE2B1ADD72C900237350 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE2A1ADD72C900237350 /* Config.swift */; };
 		14B8DE2D1ADEB33500237350 /* Session+listings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE2C1ADEB33500237350 /* Session+listings.swift */; };
+		14B8DE2F1ADEC16200237350 /* Session+subreddits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE2E1ADEC16200237350 /* Session+subreddits.swift */; };
+		14B8DE311ADEC38800237350 /* SubredditsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE301ADEC38800237350 /* SubredditsViewController.swift */; };
 		14E790FF1ADC15460065A05A /* reddift_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 14E790FE1ADC15460065A05A /* reddift_config.json */; };
 		14E9060F1ADBD1D700934D27 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E9060E1ADBD1D700934D27 /* AccountViewController.swift */; };
 		14F59B171ADE32B00056EFD0 /* LinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F59B161ADE32B00056EFD0 /* LinkViewController.swift */; };
@@ -73,6 +75,8 @@
 		14B8DE281ADD722500237350 /* Paginator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paginator.swift; sourceTree = "<group>"; };
 		14B8DE2A1ADD72C900237350 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		14B8DE2C1ADEB33500237350 /* Session+listings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+listings.swift"; sourceTree = "<group>"; };
+		14B8DE2E1ADEC16200237350 /* Session+subreddits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+subreddits.swift"; sourceTree = "<group>"; };
+		14B8DE301ADEC38800237350 /* SubredditsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubredditsViewController.swift; sourceTree = "<group>"; };
 		14E790FE1ADC15460065A05A /* reddift_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reddift_config.json; sourceTree = "<group>"; };
 		14E9060E1ADBD1D700934D27 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		14F59B161ADE32B00056EFD0 /* LinkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkViewController.swift; sourceTree = "<group>"; };
@@ -137,6 +141,7 @@
 				140086B91ADCA5A40095F938 /* UserViewController.swift */,
 				14B8DE151ADD68D100237350 /* ProfileViewController.swift */,
 				14F59B161ADE32B00056EFD0 /* LinkViewController.swift */,
+				14B8DE301ADEC38800237350 /* SubredditsViewController.swift */,
 				141B46271AD9CA7200577858 /* Main.storyboard */,
 				147EADAC1AD78568007FA2F4 /* Images.xcassets */,
 				147EADAE1AD78568007FA2F4 /* LaunchScreen.xib */,
@@ -200,6 +205,7 @@
 			children = (
 				14B8DE1C1ADD721700237350 /* Session.swift */,
 				14B8DE2C1ADEB33500237350 /* Session+listings.swift */,
+				14B8DE2E1ADEC16200237350 /* Session+subreddits.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -330,6 +336,7 @@
 				14B8DE2B1ADD72C900237350 /* Config.swift in Sources */,
 				140086BA1ADCA5A40095F938 /* UserViewController.swift in Sources */,
 				14B8DE0E1ADD3DF300237350 /* Comment.swift in Sources */,
+				14B8DE2F1ADEC16200237350 /* Session+subreddits.swift in Sources */,
 				14B8DE231ADD721700237350 /* NSMutableURLRequest+reddift.swift in Sources */,
 				14B8DE241ADD721700237350 /* Session.swift in Sources */,
 				14B8DE0D1ADD3DF300237350 /* Account.swift in Sources */,
@@ -343,6 +350,7 @@
 				14B8DE271ADD721700237350 /* OAuth2TokenRepository.swift in Sources */,
 				14B8DE221ADD721700237350 /* NSError+reddift.swift in Sources */,
 				147EADA61AD78568007FA2F4 /* AppDelegate.swift in Sources */,
+				14B8DE311ADEC38800237350 /* SubredditsViewController.swift in Sources */,
 				14B8DE101ADD3DF300237350 /* Link.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
