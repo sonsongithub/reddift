@@ -17,13 +17,13 @@ enum ListingSortType {
     func path () -> String {
         switch self{
             case ListingSortType.Controversial:
-                return "controversial"
+                return "/controversial"
             case ListingSortType.Hot:
-                return "hot"
+                return "/hot"
             case ListingSortType.New:
-                return "new"
+                return "/new"
             case ListingSortType.Top:
-                return "top"
+                return "/top"
             default :
                 return ""
         }
@@ -72,7 +72,7 @@ extension Session {
             }
         }
         
-        var URLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/" + sortingType.path(), parameter:parameter, method:"GET", token:token)
+        var URLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:sortingType.path(), parameter:parameter, method:"GET", token:token)
         
         let task = URLSession.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             self.updateRateLimitWithURLResponse(response)
