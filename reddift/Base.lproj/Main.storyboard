@@ -354,6 +354,9 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hHv-Zx-Tje" id="6gL-00-10V">
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="My8-W6-Umf" kind="show" identifier="ToCommentViewController" id="cI2-uD-IKU"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -428,6 +431,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="My8-W6-Umf" kind="show" identifier="ToCommentViewController" id="q5d-Fn-fpr"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -439,6 +445,32 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AM0-zJ-aTx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3351" y="1829"/>
+        </scene>
+        <!--Comment View Controller-->
+        <scene sceneID="950-9j-DSP">
+            <objects>
+                <tableViewController id="My8-W6-Umf" customClass="CommentViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dCQ-Wc-ae1">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="THE-w2-Iau">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="THE-w2-Iau" id="IeL-He-ZzQ">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="My8-W6-Umf" id="wSB-Tt-xf0"/>
+                            <outlet property="delegate" destination="My8-W6-Umf" id="Dqv-Yc-j9u"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9TN-NU-Ur0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4066" y="1108"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="frh-1D-NtU">
@@ -457,4 +489,7 @@
             <point key="canvasLocation" x="249" y="353"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="q5d-Fn-fpr"/>
+    </inferredMetricsTieBreakers>
 </document>

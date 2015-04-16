@@ -92,5 +92,6 @@ extension Session {
             }
         })
         task.resume()
-        return task}
+        return task
+    }
 }

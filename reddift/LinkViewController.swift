@@ -84,6 +84,13 @@ class LinkViewController: UITableViewController {
             load()
         }
     }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indices(links) ~= indexPath.row {
+            let link = links[indexPath.row]
+            println(link)
+        }
+    }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
@@ -94,5 +101,20 @@ class LinkViewController: UITableViewController {
         }
 
         return cell
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "ToCommentViewController" {
+            if let con = segue.destinationViewController as? CommentViewController {
+                if let selectedIndexPath = tableView.indexPathForSelectedRow() {
+                    if indices(links) ~= selectedIndexPath.row {
+                        let link = links[selectedIndexPath.row]
+                        con.session = session
+                        con.subreddit = subreddit
+                        con.link = link
+                    }
+                }
+            }
+        }
     }
 }
