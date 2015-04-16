@@ -8,45 +8,35 @@
 
 import UIKit
 
-class SubredditsViewController: UITableViewController {
-    var session:Session? = nil
-    var subreddits:[Subreddit] = []
+class SubredditsViewController: LinkViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = self.subreddit?.title
+        types.removeAll(keepCapacity: true)
+        titles.removeAll(keepCapacity: true)
+        types += [ListingSortType.New, ListingSortType.Hot];
+        titles += [ListingSortType.New.path(), ListingSortType.Hot.path()];
     }
     
-    override func viewWillAppear(animated: Bool) {
-        session?.subredditsMine(nil, subredditsMineWhere: SubredditsMineWhere.Subscriber, completion: { (subreddits, paginator, error) -> Void in
-            if error == nil {
-                self.subreddits += subreddits
-                self.tableView.reloadData()
-            }
-            else {
-                println(error)
-            }
-        })
-    }
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return subreddits.count
-    }
-
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
-        
-        if indices(subreddits) ~= indexPath.row {
-            let link = subreddits[indexPath.row]
-            cell.textLabel?.text = link.title
+    override func load() {
+        if loading {
+            return
         }
-
-        return cell
-    }
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        self.loading = true
+        if let seg = self.segmentedControl, subreddit = self.subreddit {
+            self.task = session?.linkList(self.paginator, sortingType:types[seg.selectedSegmentIndex], subreddit:subreddit, completion: { (links, paginator, error) -> Void in
+                self.task = nil
+                if error == nil {
+                    self.links += links
+                    self.tableView.reloadData()
+                    self.paginator = paginator
+                    self.loading = false
+                }
+                else {
+                    println(error)
+                }
+            })
+        }
     }
 }

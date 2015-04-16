@@ -32,7 +32,6 @@ extension Session {
         if let kind = json["kind"] as? String, data = json["data"] as? [String:AnyObject] {
             if kind == "Listing" {
                 if let children = data["children"] as? [AnyObject] {
-                    println(children)
                     var subreddits:[Subreddit] = []
                     let paginator = Paginator()
                     for obj in children {

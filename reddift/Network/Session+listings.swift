@@ -63,7 +63,7 @@ extension Session {
         return ([], nil)
     }
     
-    func linkList(paginator:Paginator?, sortingType:ListingSortType, completion:(links:[Link], paginator:Paginator?, error:NSError?)->Void) -> NSURLSessionDataTask {
+    func linkList(paginator:Paginator?, sortingType:ListingSortType, subreddit:Subreddit?, completion:(links:[Link], paginator:Paginator?, error:NSError?)->Void) -> NSURLSessionDataTask {
         var parameter:[String:String] = [:]
         
         if let paginator = paginator {
@@ -72,7 +72,13 @@ extension Session {
             }
         }
         
-        var URLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:sortingType.path(), parameter:parameter, method:"GET", token:token)
+        var path = sortingType.path();
+        
+        if let subreddit = subreddit {
+            path = "/r/\(subreddit.display_name)\(path)"
+        }
+        
+        var URLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
         
         let task = URLSession.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             self.updateRateLimitWithURLResponse(response)

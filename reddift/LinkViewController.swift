@@ -10,17 +10,20 @@ import UIKit
 
 class LinkViewController: UITableViewController {
     var session:Session? = nil
+    var subreddit:Subreddit? = nil
     var links:[Link] = []
     var paginator:Paginator? = nil
     var loading = false
     var task:NSURLSessionDataTask? = nil
     var segmentedControl:UISegmentedControl? = nil
     
-    let types = [ListingSortType.Top, ListingSortType.New, ListingSortType.Hot, ListingSortType.Controversial];
-    let titles = [ListingSortType.Top.path(), ListingSortType.New.path(), ListingSortType.Hot.path(), ListingSortType.Controversial.path()];
+    var types:[ListingSortType] = []
+    var titles:[String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        types += [ListingSortType.Top, ListingSortType.New, ListingSortType.Hot, ListingSortType.Controversial]
+        titles += [ListingSortType.Top.path(), ListingSortType.New.path(), ListingSortType.Hot.path(), ListingSortType.Controversial.path()]
     }
     
     func load() {
@@ -29,38 +32,26 @@ class LinkViewController: UITableViewController {
         }
         self.loading = true
         if let seg = self.segmentedControl {
-            self.task = session?.linkList(self.paginator, sortingType:types[seg.selectedSegmentIndex], completion: { (links, paginator, error) -> Void in
+            self.task = session?.linkList(self.paginator, sortingType:types[seg.selectedSegmentIndex], subreddit:subreddit, completion: { (links, paginator, error) -> Void in
                 self.task = nil
                 if error == nil {
                     self.links += links
                     self.tableView.reloadData()
                     self.paginator = paginator
-                    self.loading = false
                 }
                 else {
                     println(error)
                 }
+                self.loading = false
             })
         }
     }
     
     func segmentChanged(sender:AnyObject) {
         if let seg = sender as? UISegmentedControl {
-            let title = titles[seg.selectedSegmentIndex]
-            self.loading = true
-            self.task = session?.linkList(self.paginator, sortingType:types[seg.selectedSegmentIndex], completion: { (links, paginator, error) -> Void in
-                self.task = nil
-                if error == nil {
-                    self.links.removeAll(keepCapacity: true)
-                    self.links += links
-                    self.tableView.reloadData()
-                    self.paginator = paginator
-                    self.loading = false
-                }
-                else {
-                    println(error)
-                }
-            })
+            self.links.removeAll(keepCapacity: true)
+            self.tableView.reloadData()
+            load()
         }
     }
     

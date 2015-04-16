@@ -143,7 +143,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="WaC-et-0oF" kind="show" identifier="ToLinkViewController" id="HNF-gB-Q77"/>
+                                            <segue destination="WaC-et-0oF" kind="show" identifier="ToFrontViewController" id="HNF-gB-Q77"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="q6v-3y-AxB" style="IBUITableViewCellStyleDefault" id="1fj-Sj-fGw">
@@ -160,7 +160,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="iF3-SN-zbq" kind="show" identifier="ToSubredditsViewController" id="21e-rJ-mtG"/>
+                                            <segue destination="iF3-SN-zbq" kind="show" identifier="ToSubredditsListViewController" id="21e-rJ-mtG"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="YwZ-iA-gnn" style="IBUITableViewCellStyleDefault" id="kf3-md-gQZ">
@@ -340,10 +340,10 @@
             </objects>
             <point key="canvasLocation" x="2605" y="353"/>
         </scene>
-        <!--Link View Controller-->
+        <!--Front-->
         <scene sceneID="UGM-rZ-FAM">
             <objects>
-                <tableViewController id="WaC-et-0oF" customClass="LinkViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="WaC-et-0oF" customClass="FrontViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="9d6-um-uEY">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -361,16 +361,17 @@
                             <outlet property="delegate" destination="WaC-et-0oF" id="Xd7-Xc-IiX"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Front" id="q43-zq-hTO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ON5-Il-oZ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2605" y="1108"/>
         </scene>
-        <!--Subreddits View Controller-->
+        <!--Subreddits-->
         <scene sceneID="dXp-0n-1p4">
             <objects>
-                <tableViewController id="iF3-SN-zbq" customClass="SubredditsViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="iF3-SN-zbq" customClass="SubredditsListViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="oJi-uH-dfj">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -389,6 +390,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="jER-6q-TYj" kind="show" identifier="ToSubredditsViewController" id="lEn-gI-wD9"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -396,10 +400,45 @@
                             <outlet property="delegate" destination="iF3-SN-zbq" id="Q5m-rs-hbh"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Subreddits" id="Bl8-46-1PE"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3pK-rP-LmF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2605" y="1829"/>
+        </scene>
+        <!--Subreddits View Controller-->
+        <scene sceneID="FNb-7H-l3U">
+            <objects>
+                <tableViewController id="jER-6q-TYj" customClass="SubredditsViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="F3U-3A-zmM">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="D9t-eZ-aEL" style="IBUITableViewCellStyleDefault" id="jDD-vE-n4u">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jDD-vE-n4u" id="iae-ES-lbN">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D9t-eZ-aEL">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="jER-6q-TYj" id="hdA-CC-c4j"/>
+                            <outlet property="delegate" destination="jER-6q-TYj" id="Cmf-j9-1Yt"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AM0-zJ-aTx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3351" y="1829"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="frh-1D-NtU">

@@ -59,13 +59,13 @@ class UserViewController: UITableViewController {
                 con.session = self.session
             }
         }
-        else if segue.identifier == "ToLinkViewController" {
-            if let con = segue.destinationViewController as? LinkViewController {
+        else if segue.identifier == "ToFrontViewController" {
+            if let con = segue.destinationViewController as? FrontViewController {
                 con.session = self.session
             }
         }
-        else if segue.identifier == "ToSubredditsViewController" {
-            if let con = segue.destinationViewController as? SubredditsViewController {
+        else if segue.identifier == "ToSubredditsListViewController" {
+            if let con = segue.destinationViewController as? SubredditsListViewController {
                 con.session = self.session
             }
         }
