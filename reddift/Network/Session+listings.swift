@@ -32,6 +32,62 @@ enum ListingSortType {
 
 extension Session {
     
+    func parseJSON(json:AnyObject) -> (AnyObject?, Paginator?) {
+        
+        let kindDict = [
+            "t1":"Comment",
+            "t2":"Account",
+            "t3":"Link",
+            "t4":"Message",
+            "t5":"Subreddit",
+            "t6":"Award",
+            "t8":"PromoCampaign"
+        ]
+        
+        // array
+        // json->[AnyObject]
+        if let array = json as? [AnyObject] {
+            for element in array {
+                if let element = element as? [String:AnyObject] {
+                    self.parseJSON(element)
+                }
+            }
+        }
+        // dictionary
+        // json->[String:AnyObject]
+        else if let json = json as? [String:AnyObject] {
+            if let kind = json["kind"] as? String {
+                if kind == "Listing" {
+                    println("Listing");
+                    if let data = json["data"] as? [String:AnyObject] {
+                        self.parseJSON(data)
+                    }
+                }
+                else {
+                    println(kindDict[kind])
+                    if let data = json["data"] as? [String:AnyObject] {
+                        self.parseJSON(data)
+                    }
+                }
+            }
+            else if let children = json["children"] as? [AnyObject] {
+                for child in children {
+                    if let child = child as? [String:AnyObject] {
+                        self.parseJSON(child)
+                    }
+                }
+            }
+            else if let replies = json["replies"] as? [String:AnyObject] {
+                self.parseJSON(replies)
+            }
+        }
+        else {
+            
+        }
+        
+        return (nil, nil)
+    }
+    
     func parseLinkListJSON(json:[String:AnyObject]) -> ([Link], Paginator?) {
         if let kind = json["kind"] as? String, data = json["data"] as? [String:AnyObject] {
             if kind == "Listing" {
@@ -89,6 +145,8 @@ extension Session {
             }
             else {
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
+//                    println(json)
+                    self.parseJSON(json)
                     let (links, paginator) = self.parseLinkListJSON(json)
                     if links.count > 0 && paginator != nil {
                         paginator?.sortingType = sortingType;

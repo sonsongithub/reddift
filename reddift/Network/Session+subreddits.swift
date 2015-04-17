@@ -75,6 +75,8 @@ extension Session {
             }
             else {
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
+//                    println(json)
+                    self.parseJSON(json)
                     let (subreddits, paginator) = self.parseSubredditListJSON(json)
                     if subreddits.count > 0 && paginator != nil {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in

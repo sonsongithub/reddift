@@ -11,12 +11,12 @@ import UIKit
 class SubredditsViewController: LinkViewController {
 
     override func viewDidLoad() {
-        super.viewDidLoad()
         self.title = self.subreddit?.title
         types.removeAll(keepCapacity: true)
         titles.removeAll(keepCapacity: true)
         types += [ListingSortType.New, ListingSortType.Hot];
         titles += [ListingSortType.New.path(), ListingSortType.Hot.path()];
+        super.viewDidLoad()
     }
     
     override func load() {

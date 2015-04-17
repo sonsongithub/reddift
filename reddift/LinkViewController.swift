@@ -21,9 +21,14 @@ class LinkViewController: UITableViewController {
     var titles:[String] = []
 
     override func viewDidLoad() {
-        super.viewDidLoad()
         types += [ListingSortType.Top, ListingSortType.New, ListingSortType.Hot, ListingSortType.Controversial]
         titles += [ListingSortType.Top.path(), ListingSortType.New.path(), ListingSortType.Hot.path(), ListingSortType.Controversial.path()]
+        super.viewDidLoad()
+        let seg = UISegmentedControl(items:titles)
+        seg.addTarget(self, action: "segmentChanged:", forControlEvents: UIControlEvents.ValueChanged)
+        seg.frame = CGRect(x: 0, y: 0, width: 300, height: 28)
+        seg.selectedSegmentIndex = 0
+        self.segmentedControl = seg
     }
     
     func load() {
@@ -57,15 +62,12 @@ class LinkViewController: UITableViewController {
     
     override func viewDidAppear(animated: Bool) {
         self.navigationController?.toolbarHidden = false
-        let seg = UISegmentedControl(items:titles)
-        seg.addTarget(self, action: "segmentChanged:", forControlEvents: UIControlEvents.ValueChanged)
-        seg.frame = CGRect(x: 0, y: 0, width: 300, height: 28)
-        seg.selectedSegmentIndex = 0
         let space = UIBarButtonItem(barButtonSystemItem:.FlexibleSpace, target: nil, action: nil)
-        let item = UIBarButtonItem(customView: seg)
+        let item = UIBarButtonItem(customView:self.segmentedControl!)
         self.toolbarItems = [space, item, space]
-        self.segmentedControl = seg
-        load()
+        if self.links.count == 0 {
+            load()
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
