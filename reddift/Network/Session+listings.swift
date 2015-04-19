@@ -8,31 +8,48 @@
 
 import UIKit
 
-enum ListingSortType {
-    case Controversial
-    case Hot
-    case New
-    case Top
-    
-    func path () -> String {
-        switch self{
-            case ListingSortType.Controversial:
-                return "/controversial"
-            case ListingSortType.Hot:
-                return "/hot"
-            case ListingSortType.New:
-                return "/new"
-            case ListingSortType.Top:
-                return "/top"
-            default :
-                return ""
-        }
-    }
-}
-
 extension Session {
     
-    func parseJSON(json:AnyObject) -> (AnyObject?, Paginator?) {
+    func parseThing(json:[String:AnyObject], depth:Int) -> (AnyObject?, Paginator?) {
+        if let data = json["data"] as? [String:AnyObject] {
+//            println(data)
+            println("----------------------------------------------------------------")
+            for (key, value) in data {
+//                println(key)
+            }
+            if let value = data["replies"] as? [String:AnyObject] {
+                parseListing(value, depth:depth)
+            }
+//            if let keys = data.keys as? [String] {
+//                for key in keys {
+//                    println(key)
+//                }
+//            }
+//            if let replies = data["replies"] as? [AnyObject] {
+//                println(replies)
+//            }
+        }
+        if let kind = json["kind"] as? String {
+            // comment
+            println("\(depth):\(kind)")
+        }
+        return (nil, nil)
+    }
+    
+    func parseListing(json:[String:AnyObject], depth:Int) -> (AnyObject?, Paginator?) {
+        if let data = json["data"] as? [String:AnyObject] {
+            if let children = data["children"] as? [AnyObject] {
+                for child in children {
+                    if let child = child as? [String:AnyObject] {
+                        parseJSON(child, depth: depth + 1)
+                    }
+                }
+            }
+        }
+        return (nil, nil)
+    }
+    
+    func parseJSON(json:AnyObject, depth:Int) -> (AnyObject?, Paginator?) {
         
         let kindDict = [
             "t1":"Comment",
@@ -49,7 +66,7 @@ extension Session {
         if let array = json as? [AnyObject] {
             for element in array {
                 if let element = element as? [String:AnyObject] {
-                    self.parseJSON(element)
+                    self.parseJSON(element, depth:depth)
                 }
             }
         }
@@ -58,31 +75,12 @@ extension Session {
         else if let json = json as? [String:AnyObject] {
             if let kind = json["kind"] as? String {
                 if kind == "Listing" {
-                    println("Listing");
-                    if let data = json["data"] as? [String:AnyObject] {
-                        self.parseJSON(data)
-                    }
+                    parseListing(json, depth:depth)
                 }
                 else {
-                    println(kindDict[kind])
-                    if let data = json["data"] as? [String:AnyObject] {
-                        self.parseJSON(data)
-                    }
+                    parseThing(json, depth:depth)
                 }
             }
-            else if let children = json["children"] as? [AnyObject] {
-                for child in children {
-                    if let child = child as? [String:AnyObject] {
-                        self.parseJSON(child)
-                    }
-                }
-            }
-            else if let replies = json["replies"] as? [String:AnyObject] {
-                self.parseJSON(replies)
-            }
-        }
-        else {
-            
         }
         
         return (nil, nil)
@@ -145,8 +143,9 @@ extension Session {
             }
             else {
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-//                    println(json)
-                    self.parseJSON(json)
+                    //                    println(json)
+                    data.writeToFile("/Users/sonson/Desktop/links.json", atomically:false);
+                    self.parseJSON(json, depth:0)
                     let (links, paginator) = self.parseLinkListJSON(json)
                     if links.count > 0 && paginator != nil {
                         paginator?.sortingType = sortingType;

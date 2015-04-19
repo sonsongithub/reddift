@@ -36,6 +36,25 @@
 		14B8DE2D1ADEB33500237350 /* Session+listings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE2C1ADEB33500237350 /* Session+listings.swift */; };
 		14B8DE2F1ADEC16200237350 /* Session+subreddits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE2E1ADEC16200237350 /* Session+subreddits.swift */; };
 		14B8DE311ADEC38800237350 /* SubredditsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE301ADEC38800237350 /* SubredditsListViewController.swift */; };
+		14BEDDF91AE44E50004F7860 /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BEDDF81AE44E50004F7860 /* ParserTest.swift */; };
+		14BEDDFE1AE44FC5004F7860 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BEDDFD1AE44FC5004F7860 /* Parser.swift */; };
+		14BEDE071AE454C4004F7860 /* comments01.json in Resources */ = {isa = PBXBuildFile; fileRef = 14BEDE001AE454C4004F7860 /* comments01.json */; };
+		14BEDE081AE454C4004F7860 /* createToken.json in Resources */ = {isa = PBXBuildFile; fileRef = 14BEDE011AE454C4004F7860 /* createToken.json */; };
+		14BEDE091AE454C4004F7860 /* error.json in Resources */ = {isa = PBXBuildFile; fileRef = 14BEDE021AE454C4004F7860 /* error.json */; };
+		14BEDE0A1AE454C4004F7860 /* links.json in Resources */ = {isa = PBXBuildFile; fileRef = 14BEDE031AE454C4004F7860 /* links.json */; };
+		14BEDE0B1AE454C4004F7860 /* profile.json in Resources */ = {isa = PBXBuildFile; fileRef = 14BEDE041AE454C4004F7860 /* profile.json */; };
+		14BEDE0C1AE454C4004F7860 /* subreddit.json in Resources */ = {isa = PBXBuildFile; fileRef = 14BEDE051AE454C4004F7860 /* subreddit.json */; };
+		14BEDE0D1AE454C4004F7860 /* token.json in Resources */ = {isa = PBXBuildFile; fileRef = 14BEDE061AE454C4004F7860 /* token.json */; };
+		14BEDE0E1AE45777004F7860 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BEDDFD1AE44FC5004F7860 /* Parser.swift */; };
+		14BEDE0F1AE45786004F7860 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE2A1ADD72C900237350 /* Config.swift */; };
+		14BEDE101AE45786004F7860 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE051ADD3DF300237350 /* Account.swift */; };
+		14BEDE111AE45786004F7860 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE061ADD3DF300237350 /* Comment.swift */; };
+		14BEDE121AE45786004F7860 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE081ADD3DF300237350 /* Link.swift */; };
+		14BEDE131AE45786004F7860 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE091ADD3DF300237350 /* Message.swift */; };
+		14BEDE141AE45786004F7860 /* Subreddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE0C1ADD3DF300237350 /* Subreddit.swift */; };
+		14BEDE151AE45786004F7860 /* Paginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE281ADD722500237350 /* Paginator.swift */; };
+		14BEDE161AE45792004F7860 /* NSBundle+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE181ADD721700237350 /* NSBundle+reddift.swift */; };
+		14BEDE171AE45792004F7860 /* NSError+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE191ADD721700237350 /* NSError+reddift.swift */; };
 		14E790FF1ADC15460065A05A /* reddift_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 14E790FE1ADC15460065A05A /* reddift_config.json */; };
 		14E9060F1ADBD1D700934D27 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E9060E1ADBD1D700934D27 /* AccountViewController.swift */; };
 		14F59B171ADE32B00056EFD0 /* LinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F59B161ADE32B00056EFD0 /* LinkViewController.swift */; };
@@ -85,6 +104,15 @@
 		14B8DE2C1ADEB33500237350 /* Session+listings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+listings.swift"; sourceTree = "<group>"; };
 		14B8DE2E1ADEC16200237350 /* Session+subreddits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+subreddits.swift"; sourceTree = "<group>"; };
 		14B8DE301ADEC38800237350 /* SubredditsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubredditsListViewController.swift; sourceTree = "<group>"; };
+		14BEDDF81AE44E50004F7860 /* ParserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
+		14BEDDFD1AE44FC5004F7860 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		14BEDE001AE454C4004F7860 /* comments01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = comments01.json; sourceTree = "<group>"; };
+		14BEDE011AE454C4004F7860 /* createToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = createToken.json; sourceTree = "<group>"; };
+		14BEDE021AE454C4004F7860 /* error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error.json; sourceTree = "<group>"; };
+		14BEDE031AE454C4004F7860 /* links.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = links.json; sourceTree = "<group>"; };
+		14BEDE041AE454C4004F7860 /* profile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = profile.json; sourceTree = "<group>"; };
+		14BEDE051AE454C4004F7860 /* subreddit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = subreddit.json; sourceTree = "<group>"; };
+		14BEDE061AE454C4004F7860 /* token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = token.json; sourceTree = "<group>"; };
 		14E790FE1ADC15460065A05A /* reddift_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reddift_config.json; sourceTree = "<group>"; };
 		14E9060E1ADBD1D700934D27 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		14F59B161ADE32B00056EFD0 /* LinkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkViewController.swift; sourceTree = "<group>"; };
@@ -140,6 +168,7 @@
 		147EADA21AD78568007FA2F4 /* reddift */ = {
 			isa = PBXGroup;
 			children = (
+				14BEDDFC1AE44FC5004F7860 /* Utility */,
 				14B8DE041ADD3DF300237350 /* Model */,
 				14B8DE171ADD721700237350 /* Extension */,
 				14B8DE1B1ADD721700237350 /* Network */,
@@ -173,7 +202,9 @@
 		147EADB81AD78568007FA2F4 /* reddiftTests */ = {
 			isa = PBXGroup;
 			children = (
+				14BEDDFF1AE454C4004F7860 /* data */,
 				147EADBB1AD78568007FA2F4 /* reddiftTests.swift */,
+				14BEDDF81AE44E50004F7860 /* ParserTest.swift */,
 				147EADB91AD78568007FA2F4 /* Supporting Files */,
 			);
 			path = reddiftTests;
@@ -230,6 +261,28 @@
 				14B8DE201ADD721700237350 /* OAuth2TokenRepository.swift */,
 			);
 			path = OAuth;
+			sourceTree = "<group>";
+		};
+		14BEDDFC1AE44FC5004F7860 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				14BEDDFD1AE44FC5004F7860 /* Parser.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		14BEDDFF1AE454C4004F7860 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				14BEDE001AE454C4004F7860 /* comments01.json */,
+				14BEDE011AE454C4004F7860 /* createToken.json */,
+				14BEDE021AE454C4004F7860 /* error.json */,
+				14BEDE031AE454C4004F7860 /* links.json */,
+				14BEDE041AE454C4004F7860 /* profile.json */,
+				14BEDE051AE454C4004F7860 /* subreddit.json */,
+				14BEDE061AE454C4004F7860 /* token.json */,
+			);
+			path = data;
 			sourceTree = "<group>";
 		};
 		4B6AB4E18431CB2FAC381B80 /* Frameworks */ = {
@@ -331,6 +384,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14BEDE0B1AE454C4004F7860 /* profile.json in Resources */,
+				14BEDE091AE454C4004F7860 /* error.json in Resources */,
+				14BEDE0D1AE454C4004F7860 /* token.json in Resources */,
+				14BEDE071AE454C4004F7860 /* comments01.json in Resources */,
+				14BEDE081AE454C4004F7860 /* createToken.json in Resources */,
+				14BEDE0C1AE454C4004F7860 /* subreddit.json in Resources */,
+				14BEDE0A1AE454C4004F7860 /* links.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,6 +421,7 @@
 				14F59B171ADE32B00056EFD0 /* LinkViewController.swift in Sources */,
 				140086B71ADBED270095F938 /* Keychain.swift in Sources */,
 				14B8DE141ADD3DF300237350 /* Subreddit.swift in Sources */,
+				14BEDDFE1AE44FC5004F7860 /* Parser.swift in Sources */,
 				14E9060F1ADBD1D700934D27 /* AccountViewController.swift in Sources */,
 				14B8DE271ADD721700237350 /* OAuth2TokenRepository.swift in Sources */,
 				1472F9731AE00D43008948E0 /* Session+comment.swift in Sources */,
@@ -375,7 +436,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14BEDE171AE45792004F7860 /* NSError+reddift.swift in Sources */,
+				14BEDE101AE45786004F7860 /* Account.swift in Sources */,
+				14BEDE161AE45792004F7860 /* NSBundle+reddift.swift in Sources */,
+				14BEDE121AE45786004F7860 /* Link.swift in Sources */,
+				14BEDE111AE45786004F7860 /* Comment.swift in Sources */,
+				14BEDDF91AE44E50004F7860 /* ParserTest.swift in Sources */,
+				14BEDE0F1AE45786004F7860 /* Config.swift in Sources */,
+				14BEDE131AE45786004F7860 /* Message.swift in Sources */,
 				147EADBC1AD78568007FA2F4 /* reddiftTests.swift in Sources */,
+				14BEDE141AE45786004F7860 /* Subreddit.swift in Sources */,
+				14BEDE0E1AE45777004F7860 /* Parser.swift in Sources */,
+				14BEDE151AE45786004F7860 /* Paginator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

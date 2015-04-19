@@ -44,6 +44,7 @@ class Session {
             if let aData = data {
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
                     println(json)
+                    data.writeToFile("/Users/sonson/Desktop/me.json", atomically:false);
                     var profile = Account(json:json)
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         completion(profile: profile, error: nil)

@@ -68,6 +68,7 @@ extension Session {
 
         let task = URLSession.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             self.updateRateLimitWithURLResponse(response)
+            
             if error != nil {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     completion(subreddits:[], paginator: nil, error: error)
@@ -75,8 +76,9 @@ extension Session {
             }
             else {
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-//                    println(json)
-                    self.parseJSON(json)
+                    //                    println(json)
+                    data.writeToFile("/Users/sonson/Desktop/subreddit.json", atomically:false);
+                    self.parseJSON(json, depth:0)
                     let (subreddits, paginator) = self.parseSubredditListJSON(json)
                     if subreddits.count > 0 && paginator != nil {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in

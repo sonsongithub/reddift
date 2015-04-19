@@ -24,8 +24,9 @@ extension Session {
             else {
                 var jsonError:NSError? = nil
                 if let json = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error:&jsonError) as? [AnyObject] {
-//                    println(json)
-                    self.parseJSON(json)
+                    //                    println(json)
+                    data.writeToFile("/Users/sonson/Desktop/comments.json", atomically:false);
+                    self.parseJSON(json, depth:0)
 //                    for element in json {
 //                        if let element = element as? [String:AnyObject] {
 //                            if let kind = element["kind"] as? String {

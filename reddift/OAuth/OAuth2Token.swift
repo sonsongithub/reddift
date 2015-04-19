@@ -105,6 +105,7 @@ class OAuth2Token : NSObject,NSCoding {
                 var result = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
                 println(result)
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
+                    data.writeToFile("/Users/sonson/Desktop/token.json", atomically:false);
                     if self.updateWithJSON(json) {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenDidUpdate, object: nil)
@@ -236,6 +237,7 @@ class OAuth2Token : NSObject,NSCoding {
                 var result = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
                 println(result)
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
+                    data.writeToFile("/Users/sonson/Desktop/createToken", atomically:false);
                     if let token = OAuth2Token.tokenWithJSON(json) {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             completion(token:token,  error:error)

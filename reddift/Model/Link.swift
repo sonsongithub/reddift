@@ -8,8 +8,31 @@
 
 import UIKit
 
+enum ListingSortType {
+    case Controversial
+    case Hot
+    case New
+    case Top
+    
+    func path () -> String {
+        switch self{
+        case ListingSortType.Controversial:
+            return "/controversial"
+        case ListingSortType.Hot:
+            return "/hot"
+        case ListingSortType.New:
+            return "/new"
+        case ListingSortType.Top:
+            return "/top"
+        default :
+            return ""
+        }
+    }
+}
+
+
 class Link {
-    /** 
+    /**
     the account name of the poster. null if this is a promotional link
     */
     let author:String
