@@ -17,7 +17,8 @@
 		147EADA61AD78568007FA2F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147EADA51AD78568007FA2F4 /* AppDelegate.swift */; };
 		147EADAD1AD78568007FA2F4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 147EADAC1AD78568007FA2F4 /* Images.xcassets */; };
 		147EADB01AD78568007FA2F4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 147EADAE1AD78568007FA2F4 /* LaunchScreen.xib */; };
-		147EADBC1AD78568007FA2F4 /* reddiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147EADBB1AD78568007FA2F4 /* reddiftTests.swift */; };
+		148BB46D1AE49FBE006ED0D0 /* Listing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148BB46C1AE49FBE006ED0D0 /* Listing.swift */; };
+		148BB46E1AE4A07D006ED0D0 /* Listing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148BB46C1AE49FBE006ED0D0 /* Listing.swift */; };
 		14B8DE0D1ADD3DF300237350 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE051ADD3DF300237350 /* Account.swift */; };
 		14B8DE0E1ADD3DF300237350 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE061ADD3DF300237350 /* Comment.swift */; };
 		14B8DE101ADD3DF300237350 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE081ADD3DF300237350 /* Link.swift */; };
@@ -85,7 +86,7 @@
 		147EADAF1AD78568007FA2F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		147EADB51AD78568007FA2F4 /* reddiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = reddiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		147EADBA1AD78568007FA2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		147EADBB1AD78568007FA2F4 /* reddiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reddiftTests.swift; sourceTree = "<group>"; };
+		148BB46C1AE49FBE006ED0D0 /* Listing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Listing.swift; sourceTree = "<group>"; };
 		14B8DE051ADD3DF300237350 /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		14B8DE061ADD3DF300237350 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		14B8DE081ADD3DF300237350 /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
@@ -203,7 +204,6 @@
 			isa = PBXGroup;
 			children = (
 				14BEDDFF1AE454C4004F7860 /* data */,
-				147EADBB1AD78568007FA2F4 /* reddiftTests.swift */,
 				14BEDDF81AE44E50004F7860 /* ParserTest.swift */,
 				147EADB91AD78568007FA2F4 /* Supporting Files */,
 			);
@@ -221,6 +221,7 @@
 		14B8DE041ADD3DF300237350 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				148BB46C1AE49FBE006ED0D0 /* Listing.swift */,
 				14B8DE2A1ADD72C900237350 /* Config.swift */,
 				14B8DE051ADD3DF300237350 /* Account.swift */,
 				14B8DE061ADD3DF300237350 /* Comment.swift */,
@@ -405,6 +406,7 @@
 				14B8DE261ADD721700237350 /* OAuth2Token.swift in Sources */,
 				14B8DE291ADD722500237350 /* Paginator.swift in Sources */,
 				14B8DE251ADD721700237350 /* OAuth2Authorizer.swift in Sources */,
+				148BB46D1AE49FBE006ED0D0 /* Listing.swift in Sources */,
 				14B8DE161ADD68D100237350 /* ProfileViewController.swift in Sources */,
 				14B8DE2B1ADD72C900237350 /* Config.swift in Sources */,
 				140086BA1ADCA5A40095F938 /* UserViewController.swift in Sources */,
@@ -444,9 +446,9 @@
 				14BEDDF91AE44E50004F7860 /* ParserTest.swift in Sources */,
 				14BEDE0F1AE45786004F7860 /* Config.swift in Sources */,
 				14BEDE131AE45786004F7860 /* Message.swift in Sources */,
-				147EADBC1AD78568007FA2F4 /* reddiftTests.swift in Sources */,
 				14BEDE141AE45786004F7860 /* Subreddit.swift in Sources */,
 				14BEDE0E1AE45777004F7860 /* Parser.swift in Sources */,
+				148BB46E1AE4A07D006ED0D0 /* Listing.swift in Sources */,
 				14BEDE151AE45786004F7860 /* Paginator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

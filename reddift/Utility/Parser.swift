@@ -10,46 +10,72 @@ import UIKit
 
 class Parser: NSObject {
 
-    class func parseThing(json:[String:AnyObject], depth:Int) -> (AnyObject?, Paginator?) {
-        if let data = json["data"] as? [String:AnyObject] {
-            //            println(data)
+    class func parseThing(json:[String:AnyObject], depth:Int) -> AnyObject? {
+        if let data = json["data"] as? [String:AnyObject], kind = json["kind"] as? String {
             println("----------------------------------------------------------------")
-            for (key, value) in data {
-                //                println(key)
+            println(kind)
+            
+            switch(kind) {
+            case "t1":
+                // comment
+                if let value = data["replies"] as? [String:AnyObject] {
+                    parseListing(value, depth:depth)
+                }
+                break
+            case "t2":
+                // account
+                break
+            case "t3":
+                // link
+                let obj = Link(json:data)
+                return obj
+            case "t4":
+                // mesasge
+                break
+            case "t5":
+                // subreddit
+                break
+            case "t6":
+                // award
+                break
+            case "t8":
+                // promo campaign
+                break
+            default:
+                break
             }
-            if let value = data["replies"] as? [String:AnyObject] {
-                parseListing(value, depth:depth)
-            }
-            //            if let keys = data.keys as? [String] {
-            //                for key in keys {
-            //                    println(key)
-            //                }
-            //            }
-            //            if let replies = data["replies"] as? [AnyObject] {
-            //                println(replies)
-            //            }
         }
-        if let kind = json["kind"] as? String {
-            // comment
-            println("\(depth):\(kind)")
-        }
-        return (nil, nil)
+        return nil
     }
     
-    class func parseListing(json:[String:AnyObject], depth:Int) -> (AnyObject?, Paginator?) {
+    class func parseListing(json:[String:AnyObject], depth:Int) -> Listing {
+        let listing = Listing()
+        
         if let data = json["data"] as? [String:AnyObject] {
             if let children = data["children"] as? [AnyObject] {
                 for child in children {
                     if let child = child as? [String:AnyObject] {
-                        parseJSON(child, depth: depth + 1)
+                        let obj:AnyObject? = parseJSON(child, depth: depth + 1)
+                        if let obj:AnyObject = obj {
+                            listing.children.append(obj)
+                        }
                     }
                 }
             }
+            if let after = data["after"] as? String {
+                listing.after = after
+            }
+            if let before = data["before"] as? String {
+                listing.before = before
+            }
+            if let modhash = data["modhash"] as? String {
+                listing.modhash = modhash
+            }
         }
-        return (nil, nil)
+        return listing
     }
     
-    class func parseJSON(json:AnyObject, depth:Int) -> (AnyObject?, Paginator?) {
+    class func parseJSON(json:AnyObject, depth:Int) -> AnyObject? {
         
         let kindDict = [
             "t1":"Comment",
@@ -64,25 +90,28 @@ class Parser: NSObject {
         // array
         // json->[AnyObject]
         if let array = json as? [AnyObject] {
+            var output:[AnyObject] = []
             for element in array {
                 if let element = element as? [String:AnyObject] {
-                    self.parseJSON(element, depth:depth)
+                    let obj:AnyObject? = self.parseJSON(element, depth:depth)
+                    if let obj:AnyObject = obj {
+                        output.append(obj)
+                    }
                 }
             }
         }
-            // dictionary
-            // json->[String:AnyObject]
+        // dictionary
+        // json->[String:AnyObject]
         else if let json = json as? [String:AnyObject] {
             if let kind = json["kind"] as? String {
                 if kind == "Listing" {
-                    parseListing(json, depth:depth)
+                    let listing = parseListing(json, depth:depth)
                 }
                 else {
-                    parseThing(json, depth:depth)
+                    return parseThing(json, depth:depth)
                 }
             }
         }
-        
-        return (nil, nil)
+        return nil
     }
 }

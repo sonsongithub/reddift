@@ -22,7 +22,7 @@ class ParserTest: XCTestCase {
     func testLinkList() {
         if let path = NSBundle(forClass: self.classForCoder).pathForResource("links", ofType: "json") {
             if let data = NSData(contentsOfFile: path) {
-                 if let json = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [AnyObject] {
+                if let json:AnyObject = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) {
                     Parser.parseJSON(json, depth:0)
                 }
             }
