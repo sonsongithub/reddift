@@ -31,11 +31,11 @@ class Property
 end
 
 def main
-  fr = File::open("./data/t3.json")
+  fr = File::open("./data/t1.json")
   raw = fr.read
   fr.close
 
-  fr = File::open("./data/t3_spec.html")
+  fr = File::open("./data/t1_spec.html")
   spec = fr.read
   fr.close
 
@@ -57,7 +57,7 @@ def main
     spec = spec_hash[key]
     type = spec.type if spec != nil
     description = spec.description if spec != nil
-    properties.push(Property.new("link", type, key, description, value))
+    properties.push(Property.new("comment", type, key, description, value))
   }
 
   properties.each{|e|
@@ -79,7 +79,7 @@ $template = <<"EOS"
 EOS
 
 $init_template = <<"EOS"
-        if let temp = json["%s"] as? {
+        if let temp = data["%s"] as? String {
             %s.%s = temp
         }
 EOS

@@ -10,17 +10,11 @@ import UIKit
 
 class Parser: NSObject {
     class func parseThing(json:[String:AnyObject], depth:Int) -> AnyObject? {
-        if let data = json["data"] as? [String:AnyObject], kind = json["kind"] as? String {
-            println("----------------------------------------------------------------")
-            println(kind)
-            
+        if let data = json["data"] as? [String:AnyObject], kind = json["kind"] as? String {            
             switch(kind) {
             case "t1":
                 // comment
-                if let value = data["replies"] as? [String:AnyObject] {
-                    parseListing(value, depth:depth)
-                }
-                break
+                return parseThing_t1(json)
             case "t2":
                 // account
                 break
@@ -97,6 +91,7 @@ class Parser: NSObject {
                     }
                 }
             }
+            return output;
         }
         // dictionary
         // json->[String:AnyObject]
@@ -104,6 +99,7 @@ class Parser: NSObject {
             if let kind = json["kind"] as? String {
                 if kind == "Listing" {
                     let listing = parseListing(json, depth:depth)
+                    return listing
                 }
                 else {
                     return parseThing(json, depth:depth)
