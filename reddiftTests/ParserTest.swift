@@ -29,6 +29,17 @@ class ParserTest: XCTestCase {
         }
     }
     
+    func testParseThing_t3() {
+        if let path = NSBundle(forClass: self.classForCoder).pathForResource("t3", ofType: "json") {
+            if let data = NSData(contentsOfFile: path) {
+                if let json = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
+                    if let thing = Parser.parseThing(json, depth:0) as? Thing {
+                        println(thing.data)
+                    }
+                }
+            }
+        }
+    }
 
 //    func testPerformanceExample() {
 //        // This is an example of a performance test case.

@@ -96,7 +96,7 @@ extension Session {
                         if let obj = obj as? [String:AnyObject] {
                             if let kind = obj["kind"] as? String, link = obj["data"] as? [String:AnyObject] {
                                 if kind == "t3" {
-                                    links.append(Link(json:link))
+//                                    links.append(Link(json:link))
                                 }
                             }
                         }

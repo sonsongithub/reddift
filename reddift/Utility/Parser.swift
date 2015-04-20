@@ -9,7 +9,6 @@
 import UIKit
 
 class Parser: NSObject {
-
     class func parseThing(json:[String:AnyObject], depth:Int) -> AnyObject? {
         if let data = json["data"] as? [String:AnyObject], kind = json["kind"] as? String {
             println("----------------------------------------------------------------")
@@ -27,8 +26,7 @@ class Parser: NSObject {
                 break
             case "t3":
                 // link
-                let obj = Link(json:data)
-                return obj
+                return parseThing_t3(json)
             case "t4":
                 // mesasge
                 break
