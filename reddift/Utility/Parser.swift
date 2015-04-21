@@ -14,27 +14,21 @@ class Parser: NSObject {
             switch(kind) {
             case "t1":
                 // comment
-                return parseThing_t1(json)
+                return parseDataInThing_t1(data)
             case "t2":
                 // account
-                break
+				return parseDataInThing_t2(data)
             case "t3":
                 // link
-                return parseThing_t3(json)
+                return parseDataInThing_t3(data)
             case "t4":
                 // mesasge
                 break
             case "t5":
                 // subreddit
-				return parseThing_t5(json)
-            case "t6":
-                // award
-                break
-            case "t8":
-                // promo campaign
-                break
+				return parseDataInThing_t5(data)
 			case "more":
-				return parseThing_more(json)
+				return parseDataThing_more(data)
             default:
                 break
             }
@@ -44,7 +38,6 @@ class Parser: NSObject {
     
     class func parseListing(json:[String:AnyObject], depth:Int) -> Listing {
         let listing = Listing()
-        
         if let data = json["data"] as? [String:AnyObject] {
             if let children = data["children"] as? [AnyObject] {
                 for child in children {
@@ -70,17 +63,6 @@ class Parser: NSObject {
     }
     
     class func parseJSON(json:AnyObject, depth:Int) -> AnyObject? {
-        
-        let kindDict = [
-            "t1":"Comment",
-            "t2":"Account",
-            "t3":"Link",
-            "t4":"Message",
-            "t5":"Subreddit",
-            "t6":"Award",
-            "t8":"PromoCampaign"
-        ]
-        
         // array
         // json->[AnyObject]
         if let array = json as? [AnyObject] {

@@ -94,7 +94,6 @@ class LinkViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indices(links) ~= indexPath.row {
             let link = links[indexPath.row]
-            println(link)
         }
     }
 

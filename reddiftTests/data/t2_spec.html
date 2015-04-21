@@ -1,0 +1,76 @@
+<table>
+<thead>
+<tr>
+<th align="left"><strong>type</strong></th>
+<th align="left"><strong>name</strong></th>
+<th align="left"><strong>description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>int</code></td>
+<td align="left"><code>comment_karma</code></td>
+<td align="left">user's comment karma</td>
+</tr>
+<tr>
+<td align="left"><code>boolean</code></td>
+<td align="left"><code>has_mail</code></td>
+<td align="left">user has unread mail? null if not your account</td>
+</tr>
+<tr>
+<td align="left"><code>boolean</code></td>
+<td align="left"><code>has_mod_mail</code></td>
+<td align="left">user has unread mod mail? null if not your account</td>
+</tr>
+<tr>
+<td align="left"><code>boolean</code></td>
+<td align="left"><code>has_verified_email</code></td>
+<td align="left">user has provided an email address and got it verified?</td>
+</tr>
+<tr>
+<td align="left"><code>String</code></td>
+<td align="left"><code>id</code></td>
+<td align="left">ID of the account; prepend <code>t2_</code> to get fullname</td>
+</tr>
+<tr>
+<td align="left"><code>int</code></td>
+<td align="left"><code>inbox_count</code></td>
+<td align="left">Number of unread messages in the inbox. Not present if not your account</td>
+</tr>
+<tr>
+<td align="left"><code>boolean</code></td>
+<td align="left"><code>is_friend</code></td>
+<td align="left">whether the logged-in user has this user set as a friend</td>
+</tr>
+<tr>
+<td align="left"><code>boolean</code></td>
+<td align="left"><code>is_gold</code></td>
+<td align="left">reddit gold status</td>
+</tr>
+<tr>
+<td align="left"><code>boolean</code></td>
+<td align="left"><code>is_mod</code></td>
+<td align="left">whether this account moderates any subreddits</td>
+</tr>
+<tr>
+<td align="left"><code>int</code></td>
+<td align="left"><code>link_karma</code></td>
+<td align="left">user's link karma</td>
+</tr>
+<tr>
+<td align="left"><code>String</code></td>
+<td align="left"><code>modhash</code></td>
+<td align="left">current modhash. not present if not your account</td>
+</tr>
+<tr>
+<td align="left"><code>String</code></td>
+<td align="left"><code>name</code></td>
+<td align="left">The username of the account in question.  This attribute overrides the superclass's <code>name</code> attribute.  Do not confuse an account's <code>name</code> which is the account's username with a thing's <code>name</code> which is the thing's FULLNAME.  See <a href="API">API: Glossary</a> for details on what FULLNAMEs are.</td>
+</tr>
+<tr>
+<td align="left"><code>boolean</code></td>
+<td align="left"><code>over_18</code></td>
+<td align="left">whether this account is set to be over 18</td>
+</tr>
+</tbody>
+</table>

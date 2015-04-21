@@ -43,12 +43,17 @@ class Session {
             self.updateRateLimitWithURLResponse(response)
             if let aData = data {
                 if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-                    println(json)
-                    data.writeToFile("/Users/sonson/Desktop/me.json", atomically:false);
-                    var profile = Account(json:json)
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        completion(profile: profile, error: nil)
-                    })
+                    var profile = Parser.parseDataInThing_t2(json)
+					if let profile = profile as? Account {
+						dispatch_async(dispatch_get_main_queue(), { () -> Void in
+							completion(profile: profile, error: nil)
+						})
+					}
+					else {
+						dispatch_async(dispatch_get_main_queue(), { () -> Void in
+							completion(profile:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
+						})
+					}
                 }
                 else {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in

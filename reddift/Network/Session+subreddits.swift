@@ -28,6 +28,7 @@ enum SubredditsMineWhere {
 }
 
 extension Session {
+	
 	func downloadSubreddit(paginator:Paginator?, completion:(object:AnyObject?, error:NSError?)->Void) -> NSURLSessionDataTask {
 		return downloadSubredditWithMineWhere(SubredditsMineWhere.Subscriber, paginator: paginator, completion: completion)
 	}
@@ -61,7 +62,10 @@ extension Session {
                         })
                     }
                 }
-                else {
+				else {
+					dispatch_async(dispatch_get_main_queue(), { () -> Void in
+						completion(object:nil, error:NSError.errorWithCode(0, userinfo: ["error":"This is not JSON object."]))
+					})
                 }
             }
         })
