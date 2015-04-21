@@ -31,11 +31,11 @@ class Property
 end
 
 def main
-  fr = File::open("./data/t2.json")
+  fr = File::open("./data/t4.json")
   raw = fr.read
   fr.close
 
-  fr = File::open("./data/t2_spec.html")
+  fr = File::open("./data/t4_spec.html")
   spec = fr.read
   fr.close
 
@@ -51,14 +51,14 @@ def main
 
   raw_json = JSON.parse(raw)
 
-  # raw_json = raw_json["data"]
+  raw_json = raw_json["data"] if raw_json["data"] != nil
   properties = []
   puts raw
   raw_json.each{|key, value|
     spec = spec_hash[key]
     type = spec.type if spec != nil
     description = spec.description if spec != nil
-    properties.push(Property.new("account", type, key, description, value))
+    properties.push(Property.new("message", type, key, description, value))
   }
 
   properties.each{|e|

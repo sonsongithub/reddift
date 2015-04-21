@@ -22,8 +22,8 @@ class Parser: NSObject {
                 // link
                 return parseDataInThing_t3(data)
             case "t4":
-                // mesasge
-                break
+				// mesasge
+				return parseDataInThing_t4(data)
             case "t5":
                 // subreddit
 				return parseDataInThing_t5(data)

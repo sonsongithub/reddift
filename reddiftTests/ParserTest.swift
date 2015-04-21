@@ -93,6 +93,28 @@ class ParserTest: XCTestCase {
 			}
 		}
 	}
+	
+	func testParseThing_t4() {
+		if let path = NSBundle(forClass: self.classForCoder).pathForResource("message", ofType: "json") {
+			if let data = NSData(contentsOfFile: path) {
+				if let json = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
+					if let listing = Parser.parseJSON(json, depth:0) as? Listing {
+						for message in listing.children {
+							if let message = message as? Message {
+								println(message.toString())
+							}
+							else if let link = message as? Link {
+								println(link.toString())
+							}
+							else if let comment = message as? Comment {
+								println(comment.toString())
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 //
 //    func testParseThing_t3() {
 //        if let path = NSBundle(forClass: self.classForCoder).pathForResource("t3", ofType: "json") {

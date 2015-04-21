@@ -20,6 +20,18 @@ class MessageViewController: UITableViewController {
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
 		self.title = box
+		
+		session?.downloadMessageWhereBox(box, completion: { (object, error) -> Void in
+			if error == nil {
+				if let objects = object as? [AnyObject] {
+					println(objects)
+				}
+				self.tableView.reloadData()
+			}
+			else {
+				println(error)
+			}
+		})
 	}
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		140086B71ADBED270095F938 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086B61ADBED270095F938 /* Keychain.swift */; };
 		140086BA1ADCA5A40095F938 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086B91ADCA5A40095F938 /* UserViewController.swift */; };
+		140F705F1AE65AA3004AA280 /* message.json in Resources */ = {isa = PBXBuildFile; fileRef = 140F705D1AE65AA3004AA280 /* message.json */; };
+		140F70601AE65AA3004AA280 /* t4.json in Resources */ = {isa = PBXBuildFile; fileRef = 140F705E1AE65AA3004AA280 /* t4.json */; };
 		141B46291AD9CA7200577858 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 141B46271AD9CA7200577858 /* Main.storyboard */; };
 		142983F91AE4C47300846DD3 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142983F81AE4C47300846DD3 /* Media.swift */; };
 		142983FD1AE4D59000846DD3 /* t1.json in Resources */ = {isa = PBXBuildFile; fileRef = 142983FA1AE4D59000846DD3 /* t1.json */; };
@@ -34,6 +36,8 @@
 		1471A6F61AE6249800816FE7 /* Parser+t2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1471A6F51AE6249800816FE7 /* Parser+t2.swift */; };
 		1471A6F71AE6249800816FE7 /* Parser+t2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1471A6F51AE6249800816FE7 /* Parser+t2.swift */; };
 		1471A6F91AE6302B00816FE7 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1471A6F81AE6302B00816FE7 /* MessageViewController.swift */; };
+		1471A6FB1AE638E700816FE7 /* Parser+t4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1471A6FA1AE638E700816FE7 /* Parser+t4.swift */; };
+		1471A6FC1AE639E300816FE7 /* Parser+t4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1471A6FA1AE638E700816FE7 /* Parser+t4.swift */; };
 		1472F9711AE00BE9008948E0 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1472F9701AE00BE9008948E0 /* CommentViewController.swift */; };
 		1472F9731AE00D43008948E0 /* Session+comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1472F9721AE00D43008948E0 /* Session+comment.swift */; };
 		147EADA61AD78568007FA2F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147EADA51AD78568007FA2F4 /* AppDelegate.swift */; };
@@ -96,6 +100,8 @@
 /* Begin PBXFileReference section */
 		140086B61ADBED270095F938 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Keychain.swift; path = vendor/KeychainAccess/Lib/KeychainAccess/Keychain.swift; sourceTree = "<group>"; };
 		140086B91ADCA5A40095F938 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
+		140F705D1AE65AA3004AA280 /* message.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = message.json; sourceTree = "<group>"; };
+		140F705E1AE65AA3004AA280 /* t4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t4.json; sourceTree = "<group>"; };
 		141B46281AD9CA7200577858 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		142983F81AE4C47300846DD3 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		142983FA1AE4D59000846DD3 /* t1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t1.json; sourceTree = "<group>"; };
@@ -112,6 +118,7 @@
 		1471A6F21AE604EC00816FE7 /* Parser+t5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parser+t5.swift"; sourceTree = "<group>"; };
 		1471A6F51AE6249800816FE7 /* Parser+t2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parser+t2.swift"; sourceTree = "<group>"; };
 		1471A6F81AE6302B00816FE7 /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		1471A6FA1AE638E700816FE7 /* Parser+t4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parser+t4.swift"; sourceTree = "<group>"; };
 		1472F9701AE00BE9008948E0 /* CommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		1472F9721AE00D43008948E0 /* Session+comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+comment.swift"; sourceTree = "<group>"; };
 		147EADA01AD78568007FA2F4 /* reddift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = reddift.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -312,6 +319,7 @@
 				1429840D1AE5AC0600846DD3 /* Parser+t1.swift */,
 				1471A6F51AE6249800816FE7 /* Parser+t2.swift */,
 				1429840A1AE5AA2100846DD3 /* Parser+t3.swift */,
+				1471A6FA1AE638E700816FE7 /* Parser+t4.swift */,
 				1471A6F21AE604EC00816FE7 /* Parser+t5.swift */,
 			);
 			path = Utility;
@@ -320,8 +328,10 @@
 		14BEDDFF1AE454C4004F7860 /* data */ = {
 			isa = PBXGroup;
 			children = (
+				140F705D1AE65AA3004AA280 /* message.json */,
 				142983FA1AE4D59000846DD3 /* t1.json */,
 				142983FB1AE4D59000846DD3 /* t3.json */,
+				140F705E1AE65AA3004AA280 /* t4.json */,
 				142983FC1AE4D59000846DD3 /* t5.json */,
 				14BEDE001AE454C4004F7860 /* comments01.json */,
 				14BEDE011AE454C4004F7860 /* createToken.json */,
@@ -436,9 +446,11 @@
 				14BEDE0B1AE454C4004F7860 /* profile.json in Resources */,
 				14BEDE091AE454C4004F7860 /* error.json in Resources */,
 				14BEDE0D1AE454C4004F7860 /* token.json in Resources */,
+				140F70601AE65AA3004AA280 /* t4.json in Resources */,
 				14BEDE071AE454C4004F7860 /* comments01.json in Resources */,
 				142983FF1AE4D59000846DD3 /* t5.json in Resources */,
 				142983FD1AE4D59000846DD3 /* t1.json in Resources */,
+				140F705F1AE65AA3004AA280 /* message.json in Resources */,
 				14BEDE081AE454C4004F7860 /* createToken.json in Resources */,
 				142983FE1AE4D59000846DD3 /* t3.json in Resources */,
 				14BEDE0C1AE454C4004F7860 /* subreddit.json in Resources */,
@@ -455,6 +467,7 @@
 			files = (
 				142984031AE4E11000846DD3 /* Thing.swift in Sources */,
 				1471A6F91AE6302B00816FE7 /* MessageViewController.swift in Sources */,
+				1471A6FB1AE638E700816FE7 /* Parser+t4.swift in Sources */,
 				1472F9711AE00BE9008948E0 /* CommentViewController.swift in Sources */,
 				14B8DE261ADD721700237350 /* OAuth2Token.swift in Sources */,
 				14B8DE291ADD722500237350 /* Paginator.swift in Sources */,
@@ -507,6 +520,7 @@
 				142984091AE5A9B600846DD3 /* Oembed.swift in Sources */,
 				14BEDE121AE45786004F7860 /* Link.swift in Sources */,
 				14BEDE111AE45786004F7860 /* Comment.swift in Sources */,
+				1471A6FC1AE639E300816FE7 /* Parser+t4.swift in Sources */,
 				14BEDDF91AE44E50004F7860 /* ParserTest.swift in Sources */,
 				1429840F1AE5AC0600846DD3 /* Parser+t1.swift in Sources */,
 				14BEDE0F1AE45786004F7860 /* Config.swift in Sources */,

@@ -35,7 +35,33 @@ class Session {
             }
         }
     }
-    
+	
+	func downloadMessageWhereBox(whereBox:String, completion:(object:AnyObject?, error:NSError?)->Void) -> NSURLSessionDataTask {
+		var URLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/message/" + whereBox, method:"GET", token:token)
+		
+		let task = URLSession.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+			self.updateRateLimitWithURLResponse(response)
+			if let data = data {
+				data.writeToFile("/Users/sonson/Desktop/message.json", atomically: false)
+				if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
+					println(json)
+				}
+				else {
+					dispatch_async(dispatch_get_main_queue(), { () -> Void in
+						completion(object:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
+					})
+				}
+			}
+			else {
+				dispatch_async(dispatch_get_main_queue(), { () -> Void in
+					completion(object:nil, error:error)
+				})
+			}
+		})
+		task.resume()
+		return task
+	}
+	
     func profile(completion:(profile:Account?, error:NSError?)->Void) -> NSURLSessionDataTask {
         var URLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me", method:"GET", token:token)
         
