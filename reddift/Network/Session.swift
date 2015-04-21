@@ -42,9 +42,18 @@ class Session {
 		let task = URLSession.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
 			self.updateRateLimitWithURLResponse(response)
 			if let data = data {
-				data.writeToFile("/Users/sonson/Desktop/message.json", atomically: false)
 				if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-					println(json)
+					var t1:AnyObject? = Parser.parseJSON(json, depth:0)
+					if t1 != nil {
+						dispatch_async(dispatch_get_main_queue(), { () -> Void in
+							completion(object:t1, error:nil)
+						})
+					}
+					else {
+						dispatch_async(dispatch_get_main_queue(), { () -> Void in
+							completion(object:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
+						})
+					}
 				}
 				else {
 					dispatch_async(dispatch_get_main_queue(), { () -> Void in
