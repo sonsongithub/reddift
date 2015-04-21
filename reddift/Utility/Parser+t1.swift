@@ -11,7 +11,6 @@ import UIKit
 extension Parser {
     class func parseThing_t1(json:[String:AnyObject]) -> Thing {
         let comment = Comment()
-        let thing = Thing()
         if let data = json["data"] as? [String:AnyObject] {
             if let temp = data["subreddit_id"] as? String {
                 comment.subreddit_id = temp
@@ -26,9 +25,8 @@ extension Parser {
                 comment.likes = temp
             }
             if let temp = data["replies"] as? [String:AnyObject] {
-                println(data)
                 if let obj:AnyObject = parseJSON(temp, depth:0) {
-                    println(obj)
+					comment.replies = obj
                 }
             }
 //            if let temp = data["user_reports"] as? String {
@@ -111,9 +109,33 @@ extension Parser {
             }
         }
         if let kind = json["kind"] as? String {
-            thing.kind = kind
+            comment.kind = kind
         }
-        thing.data = comment
-        return thing
+        return comment
     }
+	
+	class func parseThing_more(json:[String:AnyObject]) -> Thing {
+		let more = More()
+		if let data = json["data"] as? [String:AnyObject] {
+			if let temp = data["id"] as? String {
+				more.id = temp
+			}
+			if let temp = data["name"] as? String {
+				more.name = temp
+			}
+			if let temp = data["parent_id"] as? String {
+				more.parent_id = temp
+			}
+			if let temp = data["count"] as? Int {
+				more.count = temp
+			}
+			if let temp = data["children"] as? [String] {
+				more.children = temp
+			}
+		}
+		if let kind = json["kind"] as? String {
+			more.kind = kind
+		}
+		return more
+	}
 }

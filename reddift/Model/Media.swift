@@ -26,4 +26,8 @@ class Media {
             self.oembed.updateWithJSON(temp)
         }
     }
+	
+	func toString() -> String {
+		return "{type=\(type)}\n"
+	}
 }

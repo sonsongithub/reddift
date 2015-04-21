@@ -20,12 +20,16 @@ class FrontViewController: LinkViewController {
         }
         self.loading = true
         if let seg = self.segmentedControl {
-            self.task = session?.linkList(self.paginator, sortingType:types[seg.selectedSegmentIndex], subreddit:nil, completion: { (links, paginator, error) -> Void in
+            self.task = session?.linkList(self.paginator, sortingType:types[seg.selectedSegmentIndex], subreddit:nil, completion: { (object, error) -> Void in
                 self.task = nil
                 if error == nil {
-                    self.links += links
+				
+					if let listing = object as? Listing {
+						if let links = listing.children as? [Link] {
+							self.links += links
+						}
+					}
                     self.tableView.reloadData()
-                    self.paginator = paginator
                     self.loading = false
                 }
                 else {
@@ -39,13 +43,17 @@ class FrontViewController: LinkViewController {
         if let seg = sender as? UISegmentedControl {
             let title = titles[seg.selectedSegmentIndex]
             self.loading = true
-            self.task = session?.linkList(self.paginator, sortingType:types[seg.selectedSegmentIndex], subreddit:nil, completion: { (links, paginator, error) -> Void in
+            self.task = session?.linkList(self.paginator, sortingType:types[seg.selectedSegmentIndex], subreddit:nil, completion: { (object, error) -> Void in
                 self.task = nil
                 if error == nil {
                     self.links.removeAll(keepCapacity: true)
-                    self.links += links
+					
+					if let listing = object as? Listing {
+						if let links = listing.children as? [Link] {
+							self.links += links
+						}
+					}
                     self.tableView.reloadData()
-                    self.paginator = paginator
                     self.loading = false
                 }
                 else {

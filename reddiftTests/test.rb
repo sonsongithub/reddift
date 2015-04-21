@@ -31,11 +31,11 @@ class Property
 end
 
 def main
-  fr = File::open("./data/t1.json")
+  fr = File::open("./data/t5.json")
   raw = fr.read
   fr.close
 
-  fr = File::open("./data/t1_spec.html")
+  fr = File::open("./data/t5_spec.html")
   spec = fr.read
   fr.close
 
@@ -57,7 +57,7 @@ def main
     spec = spec_hash[key]
     type = spec.type if spec != nil
     description = spec.description if spec != nil
-    properties.push(Property.new("comment", type, key, description, value))
+    properties.push(Property.new("subreddit", type, key, description, value))
   }
 
   properties.each{|e|

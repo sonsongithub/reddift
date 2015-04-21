@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Comment {
+class Comment : Thing {
     /**
     the id of the subreddit in which the thing is located
     example: t5_2qizd
@@ -30,7 +30,7 @@ class Comment {
     /**
     example: {"kind"=>"Listing", "data"=>{"modhash"=>nil, "children"=>[{"kind"=>"more", "data"=>{"count"=>0, "parent_id"=>"t1_cqfhkcb", "children"=>["cqfmmpp"], "name"=>"t1_cqfmmpp", "id"=>"cqfmmpp"}}], "after"=>nil, "before"=>nil}}
     */
-    var replies = ""
+	var replies:AnyObject? = nil
     /**
     example: []
     */
@@ -40,10 +40,6 @@ class Comment {
     example: false
     */
     var saved = false
-    /**
-    example: cqfhkcb
-    */
-    var id = ""
     /**
     example: 0
     */
@@ -110,10 +106,6 @@ class Comment {
     */
     var score_hidden = false
     /**
-    example: t1_cqfhkcb
-    */
-    var name = ""
-    /**
     example: 1429284845
     */
     var created = 0
@@ -142,6 +134,17 @@ class Comment {
     example: 1
     */
     var ups = 0
+	
+	override func toString() -> String {
+		var buf = "---------------\nid=\(id)\n name=\(name)\n kind=\(kind)\n body=\(body)\n"
+		if let more = replies as? More {
+			buf += more.toString()
+		}
+		if let listing = replies as? Listing {
+			buf += listing.toString()
+		}
+		return buf
+	}
 }
 
 

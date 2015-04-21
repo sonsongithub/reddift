@@ -31,7 +31,7 @@ enum ListingSortType {
 }
 
 
-class Link {
+class Link : Thing {
     /**
     example: self.redditdev
     */
@@ -44,7 +44,7 @@ class Link {
     Used for streaming video. Technical embed specific information is found here.
     example: {}
     */
-    var media_embed:AnyObject? = nil
+    var media_embed:MediaEmbed? = nil
     /**
     subreddit of thing excluding the /r/ prefix. "pics"
     example: redditdev
@@ -90,10 +90,6 @@ class Link {
     example:
     */
     var link_flair_text = ""
-    /**
-    example: 32wnhw
-    */
-    var id = ""
     /**
     example: 0
     */
@@ -187,10 +183,6 @@ class Link {
     */
     var is_self = false
     /**
-    example: t3_32wnhw
-    */
-    var name = ""
-    /**
     relative URL of the permanent link for this link
     example: /r/redditdev/comments/32wnhw/praw_comment_stream_messes_up_when_getting/
     */
@@ -248,6 +240,19 @@ class Link {
     example: false
     */
     var distinguished = false
+	
+	override func toString() -> String {
+		var buf = "------------------------------\nid=\(id)\nname=\(name)\nkind=\(kind)\ntitle=\(title)\nurl=\(url)\n"
+		if let media = media {
+			buf += "media\n"
+			buf += media.toString()
+		}
+		if let media_embed = media_embed {
+			buf += "media_embed\n"
+			buf += media_embed.toString()
+		}
+		return buf
+	}
 }
 
 

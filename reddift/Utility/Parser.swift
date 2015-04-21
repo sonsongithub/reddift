@@ -26,13 +26,15 @@ class Parser: NSObject {
                 break
             case "t5":
                 // subreddit
-                break
+				return parseThing_t5(json)
             case "t6":
                 // award
                 break
             case "t8":
                 // promo campaign
                 break
+			case "more":
+				return parseThing_more(json)
             default:
                 break
             }

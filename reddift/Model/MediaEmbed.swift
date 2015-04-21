@@ -28,4 +28,8 @@ class MediaEmbed {
             self.scrolling = temp
         }
     }
+	
+	func toString() -> String {
+		return "{content=\(content)\nsize=\(width)x\(height)}\n"
+	}
 }

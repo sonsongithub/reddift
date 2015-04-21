@@ -11,7 +11,6 @@ import UIKit
 extension Parser {
     class func parseThing_t3(json:[String:AnyObject]) -> Thing {
         let link = Link()
-        let thing = Thing()
         if let data = json["data"] as? [String:AnyObject] {
             if let temp = data["domain"] as? String {
                 link.domain = temp
@@ -20,9 +19,11 @@ extension Parser {
                 link.banned_by = temp
             }
             if let temp = data["media_embed"] as? [String:AnyObject] {
-                let media_embed = MediaEmbed()
-                media_embed.updateWithJSON(temp)
-                link.media_embed = media_embed
+				if temp.count > 0 {
+					let media_embed = MediaEmbed()
+					media_embed.updateWithJSON(temp)
+					link.media_embed = media_embed
+				}
             }
             if let temp = data["subreddit"] as? String {
                 link.subreddit = temp
@@ -150,9 +151,11 @@ extension Parser {
             }
             
             if let temp = data["media"] as? [String:AnyObject] {
-                let media = Media()
-                media.updateWithJSON(json)
-                link.media = media
+				if temp.count > 0 {
+					let media = Media()
+					media.updateWithJSON(temp)
+					link.media = media
+				}
             }
             
             if let temp = data["visited"] as? Bool {
@@ -166,9 +169,8 @@ extension Parser {
             }
         }
         if let kind = json["kind"] as? String {
-            thing.kind = kind
+            link.kind = kind
         }
-        thing.data = link
-        return thing
+        return link
     }
 }

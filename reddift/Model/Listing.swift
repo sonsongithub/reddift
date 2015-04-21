@@ -13,4 +13,14 @@ class Listing {
     var before = ""
     var modhash = ""
     var children:[AnyObject] = []
+	
+	func toString() -> String {
+		var buf = ""
+		for child in children {
+			if let child = child as? Thing {
+				buf += child.toString()
+			}
+		}
+		return buf
+	}
 }

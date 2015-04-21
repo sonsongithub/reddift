@@ -9,6 +9,11 @@
 import UIKit
 
 class Thing {
+	var id = ""
+	var name = ""
     var kind = ""
-    var data:AnyObject? = nil
+	
+	func toString() -> String {
+		return "id=\(id)\n name=\(name)\n kind=\(kind)\n"
+	}
 }

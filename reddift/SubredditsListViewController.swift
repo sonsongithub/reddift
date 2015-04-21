@@ -17,16 +17,21 @@ class SubredditsListViewController: UITableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        session?.subredditsMine(nil, subredditsMineWhere: SubredditsMineWhere.Subscriber, completion: { (subreddits, paginator, error) -> Void in
-            if error == nil {
-                self.subreddits.removeAll(keepCapacity:true)
-                self.subreddits += subreddits
-                self.tableView.reloadData()
-            }
-            else {
-                println(error)
-            }
-        })
+		if self.subreddits.count == 0 {
+			session?.downloadSubreddit(nil, completion: { (obj, error) -> Void in
+				if error == nil {
+					if let listing = obj as? Listing {
+						if let subreddits = listing.children as? [Subreddit] {
+							self.subreddits += subreddits
+						}
+					}
+					self.tableView.reloadData()
+				}
+				else {
+					println(error)
+				}
+			})
+		}
     }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
