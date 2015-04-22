@@ -2,7 +2,7 @@
 require 'JSON'
 
 def main
-  fr = File::open("./data/t3.json")
+  fr = File::open("./data/token.json")
   raw = fr.read
   fr.close
   raw_json = JSON.parse(raw)

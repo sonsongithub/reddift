@@ -20,6 +20,53 @@ class ParseResponseObjectTest: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
+    
+    func testResponse_error() {
+        let json:AnyObject? = self.jsonFromFileName("error.json")
+        if let json:AnyObject = json {
+            let object:AnyObject? = Parser.parseJSON(json, depth:0)
+            XCTAssert((object == nil), "Irregular json file test.")
+        }
+        else {
+            XCTFail("JSON error")
+        }
+    }
+    
+    func testResponse_irregular() {
+        for fileName in ["t1.json", "t2.json", "t3.json", "t4.json", "t5.json"] {
+            let json:AnyObject? = self.jsonFromFileName(fileName)
+            if let json:AnyObject = json {
+                let object:AnyObject? = Parser.parseJSON(json, depth:0)
+                XCTAssert((object == nil), "Irregular json file test.")
+            }
+            else {
+                XCTFail("JSON error")
+            }
+        }
+    }
+    
+    func testResponse_comment() {
+        let json:AnyObject? = self.jsonFromFileName("comments.json")
+        if let json:AnyObject = json {
+            if let objects = Parser.parseJSON(json, depth:0) as? [Listing] {
+                XCTAssertEqual(objects.count, 2, "Check 2 Listing objects")
+                XCTAssertEqual(objects[0].children.count, 1, "Check first Listing object's children.")
+                if objects[0].children.count > 0 {
+                    XCTAssert((objects[0].children[0] is Link), "Check class of children.")
+                }
+                XCTAssertEqual(objects[1].children.count, 26, "Check class of children.")
+                for child in objects[1].children {
+                    XCTAssert((child is Comment), "Check class of children.")
+                }
+            }
+            else {
+                XCTFail("JSON error")
+            }
+        }
+        else {
+            XCTFail("JSON error")
+        }
+    }
 
     //    func testLinkList() {
     //        if let path = NSBundle(forClass: self.classForCoder).pathForResource("links", ofType: "json") {

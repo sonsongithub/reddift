@@ -98,6 +98,7 @@ extension Parser {
 		if let temp = data["created_utc"] as? Int {
 			subreddit.created_utc = temp
 		}
+        println(data["banner_size"])
 		if let temp = data["banner_size"] as? [Int] {
 			subreddit.banner_size = temp
 		}

@@ -9,13 +9,8 @@
 /* Begin PBXBuildFile section */
 		140086B71ADBED270095F938 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086B61ADBED270095F938 /* Keychain.swift */; };
 		140086BA1ADCA5A40095F938 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086B91ADCA5A40095F938 /* UserViewController.swift */; };
-		140F705F1AE65AA3004AA280 /* message.json in Resources */ = {isa = PBXBuildFile; fileRef = 140F705D1AE65AA3004AA280 /* message.json */; };
-		140F70601AE65AA3004AA280 /* t4.json in Resources */ = {isa = PBXBuildFile; fileRef = 140F705E1AE65AA3004AA280 /* t4.json */; };
 		141B46291AD9CA7200577858 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 141B46271AD9CA7200577858 /* Main.storyboard */; };
 		142983F91AE4C47300846DD3 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142983F81AE4C47300846DD3 /* Media.swift */; };
-		142983FD1AE4D59000846DD3 /* t1.json in Resources */ = {isa = PBXBuildFile; fileRef = 142983FA1AE4D59000846DD3 /* t1.json */; };
-		142983FE1AE4D59000846DD3 /* t3.json in Resources */ = {isa = PBXBuildFile; fileRef = 142983FB1AE4D59000846DD3 /* t3.json */; };
-		142983FF1AE4D59000846DD3 /* t5.json in Resources */ = {isa = PBXBuildFile; fileRef = 142983FC1AE4D59000846DD3 /* t5.json */; };
 		142984011AE4E0EA00846DD3 /* Oembed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984001AE4E0EA00846DD3 /* Oembed.swift */; };
 		142984031AE4E11000846DD3 /* Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984021AE4E11000846DD3 /* Thing.swift */; };
 		142984041AE5A53700846DD3 /* Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984021AE4E11000846DD3 /* Thing.swift */; };
@@ -29,10 +24,21 @@
 		1429840F1AE5AC0600846DD3 /* Parser+t1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1429840D1AE5AC0600846DD3 /* Parser+t1.swift */; };
 		143335F31ADFBE9F00A01216 /* FrontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143335F21ADFBE9F00A01216 /* FrontViewController.swift */; };
 		143335F71ADFBF6800A01216 /* SubredditsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143335F61ADFBF6800A01216 /* SubredditsViewController.swift */; };
+		1440D5081AE7C9D500211DAD /* create_token.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4F91AE7C9D500211DAD /* create_token.json */; };
+		1440D5091AE7C9D500211DAD /* refresh_token.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4FA1AE7C9D500211DAD /* refresh_token.json */; };
+		1440D50A1AE7C9D500211DAD /* comments.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4FC1AE7C9D500211DAD /* comments.json */; };
+		1440D50B1AE7C9D500211DAD /* error.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4FD1AE7C9D500211DAD /* error.json */; };
+		1440D50C1AE7C9D500211DAD /* links.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4FE1AE7C9D500211DAD /* links.json */; };
+		1440D50D1AE7C9D500211DAD /* message.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4FF1AE7C9D500211DAD /* message.json */; };
+		1440D50E1AE7C9D500211DAD /* subreddit.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5001AE7C9D500211DAD /* subreddit.json */; };
+		1440D50F1AE7C9D500211DAD /* more.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5021AE7C9D500211DAD /* more.json */; };
+		1440D5101AE7C9D500211DAD /* t1.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5031AE7C9D500211DAD /* t1.json */; };
+		1440D5111AE7C9D500211DAD /* t2.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5041AE7C9D500211DAD /* t2.json */; };
+		1440D5121AE7C9D500211DAD /* t3.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5051AE7C9D500211DAD /* t3.json */; };
+		1440D5131AE7C9D500211DAD /* t4.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5061AE7C9D500211DAD /* t4.json */; };
+		1440D5141AE7C9D500211DAD /* t5.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5071AE7C9D500211DAD /* t5.json */; };
 		1466072B1AE7453600D726C1 /* ParseThingObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */; };
 		1466072D1AE7454B00D726C1 /* ParseResponseObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */; };
-		1466072F1AE762C000D726C1 /* t2.json in Resources */ = {isa = PBXBuildFile; fileRef = 1466072E1AE762C000D726C1 /* t2.json */; };
-		146607311AE76B3600D726C1 /* more.json in Resources */ = {isa = PBXBuildFile; fileRef = 146607301AE76B3600D726C1 /* more.json */; };
 		1471A6F01AE5DD4C00816FE7 /* More.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1471A6EF1AE5DD4C00816FE7 /* More.swift */; };
 		1471A6F11AE5DD4C00816FE7 /* More.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1471A6EF1AE5DD4C00816FE7 /* More.swift */; };
 		1471A6F31AE604EC00816FE7 /* Parser+t5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1471A6F21AE604EC00816FE7 /* Parser+t5.swift */; };
@@ -68,13 +74,6 @@
 		14B8DE2F1ADEC16200237350 /* Session+subreddits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE2E1ADEC16200237350 /* Session+subreddits.swift */; };
 		14B8DE311ADEC38800237350 /* SubredditsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE301ADEC38800237350 /* SubredditsListViewController.swift */; };
 		14BEDDFE1AE44FC5004F7860 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BEDDFD1AE44FC5004F7860 /* Parser.swift */; };
-		14BEDE071AE454C4004F7860 /* comments01.json in Resources */ = {isa = PBXBuildFile; fileRef = 14BEDE001AE454C4004F7860 /* comments01.json */; };
-		14BEDE081AE454C4004F7860 /* createToken.json in Resources */ = {isa = PBXBuildFile; fileRef = 14BEDE011AE454C4004F7860 /* createToken.json */; };
-		14BEDE091AE454C4004F7860 /* error.json in Resources */ = {isa = PBXBuildFile; fileRef = 14BEDE021AE454C4004F7860 /* error.json */; };
-		14BEDE0A1AE454C4004F7860 /* links.json in Resources */ = {isa = PBXBuildFile; fileRef = 14BEDE031AE454C4004F7860 /* links.json */; };
-		14BEDE0B1AE454C4004F7860 /* profile.json in Resources */ = {isa = PBXBuildFile; fileRef = 14BEDE041AE454C4004F7860 /* profile.json */; };
-		14BEDE0C1AE454C4004F7860 /* subreddit.json in Resources */ = {isa = PBXBuildFile; fileRef = 14BEDE051AE454C4004F7860 /* subreddit.json */; };
-		14BEDE0D1AE454C4004F7860 /* token.json in Resources */ = {isa = PBXBuildFile; fileRef = 14BEDE061AE454C4004F7860 /* token.json */; };
 		14BEDE0E1AE45777004F7860 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BEDDFD1AE44FC5004F7860 /* Parser.swift */; };
 		14BEDE0F1AE45786004F7860 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE2A1ADD72C900237350 /* Config.swift */; };
 		14BEDE101AE45786004F7860 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE051ADD3DF300237350 /* Account.swift */; };
@@ -103,13 +102,8 @@
 /* Begin PBXFileReference section */
 		140086B61ADBED270095F938 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Keychain.swift; path = vendor/KeychainAccess/Lib/KeychainAccess/Keychain.swift; sourceTree = "<group>"; };
 		140086B91ADCA5A40095F938 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
-		140F705D1AE65AA3004AA280 /* message.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = message.json; sourceTree = "<group>"; };
-		140F705E1AE65AA3004AA280 /* t4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t4.json; sourceTree = "<group>"; };
 		141B46281AD9CA7200577858 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		142983F81AE4C47300846DD3 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
-		142983FA1AE4D59000846DD3 /* t1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t1.json; sourceTree = "<group>"; };
-		142983FB1AE4D59000846DD3 /* t3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t3.json; sourceTree = "<group>"; };
-		142983FC1AE4D59000846DD3 /* t5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t5.json; sourceTree = "<group>"; };
 		142984001AE4E0EA00846DD3 /* Oembed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Oembed.swift; sourceTree = "<group>"; };
 		142984021AE4E11000846DD3 /* Thing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Thing.swift; sourceTree = "<group>"; };
 		142984051AE5A5CD00846DD3 /* MediaEmbed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaEmbed.swift; sourceTree = "<group>"; };
@@ -117,10 +111,21 @@
 		1429840D1AE5AC0600846DD3 /* Parser+t1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parser+t1.swift"; sourceTree = "<group>"; };
 		143335F21ADFBE9F00A01216 /* FrontViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrontViewController.swift; sourceTree = "<group>"; };
 		143335F61ADFBF6800A01216 /* SubredditsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubredditsViewController.swift; sourceTree = "<group>"; };
+		1440D4F91AE7C9D500211DAD /* create_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = create_token.json; sourceTree = "<group>"; };
+		1440D4FA1AE7C9D500211DAD /* refresh_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = refresh_token.json; sourceTree = "<group>"; };
+		1440D4FC1AE7C9D500211DAD /* comments.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = comments.json; sourceTree = "<group>"; };
+		1440D4FD1AE7C9D500211DAD /* error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error.json; sourceTree = "<group>"; };
+		1440D4FE1AE7C9D500211DAD /* links.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = links.json; sourceTree = "<group>"; };
+		1440D4FF1AE7C9D500211DAD /* message.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = message.json; sourceTree = "<group>"; };
+		1440D5001AE7C9D500211DAD /* subreddit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = subreddit.json; sourceTree = "<group>"; };
+		1440D5021AE7C9D500211DAD /* more.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = more.json; sourceTree = "<group>"; };
+		1440D5031AE7C9D500211DAD /* t1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t1.json; sourceTree = "<group>"; };
+		1440D5041AE7C9D500211DAD /* t2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t2.json; sourceTree = "<group>"; };
+		1440D5051AE7C9D500211DAD /* t3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t3.json; sourceTree = "<group>"; };
+		1440D5061AE7C9D500211DAD /* t4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t4.json; sourceTree = "<group>"; };
+		1440D5071AE7C9D500211DAD /* t5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t5.json; sourceTree = "<group>"; };
 		1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseThingObjectTest.swift; sourceTree = "<group>"; };
 		1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseResponseObjectTest.swift; sourceTree = "<group>"; };
-		1466072E1AE762C000D726C1 /* t2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t2.json; sourceTree = "<group>"; };
-		146607301AE76B3600D726C1 /* more.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = more.json; sourceTree = "<group>"; };
 		1471A6EF1AE5DD4C00816FE7 /* More.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = More.swift; sourceTree = "<group>"; };
 		1471A6F21AE604EC00816FE7 /* Parser+t5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parser+t5.swift"; sourceTree = "<group>"; };
 		1471A6F51AE6249800816FE7 /* Parser+t2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parser+t2.swift"; sourceTree = "<group>"; };
@@ -155,13 +160,6 @@
 		14B8DE2E1ADEC16200237350 /* Session+subreddits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+subreddits.swift"; sourceTree = "<group>"; };
 		14B8DE301ADEC38800237350 /* SubredditsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubredditsListViewController.swift; sourceTree = "<group>"; };
 		14BEDDFD1AE44FC5004F7860 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
-		14BEDE001AE454C4004F7860 /* comments01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = comments01.json; sourceTree = "<group>"; };
-		14BEDE011AE454C4004F7860 /* createToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = createToken.json; sourceTree = "<group>"; };
-		14BEDE021AE454C4004F7860 /* error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error.json; sourceTree = "<group>"; };
-		14BEDE031AE454C4004F7860 /* links.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = links.json; sourceTree = "<group>"; };
-		14BEDE041AE454C4004F7860 /* profile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = profile.json; sourceTree = "<group>"; };
-		14BEDE051AE454C4004F7860 /* subreddit.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = subreddit.json; sourceTree = "<group>"; };
-		14BEDE061AE454C4004F7860 /* token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = token.json; sourceTree = "<group>"; };
 		14E790FE1ADC15460065A05A /* reddift_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reddift_config.json; sourceTree = "<group>"; };
 		14E9060E1ADBD1D700934D27 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		14F59B161ADE32B00056EFD0 /* LinkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkViewController.swift; sourceTree = "<group>"; };
@@ -193,24 +191,38 @@
 			name = KeychainAccess;
 			sourceTree = "<group>";
 		};
-		146607321AE76C1200D726C1 /* Thing */ = {
+		1440D4F81AE7C9D500211DAD /* other */ = {
 			isa = PBXGroup;
 			children = (
-				142983FA1AE4D59000846DD3 /* t1.json */,
-				1466072E1AE762C000D726C1 /* t2.json */,
-				142983FB1AE4D59000846DD3 /* t3.json */,
-				140F705E1AE65AA3004AA280 /* t4.json */,
-				142983FC1AE4D59000846DD3 /* t5.json */,
-				146607301AE76B3600D726C1 /* more.json */,
+				1440D4F91AE7C9D500211DAD /* create_token.json */,
+				1440D4FA1AE7C9D500211DAD /* refresh_token.json */,
 			);
-			name = Thing;
+			path = other;
 			sourceTree = "<group>";
 		};
-		146607331AE76C1C00D726C1 /* Response */ = {
+		1440D4FB1AE7C9D500211DAD /* response */ = {
 			isa = PBXGroup;
 			children = (
+				1440D4FC1AE7C9D500211DAD /* comments.json */,
+				1440D4FD1AE7C9D500211DAD /* error.json */,
+				1440D4FE1AE7C9D500211DAD /* links.json */,
+				1440D4FF1AE7C9D500211DAD /* message.json */,
+				1440D5001AE7C9D500211DAD /* subreddit.json */,
 			);
-			name = Response;
+			path = response;
+			sourceTree = "<group>";
+		};
+		1440D5011AE7C9D500211DAD /* thing */ = {
+			isa = PBXGroup;
+			children = (
+				1440D5021AE7C9D500211DAD /* more.json */,
+				1440D5031AE7C9D500211DAD /* t1.json */,
+				1440D5041AE7C9D500211DAD /* t2.json */,
+				1440D5051AE7C9D500211DAD /* t3.json */,
+				1440D5061AE7C9D500211DAD /* t4.json */,
+				1440D5071AE7C9D500211DAD /* t5.json */,
+			);
+			path = thing;
 			sourceTree = "<group>";
 		};
 		147EAD971AD78568007FA2F4 = {
@@ -353,16 +365,9 @@
 		14BEDDFF1AE454C4004F7860 /* data */ = {
 			isa = PBXGroup;
 			children = (
-				146607321AE76C1200D726C1 /* Thing */,
-				146607331AE76C1C00D726C1 /* Response */,
-				140F705D1AE65AA3004AA280 /* message.json */,
-				14BEDE001AE454C4004F7860 /* comments01.json */,
-				14BEDE011AE454C4004F7860 /* createToken.json */,
-				14BEDE021AE454C4004F7860 /* error.json */,
-				14BEDE031AE454C4004F7860 /* links.json */,
-				14BEDE041AE454C4004F7860 /* profile.json */,
-				14BEDE051AE454C4004F7860 /* subreddit.json */,
-				14BEDE061AE454C4004F7860 /* token.json */,
+				1440D4F81AE7C9D500211DAD /* other */,
+				1440D4FB1AE7C9D500211DAD /* response */,
+				1440D5011AE7C9D500211DAD /* thing */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -458,20 +463,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14BEDE0B1AE454C4004F7860 /* profile.json in Resources */,
-				14BEDE091AE454C4004F7860 /* error.json in Resources */,
-				14BEDE0D1AE454C4004F7860 /* token.json in Resources */,
-				140F70601AE65AA3004AA280 /* t4.json in Resources */,
-				14BEDE071AE454C4004F7860 /* comments01.json in Resources */,
-				142983FF1AE4D59000846DD3 /* t5.json in Resources */,
-				146607311AE76B3600D726C1 /* more.json in Resources */,
-				142983FD1AE4D59000846DD3 /* t1.json in Resources */,
-				1466072F1AE762C000D726C1 /* t2.json in Resources */,
-				140F705F1AE65AA3004AA280 /* message.json in Resources */,
-				14BEDE081AE454C4004F7860 /* createToken.json in Resources */,
-				142983FE1AE4D59000846DD3 /* t3.json in Resources */,
-				14BEDE0C1AE454C4004F7860 /* subreddit.json in Resources */,
-				14BEDE0A1AE454C4004F7860 /* links.json in Resources */,
+				1440D5121AE7C9D500211DAD /* t3.json in Resources */,
+				1440D50C1AE7C9D500211DAD /* links.json in Resources */,
+				1440D50E1AE7C9D500211DAD /* subreddit.json in Resources */,
+				1440D5131AE7C9D500211DAD /* t4.json in Resources */,
+				1440D50D1AE7C9D500211DAD /* message.json in Resources */,
+				1440D5101AE7C9D500211DAD /* t1.json in Resources */,
+				1440D50B1AE7C9D500211DAD /* error.json in Resources */,
+				1440D5111AE7C9D500211DAD /* t2.json in Resources */,
+				1440D5141AE7C9D500211DAD /* t5.json in Resources */,
+				1440D50F1AE7C9D500211DAD /* more.json in Resources */,
+				1440D5081AE7C9D500211DAD /* create_token.json in Resources */,
+				1440D5091AE7C9D500211DAD /* refresh_token.json in Resources */,
+				1440D50A1AE7C9D500211DAD /* comments.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
