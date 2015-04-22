@@ -16,8 +16,6 @@ extension Session {
         
         let task = URLSession.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             self.updateRateLimitWithURLResponse(response)
-			
-            data.writeToFile("/Users/sonson/Desktop/2ujhkr.json", atomically: false)
             
 			NSThread.sleepForTimeInterval(2)
 			
