@@ -1,0 +1,107 @@
+{
+  "kind": "Listing",
+  "data": {
+    "modhash": null,
+    "children": [
+      {
+        "kind": "t1",
+        "data": {
+          "body": "Checking it out now. I'l.....",
+          "link_title": "Reddit Redirecting back to iOS app after login",
+          "was_comment": true,
+          "first_message": null,
+          "name": "t1_cqdtl5p",
+          "first_message_name": null,
+          "created": 1429150024,
+          "dest": "sonson_twit",
+          "author": "supburger",
+          "created_utc": 1429146424,
+          "body_html": "&lt;!-- SC_OFF --&gt;&lt;div class=\"md\"&gt;&lt;p&gt;Check.....",
+          "subreddit": "redditdev",
+          "parent_id": "t1_cqdth7o",
+          "likes": null,
+          "context": "/r/redditdev/comments/32ik4r/reddit_redirecting_back_to_ios_app_after_login/cqdtl5p?context=3",
+          "replies": null,
+          "id": "cqdtl5p",
+          "new": false,
+          "distinguished": null,
+          "subject": "コメントの返信"
+        }
+      },
+      {
+        "kind": "t1",
+        "data": {
+          "body": "Correct. Everything is match.....",
+          "link_title": "Reddit Redirecting back to iOS app after login",
+          "was_comment": true,
+          "first_message": null,
+          "name": "t1_cqdclak",
+          "first_message_name": null,
+          "created": 1429123203,
+          "dest": "sonson_twit",
+          "author": "supburger",
+          "created_utc": 1429119603,
+          "body_html": "&lt;!-- SC_OFF --&gt;&lt;div class=\"md.....",
+          "subreddit": "redditdev",
+          "parent_id": "t1_cqdba2b",
+          "likes": null,
+          "context": "/r/redditdev/comments/32ik4r/reddit_redirecting_back_to_ios_app_after_login/cqdclak?context=3",
+          "replies": null,
+          "id": "cqdclak",
+          "new": false,
+          "distinguished": null,
+          "subject": "コメントの返信"
+        }
+      },
+      {
+        "kind": "t1",
+        "data": {
+          "body": "I did add URL Types to my Xc.....",
+          "was_comment": true,
+          "first_message": null,
+          "name": "t1_cqd7lk1",
+          "first_message_name": null,
+          "created": 1429115592,
+          "dest": "sonson_twit",
+          "author": "supburger",
+          "created_utc": 1429111992,
+          "body_html": "&lt;!-- .....",
+          "subreddit": "redditdev",
+          "parent_id": "t1_cqczrs3",
+          "likes": null,
+          "context": "/r/redditdev/comments/32ik4r/reddit_redirecting_back_to_ios_app_after_login/cqd7lk1?context=3",
+          "replies": null,
+          "id": "cqd7lk1",
+          "new": false,
+          "distinguished": null,
+          "subject": "コメントの返信"
+        }
+      },
+      {
+        "kind": "t4",
+        "data": {
+          "body": "Hello! [Hola!](https://www.reddit.com/r/reddit.com/wiki/templat.....",
+          "was_comment": false,
+          "first_message": null,
+          "name": "t4_36sfhx",
+          "first_message_name": null,
+          "created": 1427126074,
+          "dest": "sonson_twit",
+          "author": "reddit",
+          "created_utc": 1427122474,
+          "body_html": "&lt;!-- SC_.....",
+          "subreddit": null,
+          "parent_id": null,
+          "context": "",
+          "replies": "",
+          "id": "36sfhx",
+          "new": false,
+          "distinguished": "admin",
+          "subject": "Hello, /u/sonson_twit! Welcome to reddit!"
+        }
+      }
+    ],
+    "after": null,
+    "before": null
+  }
+}
