@@ -1,31 +1,29 @@
 {
-  "kind": "t1",
-  "data": {
     "subreddit_id": "t5_2qizd",
     "banned_by": null,
     "link_id": "t3_32wnhw",
     "likes": null,
     "replies": {
-      "kind": "Listing",
-      "data": {
-        "modhash": null,
-        "children": [
-          {
-            "kind": "more",
-            "data": {
-              "count": 0,
-              "parent_id": "t1_cqfhkcb",
-              "children": [
-                "cqfmmpp"
-              ],
-              "name": "t1_cqfmmpp",
-              "id": "cqfmmpp"
-            }
-          }
-        ],
-        "after": null,
-        "before": null
-      }
+        "kind": "Listing",
+        "data": {
+            "modhash": null,
+            "children": [
+                         {
+                         "kind": "more",
+                         "data": {
+                         "count": 0,
+                         "parent_id": "t1_cqfhkcb",
+                         "children": [
+                                      "cqfmmpp"
+                                      ],
+                         "name": "t1_cqfmmpp",
+                         "id": "cqfmmpp"
+                         }
+                         }
+                         ],
+            "after": null,
+            "before": null
+        }
     },
     "user_reports": [],
     "saved": false,
@@ -53,5 +51,4 @@
     "mod_reports": [],
     "num_reports": null,
     "ups": 1
-  }
 }

@@ -1,0 +1,2524 @@
+[
+  {
+    "kind": "Listing",
+    "data": {
+      "modhash": null,
+      "children": [
+        {
+          "kind": "t3",
+          "data": {
+            "domain": "self.redditdev",
+            "banned_by": null,
+            "media_embed": {},
+            "subreddit": "redditdev",
+            "selftext_html": "&lt;!-- SC_OFF --&gt;&lt;div class=\"md\"&gt;&lt;p&gt;Greetings reddit API users,&lt;/p&gt;\n\n&lt;p&gt;I have two important messages for you all today. The first is about licensing for reddit API clients, and the second is about cookie-authenticated use of reddit&amp;#39;s API.&lt;/p&gt;\n\n&lt;h2&gt;Licensing&lt;/h2&gt;\n\n&lt;p&gt;We have filled out our &lt;a href=\"/wiki/licensing\"&gt;licensing page&lt;/a&gt; with information about what is acceptable and not acceptable for reddit API clients. The two most important pieces is that (1) we&amp;#39;re asking API clients to not use the word &amp;quot;reddit&amp;quot; in their name except in the phrase &amp;quot;for reddit&amp;quot;, e.g., &amp;quot;My cool app for reddit&amp;quot; and (2) we&amp;#39;re asking &amp;quot;commercial&amp;quot; API consumers to register with us.&lt;/p&gt;\n\n&lt;p&gt;As reddit (the company) officially steps into mobile with our AMA app and Alien Blue, we realized that it can be difficult for users to tell when an app is &amp;quot;by reddit, Inc.&amp;quot; or simply &amp;quot;for reddit.&amp;quot; I know that adding rules and restrictions is not fun, so I want to be the first one to say right here, right now: We’re not trying to shut down our API and we fully intend to continue supporting 3rd party developers. In fact, hopefully part 2 of this post makes it clear that we&amp;#39;re trying to be more deliberate in our support of API consumers.&lt;/p&gt;\n\n&lt;p&gt;Yes, this does mean we will be reaching out to app developers in the coming weeks and asking them to rename or re-license with us as appropriate. We&amp;#39;re asking for name changes to be completed by &lt;strong&gt;March 30, 2015&lt;/strong&gt;.&lt;/p&gt;\n\n&lt;p&gt;Regarding the commercial use clause: Running servers and building out APIs cost money. It&amp;#39;s not tenable for large, commercial clients to profit off of reddit&amp;#39;s API without an appropriate cost-sharing mechanism. In the future, we may choose to implement a more methodical cost-sharing program, such as what &lt;a href=\"https://api.imgur.com/#commercial\"&gt;imgur does with mashape&lt;/a&gt;, but for now, we simply want to keep tabs on commercial use of our API. &lt;/p&gt;\n\n&lt;h2&gt;Deprecation of cookie authentication for API consumers&lt;/h2&gt;\n\n&lt;p&gt;Use of the API when authenticated via cookies is deprecated and slated for removal. All API clients MUST convert to authenticating to the reddit API via OAuth 2 by &lt;strong&gt;August 3, 2015&lt;/strong&gt;. After that date, reddit.com will begin heavily throttling and/or blocking API access that is not authenticated with an OAuth 2 access token*.&lt;/p&gt;\n\n&lt;p&gt;* Yes, this applies to &amp;quot;logged out&amp;quot; access to the API. For API access without a reddit user, please use &lt;a href=\"https://github.com/reddit/reddit/wiki/OAuth2#application-only-oauth\"&gt;Application Only Authentication&lt;/a&gt; to get an access token.&lt;/p&gt;\n\n&lt;h3&gt;Why are we doing this?&lt;/h3&gt;\n\n&lt;ol&gt;\n&lt;li&gt;To protect users. Websites and mobile apps that use cookie authentication end up having to directly ask users for their reddit.com password. We want to discourage that practice so that users are not in the habit of being asked for their reddit password unless they are on &lt;a href=\"http://www.reddit.com\"&gt;www.reddit.com&lt;/a&gt;. OAuth 2 access tokens are easier for users to revoke and limited in duration. They are also limited in scope - there are some actions, such as resetting passwords and managing your OAuth 2 apps, that 3rd parties have no reason to access.&lt;/li&gt;\n&lt;li&gt;To more fairly apply rate limiting across 3rd parties.&lt;/li&gt;\n&lt;li&gt;To allow us to be more deliberate about how we design and build the API, without being tied to how browsers access the reddit website. &lt;/li&gt;\n&lt;/ol&gt;\n\n&lt;h3&gt;Aww, dangit, OAuth seems like a lot of work. Why should I bother?&lt;/h3&gt;\n\n&lt;ol&gt;\n&lt;li&gt;See the first answer from above. You should care about not wanting to ask users for their passwords to sites/apps that aren&amp;#39;t yours.&lt;/li&gt;\n&lt;li&gt;Only OAuth API consumers (well, and browsers) will be able to access new features. (You&amp;#39;re already missing out on the trophy endpoint if you&amp;#39;re not on OAuth!)&lt;/li&gt;\n&lt;li&gt;OAuth clients have had higher rate limits for a while now. The higher rate limit is here to stay, so when you switch, you&amp;#39;ll be able to ask us for data 2x as often!&lt;/li&gt;\n&lt;/ol&gt;\n\n&lt;h3&gt;What about browser extensions?&lt;/h3&gt;\n\n&lt;p&gt;Browser extensions have an easier time with cookie-auth, so may get exemptions or extensions on the deadline. I&amp;#39;ll be working to figure out the best road forward to minimize pain.&lt;/p&gt;\n\n&lt;p&gt;Also, I (personally) am committed to making this as easy as I can. I&amp;#39;ve written the code for &lt;a href=\"https://www.reddit.com/r/redditdev/comments/2owrnn/oauth2_implicit_grants_cors_apponly_oauth2/\"&gt;many&lt;/a&gt; &lt;a href=\"https://www.reddit.com/r/redditdev/comments/2eatps/oauth2_manual_token_revocation/\"&gt;aspects&lt;/a&gt; of reddit&amp;#39;s OAuth2 &lt;a href=\"https://www.reddit.com/r/redditdev/comments/2skahz/oauth2_apifriend_is_here/\"&gt;implementation&lt;/a&gt; over the last year or so, &lt;a href=\"https://www.reddit.com/r/redditdev/comments/218wd7/oauth_20_you_asked_i_listened_updated_and_more/\"&gt;updated documentation&lt;/a&gt; and more. I&amp;#39;ll be here in &lt;a href=\"/r/redditdev\"&gt;/r/redditdev&lt;/a&gt; as often as I can to answer questions, and I do my best to update documentation or implement features to make things easier.&lt;/p&gt;\n\n&lt;p&gt;So what happens in August?&lt;/p&gt;\n\n&lt;p&gt;Come August, we will begin heavily throttling access to reddit&amp;#39;s API that is not via OAuth. Over time, we will be more aggressive about locking down API usage that&amp;#39;s not over OAuth.&lt;/p&gt;\n\n&lt;p&gt;TL;DR: Cookie-authentication for API use is deprecated; please convert your clients, scripts and apps to OAuth-authentication within 6 months. Also, licensing for API clients has been clarified slightly - please familiarize yourself with the new terms.&lt;/p&gt;\n\n&lt;p&gt;Edit: Added deadline for name changes.&lt;/p&gt;\n&lt;/div&gt;&lt;!-- SC_ON --&gt;",
+            "selftext": "Greetings reddit API users,\n\nI have two important messages for you all today. The first is about licensing for reddit API clients, and the second is about cookie-authenticated use of reddit's API.\n\n## Licensing\n\nWe have filled out our [licensing page](/wiki/licensing) with information about what is acceptable and not acceptable for reddit API clients. The two most important pieces is that (1) we're asking API clients to not use the word \"reddit\" in their name except in the phrase \"for reddit\", e.g., \"My cool app for reddit\" and (2) we're asking \"commercial\" API consumers to register with us.\n\nAs reddit (the company) officially steps into mobile with our AMA app and Alien Blue, we realized that it can be difficult for users to tell when an app is \"by reddit, Inc.\" or simply \"for reddit.\" I know that adding rules and restrictions is not fun, so I want to be the first one to say right here, right now: We’re not trying to shut down our API and we fully intend to continue supporting 3rd party developers. In fact, hopefully part 2 of this post makes it clear that we're trying to be more deliberate in our support of API consumers.\n\nYes, this does mean we will be reaching out to app developers in the coming weeks and asking them to rename or re-license with us as appropriate. We're asking for name changes to be completed by **March 30, 2015**.\n\nRegarding the commercial use clause: Running servers and building out APIs cost money. It's not tenable for large, commercial clients to profit off of reddit's API without an appropriate cost-sharing mechanism. In the future, we may choose to implement a more methodical cost-sharing program, such as what [imgur does with mashape](https://api.imgur.com/#commercial), but for now, we simply want to keep tabs on commercial use of our API. \n\n## Deprecation of cookie authentication for API consumers\n\nUse of the API when authenticated via cookies is deprecated and slated for removal. All API clients MUST convert to authenticating to the reddit API via OAuth 2 by **August 3, 2015**. After that date, reddit.com will begin heavily throttling and/or blocking API access that is not authenticated with an OAuth 2 access token*.\n\n\\* Yes, this applies to \"logged out\" access to the API. For API access without a reddit user, please use [Application Only Authentication](https://github.com/reddit/reddit/wiki/OAuth2#application-only-oauth) to get an access token.\n\n### Why are we doing this?\n\n1. To protect users. Websites and mobile apps that use cookie authentication end up having to directly ask users for their reddit.com password. We want to discourage that practice so that users are not in the habit of being asked for their reddit password unless they are on www.reddit.com. OAuth 2 access tokens are easier for users to revoke and limited in duration. They are also limited in scope - there are some actions, such as resetting passwords and managing your OAuth 2 apps, that 3rd parties have no reason to access.\n1. To more fairly apply rate limiting across 3rd parties.\n1. To allow us to be more deliberate about how we design and build the API, without being tied to how browsers access the reddit website. \n\n### Aww, dangit, OAuth seems like a lot of work. Why should I bother?\n\n1. See the first answer from above. You should care about not wanting to ask users for their passwords to sites/apps that aren't yours.\n1. Only OAuth API consumers (well, and browsers) will be able to access new features. (You're already missing out on the trophy endpoint if you're not on OAuth!)\n1. OAuth clients have had higher rate limits for a while now. The higher rate limit is here to stay, so when you switch, you'll be able to ask us for data 2x as often!\n\n### What about browser extensions?\n\nBrowser extensions have an easier time with cookie-auth, so may get exemptions or extensions on the deadline. I'll be working to figure out the best road forward to minimize pain.\n\nAlso, I (personally) am committed to making this as easy as I can. I've written the code for [many](https://www.reddit.com/r/redditdev/comments/2owrnn/oauth2_implicit_grants_cors_apponly_oauth2/) [aspects](https://www.reddit.com/r/redditdev/comments/2eatps/oauth2_manual_token_revocation/) of reddit's OAuth2 [implementation](https://www.reddit.com/r/redditdev/comments/2skahz/oauth2_apifriend_is_here/) over the last year or so, [updated documentation](https://www.reddit.com/r/redditdev/comments/218wd7/oauth_20_you_asked_i_listened_updated_and_more/) and more. I'll be here in /r/redditdev as often as I can to answer questions, and I do my best to update documentation or implement features to make things easier.\n\nSo what happens in August?\n\nCome August, we will begin heavily throttling access to reddit's API that is not via OAuth. Over time, we will be more aggressive about locking down API usage that's not over OAuth.\n\nTL;DR: Cookie-authentication for API use is deprecated; please convert your clients, scripts and apps to OAuth-authentication within 6 months. Also, licensing for API clients has been clarified slightly - please familiarize yourself with the new terms.\n\nEdit: Added deadline for name changes.",
+            "likes": null,
+            "user_reports": [],
+            "secure_media": null,
+            "link_flair_text": null,
+            "id": "2ujhkr",
+            "gilded": 0,
+            "archived": false,
+            "clicked": false,
+            "report_reasons": null,
+            "author": "kemitche",
+            "num_comments": 114,
+            "score": 45,
+            "approved_by": null,
+            "over_18": false,
+            "hidden": false,
+            "thumbnail": "",
+            "subreddit_id": "t5_2qizd",
+            "edited": 1422923851,
+            "link_flair_css_class": null,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "mod_reports": [],
+            "secure_media_embed": {},
+            "saved": false,
+            "is_self": true,
+            "name": "t3_2ujhkr",
+            "permalink": "/r/redditdev/comments/2ujhkr/important_api_licensing_terms_clarified/",
+            "stickied": false,
+            "created": 1422901461,
+            "url": "http://www.reddit.com/r/redditdev/comments/2ujhkr/important_api_licensing_terms_clarified/",
+            "author_flair_text": null,
+            "title": "Important: API licensing terms clarified; Cookie-authentication deprecation warning",
+            "created_utc": 1422901461,
+            "ups": 45,
+            "upvote_ratio": 0.8,
+            "media": null,
+            "visited": false,
+            "num_reports": null,
+            "distinguished": "admin"
+          }
+        }
+      ],
+      "after": null,
+      "before": null
+    }
+  },
+  {
+    "kind": "Listing",
+    "data": {
+      "modhash": null,
+      "children": [
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": "",
+            "user_reports": [],
+            "saved": false,
+            "id": "cq21eh6",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "joemtz",
+            "parent_id": "t3_2ujhkr",
+            "score": 1,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "In [this post](https://www.reddit.com/r/redditdev/comments/1yxrp7/formal_ratelimiting_headers/) you recommend using http://www.reddit.com for GET request that don't require the latest data because it won't count against our total. Will this stop being true on Aug. 3?",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;In &lt;a href=\"https://www.reddit.com/r/redditdev/comments/1yxrp7/formal_ratelimiting_headers/\"&gt;this post&lt;/a&gt; you recommend using &lt;a href=\"http://www.reddit.com\"&gt;http://www.reddit.com&lt;/a&gt; for GET request that don&amp;#39;t require the latest data because it won&amp;#39;t count against our total. Will this stop being true on Aug. 3?&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_cq21eh6",
+            "created": 1428255914,
+            "author_flair_text": null,
+            "created_utc": 1428252314,
+            "ups": 1,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": "",
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "cq05z2f",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "kemitche",
+                      "parent_id": "t1_cpzw5b5",
+                      "score": 1,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "/domain/example.com is supported under OAuth - it's simply not documented (and never really was). As far as I know, all API endpoints are supported under OAuth; if something is missing, please make a separate post and I'll prioritize it ASAP.",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;/domain/example.com is supported under OAuth - it&amp;#39;s simply not documented (and never really was). As far as I know, all API endpoints are supported under OAuth; if something is missing, please make a separate post and I&amp;#39;ll prioritize it ASAP.&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_cq05z2f",
+                      "created": 1428087533,
+                      "author_flair_text": null,
+                      "created_utc": 1428083933,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 1
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "cpzw5b5",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "Katana__",
+            "parent_id": "t3_2ujhkr",
+            "score": 1,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "Please fully support all endpoints over OAuth then, please.\n\nhttps://github.com/reddit/reddit/issues/1147 is among many where the endpoint is available over the old api, and the old api *only*.",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;Please fully support all endpoints over OAuth then, please.&lt;/p&gt;\n\n&lt;p&gt;&lt;a href=\"https://github.com/reddit/reddit/issues/1147\"&gt;https://github.com/reddit/reddit/issues/1147&lt;/a&gt; is among many where the endpoint is available over the old api, and the old api &lt;em&gt;only&lt;/em&gt;.&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_cpzw5b5",
+            "created": 1428068949,
+            "author_flair_text": null,
+            "created_utc": 1428065349,
+            "ups": 1,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": "",
+            "user_reports": [],
+            "saved": false,
+            "id": "cpzkpe1",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "olican101",
+            "parent_id": "t3_2ujhkr",
+            "score": 0,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "Why the name thing? all it does it hurt your users and the developer for those users.",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;Why the name thing? all it does it hurt your users and the developer for those users.&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_cpzkpe1",
+            "created": 1428031152,
+            "author_flair_text": null,
+            "created_utc": 1428027552,
+            "ups": 0,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": "",
+            "user_reports": [],
+            "saved": false,
+            "id": "cpyqv34",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "creesch",
+            "parent_id": "t3_2ujhkr",
+            "score": 2,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "You might want to post this to some other subreddit like announcement as well that has a bit more exposure. I am pretty sure there are a lot of people who are not subscribed here but just visit periodically (me) and that will (almost) miss this post (me). \n\n",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;You might want to post this to some other subreddit like announcement as well that has a bit more exposure. I am pretty sure there are a lot of people who are not subscribed here but just visit periodically (me) and that will (almost) miss this post (me). &lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_cpyqv34",
+            "created": 1427974962,
+            "author_flair_text": null,
+            "created_utc": 1427971362,
+            "ups": 2,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_cpk0pnz",
+                                "children": [
+                                  "cpk1daq"
+                                ],
+                                "name": "t1_cpk1daq",
+                                "id": "cpk1daq"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "cpk0pnz",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "kemitche",
+                      "parent_id": "t1_cpjydoy",
+                      "score": 2,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "There is, in fact, a mobile version, at `/api/v1/authorize.compact`.",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;There is, in fact, a mobile version, at &lt;code&gt;/api/v1/authorize.compact&lt;/code&gt;.&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_cpk0pnz",
+                      "created": 1426786947,
+                      "author_flair_text": null,
+                      "created_utc": 1426783347,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 2
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "cpjydoy",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "CogitoErgoReddit",
+            "parent_id": "t3_2ujhkr",
+            "score": 1,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "I have a request related to oauth.  I'm using it in iOS, with your suggested best-practice of opening the authorization URL in a webView.  On some devices the authorization page geometry is ill-suited to the device (big page/small phone).  Could we have a mobile version please?",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;I have a request related to oauth.  I&amp;#39;m using it in iOS, with your suggested best-practice of opening the authorization URL in a webView.  On some devices the authorization page geometry is ill-suited to the device (big page/small phone).  Could we have a mobile version please?&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_cpjydoy",
+            "created": 1426783148,
+            "author_flair_text": null,
+            "created_utc": 1426779548,
+            "ups": 1,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_cp88kh5",
+                                "children": [
+                                  "cpddp7v",
+                                  "cp8jvj8",
+                                  "cp8cv4b"
+                                ],
+                                "name": "t1_cpddp7v",
+                                "id": "cpddp7v"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "cp88kh5",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "kemitche",
+                      "parent_id": "t1_cp83er5",
+                      "score": 1,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "I am looking at token durations and reauthorization flows to figure out how best to make the token retrieval less annoying without compromising too much in the way of security. No details to share just yet though.",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;I am looking at token durations and reauthorization flows to figure out how best to make the token retrieval less annoying without compromising too much in the way of security. No details to share just yet though.&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_cp88kh5",
+                      "created": 1425837184,
+                      "author_flair_text": null,
+                      "created_utc": 1425833584,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 1
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "cp83er5",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "karasawa_jp",
+            "parent_id": "t3_2ujhkr",
+            "score": 4,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "Hourly reauthorization must be inconvenient.\nAt least, I need 24h until then.\nIs there any difference between 1h and 24h with security matters?",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;Hourly reauthorization must be inconvenient.\nAt least, I need 24h until then.\nIs there any difference between 1h and 24h with security matters?&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_cp83er5",
+            "created": 1425822130,
+            "author_flair_text": null,
+            "created_utc": 1425818530,
+            "ups": 4,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": "",
+            "user_reports": [],
+            "saved": false,
+            "id": "cp7kst8",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "hansolo669",
+            "parent_id": "t3_2ujhkr",
+            "score": 3,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "So a client library named something like libreddit wouldn't be allowed? I assume libsnoo would be fine?",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;So a client library named something like libreddit wouldn&amp;#39;t be allowed? I assume libsnoo would be fine?&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_cp7kst8",
+            "created": 1425764531,
+            "author_flair_text": null,
+            "created_utc": 1425764531,
+            "ups": 3,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": "",
+            "user_reports": [],
+            "saved": false,
+            "id": "con0tct",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "micwallace",
+            "parent_id": "t3_2ujhkr",
+            "score": 4,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "I just had to:\n\nhttp://wypols.com/wp-content/uploads/2014/02/No-cookies-for-you.jpg\n\nhttps://c1.staticflickr.com/3/2567/3881754614_58ecf3272f.jpg\n\nhttp://dessert.philipp-soehnlein.de/wp-content/uploads/cookie-monster.jpg",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;I just had to:&lt;/p&gt;\n\n&lt;p&gt;&lt;a href=\"http://wypols.com/wp-content/uploads/2014/02/No-cookies-for-you.jpg\"&gt;http://wypols.com/wp-content/uploads/2014/02/No-cookies-for-you.jpg&lt;/a&gt;&lt;/p&gt;\n\n&lt;p&gt;&lt;a href=\"https://c1.staticflickr.com/3/2567/3881754614_58ecf3272f.jpg\"&gt;https://c1.staticflickr.com/3/2567/3881754614_58ecf3272f.jpg&lt;/a&gt;&lt;/p&gt;\n\n&lt;p&gt;&lt;a href=\"http://dessert.philipp-soehnlein.de/wp-content/uploads/cookie-monster.jpg\"&gt;http://dessert.philipp-soehnlein.de/wp-content/uploads/cookie-monster.jpg&lt;/a&gt;&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_con0tct",
+            "created": 1424092696,
+            "author_flair_text": null,
+            "created_utc": 1424092696,
+            "ups": 4,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_coobibw",
+                                "children": [
+                                  "cooodf2"
+                                ],
+                                "name": "t1_cooodf2",
+                                "id": "cooodf2"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "coobibw",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "kemitche",
+                      "parent_id": "t1_con08t9",
+                      "score": 1,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "&gt; My app relies partially on webviews to display comment feeds, inbox, etc. using Reddits .compact pages. I use cookies to keep the user logged into those pages so they can easily comment/upvote.  \n&gt; Is there any way I can authenticate these requests through OAuth?\n\nI think I'd need more details on that, but you should probably implement that natively, or send the user out to their phone's browser.\n\n&gt; Also, any chance of seeing urn:ietf:wg:oauth:2.0:oob and urn:ietf:wg:oauth:2.0:auto included in your OAuth implementation?\n\nI can look into it, certainly.",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;blockquote&gt;\n&lt;p&gt;My app relies partially on webviews to display comment feeds, inbox, etc. using Reddits .compact pages. I use cookies to keep the user logged into those pages so they can easily comment/upvote.&lt;br/&gt;\nIs there any way I can authenticate these requests through OAuth?&lt;/p&gt;\n&lt;/blockquote&gt;\n\n&lt;p&gt;I think I&amp;#39;d need more details on that, but you should probably implement that natively, or send the user out to their phone&amp;#39;s browser.&lt;/p&gt;\n\n&lt;blockquote&gt;\n&lt;p&gt;Also, any chance of seeing urn:ietf:wg:oauth:2.0:oob and urn:ietf:wg:oauth:2.0:auto included in your OAuth implementation?&lt;/p&gt;\n&lt;/blockquote&gt;\n\n&lt;p&gt;I can look into it, certainly.&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_coobibw",
+                      "created": 1424196818,
+                      "author_flair_text": null,
+                      "created_utc": 1424196818,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 1
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "con08t9",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "micwallace",
+            "parent_id": "t3_2ujhkr",
+            "score": 1,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "When I got an email from Alexis :-D about the change It didn't seem like a big deal. But now that I actually look into it, there could be some technical problems.\n\nMy app relies partially on webviews to display comment feeds, inbox, etc. using Reddits .compact pages. I use cookies to keep the user logged into those pages so they can easily comment/upvote.\n\nIs there any way I can authenticate these requests through OAuth?\nIf not the lenient extension is appreciated as it means a decent change!\n\nAlso, any chance of seeing urn:ietf:wg:oauth:2.0:oob and urn:ietf:wg:oauth:2.0:auto included in your OAuth implementation? I don't like the idea of sending OAuth data through Android Intent Filters and urn:ietf:wg:oauth:2.0:auto as per google's spec can provide a better user experience.\n\n-- Author of Reddinator Android App/Widget.\n\nPS: My apps stupid name may have paid off since it slips through the cracks by one letter ;-)",
+            "edited": 1424095931,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;When I got an email from Alexis :-D about the change It didn&amp;#39;t seem like a big deal. But now that I actually look into it, there could be some technical problems.&lt;/p&gt;\n\n&lt;p&gt;My app relies partially on webviews to display comment feeds, inbox, etc. using Reddits .compact pages. I use cookies to keep the user logged into those pages so they can easily comment/upvote.&lt;/p&gt;\n\n&lt;p&gt;Is there any way I can authenticate these requests through OAuth?\nIf not the lenient extension is appreciated as it means a decent change!&lt;/p&gt;\n\n&lt;p&gt;Also, any chance of seeing urn:ietf:wg:oauth:2.0:oob and urn:ietf:wg:oauth:2.0:auto included in your OAuth implementation? I don&amp;#39;t like the idea of sending OAuth data through Android Intent Filters and urn:ietf:wg:oauth:2.0:auto as per google&amp;#39;s spec can provide a better user experience.&lt;/p&gt;\n\n&lt;p&gt;-- Author of Reddinator Android App/Widget.&lt;/p&gt;\n\n&lt;p&gt;PS: My apps stupid name may have paid off since it slips through the cracks by one letter ;-)&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_con08t9",
+            "created": 1424090515,
+            "author_flair_text": null,
+            "created_utc": 1424090515,
+            "ups": 1,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_cons4l2",
+                                "children": [
+                                  "consbf7"
+                                ],
+                                "name": "t1_consbf7",
+                                "id": "consbf7"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "cons4l2",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "appropriate-username",
+                      "parent_id": "t1_cohjrv4",
+                      "score": 1,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "&gt; [This change makes life harder for SauceHunt, voice your protest](https://www.reddit.com/r/Moescape/comments/2w5g52/a_nice_sky/conrpxv)\n\nYes, I'll go ahead and start complaining about things I don't understand for reasons you haven't explained simply because you own a platform where you can shotgun the request out to hundreds of users in the hope that at least a few people help you manufacture controversy (and thereby downgrade the legitimacy of *all* future complaints) where there doesn't really currently seem to be any.\n\n&amp;#3232;_&amp;#3232;",
+                      "edited": 1424144605,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;blockquote&gt;\n&lt;p&gt;&lt;a href=\"https://www.reddit.com/r/Moescape/comments/2w5g52/a_nice_sky/conrpxv\"&gt;This change makes life harder for SauceHunt, voice your protest&lt;/a&gt;&lt;/p&gt;\n&lt;/blockquote&gt;\n\n&lt;p&gt;Yes, I&amp;#39;ll go ahead and start complaining about things I don&amp;#39;t understand for reasons you haven&amp;#39;t explained simply because you own a platform where you can shotgun the request out to hundreds of users in the hope that at least a few people help you manufacture controversy (and thereby downgrade the legitimacy of &lt;em&gt;all&lt;/em&gt; future complaints) where there doesn&amp;#39;t really currently seem to be any.&lt;/p&gt;\n\n&lt;p&gt;&amp;#3232;_&amp;#3232;&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_cons4l2",
+                      "created": 1424144387,
+                      "author_flair_text": null,
+                      "created_utc": 1424144387,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 1
+                    }
+                  },
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_cohr3kv",
+                                "children": [
+                                  "cohx6zp"
+                                ],
+                                "name": "t1_cohx6zp",
+                                "id": "cohx6zp"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "cohr3kv",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "clearitout",
+                      "parent_id": "t1_cohjrv4",
+                      "score": 1,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "Shitty for the name change requirement? Else you already support OAuth as you mentioned on GitHub! \n\nI don't know much about C# and couldn't figure out how to navigate around enough to find out how to get OAuth working still. I did find the [`AuthenticateUser`](https://github.com/SirCmpwn/RedditSharp/blob/master/RedditSharp/Reddit.cs#L125) method though and mentions of OAuth here and there.",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;Shitty for the name change requirement? Else you already support OAuth as you mentioned on GitHub! &lt;/p&gt;\n\n&lt;p&gt;I don&amp;#39;t know much about C# and couldn&amp;#39;t figure out how to navigate around enough to find out how to get OAuth working still. I did find the &lt;a href=\"https://github.com/SirCmpwn/RedditSharp/blob/master/RedditSharp/Reddit.cs#L125\"&gt;&lt;code&gt;AuthenticateUser&lt;/code&gt;&lt;/a&gt; method though and mentions of OAuth here and there.&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_cohr3kv",
+                      "created": 1423623441,
+                      "author_flair_text": null,
+                      "created_utc": 1423623441,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 1
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "cohjrv4",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "sircmpwn",
+            "parent_id": "t3_2ujhkr",
+            "score": 13,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "This is really, really shitty.\n\n\\- RedditSharp maintainer",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;This is really, really shitty.&lt;/p&gt;\n\n&lt;p&gt;- RedditSharp maintainer&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_cohjrv4",
+            "created": 1423610482,
+            "author_flair_text": null,
+            "created_utc": 1423610482,
+            "ups": 13,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_cogz3r1",
+                                "children": [
+                                  "coh2imm",
+                                  "coh1r93"
+                                ],
+                                "name": "t1_coh2imm",
+                                "id": "coh2imm"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "cogz3r1",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "Mustermind",
+                      "parent_id": "t1_cogquu1",
+                      "score": 2,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "Wow, it's a fantastic rewrite, but I think we need to give API clients some time to switch (despite not having been updated for a while) before we recommend certain clients, since cookie authentication will only start being throttled from August. For example, \"deprecated\" is a pretty strong word for old clients, as libraries like jReddit and RedditKit are still being worked on.\n\nBTW, I'm actually in the middle of a massive rewrite of Redd, so it's not quite stable yet.",
+                      "edited": 1423578381,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;Wow, it&amp;#39;s a fantastic rewrite, but I think we need to give API clients some time to switch (despite not having been updated for a while) before we recommend certain clients, since cookie authentication will only start being throttled from August. For example, &amp;quot;deprecated&amp;quot; is a pretty strong word for old clients, as libraries like jReddit and RedditKit are still being worked on.&lt;/p&gt;\n\n&lt;p&gt;BTW, I&amp;#39;m actually in the middle of a massive rewrite of Redd, so it&amp;#39;s not quite stable yet.&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_cogz3r1",
+                      "created": 1423572382,
+                      "author_flair_text": null,
+                      "created_utc": 1423572382,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 2
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "cogquu1",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "[deleted]",
+            "parent_id": "t3_2ujhkr",
+            "score": 2,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "[deleted]",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;[deleted]&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_cogquu1",
+            "created": 1423542465,
+            "author_flair_text": null,
+            "created_utc": 1423542465,
+            "ups": 2,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_coceyke",
+                                "children": [
+                                  "cocf08u"
+                                ],
+                                "name": "t1_cocf08u",
+                                "id": "cocf08u"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "coceyke",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "kemitche",
+                      "parent_id": "t1_cocegz2",
+                      "score": 4,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "What OAuth2 flow you use depends a lot on what type of thing you're building. Is this for a bot or for a web server?",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;What OAuth2 flow you use depends a lot on what type of thing you&amp;#39;re building. Is this for a bot or for a web server?&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_coceyke",
+                      "created": 1423172196,
+                      "author_flair_text": null,
+                      "created_utc": 1423172196,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 4
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "cocegz2",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "Dolphman",
+            "parent_id": "t3_2ujhkr",
+            "score": 5,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "I hate to be whiny, but do you know any good Tutorials/Examples of changing over to Oauth2 with Praw?. Their Tutorial is rather crap and very confusing.\n\nWhen I tried following it, I got stuck on \"you are not a websocket\"",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;I hate to be whiny, but do you know any good Tutorials/Examples of changing over to Oauth2 with Praw?. Their Tutorial is rather crap and very confusing.&lt;/p&gt;\n\n&lt;p&gt;When I tried following it, I got stuck on &amp;quot;you are not a websocket&amp;quot;&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_cocegz2",
+            "created": 1423170614,
+            "author_flair_text": null,
+            "created_utc": 1423170614,
+            "ups": 5,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": "",
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "coaezdb",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "kemitche",
+                      "parent_id": "t1_coackiw",
+                      "score": 3,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "Yes. Bots/scripts can use their username/password to get OAuth tokens: https://github.com/reddit/reddit/wiki/OAuth2-Quick-Start-Example",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;Yes. Bots/scripts can use their username/password to get OAuth tokens: &lt;a href=\"https://github.com/reddit/reddit/wiki/OAuth2-Quick-Start-Example\"&gt;https://github.com/reddit/reddit/wiki/OAuth2-Quick-Start-Example&lt;/a&gt;&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_coaezdb",
+                      "created": 1423011631,
+                      "author_flair_text": null,
+                      "created_utc": 1423011631,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 3
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "coackiw",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "TheLastAirbender_Bot",
+            "parent_id": "t3_2ujhkr",
+            "score": 2,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "Do you wish for Bots to move over to oauth2 also?",
+            "edited": 1423007750,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;Do you wish for Bots to move over to oauth2 also?&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_coackiw",
+            "created": 1423007261,
+            "author_flair_text": null,
+            "created_utc": 1423007261,
+            "ups": 2,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_co9lto5",
+                                "children": [
+                                  "col4v0r"
+                                ],
+                                "name": "t1_col4v0r",
+                                "id": "col4v0r"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "co9lto5",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "kemitche",
+                      "parent_id": "t1_co9jth0",
+                      "score": 2,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "Security review is an ongoing process. We don't currently have a bounty system in place.\n\nAll that said, in general, there's no way for OAuth to be less secure than cookie authentication, since cookie-auth (as used on reddit) provides full access to your account (except account deletion and password changes).",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;Security review is an ongoing process. We don&amp;#39;t currently have a bounty system in place.&lt;/p&gt;\n\n&lt;p&gt;All that said, in general, there&amp;#39;s no way for OAuth to be less secure than cookie authentication, since cookie-auth (as used on reddit) provides full access to your account (except account deletion and password changes).&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_co9lto5",
+                      "created": 1422946010,
+                      "author_flair_text": null,
+                      "created_utc": 1422946010,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 2
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "co9jth0",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "Mustermind",
+            "parent_id": "t3_2ujhkr",
+            "score": 9,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "I think it's great that you're pushing forward a standard way to access the API, but please do consider security implications and possible vulnerabilities caused by every decision you make. Github has had multiple security issues with their OAuth2 implementation in the past and Steam just shut down their OAuth service last year.\n\nThere have been [some](http://hueniverse.com/2012/07/26/oauth-2-0-and-the-road-to-hell/) [issues](https://nakedsecurity.sophos.com/2011/02/02/facebook-flaw-websites-steal-personal-data/) [with](http://www.thread-safe.com/2012/01/problem-with-oauth-for-authentication.html) [OAuth](http://www.infoq.com/news/2010/09/oauth2-bad-for-web) in the past, and though I don't recommend abandoning the spec, please do consider the problems put forward by the authors.\n\nHave you guys considered a bounty program or something like that just in case?",
+            "edited": 1422941760,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;I think it&amp;#39;s great that you&amp;#39;re pushing forward a standard way to access the API, but please do consider security implications and possible vulnerabilities caused by every decision you make. Github has had multiple security issues with their OAuth2 implementation in the past and Steam just shut down their OAuth service last year.&lt;/p&gt;\n\n&lt;p&gt;There have been &lt;a href=\"http://hueniverse.com/2012/07/26/oauth-2-0-and-the-road-to-hell/\"&gt;some&lt;/a&gt; &lt;a href=\"https://nakedsecurity.sophos.com/2011/02/02/facebook-flaw-websites-steal-personal-data/\"&gt;issues&lt;/a&gt; &lt;a href=\"http://www.thread-safe.com/2012/01/problem-with-oauth-for-authentication.html\"&gt;with&lt;/a&gt; &lt;a href=\"http://www.infoq.com/news/2010/09/oauth2-bad-for-web\"&gt;OAuth&lt;/a&gt; in the past, and though I don&amp;#39;t recommend abandoning the spec, please do consider the problems put forward by the authors.&lt;/p&gt;\n\n&lt;p&gt;Have you guys considered a bounty program or something like that just in case?&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_co9jth0",
+            "created": 1422940985,
+            "author_flair_text": null,
+            "created_utc": 1422940985,
+            "ups": 9,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": "",
+            "user_reports": [],
+            "saved": false,
+            "id": "co9k282",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "eschotron",
+            "parent_id": "t3_2ujhkr",
+            "score": 5,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "Would using the word \"redditor\" in the name of a client be considered okay?",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;Would using the word &amp;quot;redditor&amp;quot; in the name of a client be considered okay?&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_co9k282",
+            "created": 1422941530,
+            "author_flair_text": null,
+            "created_utc": 1422941530,
+            "ups": 5,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": "",
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "co95660",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "ljdawson",
+                      "parent_id": "t1_co94qbr",
+                      "score": 16,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "Heh that was quick. \n\nThanks for the heads up. I've just sent an email through to licensing and will be renaming \"reddit sync\" to \"Sync for reddit\" either tonight or tomorrow.\n\nGood call on the OAuth switchover, I implemented it last November and it was fairly simple. ",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;Heh that was quick. &lt;/p&gt;\n\n&lt;p&gt;Thanks for the heads up. I&amp;#39;ve just sent an email through to licensing and will be renaming &amp;quot;reddit sync&amp;quot; to &amp;quot;Sync for reddit&amp;quot; either tonight or tomorrow.&lt;/p&gt;\n\n&lt;p&gt;Good call on the OAuth switchover, I implemented it last November and it was fairly simple. &lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_co95660",
+                      "created": 1422914405,
+                      "author_flair_text": null,
+                      "created_utc": 1422914405,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 16
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "co94qbr",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "totes_meta_bot",
+            "parent_id": "t3_2ujhkr",
+            "score": 23,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "This thread has been linked to from elsewhere on reddit.\n\n\n - [/r/redditsync] [PSA: reddit sync will be renamed as &amp;quot;Sync for reddit&amp;quot; in the next release. This is due to new licensing rules from reddit](http://np.reddit.com/r/redditsync/comments/2uk9a4/psa_reddit_sync_will_be_renamed_as_sync_for/)\n\n\n - [/r/reddit_news] [Reddit News is going to need a name change.](http://np.reddit.com/r/reddit_news/comments/2ukug7/reddit_news_is_going_to_need_a_name_change/)\n\n - [/r/RequestABot] [Important: Cookie-authentication deprecation warning. All API consumers (including bots) need to move over to oauth2.](http://np.reddit.com/r/RequestABot/comments/2vm2sr/important_cookieauthentication_deprecation/)\n\n*^If ^you ^follow ^any ^of ^the ^above ^links, ^respect ^the ^rules ^of ^reddit ^and ^don't ^vote ^or ^comment. ^Questions? ^Abuse? [^Message ^me ^here.](http://www.reddit.com/message/compose?to=%2Fr%2Fmeta_bot_mailbag)*\n\n",
+            "edited": 1423711384,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;This thread has been linked to from elsewhere on reddit.&lt;/p&gt;\n\n&lt;ul&gt;\n&lt;li&gt;&lt;p&gt;[&lt;a href=\"/r/redditsync\"&gt;/r/redditsync&lt;/a&gt;] &lt;a href=\"http://np.reddit.com/r/redditsync/comments/2uk9a4/psa_reddit_sync_will_be_renamed_as_sync_for/\"&gt;PSA: reddit sync will be renamed as &amp;quot;Sync for reddit&amp;quot; in the next release. This is due to new licensing rules from reddit&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;li&gt;&lt;p&gt;[&lt;a href=\"/r/reddit_news\"&gt;/r/reddit_news&lt;/a&gt;] &lt;a href=\"http://np.reddit.com/r/reddit_news/comments/2ukug7/reddit_news_is_going_to_need_a_name_change/\"&gt;Reddit News is going to need a name change.&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;li&gt;&lt;p&gt;[&lt;a href=\"/r/RequestABot\"&gt;/r/RequestABot&lt;/a&gt;] &lt;a href=\"http://np.reddit.com/r/RequestABot/comments/2vm2sr/important_cookieauthentication_deprecation/\"&gt;Important: Cookie-authentication deprecation warning. All API consumers (including bots) need to move over to oauth2.&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;\n&lt;/ul&gt;\n\n&lt;p&gt;&lt;em&gt;&lt;sup&gt;If&lt;/sup&gt; &lt;sup&gt;you&lt;/sup&gt; &lt;sup&gt;follow&lt;/sup&gt; &lt;sup&gt;any&lt;/sup&gt; &lt;sup&gt;of&lt;/sup&gt; &lt;sup&gt;the&lt;/sup&gt; &lt;sup&gt;above&lt;/sup&gt; &lt;sup&gt;links,&lt;/sup&gt; &lt;sup&gt;respect&lt;/sup&gt; &lt;sup&gt;the&lt;/sup&gt; &lt;sup&gt;rules&lt;/sup&gt; &lt;sup&gt;of&lt;/sup&gt; &lt;sup&gt;reddit&lt;/sup&gt; &lt;sup&gt;and&lt;/sup&gt; &lt;sup&gt;don&amp;#39;t&lt;/sup&gt; &lt;sup&gt;vote&lt;/sup&gt; &lt;sup&gt;or&lt;/sup&gt; &lt;sup&gt;comment.&lt;/sup&gt; &lt;sup&gt;Questions?&lt;/sup&gt; &lt;sup&gt;Abuse?&lt;/sup&gt; &lt;a href=\"http://www.reddit.com/message/compose?to=%2Fr%2Fmeta_bot_mailbag\"&gt;&lt;sup&gt;Message&lt;/sup&gt; &lt;sup&gt;me&lt;/sup&gt; &lt;sup&gt;here.&lt;/sup&gt;&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_co94qbr",
+            "created": 1422913673,
+            "author_flair_text": null,
+            "created_utc": 1422913673,
+            "ups": 23,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_co91ryk",
+                                "children": [
+                                  "co9awll"
+                                ],
+                                "name": "t1_co9awll",
+                                "id": "co9awll"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "co91ryk",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "kemitche",
+                      "parent_id": "t1_co9197y",
+                      "score": 11,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "In nearly all cases, yes, we will be asking nicely for apps to rename. The devs I've reached out to so far have been understanding, and I hope the rest are the same.\n\nWe may allow some existing apps to sign a licensing agreement to avoid a name change, but we will be granting that as an option extremely rarely.",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;In nearly all cases, yes, we will be asking nicely for apps to rename. The devs I&amp;#39;ve reached out to so far have been understanding, and I hope the rest are the same.&lt;/p&gt;\n\n&lt;p&gt;We may allow some existing apps to sign a licensing agreement to avoid a name change, but we will be granting that as an option extremely rarely.&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_co91ryk",
+                      "created": 1422908868,
+                      "author_flair_text": null,
+                      "created_utc": 1422908868,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 11
+                    }
+                  },
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_co91cai",
+                                "children": [
+                                  "co92mv7"
+                                ],
+                                "name": "t1_co92mv7",
+                                "id": "co92mv7"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "co91cai",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "[deleted]",
+                      "parent_id": "t1_co9197y",
+                      "score": 7,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "[deleted]",
+                      "edited": 1423676504,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;[deleted]&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_co91cai",
+                      "created": 1422908161,
+                      "author_flair_text": null,
+                      "created_utc": 1422908161,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 7
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "co9197y",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "reseph",
+            "parent_id": "t3_2ujhkr",
+            "score": 17,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "So this means stuff like Reddit News (Android) and Reddit 2 Go (Windows 8) will be required to rename?",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;So this means stuff like Reddit News (Android) and Reddit 2 Go (Windows 8) will be required to rename?&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_co9197y",
+            "created": 1422908023,
+            "author_flair_text": null,
+            "created_utc": 1422908023,
+            "ups": 17,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_co9memo",
+                                "children": [
+                                  "co9y5oi"
+                                ],
+                                "name": "t1_co9y5oi",
+                                "id": "co9y5oi"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "co9memo",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "amici_ursi",
+                      "parent_id": "t1_co958z3",
+                      "score": 10,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "RES for reddit",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;RES for reddit&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_co9memo",
+                      "created": 1422947826,
+                      "author_flair_text": null,
+                      "created_utc": 1422947826,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 10
+                    }
+                  },
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_co9805g",
+                                "children": [
+                                  "co9la4t"
+                                ],
+                                "name": "t1_co9la4t",
+                                "id": "co9la4t"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "co9805g",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "Antabaka",
+                      "parent_id": "t1_co958z3",
+                      "score": 7,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "I say just switch the R over to something else...\n\n Ruthless Enhancement Suite (for Reddit)?  \nRadiant Enhancement Suite (for Reddit)?  \nRacist Enhancement Suite (for Reddit)? Probably not that one.",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;I say just switch the R over to something else...&lt;/p&gt;\n\n&lt;p&gt;Ruthless Enhancement Suite (for Reddit)?&lt;br/&gt;\nRadiant Enhancement Suite (for Reddit)?&lt;br/&gt;\nRacist Enhancement Suite (for Reddit)? Probably not that one.&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_co9805g",
+                      "created": 1422919505,
+                      "author_flair_text": null,
+                      "created_utc": 1422919505,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 7
+                    }
+                  },
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_co95j0h",
+                                "children": [
+                                  "co95jvd"
+                                ],
+                                "name": "t1_co95jvd",
+                                "id": "co95jvd"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "co95j0h",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "dukwon",
+                      "parent_id": "t1_co958z3",
+                      "score": 4,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "suite of enhancements for reddit: SER",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;suite of enhancements for reddit: SER&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_co95j0h",
+                      "created": 1422915007,
+                      "author_flair_text": null,
+                      "created_utc": 1422915007,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 4
+                    }
+                  },
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_co95cz2",
+                                "children": [
+                                  "co95f5x"
+                                ],
+                                "name": "t1_co95f5x",
+                                "id": "co95f5x"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "co95cz2",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "nemoid",
+                      "parent_id": "t1_co958z3",
+                      "score": 3,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "ESfR?\n\nSigh is right.",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;ESfR?&lt;/p&gt;\n\n&lt;p&gt;Sigh is right.&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_co95cz2",
+                      "created": 1422914719,
+                      "author_flair_text": null,
+                      "created_utc": 1422914719,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 3
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "co958z3",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "allthefoxes",
+            "parent_id": "t3_2ujhkr",
+            "score": 9,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "Enhancement Suite for Reddit just doesn't have the same ring to it. Sigh.",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;Enhancement Suite for Reddit just doesn&amp;#39;t have the same ring to it. Sigh.&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_co958z3",
+            "created": 1422914538,
+            "author_flair_text": null,
+            "created_utc": 1422914538,
+            "ups": 9,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_co940go",
+                                "children": [
+                                  "cpzkz8l",
+                                  "co942jj"
+                                ],
+                                "name": "t1_cpzkz8l",
+                                "id": "cpzkz8l"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "co940go",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "kemitche",
+                      "parent_id": "t1_co93tbn",
+                      "score": 2,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "Thank you for making that name change so quickly :)",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;Thank you for making that name change so quickly :)&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_co940go",
+                      "created": 1422912498,
+                      "author_flair_text": null,
+                      "created_utc": 1422912498,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 2
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "co93tbn",
+            "gilded": 1,
+            "archived": false,
+            "report_reasons": null,
+            "author": "agentlame",
+            "parent_id": "t3_2ujhkr",
+            "score": 8,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "[As always, toolbox loves you](https://github.com/creesch/reddit-moderator-toolbox/commit/9954fe8ef5caaaf0fdf865cfee94be72203c8d7a).",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;&lt;a href=\"https://github.com/creesch/reddit-moderator-toolbox/commit/9954fe8ef5caaaf0fdf865cfee94be72203c8d7a\"&gt;As always, toolbox loves you&lt;/a&gt;.&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_co93tbn",
+            "created": 1422912176,
+            "author_flair_text": null,
+            "created_utc": 1422912176,
+            "ups": 8,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_co9ac1g",
+                                "children": [
+                                  "cof9vm3"
+                                ],
+                                "name": "t1_cof9vm3",
+                                "id": "cof9vm3"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "co9ac1g",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "kemitche",
+                      "parent_id": "t1_co98ef8",
+                      "score": 1,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "So, our timeline for charging for commercial/heavy API use is several months out. We don't have anything to share about cost structure just yet; the purpose of the commercial clause in the licensing docs is so we can have appropriate contact information to give adequate warning as we get our plans developed.",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;So, our timeline for charging for commercial/heavy API use is several months out. We don&amp;#39;t have anything to share about cost structure just yet; the purpose of the commercial clause in the licensing docs is so we can have appropriate contact information to give adequate warning as we get our plans developed.&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_co9ac1g",
+                      "created": 1422923681,
+                      "author_flair_text": null,
+                      "created_utc": 1422923681,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 1
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "co98ef8",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "TomEnom",
+            "parent_id": "t3_2ujhkr",
+            "score": 7,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "Not surprised to hear that reddit is going to start charging for the commercial use of the API - I figured this was inevitable.  It was nice that it was free, but I'll take this change as confirmation that reddit is serious about the API and about supporting a robust 3rd party eco-system (which I applaud).\n\nI would be more comfortable though if reddit published the API prices and the rules governing app acceptance/rejection.  Otherwise I will feel that I'm completely at their mercy if my app takes off.  Happy to contribute some of any profit to Reddit, but would prefer to have a good sense of how much that is going to be.  I'm used to using services like Google where I know my API costs will be x$ / API call, above a free tier.\n",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;Not surprised to hear that reddit is going to start charging for the commercial use of the API - I figured this was inevitable.  It was nice that it was free, but I&amp;#39;ll take this change as confirmation that reddit is serious about the API and about supporting a robust 3rd party eco-system (which I applaud).&lt;/p&gt;\n\n&lt;p&gt;I would be more comfortable though if reddit published the API prices and the rules governing app acceptance/rejection.  Otherwise I will feel that I&amp;#39;m completely at their mercy if my app takes off.  Happy to contribute some of any profit to Reddit, but would prefer to have a good sense of how much that is going to be.  I&amp;#39;m used to using services like Google where I know my API costs will be x$ / API call, above a free tier.&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_co98ef8",
+            "created": 1422920202,
+            "author_flair_text": null,
+            "created_utc": 1422920202,
+            "ups": 7,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_co95uqy",
+                                "children": [
+                                  "co96cu3"
+                                ],
+                                "name": "t1_co96cu3",
+                                "id": "co96cu3"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "co95uqy",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "agentlame",
+                      "parent_id": "t1_co94lkx",
+                      "score": 2,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "I depends on how they implement it, though.  reddit is fun opens and in-app browser window, which makes Oauth pointless.",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;I depends on how they implement it, though.  reddit is fun opens and in-app browser window, which makes Oauth pointless.&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_co95uqy",
+                      "created": 1422915564,
+                      "author_flair_text": null,
+                      "created_utc": 1422915564,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 2
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "co94lkx",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "thefinn93",
+            "parent_id": "t3_2ujhkr",
+            "score": 6,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "Thank fucking god. I've had developers tell me that it was fine for me to give my password to their totally trustworthy closed source because it uses HTTPS!",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;Thank fucking god. I&amp;#39;ve had developers tell me that it was fine for me to give my password to their totally trustworthy closed source because it uses HTTPS!&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_co94lkx",
+            "created": 1422913455,
+            "author_flair_text": null,
+            "created_utc": 1422913455,
+            "ups": 6,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_co9ry9d",
+                                "children": [
+                                  "coa9qlz"
+                                ],
+                                "name": "t1_coa9qlz",
+                                "id": "coa9qlz"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "co9ry9d",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "LDRMS",
+                      "parent_id": "t1_co92opl",
+                      "score": 2,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "\n\n&gt;I'm glad to hear, both as a developer and as a user, that you are pushing forward with oauth.  On top of the points you've already made, it really feels wrong to me as an end-user to be giving my password to 3rd party apps.\n\n\nSo what did you and everyone do before OAuth?\n\nYou make every Dev out to be a password theif.",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;blockquote&gt;\n&lt;p&gt;I&amp;#39;m glad to hear, both as a developer and as a user, that you are pushing forward with oauth.  On top of the points you&amp;#39;ve already made, it really feels wrong to me as an end-user to be giving my password to 3rd party apps.&lt;/p&gt;\n&lt;/blockquote&gt;\n\n&lt;p&gt;So what did you and everyone do before OAuth?&lt;/p&gt;\n\n&lt;p&gt;You make every Dev out to be a password theif.&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_co9ry9d",
+                      "created": 1422971048,
+                      "author_flair_text": null,
+                      "created_utc": 1422971048,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 2
+                    }
+                  },
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_co93574",
+                                "children": [
+                                  "co96mix"
+                                ],
+                                "name": "t1_co96mix",
+                                "id": "co96mix"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "co93574",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "kemitche",
+                      "parent_id": "t1_co92opl",
+                      "score": 5,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "It's definitely my highest priority in terms of OAuth-type stuff. I have work-in-progress (but no ETA) on sign-in with reddit. That sort of flow unfortunately doesn't appear to be part of the OAuth2 spec, so I have to be very careful to think through scenarios lest I create a bad security vulnerability.\n\nIf you have examples (other than Twitter/Facebook/Google) or specifications for log-in-with-XXX that mesh well with the OAuth 2 spec, I'd definitely be interested in taking a look.",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;It&amp;#39;s definitely my highest priority in terms of OAuth-type stuff. I have work-in-progress (but no ETA) on sign-in with reddit. That sort of flow unfortunately doesn&amp;#39;t appear to be part of the OAuth2 spec, so I have to be very careful to think through scenarios lest I create a bad security vulnerability.&lt;/p&gt;\n\n&lt;p&gt;If you have examples (other than Twitter/Facebook/Google) or specifications for log-in-with-XXX that mesh well with the OAuth 2 spec, I&amp;#39;d definitely be interested in taking a look.&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_co93574",
+                      "created": 1422911083,
+                      "author_flair_text": null,
+                      "created_utc": 1422911083,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 5
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "co92opl",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "TomEnom",
+            "parent_id": "t3_2ujhkr",
+            "score": 7,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "I'm glad to hear, both as a developer and as a user, that you are pushing forward with oauth.  On top of the points you've already made, it really feels wrong to me as an end-user to be giving my password to 3rd party apps.\n\nI tried using your oauth interface 8 months ago and, while I found it to be reasonable simple to use, it was missing functionality needed for web clients.  [Here is an exchange](http://www.reddit.com/r/redditdev/comments/25hpn2/using_reddit_oauth_flow_for_web_signin/) between us (u/kemitche) about this issue.  \n \nI've seen others bring it up more recently, so I assumed the situation was still the same.\n\nHas this been resolved recently, or is it now higher up to the to-do list?",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;I&amp;#39;m glad to hear, both as a developer and as a user, that you are pushing forward with oauth.  On top of the points you&amp;#39;ve already made, it really feels wrong to me as an end-user to be giving my password to 3rd party apps.&lt;/p&gt;\n\n&lt;p&gt;I tried using your oauth interface 8 months ago and, while I found it to be reasonable simple to use, it was missing functionality needed for web clients.  &lt;a href=\"http://www.reddit.com/r/redditdev/comments/25hpn2/using_reddit_oauth_flow_for_web_signin/\"&gt;Here is an exchange&lt;/a&gt; between us (u/kemitche) about this issue.  &lt;/p&gt;\n\n&lt;p&gt;I&amp;#39;ve seen others bring it up more recently, so I assumed the situation was still the same.&lt;/p&gt;\n\n&lt;p&gt;Has this been resolved recently, or is it now higher up to the to-do list?&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_co92opl",
+            "created": 1422910346,
+            "author_flair_text": null,
+            "created_utc": 1422910346,
+            "ups": 7,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": "",
+            "user_reports": [],
+            "saved": false,
+            "id": "co9ewpp",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "Techman-",
+            "parent_id": "t3_2ujhkr",
+            "score": 2,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "The requirement for OAuth will be hell for some developers I imagine. However, most of my developer friends have said that the switch was pretty straightforward and didn't post that many issues.",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;The requirement for OAuth will be hell for some developers I imagine. However, most of my developer friends have said that the switch was pretty straightforward and didn&amp;#39;t post that many issues.&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_co9ewpp",
+            "created": 1422931674,
+            "author_flair_text": null,
+            "created_utc": 1422931674,
+            "ups": 2,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_co96prl",
+                                "children": [
+                                  "co9l9jm"
+                                ],
+                                "name": "t1_co9l9jm",
+                                "id": "co9l9jm"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "co96prl",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "TomEnom",
+                      "parent_id": "t1_co941ll",
+                      "score": 14,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "&gt; Open source use is generally considered non-commercial.\n\nI generally push back against that definition: just because something is open-source doesn't mean people shouldn't/can't try to make money from it.   Open source != non-commercial.",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;blockquote&gt;\n&lt;p&gt;Open source use is generally considered non-commercial.&lt;/p&gt;\n&lt;/blockquote&gt;\n\n&lt;p&gt;I generally push back against that definition: just because something is open-source doesn&amp;#39;t mean people shouldn&amp;#39;t/can&amp;#39;t try to make money from it.   Open source != non-commercial.&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_co96prl",
+                      "created": 1422917164,
+                      "author_flair_text": null,
+                      "created_utc": 1422917164,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 14
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "co941ll",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "L_Cranston_Shadow",
+            "parent_id": "t3_2ujhkr",
+            "score": 3,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "Question, how do you define commercial?  \n.  \nEdit: Nevermind, from the [licensing page](http://www.reddit.com/wiki/licensing):  \n&gt;“Use of the API is considered \"commercial\" if you are earning money from it, including via in-app advertising or in-app purchases. Open source use is generally considered non-commercial.”",
+            "edited": 1422913167,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;Question, how do you define commercial?&lt;br/&gt;\n.&lt;br/&gt;\nEdit: Nevermind, from the &lt;a href=\"http://www.reddit.com/wiki/licensing\"&gt;licensing page&lt;/a&gt;:  &lt;/p&gt;\n\n&lt;blockquote&gt;\n&lt;p&gt;“Use of the API is considered &amp;quot;commercial&amp;quot; if you are earning money from it, including via in-app advertising or in-app purchases. Open source use is generally considered non-commercial.”&lt;/p&gt;\n&lt;/blockquote&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_co941ll",
+            "created": 1422912547,
+            "author_flair_text": null,
+            "created_utc": 1422912547,
+            "ups": 3,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": {
+                        "kind": "Listing",
+                        "data": {
+                          "modhash": null,
+                          "children": [
+                            {
+                              "kind": "more",
+                              "data": {
+                                "count": 0,
+                                "parent_id": "t1_co9eouj",
+                                "children": [
+                                  "co9fa4p"
+                                ],
+                                "name": "t1_co9fa4p",
+                                "id": "co9fa4p"
+                              }
+                            }
+                          ],
+                          "after": null,
+                          "before": null
+                        }
+                      },
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "co9eouj",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "kemitche",
+                      "parent_id": "t1_co9ddv0",
+                      "score": 1,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "All API use.",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;All API use.&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_co9eouj",
+                      "created": 1422931281,
+                      "author_flair_text": null,
+                      "created_utc": 1422931281,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 1
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "co9ddv0",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "kelly-tk",
+            "parent_id": "t3_2ujhkr",
+            "score": 1,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "Does API client licensing apply only if you make direct API queries, or does it also apply to client implementations of the API used by users with their account?",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;Does API client licensing apply only if you make direct API queries, or does it also apply to client implementations of the API used by users with their account?&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_co9ddv0",
+            "created": 1422929022,
+            "author_flair_text": null,
+            "created_utc": 1422929022,
+            "ups": 1,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        },
+        {
+          "kind": "t1",
+          "data": {
+            "subreddit_id": "t5_2qizd",
+            "banned_by": null,
+            "link_id": "t3_2ujhkr",
+            "likes": null,
+            "replies": {
+              "kind": "Listing",
+              "data": {
+                "modhash": null,
+                "children": [
+                  {
+                    "kind": "t1",
+                    "data": {
+                      "subreddit_id": "t5_2qizd",
+                      "banned_by": null,
+                      "link_id": "t3_2ujhkr",
+                      "likes": null,
+                      "replies": "",
+                      "user_reports": [],
+                      "saved": false,
+                      "id": "co95xri",
+                      "gilded": 0,
+                      "archived": false,
+                      "report_reasons": null,
+                      "author": "michelectric",
+                      "parent_id": "t1_co95lhz",
+                      "score": 7,
+                      "approved_by": null,
+                      "controversiality": 0,
+                      "body": "User agents are still required, per our [API Access Rules](https://github.com/reddit/reddit/wiki/API).",
+                      "edited": false,
+                      "author_flair_css_class": null,
+                      "downs": 0,
+                      "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;User agents are still required, per our &lt;a href=\"https://github.com/reddit/reddit/wiki/API\"&gt;API Access Rules&lt;/a&gt;.&lt;/p&gt;\n&lt;/div&gt;",
+                      "subreddit": "redditdev",
+                      "score_hidden": false,
+                      "name": "t1_co95xri",
+                      "created": 1422915706,
+                      "author_flair_text": null,
+                      "created_utc": 1422915706,
+                      "distinguished": null,
+                      "mod_reports": [],
+                      "num_reports": null,
+                      "ups": 7
+                    }
+                  }
+                ],
+                "after": null,
+                "before": null
+              }
+            },
+            "user_reports": [],
+            "saved": false,
+            "id": "co95lhz",
+            "gilded": 0,
+            "archived": false,
+            "report_reasons": null,
+            "author": "Glurt",
+            "parent_id": "t3_2ujhkr",
+            "score": 2,
+            "approved_by": null,
+            "controversiality": 0,
+            "body": "Does this mean that we don't have to include a user agent in our requests?",
+            "edited": false,
+            "author_flair_css_class": null,
+            "downs": 0,
+            "body_html": "&lt;div class=\"md\"&gt;&lt;p&gt;Does this mean that we don&amp;#39;t have to include a user agent in our requests?&lt;/p&gt;\n&lt;/div&gt;",
+            "subreddit": "redditdev",
+            "score_hidden": false,
+            "name": "t1_co95lhz",
+            "created": 1422915122,
+            "author_flair_text": null,
+            "created_utc": 1422915122,
+            "ups": 2,
+            "mod_reports": [],
+            "num_reports": null,
+            "distinguished": null
+          }
+        }
+      ],
+      "after": null,
+      "before": null
+    }
+  }
+]

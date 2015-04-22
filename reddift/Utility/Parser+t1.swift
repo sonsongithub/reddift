@@ -109,7 +109,7 @@ extension Parser {
         return comment
     }
 	
-	class func parseDataThing_more(data:[String:AnyObject]) -> Thing {
+	class func parseDataInThing_more(data:[String:AnyObject]) -> Thing {
 		let more = More()
 		if let temp = data["id"] as? String {
 			more.id = temp

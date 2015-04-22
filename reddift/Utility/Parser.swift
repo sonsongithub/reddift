@@ -28,7 +28,7 @@ class Parser: NSObject {
                 // subreddit
 				return parseDataInThing_t5(data)
 			case "more":
-				return parseDataThing_more(data)
+				return parseDataInThing_more(data)
             default:
                 break
             }
