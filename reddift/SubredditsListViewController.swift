@@ -24,7 +24,7 @@ class SubredditsListViewController: UITableViewController {
 						if let subreddits = listing.children as? [Subreddit] {
 							self.subreddits += subreddits
 						}
-					}
+                    }
 					self.tableView.reloadData()
 				}
 				else {

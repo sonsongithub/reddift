@@ -1,3 +1,6 @@
 [submodule "vendor/KeychainAccess"]
 	path = vendor/KeychainAccess
 	url = https://github.com/kishikawakatsumi/KeychainAccess.git
+[submodule "vendor/UZTextView"]
+	path = vendor/UZTextView
+	url = https://github.com/sonsongithub/UZTextView

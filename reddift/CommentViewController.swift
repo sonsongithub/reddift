@@ -13,13 +13,29 @@ class CommentViewController: UITableViewController {
     var subreddit:Subreddit? = nil
     var link:Link? = nil
 	var comments:[Comment] = []
+    var heights:[CGFloat] = []
+    var texts:[NSAttributedString] = []
 	
 	deinit{
 		println("deinit")
 	}
+    
+    func updateStrings() {
+        texts.removeAll(keepCapacity: true)
+        heights.removeAll(keepCapacity: true)
+        
+        for comment in comments {
+            let attr = NSAttributedString(string: comment.body)
+            let size = UZTextView.sizeForAttributedString(attr, withBoundWidth:self.view.frame.size.width, margin: UIEdgeInsetsMake(0, 0, 0, 0))
+            texts.append(attr)
+            heights.append(size.height)
+        }
+    }
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+        let nib:UINib = UINib(nibName: "UZTextViewCell", bundle: nil)
+        self.tableView.registerNib(nib, forCellReuseIdentifier: "Cell")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -43,6 +59,7 @@ class CommentViewController: UITableViewController {
 							}
 						}
 					}
+                    self.updateStrings()
 					self.tableView.reloadData()
 				}
 				else {
@@ -59,15 +76,22 @@ class CommentViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.comments.count
     }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indices(heights) ~= indexPath.row {
+            return heights[indexPath.row]
+        }
+        return 0
+    }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
-
-        // Configure the cell...
-		if indices(comments) ~= indexPath.row {
-			let comment = comments[indexPath.row]
-			cell.textLabel?.text = comment.body
-		}
+        
+        if let cell = cell as? UZTextViewCell {
+            if indices(texts) ~= indexPath.row {
+                cell.textView?.attributedString = texts[indexPath.row]
+            }
+        }
 		
         return cell
     }

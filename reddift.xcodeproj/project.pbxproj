@@ -37,6 +37,11 @@
 		1440D5121AE7C9D500211DAD /* t3.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5051AE7C9D500211DAD /* t3.json */; };
 		1440D5131AE7C9D500211DAD /* t4.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5061AE7C9D500211DAD /* t4.json */; };
 		1440D5141AE7C9D500211DAD /* t5.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5071AE7C9D500211DAD /* t5.json */; };
+		1440D51D1AE7F17000211DAD /* UZCursorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1440D5181AE7F17000211DAD /* UZCursorView.m */; };
+		1440D51E1AE7F17000211DAD /* UZLoupeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1440D51A1AE7F17000211DAD /* UZLoupeView.m */; };
+		1440D51F1AE7F17000211DAD /* UZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1440D51C1AE7F17000211DAD /* UZTextView.m */; };
+		1440D5221AE7F52300211DAD /* UZTextViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5211AE7F52300211DAD /* UZTextViewCell.xib */; };
+		1440D5241AE7F56600211DAD /* UZTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1440D5231AE7F56600211DAD /* UZTextViewCell.swift */; };
 		1466072B1AE7453600D726C1 /* ParseThingObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */; };
 		1466072D1AE7454B00D726C1 /* ParseResponseObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */; };
 		1471A6F01AE5DD4C00816FE7 /* More.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1471A6EF1AE5DD4C00816FE7 /* More.swift */; };
@@ -124,6 +129,15 @@
 		1440D5051AE7C9D500211DAD /* t3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t3.json; sourceTree = "<group>"; };
 		1440D5061AE7C9D500211DAD /* t4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t4.json; sourceTree = "<group>"; };
 		1440D5071AE7C9D500211DAD /* t5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t5.json; sourceTree = "<group>"; };
+		1440D5171AE7F17000211DAD /* UZCursorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UZCursorView.h; sourceTree = "<group>"; };
+		1440D5181AE7F17000211DAD /* UZCursorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UZCursorView.m; sourceTree = "<group>"; };
+		1440D5191AE7F17000211DAD /* UZLoupeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UZLoupeView.h; sourceTree = "<group>"; };
+		1440D51A1AE7F17000211DAD /* UZLoupeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UZLoupeView.m; sourceTree = "<group>"; };
+		1440D51B1AE7F17000211DAD /* UZTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UZTextView.h; sourceTree = "<group>"; };
+		1440D51C1AE7F17000211DAD /* UZTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UZTextView.m; sourceTree = "<group>"; };
+		1440D5201AE7F42400211DAD /* objc-header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "objc-header.h"; sourceTree = "<group>"; };
+		1440D5211AE7F52300211DAD /* UZTextViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UZTextViewCell.xib; sourceTree = "<group>"; };
+		1440D5231AE7F56600211DAD /* UZTextViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UZTextViewCell.swift; sourceTree = "<group>"; };
 		1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseThingObjectTest.swift; sourceTree = "<group>"; };
 		1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseResponseObjectTest.swift; sourceTree = "<group>"; };
 		1471A6EF1AE5DD4C00816FE7 /* More.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = More.swift; sourceTree = "<group>"; };
@@ -189,6 +203,7 @@
 				140086B61ADBED270095F938 /* Keychain.swift */,
 			);
 			name = KeychainAccess;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		1440D4F81AE7C9D500211DAD /* other */ = {
@@ -225,11 +240,35 @@
 			path = thing;
 			sourceTree = "<group>";
 		};
+		1440D5151AE7F15C00211DAD /* vendor */ = {
+			isa = PBXGroup;
+			children = (
+				1440D5161AE7F17000211DAD /* UZTextView */,
+				140086B81ADBED2B0095F938 /* KeychainAccess */,
+			);
+			name = vendor;
+			path = reddift;
+			sourceTree = "<group>";
+		};
+		1440D5161AE7F17000211DAD /* UZTextView */ = {
+			isa = PBXGroup;
+			children = (
+				1440D5171AE7F17000211DAD /* UZCursorView.h */,
+				1440D5181AE7F17000211DAD /* UZCursorView.m */,
+				1440D5191AE7F17000211DAD /* UZLoupeView.h */,
+				1440D51A1AE7F17000211DAD /* UZLoupeView.m */,
+				1440D51B1AE7F17000211DAD /* UZTextView.h */,
+				1440D51C1AE7F17000211DAD /* UZTextView.m */,
+			);
+			name = UZTextView;
+			path = vendor/UZTextView/UZTextView;
+			sourceTree = SOURCE_ROOT;
+		};
 		147EAD971AD78568007FA2F4 = {
 			isa = PBXGroup;
 			children = (
 				147EADA21AD78568007FA2F4 /* reddift */,
-				140086B81ADBED2B0095F938 /* KeychainAccess */,
+				1440D5151AE7F15C00211DAD /* vendor */,
 				147EADB81AD78568007FA2F4 /* reddiftTests */,
 				147EADA11AD78568007FA2F4 /* Products */,
 			);
@@ -262,6 +301,9 @@
 				143335F61ADFBF6800A01216 /* SubredditsViewController.swift */,
 				1472F9701AE00BE9008948E0 /* CommentViewController.swift */,
 				1471A6F81AE6302B00816FE7 /* MessageViewController.swift */,
+				1440D5231AE7F56600211DAD /* UZTextViewCell.swift */,
+				1440D5201AE7F42400211DAD /* objc-header.h */,
+				1440D5211AE7F52300211DAD /* UZTextViewCell.xib */,
 				141B46271AD9CA7200577858 /* Main.storyboard */,
 				147EADAC1AD78568007FA2F4 /* Images.xcassets */,
 				147EADAE1AD78568007FA2F4 /* LaunchScreen.xib */,
@@ -453,6 +495,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				141B46291AD9CA7200577858 /* Main.storyboard in Resources */,
+				1440D5221AE7F52300211DAD /* UZTextViewCell.xib in Resources */,
 				147EADB01AD78568007FA2F4 /* LaunchScreen.xib in Resources */,
 				14E790FF1ADC15460065A05A /* reddift_config.json in Resources */,
 				147EADAD1AD78568007FA2F4 /* Images.xcassets in Resources */,
@@ -491,6 +534,7 @@
 				1471A6FB1AE638E700816FE7 /* Parser+t4.swift in Sources */,
 				1472F9711AE00BE9008948E0 /* CommentViewController.swift in Sources */,
 				14B8DE261ADD721700237350 /* OAuth2Token.swift in Sources */,
+				1440D51E1AE7F17000211DAD /* UZLoupeView.m in Sources */,
 				14B8DE291ADD722500237350 /* Paginator.swift in Sources */,
 				14B8DE251ADD721700237350 /* OAuth2Authorizer.swift in Sources */,
 				148BB46D1AE49FBE006ED0D0 /* Listing.swift in Sources */,
@@ -499,10 +543,12 @@
 				140086BA1ADCA5A40095F938 /* UserViewController.swift in Sources */,
 				14B8DE0E1ADD3DF300237350 /* Comment.swift in Sources */,
 				14B8DE2F1ADEC16200237350 /* Session+subreddits.swift in Sources */,
+				1440D5241AE7F56600211DAD /* UZTextViewCell.swift in Sources */,
 				1429840B1AE5AA2100846DD3 /* Parser+t3.swift in Sources */,
 				1471A6F61AE6249800816FE7 /* Parser+t2.swift in Sources */,
 				14B8DE231ADD721700237350 /* NSMutableURLRequest+reddift.swift in Sources */,
 				14B8DE241ADD721700237350 /* Session.swift in Sources */,
+				1440D51D1AE7F17000211DAD /* UZCursorView.m in Sources */,
 				142984011AE4E0EA00846DD3 /* Oembed.swift in Sources */,
 				14B8DE0D1ADD3DF300237350 /* Account.swift in Sources */,
 				142984061AE5A5CD00846DD3 /* MediaEmbed.swift in Sources */,
@@ -511,6 +557,7 @@
 				143335F31ADFBE9F00A01216 /* FrontViewController.swift in Sources */,
 				143335F71ADFBF6800A01216 /* SubredditsViewController.swift in Sources */,
 				14B8DE2D1ADEB33500237350 /* Session+listings.swift in Sources */,
+				1440D51F1AE7F17000211DAD /* UZTextView.m in Sources */,
 				14B8DE111ADD3DF300237350 /* Message.swift in Sources */,
 				14F59B171ADE32B00056EFD0 /* LinkViewController.swift in Sources */,
 				140086B71ADBED270095F938 /* Keychain.swift in Sources */,
@@ -675,6 +722,7 @@
 				INFOPLIST_FILE = reddift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/reddift/objc-header.h";
 			};
 			name = Debug;
 		};
@@ -685,6 +733,7 @@
 				INFOPLIST_FILE = reddift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/reddift/objc-header.h";
 			};
 			name = Release;
 		};

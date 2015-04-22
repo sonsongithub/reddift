@@ -19,16 +19,33 @@ class LinkViewController: UITableViewController {
     
     var types:[ListingSortType] = []
     var titles:[String] = []
+    
+    var heights:[CGFloat] = []
+    var texts:[NSAttributedString] = []
 
     override func viewDidLoad() {
         types += [ListingSortType.Top, ListingSortType.New, ListingSortType.Hot, ListingSortType.Controversial]
         titles += [ListingSortType.Top.path(), ListingSortType.New.path(), ListingSortType.Hot.path(), ListingSortType.Controversial.path()]
         super.viewDidLoad()
+        let nib:UINib = UINib(nibName: "UZTextViewCell", bundle: nil)
+        self.tableView.registerNib(nib, forCellReuseIdentifier: "Cell")
         let seg = UISegmentedControl(items:titles)
         seg.addTarget(self, action: "segmentChanged:", forControlEvents: UIControlEvents.ValueChanged)
         seg.frame = CGRect(x: 0, y: 0, width: 300, height: 28)
         seg.selectedSegmentIndex = 0
         self.segmentedControl = seg
+    }
+    
+    func updateStrings() {
+        texts.removeAll(keepCapacity: true)
+        heights.removeAll(keepCapacity: true)
+        
+        for link in links {
+            let attr = NSAttributedString(string: link.title)
+            let size = UZTextView.sizeForAttributedString(attr, withBoundWidth:self.view.frame.size.width, margin: UIEdgeInsetsMake(0, 0, 0, 0))
+            texts.append(attr)
+            heights.append(size.height)
+        }
     }
     
     func load() {
@@ -46,6 +63,7 @@ class LinkViewController: UITableViewController {
 							self.links += links
 						}
 					}
+                    self.updateStrings()
                     self.tableView.reloadData()
                 }
                 else {
@@ -96,14 +114,27 @@ class LinkViewController: UITableViewController {
             let link = links[indexPath.row]
         }
     }
-
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indices(heights) ~= indexPath.row {
+            return heights[indexPath.row]
+        }
+        return 0
+    }
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
 
-        if indices(links) ~= indexPath.row {
-            let link = links[indexPath.row]
-            cell.textLabel?.text = link.title
+        if let cell = cell as? UZTextViewCell {
+            if indices(texts) ~= indexPath.row {
+                cell.textView?.attributedString = texts[indexPath.row]
+            }
         }
+        
+//        if indices(links) ~= indexPath.row {
+//            let link = links[indexPath.row]
+//            cell.textLabel?.text = link.title
+//        }
 
         return cell
     }

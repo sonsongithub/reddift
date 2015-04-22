@@ -12,7 +12,7 @@ extension Session {
 	func downloadComment(link:Link, completion:(object:AnyObject?, error:NSError?)->Void) -> NSURLSessionDataTask {
         var parameter:[String:String] = ["sort":"hot", "depth":"2"]
     
-        var URLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"comments/" + "2ujhkr", parameter:parameter, method:"GET", token:token)
+        var URLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"comments/" + link.id, parameter:parameter, method:"GET", token:token)
         
         let task = URLSession.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             self.updateRateLimitWithURLResponse(response)

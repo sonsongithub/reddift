@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="Pxx-bU-SRQ" customClass="UZTextViewCell" customModule="reddift" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Pxx-bU-SRQ" id="WjD-no-3Fj">
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kCc-5J-9jx" customClass="UZTextView">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="kCc-5J-9jx" secondAttribute="trailing" id="84S-KL-knH"/>
+                    <constraint firstAttribute="bottom" secondItem="kCc-5J-9jx" secondAttribute="bottom" id="Wes-0q-Mcx"/>
+                    <constraint firstItem="kCc-5J-9jx" firstAttribute="top" secondItem="WjD-no-3Fj" secondAttribute="top" id="YuX-gX-SUn"/>
+                    <constraint firstItem="kCc-5J-9jx" firstAttribute="leading" secondItem="WjD-no-3Fj" secondAttribute="leading" id="l7t-Tq-WSy"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="textView" destination="kCc-5J-9jx" id="iwE-yK-lou"/>
+            </connections>
+            <point key="canvasLocation" x="442" y="483"/>
+        </tableViewCell>
+    </objects>
+</document>

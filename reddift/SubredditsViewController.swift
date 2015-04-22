@@ -32,7 +32,8 @@ class SubredditsViewController: LinkViewController {
 						if let links = listing.children as? [Link] {
 							self.links += links
 						}
-					}
+                    }
+                    self.updateStrings()
                     self.tableView.reloadData()
                     self.loading = false
                 }
