@@ -10,16 +10,14 @@ import UIKit
 
 class UZTextViewCell: UITableViewCell {
     @IBOutlet var textView:UZTextView? = nil
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        textView?.userInteractionEnabled = false
     }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    class func margin() -> UIEdgeInsets {
+        return UIEdgeInsetsMake(5, 5, 5, 5)
     }
-
+    
 }

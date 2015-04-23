@@ -42,9 +42,11 @@ class LinkViewController: UITableViewController {
         
         for link in links {
             let attr = NSAttributedString(string: link.title)
-            let size = UZTextView.sizeForAttributedString(attr, withBoundWidth:self.view.frame.size.width, margin: UIEdgeInsetsMake(0, 0, 0, 0))
+            let horizontalMargin = UZTextViewCell.margin().left + UZTextViewCell.margin().right
+            let verticalMargin = UZTextViewCell.margin().top + UZTextViewCell.margin().bottom
+            let size = UZTextView.sizeForAttributedString(attr, withBoundWidth:self.view.frame.size.width - horizontalMargin, margin: UIEdgeInsetsMake(0, 0, 0, 0))
             texts.append(attr)
-            heights.append(size.height)
+            heights.append(size.height + verticalMargin)
         }
     }
     
@@ -110,9 +112,7 @@ class LinkViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indices(links) ~= indexPath.row {
-            let link = links[indexPath.row]
-        }
+        performSegueWithIdentifier("ToCommentViewController", sender: nil)
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -131,11 +131,6 @@ class LinkViewController: UITableViewController {
             }
         }
         
-//        if indices(links) ~= indexPath.row {
-//            let link = links[indexPath.row]
-//            cell.textLabel?.text = link.title
-//        }
-
         return cell
     }
     

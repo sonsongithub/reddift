@@ -26,9 +26,11 @@ class CommentViewController: UITableViewController {
         
         for comment in comments {
             let attr = NSAttributedString(string: comment.body)
-            let size = UZTextView.sizeForAttributedString(attr, withBoundWidth:self.view.frame.size.width, margin: UIEdgeInsetsMake(0, 0, 0, 0))
+            let horizontalMargin = UZTextViewCell.margin().left + UZTextViewCell.margin().right
+            let verticalMargin = UZTextViewCell.margin().top + UZTextViewCell.margin().bottom
+            let size = UZTextView.sizeForAttributedString(attr, withBoundWidth:self.view.frame.size.width - horizontalMargin, margin: UIEdgeInsetsMake(0, 0, 0, 0))
             texts.append(attr)
-            heights.append(size.height)
+            heights.append(size.height + verticalMargin)
         }
     }
 	
