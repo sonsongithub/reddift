@@ -55,7 +55,7 @@ class SubredditsListViewController: UITableViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ToSubredditsViewController" {
-            if let con = segue.destinationViewController as? SubredditsViewController {
+            if let con = segue.destinationViewController as? LinkViewController {
                 con.session = self.session
                 if let indexPath = self.tableView.indexPathForSelectedRow() {
                     if indices(subreddits) ~= indexPath.row {

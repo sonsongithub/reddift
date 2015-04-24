@@ -23,4 +23,8 @@ class Listing {
 		}
 		return buf
 	}
+	
+	func paginator() -> Paginator {
+		return Paginator(after: after, before: before)
+	}
 }

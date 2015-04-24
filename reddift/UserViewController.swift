@@ -60,7 +60,7 @@ class UserViewController: UITableViewController {
             }
         }
         else if segue.identifier == "ToFrontViewController" {
-            if let con = segue.destinationViewController as? FrontViewController {
+            if let con = segue.destinationViewController as? LinkViewController {
                 con.session = self.session
             }
         }

@@ -8,29 +8,6 @@
 
 import UIKit
 
-enum ListingSortType {
-    case Controversial
-    case Hot
-    case New
-    case Top
-    
-    func path () -> String {
-        switch self{
-        case ListingSortType.Controversial:
-            return "/controversial"
-        case ListingSortType.Hot:
-            return "/hot"
-        case ListingSortType.New:
-            return "/new"
-        case ListingSortType.Top:
-            return "/top"
-        default :
-            return ""
-        }
-    }
-}
-
-
 class Link : Thing {
     /**
     example: self.redditdev
@@ -255,4 +232,134 @@ class Link : Thing {
 	}
 }
 
+enum TimeSort {
+	case Hour
+	case Day
+	case Week
+	case Month
+	case Year
+	case All
+	
+	var path:String {
+		get {
+			switch self{
+			case .Hour:
+				return "/hour"
+			case .Day:
+				return "/day"
+			case .Year:
+				return "/top"
+			case .Week:
+				return "/week"
+			case .Month:
+				return "/month"
+			case .Year:
+				return "/year"
+			case .All:
+				return "/all"
+			}
+		}
+	}
+}
+
+enum LinkSort {
+	case Controversial
+	case Hot
+	case New
+	case Random
+	case Top
+	
+	var path:String {
+		get {
+			switch self{
+			case .Controversial:
+				return "/controversial"
+			case .Hot:
+				return "/hot"
+			case .New:
+				return "/new"
+			case .Random:
+				return "/random"
+			case .Top:
+				return "/top"
+			}
+		}
+	}
+}
+
+
+enum CommentSort {
+	case Confidence
+	case Top
+	case New
+	case Hot
+	case Controversial
+	case Old
+	case Random
+	case Qa
+	
+	var path:String {
+		get {
+			switch self{
+			case .Confidence:
+				return "/confidence"
+			case .Top:
+				return "/top"
+			case .New:
+				return "/new"
+			case .Hot:
+				return "/hot"
+			case .Controversial:
+				return "/controversial"
+			case .Old:
+				return "/old"
+			case .Random:
+				return "/random"
+			case .Qa:
+				return "/qa"
+			}
+		}
+	}
+}
+
+enum SearchSort {
+	case Relevance
+	case New
+	case Hot
+	case Top
+	case Comments
+	
+	var path:String {
+		get {
+			switch self{
+			case .Relevance:
+				return "/relevance"
+			case .New:
+				return "/new"
+			case .Hot:
+				return "/hot"
+			case .Top:
+				return "/top"
+			case .Comments:
+				return "/comments"
+			}
+		}
+	}
+}
+
+enum SubredditSort {
+	case Top
+	case Controversial
+	
+	var path:String {
+		get {
+			switch self{
+			case .Top:
+				return "/top"
+			case .Controversial:
+				return "/controversial"
+			}
+		}
+	}
+}
 

@@ -16,26 +16,39 @@ class LinkViewController: UITableViewController {
     var loading = false
     var task:NSURLSessionDataTask? = nil
     var segmentedControl:UISegmentedControl? = nil
-    
-    var types:[ListingSortType] = []
-    var titles:[String] = []
-    
+	
+	var sortTitles:[String] = []
+	var sortTypes:[LinkSort] = []
+	
     var heights:[CGFloat] = []
     var texts:[NSAttributedString] = []
 
     override func viewDidLoad() {
-        types += [ListingSortType.Top, ListingSortType.New, ListingSortType.Hot, ListingSortType.Controversial]
-        titles += [ListingSortType.Top.path(), ListingSortType.New.path(), ListingSortType.Hot.path(), ListingSortType.Controversial.path()]
         super.viewDidLoad()
         let nib:UINib = UINib(nibName: "UZTextViewCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: "Cell")
-        let seg = UISegmentedControl(items:titles)
-        seg.addTarget(self, action: "segmentChanged:", forControlEvents: UIControlEvents.ValueChanged)
-        seg.frame = CGRect(x: 0, y: 0, width: 300, height: 28)
-        seg.selectedSegmentIndex = 0
-        self.segmentedControl = seg
+		
+		
+		
+		self.title = self.subreddit?.title
+		sortTypes += [.Controversial, .Hot, .New, .Random, .Top]
+		for sortType in sortTypes {
+			sortTitles.append(sortType.path)
+		}
+		
+		segmentedControl = UISegmentedControl(items:sortTitles)
+		segmentedControl?.addTarget(self, action: "segmentChanged:", forControlEvents: UIControlEvents.ValueChanged)
+		segmentedControl?.frame = CGRect(x: 0, y: 0, width: 300, height: 28)
+		segmentedControl?.selectedSegmentIndex = 0
+		
+		let space = UIBarButtonItem(barButtonSystemItem:.FlexibleSpace, target: nil, action: nil)
+		let item = UIBarButtonItem(customView:self.segmentedControl!)
+		self.toolbarItems = [space, item, space]
+		if self.links.count == 0 {
+			load()
+		}
     }
-    
+	
     func updateStrings() {
         texts.removeAll(keepCapacity: true)
         heights.removeAll(keepCapacity: true)
@@ -51,27 +64,24 @@ class LinkViewController: UITableViewController {
     }
     
     func load() {
-        if loading {
-            return
-        }
-        self.loading = true
         if let seg = self.segmentedControl {
-            self.task = session?.linkList(self.paginator, sortingType:types[seg.selectedSegmentIndex], subreddit:subreddit, completion: { (object, error) -> Void in
-                self.task = nil
-                if error == nil {
-					
-					if let listing = object as? Listing {
-						if let links = listing.children as? [Link] {
-							self.links += links
-						}
-					}
+            session?.getList(paginator, sort:sortTypes[seg.selectedSegmentIndex], subreddit:subreddit, completion: { (result) in
+                switch result {
+                case let .Error(error):
+                    println(error.code)
+                case let .Value(box):
+                    if let listing = box.value as? Listing {
+                        if let links = listing.children as? [Link] {
+                            self.links += links
+                        }
+						self.paginator = listing.paginator()
+                    }
                     self.updateStrings()
-                    self.tableView.reloadData()
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.tableView.reloadData()
+                        self.loading = false
+                    })
                 }
-                else {
-                    println(error)
-                }
-                self.loading = false
             })
         }
     }
@@ -86,15 +96,6 @@ class LinkViewController: UITableViewController {
     
     override func viewDidAppear(animated: Bool) {
         self.navigationController?.toolbarHidden = false
-        let space = UIBarButtonItem(barButtonSystemItem:.FlexibleSpace, target: nil, action: nil)
-        let item = UIBarButtonItem(customView:self.segmentedControl!)
-        self.toolbarItems = [space, item, space]
-        if self.links.count == 0 {
-            load()
-        }
-    }
-    
-    override func viewWillAppear(animated: Bool) {
     }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
