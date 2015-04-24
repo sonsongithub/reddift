@@ -11,6 +11,7 @@ import UIKit
 class SubredditsListViewController: UITableViewController {
     var session:Session? = nil
     var subreddits:[Subreddit] = []
+    var paginator:Paginator? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,19 +19,22 @@ class SubredditsListViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
 		if self.subreddits.count == 0 {
-			session?.downloadSubreddit(nil, completion: { (obj, error) -> Void in
-				if error == nil {
-					if let listing = obj as? Listing {
-						if let subreddits = listing.children as? [Subreddit] {
-							self.subreddits += subreddits
-						}
+			session?.getSubscribingSubreddit(paginator, completion: { (result) -> Void in
+                switch result {
+                case let .Error(error):
+                    println(error.code)
+                case let .Value(box):
+                    if let listing = box.value as? Listing {
+                        if let subreddits = listing.children as? [Subreddit] {
+                            self.subreddits += subreddits
+                        }
+                        self.paginator = listing.paginator()
                     }
-					self.tableView.reloadData()
-				}
-				else {
-					println(error)
-				}
-			})
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.tableView.reloadData()
+                    })
+                }
+            })
 		}
     }
 
