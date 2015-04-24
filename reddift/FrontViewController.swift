@@ -19,42 +19,21 @@ class FrontViewController: LinkViewController {
             session?.getList(nil, sortingType: types[seg.selectedSegmentIndex], subreddit: nil, completion: { (result) in
                 switch result {
                 case let .Error(error):
-                    println(error)
+                    println(error.code)
                 case let .Value(box):
-                    let listing = box.value
+                    if let listing = box.value as? Listing {
+                        if let links = listing.children as? [Link] {
+                            self.links += links
+                        }
+                    }
                     self.updateStrings()
-                    self.tableView.reloadData()
-                    self.loading = false
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.tableView.reloadData()
+                        self.loading = false
+                    })
                 }
             })
         }
-//        if loading {
-//            return
-//        }
-//        self.loading = true
-//        if let seg = self.segmentedControl {
-//            
-//            
-//            
-//            
-//            self.task = session?.linkList(self.paginator, sortingType:types[seg.selectedSegmentIndex], subreddit:nil, completion: { (object, error) -> Void in
-//                self.task = nil
-//                if error == nil {
-//				
-//					if let listing = object as? Listing {
-//						if let links = listing.children as? [Link] {
-//							self.links += links
-//						}
-//					}
-//                    self.updateStrings()
-//                    self.tableView.reloadData()
-//                    self.loading = false
-//                }
-//                else {
-//                    println(error)
-//                }
-//            })
-//        }
     }
     
     override func segmentChanged(sender:AnyObject) {
