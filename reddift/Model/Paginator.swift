@@ -11,6 +11,11 @@ import UIKit
 class Paginator {
 	let after:String
 	let before:String
+    
+    init() {
+        self.after = ""
+        self.before = ""
+    }
 	
 	init(after:String, before:String) {
 		self.after = after

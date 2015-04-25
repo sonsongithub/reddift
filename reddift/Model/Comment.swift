@@ -8,6 +8,63 @@
 
 import UIKit
 
+enum CommentSort {
+    case Confidence
+    case Top
+    case New
+    case Hot
+    case Controversial
+    case Old
+    case Random
+    case Qa
+    
+    var path:String {
+        get {
+            switch self{
+            case .Confidence:
+                return "/confidence"
+            case .Top:
+                return "/top"
+            case .New:
+                return "/new"
+            case .Hot:
+                return "/hot"
+            case .Controversial:
+                return "/controversial"
+            case .Old:
+                return "/old"
+            case .Random:
+                return "/random"
+            case .Qa:
+                return "/qa"
+            }
+        }
+    }
+    
+    var type:String {
+        get {
+            switch self{
+            case .Confidence:
+                return "confidence"
+            case .Top:
+                return "top"
+            case .New:
+                return "new"
+            case .Hot:
+                return "hot"
+            case .Controversial:
+                return "controversial"
+            case .Old:
+                return "old"
+            case .Random:
+                return "random"
+            case .Qa:
+                return "qa"
+            }
+        }
+    }
+}
+
 class Comment : Thing {
     /**
     the id of the subreddit in which the thing is located

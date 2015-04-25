@@ -12,23 +12,18 @@ class LinkViewController: UITableViewController {
     var session:Session? = nil
     var subreddit:Subreddit? = nil
     var links:[Link] = []
-    var paginator:Paginator? = nil
+    var paginator:Paginator? = Paginator()
     var loading = false
     var task:NSURLSessionDataTask? = nil
     var segmentedControl:UISegmentedControl? = nil
-	
 	var sortTitles:[String] = []
 	var sortTypes:[LinkSort] = []
-	
-    var heights:[CGFloat] = []
-    var texts:[NSAttributedString] = []
+    var contents:[CellContent] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         let nib:UINib = UINib(nibName: "UZTextViewCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: "Cell")
-		
-		
 		
 		self.title = self.subreddit?.title
 		sortTypes += [.Controversial, .Hot, .New, .Random, .Top]
@@ -50,17 +45,8 @@ class LinkViewController: UITableViewController {
     }
 	
     func updateStrings() {
-        texts.removeAll(keepCapacity: true)
-        heights.removeAll(keepCapacity: true)
-        
-        for link in links {
-            let attr = NSAttributedString(string: link.title)
-            let horizontalMargin = UZTextViewCell.margin().left + UZTextViewCell.margin().right
-            let verticalMargin = UZTextViewCell.margin().top + UZTextViewCell.margin().bottom
-            let size = UZTextView.sizeForAttributedString(attr, withBoundWidth:self.view.frame.size.width - horizontalMargin, margin: UIEdgeInsetsMake(0, 0, 0, 0))
-            texts.append(attr)
-            heights.append(size.height + verticalMargin)
-        }
+        contents.removeAll(keepCapacity:true)
+        contents = links.map{CellContent(string:$0.title, width:self.view.frame.size.width)}
     }
     
     func load() {
@@ -90,6 +76,7 @@ class LinkViewController: UITableViewController {
         if let seg = sender as? UISegmentedControl {
             self.links.removeAll(keepCapacity: true)
             self.tableView.reloadData()
+            self.paginator = Paginator()
             load()
         }
     }
@@ -103,11 +90,11 @@ class LinkViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return links.count
+        return contents.count
     }
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == (links.count - 1) {
+        if indexPath.row == (contents.count - 1) {
             load()
         }
     }
@@ -117,21 +104,19 @@ class LinkViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indices(heights) ~= indexPath.row {
-            return heights[indexPath.row]
+        if indices(contents) ~= indexPath.row {
+            return contents[indexPath.row].textHeight
         }
         return 0
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
-
         if let cell = cell as? UZTextViewCell {
-            if indices(texts) ~= indexPath.row {
-                cell.textView?.attributedString = texts[indexPath.row]
+            if indices(contents) ~= indexPath.row {
+                cell.textView?.attributedString = contents[indexPath.row].attributedString
             }
         }
-        
         return cell
     }
     

@@ -123,28 +123,9 @@ func decodeJSON(data: NSData) -> Result<JSON> {
     return resultFromOptional(jsonOptional, NSError())
 }
 
-enum SubredditsWhere {
-    case Contributor
-    case Moderator
-    case Subscriber
-    
-    var path:String {
-        get {
-            switch self{
-            case .Contributor:
-                return "/subreddits/mine/contributor"
-            case .Moderator:
-                return "/subreddits/mine/moderator"
-            case .Subscriber:
-                return "/subreddits/mine/subscriber"
-            }
-        }
-    }
-}
-
 extension Session {
     
-    func handleRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask {
+    func handleRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = Result(error, Response(data: data, urlResponse: response))
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseJSON
@@ -154,12 +135,24 @@ extension Session {
         return task
     }
     
-    func getSubscribingSubreddit(paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask {
+    func getArticles(paginator:Paginator?, link:Link, sort:CommentSort, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        if paginator == nil {
+            return nil
+        }
+        var parameter:[String:String] = ["sort":sort.type, "depth":"2"]
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"comments/" + link.id, parameter:parameter, method:"GET", token:token)
+        return handleRequest(request, completion:completion)
+    }
+    
+    func getSubscribingSubreddit(paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:SubredditsWhere.Subscriber.path, parameter:paginator?.parameters(), method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
     
-    func getList(paginator:Paginator?, sort:LinkSort, subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask {
+    func getList(paginator:Paginator?, sort:LinkSort, subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        if paginator == nil {
+            return nil
+        }
 		var path = sort.path
         if let subreddit = subreddit {
             path = "/r/\(subreddit.display_name)\(path)"
