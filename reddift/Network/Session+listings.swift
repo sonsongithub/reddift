@@ -117,6 +117,13 @@ func parseJSON(json:JSON) -> Result<JSON> {
 	return resultFromOptional(object, NSError())
 }
 
+func parseThing_t2_JSON(json:JSON) -> Result<JSON> {
+    if let object = json >>> JSONObject {
+        return resultFromOptional(Parser.parseDataInThing_t2(object), NSError())
+    }
+    return resultFromOptional(nil, NSError())
+}
+
 func decodeJSON(data: NSData) -> Result<JSON> {
     var jsonErrorOptional: NSError?
     let jsonOptional: JSON? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &jsonErrorOptional)

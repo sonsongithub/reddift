@@ -21,14 +21,20 @@ class ProfileViewController: UITableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        session?.profile({ (profile:Account?, error) -> Void in
-            print(profile?.toString())
-            if let profile = profile as Account? {
-                self.cell1?.detailTextLabel?.text = profile.name
-                self.cell2?.detailTextLabel?.text = profile.id
-                self.cell3?.detailTextLabel?.text = NSDate(timeIntervalSince1970: Double(profile.created)).description
-                self.cell4?.detailTextLabel?.text = profile.comment_karma.description
-                self.cell5?.detailTextLabel?.text = profile.link_karma.description
+        session?.getProfile({ (result) -> Void in
+            switch result {
+            case let .Error(error):
+                println(error.code)
+            case let .Value(box):
+                if let profile = box.value as? Account {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.cell1?.detailTextLabel?.text = profile.name
+                        self.cell2?.detailTextLabel?.text = profile.id
+                        self.cell3?.detailTextLabel?.text = NSDate(timeIntervalSince1970: Double(profile.created)).description
+                        self.cell4?.detailTextLabel?.text = profile.comment_karma.description
+                        self.cell5?.detailTextLabel?.text = profile.link_karma.description
+                    })
+                }
             }
         })
     }

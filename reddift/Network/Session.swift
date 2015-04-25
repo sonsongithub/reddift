@@ -36,71 +36,17 @@ class Session {
         }
     }
 	
-	func downloadMessageWhereBox(whereBox:String, completion:(object:AnyObject?, error:NSError?)->Void) -> NSURLSessionDataTask {
-		var URLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/message/" + whereBox, method:"GET", token:token)
-		
-		let task = URLSession.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-			self.updateRateLimitWithURLResponse(response)
-			if let data = data {
-				if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-					var t1:AnyObject? = Parser.parseJSON(json, depth:0)
-					if t1 != nil {
-						dispatch_async(dispatch_get_main_queue(), { () -> Void in
-							completion(object:t1, error:nil)
-						})
-					}
-					else {
-						dispatch_async(dispatch_get_main_queue(), { () -> Void in
-							completion(object:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
-						})
-					}
-				}
-				else {
-					dispatch_async(dispatch_get_main_queue(), { () -> Void in
-						completion(object:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
-					})
-				}
-			}
-			else {
-				dispatch_async(dispatch_get_main_queue(), { () -> Void in
-					completion(object:nil, error:error)
-				})
-			}
-		})
-		task.resume()
-		return task
+	func getMessage(messageWhere:MessageWhere, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+		var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
+		return handleRequest(request, completion:completion)
 	}
-	
-    func profile(completion:(profile:Account?, error:NSError?)->Void) -> NSURLSessionDataTask {
-        var URLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me", method:"GET", token:token)
-        
-        let task = URLSession.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            if let aData = data {
-                if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-                    var profile = Parser.parseDataInThing_t2(json)
-					if let profile = profile as? Account {
-						dispatch_async(dispatch_get_main_queue(), { () -> Void in
-							completion(profile: profile, error: nil)
-						})
-					}
-					else {
-						dispatch_async(dispatch_get_main_queue(), { () -> Void in
-							completion(profile:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
-						})
-					}
-                }
-                else {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        completion(profile:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
-                    })
-                }
-            }
-            else {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    completion(profile:nil, error:error)
-                })
-            }
+    
+    func getProfile(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me", method:"GET", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseThing_t2_JSON
+            completion(result)
         })
         task.resume()
         return task

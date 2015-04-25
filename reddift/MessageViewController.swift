@@ -10,21 +10,20 @@ import UIKit
 
 class MessageViewController: UITableViewController {
 	var session:Session? = nil
-	var box = "inbox"
+    var messageWhere = MessageWhere.Inbox
 	var messages:[Thing] = []
-	
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
 	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
-		self.title = box
+		self.title = messageWhere.description
 		
-		session?.downloadMessageWhereBox(box, completion: { (object, error) -> Void in
-			if error == nil {
-				if let listing = object as? Listing {
-					for child in listing.children {
+		session?.getMessage(messageWhere, completion: { (result) -> Void in
+            switch result {
+            case let .Error(error):
+                println(error.code)
+            case let .Value(box):
+                if let listing = box.value as? Listing {
+                    for child in listing.children {
 						if let message = child as? Message {
 							self.messages.append(message)
 						}
@@ -34,13 +33,12 @@ class MessageViewController: UITableViewController {
 						if let comment = child as? Comment {
 							self.messages.append(comment)
 						}
-					}
-				}
-				self.tableView.reloadData()
-			}
-			else {
-				println(error)
-			}
+                    }
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.tableView.reloadData()
+                    })
+                }
+            }
 		})
 	}
 

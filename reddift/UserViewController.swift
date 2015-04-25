@@ -72,19 +72,19 @@ class UserViewController: UITableViewController {
 		else if segue.identifier == "OpenInbox" {
 			if let con = segue.destinationViewController as? MessageViewController {
 				con.session = self.session
-				con.box = "inbox"
+				con.messageWhere = .Inbox
 			}
 		}
 		else if segue.identifier == "OpenSent" {
 			if let con = segue.destinationViewController as? MessageViewController {
 				con.session = self.session
-				con.box = "sent"
+				con.messageWhere = .Sent
 			}
 		}
 		else if segue.identifier == "OpenUnread" {
 			if let con = segue.destinationViewController as? MessageViewController {
 				con.session = self.session
-				con.box = "unread"
+				con.messageWhere = .Unread
 			}
 		}
     }
