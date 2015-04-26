@@ -83,6 +83,18 @@ class LinkViewController: UITableViewController {
     
     override func viewDidAppear(animated: Bool) {
         self.navigationController?.toolbarHidden = false
+        if let subreddit = subreddit {
+            session?.getSticky(subreddit, completion: { (result) -> Void in
+                switch result {
+                case let .Error(error):
+                    println("-------------")
+                    println(error.code)
+                case let .Value(box):
+                    println("-------------")
+                    println(box.value)
+                }
+            })
+        }
     }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
