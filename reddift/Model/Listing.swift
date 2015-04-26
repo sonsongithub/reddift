@@ -23,4 +23,11 @@ class Listing {
 		}
 		return buf
 	}
+	
+	func paginator() -> Paginator? {
+        if count(after) > 0 || count(before) > 0 {
+            return Paginator(after: after, before: before)
+        }
+        return nil
+	}
 }

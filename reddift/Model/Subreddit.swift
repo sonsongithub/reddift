@@ -8,6 +8,25 @@
 
 import UIKit
 
+enum SubredditsWhere {
+    case Contributor
+    case Moderator
+    case Subscriber
+    
+    var path:String {
+        get {
+            switch self{
+            case .Contributor:
+                return "/subreddits/mine/contributor"
+            case .Moderator:
+                return "/subreddits/mine/moderator"
+            case .Subscriber:
+                return "/subreddits/mine/subscriber"
+            }
+        }
+    }
+}
+
 class Subreddit : Thing {
 	/**
 	

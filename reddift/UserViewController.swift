@@ -27,20 +27,50 @@ class UserViewController: UITableViewController {
         tableView.deselectRowAtIndexPath(indexPath, animated: true);
         if indexPath.row == 2 && indexPath.section == 0 {
             if let token = session?.token{
-                token.refresh({ (error) -> Void in
-                    self.updateExpireCell(nil)
-                    OAuth2TokenRepository.saveIntoKeychainToken(token)
+                token.refresh({ (result) -> Void in
+                    switch result {
+                    case let .Error(error):
+                        println(error.code)
+                    case let .Value(box):
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.updateExpireCell(nil)
+                            OAuth2TokenRepository.saveIntoKeychainToken(token)
+                        })
+                    }
                 })
             }
         }
         if indexPath.row == 3 && indexPath.section == 0 {
             if let token = session?.token{
-                token.revoke({ (error) -> Void in
-                    if error == nil {
-                        OAuth2TokenRepository.removeFromKeychainTokenWithName(token.name)
-                        self.navigationController?.popToRootViewControllerAnimated(true)
+                token.revoke({ (result) -> Void in
+                    switch result {
+                    case let .Error(error):
+                        println(error.code)
+                    case let .Value(box):
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            OAuth2TokenRepository.removeFromKeychainTokenWithName(token.name)
+                            self.navigationController?.popToRootViewControllerAnimated(true)
+                        })
                     }
                 })
+            }
+        }
+        
+        if indexPath.section == 3 {
+            if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("UserContentViewController") as? UserContentViewController {
+                let content = [
+                    UserContent.Overview,
+                    UserContent.Submitted,
+                    UserContent.Comments,
+                    UserContent.Liked,
+                    UserContent.Disliked,
+                    UserContent.Hidden,
+                    UserContent.Saved,
+                    UserContent.Gilded
+                ]
+                vc.userContent = content[indexPath.row]
+                vc.session = self.session
+                self.navigationController?.pushViewController(vc, animated: true)
             }
         }
     }
@@ -60,7 +90,7 @@ class UserViewController: UITableViewController {
             }
         }
         else if segue.identifier == "ToFrontViewController" {
-            if let con = segue.destinationViewController as? FrontViewController {
+            if let con = segue.destinationViewController as? LinkViewController {
                 con.session = self.session
             }
         }
@@ -72,19 +102,19 @@ class UserViewController: UITableViewController {
 		else if segue.identifier == "OpenInbox" {
 			if let con = segue.destinationViewController as? MessageViewController {
 				con.session = self.session
-				con.box = "inbox"
+				con.messageWhere = .Inbox
 			}
 		}
 		else if segue.identifier == "OpenSent" {
 			if let con = segue.destinationViewController as? MessageViewController {
 				con.session = self.session
-				con.box = "sent"
+				con.messageWhere = .Sent
 			}
 		}
 		else if segue.identifier == "OpenUnread" {
 			if let con = segue.destinationViewController as? MessageViewController {
 				con.session = self.session
-				con.box = "unread"
+				con.messageWhere = .Unread
 			}
 		}
     }

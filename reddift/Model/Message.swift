@@ -8,6 +8,38 @@
 
 import UIKit
 
+enum MessageWhere {
+    case Inbox
+    case Unread
+    case Sent
+    
+    var path:String {
+        get {
+            switch self{
+            case .Inbox:
+                return "/inbox"
+            case .Unread:
+                return "/unread"
+            case .Sent:
+                return "/sent"
+            }
+        }
+    }
+    
+    var description:String {
+        get {
+            switch self{
+            case .Inbox:
+                return "inbox"
+            case .Unread:
+                return "unread"
+            case .Sent:
+                return "sent"
+            }
+        }
+    }
+}
+
 class Message : Thing {
 	/**
 	the message itself

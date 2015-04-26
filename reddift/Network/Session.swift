@@ -8,9 +8,77 @@
 
 import UIKit
 
+enum UserSort {
+    case Hot
+    case New
+    case Top
+    case Controversial
+    
+    var path:String {
+        get {
+            switch self{
+            case .Hot:
+                return "hot"
+            case .New:
+                return "new"
+            case .Top:
+                return "top"
+            case .Controversial:
+                return "controversial"
+            }
+        }
+    }
+}
+
+enum UserContent {
+    case Overview
+    case Submitted
+    case Comments
+    case Liked
+    case Disliked
+    case Hidden
+    case Saved
+    case Gilded
+    
+    var path:String {
+        get {
+            switch self{
+            case .Overview:
+                return "/overview"
+            case .Submitted:
+                return "/submitted"
+            case .Comments:
+                return "/comments"
+            case .Liked:
+                return "/liked"
+            case .Disliked:
+                return "/disliked"
+            case .Hidden:
+                return "/hidden"
+            case .Saved:
+                return "/saved"
+            case .Gilded:
+                return "/glided"
+            }
+        }
+    }
+}
+
+func parseThing_t2_JSON(json:JSON) -> Result<JSON> {
+    if let object = json >>> JSONObject {
+        return resultFromOptional(Parser.parseDataInThing_t2(object), NSError())
+    }
+    return resultFromOptional(nil, NSError())
+}
+
+func parseJSON(json:JSON) -> Result<JSON> {
+    let object:AnyObject? = Parser.parseJSON(json, depth:0)
+    return resultFromOptional(object, NSError())
+}
+
 class Session {
     let token:OAuth2Token
-    let baseURL = "https://oauth.reddit.com/"
+    static let baseURL = "https://oauth.reddit.com"
     let URLSession:NSURLSession
     
     var x_ratelimit_reset = 0
@@ -35,74 +103,69 @@ class Session {
             }
         }
     }
-	
-	func downloadMessageWhereBox(whereBox:String, completion:(object:AnyObject?, error:NSError?)->Void) -> NSURLSessionDataTask {
-		var URLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/message/" + whereBox, method:"GET", token:token)
-		
-		let task = URLSession.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-			self.updateRateLimitWithURLResponse(response)
-			if let data = data {
-				if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-					var t1:AnyObject? = Parser.parseJSON(json, depth:0)
-					if t1 != nil {
-						dispatch_async(dispatch_get_main_queue(), { () -> Void in
-							completion(object:t1, error:nil)
-						})
-					}
-					else {
-						dispatch_async(dispatch_get_main_queue(), { () -> Void in
-							completion(object:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
-						})
-					}
-				}
-				else {
-					dispatch_async(dispatch_get_main_queue(), { () -> Void in
-						completion(object:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
-					})
-				}
-			}
-			else {
-				dispatch_async(dispatch_get_main_queue(), { () -> Void in
-					completion(object:nil, error:error)
-				})
-			}
-		})
-		task.resume()
-		return task
-	}
-	
-    func profile(completion:(profile:Account?, error:NSError?)->Void) -> NSURLSessionDataTask {
-        var URLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me", method:"GET", token:token)
-        
-        let task = URLSession.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            if let aData = data {
-                if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-                    var profile = Parser.parseDataInThing_t2(json)
-					if let profile = profile as? Account {
-						dispatch_async(dispatch_get_main_queue(), { () -> Void in
-							completion(profile: profile, error: nil)
-						})
-					}
-					else {
-						dispatch_async(dispatch_get_main_queue(), { () -> Void in
-							completion(profile:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
-						})
-					}
-                }
-                else {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        completion(profile:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
-                    })
-                }
-            }
-            else {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    completion(profile:nil, error:error)
-                })
-            }
+    
+    func handleRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseJSON
+            completion(result)
         })
         task.resume()
         return task
+    }
+	
+	func getMessage(messageWhere:MessageWhere, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+		var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
+		return handleRequest(request, completion:completion)
+	}
+    
+    func getProfile(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/v1/me", method:"GET", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseThing_t2_JSON
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
+    func getArticles(paginator:Paginator?, link:Link, sort:CommentSort, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        if paginator == nil {
+            return nil
+        }
+        var parameter:[String:String] = ["sort":sort.type, "depth":"2"]
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/comments/" + link.id, parameter:parameter, method:"GET", token:token)
+        return handleRequest(request, completion:completion)
+    }
+    
+    func getSubscribingSubreddit(paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:SubredditsWhere.Subscriber.path, parameter:paginator?.parameters(), method:"GET", token:token)
+        return handleRequest(request, completion:completion)
+    }
+    
+    func getList(paginator:Paginator?, sort:LinkSort, subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        if paginator == nil {
+            return nil
+        }
+        var path = sort.path
+        if let subreddit = subreddit {
+            path = "/r/\(subreddit.display_name)\(path)"
+        }
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:paginator?.parameters(), method:"GET", token:token)
+        return handleRequest(request, completion:completion)
+    }
+    
+    func getUser(username:String, content:UserContent, paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/user/" + username + content.path, method:"GET", token:token)
+        return handleRequest(request, completion:completion)
+    }
+    
+    /**
+    DOES NOT WORK... WHY?
+    */
+    func getSticky(subreddit:Subreddit, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/r/" + subreddit.display_name + "/sticy/", method:"GET", token:token)
+        return handleRequest(request, completion:completion)
     }
 }
