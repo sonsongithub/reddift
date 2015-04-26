@@ -10,7 +10,7 @@ import UIKit
 
 class Session {
     let token:OAuth2Token
-    let baseURL = "https://oauth.reddit.com/"
+    static let baseURL = "https://oauth.reddit.com/"
     let URLSession:NSURLSession
     
     var x_ratelimit_reset = 0
@@ -37,12 +37,12 @@ class Session {
     }
 	
 	func getMessage(messageWhere:MessageWhere, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-		var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
+		var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
 		return handleRequest(request, completion:completion)
 	}
     
     func getProfile(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me", method:"GET", token:token)
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/v1/me", method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = Result(error, Response(data: data, urlResponse: response))
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseThing_t2_JSON

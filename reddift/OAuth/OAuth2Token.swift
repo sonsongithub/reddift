@@ -11,6 +11,7 @@ import UIKit
 let OAuth2TokenDidUpdate = "OAuth2TokenDidUpdate"
 
 class OAuth2Token : NSObject,NSCoding {
+    static let baseURL = "https://www.reddit.com/api/v1"
     var name = ""
     var accessToken = ""
     var tokenType = ""
@@ -85,7 +86,7 @@ class OAuth2Token : NSObject,NSCoding {
     }
     
     func requestForRefreshing() -> NSMutableURLRequest {
-        var URL = NSURL(string: "https://www.reddit.com/api/v1/access_token")!
+        var URL = NSURL(string: OAuth2Token.baseURL + "/access_token")!
         var request = NSMutableURLRequest(URL:URL)
         request.setRedditBasicAuthentication()
         var param = "grant_type=refresh_token&refresh_token=" + refreshToken
@@ -106,8 +107,9 @@ class OAuth2Token : NSObject,NSCoding {
         return task
     }
     
+    
     func requestForRevoking() -> NSMutableURLRequest {
-        var URL = NSURL(string: "https://www.reddit.com/api/v1/revoke_token")!
+        var URL = NSURL(string: OAuth2Token.baseURL + "/revoke_token")!
         var request = NSMutableURLRequest(URL:URL)
         request.setRedditBasicAuthentication()
         var param = "token=" + accessToken + "&token_type_hint=access_token"
@@ -129,7 +131,7 @@ class OAuth2Token : NSObject,NSCoding {
     }
     
     class func requestForOAuth(code:String) -> NSMutableURLRequest {
-        var URL = NSURL(string: "https://www.reddit.com/api/v1/access_token")!
+        var URL = NSURL(string: OAuth2Token.baseURL + "/access_token")!
         var request = NSMutableURLRequest(URL:URL)
         request.setRedditBasicAuthentication()
         var param = "grant_type=authorization_code&code=" + code + "&redirect_uri=" + Config.sharedInstance.redirectURI
@@ -151,8 +153,7 @@ class OAuth2Token : NSObject,NSCoding {
     }
     
     func getProfile(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        let baseURL = "https://oauth.reddit.com"
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me", method:"GET", token:self)
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/v1/me", method:"GET", token:self)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = Result(error, Response(data: data, urlResponse: response))

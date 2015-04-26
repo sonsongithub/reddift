@@ -147,12 +147,12 @@ extension Session {
             return nil
         }
         var parameter:[String:String] = ["sort":sort.type, "depth":"2"]
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"comments/" + link.id, parameter:parameter, method:"GET", token:token)
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"comments/" + link.id, parameter:parameter, method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
     
     func getSubscribingSubreddit(paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:SubredditsWhere.Subscriber.path, parameter:paginator?.parameters(), method:"GET", token:token)
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:SubredditsWhere.Subscriber.path, parameter:paginator?.parameters(), method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
     
@@ -164,7 +164,7 @@ extension Session {
         if let subreddit = subreddit {
             path = "/r/\(subreddit.display_name)\(path)"
         }
-		var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:paginator?.parameters(), method:"GET", token:token)
+		var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:paginator?.parameters(), method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
 }
