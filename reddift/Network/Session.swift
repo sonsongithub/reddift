@@ -8,6 +8,18 @@
 
 import UIKit
 
+func parseThing_t2_JSON(json:JSON) -> Result<JSON> {
+    if let object = json >>> JSONObject {
+        return resultFromOptional(Parser.parseDataInThing_t2(object), NSError())
+    }
+    return resultFromOptional(nil, NSError())
+}
+
+func parseJSON(json:JSON) -> Result<JSON> {
+    let object:AnyObject? = Parser.parseJSON(json, depth:0)
+    return resultFromOptional(object, NSError())
+}
+
 class Session {
     let token:OAuth2Token
     static let baseURL = "https://oauth.reddit.com/"
@@ -35,6 +47,16 @@ class Session {
             }
         }
     }
+    
+    func handleRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseJSON
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
 	
 	func getMessage(messageWhere:MessageWhere, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
 		var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
@@ -50,5 +72,31 @@ class Session {
         })
         task.resume()
         return task
+    }
+    
+    func getArticles(paginator:Paginator?, link:Link, sort:CommentSort, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        if paginator == nil {
+            return nil
+        }
+        var parameter:[String:String] = ["sort":sort.type, "depth":"2"]
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"comments/" + link.id, parameter:parameter, method:"GET", token:token)
+        return handleRequest(request, completion:completion)
+    }
+    
+    func getSubscribingSubreddit(paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:SubredditsWhere.Subscriber.path, parameter:paginator?.parameters(), method:"GET", token:token)
+        return handleRequest(request, completion:completion)
+    }
+    
+    func getList(paginator:Paginator?, sort:LinkSort, subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        if paginator == nil {
+            return nil
+        }
+        var path = sort.path
+        if let subreddit = subreddit {
+            path = "/r/\(subreddit.display_name)\(path)"
+        }
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:paginator?.parameters(), method:"GET", token:token)
+        return handleRequest(request, completion:completion)
     }
 }
