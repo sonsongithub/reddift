@@ -55,6 +55,24 @@ class UserViewController: UITableViewController {
                 })
             }
         }
+        
+        if indexPath.section == 3 {
+            if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("UserContentViewController") as? UserContentViewController {
+                let content = [
+                    UserContent.Overview,
+                    UserContent.Submitted,
+                    UserContent.Comments,
+                    UserContent.Liked,
+                    UserContent.Disliked,
+                    UserContent.Hidden,
+                    UserContent.Saved,
+                    UserContent.Gilded
+                ]
+                vc.userContent = content[indexPath.row]
+                vc.session = self.session
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
     }
     
     override func viewWillAppear(animated: Bool) {

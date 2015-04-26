@@ -8,6 +8,62 @@
 
 import UIKit
 
+enum UserSort {
+    case Hot
+    case New
+    case Top
+    case Controversial
+    
+    var path:String {
+        get {
+            switch self{
+            case .Hot:
+                return "hot"
+            case .New:
+                return "new"
+            case .Top:
+                return "top"
+            case .Controversial:
+                return "controversial"
+            }
+        }
+    }
+}
+
+enum UserContent {
+    case Overview
+    case Submitted
+    case Comments
+    case Liked
+    case Disliked
+    case Hidden
+    case Saved
+    case Gilded
+    
+    var path:String {
+        get {
+            switch self{
+            case .Overview:
+                return "/overview"
+            case .Submitted:
+                return "/submitted"
+            case .Comments:
+                return "/comments"
+            case .Liked:
+                return "/liked"
+            case .Disliked:
+                return "/disliked"
+            case .Hidden:
+                return "/hidden"
+            case .Saved:
+                return "/saved"
+            case .Gilded:
+                return "/glided"
+            }
+        }
+    }
+}
+
 func parseThing_t2_JSON(json:JSON) -> Result<JSON> {
     if let object = json >>> JSONObject {
         return resultFromOptional(Parser.parseDataInThing_t2(object), NSError())
@@ -22,7 +78,7 @@ func parseJSON(json:JSON) -> Result<JSON> {
 
 class Session {
     let token:OAuth2Token
-    static let baseURL = "https://oauth.reddit.com/"
+    static let baseURL = "https://oauth.reddit.com"
     let URLSession:NSURLSession
     
     var x_ratelimit_reset = 0
@@ -79,7 +135,7 @@ class Session {
             return nil
         }
         var parameter:[String:String] = ["sort":sort.type, "depth":"2"]
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"comments/" + link.id, parameter:parameter, method:"GET", token:token)
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/comments/" + link.id, parameter:parameter, method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
     
@@ -97,6 +153,19 @@ class Session {
             path = "/r/\(subreddit.display_name)\(path)"
         }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:paginator?.parameters(), method:"GET", token:token)
+        return handleRequest(request, completion:completion)
+    }
+    
+    func getUser(username:String, content:UserContent, paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/user/" + username + content.path, method:"GET", token:token)
+        return handleRequest(request, completion:completion)
+    }
+    
+    /**
+    DOES NOT WORK... WHY?
+    */
+    func getSticky(subreddit:Subreddit, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/r/" + subreddit.display_name + "/sticy/", method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
 }

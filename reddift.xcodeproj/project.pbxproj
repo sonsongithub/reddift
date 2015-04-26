@@ -89,6 +89,7 @@
 		14F59B171ADE32B00056EFD0 /* LinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F59B161ADE32B00056EFD0 /* LinkViewController.swift */; };
 		14F76FF31AEBBD9C00A70AA5 /* CellContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F76FF21AEBBD9C00A70AA5 /* CellContent.swift */; };
 		14F76FF51AECE01800A70AA5 /* Session+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F76FF41AECE01800A70AA5 /* Session+helper.swift */; };
+		14F76FF71AED8A5A00A70AA5 /* UserContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F76FF61AED8A5A00A70AA5 /* UserContentViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +172,7 @@
 		14F59B161ADE32B00056EFD0 /* LinkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkViewController.swift; sourceTree = "<group>"; };
 		14F76FF21AEBBD9C00A70AA5 /* CellContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellContent.swift; sourceTree = "<group>"; };
 		14F76FF41AECE01800A70AA5 /* Session+helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+helper.swift"; sourceTree = "<group>"; };
+		14F76FF61AED8A5A00A70AA5 /* UserContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserContentViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,6 +290,7 @@
 				147EADA51AD78568007FA2F4 /* AppDelegate.swift */,
 				14E9060E1ADBD1D700934D27 /* AccountViewController.swift */,
 				140086B91ADCA5A40095F938 /* UserViewController.swift */,
+				14F76FF61AED8A5A00A70AA5 /* UserContentViewController.swift */,
 				14B8DE151ADD68D100237350 /* ProfileViewController.swift */,
 				14F59B161ADE32B00056EFD0 /* LinkViewController.swift */,
 				14B8DE301ADEC38800237350 /* SubredditsListViewController.swift */,
@@ -553,6 +556,7 @@
 				14B8DE141ADD3DF300237350 /* Subreddit.swift in Sources */,
 				14BEDDFE1AE44FC5004F7860 /* Parser.swift in Sources */,
 				14E9060F1ADBD1D700934D27 /* AccountViewController.swift in Sources */,
+				14F76FF71AED8A5A00A70AA5 /* UserContentViewController.swift in Sources */,
 				1471A6F01AE5DD4C00816FE7 /* More.swift in Sources */,
 				14B8DE271ADD721700237350 /* OAuth2TokenRepository.swift in Sources */,
 				14B8DE221ADD721700237350 /* NSError+reddift.swift in Sources */,
