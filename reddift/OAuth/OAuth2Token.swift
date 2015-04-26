@@ -58,18 +58,19 @@ class OAuth2Token : NSObject,NSCoding {
         }
     }
     
-    class func tokenWithJSON(json:[String:AnyObject]) -> OAuth2Token? {
+    class func tokenWithJSON(json:JSON) -> Result<OAuth2Token> {
+        var token:OAuth2Token? = nil
         if let temp1 = json["access_token"] as? String,
                temp2 = json["token_type"] as? String,
                temp3 = json["expires_in"] as? Int,
                temp4 = json["scope"] as? String,
                temp5 = json["refresh_token"] as? String {
-                return OAuth2Token(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:temp5)
+                token = OAuth2Token(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:temp5)
         }
-        return nil
+        return resultFromOptional(token, NSError())
     }
     
-    func updateWithJSON(json:[String:AnyObject]) -> Bool {
+    func updateWithJSON(json:JSON) -> Result<OAuth2Token> {
         if  let temp1 = json["access_token"] as? String,
                 temp2 = json["token_type"] as? String,
                 temp3 = json["expires_in"] as? Int,
@@ -78,190 +79,85 @@ class OAuth2Token : NSObject,NSCoding {
             tokenType = temp2
             expiresIn = temp3
             scope = temp4
-            return true
+            return resultFromOptional(self, NSError())
         }
-        return false
+        return resultFromOptional(nil, NSError())
     }
     
-    func refresh(completion:(error:NSError?)->Void) -> NSURLSessionDataTask {
+    func requestForRefreshing() -> NSMutableURLRequest {
         var URL = NSURL(string: "https://www.reddit.com/api/v1/access_token")!
-        var URLRequest = NSMutableURLRequest(URL:URL)
-        URLRequest.setRedditBasicAuthentication()
-        
+        var request = NSMutableURLRequest(URL:URL)
+        request.setRedditBasicAuthentication()
         var param = "grant_type=refresh_token&refresh_token=" + refreshToken
         let data = param.dataUsingEncoding(NSUTF8StringEncoding)
-        URLRequest.HTTPBody = data
-        URLRequest.HTTPMethod = "POST"
-        
+        request.HTTPBody = data
+        request.HTTPMethod = "POST"
+        return request
+    }
+    
+    func refresh(completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        
-        let task = session.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            if error != nil {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    completion(error:error)
-                })
-            }
-            else if error == nil {
-                var result = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
-                if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-                    if self.updateWithJSON(json) {
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenDidUpdate, object: nil)
-                            completion(error:nil)
-                        })
-                    }
-                    else {
-                        if let errorMessage = json["error"] as? String {
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                completion(error:NSError.errorWithCode(0, userinfo: ["error":errorMessage]))
-                            })
-                        }
-                        else {
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                completion(error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
-                            })
-                        }
-                    }
-                }
-                else {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        completion(error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
-                    })
-                }
-            }
+        let task = session.dataTaskWithRequest(requestForRefreshing(), completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> self.updateWithJSON
+            completion(result)
         })
         task.resume()
         return task
     }
     
-    func revoke(completion:(error:NSError?)->Void) -> NSURLSessionDataTask {
+    func requestForRevoking() -> NSMutableURLRequest {
         var URL = NSURL(string: "https://www.reddit.com/api/v1/revoke_token")!
-        var URLRequest = NSMutableURLRequest(URL:URL)
-        URLRequest.setRedditBasicAuthentication()
+        var request = NSMutableURLRequest(URL:URL)
+        request.setRedditBasicAuthentication()
         var param = "token=" + accessToken + "&token_type_hint=access_token"
         let data = param.dataUsingEncoding(NSUTF8StringEncoding)
-        URLRequest.HTTPBody = data
-        URLRequest.HTTPMethod = "POST"
-        
+        request.HTTPBody = data
+        request.HTTPMethod = "POST"
+        return request
+    }
+    
+    func revoke(completion:(Result<JSON>)->Void) -> NSURLSessionDataTask {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        
-        let task = session.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            if let httpResponse:NSHTTPURLResponse = response as? NSHTTPURLResponse {
-                if httpResponse.statusCode == 204 {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        completion(error:nil)
-                    })
-                }
-                else {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        completion(error:NSError.errorWithCode(0, userinfo: ["error":"Unknown error"]))
-                    })
-                }
-            }
-            else if error == nil {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    completion(error:NSError.errorWithCode(0, userinfo: ["error":"Unknown error"]))
-                })
-            }
-            else {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    completion(error:error)
-                })
-            }
+        let task = session.dataTaskWithRequest(requestForRevoking(), completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let result = responseResult >>> parseResponse >>> decodeJSON
+            completion(result)
         })
         task.resume()
         return task
     }
     
-    func profile(completion:(profile:Account?, error:NSError?)->Void) -> NSURLSessionDataTask {
-        let URL = NSURL(string: "https://oauth.reddit.com/api/v1/me")!
-        var URLRequest = NSMutableURLRequest(URL: URL)
-        URLRequest.setOAuth2Token(self)
-        URLRequest.HTTPMethod = "GET"
-        URLRequest.setUserAgentForReddit()
-        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        let task = session.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            
-            if let httpResponse:NSHTTPURLResponse = response as? NSHTTPURLResponse {
-                println(httpResponse.allHeaderFields)
-            }
-            
-            if let aData = data {
-                var result = NSString(data: aData, encoding: NSUTF8StringEncoding) as! String
-                if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-					var profile = Parser.parseDataInThing_t2(json)
-					if let profile = profile as? Account {
-						dispatch_async(dispatch_get_main_queue(), { () -> Void in
-							completion(profile: profile, error: nil)
-						})
-					}
-					else {
-						dispatch_async(dispatch_get_main_queue(), { () -> Void in
-							completion(profile:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
-						})
-					}
-                }
-                else {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        completion(profile:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
-                    })
-                }
-            }
-            else {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    completion(profile:nil, error:error)
-                })
-            }
-        })
-        task.resume()
-        return task
-    }
-    
-    class func download(code:String, completion:(token:OAuth2Token?, error:NSError?)->Void) -> NSURLSessionDataTask {
-        
+    class func requestForOAuth(code:String) -> NSMutableURLRequest {
         var URL = NSURL(string: "https://www.reddit.com/api/v1/access_token")!
-        var URLRequest = NSMutableURLRequest(URL:URL)
-        URLRequest.setRedditBasicAuthentication()
-        
+        var request = NSMutableURLRequest(URL:URL)
+        request.setRedditBasicAuthentication()
         var param = "grant_type=authorization_code&code=" + code + "&redirect_uri=" + Config.sharedInstance.redirectURI
         let data = param.dataUsingEncoding(NSUTF8StringEncoding)
-        URLRequest.HTTPBody = data
-        URLRequest.HTTPMethod = "POST"
+        request.HTTPBody = data
+        request.HTTPMethod = "POST"
+        return request
+    }
+    
+    class func getOAuth2Token(code:String, completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask {
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        
-        let task = session.dataTaskWithRequest(URLRequest, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            if (error != nil) {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    completion(token:nil, error:error)
-                })
-            }
-            else if (error == nil) {
-                var result = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
-                if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-                    if let token = OAuth2Token.tokenWithJSON(json) {
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            completion(token:token,  error:error)
-                        })
-                    }
-                    else {
-                        if let errorMessage:String = json["error"] as? String {
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                completion(token:nil, error:NSError.errorWithCode(0, userinfo: ["error":errorMessage]))
-                            })
-                        }
-                        else {
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                completion(token:nil, error:NSError.errorWithCode(0, userinfo: ["error":"Can not parse response object."]))
-                            })
-                        }
-                    }
-                }
-                else {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        completion(token:nil, error:error)
-                    })
-                }
-            }
+        let task = session.dataTaskWithRequest(requestForOAuth(code), completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> OAuth2Token.tokenWithJSON
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
+    func getProfile(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        let baseURL = "https://oauth.reddit.com"
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me", method:"GET", token:self)
+        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+        let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseThing_t2_JSON
+            completion(result)
         })
         task.resume()
         return task

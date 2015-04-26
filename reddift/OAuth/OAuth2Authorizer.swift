@@ -8,6 +8,16 @@
 
 import UIKit
 
+extension NSURLComponents {
+    func dictionary() -> [String:String] {
+        var parameters:[String:String] = [:]
+        for queryItem in self.queryItems as! [NSURLQueryItem] {
+            parameters[queryItem.name] = queryItem.value
+        }
+        return parameters
+    }
+}
+
 class OAuth2Authorizer {
     private var state = ""
     /**
@@ -37,33 +47,20 @@ class OAuth2Authorizer {
         }
     }
     
-    func receiveRedirect(url:NSURL, completion:(token:OAuth2Token?, error:NSError?)->Void) -> Bool{
-        var code = ""
-        var state = ""
+    func receiveRedirect(url:NSURL, completion:(Result<OAuth2Token>)->Void) -> Bool{
+        var parameters:[String:String] = [:]
+        var currentState = self.state
+        self.state = ""
         if (url.scheme == Config.sharedInstance.redirectURIScheme) {
-            if let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: true) {
-                if let queryItems = components.queryItems as? [NSURLQueryItem] {
-                    for queryItem in queryItems {
-                        if (queryItem.name == "code") {
-                            if let temp = queryItem.value {
-                                code = temp
-                            }
-                        }
-                        if (queryItem.name == "state") {
-                            if let temp = queryItem.value {
-                                state = temp
-                            }
-                        }
-                    }
-                }
+            if let temp = NSURLComponents(URL: url, resolvingAgainstBaseURL: true)?.dictionary() {
+                parameters = temp
             }
         }
-        if (code != "" && state == self.state) {
-            println(code)
-            println(state)
-            self.state = ""
-            OAuth2Token.download(code, completion:completion)
-            return true
+        if let code = parameters["code"], state = parameters["state"] {
+            if count(code) > 0 && state == currentState {
+                OAuth2Token.getOAuth2Token(code, completion:completion)
+                return true
+            }
         }
         return false
     }

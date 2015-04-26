@@ -14,12 +14,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
-        return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion:{(token:OAuth2Token?, error:NSError?) -> Void in
-            if let token = token {
-                token.profile({ (profile:Account?, error:NSError?) -> Void in
-                    if error == nil {
-                        if let profile = profile {
-                            OAuth2TokenRepository.saveIntoKeychainToken(token, name:profile.name)
+        return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion:{(result) -> Void in
+            switch result {
+            case let .Error(error):
+                println(error.code)
+            case let .Value(box):
+                let token = box.value
+                token.getProfile({ (result) -> Void in
+                    switch result {
+                    case let .Error(error):
+                        println(error.code)
+                    case let .Value(box):
+                        if let profile = box.value as? Account {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                OAuth2TokenRepository.saveIntoKeychainToken(token, name:profile.name)
+                            })
                         }
                     }
                 })
