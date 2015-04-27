@@ -19,4 +19,17 @@ struct CellContent {
         let size = UZTextView.sizeForAttributedString(attributedString, withBoundWidth:width - horizontalMargin, margin: UIEdgeInsetsMake(0, 0, 0, 0))
         textHeight = size.height + verticalMargin
     }
+    
+    init(string:String, width:CGFloat, hasRelies:Bool) {
+        attributedString = NSAttributedString(string:string)
+        let horizontalMargin = UZTextViewCell.margin().left + UZTextViewCell.margin().right
+        let verticalMargin = UZTextViewCell.margin().top + UZTextViewCell.margin().bottom
+        let size = UZTextView.sizeForAttributedString(attributedString, withBoundWidth:width - horizontalMargin, margin: UIEdgeInsetsMake(0, 0, 0, 0))
+        if hasRelies {
+            textHeight = size.height + verticalMargin + 39
+        }
+        else {
+            textHeight = size.height + verticalMargin
+        }
+    }
 }

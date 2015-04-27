@@ -11,6 +11,7 @@
 		140086BA1ADCA5A40095F938 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086B91ADCA5A40095F938 /* UserViewController.swift */; };
 		141B46291AD9CA7200577858 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 141B46271AD9CA7200577858 /* Main.storyboard */; };
 		1420ADCC1AEDD28C00BB21C3 /* helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1420ADCB1AEDD28C00BB21C3 /* helper.swift */; };
+		1420ADD01AEE67AB00BB21C3 /* UZTextViewWithMoreButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1420ADCF1AEE67AB00BB21C3 /* UZTextViewWithMoreButtonCell.xib */; };
 		142983F91AE4C47300846DD3 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142983F81AE4C47300846DD3 /* Media.swift */; };
 		142984011AE4E0EA00846DD3 /* Oembed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984001AE4E0EA00846DD3 /* Oembed.swift */; };
 		142984031AE4E11000846DD3 /* Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984021AE4E11000846DD3 /* Thing.swift */; };
@@ -108,6 +109,7 @@
 		140086B91ADCA5A40095F938 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		141B46281AD9CA7200577858 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1420ADCB1AEDD28C00BB21C3 /* helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helper.swift; sourceTree = "<group>"; };
+		1420ADCF1AEE67AB00BB21C3 /* UZTextViewWithMoreButtonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UZTextViewWithMoreButtonCell.xib; sourceTree = "<group>"; };
 		142983F81AE4C47300846DD3 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		142984001AE4E0EA00846DD3 /* Oembed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Oembed.swift; sourceTree = "<group>"; };
 		142984021AE4E11000846DD3 /* Thing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Thing.swift; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 				1440D5231AE7F56600211DAD /* UZTextViewCell.swift */,
 				1440D5201AE7F42400211DAD /* objc-header.h */,
 				1440D5211AE7F52300211DAD /* UZTextViewCell.xib */,
+				1420ADCF1AEE67AB00BB21C3 /* UZTextViewWithMoreButtonCell.xib */,
 				141B46271AD9CA7200577858 /* Main.storyboard */,
 				147EADAC1AD78568007FA2F4 /* Images.xcassets */,
 				147EADAE1AD78568007FA2F4 /* LaunchScreen.xib */,
@@ -493,6 +496,7 @@
 			files = (
 				141B46291AD9CA7200577858 /* Main.storyboard in Resources */,
 				1440D5221AE7F52300211DAD /* UZTextViewCell.xib in Resources */,
+				1420ADD01AEE67AB00BB21C3 /* UZTextViewWithMoreButtonCell.xib in Resources */,
 				147EADB01AD78568007FA2F4 /* LaunchScreen.xib in Resources */,
 				14E790FF1ADC15460065A05A /* reddift_config.json in Resources */,
 				147EADAD1AD78568007FA2F4 /* Images.xcassets in Resources */,

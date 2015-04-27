@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CommentViewController: UITableViewController {
+class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     var session:Session? = nil
     var subreddit:Subreddit? = nil
     var link:Link? = nil
@@ -22,7 +22,9 @@ class CommentViewController: UITableViewController {
     
     func updateStrings() {
         contents.removeAll(keepCapacity:true)
-        contents = comments.map{CellContent(string:$0.body, width:self.view.frame.size.width)}
+        contents = comments.map { (comment:Comment) -> CellContent in
+            return CellContent(string:comment.body, width:self.view.frame.size.width, hasRelies:(comment.replies != nil))
+        }
     }
     
     func vote(direction:Int) {
@@ -144,8 +146,10 @@ class CommentViewController: UITableViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-        let nib:UINib = UINib(nibName: "UZTextViewCell", bundle: nil)
-        self.tableView.registerNib(nib, forCellReuseIdentifier: "Cell")
+        
+        self.tableView.registerNib(UINib(nibName: "UZTextViewCell", bundle: nil), forCellReuseIdentifier: "Cell")
+        self.tableView.registerNib(UINib(nibName: "UZTextViewWithMoreButtonCell", bundle: nil), forCellReuseIdentifier: "MoreCell")
+        
         updateToolbar()
     }
     
@@ -176,10 +180,10 @@ class CommentViewController: UITableViewController {
                             if let comments = listing.children as? [Comment] {
                                 self.comments += comments
                             }
+                            self.paginator = listing.paginator()
                         }
                     }
                     self.updateStrings()
-                    self.paginator = nil
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.tableView.reloadData()
                     })
@@ -204,14 +208,28 @@ class CommentViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
-        
-        if let cell = cell as? UZTextViewCell {
-            if indices(contents) ~= indexPath.row {
-                cell.textView?.attributedString = contents[indexPath.row].attributedString
+        var cell:UITableViewCell! = nil
+        if indices(contents) ~= indexPath.row {
+            if comments[indexPath.row].replies != nil {
+                cell = tableView.dequeueReusableCellWithIdentifier("MoreCell", forIndexPath: indexPath) as! UITableViewCell
             }
+            else {
+                cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+            }
+            if let cell = cell as? UZTextViewCell {
+                cell.delegate = self
+                cell.textView?.attributedString = contents[indexPath.row].attributedString
+                cell.content = comments[indexPath.row]
+            }
+            return cell
         }
-		
-        return cell
+        else {
+            let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+            return cell
+        }
+    }
+    
+    func pushedMoreButton(cell:UZTextViewCell) {
+        
     }
 }
