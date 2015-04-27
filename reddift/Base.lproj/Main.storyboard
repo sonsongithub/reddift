@@ -352,6 +352,32 @@
             </objects>
             <point key="canvasLocation" x="1830" y="353"/>
         </scene>
+        <!--Table View Controller-->
+        <scene sceneID="bWi-Vf-Dgg">
+            <objects>
+                <tableViewController id="Phf-qS-kld" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Ycg-t0-XCS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="mVP-Ge-A3y">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mVP-Ge-A3y" id="nkZ-bv-82a">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Phf-qS-kld" id="a5o-fS-O3O"/>
+                            <outlet property="delegate" destination="Phf-qS-kld" id="C2m-jz-h6I"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="skE-cc-Vzs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1830" y="1108"/>
+        </scene>
         <!--Profile-->
         <scene sceneID="Glb-Ok-fX7">
             <objects>
@@ -527,21 +553,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="RgR-CN-EQz">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RgR-CN-EQz" id="LOR-DU-Tiz">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="ZwL-uw-loj" id="QKG-cE-TiE"/>
                             <outlet property="delegate" destination="ZwL-uw-loj" id="wap-Id-eVT"/>
                         </connections>
                     </tableView>
                     <connections>
-                        <segue destination="My8-W6-Umf" kind="show" id="5IA-9l-TcP"/>
+                        <segue destination="My8-W6-Umf" kind="show" identifier="ToCommentViewController" id="5IA-9l-TcP"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KUI-ej-DbB" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -643,6 +661,8 @@
                             <outlet property="delegate" destination="My8-W6-Umf" id="Dqv-Yc-j9u"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9TN-NU-Ur0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

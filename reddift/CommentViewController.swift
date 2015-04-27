@@ -24,11 +24,114 @@ class CommentViewController: UITableViewController {
         contents.removeAll(keepCapacity:true)
         contents = comments.map{CellContent(string:$0.body, width:self.view.frame.size.width)}
     }
+    
+    func vote(direction:Int) {
+        if let link = self.link {
+            session?.setVote(direction, thing: link, completion: { (result) -> Void in
+                switch result {
+                case let .Error(error):
+                    println(error.code)
+                case let .Value(box):
+                    println(box.value)
+                }
+            })
+        }
+    }
+    
+    func save(save:Bool) {
+        
+        if let link = self.link {
+            session?.setSave(save, thing: link, category:"default", completion: { (result) -> Void in
+                switch result {
+                case let .Error(error):
+                    println(error.code)
+                case let .Value(box):
+                    println(box.value)
+                }
+            })
+        }
+    }
+    
+    func downVote(sender:AnyObject?) {
+        vote(-1)
+    }
+    
+    func upVote(sender:AnyObject?) {
+        vote(1)
+    }
+    
+    func cancelVote(sender:AnyObject?) {
+        vote(0)
+    }
+    
+    func doSave(sender:AnyObject?) {
+        save(true)
+    }
+    
+    func doUnsave(sender:AnyObject?) {
+        save(false)
+    }
+    
+    func updateToolbar() {
+        var items:[UIBarButtonItem] = []
+        let space = UIBarButtonItem(barButtonSystemItem:.FlexibleSpace, target: nil, action: nil)
+        if let link = self.link {
+            items.append(space)
+            // voting status
+            if let likes = link.likes {
+                if likes {
+                    items.append(UIBarButtonItem(image: UIImage(named: "thumbDown"), style:.Plain, target: self, action: "downVote:"))
+                    items.append(space)
+                    items.append(UIBarButtonItem(image: UIImage(named: "thumbUpFill"), style:.Plain, target: self, action: "cancelVote:"))
+                }
+                else {
+                    items.append(UIBarButtonItem(image: UIImage(named: "thumbDownFill"), style:.Plain, target: self, action: "cancelVote:"))
+                    items.append(space)
+                    items.append(UIBarButtonItem(image: UIImage(named: "thumbUp"), style:.Plain, target: self, action: "upVote:"))
+                }
+            }
+            else {
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbDown"), style:.Plain, target: self, action: "downVote:"))
+                items.append(space)
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbUp"), style:.Plain, target: self, action: "upVote:"))
+            }
+            items.append(space)
+            
+            // save
+            if link.saved {
+                items.append(UIBarButtonItem(image: UIImage(named: "favoriteFill"), style:.Plain, target: self, action:"doUnsave:"))
+            }
+            else {
+                items.append(UIBarButtonItem(image: UIImage(named: "favorite"), style:.Plain, target: self, action:"doSave:"))
+            }
+            items.append(space)
+            
+            // hide
+            if link.hidden {
+                items.append(UIBarButtonItem(image: UIImage(named: "eyeFill"), style:.Plain, target: nil, action: nil))
+            }
+            else {
+                items.append(UIBarButtonItem(image: UIImage(named: "eye"), style:.Plain, target: nil, action: nil))
+            }
+            items.append(space)
+            
+            // comment button
+            items.append(UIBarButtonItem(image: UIImage(named: "comment"), style:.Plain, target: nil, action: nil))
+            items.append(space)
+        }
+        self.toolbarItems = items
+    }
 	
     override func viewDidLoad() {
         super.viewDidLoad()
         let nib:UINib = UINib(nibName: "UZTextViewCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: "Cell")
+        updateToolbar()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.toolbarHidden = false
     }
     
     override func viewWillAppear(animated: Bool) {

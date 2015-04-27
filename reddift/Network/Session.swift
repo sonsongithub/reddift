@@ -113,6 +113,16 @@ class Session {
         task.resume()
         return task
     }
+    
+    func handleAsJSONRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let result = responseResult >>> parseResponse >>> decodeJSON
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
 	
 	func getMessage(messageWhere:MessageWhere, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
 		var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
@@ -171,11 +181,39 @@ class Session {
         return getInfo([name], completion: completion)
     }
     
+    func getSavedCategories(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/saved_categories", method:"GET", token:token)
+        return handleAsJSONRequest(request, completion:completion)
+    }
+    
     /**
     DOES NOT WORK... WHY?
     */
     func getSticky(subreddit:Subreddit, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/r/" + subreddit.display_name + "/sticky", method:"GET", token:token)
         return handleRequest(request, completion:completion)
+    }
+    
+    //
+
+    func setVote(direction:Int, thing:Thing, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        let parameter:[String:String] = ["dir":String(direction), "id":thing.name]
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/vote", parameter:parameter, method:"POST", token:token)
+        return handleAsJSONRequest(request, completion:completion)
+    }
+    
+    func setSave(save:Bool, thing:Thing, category:String?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var parameter:[String:String] = ["id":thing.name]
+        if let category = category {
+            parameter["category"] = category
+        }
+        var request:NSMutableURLRequest! = nil
+        if save {
+            request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/save", parameter:parameter, method:"POST", token:token)
+        }
+        else {
+            request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/unsave", parameter:parameter, method:"POST", token:token)
+        }
+        return handleAsJSONRequest(request, completion:completion)
     }
 }
