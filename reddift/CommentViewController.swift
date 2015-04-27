@@ -230,6 +230,16 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     }
     
     func pushedMoreButton(cell:UZTextViewCell) {
-        
+        if let comment = cell.content, link = self.link {
+            if let replies = comment.replies as? Listing {
+                for obj in replies.children {
+                    if let comment = obj as? Thing {
+                        println(comment.toString())
+                        println(comment)
+                    }
+                }
+            }
+//            session?.getMoreChildren(comment.name, link_id: link.name, children:, sort: <#CommentSort#>, completion: <#(Result<JSON>) -> Void##(Result<JSON>) -> Void#>), link_id: <#String#>, children: <#[String]#>, sort: <#CommentSort#>, completion: <#(Result<JSON>) -> Void##(Result<JSON>) -> Void#>
+        }
     }
 }

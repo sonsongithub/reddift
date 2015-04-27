@@ -23,7 +23,7 @@ class UZTextViewCell: UITableViewCell {
         textView?.userInteractionEnabled = false
         
         if let button = moreButton {
-            button.addTarget(self, action: "pushedMoreButton:", forControlEvents: UIControlEvents.ValueChanged)
+            button.addTarget(self, action: "pushedMoreButton:", forControlEvents: UIControlEvents.TouchUpInside)
         }
     }
     
