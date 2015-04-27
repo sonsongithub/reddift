@@ -39,9 +39,21 @@ class CommentViewController: UITableViewController {
     }
     
     func save(save:Bool) {
-        
         if let link = self.link {
             session?.setSave(save, thing: link, category:"default", completion: { (result) -> Void in
+                switch result {
+                case let .Error(error):
+                    println(error.code)
+                case let .Value(box):
+                    println(box.value)
+                }
+            })
+        }
+    }
+    
+    func hide(hide:Bool) {
+        if let link = self.link {
+            session?.setHide(hide, thing: link, completion: { (result) -> Void in
                 switch result {
                 case let .Error(error):
                     println(error.code)
@@ -70,6 +82,14 @@ class CommentViewController: UITableViewController {
     
     func doUnsave(sender:AnyObject?) {
         save(false)
+    }
+    
+    func doHide(sender:AnyObject?) {
+        hide(true)
+    }
+    
+    func doUnhide(sender:AnyObject?) {
+        hide(false)
     }
     
     func updateToolbar() {
@@ -108,10 +128,10 @@ class CommentViewController: UITableViewController {
             
             // hide
             if link.hidden {
-                items.append(UIBarButtonItem(image: UIImage(named: "eyeFill"), style:.Plain, target: nil, action: nil))
+                items.append(UIBarButtonItem(image: UIImage(named: "eyeFill"), style:.Plain, target: self, action: "doUnhide:"))
             }
             else {
-                items.append(UIBarButtonItem(image: UIImage(named: "eye"), style:.Plain, target: nil, action: nil))
+                items.append(UIBarButtonItem(image: UIImage(named: "eye"), style:.Plain, target: self, action: "doHide:"))
             }
             items.append(space)
             

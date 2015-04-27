@@ -216,4 +216,16 @@ class Session {
         }
         return handleAsJSONRequest(request, completion:completion)
     }
+    
+    func setHide(hide:Bool, thing:Thing, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var parameter:[String:String] = ["id":thing.name]
+        var request:NSMutableURLRequest! = nil
+        if hide {
+            request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/hide", parameter:parameter, method:"POST", token:token)
+        }
+        else {
+            request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/unhide", parameter:parameter, method:"POST", token:token)
+        }
+        return handleAsJSONRequest(request, completion:completion)
+    }
 }
