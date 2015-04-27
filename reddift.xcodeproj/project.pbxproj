@@ -10,6 +10,7 @@
 		140086B71ADBED270095F938 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086B61ADBED270095F938 /* Keychain.swift */; };
 		140086BA1ADCA5A40095F938 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086B91ADCA5A40095F938 /* UserViewController.swift */; };
 		141B46291AD9CA7200577858 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 141B46271AD9CA7200577858 /* Main.storyboard */; };
+		1420ADCC1AEDD28C00BB21C3 /* helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1420ADCB1AEDD28C00BB21C3 /* helper.swift */; };
 		142983F91AE4C47300846DD3 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142983F81AE4C47300846DD3 /* Media.swift */; };
 		142984011AE4E0EA00846DD3 /* Oembed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984001AE4E0EA00846DD3 /* Oembed.swift */; };
 		142984031AE4E11000846DD3 /* Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984021AE4E11000846DD3 /* Thing.swift */; };
@@ -106,6 +107,7 @@
 		140086B61ADBED270095F938 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Keychain.swift; path = vendor/KeychainAccess/Lib/KeychainAccess/Keychain.swift; sourceTree = "<group>"; };
 		140086B91ADCA5A40095F938 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		141B46281AD9CA7200577858 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1420ADCB1AEDD28C00BB21C3 /* helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helper.swift; sourceTree = "<group>"; };
 		142983F81AE4C47300846DD3 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		142984001AE4E0EA00846DD3 /* Oembed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Oembed.swift; sourceTree = "<group>"; };
 		142984021AE4E11000846DD3 /* Thing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Thing.swift; sourceTree = "<group>"; };
@@ -394,6 +396,7 @@
 				1429840A1AE5AA2100846DD3 /* Parser+t3.swift */,
 				1471A6FA1AE638E700816FE7 /* Parser+t4.swift */,
 				1471A6F21AE604EC00816FE7 /* Parser+t5.swift */,
+				1420ADCB1AEDD28C00BB21C3 /* helper.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -555,6 +558,7 @@
 				140086B71ADBED270095F938 /* Keychain.swift in Sources */,
 				14B8DE141ADD3DF300237350 /* Subreddit.swift in Sources */,
 				14BEDDFE1AE44FC5004F7860 /* Parser.swift in Sources */,
+				1420ADCC1AEDD28C00BB21C3 /* helper.swift in Sources */,
 				14E9060F1ADBD1D700934D27 /* AccountViewController.swift in Sources */,
 				14F76FF71AED8A5A00A70AA5 /* UserContentViewController.swift in Sources */,
 				1471A6F01AE5DD4C00816FE7 /* More.swift in Sources */,

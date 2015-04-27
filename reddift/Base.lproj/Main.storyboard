@@ -540,10 +540,13 @@
                             <outlet property="delegate" destination="ZwL-uw-loj" id="wap-Id-eVT"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="My8-W6-Umf" kind="show" id="5IA-9l-TcP"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KUI-ej-DbB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1736" y="1146"/>
+            <point key="canvasLocation" x="2541" y="1108"/>
         </scene>
         <!--Front-->
         <scene sceneID="UGM-rZ-FAM">
@@ -566,7 +569,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ON5-Il-oZ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2541" y="1108"/>
+            <point key="canvasLocation" x="2541" y="1829"/>
         </scene>
         <!--Subreddits-->
         <scene sceneID="dXp-0n-1p4">
@@ -604,7 +607,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3pK-rP-LmF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2541" y="1829"/>
+            <point key="canvasLocation" x="2541" y="2567"/>
         </scene>
         <!--Link View Controller-->
         <scene sceneID="FNb-7H-l3U">
@@ -630,9 +633,9 @@
         <!--Comment View Controller-->
         <scene sceneID="950-9j-DSP">
             <objects>
-                <tableViewController id="My8-W6-Umf" customClass="CommentViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="CommentViewController" id="My8-W6-Umf" customClass="CommentViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dCQ-Wc-ae1">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
@@ -664,6 +667,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="a04-xl-1VS"/>
-        <segue reference="DcK-hO-wyV"/>
+        <segue reference="5IA-9l-TcP"/>
     </inferredMetricsTieBreakers>
 </document>

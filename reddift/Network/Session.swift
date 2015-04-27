@@ -161,6 +161,16 @@ class Session {
         return handleRequest(request, completion:completion)
     }
     
+    func getInfo(names:[String], completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var commaSeparatedNameString = commaSeparatedStringFromList(names)
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
+        return handleRequest(request, completion:completion)
+    }
+    
+    func getInfo(name:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        return getInfo([name], completion: completion)
+    }
+    
     /**
     DOES NOT WORK... WHY?
     */

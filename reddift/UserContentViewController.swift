@@ -67,6 +67,41 @@ class UserContentViewController: UITableViewController {
         }
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indices(source) ~= indexPath.row {
+            var obj = source[indexPath.row]
+            if let comment = obj as? Comment {
+                session?.getInfo(comment.link_id, completion: { (result) -> Void in
+                    switch result {
+                    case let .Error(error):
+                        println(error.code)
+                    case let .Value(box):
+                        if let listing = box.value as? Listing {
+                            if listing.children.count == 1 {
+                                if let link = listing.children[0] as? Link {
+                                    if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{
+                                        vc.session = self.session
+                                        vc.link = link
+                                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                            self.navigationController?.pushViewController(vc, animated: true)
+                                        })
+                                    }
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+            else if let link = obj as? Link {
+                if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{
+                    vc.session = session
+                    vc.link = link
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        }
+    }
+    
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indices(contents) ~= indexPath.row {
             return contents[indexPath.row].textHeight
