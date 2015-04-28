@@ -65,6 +65,18 @@ enum CommentSort {
     }
 }
 
+func extendAllReplies(comment:Comment, targetArray:[Comment]) -> [Comment] {
+    var comments = [comment]
+    if let listing = comment.replies as? Listing {
+        for obj in listing.children {
+            if let obj = obj as? Comment {
+                comments.extend(extendAllReplies(obj, targetArray))
+            }
+        }
+    }
+    return comments
+}
+
 class Comment : Thing {
     /**
     the id of the subreddit in which the thing is located
@@ -202,6 +214,18 @@ class Comment : Thing {
 		}
 		return buf
 	}
+    
+    func hasMore() -> Bool {
+        if self.replies == nil {
+            return false
+        }
+        if let listing = self.replies as? Listing {
+            if let more = listing.children as? [More] {
+                return true
+            }
+        }
+        return false
+    }
 }
 
 

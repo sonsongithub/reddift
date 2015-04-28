@@ -23,7 +23,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     func updateStrings() {
         contents.removeAll(keepCapacity:true)
         contents = comments.map { (comment:Comment) -> CellContent in
-            return CellContent(string:comment.body, width:self.view.frame.size.width, hasRelies:(comment.replies != nil))
+            return CellContent(string:comment.body, width:self.view.frame.size.width, hasRelies:(comment.hasMore()))
         }
     }
     
@@ -177,9 +177,12 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                             }
                         }
                         if let listing = objects[1] as? Listing {
-                            if let comments = listing.children as? [Comment] {
-                                self.comments += comments
+                            if let children = listing.children as? [Comment] {
+                                for obj in children {
+                                    self.comments += extendAllReplies(obj, [])
+                                }
                             }
+                            println(self.comments.count)
                             self.paginator = listing.paginator()
                         }
                     }
@@ -210,7 +213,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell:UITableViewCell! = nil
         if indices(contents) ~= indexPath.row {
-            if comments[indexPath.row].replies != nil {
+            if comments[indexPath.row].hasMore() {
                 cell = tableView.dequeueReusableCellWithIdentifier("MoreCell", forIndexPath: indexPath) as! UITableViewCell
             }
             else {
@@ -233,13 +236,19 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let comment = cell.content, link = self.link {
             if let replies = comment.replies as? Listing {
                 for obj in replies.children {
-                    if let comment = obj as? Thing {
-                        println(comment.toString())
-                        println(comment)
+                    if let more = obj as? More {
+                        println(more.children)
+                        session?.getMoreChildren(comment.name, link_id:link.name, children: [more.children[0]], sort: CommentSort.New, completion: { (result) -> Void in
+                            switch result {
+                            case let .Error(error):
+                                println(error.code)
+                            case let .Value(box):
+                                println(box.value)
+                            }
+                        })
                     }
                 }
             }
-//            session?.getMoreChildren(comment.name, link_id: link.name, children:, sort: <#CommentSort#>, completion: <#(Result<JSON>) -> Void##(Result<JSON>) -> Void#>), link_id: <#String#>, children: <#[String]#>, sort: <#CommentSort#>, completion: <#(Result<JSON>) -> Void##(Result<JSON>) -> Void#>
         }
     }
 }

@@ -106,6 +106,7 @@ class Session {
     
     func handleRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            data.writeToFile("/Users/sonson/hoge.json", atomically: false)
             let responseResult = Result(error, Response(data: data, urlResponse: response))
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseJSON
             completion(result)
@@ -144,7 +145,7 @@ class Session {
         if paginator == nil {
             return nil
         }
-        var parameter:[String:String] = ["sort":sort.type, "depth":"0"]
+        var parameter:[String:String] = ["sort":sort.type, "depth":"4", "showmore":"True", "limit":"100"]
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/comments/" + link.id, parameter:parameter, method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
@@ -186,9 +187,9 @@ class Session {
         return handleAsJSONRequest(request, completion:completion)
     }
     
-    func getMoreChildren(parent_id:String, link_id:String, children:[String], sort:CommentSort, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    func getMoreChildren(id:String, link_id:String, children:[String], sort:CommentSort, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var commaSeparatedChildren = commaSeparatedStringFromList(children)
-        var parameter = ["children":commaSeparatedChildren, "id":parent_id, "link_id":link_id]
+        var parameter = ["children":commaSeparatedChildren, "link_id":link_id]
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/morechildren", parameter:parameter, method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
