@@ -106,7 +106,6 @@ class Session {
     
     func handleRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            data.writeToFile("/Users/sonson/hoge.json", atomically: false)
             let responseResult = Result(error, Response(data: data, urlResponse: response))
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseJSON
             completion(result)
@@ -141,11 +140,12 @@ class Session {
         return task
     }
     
-    func getArticles(paginator:Paginator?, link:Link, sort:CommentSort, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        if paginator == nil {
-            return nil
-        }
+    func getArticles(link:Link, sort:CommentSort, comments:[String]?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = ["sort":sort.type, "depth":"4", "showmore":"True", "limit":"100"]
+        if let comments = comments {
+            var commaSeparatedIDString = commaSeparatedStringFromList(comments)
+            parameter["comment"] = commaSeparatedIDString
+        }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/comments/" + link.id, parameter:parameter, method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
@@ -187,11 +187,11 @@ class Session {
         return handleAsJSONRequest(request, completion:completion)
     }
     
-    func getMoreChildren(id:String, link_id:String, children:[String], sort:CommentSort, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    func getMoreChildren(children:[String], link:Link, sort:CommentSort, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var commaSeparatedChildren = commaSeparatedStringFromList(children)
-        var parameter = ["children":commaSeparatedChildren, "link_id":link_id]
+        var parameter = ["children":commaSeparatedChildren, "link_id":link.name, "sort":sort.type, "api_type":"json"]
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/morechildren", parameter:parameter, method:"GET", token:token)
-        return handleRequest(request, completion:completion)
+        return handleAsJSONRequest(request, completion:completion)
     }
     
     /**

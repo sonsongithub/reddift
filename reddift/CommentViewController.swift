@@ -161,7 +161,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         if let link = self.link {
-            session?.getArticles(self.paginator, link:link, sort:CommentSort.New, completion: { (result) -> Void in
+            session?.getArticles(link, sort:CommentSort.New, comments:nil, completion: { (result) -> Void in
                 switch result {
                 case let .Error(error):
                     println(error.code)
@@ -170,9 +170,9 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                         if let listing = objects[0] as? Listing {
                             if let links = listing.children as? [Link] {
                                 for link:Link in links {
-                                    println(link.selftext)
-                                    println(link.selftext_html)
-                                    println(link.permalink)
+//                                    println(link.selftext)
+//                                    println(link.selftext_html)
+//                                    println(link.permalink)
                                 }
                             }
                         }
@@ -182,7 +182,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                                     self.comments += extendAllReplies(obj, [])
                                 }
                             }
-                            println(self.comments.count)
+//                            println(self.comments.count)
                             self.paginator = listing.paginator()
                         }
                     }
@@ -238,14 +238,14 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                 for obj in replies.children {
                     if let more = obj as? More {
                         println(more.children)
-                        session?.getMoreChildren(comment.name, link_id:link.name, children: [more.children[0]], sort: CommentSort.New, completion: { (result) -> Void in
+                        session?.getMoreChildren(more.children, link:link, sort:CommentSort.New, completion:{ (result) -> Void in
                             switch result {
                             case let .Error(error):
                                 println(error.code)
                             case let .Value(box):
                                 println(box.value)
                             }
-                        })
+                        });
                     }
                 }
             }

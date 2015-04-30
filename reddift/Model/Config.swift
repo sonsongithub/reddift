@@ -13,7 +13,7 @@ Class to manage parameters of reddift.
 This class is used as singleton model
 */
 class Config {
-    var version = ""
+    var version = "1.0"
     var bundleIdentifier = ""
     var developerName = ""
     var redirectURI = ""
