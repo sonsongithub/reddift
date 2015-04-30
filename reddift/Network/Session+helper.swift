@@ -14,6 +14,7 @@ type alias for JSON object
 typealias JSON = AnyObject
 typealias JSONDictionary = Dictionary<String, JSON>
 typealias JSONArray = Array<JSON>
+typealias ThingList = AnyObject
 
 func JSONString(object: JSON?) -> String? {
     return object as? String
@@ -99,7 +100,7 @@ This function filters response object to handle errors.
 func parseResponse(response: Response) -> Result<NSData> {
     let successRange = 200..<300
     if !contains(successRange, response.statusCode) {
-        return .Error(NSError())
+        return .Error(NSError(domain: "com.sonson.reddift", code: response.statusCode, userInfo:nil))
     }
     return .Value(Box(response.data))
 }

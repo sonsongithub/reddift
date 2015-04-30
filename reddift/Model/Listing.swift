@@ -26,7 +26,7 @@ class Listing {
 	
 	func paginator() -> Paginator? {
         if count(after) > 0 || count(before) > 0 {
-            return Paginator(after: after, before: before)
+            return Paginator(after: after, before: before, modhash:"")
         }
         return nil
 	}

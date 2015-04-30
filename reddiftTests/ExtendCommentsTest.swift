@@ -35,7 +35,7 @@ class ExtendCommentsTest: XCTestCase {
                 var comments:[Comment] = []
                 if let children = objects[1].children as? [Comment] {
                     for obj in children {
-                        comments += extendAllReplies(obj, [])
+//                        comments += extendAllReplies(obj, [])
                     }
                 }
                 XCTAssertEqual(comments.count, 13, "Check number of extended comments.")

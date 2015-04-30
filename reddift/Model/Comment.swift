@@ -65,14 +65,18 @@ enum CommentSort {
     }
 }
 
-func extendAllReplies(comment:Comment, targetArray:[Comment]) -> [Comment] {
-    var comments = [comment]
-    if let listing = comment.replies as? Listing {
-        for obj in listing.children {
+func extendAllReplies(comment:Comment, targetArray:[Thing]) -> [Thing] {
+    var comments:[Thing] = [comment]
+    if let list = comment.replies as? [Thing] {
+        for obj in list {
             if let obj = obj as? Comment {
                 comments.extend(extendAllReplies(obj, targetArray))
             }
+            else if let obj = obj as? More {
+                comments.append(obj)
+            }
         }
+        comment.replies = nil
     }
     return comments
 }

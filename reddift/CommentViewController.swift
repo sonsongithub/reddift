@@ -12,7 +12,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     var session:Session? = nil
     var subreddit:Subreddit? = nil
     var link:Link? = nil
-	var comments:[Comment] = []
+	var comments:[Thing] = []
     var paginator:Paginator? = Paginator()
     var contents:[CellContent] = []
 	
@@ -20,10 +20,14 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
 		println("deinit")
 	}
     
-    func updateStrings() {
-        contents.removeAll(keepCapacity:true)
-        contents = comments.map { (comment:Comment) -> CellContent in
-            return CellContent(string:comment.body, width:self.view.frame.size.width, hasRelies:(comment.hasMore()))
+    func updateStrings(newComments:[Thing]) -> [CellContent] {
+        return newComments.map { (thing:Thing) -> CellContent in
+            if let comment = thing as? Comment {
+                return CellContent(string:comment.body, width:self.view.frame.size.width, hasRelies:false)
+            }
+            else {
+                return CellContent(string:"more", width:self.view.frame.size.width, hasRelies:false)
+            }
         }
     }
     
@@ -166,27 +170,20 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                 case let .Error(error):
                     println(error.code)
                 case let .Value(box):
-                    if let objects = box.value as? [AnyObject] {
-                        if let listing = objects[0] as? Listing {
-                            if let links = listing.children as? [Link] {
-                                for link:Link in links {
-//                                    println(link.selftext)
-//                                    println(link.selftext_html)
-//                                    println(link.permalink)
-                                }
+                    println(box.value)
+                    if let objects = box.value as? [Thing] {
+                        var newComments:[Thing] = []
+                        for obj in objects {
+                            if let comment = obj as? Comment {
+                                newComments += extendAllReplies(comment, [])
+                            }
+                            if let paginator = obj as? Paginator {
+                                self.paginator = paginator
                             }
                         }
-                        if let listing = objects[1] as? Listing {
-                            if let children = listing.children as? [Comment] {
-                                for obj in children {
-                                    self.comments += extendAllReplies(obj, [])
-                                }
-                            }
-//                            println(self.comments.count)
-                            self.paginator = listing.paginator()
-                        }
+                        self.comments += newComments
+                        self.contents += self.updateStrings(newComments)
                     }
-                    self.updateStrings()
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.tableView.reloadData()
                     })
@@ -200,7 +197,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.comments.count
+        return self.contents.count
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -213,16 +210,11 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell:UITableViewCell! = nil
         if indices(contents) ~= indexPath.row {
-            if comments[indexPath.row].hasMore() {
-                cell = tableView.dequeueReusableCellWithIdentifier("MoreCell", forIndexPath: indexPath) as! UITableViewCell
-            }
-            else {
-                cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
-            }
+            cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
             if let cell = cell as? UZTextViewCell {
                 cell.delegate = self
                 cell.textView?.attributedString = contents[indexPath.row].attributedString
-                cell.content = comments[indexPath.row]
+//                cell.content = comments[indexPath.row]
             }
             return cell
         }

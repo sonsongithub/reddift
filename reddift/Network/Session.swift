@@ -76,6 +76,22 @@ func parseJSON(json:JSON) -> Result<JSON> {
     return resultFromOptional(object, NSError())
 }
 
+func parseListFromJSON(json: JSON) -> Result<JSON> {
+    let object:AnyObject? = Parser.parseJSON2(json, depth:0)
+    return resultFromOptional(object, NSError())
+}
+
+func filterArticleResponse(json:JSON) -> Result<JSON> {
+    if let array = json as? [AnyObject] {
+        if array.count == 2 {
+            if let result = array[1] as? [Thing] {
+                return resultFromOptional(result, NSError())
+            }
+        }
+    }
+    return resultFromOptional(nil, NSError())
+}
+
 class Session {
     let token:OAuth2Token
     static let baseURL = "https://oauth.reddit.com"
@@ -147,7 +163,14 @@ class Session {
             parameter["comment"] = commaSeparatedIDString
         }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/comments/" + link.id, parameter:parameter, method:"GET", token:token)
-        return handleRequest(request, completion:completion)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> filterArticleResponse
+            
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     func getSubscribingSubreddit(paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
@@ -164,7 +187,13 @@ class Session {
             path = "/r/\(subreddit.display_name)\(path)"
         }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:paginator?.parameters(), method:"GET", token:token)
-        return handleRequest(request, completion:completion)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     func getUser(username:String, content:UserContent, paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
