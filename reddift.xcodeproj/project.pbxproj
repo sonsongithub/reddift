@@ -85,6 +85,11 @@
 		14B5EC461AF35C560065BC5E /* OAuth2Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1F1ADD721700237350 /* OAuth2Token.swift */; };
 		14B5EC471AF35C560065BC5E /* OAuth2TokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE201ADD721700237350 /* OAuth2TokenRepository.swift */; };
 		14B5EC4A1AF35E990065BC5E /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; };
+		14B5EC501AF40ECF0065BC5E /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */; };
+		14B5EC5A1AF410740065BC5E /* UZCursorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC551AF410740065BC5E /* UZCursorView.m */; };
+		14B5EC5B1AF410740065BC5E /* UZLoupeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC571AF410740065BC5E /* UZLoupeView.m */; };
+		14B5EC5C1AF410740065BC5E /* UZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC591AF410740065BC5E /* UZTextView.m */; };
+		14B5EC5F1AF412640065BC5E /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,6 +157,13 @@
 		14B5EC321AF35C170065BC5E /* CellContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellContent.swift; sourceTree = "<group>"; };
 		14B5EC341AF35C220065BC5E /* reddift_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reddift_config.json; sourceTree = "<group>"; };
 		14B5EC351AF35C220065BC5E /* reddift_config.json.sample */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reddift_config.json.sample; sourceTree = "<group>"; };
+		14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Keychain.swift; path = vendor/KeychainAccess/Lib/KeychainAccess/Keychain.swift; sourceTree = "<group>"; };
+		14B5EC541AF410740065BC5E /* UZCursorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UZCursorView.h; path = vendor/UZTextView/UZTextView/UZCursorView.h; sourceTree = "<group>"; };
+		14B5EC551AF410740065BC5E /* UZCursorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UZCursorView.m; path = vendor/UZTextView/UZTextView/UZCursorView.m; sourceTree = "<group>"; };
+		14B5EC561AF410740065BC5E /* UZLoupeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UZLoupeView.h; path = vendor/UZTextView/UZTextView/UZLoupeView.h; sourceTree = "<group>"; };
+		14B5EC571AF410740065BC5E /* UZLoupeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UZLoupeView.m; path = vendor/UZTextView/UZTextView/UZLoupeView.m; sourceTree = "<group>"; };
+		14B5EC581AF410740065BC5E /* UZTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UZTextView.h; path = vendor/UZTextView/UZTextView/UZTextView.h; sourceTree = "<group>"; };
+		14B5EC591AF410740065BC5E /* UZTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UZTextView.m; path = vendor/UZTextView/UZTextView/UZTextView.m; sourceTree = "<group>"; };
 		14B8DE051ADD3DF300237350 /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		14B8DE061ADD3DF300237350 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		14B8DE081ADD3DF300237350 /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
@@ -263,6 +275,7 @@
 				14B8DE171ADD721700237350 /* Extension */,
 				14B8DE1B1ADD721700237350 /* Network */,
 				14B8DE1D1ADD721700237350 /* OAuth */,
+				14B5EC511AF40ED20065BC5E /* vendor */,
 				147EADA31AD78568007FA2F4 /* Supporting Files */,
 			);
 			path = reddift;
@@ -314,9 +327,8 @@
 				14B5EBFA1AF35B620065BC5E /* UZTextViewCell.xib */,
 				14B5EBFB1AF35B620065BC5E /* UZTextViewWithMoreButtonCell.xib */,
 				14B5EBD41AF34E920065BC5E /* ViewController.swift */,
-				14B5EBD61AF34E920065BC5E /* Main.storyboard */,
-				14B5EBD91AF34E920065BC5E /* Images.xcassets */,
-				14B5EBDB1AF34E920065BC5E /* LaunchScreen.xib */,
+				14B5EC5D1AF410780065BC5E /* vendor */,
+				14B5EC531AF410560065BC5E /* Resources */,
 				14B5EBD01AF34E920065BC5E /* Supporting Files */,
 			);
 			path = reddiftSample;
@@ -330,6 +342,53 @@
 				14B5EBD11AF34E920065BC5E /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		14B5EC511AF40ED20065BC5E /* vendor */ = {
+			isa = PBXGroup;
+			children = (
+				14B5EC521AF40ED80065BC5E /* Keychain */,
+			);
+			name = vendor;
+			sourceTree = "<group>";
+		};
+		14B5EC521AF40ED80065BC5E /* Keychain */ = {
+			isa = PBXGroup;
+			children = (
+				14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */,
+			);
+			name = Keychain;
+			sourceTree = "<group>";
+		};
+		14B5EC531AF410560065BC5E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				14B5EBD61AF34E920065BC5E /* Main.storyboard */,
+				14B5EBD91AF34E920065BC5E /* Images.xcassets */,
+				14B5EBDB1AF34E920065BC5E /* LaunchScreen.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		14B5EC5D1AF410780065BC5E /* vendor */ = {
+			isa = PBXGroup;
+			children = (
+				14B5EC5E1AF4107E0065BC5E /* UZTextView */,
+			);
+			name = vendor;
+			sourceTree = "<group>";
+		};
+		14B5EC5E1AF4107E0065BC5E /* UZTextView */ = {
+			isa = PBXGroup;
+			children = (
+				14B5EC541AF410740065BC5E /* UZCursorView.h */,
+				14B5EC551AF410740065BC5E /* UZCursorView.m */,
+				14B5EC561AF410740065BC5E /* UZLoupeView.h */,
+				14B5EC571AF410740065BC5E /* UZLoupeView.m */,
+				14B5EC581AF410740065BC5E /* UZTextView.h */,
+				14B5EC591AF410740065BC5E /* UZTextView.m */,
+			);
+			name = UZTextView;
 			sourceTree = "<group>";
 		};
 		14B8DE041ADD3DF300237350 /* Model */ = {
@@ -555,6 +614,7 @@
 				14B5EC0B1AF35BFB0065BC5E /* Parser+t3.swift in Sources */,
 				14B5EC451AF35C560065BC5E /* OAuth2Authorizer.swift in Sources */,
 				14B5EC471AF35C560065BC5E /* OAuth2TokenRepository.swift in Sources */,
+				14B5EC501AF40ECF0065BC5E /* Keychain.swift in Sources */,
 				14B5EC201AF35BFF0065BC5E /* Account.swift in Sources */,
 				14B5EC1B1AF35BFF0065BC5E /* MediaEmbed.swift in Sources */,
 				14B5EC211AF35BFF0065BC5E /* Message.swift in Sources */,
@@ -590,6 +650,7 @@
 				14B5EC121AF35BFB0065BC5E /* Parser+t3.swift in Sources */,
 				14B5EC421AF35C560065BC5E /* OAuth2Authorizer.swift in Sources */,
 				14B5EC441AF35C560065BC5E /* OAuth2TokenRepository.swift in Sources */,
+				14B5EC5F1AF412640065BC5E /* Keychain.swift in Sources */,
 				14B5EC2E1AF35BFF0065BC5E /* Account.swift in Sources */,
 				14B5EC291AF35BFF0065BC5E /* MediaEmbed.swift in Sources */,
 				14B5EC2F1AF35BFF0065BC5E /* Message.swift in Sources */,
@@ -623,10 +684,13 @@
 				14B5EBFD1AF35B620065BC5E /* CommentViewController.swift in Sources */,
 				14B5EC041AF35B620065BC5E /* UZTextViewCell.swift in Sources */,
 				14B5EBD51AF34E920065BC5E /* ViewController.swift in Sources */,
+				14B5EC5B1AF410740065BC5E /* UZLoupeView.m in Sources */,
 				14B5EBFE1AF35B620065BC5E /* LinkViewController.swift in Sources */,
 				14B5EBD31AF34E920065BC5E /* AppDelegate.swift in Sources */,
 				14B5EC001AF35B620065BC5E /* ProfileViewController.swift in Sources */,
+				14B5EC5C1AF410740065BC5E /* UZTextView.m in Sources */,
 				14B5EC011AF35B620065BC5E /* SubredditsListViewController.swift in Sources */,
+				14B5EC5A1AF410740065BC5E /* UZCursorView.m in Sources */,
 				14B5EBFF1AF35B620065BC5E /* MessageViewController.swift in Sources */,
 				14B5EBFC1AF35B620065BC5E /* AccountViewController.swift in Sources */,
 				14B5EC331AF35C170065BC5E /* CellContent.swift in Sources */,
