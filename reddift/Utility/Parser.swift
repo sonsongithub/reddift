@@ -9,7 +9,7 @@
 import UIKit
 
 class Parser: NSObject {
-    class func parseThing(json:[String:AnyObject], depth:Int) -> AnyObject? {
+    class func parseThing(json:[String:AnyObject]) -> AnyObject? {
         if let data = json["data"] as? [String:AnyObject], kind = json["kind"] as? String {            
             switch(kind) {
             case "t1":
@@ -36,13 +36,13 @@ class Parser: NSObject {
         return nil
     }
     
-    class func parseListing(json:[String:AnyObject], depth:Int) -> Listing {
+    class func parseListing(json:[String:AnyObject]) -> Listing {
         let listing = Listing()
         if let data = json["data"] as? [String:AnyObject] {
             if let children = data["children"] as? [AnyObject] {
                 for child in children {
                     if let child = child as? [String:AnyObject] {
-                        let obj:AnyObject? = parseJSON(child, depth: depth + 1)
+                        let obj:AnyObject? = parseJSON(child)
                         if let obj = obj as? Thing {
                             if let more = obj as? More {
                                 listing.more = more
@@ -81,14 +81,14 @@ class Parser: NSObject {
         return listing
     }
 
-    class func parseJSON(json:AnyObject, depth:Int) -> AnyObject? {
+    class func parseJSON(json:AnyObject) -> AnyObject? {
         // array
         // json->[AnyObject]
         if let array = json as? [AnyObject] {
             var output:[AnyObject] = []
             for element in array {
                 if let element = element as? [String:AnyObject] {
-                    let obj:AnyObject? = self.parseJSON(element, depth:depth)
+                    let obj:AnyObject? = self.parseJSON(element)
                     if let obj:AnyObject = obj {
                         output.append(obj)
                     }
@@ -101,11 +101,11 @@ class Parser: NSObject {
         else if let json = json as? [String:AnyObject] {
             if let kind = json["kind"] as? String {
                 if kind == "Listing" {
-                    let listing = parseListing(json, depth:depth)
+                    let listing = parseListing(json)
                     return listing
                 }
                 else {
-                    return parseThing(json, depth:depth)
+                    return parseThing(json)
                 }
             }
         }

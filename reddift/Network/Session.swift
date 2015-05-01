@@ -65,26 +65,28 @@ enum UserContent {
 }
 
 func parseThing_t2_JSON(json:JSON) -> Result<JSON> {
+    let error = NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse t2 JSON."])
     if let object = json >>> JSONObject {
-        return resultFromOptional(Parser.parseDataInThing_t2(object), NSError())
+        return resultFromOptional(Parser.parseDataInThing_t2(object), error)
     }
-    return resultFromOptional(nil, NSError())
+    return resultFromOptional(nil, error)
 }
 
 func parseListFromJSON(json: JSON) -> Result<JSON> {
-    let object:AnyObject? = Parser.parseJSON(json, depth:0)
-    return resultFromOptional(object, NSError())
+    let object:AnyObject? = Parser.parseJSON(json)
+    return resultFromOptional(object, NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse JSON of reddit style."]))
 }
 
 func filterArticleResponse(json:JSON) -> Result<JSON> {
+    let error = NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse article JSON object."])
     if let array = json as? [AnyObject] {
         if array.count == 2 {
             if let result = array[1] as? Listing {
-                return resultFromOptional(result, NSError())
+                return resultFromOptional(result, error)
             }
         }
     }
-    return resultFromOptional(nil, NSError())
+    return resultFromOptional(nil, error)
 }
 
 class Session {

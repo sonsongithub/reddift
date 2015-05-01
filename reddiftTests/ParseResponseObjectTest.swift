@@ -24,7 +24,7 @@ class ParseResponseObjectTest: XCTestCase {
     func testResponse_error() {
         let json:AnyObject? = self.jsonFromFileName("error.json")
         if let json:AnyObject = json {
-            let object:AnyObject? = Parser.parseJSON(json, depth:0)
+            let object:AnyObject? = Parser.parseJSON(json)
             XCTAssert((object == nil), "Irregular json file test.")
         }
         else {
@@ -36,7 +36,7 @@ class ParseResponseObjectTest: XCTestCase {
         for fileName in ["t1.json", "t2.json", "t3.json", "t4.json", "t5.json"] {
             let json:AnyObject? = self.jsonFromFileName(fileName)
             if let json:AnyObject = json {
-                let object:AnyObject? = Parser.parseJSON(json, depth:0)
+                let object:AnyObject? = Parser.parseJSON(json)
                 XCTAssert((object == nil), "Irregular json file test.")
             }
             else {
@@ -48,7 +48,7 @@ class ParseResponseObjectTest: XCTestCase {
     func testResponse_comment() {
         let json:AnyObject? = self.jsonFromFileName("comments.json")
         if let json:AnyObject = json {
-            if let objects = Parser.parseJSON(json, depth:0) as? [JSON] {
+            if let objects = Parser.parseJSON(json) as? [JSON] {
                 XCTAssertEqual(objects.count, 2, "Check 2 Listing objects")
                 if let links = objects[0] as? [AnyObject] {
                     XCTAssertEqual(links.count, 1, "Check first Listing object's children.")
@@ -75,7 +75,7 @@ class ParseResponseObjectTest: XCTestCase {
     func testResponse_link() {
         let json:AnyObject? = self.jsonFromFileName("links.json")
         if let json:AnyObject = json {
-            if let listing = Parser.parseJSON(json, depth:0) as? Listing {
+            if let listing = Parser.parseJSON(json) as? Listing {
                 XCTAssertEqual(listing.children.count, 26, "Check 2 Listing objects")
                 for child in listing.children {
                     XCTAssert((child is Link), "Check class of children.")
@@ -94,7 +94,7 @@ class ParseResponseObjectTest: XCTestCase {
     func testResponse_message() {
         let json:AnyObject? = self.jsonFromFileName("message.json")
         if let json:AnyObject = json {
-            if let listing = Parser.parseJSON(json, depth:0) as? Listing {
+            if let listing = Parser.parseJSON(json) as? Listing {
                 XCTAssertEqual(listing.children.count, 4, "Check 2 Listing objects")
                 if listing.children.count == 4 {
                     XCTAssert((listing.children[0] is Comment), "Check class of children.")
@@ -115,7 +115,7 @@ class ParseResponseObjectTest: XCTestCase {
     func testResponse_subreddit() {
         let json:AnyObject? = self.jsonFromFileName("subreddit.json")
         if let json:AnyObject = json {
-            if let listing = Parser.parseJSON(json, depth:0) as? Listing {
+            if let listing = Parser.parseJSON(json) as? Listing {
                 XCTAssertEqual(listing.children.count, 5, "Check 2 Listing objects")
                 for child in listing.children {
                     XCTAssert((child is Subreddit), "Check class of children.")

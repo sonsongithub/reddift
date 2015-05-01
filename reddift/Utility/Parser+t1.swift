@@ -24,7 +24,7 @@ extension Parser {
 			comment.likes = temp
 		}
 		if let temp = data["replies"] as? [String:AnyObject] {
-			if let obj = parseJSON(temp, depth:0) as? Listing {
+			if let obj = parseJSON(temp) as? Listing {
 				comment.replies = obj
 			}
 		}

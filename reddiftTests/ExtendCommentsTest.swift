@@ -22,34 +22,40 @@ class ExtendCommentsTest: XCTestCase {
     }
 
     func testExtendRepliesInCommentsRecursively() {
-//        let json:AnyObject? = self.jsonFromFileName("comments_extend.json")
-//        if let json:JSON = json {
-//            if let objects = Parser.parseJSON2(json, depth:0) as? [AnyObject] {
-//                XCTAssertEqual(objects.count, 2, "Check 2 Listing objects")
-//                XCTAssertEqual(objects[0].count, 1, "Check first Listing object's children.")
-//                if objects[0].count > 0 {
-//                    XCTAssert((objects[0].children[0] is Link), "Check class of children.")
-//                }
-//                XCTAssertEqual(objects[1].children.count, 4, "Check class of children.")
-//                
-//                var comments:[Comment] = []
-//                if let children = objects[1].children as? [Comment] {
-//                    for obj in children {
-////                        comments += extendAllReplies(obj, [])
-//                    }
-//                }
-//                XCTAssertEqual(comments.count, 13, "Check number of extended comments.")
-//                let numberOfMores = comments.reduce(0, combine: { (value:Int, comment:Comment) -> Int in
-//                    return comment.hasMore() ? 1 + value : value
-//                })
-//                XCTAssertEqual(numberOfMores, 9, "Check number of more things.")
-//            }
-//            else {
-//                XCTFail("JSON error")
-//            }
-//        }
-//        else {
-//            XCTFail("JSON error")
-//        }
+        let json:AnyObject? = self.jsonFromFileName("comments_extend.json")
+        if let json:JSON = json {
+            if let array = Parser.parseJSON(json) as? [AnyObject] {
+                XCTAssertEqual(array.count, 2, "Check 2 Listing objects")
+                if let listing = array[0] as? Listing {
+                    XCTAssertEqual(listing.children.count, 1, "Check 2 Listing objects")
+                }
+                if let listing = array[1] as? Listing {
+                    XCTAssertEqual(listing.children.count, 4, "Check 4 Listing objects")
+                    var comments:[Thing] = []
+                    for obj in listing.children {
+                        if let comment = obj as? Comment {
+                            comments += extendAllReplies(comment, [])
+                        }
+                        else {
+                            comments.append(obj)
+                        }
+                    }
+                    let numberOfComments = comments.reduce(0, combine: { (value:Int, comment:Thing) -> Int in
+                        return comment is Comment ? 1 + value : value
+                    })
+                    let numberOfMores = comments.reduce(0, combine: { (value:Int, comment:Thing) -> Int in
+                        return comment is More ? 1 + value : value
+                    })
+                    XCTAssertEqual(numberOfComments, 13, "Check number of extended comments.")
+                    XCTAssertEqual(numberOfMores, 9, "Check number of more things.")
+                }
+            }
+            else {
+                XCTFail("JSON error")
+            }
+        }
+        else {
+            XCTFail("JSON error")
+        }
     }
 }

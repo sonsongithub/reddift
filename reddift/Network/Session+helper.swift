@@ -116,5 +116,8 @@ func resultFromOptional<A>(optional: A?, error: NSError) -> Result<A> {
 func decodeJSON(data: NSData) -> Result<JSON> {
     var jsonErrorOptional: NSError?
     let jsonOptional: JSON? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &jsonErrorOptional)
-    return resultFromOptional(jsonOptional, NSError())
+    if let jsonError = jsonErrorOptional {
+        return resultFromOptional(jsonOptional, jsonError)
+    }
+    return resultFromOptional(jsonOptional, NSError(domain: "com.sonson.reddift", code: 2, userInfo: ["description":"Failed to parse JSON object unexpectedly."]))
 }
