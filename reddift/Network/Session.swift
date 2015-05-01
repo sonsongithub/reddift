@@ -65,15 +65,28 @@ enum UserContent {
 }
 
 func parseThing_t2_JSON(json:JSON) -> Result<JSON> {
+    let error = NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse t2 JSON."])
     if let object = json >>> JSONObject {
-        return resultFromOptional(Parser.parseDataInThing_t2(object), NSError())
+        return resultFromOptional(Parser.parseDataInThing_t2(object), error)
     }
-    return resultFromOptional(nil, NSError())
+    return resultFromOptional(nil, error)
 }
 
-func parseJSON(json:JSON) -> Result<JSON> {
-    let object:AnyObject? = Parser.parseJSON(json, depth:0)
-    return resultFromOptional(object, NSError())
+func parseListFromJSON(json: JSON) -> Result<JSON> {
+    let object:AnyObject? = Parser.parseJSON(json)
+    return resultFromOptional(object, NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse JSON of reddit style."]))
+}
+
+func filterArticleResponse(json:JSON) -> Result<JSON> {
+    let error = NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse article JSON object."])
+    if let array = json as? [AnyObject] {
+        if array.count == 2 {
+            if let result = array[1] as? Listing {
+                return resultFromOptional(result, error)
+            }
+        }
+    }
+    return resultFromOptional(nil, error)
 }
 
 class Session {
@@ -107,7 +120,7 @@ class Session {
     func handleRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = Result(error, Response(data: data, urlResponse: response))
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseJSON
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
             completion(result)
         })
         task.resume()
@@ -147,7 +160,14 @@ class Session {
             parameter["comment"] = commaSeparatedIDString
         }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/comments/" + link.id, parameter:parameter, method:"GET", token:token)
-        return handleRequest(request, completion:completion)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> filterArticleResponse
+            
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     func getSubscribingSubreddit(paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
@@ -164,7 +184,13 @@ class Session {
             path = "/r/\(subreddit.display_name)\(path)"
         }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:paginator?.parameters(), method:"GET", token:token)
-        return handleRequest(request, completion:completion)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     func getUser(username:String, content:UserContent, paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {

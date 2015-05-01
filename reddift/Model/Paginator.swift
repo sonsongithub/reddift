@@ -8,18 +8,21 @@
 
 import UIKit
 
-class Paginator {
-	let after:String
-	let before:String
+class Paginator : Thing {
+	var after:String
+	var before:String
+    var modhash:String
     
-    init() {
+    override init() {
         self.after = ""
         self.before = ""
+        self.modhash = ""
     }
 	
-	init(after:String, before:String) {
+    init(after:String, before:String, modhash:String) {
 		self.after = after
 		self.before = before
+        self.modhash = modhash
 	}
     
     func parameters() -> [String:String] {

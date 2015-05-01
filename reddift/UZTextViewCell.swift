@@ -16,7 +16,7 @@ class UZTextViewCell: UITableViewCell {
     @IBOutlet var textView:UZTextView? = nil
     @IBOutlet var moreButton:UIButton? = nil
     var delegate:UZTextViewCellDelegate? = nil
-    var content:Comment? = nil
+    var content:Thing? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()

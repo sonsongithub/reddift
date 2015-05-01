@@ -68,10 +68,11 @@ class OAuth2Token : NSObject,NSCoding {
                temp5 = json["refresh_token"] as? String {
                 token = OAuth2Token(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:temp5)
         }
-        return resultFromOptional(token, NSError())
+        return resultFromOptional(token, NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse t2 JSON in order to create OAuth2Token."]))
     }
     
     func updateWithJSON(json:JSON) -> Result<OAuth2Token> {
+        let error = NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse t2 JSON in order to update OAuth2Token."])
         if  let temp1 = json["access_token"] as? String,
                 temp2 = json["token_type"] as? String,
                 temp3 = json["expires_in"] as? Int,
@@ -80,9 +81,9 @@ class OAuth2Token : NSObject,NSCoding {
             tokenType = temp2
             expiresIn = temp3
             scope = temp4
-            return resultFromOptional(self, NSError())
+            return resultFromOptional(self, error)
         }
-        return resultFromOptional(nil, NSError())
+        return resultFromOptional(nil, error)
     }
     
     func requestForRefreshing() -> NSMutableURLRequest {

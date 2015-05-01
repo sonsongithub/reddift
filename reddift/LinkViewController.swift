@@ -56,11 +56,14 @@ class LinkViewController: UITableViewController {
                 case let .Error(error):
                     println(error.code)
                 case let .Value(box):
+                    println(box.value)
                     if let listing = box.value as? Listing {
-                        if let links = listing.children as? [Link] {
-                            self.links += links
+                        for obj in listing.children {
+                            if let link = obj as? Link {
+                                self.links.append(link)
+                            }
                         }
-						self.paginator = listing.paginator()
+                        self.paginator = listing.paginator
                     }
                     self.updateStrings()
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
