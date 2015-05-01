@@ -46,12 +46,16 @@ extension NSMutableURLRequest {
         return URLRequest
     }
     
-    class func mutableOAuthRequestWithBaseURL(baseURL:String, path:String, parameter:[String:String], method:String, token:OAuth2Token) -> NSMutableURLRequest {
+    class func mutableOAuthRequestWithBaseURL(baseURL:String, path:String, parameter:[String:String]?, method:String, token:OAuth2Token) -> NSMutableURLRequest {
+		var params:[String:String] = [:]
+		if let parameter = parameter {
+			params = parameter
+		}
         if method == "POST" {
-            return self.mutableOAuthPostRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:method, token:token)
+            return self.mutableOAuthPostRequestWithBaseURL(baseURL, path:path, parameter:params, method:method, token:token)
         }
         else {
-            return self.mutableOAuthGetRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:method, token:token)
+            return self.mutableOAuthGetRequestWithBaseURL(baseURL, path:path, parameter:params, method:method, token:token)
         }
     }
     

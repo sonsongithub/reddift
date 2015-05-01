@@ -8,17 +8,17 @@
 
 import UIKit
 
-class Media {
+public class Media {
     /**
     example "i.imgur.com"
     */
-    var type = ""
+    public var type = ""
     /**
     oembed object
     */
-    var oembed:Oembed = Oembed()
+    public var oembed:Oembed = Oembed()
     
-    func updateWithJSON(json:[String:AnyObject]) {
+    public func updateWithJSON(json:[String:AnyObject]) {
         if let temp = json["type"] as? String {
             self.type = temp
         }
@@ -27,7 +27,7 @@ class Media {
         }
     }
 	
-	func toString() -> String {
+	public func toString() -> String {
 		return "{type=\(type)}\n"
 	}
 }

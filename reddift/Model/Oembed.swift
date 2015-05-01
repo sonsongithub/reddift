@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Oembed {
+public class Oembed {
     /**
     example, "http://i.imgur.com",
     */

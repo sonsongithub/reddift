@@ -8,21 +8,31 @@
 
 import UIKit
 
-class Paginator {
-    var after = ""
-    var before = ""
-    var sortingType = ListingSortType.Top
+public class Paginator : Thing {
+	var after:String
+	var before:String
+    var modhash:String
     
-    func parameters() -> [String:String] {
+    public override init() {
+        self.after = ""
+        self.before = ""
+        self.modhash = ""
+    }
+	
+    public init(after:String, before:String, modhash:String) {
+		self.after = after
+		self.before = before
+        self.modhash = modhash
+	}
+    
+    public func parameters() -> [String:String] {
         var dict:[String:String] = [:]
-        
         if count(after) > 0 {
             dict["after"] = after
         }
         if count(before) > 0 {
             dict["before"] = before
         }
-        
         return dict
     }
 }

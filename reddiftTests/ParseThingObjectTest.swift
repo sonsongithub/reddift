@@ -75,17 +75,15 @@ class ParseThingObjectTest: XCTestCase {
                 XCTAssertEqual(object.num_reports, 0, "check num_reports's value.")
                 XCTAssertEqual(object.ups, 1, "check ups's value.")
                 
-                if let listing = object.replies as? Listing {
-                    XCTAssertEqual(listing.children.count, 1, "check replies' value.")
-                    if let more = listing.children[0] as? More {
+                if let listing = object.replies {
+                    XCTAssertEqual(listing.children.count, 0, "check replies' value.")
+                    if let more = listing.more {
                         XCTAssertEqual(more.count, 0, "check replies' value.")
                         XCTAssertEqual(more.parent_id, "t1_cqfhkcb", "check replies' value.")
                         XCTAssertEqual(more.name, "t1_cqfmmpp", "check replies' value.")
                         XCTAssertEqual(more.id, "cqfmmpp", "check replies' value.")
                         XCTAssertEqual(more.children.count, 1, "check replies' value.")
                         XCTAssertEqual(more.children[0], "cqfmmpp", "check replies' value.")
-                        XCTAssertEqual(listing.after, "", "check replies' value.")
-                        XCTAssertEqual(listing.before, "", "check replies' value.")
                     }
                     else {
                         XCTFail("check replies' value.")
