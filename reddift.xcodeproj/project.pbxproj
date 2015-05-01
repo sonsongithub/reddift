@@ -84,12 +84,7 @@
 		14B5EC451AF35C560065BC5E /* OAuth2Authorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1E1ADD721700237350 /* OAuth2Authorizer.swift */; };
 		14B5EC461AF35C560065BC5E /* OAuth2Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1F1ADD721700237350 /* OAuth2Token.swift */; };
 		14B5EC471AF35C560065BC5E /* OAuth2TokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE201ADD721700237350 /* OAuth2TokenRepository.swift */; };
-		14B5EC481AF35C710065BC5E /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086B61ADBED270095F938 /* Keychain.swift */; };
-		14B5EC491AF35C720065BC5E /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140086B61ADBED270095F938 /* Keychain.swift */; };
 		14B5EC4A1AF35E990065BC5E /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; };
-		14B5EC4C1AF370FF0065BC5E /* UZCursorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1440D5181AE7F17000211DAD /* UZCursorView.m */; };
-		14B5EC4D1AF370FF0065BC5E /* UZLoupeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1440D51A1AE7F17000211DAD /* UZLoupeView.m */; };
-		14B5EC4E1AF370FF0065BC5E /* UZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1440D51C1AE7F17000211DAD /* UZTextView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,7 +98,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		140086B61ADBED270095F938 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Keychain.swift; path = vendor/KeychainAccess/Lib/KeychainAccess/Keychain.swift; sourceTree = "<group>"; };
 		1420ADCB1AEDD28C00BB21C3 /* helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helper.swift; sourceTree = "<group>"; };
 		142983F81AE4C47300846DD3 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		142984001AE4E0EA00846DD3 /* Oembed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Oembed.swift; sourceTree = "<group>"; };
@@ -124,12 +118,6 @@
 		1440D5051AE7C9D500211DAD /* t3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t3.json; sourceTree = "<group>"; };
 		1440D5061AE7C9D500211DAD /* t4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t4.json; sourceTree = "<group>"; };
 		1440D5071AE7C9D500211DAD /* t5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t5.json; sourceTree = "<group>"; };
-		1440D5171AE7F17000211DAD /* UZCursorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UZCursorView.h; sourceTree = "<group>"; };
-		1440D5181AE7F17000211DAD /* UZCursorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UZCursorView.m; sourceTree = "<group>"; };
-		1440D5191AE7F17000211DAD /* UZLoupeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UZLoupeView.h; sourceTree = "<group>"; };
-		1440D51A1AE7F17000211DAD /* UZLoupeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UZLoupeView.m; sourceTree = "<group>"; };
-		1440D51B1AE7F17000211DAD /* UZTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UZTextView.h; sourceTree = "<group>"; };
-		1440D51C1AE7F17000211DAD /* UZTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UZTextView.m; sourceTree = "<group>"; };
 		1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseThingObjectTest.swift; sourceTree = "<group>"; };
 		1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseResponseObjectTest.swift; sourceTree = "<group>"; };
 		1471A6EF1AE5DD4C00816FE7 /* More.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = More.swift; sourceTree = "<group>"; };
@@ -211,15 +199,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		140086B81ADBED2B0095F938 /* KeychainAccess */ = {
-			isa = PBXGroup;
-			children = (
-				140086B61ADBED270095F938 /* Keychain.swift */,
-			);
-			name = KeychainAccess;
-			path = ..;
-			sourceTree = "<group>";
-		};
 		1440D4F81AE7C9D500211DAD /* other */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,35 +234,10 @@
 			path = thing;
 			sourceTree = "<group>";
 		};
-		1440D5151AE7F15C00211DAD /* vendor */ = {
-			isa = PBXGroup;
-			children = (
-				1440D5161AE7F17000211DAD /* UZTextView */,
-				140086B81ADBED2B0095F938 /* KeychainAccess */,
-			);
-			name = vendor;
-			path = reddift;
-			sourceTree = "<group>";
-		};
-		1440D5161AE7F17000211DAD /* UZTextView */ = {
-			isa = PBXGroup;
-			children = (
-				1440D5171AE7F17000211DAD /* UZCursorView.h */,
-				1440D5181AE7F17000211DAD /* UZCursorView.m */,
-				1440D5191AE7F17000211DAD /* UZLoupeView.h */,
-				1440D51A1AE7F17000211DAD /* UZLoupeView.m */,
-				1440D51B1AE7F17000211DAD /* UZTextView.h */,
-				1440D51C1AE7F17000211DAD /* UZTextView.m */,
-			);
-			name = UZTextView;
-			path = vendor/UZTextView/UZTextView;
-			sourceTree = SOURCE_ROOT;
-		};
 		147EAD971AD78568007FA2F4 = {
 			isa = PBXGroup;
 			children = (
 				147EADA21AD78568007FA2F4 /* reddift */,
-				1440D5151AE7F15C00211DAD /* vendor */,
 				147EADB81AD78568007FA2F4 /* reddiftTests */,
 				14B5EBCF1AF34E920065BC5E /* reddiftSample */,
 				147EADA11AD78568007FA2F4 /* Products */,
@@ -601,7 +555,6 @@
 				14B5EC0B1AF35BFB0065BC5E /* Parser+t3.swift in Sources */,
 				14B5EC451AF35C560065BC5E /* OAuth2Authorizer.swift in Sources */,
 				14B5EC471AF35C560065BC5E /* OAuth2TokenRepository.swift in Sources */,
-				14B5EC491AF35C720065BC5E /* Keychain.swift in Sources */,
 				14B5EC201AF35BFF0065BC5E /* Account.swift in Sources */,
 				14B5EC1B1AF35BFF0065BC5E /* MediaEmbed.swift in Sources */,
 				14B5EC211AF35BFF0065BC5E /* Message.swift in Sources */,
@@ -637,7 +590,6 @@
 				14B5EC121AF35BFB0065BC5E /* Parser+t3.swift in Sources */,
 				14B5EC421AF35C560065BC5E /* OAuth2Authorizer.swift in Sources */,
 				14B5EC441AF35C560065BC5E /* OAuth2TokenRepository.swift in Sources */,
-				14B5EC481AF35C710065BC5E /* Keychain.swift in Sources */,
 				14B5EC2E1AF35BFF0065BC5E /* Account.swift in Sources */,
 				14B5EC291AF35BFF0065BC5E /* MediaEmbed.swift in Sources */,
 				14B5EC2F1AF35BFF0065BC5E /* Message.swift in Sources */,
@@ -671,13 +623,10 @@
 				14B5EBFD1AF35B620065BC5E /* CommentViewController.swift in Sources */,
 				14B5EC041AF35B620065BC5E /* UZTextViewCell.swift in Sources */,
 				14B5EBD51AF34E920065BC5E /* ViewController.swift in Sources */,
-				14B5EC4D1AF370FF0065BC5E /* UZLoupeView.m in Sources */,
 				14B5EBFE1AF35B620065BC5E /* LinkViewController.swift in Sources */,
 				14B5EBD31AF34E920065BC5E /* AppDelegate.swift in Sources */,
 				14B5EC001AF35B620065BC5E /* ProfileViewController.swift in Sources */,
-				14B5EC4E1AF370FF0065BC5E /* UZTextView.m in Sources */,
 				14B5EC011AF35B620065BC5E /* SubredditsListViewController.swift in Sources */,
-				14B5EC4C1AF370FF0065BC5E /* UZCursorView.m in Sources */,
 				14B5EBFF1AF35B620065BC5E /* MessageViewController.swift in Sources */,
 				14B5EBFC1AF35B620065BC5E /* AccountViewController.swift in Sources */,
 				14B5EC331AF35C170065BC5E /* CellContent.swift in Sources */,
