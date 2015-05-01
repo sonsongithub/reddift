@@ -8,18 +8,18 @@
 
 import UIKit
 
-class OAuth2Authorizer {
+public class OAuth2Authorizer {
     private var state = ""
     /**
     Singleton model.
     */
-    static let sharedInstance = OAuth2Authorizer()
+    public static let sharedInstance = OAuth2Authorizer()
     
-    func challengeWithAllScopes() {
+    public func challengeWithAllScopes() {
         self.challengeWithScopes(["identity", "edit", "flair", "history", "modconfig", "modflair", "modlog", "modposts", "modwiki", "mysubreddits", "privatemessages", "read", "report", "save", "submit", "subscribe", "vote", "wikiedit", "wikiread"])
     }
     
-    func challengeWithScopes(scopes:[String]) {
+    public func challengeWithScopes(scopes:[String]) {
         var commaSeparatedScopeString = commaSeparatedStringFromList(scopes)
         
         let length = 64
@@ -32,7 +32,7 @@ class OAuth2Authorizer {
         }
     }
     
-    func receiveRedirect(url:NSURL, completion:(Result<OAuth2Token>)->Void) -> Bool{
+    public func receiveRedirect(url:NSURL, completion:(Result<OAuth2Token>)->Void) -> Bool{
         var parameters:[String:String] = [:]
         var currentState = self.state
         self.state = ""

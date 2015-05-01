@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import reddift
 
 class UserContentViewController: UITableViewController {
     var session:Session?

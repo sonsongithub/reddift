@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import reddift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

@@ -8,10 +8,10 @@
 
 import UIKit
 
-let OAuth2TokenRepositoryDidSaveToken = "OAuth2TokenRepositoryDidSaveToken"
+public let OAuth2TokenRepositoryDidSaveToken = "OAuth2TokenRepositoryDidSaveToken"
 
-class OAuth2TokenRepository {
-    class func restoreFromKeychainWithName(name:String) -> OAuth2Token? {
+public class OAuth2TokenRepository {
+    public class func restoreFromKeychainWithName(name:String) -> OAuth2Token? {
         let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
         if let data = keychain.getData(name) {
             if let token = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OAuth2Token {
@@ -21,14 +21,14 @@ class OAuth2TokenRepository {
         return nil
     }
     
-    class func savedNamesInKeychain() -> [String] {
+    public class func savedNamesInKeychain() -> [String] {
         var keys:[String] = []
         let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
         keys += keychain.allKeys()
         return keys
     }
     
-    class func saveIntoKeychainToken(token:OAuth2Token) {
+    public class func saveIntoKeychainToken(token:OAuth2Token) {
         if count(token.name) > 0 {
             // save
             let data = NSKeyedArchiver.archivedDataWithRootObject(token)
@@ -41,7 +41,7 @@ class OAuth2TokenRepository {
         }
     }
     
-    class func saveIntoKeychainToken(token:OAuth2Token, name:String) {
+    public class func saveIntoKeychainToken(token:OAuth2Token, name:String) {
         if count(name) > 0 {
             // save
             token.name = name
@@ -55,7 +55,7 @@ class OAuth2TokenRepository {
         }
     }
     
-    class func removeFromKeychainTokenWithName(name:String) {
+    public class func removeFromKeychainTokenWithName(name:String) {
         if count(name) > 0 {
             let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
             keychain.remove(name);

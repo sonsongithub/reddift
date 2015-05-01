@@ -15,8 +15,8 @@ Check app's cliend_id and fill out redirect URI for OAuth2.
 
 #### 2. Set up ````reddift_config.json````
 
-Rename ````reddift_config.json.sample```` to ````reddift_config.json````.
-And fill out "DeveloperName", "redirect_uri" and "client_id". "redirect_uri" must be same one you registered at reddit.com. You can check "client_id" at application tab.
+Rename ```reddift_config.json.sample``` to ```reddift_config.json```.
+And fill out ```DeveloperName```, ```redirect_uri``` and ```client_id```. ```redirect_uri``` must be same one you registered at reddit.com. You can check ```client_id``` at application tab.
 
     {
       "DeveloperName": "<YOUR NAME>",
@@ -26,13 +26,14 @@ And fill out "DeveloperName", "redirect_uri" and "client_id". "redirect_uri" mus
 
 #### 3. Set up your URI
 
-In Xcode, register "URL Type" which uses "redirect_uri".
+In Xcode, register ```URL Type``` which uses ```redirect_uri```.
 
 ![reddit2](https://cloud.githubusercontent.com/assets/33768/7277677/52a1d1f0-e94c-11e4-9125-18c3acf13c0b.png)
   
 ## Dependency
 
-reddift depends on [KeychainAccess](https://github.com/kishikawakatsumi/KeychainAccess) for saving access tokens.
+* reddift depends on [KeychainAccess](https://github.com/kishikawakatsumi/KeychainAccess) for saving access tokens.
+* sample application depends on [UZTextView](https://github.com/sonsongithub/UZTextView.git).
 
 ## License
 

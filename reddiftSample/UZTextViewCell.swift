@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import reddift
 
 protocol UZTextViewCellDelegate: class {
     func pushedMoreButton(cell:UZTextViewCell)

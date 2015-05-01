@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import reddift
 
 class ProfileViewController: UITableViewController {
     var session:Session?

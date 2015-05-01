@@ -8,12 +8,12 @@
 
 import UIKit
 
-class Thing {
-	var id = ""
-	var name = ""
-    var kind = ""
+public class Thing {
+	public var id = ""
+	public var name = ""
+    public var kind = ""
 	
-	func toString() -> String {
+	public func toString() -> String {
 		return "id=\(id)\n name=\(name)\n kind=\(kind)\n"
 	}
 }

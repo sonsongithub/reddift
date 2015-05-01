@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct CellContent {
     let attributedString:NSAttributedString

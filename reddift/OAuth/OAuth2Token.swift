@@ -10,17 +10,17 @@ import UIKit
 
 let OAuth2TokenDidUpdate = "OAuth2TokenDidUpdate"
 
-class OAuth2Token : NSObject,NSCoding {
+public class OAuth2Token : NSObject,NSCoding {
     static let baseURL = "https://www.reddit.com/api/v1"
-    var name = ""
-    var accessToken = ""
-    var tokenType = ""
-    var _expiresIn = 0
-    var expiresDate:NSTimeInterval = 0
-    var scope = ""
-    var refreshToken = ""
+    public var name = ""
+    public var accessToken = ""
+    public var tokenType = ""
+    public var _expiresIn = 0
+    public var expiresDate:NSTimeInterval = 0
+    public var scope = ""
+    public var refreshToken = ""
     
-    func encodeWithCoder(aCoder: NSCoder) {
+    public func encodeWithCoder(aCoder: NSCoder) {
         aCoder.encodeObject(name, forKey: "name")
         aCoder.encodeObject(accessToken, forKey: "accessToken")
         aCoder.encodeObject(tokenType, forKey: "tokenType")
@@ -30,7 +30,7 @@ class OAuth2Token : NSObject,NSCoding {
         aCoder.encodeObject(refreshToken, forKey: "refreshToken")
     }
     
-    required init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         name = aDecoder.decodeObjectForKey("name") as! String
         accessToken = aDecoder.decodeObjectForKey("accessToken") as! String
         tokenType = aDecoder.decodeObjectForKey("tokenType") as! String
@@ -40,7 +40,7 @@ class OAuth2Token : NSObject,NSCoding {
         refreshToken = aDecoder.decodeObjectForKey("refreshToken") as! String
     }
     
-    init(accessToken:String, tokenType:String, expiresIn:Int, scope:String, refreshToken:String) {
+    public init(accessToken:String, tokenType:String, expiresIn:Int, scope:String, refreshToken:String) {
         super.init()
         self.accessToken = accessToken
         self.tokenType = tokenType
@@ -49,7 +49,7 @@ class OAuth2Token : NSObject,NSCoding {
         self.refreshToken = refreshToken
     }
     
-    var expiresIn:Int {
+    public var expiresIn:Int {
         set (newValue) {
             _expiresIn = newValue
             expiresDate = NSDate.timeIntervalSinceReferenceDate() + Double(_expiresIn)
@@ -59,7 +59,7 @@ class OAuth2Token : NSObject,NSCoding {
         }
     }
     
-    class func tokenWithJSON(json:JSON) -> Result<OAuth2Token> {
+    public class func tokenWithJSON(json:JSON) -> Result<OAuth2Token> {
         var token:OAuth2Token? = nil
         if let temp1 = json["access_token"] as? String,
                temp2 = json["token_type"] as? String,
@@ -71,7 +71,7 @@ class OAuth2Token : NSObject,NSCoding {
         return resultFromOptional(token, NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse t2 JSON in order to create OAuth2Token."]))
     }
     
-    func updateWithJSON(json:JSON) -> Result<OAuth2Token> {
+    public func updateWithJSON(json:JSON) -> Result<OAuth2Token> {
         let error = NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse t2 JSON in order to update OAuth2Token."])
         if  let temp1 = json["access_token"] as? String,
                 temp2 = json["token_type"] as? String,
@@ -86,7 +86,7 @@ class OAuth2Token : NSObject,NSCoding {
         return resultFromOptional(nil, error)
     }
     
-    func requestForRefreshing() -> NSMutableURLRequest {
+    public func requestForRefreshing() -> NSMutableURLRequest {
         var URL = NSURL(string: OAuth2Token.baseURL + "/access_token")!
         var request = NSMutableURLRequest(URL:URL)
         request.setRedditBasicAuthentication()
@@ -97,7 +97,7 @@ class OAuth2Token : NSObject,NSCoding {
         return request
     }
     
-    func refresh(completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask {
+    public func refresh(completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(requestForRefreshing(), completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = Result(error, Response(data: data, urlResponse: response))
@@ -109,7 +109,7 @@ class OAuth2Token : NSObject,NSCoding {
     }
     
     
-    func requestForRevoking() -> NSMutableURLRequest {
+    public func requestForRevoking() -> NSMutableURLRequest {
         var URL = NSURL(string: OAuth2Token.baseURL + "/revoke_token")!
         var request = NSMutableURLRequest(URL:URL)
         request.setRedditBasicAuthentication()
@@ -120,7 +120,7 @@ class OAuth2Token : NSObject,NSCoding {
         return request
     }
     
-    func revoke(completion:(Result<JSON>)->Void) -> NSURLSessionDataTask {
+    public func revoke(completion:(Result<JSON>)->Void) -> NSURLSessionDataTask {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(requestForRevoking(), completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = Result(error, Response(data: data, urlResponse: response))
@@ -131,7 +131,7 @@ class OAuth2Token : NSObject,NSCoding {
         return task
     }
     
-    class func requestForOAuth(code:String) -> NSMutableURLRequest {
+    public class func requestForOAuth(code:String) -> NSMutableURLRequest {
         var URL = NSURL(string: OAuth2Token.baseURL + "/access_token")!
         var request = NSMutableURLRequest(URL:URL)
         request.setRedditBasicAuthentication()
@@ -142,7 +142,7 @@ class OAuth2Token : NSObject,NSCoding {
         return request
     }
     
-    class func getOAuth2Token(code:String, completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask {
+    public class func getOAuth2Token(code:String, completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask {
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(requestForOAuth(code), completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = Result(error, Response(data: data, urlResponse: response))
@@ -153,7 +153,7 @@ class OAuth2Token : NSObject,NSCoding {
         return task
     }
     
-    func getProfile(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getProfile(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/v1/me", method:"GET", token:self)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in

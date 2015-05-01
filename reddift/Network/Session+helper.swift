@@ -11,39 +11,39 @@ import UIKit
 /**
 type alias for JSON object
 */
-typealias JSON = AnyObject
-typealias JSONDictionary = Dictionary<String, JSON>
-typealias JSONArray = Array<JSON>
-typealias ThingList = AnyObject
+public typealias JSON = AnyObject
+public typealias JSONDictionary = Dictionary<String, JSON>
+public typealias JSONArray = Array<JSON>
+public typealias ThingList = AnyObject
 
-func JSONString(object: JSON?) -> String? {
+public func JSONString(object: JSON?) -> String? {
     return object as? String
 }
 
-func JSONInt(object: JSON?) -> Int? {
+public func JSONInt(object: JSON?) -> Int? {
     return object as? Int
 }
 
-func JSONObject(object: JSON?) -> JSONDictionary? {
+public func JSONObject(object: JSON?) -> JSONDictionary? {
     return object as? JSONDictionary
 }
 
-func JSONObjectArray(object: JSON?) -> JSONArray? {
+public func JSONObjectArray(object: JSON?) -> JSONArray? {
     return object as? JSONArray
 }
 
-final class Box<A> {
-    let value: A
-    init(_ value: A) {
+public final class Box<A> {
+    public let value: A
+    public init(_ value: A) {
         self.value = value
     }
 }
 
-enum Result<A> {
+public enum Result<A> {
     case Error(NSError)
     case Value(Box<A>)
     
-    init(_ error: NSError?, _ value: A) {
+    public init(_ error: NSError?, _ value: A) {
         if let err = error {
             self = .Error(err)
         }
@@ -55,7 +55,7 @@ enum Result<A> {
 
 infix operator >>> { associativity left precedence 150 }
 
-func >>><A, B>(a: A?, f: A -> B?) -> B? {
+public func >>><A, B>(a: A?, f: A -> B?) -> B? {
     if let x = a {
         return f(x)
     } else {
@@ -63,7 +63,7 @@ func >>><A, B>(a: A?, f: A -> B?) -> B? {
     }
 }
 
-func >>><A, B>(a: Result<A>, f: A -> Result<B>) -> Result<B> {
+public func >>><A, B>(a: Result<A>, f: A -> Result<B>) -> Result<B> {
     switch a {
     case let .Value(x):     return f(x.value)
     case let .Error(error): return .Error(error)
@@ -73,7 +73,7 @@ func >>><A, B>(a: Result<A>, f: A -> Result<B>) -> Result<B> {
 /**
 Object to eliminate codes to parse http response object.
 */
-struct Response {
+public struct Response {
     let data:NSData
     let statusCode:Int
     
@@ -97,7 +97,7 @@ struct Response {
 Function to eliminate codes to parse http response object.
 This function filters response object to handle errors.
 */
-func parseResponse(response: Response) -> Result<NSData> {
+public func parseResponse(response: Response) -> Result<NSData> {
     let successRange = 200..<300
     if !contains(successRange, response.statusCode) {
         return .Error(NSError(domain: "com.sonson.reddift", code: response.statusCode, userInfo:nil))
@@ -105,7 +105,7 @@ func parseResponse(response: Response) -> Result<NSData> {
     return .Value(Box(response.data))
 }
 
-func resultFromOptional<A>(optional: A?, error: NSError) -> Result<A> {
+public func resultFromOptional<A>(optional: A?, error: NSError) -> Result<A> {
     if let a = optional {
         return .Value(Box(a))
     } else {
@@ -113,7 +113,7 @@ func resultFromOptional<A>(optional: A?, error: NSError) -> Result<A> {
     }
 }
 
-func decodeJSON(data: NSData) -> Result<JSON> {
+public func decodeJSON(data: NSData) -> Result<JSON> {
     var jsonErrorOptional: NSError?
     let jsonOptional: JSON? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &jsonErrorOptional)
     if let jsonError = jsonErrorOptional {

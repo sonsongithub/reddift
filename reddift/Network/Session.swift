@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum UserSort {
+public enum UserSort {
     case Hot
     case New
     case Top
@@ -30,7 +30,7 @@ enum UserSort {
     }
 }
 
-enum UserContent {
+public enum UserContent {
     case Overview
     case Submitted
     case Comments
@@ -89,8 +89,8 @@ func filterArticleResponse(json:JSON) -> Result<JSON> {
     return resultFromOptional(nil, error)
 }
 
-class Session {
-    let token:OAuth2Token
+public class Session {
+    public let token:OAuth2Token
     static let baseURL = "https://oauth.reddit.com"
     let URLSession:NSURLSession
     
@@ -98,7 +98,7 @@ class Session {
     var x_ratelimit_used = 0
     var x_ratelimit_remaining = 0
     
-    init(token:OAuth2Token) {
+    public init(token:OAuth2Token) {
         self.token = token
         self.URLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
     }
@@ -137,12 +137,12 @@ class Session {
         return task
     }
 	
-	func getMessage(messageWhere:MessageWhere, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+	public func getMessage(messageWhere:MessageWhere, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
 		var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
 		return handleRequest(request, completion:completion)
 	}
     
-    func getProfile(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getProfile(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/v1/me", method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = Result(error, Response(data: data, urlResponse: response))
@@ -153,7 +153,7 @@ class Session {
         return task
     }
     
-    func getArticles(link:Link, sort:CommentSort, comments:[String]?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getArticles(link:Link, sort:CommentSort, comments:[String]?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = ["sort":sort.type, "depth":"4", "showmore":"True", "limit":"100"]
         if let comments = comments {
             var commaSeparatedIDString = commaSeparatedStringFromList(comments)
@@ -170,12 +170,12 @@ class Session {
         return task
     }
     
-    func getSubscribingSubreddit(paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getSubscribingSubreddit(paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:SubredditsWhere.Subscriber.path, parameter:paginator?.parameters(), method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
     
-    func getList(paginator:Paginator?, sort:LinkSort, subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getList(paginator:Paginator?, sort:LinkSort, subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         if paginator == nil {
             return nil
         }
@@ -193,27 +193,27 @@ class Session {
         return task
     }
     
-    func getUser(username:String, content:UserContent, paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getUser(username:String, content:UserContent, paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/user/" + username + content.path, method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
     
-    func getInfo(names:[String], completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getInfo(names:[String], completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var commaSeparatedNameString = commaSeparatedStringFromList(names)
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
     
-    func getInfo(name:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getInfo(name:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         return getInfo([name], completion: completion)
     }
     
-    func getSavedCategories(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getSavedCategories(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/saved_categories", method:"GET", token:token)
         return handleAsJSONRequest(request, completion:completion)
     }
     
-    func getMoreChildren(children:[String], link:Link, sort:CommentSort, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getMoreChildren(children:[String], link:Link, sort:CommentSort, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var commaSeparatedChildren = commaSeparatedStringFromList(children)
         var parameter = ["children":commaSeparatedChildren, "link_id":link.name, "sort":sort.type, "api_type":"json"]
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/morechildren", parameter:parameter, method:"GET", token:token)
@@ -223,20 +223,18 @@ class Session {
     /**
     DOES NOT WORK... WHY?
     */
-    func getSticky(subreddit:Subreddit, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getSticky(subreddit:Subreddit, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/r/" + subreddit.display_name + "/sticky", method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
-    
-    //
 
-    func setVote(direction:Int, thing:Thing, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func setVote(direction:Int, thing:Thing, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         let parameter:[String:String] = ["dir":String(direction), "id":thing.name]
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/vote", parameter:parameter, method:"POST", token:token)
         return handleAsJSONRequest(request, completion:completion)
     }
     
-    func setSave(save:Bool, thing:Thing, category:String?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func setSave(save:Bool, thing:Thing, category:String?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = ["id":thing.name]
         if let category = category {
             parameter["category"] = category
@@ -251,7 +249,7 @@ class Session {
         return handleAsJSONRequest(request, completion:completion)
     }
     
-    func setHide(hide:Bool, thing:Thing, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func setHide(hide:Bool, thing:Thing, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = ["id":thing.name]
         var request:NSMutableURLRequest! = nil
         if hide {
