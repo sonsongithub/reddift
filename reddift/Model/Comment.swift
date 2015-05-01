@@ -67,14 +67,14 @@ enum CommentSort {
 
 func extendAllReplies(comment:Comment, targetArray:[Thing]) -> [Thing] {
     var comments:[Thing] = [comment]
-    if let list = comment.replies as? [Thing] {
-        for obj in list {
+    if let listing = comment.replies {
+        for obj in listing.children {
             if let obj = obj as? Comment {
                 comments.extend(extendAllReplies(obj, targetArray))
             }
-            else if let obj = obj as? More {
-                comments.append(obj)
-            }
+        }
+        if let more = listing.more {
+            comments.append(more)
         }
         comment.replies = nil
     }
@@ -103,7 +103,7 @@ class Comment : Thing {
     /**
     example: {"kind"=>"Listing", "data"=>{"modhash"=>nil, "children"=>[{"kind"=>"more", "data"=>{"count"=>0, "parent_id"=>"t1_cqfhkcb", "children"=>["cqfmmpp"], "name"=>"t1_cqfmmpp", "id"=>"cqfmmpp"}}], "after"=>nil, "before"=>nil}}
     */
-	var replies:AnyObject? = nil
+    var replies:Listing? = nil
     /**
     example: []
     */
@@ -207,27 +207,16 @@ class Comment : Thing {
     example: 1
     */
     var ups = 0
-	
-	override func toString() -> String {
-		var buf = "---------------\nid=\(id)\n name=\(name)\n kind=\(kind)\n body=\(body)\n"
-		if let more = replies as? More {
-			buf += more.toString()
-		}
-		if let listing = replies as? Listing {
-			buf += listing.toString()
-		}
-		return buf
-	}
     
     func hasMore() -> Bool {
         if self.replies == nil {
             return false
         }
-        if let listing = self.replies as? Listing {
-            if let more = listing.children as? [More] {
-                return true
-            }
-        }
+//        if let listing = self.replies as? Listing {
+//            if let more = listing.children as? [More] {
+//                return true
+//            }
+//        }
         return false
     }
 }

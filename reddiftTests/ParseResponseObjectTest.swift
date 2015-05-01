@@ -48,15 +48,19 @@ class ParseResponseObjectTest: XCTestCase {
     func testResponse_comment() {
         let json:AnyObject? = self.jsonFromFileName("comments.json")
         if let json:AnyObject = json {
-            if let objects = Parser.parseJSON(json, depth:0) as? [Listing] {
+            if let objects = Parser.parseJSON(json, depth:0) as? [JSON] {
                 XCTAssertEqual(objects.count, 2, "Check 2 Listing objects")
-                XCTAssertEqual(objects[0].children.count, 1, "Check first Listing object's children.")
-                if objects[0].children.count > 0 {
-                    XCTAssert((objects[0].children[0] is Link), "Check class of children.")
+                if let links = objects[0] as? [AnyObject] {
+                    XCTAssertEqual(links.count, 1, "Check first Listing object's children.")
+                    if links.count == 1 {
+                        XCTAssert((links[0] is Link), "Check class of children.")
+                    }
                 }
-                XCTAssertEqual(objects[1].children.count, 26, "Check class of children.")
-                for child in objects[1].children {
-                    XCTAssert((child is Comment), "Check class of children.")
+                if let comments = objects[1] as? [AnyObject] {
+                    XCTAssertEqual(comments.count, 26, "Check first Listing object's children.")
+                    for comment in comments {
+                        XCTAssert((comment is Comment), "Check class of children.")
+                    }
                 }
             }
             else {
@@ -76,6 +80,7 @@ class ParseResponseObjectTest: XCTestCase {
                 for child in listing.children {
                     XCTAssert((child is Link), "Check class of children.")
                 }
+                XCTAssert((listing.paginator != nil), "Check class of children.")
             }
             else {
                 XCTFail("JSON error")

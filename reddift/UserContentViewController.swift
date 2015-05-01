@@ -40,12 +40,23 @@ class UserContentViewController: UITableViewController {
                 case let .Error(error):
                     println(error.code)
                 case let .Value(box):
+                    println(box.value)
                     if let listing = box.value as? Listing {
-                        if let array = listing.children as? [Thing] {
-                            self.source += array
+                        for obj in listing.children {
+                            if let link = obj as? Link {
+                                self.source.append(link)
+                            }
                         }
+                        println(listing.more)
+//                        self.paginator = listing.paginator
                     }
                     self.updateStrings()
+//                    if let listing = box.value as? Listing {
+//                        if let array = listing.children {
+//                            self.source += array
+//                        }
+//                    }
+//                    self.updateStrings()
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.tableView.reloadData()
                     })

@@ -71,20 +71,15 @@ func parseThing_t2_JSON(json:JSON) -> Result<JSON> {
     return resultFromOptional(nil, NSError())
 }
 
-func parseJSON(json:JSON) -> Result<JSON> {
-    let object:AnyObject? = Parser.parseJSON(json, depth:0)
-    return resultFromOptional(object, NSError())
-}
-
 func parseListFromJSON(json: JSON) -> Result<JSON> {
-    let object:AnyObject? = Parser.parseJSON2(json, depth:0)
+    let object:AnyObject? = Parser.parseJSON(json, depth:0)
     return resultFromOptional(object, NSError())
 }
 
 func filterArticleResponse(json:JSON) -> Result<JSON> {
     if let array = json as? [AnyObject] {
         if array.count == 2 {
-            if let result = array[1] as? [Thing] {
+            if let result = array[1] as? Listing {
                 return resultFromOptional(result, NSError())
             }
         }
@@ -123,7 +118,7 @@ class Session {
     func handleRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = Result(error, Response(data: data, urlResponse: response))
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseJSON
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
             completion(result)
         })
         task.resume()

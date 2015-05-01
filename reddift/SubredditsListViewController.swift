@@ -28,7 +28,7 @@ class SubredditsListViewController: UITableViewController {
                         if let subreddits = listing.children as? [Subreddit] {
                             self.subreddits += subreddits
                         }
-                        self.paginator = listing.paginator()
+//                        self.paginator = listing.paginator()
                     }
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.tableView.reloadData()

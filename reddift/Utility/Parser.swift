@@ -43,34 +43,13 @@ class Parser: NSObject {
                 for child in children {
                     if let child = child as? [String:AnyObject] {
                         let obj:AnyObject? = parseJSON(child, depth: depth + 1)
-                        if let obj:AnyObject = obj {
-                            listing.children.append(obj)
-                        }
-                    }
-                }
-            }
-            if let after = data["after"] as? String {
-                listing.after = after
-            }
-            if let before = data["before"] as? String {
-                listing.before = before
-            }
-            if let modhash = data["modhash"] as? String {
-                listing.modhash = modhash
-            }
-        }
-        return listing
-    }
-    
-    class func parseListing2(json:[String:AnyObject], depth:Int) -> [JSON] {
-        var list:[JSON] = []
-        if let data = json["data"] as? [String:AnyObject] {
-            if let children = data["children"] as? [AnyObject] {
-                for child in children {
-                    if let child = child as? [String:AnyObject] {
-                        let obj:AnyObject? = parseJSON(child, depth: depth + 1)
-                        if let obj:AnyObject = obj {
-                            list.append(obj)
+                        if let obj = obj as? Thing {
+                            if let more = obj as? More {
+                                listing.more = more
+                            }
+                            else {
+                                listing.children.append(obj)
+                            }
                         }
                     }
                 }
@@ -95,45 +74,13 @@ class Parser: NSObject {
                     if let modhash = data["modhash"] as? String {
                         paginator.modhash = modhash
                     }
-                    println(paginator.parameters())
-                    list.append(paginator)
+                    listing.paginator = paginator
                 }
             }
         }
-        return list
+        return listing
     }
 
-    class func parseJSON2(json:AnyObject, depth:Int) -> AnyObject? {
-        // array
-        // json->[AnyObject]
-        if let array = json as? [AnyObject] {
-            var output:[AnyObject] = []
-            for element in array {
-                if let element = element as? [String:AnyObject] {
-                    let obj:AnyObject? = self.parseJSON2(element, depth:depth)
-                    if let obj:AnyObject = obj {
-                        output.append(obj)
-                    }
-                }
-            }
-            return output;
-        }
-            // dictionary
-            // json->[String:AnyObject]
-        else if let json = json as? [String:AnyObject] {
-            if let kind = json["kind"] as? String {
-                if kind == "Listing" {
-                    let listing = parseListing2(json, depth:depth)
-                    return listing
-                }
-                else {
-                    return parseThing(json, depth:depth)
-                }
-            }
-        }
-        return nil
-    }
-    
     class func parseJSON(json:AnyObject, depth:Int) -> AnyObject? {
         // array
         // json->[AnyObject]
@@ -149,8 +96,8 @@ class Parser: NSObject {
             }
             return output;
         }
-        // dictionary
-        // json->[String:AnyObject]
+            // dictionary
+            // json->[String:AnyObject]
         else if let json = json as? [String:AnyObject] {
             if let kind = json["kind"] as? String {
                 if kind == "Listing" {
