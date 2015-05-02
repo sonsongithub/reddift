@@ -90,6 +90,23 @@
 		14B5EC5B1AF410740065BC5E /* UZLoupeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC571AF410740065BC5E /* UZLoupeView.m */; };
 		14B5EC5C1AF410740065BC5E /* UZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC591AF410740065BC5E /* UZTextView.m */; };
 		14B5EC5F1AF412640065BC5E /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */; };
+		14B5EC601AF4B9D60065BC5E /* ParseThingObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */; };
+		14B5EC611AF4B9D60065BC5E /* ParseResponseObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */; };
+		14B5EC621AF4B9D60065BC5E /* ExtendCommentsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BBDA211AEF228B00F94E7D /* ExtendCommentsTest.swift */; };
+		14B5EC631AF4B9F00065BC5E /* create_token.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4F91AE7C9D500211DAD /* create_token.json */; };
+		14B5EC641AF4B9F00065BC5E /* refresh_token.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4FA1AE7C9D500211DAD /* refresh_token.json */; };
+		14B5EC651AF4B9F00065BC5E /* comments_extend.json in Resources */ = {isa = PBXBuildFile; fileRef = 14BBDA231AEF250100F94E7D /* comments_extend.json */; };
+		14B5EC661AF4B9F00065BC5E /* comments.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4FC1AE7C9D500211DAD /* comments.json */; };
+		14B5EC671AF4B9F00065BC5E /* error.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4FD1AE7C9D500211DAD /* error.json */; };
+		14B5EC681AF4B9F00065BC5E /* links.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4FE1AE7C9D500211DAD /* links.json */; };
+		14B5EC691AF4B9F00065BC5E /* message.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4FF1AE7C9D500211DAD /* message.json */; };
+		14B5EC6A1AF4B9F00065BC5E /* subreddit.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5001AE7C9D500211DAD /* subreddit.json */; };
+		14B5EC6B1AF4B9F00065BC5E /* more.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5021AE7C9D500211DAD /* more.json */; };
+		14B5EC6C1AF4B9F00065BC5E /* t1.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5031AE7C9D500211DAD /* t1.json */; };
+		14B5EC6D1AF4B9F00065BC5E /* t2.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5041AE7C9D500211DAD /* t2.json */; };
+		14B5EC6E1AF4B9F00065BC5E /* t3.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5051AE7C9D500211DAD /* t3.json */; };
+		14B5EC6F1AF4B9F00065BC5E /* t4.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5061AE7C9D500211DAD /* t4.json */; };
+		14B5EC701AF4B9F00065BC5E /* t5.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5071AE7C9D500211DAD /* t5.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -583,6 +600,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14B5EC701AF4B9F00065BC5E /* t5.json in Resources */,
+				14B5EC671AF4B9F00065BC5E /* error.json in Resources */,
+				14B5EC631AF4B9F00065BC5E /* create_token.json in Resources */,
+				14B5EC6C1AF4B9F00065BC5E /* t1.json in Resources */,
+				14B5EC6D1AF4B9F00065BC5E /* t2.json in Resources */,
+				14B5EC6B1AF4B9F00065BC5E /* more.json in Resources */,
+				14B5EC641AF4B9F00065BC5E /* refresh_token.json in Resources */,
+				14B5EC6E1AF4B9F00065BC5E /* t3.json in Resources */,
+				14B5EC691AF4B9F00065BC5E /* message.json in Resources */,
+				14B5EC6A1AF4B9F00065BC5E /* subreddit.json in Resources */,
+				14B5EC681AF4B9F00065BC5E /* links.json in Resources */,
+				14B5EC651AF4B9F00065BC5E /* comments_extend.json in Resources */,
+				14B5EC661AF4B9F00065BC5E /* comments.json in Resources */,
+				14B5EC6F1AF4B9F00065BC5E /* t4.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -644,8 +675,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				14B5EC271AF35BFF0065BC5E /* Media.swift in Sources */,
+				14B5EC621AF4B9D60065BC5E /* ExtendCommentsTest.swift in Sources */,
 				14B5EC2A1AF35BFF0065BC5E /* Link.swift in Sources */,
 				14B5EC111AF35BFB0065BC5E /* Parser+t2.swift in Sources */,
+				14B5EC601AF4B9D60065BC5E /* ParseThingObjectTest.swift in Sources */,
 				14B5EC251AF35BFF0065BC5E /* Listing.swift in Sources */,
 				14B5EC121AF35BFB0065BC5E /* Parser+t3.swift in Sources */,
 				14B5EC421AF35C560065BC5E /* OAuth2Authorizer.swift in Sources */,
@@ -659,6 +692,7 @@
 				14B5EC431AF35C560065BC5E /* OAuth2Token.swift in Sources */,
 				14B5EC131AF35BFB0065BC5E /* Parser+t4.swift in Sources */,
 				14B5EC2C1AF35BFF0065BC5E /* More.swift in Sources */,
+				14B5EC611AF4B9D60065BC5E /* ParseResponseObjectTest.swift in Sources */,
 				14B5EC3B1AF35C4B0065BC5E /* NSBundle+reddift.swift in Sources */,
 				14B5EC2D1AF35BFF0065BC5E /* Subreddit.swift in Sources */,
 				14B5EC0F1AF35BFB0065BC5E /* Parser.swift in Sources */,
