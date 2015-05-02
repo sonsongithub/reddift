@@ -30,9 +30,9 @@ class UserViewController: UITableViewController {
             if let token = session?.token{
                 token.refresh({ (result) -> Void in
                     switch result {
-                    case let .Error(error):
-                        println(error.code)
-                    case let .Value(box):
+                    case let .Failure:
+                        println(result.error)
+                    case let .Success:
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             self.updateExpireCell(nil)
                             OAuth2TokenRepository.saveIntoKeychainToken(token)
@@ -45,9 +45,9 @@ class UserViewController: UITableViewController {
             if let token = session?.token{
                 token.revoke({ (result) -> Void in
                     switch result {
-                    case let .Error(error):
-                        println(error.code)
-                    case let .Value(box):
+                    case let .Failure:
+                        println(result.error)
+                    case let .Success:
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             OAuth2TokenRepository.removeFromKeychainTokenWithName(token.name)
                             self.navigationController?.popToRootViewControllerAnimated(true)

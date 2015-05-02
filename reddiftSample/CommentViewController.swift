@@ -36,10 +36,10 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.setVote(direction, thing: link, completion: { (result) -> Void in
                 switch result {
-                case let .Error(error):
-                    println(error.code)
-                case let .Value(box):
-                    println(box.value)
+                case let .Failure:
+                    println(result.error)
+                case let .Success:
+                    println(result.value)
                 }
             })
         }
@@ -49,10 +49,10 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.setSave(save, thing: link, category:"default", completion: { (result) -> Void in
                 switch result {
-                case let .Error(error):
-                    println(error.code)
-                case let .Value(box):
-                    println(box.value)
+                case let .Failure:
+                    println(result.error)
+                case let .Success:
+                    println(result.value)
                 }
             })
         }
@@ -62,10 +62,10 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.setHide(hide, thing: link, completion: { (result) -> Void in
                 switch result {
-                case let .Error(error):
-                    println(error.code)
-                case let .Value(box):
-                    println(box.value)
+                case let .Failure:
+                    println(result.error)
+                case let .Success:
+                    println(result.value)
                 }
             })
         }
@@ -168,11 +168,11 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.getArticles(link, sort:CommentSort.New, comments:nil, completion: { (result) -> Void in
                 switch result {
-                case let .Error(error):
-                    println(error.code)
-                case let .Value(box):
-                    println(box.value)
-                    if let listing = box.value as? Listing {
+                case let .Failure:
+                    println(result.error)
+                case let .Success:
+                    println(result.value)
+                    if let listing = result.value as? Listing {
                         var newComments:[Thing] = []
                         for obj in listing.children {
                             if let comment = obj as? Comment {
@@ -234,10 +234,10 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                 println(more)
                 session?.getMoreChildren(more.children, link:link, sort:CommentSort.New, completion:{ (result) -> Void in
                     switch result {
-                    case let .Error(error):
-                        println(error.code)
-                    case let .Value(box):
-                        println(box.value)
+                    case let .Failure:
+                        println(result.error)
+                    case let .Success:
+                        println(result.value)
                     }
                 });
             }

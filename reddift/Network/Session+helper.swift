@@ -40,15 +40,33 @@ public final class Box<A> {
 }
 
 public enum Result<A> {
-    case Error(NSError)
-    case Value(Box<A>)
+    case Success(Box<A>)
+    case Failure(NSError)
     
     public init(_ error: NSError?, _ value: A) {
         if let err = error {
-            self = .Error(err)
+            self = .Failure(err)
         }
         else {
-            self = .Value(Box(value))
+            self = .Success(Box(value))
+        }
+    }
+    
+    public var error: NSError? {
+        switch self {
+        case .Failure(let error):
+            return error
+        default:
+            return nil
+        }
+    }
+    
+    public var value: A? {
+        switch self {
+        case .Success(let success):
+            return success.value
+        default:
+            return nil
         }
     }
 }
@@ -65,8 +83,8 @@ public func >>><A, B>(a: A?, f: A -> B?) -> B? {
 
 public func >>><A, B>(a: Result<A>, f: A -> Result<B>) -> Result<B> {
     switch a {
-    case let .Value(x):     return f(x.value)
-    case let .Error(error): return .Error(error)
+    case let .Success(x):     return f(x.value)
+    case let .Failure(error): return .Failure(error)
     }
 }
 
@@ -100,16 +118,16 @@ This function filters response object to handle errors.
 public func parseResponse(response: Response) -> Result<NSData> {
     let successRange = 200..<300
     if !contains(successRange, response.statusCode) {
-        return .Error(NSError(domain: "com.sonson.reddift", code: response.statusCode, userInfo:nil))
+        return .Failure(NSError(domain: "com.sonson.reddift", code: response.statusCode, userInfo:nil))
     }
-    return .Value(Box(response.data))
+    return .Success(Box(response.data))
 }
 
 public func resultFromOptional<A>(optional: A?, error: NSError) -> Result<A> {
     if let a = optional {
-        return .Value(Box(a))
+        return .Success(Box(a))
     } else {
-        return .Error(error)
+        return .Failure(error)
     }
 }
 

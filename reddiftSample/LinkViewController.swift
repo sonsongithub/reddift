@@ -54,11 +54,11 @@ class LinkViewController: UITableViewController {
         if let seg = self.segmentedControl {
             session?.getList(paginator, sort:sortTypes[seg.selectedSegmentIndex], subreddit:subreddit, completion: { (result) in
                 switch result {
-                case let .Error(error):
-                    println(error.code)
-                case let .Value(box):
-                    println(box.value)
-                    if let listing = box.value as? Listing {
+                case let .Failure:
+                    println(result.error)
+                case let .Success:
+                    println(result.value)
+                    if let listing = result.value as? Listing {
                         for obj in listing.children {
                             if let link = obj as? Link {
                                 self.links.append(link)
@@ -90,12 +90,10 @@ class LinkViewController: UITableViewController {
         if let subreddit = subreddit {
             session?.getSticky(subreddit, completion: { (result) -> Void in
                 switch result {
-                case let .Error(error):
-                    println("-------------")
-                    println(error.code)
-                case let .Value(box):
-                    println("-------------")
-                    println(box.value)
+                case let .Failure:
+                    println(result.error)
+                case let .Success:
+                    println(result.value)
                 }
             })
         }

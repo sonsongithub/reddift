@@ -17,22 +17,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
         return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion:{(result) -> Void in
             switch result {
-            case let .Error(error):
-                println(error.code)
-            case let .Value(box):
-                let token = box.value
-                token.getProfile({ (result) -> Void in
-                    switch result {
-                    case let .Error(error):
-                        println(error.code)
-                    case let .Value(box):
-                        if let profile = box.value as? Account {
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                OAuth2TokenRepository.saveIntoKeychainToken(token, name:profile.name)
-                            })
+            case let .Failure:
+                println(result.error)
+            case let .Success:
+                if let token = result.value as OAuth2Token? {
+                    token.getProfile({ (result) -> Void in
+                        switch result {
+                        case let .Failure:
+                            println(result.error)
+                        case let .Success:
+                            if let profile = result.value as? Account {
+                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                    OAuth2TokenRepository.saveIntoKeychainToken(token, name:profile.name)
+                                })
+                            }
                         }
-                    }
-                })
+                    })
+                }
             }
         })
     }

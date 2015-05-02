@@ -22,10 +22,10 @@ class SubredditsListViewController: UITableViewController {
 		if self.subreddits.count == 0 {
 			session?.getSubscribingSubreddit(paginator, completion: { (result) -> Void in
                 switch result {
-                case let .Error(error):
-                    println(error.code)
-                case let .Value(box):
-                    if let listing = box.value as? Listing {
+                case let .Failure:
+                    println(result.error)
+                case let .Success:
+                    if let listing = result.value as? Listing {
                         if let subreddits = listing.children as? [Subreddit] {
                             self.subreddits += subreddits
                         }
