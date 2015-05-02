@@ -8,12 +8,12 @@
 
 import UIKit
 
-class More : Thing {
-	var parent_id = ""
-	var count = 0
-	var children:[String] = []
+public class More : Thing {
+	public var parent_id = ""
+	public var count = 0
+	public var children:[String] = []
 	
-	override func toString() -> String {
+	public override func toString() -> String {
 		var buf = "more\n"
 		for child in children {
 			buf += (child + ",")

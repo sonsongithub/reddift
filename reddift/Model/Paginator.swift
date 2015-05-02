@@ -8,24 +8,24 @@
 
 import UIKit
 
-class Paginator : Thing {
+public class Paginator : Thing {
 	var after:String
 	var before:String
     var modhash:String
     
-    override init() {
+    public override init() {
         self.after = ""
         self.before = ""
         self.modhash = ""
     }
 	
-    init(after:String, before:String, modhash:String) {
+    public init(after:String, before:String, modhash:String) {
 		self.after = after
 		self.before = before
         self.modhash = modhash
 	}
     
-    func parameters() -> [String:String] {
+    public func parameters() -> [String:String] {
         var dict:[String:String] = [:]
         if count(after) > 0 {
             dict["after"] = after

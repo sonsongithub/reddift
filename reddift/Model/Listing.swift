@@ -8,8 +8,8 @@
 
 import UIKit
 
-class Listing {
-    var children:[Thing] = []
-    var paginator:Paginator? = nil
-    var more:More? = nil
+public class Listing {
+    public var children:[Thing] = []
+    public var paginator:Paginator? = nil
+    public var more:More? = nil
 }

@@ -1,6 +1,6 @@
-[submodule "vendor/KeychainAccess"]
-	path = vendor/KeychainAccess
+[submodule "reddift/vendor/KeychainAccess"]
+	path = reddift/vendor/KeychainAccess
 	url = https://github.com/kishikawakatsumi/KeychainAccess.git
-[submodule "vendor/UZTextView"]
-	path = vendor/UZTextView
-	url = https://github.com/sonsongithub/UZTextView
+[submodule "reddiftSample/vendor/UZTextView"]
+	path = reddiftSample/vendor/UZTextView
+	url = https://github.com/sonsongithub/UZTextView.git

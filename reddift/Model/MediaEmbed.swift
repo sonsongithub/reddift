@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MediaEmbed {
+public class MediaEmbed {
     var height = 0
     var width = 0
     var content = ""

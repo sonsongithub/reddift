@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import reddift
 
 class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     var session:Session? = nil

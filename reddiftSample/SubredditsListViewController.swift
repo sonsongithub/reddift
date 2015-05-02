@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import reddift
 
 class SubredditsListViewController: UITableViewController {
     var session:Session? = nil
