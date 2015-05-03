@@ -38,31 +38,6 @@ public enum TimeSort {
     }
 }
 
-public enum SearchSort {
-    case Relevance
-    case New
-    case Hot
-    case Top
-    case Comments
-    
-    public var path:String {
-        get {
-            switch self{
-            case .Relevance:
-                return "/relevance"
-            case .New:
-                return "/new"
-            case .Hot:
-                return "/hot"
-            case .Top:
-                return "/top"
-            case .Comments:
-                return "/comments"
-            }
-        }
-    }
-}
-
 public enum LinkSort {
     case Controversial
     case Hot
