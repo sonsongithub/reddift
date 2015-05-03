@@ -7,7 +7,7 @@
         <!--Accounts-->
         <scene sceneID="v0B-ed-nZY">
             <objects>
-                <tableViewController id="GVP-Ar-RXF" customClass="AccountViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="GVP-Ar-RXF" customClass="AccountViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="bKg-mV-BZf">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -52,7 +52,7 @@
         <!--Content-->
         <scene sceneID="aG4-yP-rNl">
             <objects>
-                <tableViewController id="YbR-M4-dsn" customClass="UserViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="YbR-M4-dsn" customClass="UserViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="vMB-id-v63">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -355,7 +355,7 @@
         <!--Profile-->
         <scene sceneID="Glb-Ok-fX7">
             <objects>
-                <tableViewController id="kFQ-5w-ZuH" customClass="ProfileViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="kFQ-5w-ZuH" customClass="ProfileViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="hXe-ij-qIG">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -487,7 +487,7 @@
         <!--Inbox-->
         <scene sceneID="lcc-ml-7ra">
             <objects>
-                <tableViewController id="djJ-zp-QV7" customClass="MessageViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="djJ-zp-QV7" customClass="MessageViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="cQf-t2-f91">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -522,7 +522,7 @@
         <!--User Content View Controller-->
         <scene sceneID="tin-lm-3AR">
             <objects>
-                <tableViewController storyboardIdentifier="UserContentViewController" id="ZwL-uw-loj" customClass="UserContentViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="UserContentViewController" id="ZwL-uw-loj" customClass="UserContentViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="YpT-IV-SUx">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -543,7 +543,7 @@
         <!--Front-->
         <scene sceneID="UGM-rZ-FAM">
             <objects>
-                <tableViewController id="WaC-et-0oF" customClass="LinkViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="WaC-et-0oF" customClass="LinkViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="9d6-um-uEY">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -566,7 +566,7 @@
         <!--Subreddits-->
         <scene sceneID="dXp-0n-1p4">
             <objects>
-                <tableViewController id="iF3-SN-zbq" customClass="SubredditsListViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="iF3-SN-zbq" customClass="SubredditsListViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="oJi-uH-dfj">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -604,7 +604,7 @@
         <!--Link View Controller-->
         <scene sceneID="FNb-7H-l3U">
             <objects>
-                <tableViewController id="jER-6q-TYj" customClass="LinkViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="jER-6q-TYj" customClass="LinkViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="F3U-3A-zmM">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -625,7 +625,7 @@
         <!--Comment View Controller-->
         <scene sceneID="950-9j-DSP">
             <objects>
-                <tableViewController storyboardIdentifier="CommentViewController" id="My8-W6-Umf" customClass="CommentViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="CommentViewController" id="My8-W6-Umf" customClass="CommentViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dCQ-Wc-ae1">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -661,6 +661,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="a04-xl-1VS"/>
-        <segue reference="5IA-9l-TcP"/>
+        <segue reference="DcK-hO-wyV"/>
     </inferredMetricsTieBreakers>
 </document>

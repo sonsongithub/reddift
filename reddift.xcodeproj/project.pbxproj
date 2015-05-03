@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		143427BE1AF57752005D0E31 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427BD1AF57752005D0E31 /* SearchResultViewController.swift */; };
+		143427C01AF5AB4E005D0E31 /* BaseLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427BF1AF5AB4E005D0E31 /* BaseLinkViewController.swift */; };
 		14B5EBB61AF34D580065BC5E /* reddift.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B5EBB51AF34D580065BC5E /* reddift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14B5EBBC1AF34D590065BC5E /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; };
 		14B5EBD31AF34E920065BC5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EBD21AF34E920065BC5E /* AppDelegate.swift */; };
@@ -127,6 +129,8 @@
 		142984051AE5A5CD00846DD3 /* MediaEmbed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaEmbed.swift; sourceTree = "<group>"; };
 		1429840A1AE5AA2100846DD3 /* Parser+t3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parser+t3.swift"; sourceTree = "<group>"; };
 		1429840D1AE5AC0600846DD3 /* Parser+t1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parser+t1.swift"; sourceTree = "<group>"; };
+		143427BD1AF57752005D0E31 /* SearchResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
+		143427BF1AF5AB4E005D0E31 /* BaseLinkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLinkViewController.swift; sourceTree = "<group>"; };
 		1440D4F91AE7C9D500211DAD /* create_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = create_token.json; sourceTree = "<group>"; };
 		1440D4FA1AE7C9D500211DAD /* refresh_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = refresh_token.json; sourceTree = "<group>"; };
 		1440D4FC1AE7C9D500211DAD /* comments.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = comments.json; sourceTree = "<group>"; };
@@ -334,7 +338,9 @@
 				14B5EC321AF35C170065BC5E /* CellContent.swift */,
 				14B5EBF01AF35B620065BC5E /* AccountViewController.swift */,
 				14B5EBF11AF35B620065BC5E /* CommentViewController.swift */,
+				143427BF1AF5AB4E005D0E31 /* BaseLinkViewController.swift */,
 				14B5EBF21AF35B620065BC5E /* LinkViewController.swift */,
+				143427BD1AF57752005D0E31 /* SearchResultViewController.swift */,
 				14B5EBF31AF35B620065BC5E /* MessageViewController.swift */,
 				14B5EBF51AF35B620065BC5E /* ProfileViewController.swift */,
 				14B5EBF61AF35B620065BC5E /* SubredditsListViewController.swift */,
@@ -722,11 +728,13 @@
 				14B5EBFE1AF35B620065BC5E /* LinkViewController.swift in Sources */,
 				14B5EBD31AF34E920065BC5E /* AppDelegate.swift in Sources */,
 				14B5EC001AF35B620065BC5E /* ProfileViewController.swift in Sources */,
+				143427C01AF5AB4E005D0E31 /* BaseLinkViewController.swift in Sources */,
 				14B5EC5C1AF410740065BC5E /* UZTextView.m in Sources */,
 				14B5EC011AF35B620065BC5E /* SubredditsListViewController.swift in Sources */,
 				14B5EC5A1AF410740065BC5E /* UZCursorView.m in Sources */,
 				14B5EBFF1AF35B620065BC5E /* MessageViewController.swift in Sources */,
 				14B5EBFC1AF35B620065BC5E /* AccountViewController.swift in Sources */,
+				143427BE1AF57752005D0E31 /* SearchResultViewController.swift in Sources */,
 				14B5EC331AF35C170065BC5E /* CellContent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
