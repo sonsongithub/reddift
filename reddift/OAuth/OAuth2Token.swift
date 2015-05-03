@@ -10,16 +10,22 @@ import UIKit
 
 let OAuth2TokenDidUpdate = "OAuth2TokenDidUpdate"
 
-public class OAuth2Token : NSObject,NSCoding {
+/**
+OAuth2 token for access reddit.com API.
+*/
+public class OAuth2Token : NSObject, NSCoding {
     static let baseURL = "https://www.reddit.com/api/v1"
     
+    var accessToken = ""
+    var tokenType = ""
+    var _expiresIn = 0
+    var scope = ""
+    var refreshToken = ""
+    
+    /// User name, which is used to save token into keychian.
     public var name = ""
-    public var accessToken = ""
-    public var tokenType = ""
-    public var _expiresIn = 0
+    /// Date when the current access token expires.
     public var expiresDate:NSTimeInterval = 0
-    public var scope = ""
-    public var refreshToken = ""
     
     // MARK:
     
@@ -123,6 +129,11 @@ public class OAuth2Token : NSObject,NSCoding {
         return resultFromOptional(nil, error)
     }
     
+    /**
+    Create request object for refreshing access token.
+    
+    :returns: NSMutableURLRequest object to request refreshing your access token.
+    */
     func requestForRefreshing() -> NSMutableURLRequest {
         var URL = NSURL(string: OAuth2Token.baseURL + "/access_token")!
         var request = NSMutableURLRequest(URL:URL)
@@ -134,6 +145,11 @@ public class OAuth2Token : NSObject,NSCoding {
         return request
     }
     
+    /**
+    Create request object for revoking access token.
+    
+    :returns: NSMutableURLRequest object to request revoking your access token.
+    */
     func requestForRevoking() -> NSMutableURLRequest {
         var URL = NSURL(string: OAuth2Token.baseURL + "/revoke_token")!
         var request = NSMutableURLRequest(URL:URL)
@@ -147,6 +163,9 @@ public class OAuth2Token : NSObject,NSCoding {
     
     // MARK:
     
+    /**
+    Time inteval the access token expires from being authorized.
+    */
     public var expiresIn:Int {
         set (newValue) {
             _expiresIn = newValue
@@ -157,6 +176,13 @@ public class OAuth2Token : NSObject,NSCoding {
         }
     }
     
+    /**
+    Request to refresh access token.
+    
+    :param: completion The completion handler to call when the load request is complete.
+    
+    :returns: Data task which requests search to reddit.com.
+    */
     public func refresh(completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(requestForRefreshing(), completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
@@ -168,6 +194,13 @@ public class OAuth2Token : NSObject,NSCoding {
         return task
     }
     
+    /**
+    Request to revoke access token.
+    
+    :param: completion The completion handler to call when the load request is complete.
+    
+    :returns: Data task which requests search to reddit.com.
+    */
     public func revoke(completion:(Result<JSON>)->Void) -> NSURLSessionDataTask {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(requestForRevoking(), completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
@@ -179,6 +212,14 @@ public class OAuth2Token : NSObject,NSCoding {
         return task
     }
     
+    /**
+    Request to get a new access token.
+    
+    :param: code Code to be confirmed your identity by reddit.
+    :param: completion The completion handler to call when the load request is complete.
+    
+    :returns: Data task which requests search to reddit.com.
+    */
     public class func getOAuth2Token(code:String, completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask {
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(requestForOAuth(code), completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
@@ -190,6 +231,14 @@ public class OAuth2Token : NSObject,NSCoding {
         return task
     }
     
+    /**
+    Request to get user's own profile. Don't use this method after getting access token correctly.
+    Use Session.getProfile instead of this.
+    
+    :param: completion The completion handler to call when the load request is complete.
+    
+    :returns: Data task which requests search to reddit.com.
+    */
     public func getProfile(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/v1/me", method:"GET", token:self)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
