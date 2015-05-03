@@ -99,6 +99,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
     }
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         self.navigationController?.toolbarHidden = false
     }
     
@@ -124,6 +125,8 @@ extension LinkViewController {
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
     }
 }
+
+// MARK:
 
 extension LinkViewController {
     func presentSearchController(searchController: UISearchController) {
@@ -151,7 +154,6 @@ extension LinkViewController {
 }
 
 // MARK:
-// MARK:UITableViewDataSource
 
 extension LinkViewController {
     
@@ -176,7 +178,6 @@ extension LinkViewController {
 }
 
 // MARK:
-// MARK:UITableViewDelegate
 
 extension LinkViewController {
     

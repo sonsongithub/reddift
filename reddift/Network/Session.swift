@@ -283,6 +283,26 @@ public class Session {
     }
     
     /**
+    The Serendipity content.
+    But this endpoints return invalid redirect URL...
+    I don't know how this URL should be handled....
+    
+    :param: subreddit Specified subreddit to which you would like to get random link
+    
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func getRandom(subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        if let subreddit = subreddit {
+            var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:subreddit.url + "/random", method:"GET", token:token)
+            return handleAsJSONRequest(request, completion:completion)
+        }
+        else {
+            var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/random", method:"GET", token:token)
+            return handleAsJSONRequest(request, completion:completion)
+        }
+    }
+    
+    /**
     DOES NOT WORK... WHY?
     */
     public func getSticky(subreddit:Subreddit, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
