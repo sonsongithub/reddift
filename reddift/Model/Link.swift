@@ -8,36 +8,9 @@
 
 import UIKit
 
-public enum TimeSort {
-    case Hour
-    case Day
-    case Week
-    case Month
-    case Year
-    case All
-    
-    public var path:String {
-        get {
-            switch self{
-            case .Hour:
-                return "/hour"
-            case .Day:
-                return "/day"
-            case .Year:
-                return "/top"
-            case .Week:
-                return "/week"
-            case .Month:
-                return "/month"
-            case .Year:
-                return "/year"
-            case .All:
-                return "/all"
-            }
-        }
-    }
-}
-
+/**
+The sort method for listing Link object, "/r/[subreddit]/[sort]" or "/[sort]".
+*/
 public enum LinkSort {
     case Controversial
     case Hot
@@ -63,6 +36,37 @@ public enum LinkSort {
     }
 }
 
+/**
+The sort method for search Link object, "/r/[subreddit]/search" or "/search".
+*/
+public enum SearchSort {
+    case Relevance
+    case New
+    case Hot
+    case Top
+    case Comments
+    
+    var path:String {
+        get {
+            switch self{
+            case .Relevance:
+                return "relevance"
+            case .New:
+                return "new"
+            case .Hot:
+                return "hot"
+            case .Top:
+                return "top"
+            case .Comments:
+                return "comments"
+            }
+        }
+    }
+}
+
+/**
+Link content.
+*/
 public class Link : Thing {
     /**
     example: self.redditdev

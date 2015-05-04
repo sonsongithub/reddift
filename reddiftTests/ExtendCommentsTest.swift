@@ -34,7 +34,7 @@ class ExtendCommentsTest: XCTestCase {
                     var comments:[Thing] = []
                     for obj in listing.children {
                         if let comment = obj as? Comment {
-                            comments += extendAllReplies(comment, [])
+                            comments += extendAllReplies(comment)
                         }
                         else {
                             comments.append(obj)

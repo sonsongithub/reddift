@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+Paginator object for paiging listing object.
+*/
 public class Paginator : Thing {
 	var after:String
 	var before:String
@@ -25,6 +28,11 @@ public class Paginator : Thing {
         self.modhash = modhash
 	}
     
+    /**
+    Generate dictionary to add query parameters to URL.
+    
+    :returns: Dictionary object for paging.
+    */
     public func parameters() -> [String:String] {
         var dict:[String:String] = [:]
         if count(after) > 0 {

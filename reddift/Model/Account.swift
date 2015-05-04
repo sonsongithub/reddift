@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+Account object.
+*/
 public class Account : Thing {
     /**
     user has unread mail? null if not your account

@@ -8,53 +8,9 @@
 
 import UIKit
 
-public enum UserSort {
-    case Hot
-    case New
-    case Top
-    case Controversial
-    
-    var path:String {
-        get {
-            switch self{
-            case .Hot:
-                return "hot"
-            case .New:
-                return "new"
-            case .Top:
-                return "top"
-            case .Controversial:
-                return "controversial"
-            }
-        }
-    }
-}
-
-public enum SearchSort {
-    case Relevance
-    case New
-    case Hot
-    case Top
-    case Comments
-    
-    var path:String {
-        get {
-            switch self{
-            case .Relevance:
-                return "relevance"
-            case .New:
-                return "new"
-            case .Hot:
-                return "hot"
-            case .Top:
-                return "top"
-            case .Comments:
-                return "comments"
-            }
-        }
-    }
-}
-
+/**
+The type of users' contents for "/user/username/where" method.
+*/
 public enum UserContent {
     case Overview
     case Submitted

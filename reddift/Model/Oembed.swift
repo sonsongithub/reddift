@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+Media represents the content which is embeded a link.
+*/
 public class Oembed {
     /**
     example, "http://i.imgur.com",
@@ -57,7 +60,11 @@ public class Oembed {
     example, 333
     */
     var thumbnail_height = 0
+    /**
+    Update each property with JSON object.
     
+    :param: json JSON object which is included "t2" JSON.
+    */
     func updateWithJSON(json:[String:AnyObject]) {
         if let temp = json["provider_url"] as? String {
             self.provider_url = temp

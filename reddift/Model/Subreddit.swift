@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+The sort method for listing user's subreddit object, "/subreddits/mine/[where]".
+*/
 public enum SubredditsMineWhere {
     case Contributor
     case Moderator
@@ -27,6 +30,9 @@ public enum SubredditsMineWhere {
     }
 }
 
+/**
+The sort method for listing user's subreddit object, "/subreddits/[where]".
+*/
 public enum SubredditsWhere {
     case Popular
     case New
@@ -64,6 +70,9 @@ public enum SubredditsWhere {
     }
 }
 
+/**
+Subreddit object.
+*/
 public class Subreddit : Thing {
     /**
     

@@ -176,7 +176,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                         var newComments:[Thing] = []
                         for obj in listing.children {
                             if let comment = obj as? Comment {
-                                newComments += extendAllReplies(comment, [])
+                                newComments += extendAllReplies(comment)
                             }
                         }
                         if let more = listing.more {

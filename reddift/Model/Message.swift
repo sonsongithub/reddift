@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+The type of a message box.
+*/
 public enum MessageWhere {
     case Inbox
     case Unread
@@ -40,6 +43,9 @@ public enum MessageWhere {
     }
 }
 
+/**
+Message object.
+*/
 public class Message : Thing {
     /**
     the message itself

@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+Root class of all models for reddit contents.
+*/
 public class Thing {
 	public var id = ""
 	public var name = ""

@@ -8,12 +8,19 @@
 
 import UIKit
 
+/**
+Media represents the content which is embeded a link.
+*/
 public class MediaEmbed {
     var height = 0
     var width = 0
     var content = ""
     var scrolling = false
+    /**
+    Update each property with JSON object.
     
+    :param: json JSON object which is included "t2" JSON.
+    */
     func updateWithJSON(json:[String:AnyObject]) {
         if let temp = json["height"] as? Int {
             self.height = temp

@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+The sort method for listing Comment object when using "/comments/[link_id]", "/api/morechildren".
+*/
 public enum CommentSort {
     case Confidence
     case Top
@@ -65,12 +68,19 @@ public enum CommentSort {
     }
 }
 
-public func extendAllReplies(comment:Comment, targetArray:[Thing]) -> [Thing] {
+/**
+Expand child comments which are included in Comment objects, recursively.
+
+:param: comment Comment object will be expanded.
+
+:returns: Array contains Comment objects which are expaned from specified Comment object.
+*/
+public func extendAllReplies(comment:Comment) -> [Thing] {
     var comments:[Thing] = [comment]
     if let listing = comment.replies {
         for obj in listing.children {
             if let obj = obj as? Comment {
-                comments.extend(extendAllReplies(obj, targetArray))
+                comments.extend(extendAllReplies(obj))
             }
         }
         if let more = listing.more {
@@ -81,6 +91,9 @@ public func extendAllReplies(comment:Comment, targetArray:[Thing]) -> [Thing] {
     return comments
 }
 
+/**
+Comment object.
+*/
 public class Comment : Thing {
     /**
     the id of the subreddit in which the thing is located
