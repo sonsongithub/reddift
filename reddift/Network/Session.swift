@@ -196,7 +196,7 @@ public class Session {
     }
     
     public func getSubscribingSubreddit(paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:SubredditsWhere.Subscriber.path, parameter:paginator?.parameters(), method:"GET", token:token)
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:SubredditsMineWhere.Subscriber.path, parameter:paginator?.parameters(), method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
     
@@ -300,6 +300,55 @@ public class Session {
             var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/random", method:"GET", token:token)
             return handleAsJSONRequest(request, completion:completion)
         }
+    }
+    
+    /**
+    Search subreddits by title and description.
+    
+    :param: query The search keywords, must be less than 512 characters.
+    :param: paginator Paginator object for paging.
+    :param: completion The completion handler to call when the load request is complete.
+    
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func getSubredditSearch(query:String, paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
+        var escapedString = query.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
+        if let escapedString = escapedString {
+            if count(escapedString) > 512 {
+                return nil
+            }
+            var parameter:[String:String] = [:]
+            
+            if let paginator = paginator {
+                for (key, value) in paginator.parameters() {
+                    parameter[key] = value
+                }
+            }
+            var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/subreddits/search", parameter:parameter, method:"GET", token:token)
+            return handleRequest(request, completion:completion)
+        }
+        return nil
+    }
+    
+    /**
+    Get all subreddits.
+    
+    :param: subredditsWhere Chooses the order in which the subreddits are displayed among SubredditsWhere.
+    :param: paginator Paginator object for paging.
+    :param: completion The completion handler to call when the load request is complete.
+    
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func getSubreddit(subredditWhere:SubredditsWhere, paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var parameter:[String:String] = [:]
+        if let paginator = paginator {
+            for (key, value) in paginator.parameters() {
+                parameter[key] = value
+            }
+        }
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:subredditWhere.path, parameter:parameter, method:"GET", token:token)
+        return handleRequest(request, completion:completion)
     }
     
     /**

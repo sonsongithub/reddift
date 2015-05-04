@@ -8,7 +8,7 @@
 
 import UIKit
 
-public enum SubredditsWhere {
+public enum SubredditsMineWhere {
     case Contributor
     case Moderator
     case Subscriber
@@ -22,6 +22,28 @@ public enum SubredditsWhere {
                 return "/subreddits/mine/moderator"
             case .Subscriber:
                 return "/subreddits/mine/subscriber"
+            }
+        }
+    }
+}
+
+public enum SubredditsWhere {
+    case Popular
+    case New
+    case Employee
+    case Gold
+    
+    public var path:String {
+        get {
+            switch self{
+            case .Popular:
+                return "/subreddits/popular"
+            case .New:
+                return "/subreddits/new"
+            case .Employee:
+                return "/subreddits/employee"
+            case .Gold:
+                return "/subreddits/gold"
             }
         }
     }
