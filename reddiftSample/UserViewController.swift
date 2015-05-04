@@ -100,6 +100,11 @@ class UserViewController: UITableViewController {
                 con.session = self.session
             }
         }
+        else if segue.identifier == "ToSubredditsViewController" {
+            if let con = segue.destinationViewController as? SubredditsViewController {
+                con.session = self.session
+            }
+        }
 		else if segue.identifier == "OpenInbox" {
 			if let con = segue.destinationViewController as? MessageViewController {
 				con.session = self.session

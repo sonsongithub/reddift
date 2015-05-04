@@ -9,8 +9,7 @@
 import UIKit
 import reddift
 
-class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {    
-    // MARK:
+class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
     var searchController:UISearchController? = nil
     var searchResultViewController:SearchResultViewController? = nil
 
