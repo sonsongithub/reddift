@@ -15,6 +15,40 @@ class UserViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+//        session?.checkNeedsCAPTCHA({(result) -> Void in
+//            switch result {
+//            case let .Failure:
+//                println(result.error)
+//            case let .Success:
+//                println(result.value)
+//                if let needs = result.value {
+//                    println(needs)
+//                }
+//            }
+//        })
+//        session?.getIdenForNewCAPTCHA({ (result) -> Void in
+//            switch result {
+//            case let .Failure:
+//                println(result.error)
+//            case let .Success:
+//                println(result.value)
+//                if let string = result.value {
+//                    self.session?.getCAPTCHA(string, completion: { (result) -> Void in
+//                        switch result {
+//                        case let .Failure:
+//                            println(result.error)
+//                        case let .Success:
+//                            println(result.value)
+//                            if let image = result.value {
+//                                if let data:NSData = UIImagePNGRepresentation(image) {
+//                                    data.writeToFile("/Users/sonson/Desktop/hoge.png", atomically: false)
+//                                }
+//                            }
+//                        }
+//                    })
+//                }
+//            }
+//        })
     }
     
     func updateExpireCell(sender:AnyObject?) {

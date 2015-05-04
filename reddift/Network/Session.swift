@@ -58,6 +58,65 @@ func parseListFromJSON(json: JSON) -> Result<JSON> {
     return resultFromOptional(object, NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse JSON of reddit style."]))
 }
 
+/**
+Parse simple string response for "/api/needs_captcha"
+
+:param: data Binary data is returned from reddit.
+
+:returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
+*/
+public func decodeBooleanString(data: NSData) -> Result<Bool> {
+    var decoded = NSString(data:data, encoding:NSUTF8StringEncoding)
+    if let decoded = decoded {
+        if decoded == "true" {
+            return Result(nil, true)
+        }
+        else if decoded == "false" {
+            return Result(nil, false)
+        }
+    }
+    return Result(NSError(domain: "com.sonson.reddift", code: 1, userInfo:nil))
+}
+
+/**
+Parse simple string response for "/api/needs_captcha"
+
+:param: data Binary data is returned from reddit.
+
+:returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
+*/
+public func decodePNGImage(data: NSData) -> Result<UIImage> {
+    let captcha = UIImage(data: data)
+    return resultFromOptional(captcha, NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Couldn't open image file as CAPTCHA."]))
+}
+
+/**
+Parse JSON contains "iden" for CAPTHA.
+
+  {
+    "json": {
+      "data": {
+        "iden": "<code>"
+      },
+      "errors": []
+      }
+  }
+
+:param: json JSON object, like above sample.
+
+:returns: Result object. When parsing is succeeded, object contains iden as String.
+*/
+func parseCAPTCHAIdenJSON(json: JSON) -> Result<String> {
+    if let j = json["json"] as? [String:AnyObject] {
+        if let data = j["data"] as? [String:AnyObject] {
+            if let iden = data["iden"] as? String {
+                return resultFromOptional(iden, NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse JSON of reddit style."]))
+            }
+        }
+    }
+    return Result(NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse JSON of reddit style."]))
+}
+
 func filterArticleResponse(json:JSON) -> Result<JSON> {
     let error = NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse article JSON object."])
     if let array = json as? [AnyObject] {
@@ -209,7 +268,6 @@ public class Session {
     :param: paginator Paginator object for paging.
     :param: sort Sort type, specified by SearchSort.
     :param: completion The completion handler to call when the load request is complete.
-    
     :returns: Data task which requests search to reddit.com.
     */
     public func getSearch(subreddit:Subreddit?, query:String, paginator:Paginator?, sort:SearchSort, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
@@ -244,7 +302,6 @@ public class Session {
     I don't know how this URL should be handled....
     
     :param: subreddit Specified subreddit to which you would like to get random link
-    
     :returns: Data task which requests search to reddit.com.
     */
     public func getRandom(subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
@@ -264,7 +321,6 @@ public class Session {
     :param: query The search keywords, must be less than 512 characters.
     :param: paginator Paginator object for paging.
     :param: completion The completion handler to call when the load request is complete.
-    
     :returns: Data task which requests search to reddit.com.
     */
     public func getSubredditSearch(query:String, paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
@@ -293,7 +349,6 @@ public class Session {
     :param: subredditsWhere Chooses the order in which the subreddits are displayed among SubredditsWhere.
     :param: paginator Paginator object for paging.
     :param: completion The completion handler to call when the load request is complete.
-    
     :returns: Data task which requests search to reddit.com.
     */
     public func getSubreddit(subredditWhere:SubredditsWhere, paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
@@ -305,6 +360,64 @@ public class Session {
         }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:subredditWhere.path, parameter:parameter, method:"GET", token:token)
         return handleRequest(request, completion:completion)
+    }
+    
+    /**
+    Check whether CAPTCHAs are needed for API methods that define the "captcha" and "iden" parameters.
+    
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func checkNeedsCAPTCHA(completion:(Result<Bool>) -> Void) -> NSURLSessionDataTask? {
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/needs_captcha", method:"GET", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let result = responseResult >>> parseResponse >>> decodeBooleanString
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
+    /**
+    Responds with an iden of a new CAPTCHA.
+    Use this endpoint if a user cannot read a given CAPTCHA, and wishes to receive a new CAPTCHA.
+    To request the CAPTCHA image for an iden, use /captcha/iden.
+
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func getIdenForNewCAPTCHA(completion:(Result<String>) -> Void) -> NSURLSessionDataTask? {
+        let parameter:[String:String] = ["api_type":"json"]
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/new_captcha", parameter:parameter, method:"POST", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseCAPTCHAIdenJSON
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
+    /**
+    Request a CAPTCHA image given an iden.
+    An iden is given as the captcha field with a BAD_CAPTCHA error, you should use this endpoint if you get a BAD_CAPTCHA error response.
+    Responds with a 120x50 image/png which should be displayed to the user.
+    The user's response to the CAPTCHA should be sent as captcha along with your request.
+    To request a new CAPTCHA, Session.getIdenForNewCAPTCHA.
+    
+    :param: iden Code to get a new CAPTCHA. Use Session.getIdenForNewCAPTCHA.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func getCAPTCHA(iden:String, completion:(Result<UIImage>) -> Void) -> NSURLSessionDataTask? {
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/captcha/" + iden, method:"GET", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let result = responseResult >>> parseResponse >>> decodePNGImage
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     /**

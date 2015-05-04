@@ -43,6 +43,10 @@ public enum Result<A> {
     case Success(Box<A>)
     case Failure(NSError)
     
+    public init( _ error: NSError) {
+        self = .Failure(error)
+    }
+    
     public init(_ error: NSError?, _ value: A) {
         if let err = error {
             self = .Failure(err)
