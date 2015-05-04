@@ -318,7 +318,7 @@ public class Session {
             if count(escapedString) > 512 {
                 return nil
             }
-            var parameter:[String:String] = [:]
+            var parameter:[String:String] = ["q":escapedString]
             
             if let paginator = paginator {
                 for (key, value) in paginator.parameters() {

@@ -47,6 +47,21 @@ public enum SubredditsWhere {
             }
         }
     }
+    
+    public var title:String {
+        get {
+            switch self{
+            case .Popular:
+                return "Popular"
+            case .New:
+                return "New"
+            case .Employee:
+                return "Employee"
+            case .Gold:
+                return "Gold"
+            }
+        }
+    }
 }
 
 public class Subreddit : Thing {
