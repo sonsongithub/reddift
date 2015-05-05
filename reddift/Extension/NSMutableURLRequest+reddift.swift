@@ -29,6 +29,13 @@ extension NSMutableURLRequest {
         setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
     }
     
+    func setRedditBasicAuthentication(#username:String, password:String) {
+        var basicAuthenticationChallenge = username + ":" + password
+        let data = basicAuthenticationChallenge.dataUsingEncoding(NSUTF8StringEncoding)!
+        let base64Str = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
+        setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
+    }
+    
     func setOAuth2Token(token:OAuth2Token) {
         setValue("bearer " + token.accessToken, forHTTPHeaderField:"Authorization")
     }

@@ -12,6 +12,10 @@
 		143427C21AF74597005D0E31 /* SubredditsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427C11AF74597005D0E31 /* SubredditsViewController.swift */; };
 		143427C41AF745E0005D0E31 /* BaseSubredditsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427C31AF745E0005D0E31 /* BaseSubredditsViewController.swift */; };
 		143427C61AF74E91005D0E31 /* SearchSubredditsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427C51AF74E91005D0E31 /* SearchSubredditsViewController.swift */; };
+		143427C81AF858D5005D0E31 /* OAuth2AppOnlyToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427C71AF858D5005D0E31 /* OAuth2AppOnlyToken.swift */; };
+		143427C91AF858D5005D0E31 /* OAuth2AppOnlyToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427C71AF858D5005D0E31 /* OAuth2AppOnlyToken.swift */; };
+		143427CB1AF8C9EB005D0E31 /* OAuth2AppOnlyTokenTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427CA1AF8C9EB005D0E31 /* OAuth2AppOnlyTokenTest.swift */; };
+		143427CE1AF95E80005D0E31 /* test_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 143427CC1AF95E80005D0E31 /* test_config.json */; };
 		14B5EBB61AF34D580065BC5E /* reddift.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B5EBB51AF34D580065BC5E /* reddift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14B5EBBC1AF34D590065BC5E /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; };
 		14B5EBD31AF34E920065BC5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EBD21AF34E920065BC5E /* AppDelegate.swift */; };
@@ -137,6 +141,9 @@
 		143427C11AF74597005D0E31 /* SubredditsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubredditsViewController.swift; sourceTree = "<group>"; };
 		143427C31AF745E0005D0E31 /* BaseSubredditsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseSubredditsViewController.swift; sourceTree = "<group>"; };
 		143427C51AF74E91005D0E31 /* SearchSubredditsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchSubredditsViewController.swift; sourceTree = "<group>"; };
+		143427C71AF858D5005D0E31 /* OAuth2AppOnlyToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2AppOnlyToken.swift; sourceTree = "<group>"; };
+		143427CA1AF8C9EB005D0E31 /* OAuth2AppOnlyTokenTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2AppOnlyTokenTest.swift; sourceTree = "<group>"; };
+		143427CC1AF95E80005D0E31 /* test_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_config.json; sourceTree = "<group>"; };
 		1440D4F91AE7C9D500211DAD /* create_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = create_token.json; sourceTree = "<group>"; };
 		1440D4FA1AE7C9D500211DAD /* refresh_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = refresh_token.json; sourceTree = "<group>"; };
 		1440D4FC1AE7C9D500211DAD /* comments.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = comments.json; sourceTree = "<group>"; };
@@ -322,6 +329,7 @@
 				1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */,
 				1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */,
 				14BBDA211AEF228B00F94E7D /* ExtendCommentsTest.swift */,
+				143427CA1AF8C9EB005D0E31 /* OAuth2AppOnlyTokenTest.swift */,
 				14BEDDFF1AE454C4004F7860 /* data */,
 				147EADB91AD78568007FA2F4 /* Supporting Files */,
 			);
@@ -331,6 +339,7 @@
 		147EADB91AD78568007FA2F4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				143427CC1AF95E80005D0E31 /* test_config.json */,
 				147EADBA1AD78568007FA2F4 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -467,6 +476,7 @@
 			children = (
 				14B8DE1E1ADD721700237350 /* OAuth2Authorizer.swift */,
 				14B8DE1F1ADD721700237350 /* OAuth2Token.swift */,
+				143427C71AF858D5005D0E31 /* OAuth2AppOnlyToken.swift */,
 				14B8DE201ADD721700237350 /* OAuth2TokenRepository.swift */,
 			);
 			path = OAuth;
@@ -625,6 +635,7 @@
 				14B5EC6E1AF4B9F00065BC5E /* t3.json in Resources */,
 				14B5EC691AF4B9F00065BC5E /* message.json in Resources */,
 				14B5EC6A1AF4B9F00065BC5E /* subreddit.json in Resources */,
+				143427CE1AF95E80005D0E31 /* test_config.json in Resources */,
 				14B5EC681AF4B9F00065BC5E /* links.json in Resources */,
 				14B5EC651AF4B9F00065BC5E /* comments_extend.json in Resources */,
 				14B5EC661AF4B9F00065BC5E /* comments.json in Resources */,
@@ -671,6 +682,7 @@
 				14B5EC1E1AF35BFF0065BC5E /* More.swift in Sources */,
 				14B5EC381AF35C4B0065BC5E /* NSBundle+reddift.swift in Sources */,
 				14B5EC1F1AF35BFF0065BC5E /* Subreddit.swift in Sources */,
+				143427C81AF858D5005D0E31 /* OAuth2AppOnlyToken.swift in Sources */,
 				14B5EC081AF35BFB0065BC5E /* Parser.swift in Sources */,
 				14B5EC3A1AF35C4B0065BC5E /* NSMutableURLRequest+reddift.swift in Sources */,
 				14B5EC161AF35BFF0065BC5E /* Config.swift in Sources */,
@@ -689,7 +701,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				143427C91AF858D5005D0E31 /* OAuth2AppOnlyToken.swift in Sources */,
 				14B5EC271AF35BFF0065BC5E /* Media.swift in Sources */,
+				143427CB1AF8C9EB005D0E31 /* OAuth2AppOnlyTokenTest.swift in Sources */,
 				14B5EC621AF4B9D60065BC5E /* ExtendCommentsTest.swift in Sources */,
 				14B5EC2A1AF35BFF0065BC5E /* Link.swift in Sources */,
 				14B5EC111AF35BFB0065BC5E /* Parser+t2.swift in Sources */,

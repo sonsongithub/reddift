@@ -88,11 +88,11 @@ public class OAuth2Token : NSObject, NSCoding {
     }
     
     /**
-    Create NSMutableURLRequest object to request getting an access token.
+    Create OAuth2Token object from JSON.
     
-    :param: code The code which is obtained from OAuth2 redict URL at reddit.com.
+    :param: json JSON object.
     
-    :returns: NSMutableURLRequest object to request your access token.
+    :returns: OAuth2Token object includes a new access token.
     */
     class func tokenWithJSON(json:JSON) -> Result<OAuth2Token> {
         var token:OAuth2Token? = nil
