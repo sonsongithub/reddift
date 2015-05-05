@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 func commaSeparatedStringFromList(list:[String]) -> String {
     var string = ""
@@ -24,7 +24,11 @@ extension NSURLComponents {
     func dictionary() -> [String:String] {
         var parameters:[String:String] = [:]
         for queryItem in self.queryItems as! [NSURLQueryItem] {
+			#if os(iOS)
             parameters[queryItem.name] = queryItem.value
+			#else
+				parameters[queryItem.name] = queryItem.value()
+			#endif
         }
         return parameters
     }

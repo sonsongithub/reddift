@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 extension NSError {
     class func errorWithCode(code:Int, userinfo:[NSObject:AnyObject]?) -> NSError {

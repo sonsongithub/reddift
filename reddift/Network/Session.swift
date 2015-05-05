@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 public enum UserSort {
     case Hot
