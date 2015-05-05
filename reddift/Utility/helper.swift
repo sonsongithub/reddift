@@ -19,13 +19,3 @@ func commaSeparatedStringFromList(list:[String]) -> String {
     }
     return string
 }
-
-extension NSURLComponents {
-    func dictionary() -> [String:String] {
-        var parameters:[String:String] = [:]
-        for queryItem in self.queryItems as! [NSURLQueryItem] {
-            parameters[queryItem.name] = queryItem.value
-        }
-        return parameters
-    }
-}

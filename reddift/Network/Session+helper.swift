@@ -9,93 +9,9 @@
 import UIKit
 
 /**
-type alias for JSON object
-*/
-public typealias JSON = AnyObject
-public typealias JSONDictionary = Dictionary<String, JSON>
-public typealias JSONArray = Array<JSON>
-public typealias ThingList = AnyObject
-
-public func JSONString(object: JSON?) -> String? {
-    return object as? String
-}
-
-public func JSONInt(object: JSON?) -> Int? {
-    return object as? Int
-}
-
-public func JSONObject(object: JSON?) -> JSONDictionary? {
-    return object as? JSONDictionary
-}
-
-public func JSONObjectArray(object: JSON?) -> JSONArray? {
-    return object as? JSONArray
-}
-
-public final class Box<A> {
-    public let value: A
-    public init(_ value: A) {
-        self.value = value
-    }
-}
-
-public enum Result<A> {
-    case Success(Box<A>)
-    case Failure(NSError)
-    
-    public init( _ error: NSError) {
-        self = .Failure(error)
-    }
-    
-    public init(_ error: NSError?, _ value: A) {
-        if let err = error {
-            self = .Failure(err)
-        }
-        else {
-            self = .Success(Box(value))
-        }
-    }
-    
-    public var error: NSError? {
-        switch self {
-        case .Failure(let error):
-            return error
-        default:
-            return nil
-        }
-    }
-    
-    public var value: A? {
-        switch self {
-        case .Success(let success):
-            return success.value
-        default:
-            return nil
-        }
-    }
-}
-
-infix operator >>> { associativity left precedence 150 }
-
-public func >>><A, B>(a: A?, f: A -> B?) -> B? {
-    if let x = a {
-        return f(x)
-    } else {
-        return .None
-    }
-}
-
-public func >>><A, B>(a: Result<A>, f: A -> Result<B>) -> Result<B> {
-    switch a {
-    case let .Success(x):     return f(x.value)
-    case let .Failure(error): return .Failure(error)
-    }
-}
-
-/**
 Object to eliminate codes to parse http response object.
 */
-public struct Response {
+struct Response {
     let data:NSData
     let statusCode:Int
     
@@ -119,7 +35,7 @@ public struct Response {
 Function to eliminate codes to parse http response object.
 This function filters response object to handle errors.
 */
-public func parseResponse(response: Response) -> Result<NSData> {
+func parseResponse(response: Response) -> Result<NSData> {
     let successRange = 200..<300
     if !contains(successRange, response.statusCode) {
         return .Failure(NSError(domain: "com.sonson.reddift", code: response.statusCode, userInfo:nil))
@@ -127,19 +43,95 @@ public func parseResponse(response: Response) -> Result<NSData> {
     return .Success(Box(response.data))
 }
 
-public func resultFromOptional<A>(optional: A?, error: NSError) -> Result<A> {
-    if let a = optional {
-        return .Success(Box(a))
-    } else {
-        return .Failure(error)
-    }
-}
-
-public func decodeJSON(data: NSData) -> Result<JSON> {
+func decodeJSON(data: NSData) -> Result<JSON> {
     var jsonErrorOptional: NSError?
     let jsonOptional: JSON? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &jsonErrorOptional)
     if let jsonError = jsonErrorOptional {
         return resultFromOptional(jsonOptional, jsonError)
     }
     return resultFromOptional(jsonOptional, NSError(domain: "com.sonson.reddift", code: 2, userInfo: ["description":"Failed to parse JSON object unexpectedly."]))
+}
+
+func parseThing_t2_JSON(json:JSON) -> Result<JSON> {
+    let error = NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse t2 JSON."])
+    if let object = json >>> JSONObject {
+        return resultFromOptional(Parser.parseDataInThing_t2(object), error)
+    }
+    return resultFromOptional(nil, error)
+}
+
+func parseListFromJSON(json: JSON) -> Result<JSON> {
+    let object:AnyObject? = Parser.parseJSON(json)
+    return resultFromOptional(object, NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse JSON of reddit style."]))
+}
+
+/**
+Parse simple string response for "/api/needs_captcha"
+
+:param: data Binary data is returned from reddit.
+
+:returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
+*/
+func decodeBooleanString(data: NSData) -> Result<Bool> {
+    var decoded = NSString(data:data, encoding:NSUTF8StringEncoding)
+    if let decoded = decoded {
+        if decoded == "true" {
+            return Result(value:true)
+        }
+        else if decoded == "false" {
+            return Result(value:false)
+        }
+    }
+    return Result(error:NSError(domain: "com.sonson.reddift", code: 1, userInfo:nil))
+}
+
+/**
+Parse simple string response for "/api/needs_captcha"
+
+:param: data Binary data is returned from reddit.
+
+:returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
+*/
+func decodePNGImage(data: NSData) -> Result<UIImage> {
+    let captcha = UIImage(data: data)
+    return resultFromOptional(captcha, NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Couldn't open image file as CAPTCHA."]))
+}
+
+/**
+Parse JSON contains "iden" for CAPTHA.
+
+{
+"json": {
+"data": {
+"iden": "<code>"
+},
+"errors": []
+}
+}
+
+:param: json JSON object, like above sample.
+
+:returns: Result object. When parsing is succeeded, object contains iden as String.
+*/
+func parseCAPTCHAIdenJSON(json: JSON) -> Result<String> {
+    if let j = json["json"] as? [String:AnyObject] {
+        if let data = j["data"] as? [String:AnyObject] {
+            if let iden = data["iden"] as? String {
+                return resultFromOptional(iden, NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse JSON of reddit style."]))
+            }
+        }
+    }
+    return Result(error:NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse JSON of reddit style."]))
+}
+
+func filterArticleResponse(json:JSON) -> Result<JSON> {
+    let error = NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse article JSON object."])
+    if let array = json as? [AnyObject] {
+        if array.count == 2 {
+            if let result = array[1] as? Listing {
+                return resultFromOptional(result, error)
+            }
+        }
+    }
+    return Result(error:error)
 }

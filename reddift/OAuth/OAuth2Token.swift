@@ -186,7 +186,7 @@ public class OAuth2Token : NSObject, NSCoding {
     public func refresh(completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(requestForRefreshing(), completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> self.updateWithJSON
             completion(result)
         })
@@ -204,7 +204,7 @@ public class OAuth2Token : NSObject, NSCoding {
     public func revoke(completion:(Result<JSON>)->Void) -> NSURLSessionDataTask {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(requestForRevoking(), completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON
             completion(result)
         })
@@ -223,7 +223,7 @@ public class OAuth2Token : NSObject, NSCoding {
     public class func getOAuth2Token(code:String, completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask {
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(requestForOAuth(code), completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> OAuth2Token.tokenWithJSON
             completion(result)
         })
@@ -243,7 +243,7 @@ public class OAuth2Token : NSObject, NSCoding {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/v1/me", method:"GET", token:self)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseThing_t2_JSON
             completion(result)
         })

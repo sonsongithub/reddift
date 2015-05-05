@@ -45,88 +45,28 @@ public enum UserContent {
     }
 }
 
-func parseThing_t2_JSON(json:JSON) -> Result<JSON> {
-    let error = NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse t2 JSON."])
-    if let object = json >>> JSONObject {
-        return resultFromOptional(Parser.parseDataInThing_t2(object), error)
-    }
-    return resultFromOptional(nil, error)
-}
-
-func parseListFromJSON(json: JSON) -> Result<JSON> {
-    let object:AnyObject? = Parser.parseJSON(json)
-    return resultFromOptional(object, NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse JSON of reddit style."]))
-}
-
 /**
-Parse simple string response for "/api/needs_captcha"
-
-:param: data Binary data is returned from reddit.
-
-:returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
+type alias for JSON object
 */
-public func decodeBooleanString(data: NSData) -> Result<Bool> {
-    var decoded = NSString(data:data, encoding:NSUTF8StringEncoding)
-    if let decoded = decoded {
-        if decoded == "true" {
-            return Result(nil, true)
-        }
-        else if decoded == "false" {
-            return Result(nil, false)
-        }
-    }
-    return Result(NSError(domain: "com.sonson.reddift", code: 1, userInfo:nil))
+public typealias JSON = AnyObject
+public typealias JSONDictionary = Dictionary<String, JSON>
+public typealias JSONArray = Array<JSON>
+public typealias ThingList = AnyObject
+
+public func JSONString(object: JSON?) -> String? {
+    return object as? String
 }
 
-/**
-Parse simple string response for "/api/needs_captcha"
-
-:param: data Binary data is returned from reddit.
-
-:returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
-*/
-public func decodePNGImage(data: NSData) -> Result<UIImage> {
-    let captcha = UIImage(data: data)
-    return resultFromOptional(captcha, NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Couldn't open image file as CAPTCHA."]))
+public func JSONInt(object: JSON?) -> Int? {
+    return object as? Int
 }
 
-/**
-Parse JSON contains "iden" for CAPTHA.
-
-  {
-    "json": {
-      "data": {
-        "iden": "<code>"
-      },
-      "errors": []
-      }
-  }
-
-:param: json JSON object, like above sample.
-
-:returns: Result object. When parsing is succeeded, object contains iden as String.
-*/
-func parseCAPTCHAIdenJSON(json: JSON) -> Result<String> {
-    if let j = json["json"] as? [String:AnyObject] {
-        if let data = j["data"] as? [String:AnyObject] {
-            if let iden = data["iden"] as? String {
-                return resultFromOptional(iden, NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse JSON of reddit style."]))
-            }
-        }
-    }
-    return Result(NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse JSON of reddit style."]))
+public func JSONObject(object: JSON?) -> JSONDictionary? {
+    return object as? JSONDictionary
 }
 
-func filterArticleResponse(json:JSON) -> Result<JSON> {
-    let error = NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse article JSON object."])
-    if let array = json as? [AnyObject] {
-        if array.count == 2 {
-            if let result = array[1] as? Listing {
-                return resultFromOptional(result, error)
-            }
-        }
-    }
-    return resultFromOptional(nil, error)
+public func JSONObjectArray(object: JSON?) -> JSONArray? {
+    return object as? JSONArray
 }
 
 public class Session {
@@ -159,7 +99,7 @@ public class Session {
     
     func handleRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
             completion(result)
         })
@@ -169,7 +109,7 @@ public class Session {
     
     func handleAsJSONRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON
             completion(result)
         })
@@ -185,7 +125,7 @@ public class Session {
     public func getProfile(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/v1/me", method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseThing_t2_JSON
             completion(result)
         })
@@ -201,7 +141,7 @@ public class Session {
         }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/comments/" + link.id, parameter:parameter, method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> filterArticleResponse
             
             completion(result)
@@ -225,7 +165,7 @@ public class Session {
         }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:paginator?.parameters(), method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
             completion(result)
         })
@@ -371,7 +311,7 @@ public class Session {
     public func checkNeedsCAPTCHA(completion:(Result<Bool>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/needs_captcha", method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeBooleanString
             completion(result)
         })
@@ -391,7 +331,7 @@ public class Session {
         let parameter:[String:String] = ["api_type":"json"]
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/new_captcha", parameter:parameter, method:"POST", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseCAPTCHAIdenJSON
             completion(result)
         })
@@ -412,7 +352,7 @@ public class Session {
     public func getCAPTCHA(iden:String, completion:(Result<UIImage>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/captcha/" + iden, method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodePNGImage
             completion(result)
         })
