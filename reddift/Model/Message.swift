@@ -6,7 +6,7 @@
 //  Created at 2015-04-15 11:23:32 +0900
 //
 
-import UIKit
+import Foundation
 
 /**
 The type of a message box.
