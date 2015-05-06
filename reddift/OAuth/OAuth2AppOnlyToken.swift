@@ -58,7 +58,7 @@ class OAuth2AppOnlyToken : OAuth2Token {
             temp4 = json["scope"] as? String {
                 token = OAuth2AppOnlyToken(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:"")
         }
-        return resultFromOptional(token, NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse t2 JSON in order to create OAuth2Token."]))
+        return resultFromOptional(token, ReddiftError.ParseAccessToken.error)
     }
     
     /**
@@ -73,7 +73,7 @@ class OAuth2AppOnlyToken : OAuth2Token {
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let request = requestForOAuth2AppOnly(username:username, password:password, clientID:clientID, secret:secret)
         let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            let responseResult = Result(error, Response(data: data, urlResponse: response))
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> self.tokenWithJSON
             completion(result)
         })
