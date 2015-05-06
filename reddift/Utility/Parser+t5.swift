@@ -12,76 +12,76 @@ extension Parser {
 	class func parseDataInThing_t5(data:[String:AnyObject]) -> Thing {
 		var subreddit = Subreddit()
 		if let temp = data["banner_img"] as? String {
-			subreddit.banner_img = temp
+			subreddit.bannerImg = temp
 		}
 		if let temp = data["user_sr_theme_enabled"] as? Bool {
-			subreddit.user_sr_theme_enabled = temp
+			subreddit.userSrThemeEnabled = temp
 		}
 		if let temp = data["submit_text_html"] as? String {
-			subreddit.submit_text_html = temp
+			subreddit.submitTextHtml = temp
 		}
 		if let temp = data["user_is_banned"] as? Bool {
-			subreddit.user_is_banned = temp
+			subreddit.userIsBanned = temp
 		}
 		if let temp = data["id"] as? String {
 			subreddit.id = temp
 		}
 		if let temp = data["submit_text"] as? String {
-			subreddit.submit_text = temp
+			subreddit.submitText = temp
 		}
 		if let temp = data["display_name"] as? String {
-			subreddit.display_name = temp
+			subreddit.displayName = temp
 		}
 		if let temp = data["header_img"] as? String {
-			subreddit.header_img = temp
+			subreddit.headerImg = temp
 		}
 		if let temp = data["description_html"] as? String {
-			subreddit.description_html = temp
+			subreddit.descriptionHtml = temp
 		}
 		if let temp = data["title"] as? String {
 			subreddit.title = temp
 		}
 		if let temp = data["collapse_deleted_comments"] as? Bool {
-			subreddit.collapse_deleted_comments = temp
+			subreddit.collapseDeletedComments = temp
 		}
 		if let temp = data["over18"] as? Bool {
 			subreddit.over18 = temp
 		}
 		if let temp = data["public_description_html"] as? String {
-			subreddit.public_description_html = temp
+			subreddit.publicDescriptionHtml = temp
 		}
 		if let temp = data["icon_size"] as? [Int] {
-			subreddit.icon_size = temp
+			subreddit.iconSize = temp
 		}
 		if let temp = data["icon_img"] as? String {
-			subreddit.icon_img = temp
+			subreddit.iconImg = temp
 		}
 		if let temp = data["header_title"] as? String {
-			subreddit.header_title = temp
+			subreddit.headerTitle = temp
 		}
 		if let temp = data["description"] as? String {
 			subreddit.description = temp
 		}
 		if let temp = data["submit_link_label"] as? String {
-			subreddit.submit_link_label = temp
+			subreddit.submitLinkLabel = temp
 		}
 		if let temp = data["accounts_active"] as? Int {
-			subreddit.accounts_active = temp
+			subreddit.accountsActive = temp
 		}
 		if let temp = data["public_traffic"] as? Bool {
-			subreddit.public_traffic = temp
+			subreddit.publicTraffic = temp
 		}
 		if let temp = data["header_size"] as? [Int] {
-			subreddit.header_size = temp
+			subreddit.headerSize = temp
 		}
 		if let temp = data["subscribers"] as? Int {
 			subreddit.subscribers = temp
 		}
 		if let temp = data["submit_text_label"] as? String {
-			subreddit.submit_text_label = temp
+			subreddit.submitTextLabel = temp
 		}
 		if let temp = data["user_is_moderator"] as? Bool {
-			subreddit.user_is_moderator = temp
+			subreddit.userIsModerator = temp
 		}
 		if let temp = data["name"] as? String {
 			subreddit.name = temp
@@ -93,31 +93,31 @@ extension Parser {
 			subreddit.url = temp
 		}
 		if let temp = data["hide_ads"] as? Bool {
-			subreddit.hide_ads = temp
+			subreddit.hideAds = temp
 		}
 		if let temp = data["created_utc"] as? Int {
-			subreddit.created_utc = temp
+			subreddit.createdUtc = temp
 		}
 		if let temp = data["banner_size"] as? [Int] {
-			subreddit.banner_size = temp
+			subreddit.bannerSize = temp
 		}
 		if let temp = data["user_is_contributor"] as? Bool {
-			subreddit.user_is_contributor = temp
+			subreddit.userIsContributor = temp
 		}
 		if let temp = data["public_description"] as? String {
-			subreddit.public_description = temp
+			subreddit.publicDescription = temp
 		}
 		if let temp = data["comment_score_hide_mins"] as? Int {
-			subreddit.comment_score_hide_mins = temp
+			subreddit.commentScoreHideMins = temp
 		}
 		if let temp = data["subreddit_type"] as? String {
-			subreddit.subreddit_type = temp
+			subreddit.subredditType = temp
 		}
 		if let temp = data["submission_type"] as? String {
-			subreddit.submission_type = temp
+			subreddit.submissionType = temp
 		}
 		if let temp = data["user_is_subscriber"] as? Bool {
-			subreddit.user_is_subscriber = temp
+			subreddit.userIsSubscriber = temp
 		}
 		return subreddit
 	}

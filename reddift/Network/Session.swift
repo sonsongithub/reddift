@@ -167,7 +167,7 @@ public class Session {
         }
         var path = sort.path
         if let subreddit = subreddit {
-            path = "/r/\(subreddit.display_name)\(path)"
+            path = "/r/\(subreddit.displayName)\(path)"
         }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:paginator?.parameters(), method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
@@ -372,7 +372,7 @@ public class Session {
     DOES NOT WORK... WHY?
     */
     public func getSticky(subreddit:Subreddit, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/r/" + subreddit.display_name + "/sticky", method:"GET", token:token)
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/r/" + subreddit.displayName + "/sticky", method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
 

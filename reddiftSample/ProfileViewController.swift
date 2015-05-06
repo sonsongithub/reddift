@@ -32,8 +32,8 @@ class ProfileViewController: UITableViewController {
                         self.cell1?.detailTextLabel?.text = profile.name
                         self.cell2?.detailTextLabel?.text = profile.id
                         self.cell3?.detailTextLabel?.text = NSDate(timeIntervalSince1970: Double(profile.created)).description
-                        self.cell4?.detailTextLabel?.text = profile.comment_karma.description
-                        self.cell5?.detailTextLabel?.text = profile.link_karma.description
+                        self.cell4?.detailTextLabel?.text = profile.commentKarma.description
+                        self.cell5?.detailTextLabel?.text = profile.linkKarma.description
                     })
                 }
             }

@@ -16,7 +16,7 @@ public class Account : Thing {
     user has unread mail? null if not your account
     example: false
     */
-    public var  has_mail = false
+    public var hasMail = false
     /**
     
     example: 1427126074
@@ -26,62 +26,62 @@ public class Account : Thing {
     
     example: false
     */
-    public var  hide_from_robots = false
+    public var hideFromRobots = false
     /**
     
     example: 0
     */
-    public var  gold_creddits = 0
+    public var goldCreddits = 0
     /**
     
     example: 1427122474
     */
-    public var  created_utc = 0
+    public var createdUtc = 0
     /**
     user has unread mod mail? null if not your account
     example: false
     */
-    public var  has_mod_mail = false
+    public var hasModMail = false
     /**
     user's link karma
     example: 1
     */
-    public var  link_karma = 0
+    public var linkKarma = 0
     /**
     user's comment karma
     example: 1
     */
-    public var  comment_karma = 0
+    public var commentKarma = 0
     /**
     whether this account is set to be over 18
     example: true
     */
-    public var  over_18 = false
+    public var over18 = false
     /**
     reddit gold status
     example: false
     */
-    public var  is_gold = false
+    public var isGold = false
     /**
     whether this account moderates any subreddits
     example: false
     */
-    public var  is_mod = false
+    public var isMod = false
     /**
     
     example:
     */
-    public var  gold_expiration = false
+    public var goldExpiration = false
     /**
     user has provided an email address and got it verified?
     example: false
     */
-    public var  has_verified_email = false
+    public var hasVerifiedEmail = false
     /**
     Number of unread messages in the inbox. Not present if not your account
     example: 0
     */
-    public var  inbox_count = 0
+    public var inboxCount = 0
     
     public override func toString() -> String {
         return ""

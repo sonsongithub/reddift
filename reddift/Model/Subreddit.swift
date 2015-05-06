@@ -78,12 +78,12 @@ public class Subreddit : Thing {
     
     example:
     */
-    public var  banner_img = ""
+    public var bannerImg = ""
     /**
     
     example: true
     */
-    public var  user_sr_theme_enabled = false
+    public var userSrThemeEnabled = false
     /**
     
     example: &lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;&lt;strong&gt;GIFs are banned.&lt;/strong&gt;
@@ -99,12 +99,12 @@ public class Subreddit : Thing {
     What is WoahDude-worthy content? &lt;a href="http://www.reddit.com/r/woahdude/wiki/index#wiki_what_is_.22woahdude_material.22.3F"&gt;(Read more)&lt;/a&gt;&lt;/p&gt;
     &lt;/div&gt;&lt;!-- SC_ON --&gt;
     */
-    public var  submit_text_html = ""
+    public var submitTextHtml = ""
     /**
     whether the logged-in user is banned from the subreddit
     example: false
     */
-    public var  user_is_banned = false
+    public var userIsBanned = false
     /**
     
     example: **GIFs are banned.**
@@ -119,17 +119,17 @@ public class Subreddit : Thing {
     **Trippy or Mesmerizing content only!**
     What is WoahDude-worthy content? [(Read more)](http://www.reddit.com/r/woahdude/wiki/index#wiki_what_is_.22woahdude_material.22.3F)
     */
-    public var  submit_text = ""
+    public var submitText = ""
     /**
     human name of the subreddit
     example: woahdude
     */
-    public var  display_name = ""
+    public var displayName = ""
     /**
     full URL to the header image, or null
     example: http://b.thumbs.redditmedia.com/fnO6IreM4s_Em4dTIU2HtmZ_NTw7dZdlCoaLvtKwbzM.png
     */
-    public var  header_img = ""
+    public var headerImg = ""
     /**
     sidebar text, escaped HTML format
     example: &lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;h5&gt;&lt;a href="https://www.reddit.com/r/woahdude/comments/2qi1jh/best_of_rwoahdude_2014_results/?"&gt;Best of WoahDude 2014 ⇦&lt;/a&gt;&lt;/h5&gt;
@@ -206,7 +206,7 @@ public class Subreddit : Thing {
     &lt;h5&gt;&lt;a href="http://emilydavis.bandcamp.com/track/sagans-song"&gt;http://emilydavis.bandcamp.com/track/sagans-song&lt;/a&gt;&lt;/h5&gt;
     &lt;/div&gt;&lt;!-- SC_ON --&gt;
     */
-    public var  description_html = ""
+    public var descriptionHtml = ""
     /**
     title of the main page
     example: The BEST links to click while you're STONED
@@ -216,7 +216,7 @@ public class Subreddit : Thing {
     
     example: true
     */
-    public var  collapse_deleted_comments = false
+    public var collapseDeletedComments = false
     /**
     whether the subreddit is marked as NSFW
     example: false
@@ -231,22 +231,22 @@ public class Subreddit : Thing {
     &lt;p&gt;If you like to look at amazing stuff while smoking weed or doing other drugs, come inside for some Science, Philosophy, Mindfucks, Math, Engineering, Illusions and Cosmic weirdness.&lt;/p&gt;
     &lt;/div&gt;&lt;!-- SC_ON --&gt;
     */
-    public var  public_description_html = ""
+    public var publicDescriptionHtml = ""
     /**
     
     example:
     */
-    public var  icon_size:[Int] = []
+    public var iconSize:[Int] = []
     /**
     
     example:
     */
-    public var  icon_img = ""
+    public var iconImg = ""
     /**
     description of header image shown on hover, or null
     example: Turn on the stylesheet and click Carl Sagan's head
     */
-    public var  header_title = ""
+    public var headerTitle = ""
     /**
     sidebar text
     example: #####[Best of WoahDude 2014 ⇦](https://www.reddit.com/r/woahdude/comments/2qi1jh/best_of_rwoahdude_2014_results/?)
@@ -320,22 +320,22 @@ public class Subreddit : Thing {
     the subreddit's custom label for the submit link button, if any
     example: SUBMIT LINK
     */
-    public var  submit_link_label = ""
+    public var submitLinkLabel = ""
     /**
     number of users active in last 15 minutes
     example:
     */
-    public var  accounts_active = 0
+    public var accountsActive = 0
     /**
     whether the subreddit's traffic page is publicly-accessible
     example: false
     */
-    public var  public_traffic = false
+    public var publicTraffic = false
     /**
     width and height of the header image, or null
     example: [145, 60]
     */
-    public var  header_size:[Int] = []
+    public var headerSize:[Int] = []
     /**
     the number of redditors subscribed to this subreddit
     example: 778611
@@ -345,12 +345,12 @@ public class Subreddit : Thing {
     the subreddit's custom label for the submit text button, if any
     example: SUBMIT TEXT
     */
-    public var  submit_text_label = ""
+    public var submitTextLabel = ""
     /**
     whether the logged-in user is a moderator of the subreddit
     example: false
     */
-    public var  user_is_moderator = false
+    public var userIsModerator = false
     /**
     
     example: 1254666760
@@ -365,22 +365,22 @@ public class Subreddit : Thing {
     
     example: false
     */
-    public var  hide_ads = false
+    public var hideAds = false
     /**
     
     example: 1254663160
     */
-    public var  created_utc = 0
+    public var createdUtc = 0
     /**
     
     example:
     */
-    public var  banner_size:[Int] = []
+    public var bannerSize:[Int] = []
     /**
     whether the logged-in user is an approved submitter in the subreddit
     example: false
     */
-    public var  user_is_contributor = false
+    public var userIsContributor = false
     /**
     Description shown in subreddit search results?
     example: The best links to click while you're stoned!
@@ -391,27 +391,27 @@ public class Subreddit : Thing {
     
     
     */
-    public var  public_description = ""
+    public var publicDescription = ""
     /**
     number of minutes the subreddit initially hides comment scores
     example: 0
     */
-    public var  comment_score_hide_mins = 0
+    public var commentScoreHideMins = 0
     /**
     the subreddit's type - one of "public", "private", "restricted", or in very special cases "gold_restricted" or "archived"
     example: public
     */
-    public var  subreddit_type = ""
+    public var subredditType = ""
     /**
     the type of submissions the subreddit allows - one of "any", "link" or "self"
     example: any
     */
-    public var  submission_type = ""
+    public var submissionType = ""
     /**
     whether the logged-in user is subscribed to the subreddit
     example: true
     */
-    public var  user_is_subscriber = false
+    public var userIsSubscriber = false
     
     public override func toString() -> String {
         return "url=\(url)\ntitle=\(title)"

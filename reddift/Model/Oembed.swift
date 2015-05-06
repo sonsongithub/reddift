@@ -15,7 +15,7 @@ public class Oembed {
     /**
     example, "http://i.imgur.com",
     */
-    var provider_url = ""
+    var providerUrl = ""
     /**
     example, "The Internet's visual storytelling community. Explore, share, and discuss the best visual stories the Internet has to offer.",
     */
@@ -27,7 +27,7 @@ public class Oembed {
     /**
     example, 245,
     */
-    var thumbnail_width = 0
+    var thumbnailWidth = 0
     /**
     example, 333,
     */
@@ -47,11 +47,11 @@ public class Oembed {
     /**
     example, "Imgur",
     */
-    var provider_name = ""
+    var providerName = ""
     /**
     example, "http://i.imgur.com/khgfcrQ.gif",
     */
-    var thumbnail_url = ""
+    var thumbnailUrl = ""
     /**
     example, "video",
     */
@@ -59,7 +59,7 @@ public class Oembed {
     /**
     example, 333
     */
-    var thumbnail_height = 0
+    var thumbnailHeight = 0
     /**
     Update each property with JSON object.
     
@@ -67,7 +67,7 @@ public class Oembed {
     */
     func updateWithJSON(json:[String:AnyObject]) {
         if let temp = json["provider_url"] as? String {
-            self.provider_url = temp
+            self.providerUrl = temp
         }
         if let temp = json["description"] as? String {
             self.description = temp
@@ -76,7 +76,7 @@ public class Oembed {
             self.title = temp
         }
         if let temp = json["thumbnail_width"] as? Int {
-            self.thumbnail_width = temp
+            self.thumbnailWidth = temp
         }
         if let temp = json["height"] as? Int {
             self.height = temp
@@ -91,16 +91,16 @@ public class Oembed {
             self.version = temp
         }
         if let temp = json["provider_name"] as? String {
-            self.provider_name = temp
+            self.providerName = temp
         }
         if let temp = json["thumbnail_url"] as? String {
-            self.thumbnail_url = temp
+            self.thumbnailUrl = temp
         }
         if let temp = json["type"] as? String {
             self.type = temp
         }
         if let temp = json["thumbnail_height"] as? Int {
-            self.thumbnail_height = temp
+            self.thumbnailHeight = temp
         }
     }
 }
