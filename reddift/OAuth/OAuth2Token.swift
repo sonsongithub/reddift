@@ -103,7 +103,7 @@ public class OAuth2Token : NSObject, NSCoding {
             temp5 = json["refresh_token"] as? String {
                 token = OAuth2Token(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:temp5)
         }
-        return resultFromOptional(token, NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse t2 JSON in order to create OAuth2Token."]))
+        return resultFromOptional(token, NSError.errorWithCode(1, "Failed to parse t2 JSON in order to create OAuth2Token."))
     }
     
     /**
@@ -115,7 +115,7 @@ public class OAuth2Token : NSObject, NSCoding {
     :returns: Result object. 
     */
     func updateWithJSON(json:JSON) -> Result<OAuth2Token> {
-        let error = NSError(domain: "com.sonson.reddift", code: 1, userInfo: ["description":"Failed to parse t2 JSON in order to update OAuth2Token."])
+        let error = NSError.errorWithCode(1, "Failed to parse t2 JSON in order to update OAuth2Token.")
         if  let temp1 = json["access_token"] as? String,
             temp2 = json["token_type"] as? String,
             temp3 = json["expires_in"] as? Int,

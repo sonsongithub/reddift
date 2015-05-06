@@ -27,14 +27,6 @@ public enum Result<A> {
         self = .Failure(error)
     }
     
-//    public init(_ error: NSError?, _ value: A) {
-//        if let error = error {
-//            self = .Failure(error)
-//        } else {
-//            self = .Success(Box(value))
-//        }
-//    }
-    
     public var error: NSError? {
         switch self {
         case .Failure(let error):
