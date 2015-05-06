@@ -1,3 +1,6 @@
+
+import Foundation
+
 enum HttpStatus {
     case Continue
     case SwitchingProtocols

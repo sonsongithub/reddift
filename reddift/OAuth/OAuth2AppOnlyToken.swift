@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 /**
 OAuth2Token extension to authorize without a user context.

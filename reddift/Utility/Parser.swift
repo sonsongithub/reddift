@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 class Parser: NSObject {
     class func parseThing(json:[String:AnyObject]) -> AnyObject? {

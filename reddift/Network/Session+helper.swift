@@ -6,7 +6,13 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
+
+#if os(iOS)
+    import UIKit
+#elseif os(OSX)
+    import Cocoa
+#endif
 
 /**
 Object to eliminate codes to parse http response object.
@@ -87,6 +93,8 @@ func decodeBooleanString(data: NSData) -> Result<Bool> {
     return Result(error:ReddiftError.CheckNeedsCAPTHCA.error)
 }
 
+
+#if os(iOS)
 /**
 Parse simple string response for "/api/needs_captcha"
 
@@ -98,6 +106,7 @@ func decodePNGImage(data: NSData) -> Result<UIImage> {
     let captcha = UIImage(data: data)
     return resultFromOptional(captcha, ReddiftError.GetCAPTCHAImage.error)
 }
+#endif
 
 /**
 Parse JSON contains "iden" for CAPTHA.

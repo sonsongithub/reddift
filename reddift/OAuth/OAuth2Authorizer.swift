@@ -6,7 +6,13 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
+
+#if os(iOS)
+    import UIKit
+#elseif os(OSX)
+    import Cocoa
+#endif
 
 /**
 Class for opening OAuth2 authorizing page and handling redirect URL.
@@ -41,7 +47,11 @@ public class OAuth2Authorizer {
             let result = SecRandomCopyBytes(kSecRandomDefault, length, UnsafeMutablePointer<UInt8>(data.mutableBytes))
             self.state = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.EncodingEndLineWithLineFeed)
             let authorizationURL = NSURL(string:"https://www.reddit.com/api/v1/authorize.compact?client_id=" + Config.sharedInstance.clientID + "&response_type=code&state=" + self.state + "&redirect_uri=" + Config.sharedInstance.redirectURI + "&duration=permanent&scope=" + commaSeparatedScopeString)!
-            UIApplication.sharedApplication().openURL(authorizationURL)
+#if os(iOS)
+                UIApplication.sharedApplication().openURL(authorizationURL)
+#elseif os(OSX)
+                NSWorkspace.sharedWorkspace().openURL(authorizationURL)
+#endif
         }
     }
     

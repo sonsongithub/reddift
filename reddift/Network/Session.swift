@@ -6,7 +6,13 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
+
+#if os(iOS)
+    import UIKit
+#elseif os(OSX)
+    import Cocoa
+#endif
 
 /**
 The type of users' contents for "/user/username/where" method.
@@ -338,7 +344,8 @@ public class Session {
         task.resume()
         return task
     }
-    
+
+#if os(iOS)
     /**
     Request a CAPTCHA image given an iden.
     An iden is given as the captcha field with a BAD_CAPTCHA error, you should use this endpoint if you get a BAD_CAPTCHA error response.
@@ -359,6 +366,7 @@ public class Session {
         task.resume()
         return task
     }
+#endif
     
     /**
     DOES NOT WORK... WHY?
