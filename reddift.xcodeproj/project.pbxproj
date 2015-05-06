@@ -14,7 +14,6 @@
 		143427C61AF74E91005D0E31 /* SearchSubredditsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427C51AF74E91005D0E31 /* SearchSubredditsViewController.swift */; };
 		143427C81AF858D5005D0E31 /* OAuth2AppOnlyToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427C71AF858D5005D0E31 /* OAuth2AppOnlyToken.swift */; };
 		143427C91AF858D5005D0E31 /* OAuth2AppOnlyToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427C71AF858D5005D0E31 /* OAuth2AppOnlyToken.swift */; };
-		143427CB1AF8C9EB005D0E31 /* OAuth2AppOnlyTokenTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427CA1AF8C9EB005D0E31 /* OAuth2AppOnlyTokenTest.swift */; };
 		143427CE1AF95E80005D0E31 /* test_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 143427CC1AF95E80005D0E31 /* test_config.json */; };
 		143427D01AF96A64005D0E31 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427CF1AF96A64005D0E31 /* Result.swift */; };
 		143427D11AF96A64005D0E31 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427CF1AF96A64005D0E31 /* Result.swift */; };
@@ -22,6 +21,10 @@
 		143427D41AF96AD5005D0E31 /* NSURLComponents+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D21AF96AD5005D0E31 /* NSURLComponents+reddift.swift */; };
 		143427D61AF98F13005D0E31 /* HttpStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D51AF98F13005D0E31 /* HttpStatus.swift */; };
 		143427D71AF98F13005D0E31 /* HttpStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D51AF98F13005D0E31 /* HttpStatus.swift */; };
+		149CE25F1AFAD2C5004B61C1 /* UseSessionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149CE25E1AFAD2C5004B61C1 /* UseSessionTestCase.swift */; };
+		149CE2601AFAD2C5004B61C1 /* UseSessionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149CE25E1AFAD2C5004B61C1 /* UseSessionTestCase.swift */; };
+		149CE2621AFAD4DF004B61C1 /* CAPTCHATest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149CE2611AFAD4DF004B61C1 /* CAPTCHATest.swift */; };
+		149CE2631AFAD4DF004B61C1 /* CAPTCHATest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149CE2611AFAD4DF004B61C1 /* CAPTCHATest.swift */; };
 		14B5EBB61AF34D580065BC5E /* reddift.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B5EBB51AF34D580065BC5E /* reddift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14B5EBBC1AF34D590065BC5E /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; };
 		14B5EBD31AF34E920065BC5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EBD21AF34E920065BC5E /* AppDelegate.swift */; };
@@ -193,7 +196,6 @@
 		14F8125D1AFA07A2008F6F3C /* ParseThingObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */; };
 		14F8125E1AFA07A2008F6F3C /* ParseResponseObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */; };
 		14F8125F1AFA07A2008F6F3C /* ExtendCommentsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BBDA211AEF228B00F94E7D /* ExtendCommentsTest.swift */; };
-		14F812601AFA07A2008F6F3C /* OAuth2AppOnlyTokenTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427CA1AF8C9EB005D0E31 /* OAuth2AppOnlyTokenTest.swift */; };
 		14F812611AFA07C5008F6F3C /* create_token.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4F91AE7C9D500211DAD /* create_token.json */; };
 		14F812621AFA07C5008F6F3C /* refresh_token.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4FA1AE7C9D500211DAD /* refresh_token.json */; };
 		14F812631AFA07C5008F6F3C /* comments_extend.json in Resources */ = {isa = PBXBuildFile; fileRef = 14BBDA231AEF250100F94E7D /* comments_extend.json */; };
@@ -242,7 +244,6 @@
 		143427C31AF745E0005D0E31 /* BaseSubredditsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseSubredditsViewController.swift; sourceTree = "<group>"; };
 		143427C51AF74E91005D0E31 /* SearchSubredditsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchSubredditsViewController.swift; sourceTree = "<group>"; };
 		143427C71AF858D5005D0E31 /* OAuth2AppOnlyToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2AppOnlyToken.swift; sourceTree = "<group>"; };
-		143427CA1AF8C9EB005D0E31 /* OAuth2AppOnlyTokenTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2AppOnlyTokenTest.swift; sourceTree = "<group>"; };
 		143427CC1AF95E80005D0E31 /* test_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_config.json; sourceTree = "<group>"; };
 		143427CF1AF96A64005D0E31 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		143427D21AF96AD5005D0E31 /* NSURLComponents+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLComponents+reddift.swift"; sourceTree = "<group>"; };
@@ -269,9 +270,11 @@
 		147EADA41AD78568007FA2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		147EADBA1AD78568007FA2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		148BB46C1AE49FBE006ED0D0 /* Listing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Listing.swift; sourceTree = "<group>"; };
+		149CE25E1AFAD2C5004B61C1 /* UseSessionTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UseSessionTestCase.swift; sourceTree = "<group>"; };
+		149CE2611AFAD4DF004B61C1 /* CAPTCHATest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAPTCHATest.swift; sourceTree = "<group>"; };
 		14B5EBB11AF34D580065BC5E /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14B5EBB51AF34D580065BC5E /* reddift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = reddift.h; sourceTree = "<group>"; };
-		14B5EBBB1AF34D580065BC5E /* reddiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = reddiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		14B5EBBB1AF34D580065BC5E /* reddiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = reddiftTests.xctest; path = "reddift-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14B5EBCE1AF34E920065BC5E /* reddiftSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = reddiftSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14B5EBD11AF34E920065BC5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14B5EBD21AF34E920065BC5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -451,7 +454,8 @@
 				1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */,
 				1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */,
 				14BBDA211AEF228B00F94E7D /* ExtendCommentsTest.swift */,
-				143427CA1AF8C9EB005D0E31 /* OAuth2AppOnlyTokenTest.swift */,
+				149CE25E1AFAD2C5004B61C1 /* UseSessionTestCase.swift */,
+				149CE2611AFAD4DF004B61C1 /* CAPTCHATest.swift */,
 				14BEDDFF1AE454C4004F7860 /* data */,
 				147EADB91AD78568007FA2F4 /* Supporting Files */,
 			);
@@ -912,7 +916,6 @@
 			files = (
 				143427C91AF858D5005D0E31 /* OAuth2AppOnlyToken.swift in Sources */,
 				14B5EC271AF35BFF0065BC5E /* Media.swift in Sources */,
-				143427CB1AF8C9EB005D0E31 /* OAuth2AppOnlyTokenTest.swift in Sources */,
 				14B5EC621AF4B9D60065BC5E /* ExtendCommentsTest.swift in Sources */,
 				14B5EC2A1AF35BFF0065BC5E /* Link.swift in Sources */,
 				14B5EC111AF35BFB0065BC5E /* Parser+t2.swift in Sources */,
@@ -928,6 +931,8 @@
 				14B5EC291AF35BFF0065BC5E /* MediaEmbed.swift in Sources */,
 				14B5EC2F1AF35BFF0065BC5E /* Message.swift in Sources */,
 				14B5EC3C1AF35C4B0065BC5E /* NSError+reddift.swift in Sources */,
+				149CE25F1AFAD2C5004B61C1 /* UseSessionTestCase.swift in Sources */,
+				149CE2621AFAD4DF004B61C1 /* CAPTCHATest.swift in Sources */,
 				14B5EC151AF35BFB0065BC5E /* helper.swift in Sources */,
 				14B5EC431AF35C560065BC5E /* OAuth2Token.swift in Sources */,
 				14B5EC131AF35BFB0065BC5E /* Parser+t4.swift in Sources */,
@@ -1039,12 +1044,13 @@
 				14F812271AF9F6B1008F6F3C /* Parser+t3.swift in Sources */,
 				14F8123D1AF9F6B6008F6F3C /* Link.swift in Sources */,
 				14F812241AF9F6B1008F6F3C /* Parser.swift in Sources */,
+				149CE2631AFAD4DF004B61C1 /* CAPTCHATest.swift in Sources */,
+				149CE2601AFAD2C5004B61C1 /* UseSessionTestCase.swift in Sources */,
 				14F8123E1AF9F6B6008F6F3C /* Comment.swift in Sources */,
 				14F8123C1AF9F6B6008F6F3C /* MediaEmbed.swift in Sources */,
 				14F812281AF9F6B1008F6F3C /* Parser+t4.swift in Sources */,
 				14F8123F1AF9F6B6008F6F3C /* More.swift in Sources */,
 				14F812251AF9F6B1008F6F3C /* Parser+t1.swift in Sources */,
-				14F812601AFA07A2008F6F3C /* OAuth2AppOnlyTokenTest.swift in Sources */,
 				14F8124F1AF9F6BE008F6F3C /* Session.swift in Sources */,
 				14F812401AF9F6B6008F6F3C /* Subreddit.swift in Sources */,
 				14F812431AF9F6B6008F6F3C /* Paginator.swift in Sources */,
@@ -1429,6 +1435,7 @@
 				14F812151AF9EA9F008F6F3C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		14F812161AF9EA9F008F6F3C /* Build configuration list for PBXNativeTarget "reddift-OSXTests" */ = {
 			isa = XCConfigurationList;
@@ -1437,6 +1444,7 @@
 				14F812181AF9EA9F008F6F3C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

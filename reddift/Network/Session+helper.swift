@@ -93,8 +93,6 @@ func decodeBooleanString(data: NSData) -> Result<Bool> {
     return Result(error:ReddiftError.CheckNeedsCAPTHCA.error)
 }
 
-
-#if os(iOS)
 /**
 Parse simple string response for "/api/needs_captcha"
 
@@ -102,11 +100,14 @@ Parse simple string response for "/api/needs_captcha"
 
 :returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
 */
-func decodePNGImage(data: NSData) -> Result<UIImage> {
+func decodePNGImage(data: NSData) -> Result<CAPTCHAImage> {
+#if os(iOS)
     let captcha = UIImage(data: data)
+#elseif os(OSX)
+    let captcha = NSImage(data: data)
+#endif
     return resultFromOptional(captcha, ReddiftError.GetCAPTCHAImage.error)
 }
-#endif
 
 /**
 Parse JSON contains "iden" for CAPTHA.

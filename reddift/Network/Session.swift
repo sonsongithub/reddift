@@ -10,8 +10,10 @@ import Foundation
 
 #if os(iOS)
     import UIKit
+    public typealias CAPTCHAImage = UIImage
 #elseif os(OSX)
     import Cocoa
+    public typealias CAPTCHAImage = NSImage
 #endif
 
 /**
@@ -345,7 +347,6 @@ public class Session {
         return task
     }
 
-#if os(iOS)
     /**
     Request a CAPTCHA image given an iden.
     An iden is given as the captcha field with a BAD_CAPTCHA error, you should use this endpoint if you get a BAD_CAPTCHA error response.
@@ -356,7 +357,7 @@ public class Session {
     :param: iden Code to get a new CAPTCHA. Use Session.getIdenForNewCAPTCHA.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getCAPTCHA(iden:String, completion:(Result<UIImage>) -> Void) -> NSURLSessionDataTask? {
+    public func getCAPTCHA(iden:String, completion:(Result<CAPTCHAImage>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/captcha/" + iden, method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
@@ -366,7 +367,6 @@ public class Session {
         task.resume()
         return task
     }
-#endif
     
     /**
     DOES NOT WORK... WHY?
