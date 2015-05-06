@@ -58,7 +58,7 @@ class OAuth2AppOnlyToken : OAuth2Token {
             temp4 = json["scope"] as? String {
                 token = OAuth2AppOnlyToken(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:"")
         }
-        return resultFromOptional(token, NSError.errorWithCode(1, "Failed to parse t2 JSON in order to create OAuth2Token."))
+        return resultFromOptional(token, ReddiftError.ParseAccessToken.error)
     }
     
     /**

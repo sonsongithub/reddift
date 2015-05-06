@@ -217,6 +217,12 @@ enum HttpStatus {
                 self = .Unknown
         }
     }
+    
+    var error:NSError {
+        get {
+            return NSError.errorWithCode(self.code, self.description)
+        }
+    }
 
     var description:String {
         get {

@@ -38,7 +38,7 @@ This function filters response object to handle errors.
 func parseResponse(response: Response) -> Result<NSData> {
     let successRange = 200..<300
     if !contains(successRange, response.statusCode) {
-        return .Failure(NSError.errorWithCode(response.statusCode, HttpStatus(response.statusCode).description))
+        return .Failure(HttpStatus(response.statusCode).error)
     }
     return .Success(Box(response.data))
 }
@@ -52,20 +52,19 @@ func decodeJSON(data: NSData) -> Result<JSON> {
     if let json:JSON = jsonOptional {
         return Result(value:json)
     }
-    return Result(error:NSError.errorWithCode(2, "Failed to parse JSON object unexpectedly."))
+    return Result(error:ReddiftError.ParseJSON.error)
 }
 
 func parseThing_t2_JSON(json:JSON) -> Result<JSON> {
-    let error = NSError.errorWithCode(2, "Failed to parse t2 JSON.")
     if let object = json >>> JSONObject {
-        return resultFromOptional(Parser.parseDataInThing_t2(object), error)
+        return resultFromOptional(Parser.parseDataInThing_t2(object), ReddiftError.ParseThingT2.error)
     }
-    return resultFromOptional(nil, error)
+    return resultFromOptional(nil, ReddiftError.ParseThingT2.error)
 }
 
 func parseListFromJSON(json: JSON) -> Result<JSON> {
     let object:AnyObject? = Parser.parseJSON(json)
-    return resultFromOptional(object, NSError.errorWithCode(2, "Failed to parse JSON object unexpectedly."))
+    return resultFromOptional(object, ReddiftError.ParseThing.error)
 }
 
 /**
@@ -85,7 +84,7 @@ func decodeBooleanString(data: NSData) -> Result<Bool> {
             return Result(value:false)
         }
     }
-    return Result(error:NSError.errorWithCode(2, "Unexepcted data. It's neither true nor false."))
+    return Result(error:ReddiftError.CheckNeedsCAPTHCA.error)
 }
 
 /**
@@ -97,7 +96,7 @@ Parse simple string response for "/api/needs_captcha"
 */
 func decodePNGImage(data: NSData) -> Result<UIImage> {
     let captcha = UIImage(data: data)
-    return resultFromOptional(captcha, NSError.errorWithCode(2, "Couldn't open image file as CAPTCHA."))
+    return resultFromOptional(captcha, ReddiftError.GetCAPTCHAImage.error)
 }
 
 /**
@@ -124,7 +123,7 @@ func parseCAPTCHAIdenJSON(json: JSON) -> Result<String> {
             }
         }
     }
-    return Result(error:NSError.errorWithCode(2, "Failed to parse iden for CAPTHA."))
+    return Result(error:ReddiftError.GetCAPTCHAIden.error)
 }
 
 func filterArticleResponse(json:JSON) -> Result<JSON> {
@@ -135,5 +134,5 @@ func filterArticleResponse(json:JSON) -> Result<JSON> {
             }
         }
     }
-    return Result(error:NSError.errorWithCode(2, "Failed to parse article JSON object."))
+    return Result(error:ReddiftError.ParseListingArticles.error)
 }
