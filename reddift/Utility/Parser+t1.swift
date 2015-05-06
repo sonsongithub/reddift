@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 extension Parser {
     class func parseDataInThing_t1(data:[String:AnyObject]) -> Thing {
