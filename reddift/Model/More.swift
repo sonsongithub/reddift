@@ -14,7 +14,7 @@ More object.
 If Listing object has "more" object, it has mure more children to be downloaded.
 */
 public class More : Thing {
-	public var parent_id = ""
+	public var parentId = ""
 	public var count = 0
 	public var children:[String] = []
 	
