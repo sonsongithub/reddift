@@ -11,6 +11,7 @@ import XCTest
 
 class UseSessionTestCase: XCTestCase {
     var session:Session! = nil
+    let intervalForTimeout:NSTimeInterval = 30
 
     override func setUp() {
         super.setUp()
@@ -25,15 +26,14 @@ class UseSessionTestCase: XCTestCase {
                         case let .Failure:
                             XCTFail("Could not get access token from reddit.com.")
                         case let .Success:
-                            println(result.value)
                             if let token:OAuth2Token = result.value {
                                 self.session = Session(token: token)
                             }
+                            XCTAssert((self.session != nil), "Could not establish session.")
                         }
                         documentOpenExpectation.fulfill()
                     }
-                    self.waitForExpectationsWithTimeout(10, handler: nil)
-                    XCTAssert((self.session != nil), "Could not establish session.")
+                    self.waitForExpectationsWithTimeout(self.intervalForTimeout, handler: nil)
                     return
             }
         }

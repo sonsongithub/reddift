@@ -24,23 +24,13 @@ class CAPTCHATest: UseSessionTestCase {
         session?.checkNeedsCAPTCHA({(result) -> Void in
             switch result {
             case let .Failure:
-                if let error = result.error {
-                    XCTFail(error.description)
-                }
-                else {
-                    XCTFail("Uexpected error")
-                }
+                XCTFail(result.error!.description)
             case let .Success:
-                if let needs:Bool = result.value {
-                    XCTAssert((self.session != nil), "Could not establish session.")
-                }
-                else {
-                    XCTFail("Error")
-                }
+                XCTAssert(result.value != nil, "Unexpected error.")
             }
             documentOpenExpectation.fulfill()
         })
-        self.waitForExpectationsWithTimeout(10, handler: nil)
+        self.waitForExpectationsWithTimeout(self.intervalForTimeout, handler: nil)
     }
     
     func testGetIdenCAPTCHA() {
@@ -48,18 +38,13 @@ class CAPTCHATest: UseSessionTestCase {
         session?.getIdenForNewCAPTCHA({ (result) -> Void in
             switch result {
             case let .Failure:
-                if let error = result.error {
-                    XCTFail(error.description)
-                }
-                else {
-                    XCTFail("Uexpected error")
-                }
+                XCTFail(result.error!.description)
             case let .Success:
-                println(result.value)
+                XCTAssert(result.value != nil, "Unexpected error.")
             }
             documentOpenExpectation.fulfill()
         })
-        self.waitForExpectationsWithTimeout(10, handler: nil)
+        self.waitForExpectationsWithTimeout(self.intervalForTimeout, handler: nil)
     }
     
     func testGetImageCAPTCHA() {
@@ -67,38 +52,27 @@ class CAPTCHATest: UseSessionTestCase {
         session?.getIdenForNewCAPTCHA({ (result) -> Void in
             switch result {
             case let .Failure:
-                if let error = result.error {
-                    XCTFail(error.description)
-                }
-                else {
-                    XCTFail("Uexpected error")
-                }
+                XCTFail(result.error!.description)
             case let .Success:
-                println(result.value)
                 if let string = result.value {
                     self.session?.getCAPTCHA(string, completion: { (result) -> Void in
                         switch result {
                         case let .Failure:
-                            if let error = result.error {
-                                XCTFail(error.description)
-                            }
-                            else {
-                                XCTFail("Uexpected error")
-                            }
+                            XCTFail(result.error!.description)
                         case let .Success:
-                            if let image = result.value {
-                                println(image)
+                            if let image:CAPTCHAImage = result.value {
+                                XCTAssert(image.size.width == 120, "CAPTCHA image does not have expected width.")
+                                XCTAssert(image.size.height == 50, "CAPTCHA image does not have expected height.")
                             }
                             else {
-                                XCTFail("Uexpected error")
+                                XCTFail("Unexpected error")
                             }
                         }
+                        documentOpenExpectation.fulfill()
                     })
                 }
-
             }
-            documentOpenExpectation.fulfill()
         })
-        self.waitForExpectationsWithTimeout(10, handler: nil)
+        self.waitForExpectationsWithTimeout(self.intervalForTimeout, handler: nil)
     }
 }
