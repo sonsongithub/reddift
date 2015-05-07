@@ -8,6 +8,8 @@
 
 import Foundation
 import XCTest
+import Quick
+import Nimble
 
 extension XCTestCase {
     func jsonFromFileName(name:String) -> AnyObject? {
