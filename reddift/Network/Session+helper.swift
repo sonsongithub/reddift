@@ -44,7 +44,7 @@ This function filters response object to handle errors.
 func parseResponse(response: Response) -> Result<NSData> {
     let successRange = 200..<300
     if !contains(successRange, response.statusCode) {
-        return .Failure(HttpStatus(code:response.statusCode).error)
+        return .Failure(HttpStatus(response.statusCode).error)
     }
     return .Success(Box(response.data))
 }

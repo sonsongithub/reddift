@@ -83,8 +83,8 @@ enum HttpStatus:Int {
     case NetworkConnectTimeoutError = 599
     case Unknown = -1
     
-    init(code:Int) {
-        let status = HttpStatus(rawValue:code)
+    init(_ statusCode:Int) {
+        let status = HttpStatus(rawValue:statusCode)
         if let status:HttpStatus = status {
             self = status
         }
