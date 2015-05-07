@@ -14,61 +14,25 @@ extension NSError {
     }
 }
 
-public enum ReddiftError {
-    case ParseJSON              // 100
+public enum ReddiftError:Int {
+    case ParseJSON              = 100
 
-    case ParseThing             // 200
-    case ParseListing           // 201
-    case ParseListingArticles   // 202
-    case ParseThingT2           // 203
+    case ParseThing             = 200
+    case ParseListing           = 201
+    case ParseListingArticles   = 202
+    case ParseThingT2           = 203
     
-    case GetCAPTCHA             // 300
-    case CheckNeedsCAPTHCA      // 301
-    case GetCAPTCHAIden         // 302
-    case GetCAPTCHAImage        // 303
+    case GetCAPTCHA             = 300
+    case CheckNeedsCAPTHCA      = 301
+    case GetCAPTCHAIden         = 302
+    case GetCAPTCHAImage        = 303
     
-    case OAuth2                 // 400
-    case ParseAccessToken       // 401
+    case OAuth2                 = 400
+    case ParseAccessToken       = 401
+    case TokenNotfound          = 402
     
     var error:NSError {
-        get {
-            return NSError.errorWithCode(self.code, self.description)
-        }
-    }
-    
-    var code:Int {
-        get {
-            switch self {
-            case .ParseJSON:
-                return 100
-                
-            case .ParseThing:
-                return 200
-            case .ParseListing:
-                return 201
-            case .ParseListingArticles:
-                return 202
-            case .ParseThingT2:
-                return 203
-                
-            case .GetCAPTCHA:
-                return 300
-            case .CheckNeedsCAPTHCA:
-                return 301
-            case .GetCAPTCHAIden:
-                return 302
-            case .GetCAPTCHAImage:
-                return 303
-                
-            case .OAuth2:
-                return 400
-            case .ParseAccessToken:
-                return 401
-            
-            default:
-                return 0
-            }
-        }
+        return NSError.errorWithCode(self.rawValue, self.description)
     }
     
     var description:String {
