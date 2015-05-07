@@ -19,19 +19,17 @@ public enum LinkSort {
     case Top
     
     public var path:String {
-        get {
-            switch self{
-            case .Controversial:
-                return "/controversial"
-            case .Hot:
-                return "/hot"
-            case .New:
-                return "/new"
-            case .Random:
-                return "/random"
-            case .Top:
-                return "/top"
-            }
+        switch self{
+        case .Controversial:
+            return "/controversial"
+        case .Hot:
+            return "/hot"
+        case .New:
+            return "/new"
+        case .Random:
+            return "/random"
+        case .Top:
+            return "/top"
         }
     }
 }
@@ -47,19 +45,17 @@ public enum SearchSort {
     case Comments
     
     var path:String {
-        get {
-            switch self{
-            case .Relevance:
-                return "relevance"
-            case .New:
-                return "new"
-            case .Hot:
-                return "hot"
-            case .Top:
-                return "top"
-            case .Comments:
-                return "comments"
-            }
+        switch self{
+        case .Relevance:
+            return "relevance"
+        case .New:
+            return "new"
+        case .Hot:
+            return "hot"
+        case .Top:
+            return "top"
+        case .Comments:
+            return "comments"
         }
     }
 }

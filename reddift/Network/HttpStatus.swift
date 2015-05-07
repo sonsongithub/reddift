@@ -94,157 +94,153 @@ enum HttpStatus:Int {
     }
 
     var error:NSError {
-        get {
-            return NSError.errorWithCode(self.rawValue, self.description)
-        }
+        return NSError.errorWithCode(self.rawValue, self.description)
     }
 
     var description:String {
-        get {
-            switch self{
-            case .Continue:
-                return "Continue"
-            case .SwitchingProtocols:
-                return "Switching Protocols"
-            case .Processing:
-                return "Processing"
-            case .OK:
-                return "OK"
-            case .Created:
-                return "Created"
-            case .Accepted:
-                return "Accepted"
-            case .NonAuthoritativeInformation:
-                return "Non-Authoritative Information"
-            case .NoContent:
-                return "No Content"
-            case .ResetContent:
-                return "Reset Content"
-            case .PartialContent:
-                return "Partial Content"
-            case .MultiStatus:
-                return "Multi-Status"
-            case .AlreadyReported:
-                return "Already Reported"
-            case .IMUsed:
-                return "IM Used"
-            case .MultipleChoices:
-                return "Multiple Choices"
-            case .NotModified:
-                return "Not Modified"
-            case .UseProxy:
-                return "Use Proxy"
-            case .SwitchProxy:
-                return "Switch Proxy"
-            case .TemporaryRedirect:
-                return "Temporary Redirect"
-            case .PermanentRedirect:
-                return "Permanent Redirect"
-            case .BadRequest:
-                return "Bad Request"
-            case .Unauthorized:
-                return "Unauthorized"
-            case .PaymentRequired:
-                return "Payment Required"
-            case .MethodNotAllowed:
-                return "Method Not Allowed"
-            case .NotAcceptable:
-                return "Not Acceptable"
-            case .ProxyAuthenticationRequired:
-                return "Proxy Authentication Required"
-            case .RequestTimeout:
-                return "Request Timeout"
-            case .Conflict:
-                return "Conflict"
-            case .Gone:
-                return "Gone"
-            case .LengthRequired:
-                return "Length Required"
-            case .PreconditionFailed:
-                return "Precondition Failed"
-            case .RequestEntityTooLarge:
-                return "Request Entity Too Large"
-            case .RequestURITooLong:
-                return "Request-URI Too Long"
-            case .UnsupportedMediaType:
-                return "Unsupported Media Type"
-            case .RequestedRangeNotSatisfiable:
-                return "Requested Range Not Satisfiable"
-            case .ExpectationFailed:
-                return "Expectation Failed"
-            case .ImATeapot:
-                return "I'm a teapot"
-            case .AuthenticationTimeout:
-                return "Authentication Timeout"
-            case .MethodFailure:
-                return "Method Failure"
-            case .MisdirectedRequest:
-                return "Misdirected Request"
-            case .UnprocessableEntity:
-                return "Unprocessable Entity"
-            case .Locked:
-                return "Locked"
-            case .FailedDependency:
-                return "Failed Dependency"
-            case .UpgradeRequired:
-                return "Upgrade Required"
-            case .PreconditionRequired:
-                return "Precondition Required"
-            case .TooManyRequests:
-                return "Too Many Requests"
-            case .RequestHeaderFieldsTooLarge:
-                return "Request Header Fields Too Large"
-            case .LoginTimeout:
-                return "Login Timeout"
-            case .NoResponse:
-                return "No Response"
-            case .RetryWith:
-                return "Retry With"
-            case .BlockedByWindowsParentalControls:
-                return "Blocked by Windows Parental Controls"
-            case .RequestHeaderTooLarge:
-                return "Request Header Too Large"
-            case .CertError:
-                return "Cert Error"
-            case .NoCert:
-                return "No Cert"
-            case .HTTPToHTTPS:
-                return "HTTP to HTTPS"
-            case .TokenExpiredinvalid:
-                return "Token expired/invalid"
-            case .ClientClosedRequest:
-                return "Client Closed Request"
-            case .InternalServerError:
-                return "Internal Server Error"
-            case .NotImplemented:
-                return "Not Implemented"
-            case .BadGateway:
-                return "Bad Gateway"
-            case .ServiceUnavailable:
-                return "Service Unavailable"
-            case .GatewayTimeout:
-                return "Gateway Timeout"
-            case .HTTPVersionNotSupported:
-                return "HTTP Version Not Supported"
-            case .VariantAlsoNegotiates:
-                return "Variant Also Negotiates"
-            case .InsufficientStorage:
-                return "Insufficient Storage"
-            case .LoopDetected:
-                return "Loop Detected"
-            case .BandwidthLimitExceeded:
-                return "Bandwidth Limit Exceeded"
-            case .NotExtended:
-                return "Not Extended"
-            case .NetworkAuthenticationRequired:
-                return "Network Authentication Required"
-            case .NetworkReadTimeoutError:
-                return "Network read timeout error"
-            case .NetworkConnectTimeoutError:
-                return "Network connect timeout error"
-            default:
-                return "Unknown"
-            }
+        switch self{
+        case .Continue:
+            return "Continue"
+        case .SwitchingProtocols:
+            return "Switching Protocols"
+        case .Processing:
+            return "Processing"
+        case .OK:
+            return "OK"
+        case .Created:
+            return "Created"
+        case .Accepted:
+            return "Accepted"
+        case .NonAuthoritativeInformation:
+            return "Non-Authoritative Information"
+        case .NoContent:
+            return "No Content"
+        case .ResetContent:
+            return "Reset Content"
+        case .PartialContent:
+            return "Partial Content"
+        case .MultiStatus:
+            return "Multi-Status"
+        case .AlreadyReported:
+            return "Already Reported"
+        case .IMUsed:
+            return "IM Used"
+        case .MultipleChoices:
+            return "Multiple Choices"
+        case .NotModified:
+            return "Not Modified"
+        case .UseProxy:
+            return "Use Proxy"
+        case .SwitchProxy:
+            return "Switch Proxy"
+        case .TemporaryRedirect:
+            return "Temporary Redirect"
+        case .PermanentRedirect:
+            return "Permanent Redirect"
+        case .BadRequest:
+            return "Bad Request"
+        case .Unauthorized:
+            return "Unauthorized"
+        case .PaymentRequired:
+            return "Payment Required"
+        case .MethodNotAllowed:
+            return "Method Not Allowed"
+        case .NotAcceptable:
+            return "Not Acceptable"
+        case .ProxyAuthenticationRequired:
+            return "Proxy Authentication Required"
+        case .RequestTimeout:
+            return "Request Timeout"
+        case .Conflict:
+            return "Conflict"
+        case .Gone:
+            return "Gone"
+        case .LengthRequired:
+            return "Length Required"
+        case .PreconditionFailed:
+            return "Precondition Failed"
+        case .RequestEntityTooLarge:
+            return "Request Entity Too Large"
+        case .RequestURITooLong:
+            return "Request-URI Too Long"
+        case .UnsupportedMediaType:
+            return "Unsupported Media Type"
+        case .RequestedRangeNotSatisfiable:
+            return "Requested Range Not Satisfiable"
+        case .ExpectationFailed:
+            return "Expectation Failed"
+        case .ImATeapot:
+            return "I'm a teapot"
+        case .AuthenticationTimeout:
+            return "Authentication Timeout"
+        case .MethodFailure:
+            return "Method Failure"
+        case .MisdirectedRequest:
+            return "Misdirected Request"
+        case .UnprocessableEntity:
+            return "Unprocessable Entity"
+        case .Locked:
+            return "Locked"
+        case .FailedDependency:
+            return "Failed Dependency"
+        case .UpgradeRequired:
+            return "Upgrade Required"
+        case .PreconditionRequired:
+            return "Precondition Required"
+        case .TooManyRequests:
+            return "Too Many Requests"
+        case .RequestHeaderFieldsTooLarge:
+            return "Request Header Fields Too Large"
+        case .LoginTimeout:
+            return "Login Timeout"
+        case .NoResponse:
+            return "No Response"
+        case .RetryWith:
+            return "Retry With"
+        case .BlockedByWindowsParentalControls:
+            return "Blocked by Windows Parental Controls"
+        case .RequestHeaderTooLarge:
+            return "Request Header Too Large"
+        case .CertError:
+            return "Cert Error"
+        case .NoCert:
+            return "No Cert"
+        case .HTTPToHTTPS:
+            return "HTTP to HTTPS"
+        case .TokenExpiredinvalid:
+            return "Token expired/invalid"
+        case .ClientClosedRequest:
+            return "Client Closed Request"
+        case .InternalServerError:
+            return "Internal Server Error"
+        case .NotImplemented:
+            return "Not Implemented"
+        case .BadGateway:
+            return "Bad Gateway"
+        case .ServiceUnavailable:
+            return "Service Unavailable"
+        case .GatewayTimeout:
+            return "Gateway Timeout"
+        case .HTTPVersionNotSupported:
+            return "HTTP Version Not Supported"
+        case .VariantAlsoNegotiates:
+            return "Variant Also Negotiates"
+        case .InsufficientStorage:
+            return "Insufficient Storage"
+        case .LoopDetected:
+            return "Loop Detected"
+        case .BandwidthLimitExceeded:
+            return "Bandwidth Limit Exceeded"
+        case .NotExtended:
+            return "Not Extended"
+        case .NetworkAuthenticationRequired:
+            return "Network Authentication Required"
+        case .NetworkReadTimeoutError:
+            return "Network read timeout error"
+        case .NetworkConnectTimeoutError:
+            return "Network connect timeout error"
+        default:
+            return "Unknown"
         }
     }
 }

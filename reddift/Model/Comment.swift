@@ -22,48 +22,44 @@ public enum CommentSort {
     case Qa
     
     public var path:String {
-        get {
-            switch self{
-            case .Confidence:
-                return "/confidence"
-            case .Top:
-                return "/top"
-            case .New:
-                return "/new"
-            case .Hot:
-                return "/hot"
-            case .Controversial:
-                return "/controversial"
-            case .Old:
-                return "/old"
-            case .Random:
-                return "/random"
-            case .Qa:
-                return "/qa"
-            }
+        switch self{
+        case .Confidence:
+            return "/confidence"
+        case .Top:
+            return "/top"
+        case .New:
+            return "/new"
+        case .Hot:
+            return "/hot"
+        case .Controversial:
+            return "/controversial"
+        case .Old:
+            return "/old"
+        case .Random:
+            return "/random"
+        case .Qa:
+            return "/qa"
         }
     }
     
     public var type:String {
-        get {
-            switch self{
-            case .Confidence:
-                return "confidence"
-            case .Top:
-                return "top"
-            case .New:
-                return "new"
-            case .Hot:
-                return "hot"
-            case .Controversial:
-                return "controversial"
-            case .Old:
-                return "old"
-            case .Random:
-                return "random"
-            case .Qa:
-                return "qa"
-            }
+        switch self{
+        case .Confidence:
+            return "confidence"
+        case .Top:
+            return "top"
+        case .New:
+            return "new"
+        case .Hot:
+            return "hot"
+        case .Controversial:
+            return "controversial"
+        case .Old:
+            return "old"
+        case .Random:
+            return "random"
+        case .Qa:
+            return "qa"
         }
     }
 }

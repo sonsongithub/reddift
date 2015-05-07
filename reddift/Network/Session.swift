@@ -30,25 +30,23 @@ public enum UserContent {
     case Gilded
     
     var path:String {
-        get {
-            switch self{
-            case .Overview:
-                return "/overview"
-            case .Submitted:
-                return "/submitted"
-            case .Comments:
-                return "/comments"
-            case .Liked:
-                return "/liked"
-            case .Disliked:
-                return "/disliked"
-            case .Hidden:
-                return "/hidden"
-            case .Saved:
-                return "/saved"
-            case .Gilded:
-                return "/glided"
-            }
+        switch self{
+        case .Overview:
+            return "/overview"
+        case .Submitted:
+            return "/submitted"
+        case .Comments:
+            return "/comments"
+        case .Liked:
+            return "/liked"
+        case .Disliked:
+            return "/disliked"
+        case .Hidden:
+            return "/hidden"
+        case .Saved:
+            return "/saved"
+        case .Gilded:
+            return "/glided"
         }
     }
 }

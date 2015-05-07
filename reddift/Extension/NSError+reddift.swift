@@ -72,37 +72,37 @@ public enum ReddiftError {
     }
     
     var description:String {
-        get {
-            switch self {
-            case .ParseJSON:
-                return "Failed to parse JSON object unexpectedly."
-                
-            case .ParseThing:
-                return "Failed to parse Thing content unexpectedly."
-            case .ParseListing:
-                return "Failed to parse Listing contents unexpectedly."
-            case .ParseListingArticles:
-                return "Failed to parse artcles unexpectedly."
-            case .ParseThingT2:
-                return "Failed to parse t2 content unexpectedly."
-                
-            case .GetCAPTCHA:
-                return "Failed to dosomething for CAPTCHA unexpectedly."
-            case .CheckNeedsCAPTHCA:
-                return "Failed to check whether you have to handle CAPTCHA unexpectedly because response is unexepcted data or, it's neither true nor false."
-            case .GetCAPTCHAIden:
-                return "Failed to parse iden to get a CAPTCHA image unexpectedly."
-            case .GetCAPTCHAImage:
-                return "Failed to load a CAPTHCA image unexpectedly."
-                
-            case .OAuth2:
-                return "Failed to get an access token unexpectedly."
-            case .ParseAccessToken:
-                return "Failed to extract access token from response unexpectedly."
+        switch self {
+        case .ParseJSON:
+            return "Failed to parse JSON object unexpectedly."
             
-            default:
-                return "Unknown error"
-            }
+        case .ParseThing:
+            return "Failed to parse Thing content unexpectedly."
+        case .ParseListing:
+            return "Failed to parse Listing contents unexpectedly."
+        case .ParseListingArticles:
+            return "Failed to parse artcles unexpectedly."
+        case .ParseThingT2:
+            return "Failed to parse t2 content unexpectedly."
+            
+        case .GetCAPTCHA:
+            return "Failed to dosomething for CAPTCHA unexpectedly."
+        case .CheckNeedsCAPTHCA:
+            return "Failed to check whether you have to handle CAPTCHA unexpectedly because response is unexepcted data or, it's neither true nor false."
+        case .GetCAPTCHAIden:
+            return "Failed to parse iden to get a CAPTCHA image unexpectedly."
+        case .GetCAPTCHAImage:
+            return "Failed to load a CAPTHCA image unexpectedly."
+            
+        case .OAuth2:
+            return "Failed to get an access token unexpectedly."
+        case .ParseAccessToken:
+            return "Failed to extract access token from response unexpectedly."
+        case .TokenNotfound:
+            return "Token which has the name you specified was not found."
+        
+        default:
+            return "Unknown error"
         }
     }
 }

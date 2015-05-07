@@ -17,15 +17,13 @@ public enum SubredditsMineWhere {
     case Subscriber
     
     public var path:String {
-        get {
-            switch self{
-            case .Contributor:
-                return "/subreddits/mine/contributor"
-            case .Moderator:
-                return "/subreddits/mine/moderator"
-            case .Subscriber:
-                return "/subreddits/mine/subscriber"
-            }
+        switch self{
+        case .Contributor:
+            return "/subreddits/mine/contributor"
+        case .Moderator:
+            return "/subreddits/mine/moderator"
+        case .Subscriber:
+            return "/subreddits/mine/subscriber"
         }
     }
 }
@@ -40,32 +38,28 @@ public enum SubredditsWhere {
     case Gold
     
     public var path:String {
-        get {
-            switch self{
-            case .Popular:
-                return "/subreddits/popular"
-            case .New:
-                return "/subreddits/new"
-            case .Employee:
-                return "/subreddits/employee"
-            case .Gold:
-                return "/subreddits/gold"
-            }
+        switch self{
+        case .Popular:
+            return "/subreddits/popular"
+        case .New:
+            return "/subreddits/new"
+        case .Employee:
+            return "/subreddits/employee"
+        case .Gold:
+            return "/subreddits/gold"
         }
     }
     
     public var title:String {
-        get {
-            switch self{
-            case .Popular:
-                return "Popular"
-            case .New:
-                return "New"
-            case .Employee:
-                return "Employee"
-            case .Gold:
-                return "Gold"
-            }
+        switch self{
+        case .Popular:
+            return "Popular"
+        case .New:
+            return "New"
+        case .Employee:
+            return "Employee"
+        case .Gold:
+            return "Gold"
         }
     }
 }

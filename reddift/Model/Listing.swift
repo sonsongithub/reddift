@@ -20,23 +20,21 @@ public enum TimeSort {
     case All
     
     public var path:String {
-        get {
-            switch self{
-            case .Hour:
-                return "/hour"
-            case .Day:
-                return "/day"
-            case .Year:
-                return "/top"
-            case .Week:
-                return "/week"
-            case .Month:
-                return "/month"
-            case .Year:
-                return "/year"
-            case .All:
-                return "/all"
-            }
+        switch self{
+        case .Hour:
+            return "/hour"
+        case .Day:
+            return "/day"
+        case .Year:
+            return "/top"
+        case .Week:
+            return "/week"
+        case .Month:
+            return "/month"
+        case .Year:
+            return "/year"
+        case .All:
+            return "/all"
         }
     }
 }

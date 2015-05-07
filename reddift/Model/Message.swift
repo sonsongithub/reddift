@@ -17,28 +17,24 @@ public enum MessageWhere {
     case Sent
     
     public var  path:String {
-        get {
-            switch self{
-            case .Inbox:
-                return "/inbox"
-            case .Unread:
-                return "/unread"
-            case .Sent:
-                return "/sent"
-            }
+        switch self{
+        case .Inbox:
+            return "/inbox"
+        case .Unread:
+            return "/unread"
+        case .Sent:
+            return "/sent"
         }
     }
     
     public var  description:String {
-        get {
-            switch self{
-            case .Inbox:
-                return "inbox"
-            case .Unread:
-                return "unread"
-            case .Sent:
-                return "sent"
-            }
+        switch self{
+        case .Inbox:
+            return "inbox"
+        case .Unread:
+            return "unread"
+        case .Sent:
+            return "sent"
         }
     }
 }

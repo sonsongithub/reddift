@@ -28,22 +28,18 @@ class Config {
     Returns User-Agent for API
     */
     var userAgent:String {
-        get {
-            return "ios:" + bundleIdentifier + ":v" + version + "(by /u/" + developerName + ")"
-        }
+        return "ios:" + bundleIdentifier + ":v" + version + "(by /u/" + developerName + ")"
     }
     
     /**
     Returns scheme of redirect URI.
     */
     var redirectURIScheme:String {
-        get {
-            if let scheme = NSURL(string:redirectURI)?.scheme {
-                return scheme
-            }
-            else {
-                return ""
-            }
+        if let scheme = NSURL(string:redirectURI)?.scheme {
+            return scheme
+        }
+        else {
+            return ""
         }
     }
     
