@@ -4,9 +4,9 @@
 [submodule "reddiftSample/vendor/UZTextView"]
 	path = reddiftSample/vendor/UZTextView
 	url = https://github.com/sonsongithub/UZTextView.git
-[submodule "reddiftTests/vendor/Quick"]
-	path = reddiftTests/vendor/Quick
+[submodule "Carthage/Checkouts/Quick"]
+	path = Carthage/Checkouts/Quick
 	url = https://github.com/Quick/Quick.git
-[submodule "reddiftTests/vendor/Nimble"]
-	path = reddiftTests/vendor/Nimble
+[submodule "Carthage/Checkouts/Nimble"]
+	path = Carthage/Checkouts/Nimble
 	url = https://github.com/Quick/Nimble.git

@@ -42,9 +42,6 @@ class CAPTCHATest: SessionTestSpec {
                             XCTFail(result.error!.description)
                         case let .Success:
                             XCTAssert(result.value != nil, "Unexpected error.")
-                            if let iden = result.value {
-                                XCTAssert(iden is String, "Unexpected error.")
-                            }
                         }
                         documentOpenExpectation.fulfill()
                     })
