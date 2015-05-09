@@ -52,6 +52,15 @@ public enum UserContent {
 }
 
 /**
+The type of voting direction.
+*/
+public enum VoteDirection : Int {
+    case Up     =  1
+    case No     =  0
+    case Down   = -1
+}
+
+/**
 type alias for JSON object
 */
 public typealias JSON = AnyObject
@@ -380,8 +389,16 @@ public class Session {
         return handleRequest(request, completion:completion)
     }
 
-    public func setVote(direction:Int, thing:Thing, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        let parameter:[String:String] = ["dir":String(direction), "id":thing.name]
+    /**
+    Vote specified thing.
+    
+    :param: direction The type of voting direction as VoteDirection.
+    :param: thing Thing will be voted.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func setVote(direction:VoteDirection, thing:Thing, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        let parameter:[String:String] = ["dir":String(direction.rawValue), "id":thing.name]
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/vote", parameter:parameter, method:"POST", token:token)
         return handleAsJSONRequest(request, completion:completion)
     }
@@ -413,5 +430,43 @@ public class Session {
         return handleAsJSONRequest(request, completion:completion)
     }
     
+    /**
+    Submit a new comment or reply to a message, whose parent is the fullname of the thing being replied to.
+    Its value changes the kind of object created by this request:
     
+    - the fullname of a Link: a top-level comment in that Link's thread.
+    - the fullname of a Comment: a comment reply to that comment.
+    - the fullname of a Message: a message reply to that message.
+    
+    Response is JSON whose type is t1 Thing.
+    
+    :param: text The body of comment, should be the raw markdown body of the comment or message.
+    :param: parent Thing is commented or replied to.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func postComment(text:String, parent:Thing, completion:(Result<Comment>) -> Void) -> NSURLSessionDataTask? {
+        var parameter:[String:String] = ["thing_id":parent.name, "api_type":"json", "text":text]
+        var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/comment", parameter:parameter, method:"POST", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseResponseJSONToPostComment
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
+    /**
+    Delete a Link or Comment.
+    
+    :param: thing Thing object to be deleted.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func deleteCommentOrLink(thing:Thing, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var parameter:[String:String] = ["id":thing.name]
+        var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/del", parameter:parameter, method:"POST", token:token)
+        return handleAsJSONRequest(request, completion:completion)
+    }
 }

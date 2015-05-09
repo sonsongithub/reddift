@@ -147,5 +147,16 @@ class ParseResponseObjectTest: QuickSpec {
                 
             }
         }
+        
+        describe("Parse JSON that is a response to posting a comment") {
+            it("To t1 object as Comment") {
+                let json:AnyObject? = self.jsonFromFileName("api_comment_response.json")
+                expect(json != nil).to(equal(true))
+                if let json:AnyObject = json {
+                    let result = parseResponseJSONToPostComment(json)
+                }
+            }
+        }
+        
     }
 }

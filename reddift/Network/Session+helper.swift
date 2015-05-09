@@ -111,18 +111,9 @@ func decodePNGImage(data: NSData) -> Result<CAPTCHAImage> {
 
 /**
 Parse JSON contains "iden" for CAPTHA.
-
-{
-"json": {
-"data": {
-"iden": "<code>"
-},
-"errors": []
-}
-}
+{"json": {"data": {"iden": "<code>"},"errors": []}}
 
 :param: json JSON object, like above sample.
-
 :returns: Result object. When parsing is succeeded, object contains iden as String.
 */
 func parseCAPTCHAIdenJSON(json: JSON) -> Result<String> {
@@ -136,6 +127,39 @@ func parseCAPTCHAIdenJSON(json: JSON) -> Result<String> {
     return Result(error:ReddiftError.GetCAPTCHAIden.error)
 }
 
+/**
+Parse JSON for response to /api/comment.
+{"json": {"errors": [], "data": { "things": [] }}}
+
+:param: json JSON object, like above sample.
+:returns: Result object. When parsing is succeeded, object contains list which consists of Thing.
+*/
+func parseResponseJSONToPostComment(json: JSON) -> Result<Comment> {
+    if let j = json["json"] as? JSONDictionary {
+        if let data = j["data"] as? JSONDictionary {
+            if let things = data["things"] as? JSONArray {
+                if things.count == 1 {
+                    for thing in things {
+                        if let thing = thing as? [String:AnyObject] {
+                            let obj:AnyObject? = Parser.parseJSON(thing)
+                            if let comment = obj as? Comment {
+                                return Result(value: comment)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return Result(error:NSError.errorWithCode(10, "Could not parse response JSON to post a comment."))
+}
+
+/**
+Extract Listing object which includes Comments from JSON for articles.
+
+:param: json JSON object is obtained from reddit.com.
+:returns: List consists of Comment objects.
+*/
 func filterArticleResponse(json:JSON) -> Result<JSON> {
     if let array = json as? [AnyObject] {
         if array.count == 2 {

@@ -33,6 +33,7 @@ enum HttpStatus:Int {
     case BadRequest = 400
     case Unauthorized = 401
     case PaymentRequired = 402
+    case Forbidden = 403
     case MethodNotAllowed = 405
     case NotAcceptable = 406
     case ProxyAuthenticationRequired = 407
@@ -143,6 +144,8 @@ enum HttpStatus:Int {
             return "Unauthorized"
         case .PaymentRequired:
             return "Payment Required"
+        case .Forbidden:
+            return "Forbidden"
         case .MethodNotAllowed:
             return "Method Not Allowed"
         case .NotAcceptable:
@@ -240,7 +243,7 @@ enum HttpStatus:Int {
         case .NetworkConnectTimeoutError:
             return "Network connect timeout error"
         default:
-            return "Unknown"
+            return "HTTP Error - Unknown"
         }
     }
 }
