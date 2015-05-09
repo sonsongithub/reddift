@@ -1,20 +1,18 @@
 //
-//  UseSessionTestCase.swift
+//  SessionTestSpec.swift
 //  reddift
 //
-//  Created by sonson on 2015/05/07.
+//  Created by sonson on 2015/05/08.
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
 import Foundation
-import XCTest
+import Nimble
+import Quick
 
-class UseSessionTestCase: XCTestCase {
-    var session:Session! = nil
-    let intervalForTimeout:NSTimeInterval = 30
-
-    override func setUp() {
-        super.setUp()
+class SessionTestSpec: QuickSpec {
+    var session:Session? = nil
+    func createSession() {
         if let json = self.jsonFromFileName("test_config.json") as? [String:String] {
             if let username = json["username"],
                 let password = json["password"],
@@ -33,14 +31,10 @@ class UseSessionTestCase: XCTestCase {
                         }
                         documentOpenExpectation.fulfill()
                     }
-                    self.waitForExpectationsWithTimeout(self.intervalForTimeout, handler: nil)
-                    return
+                    self.waitForExpectationsWithTimeout(10, handler: nil)
             }
         }
-        XCTFail("Could not load test_config.json.")
     }
-    
-    override func tearDown() {
-        super.tearDown()
+    override func spec() {
     }
 }

@@ -7,72 +7,86 @@
 //
 
 import Foundation
-import XCTest
+import Nimble
+import Quick
+#if os(iOS)
+import UIKit
+#endif
 
-class CAPTCHATest: UseSessionTestCase {
-
-    override func setUp() {
-        super.setUp()
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-    }
-
-    func testNeedsCAPTCHA() {
-        let documentOpenExpectation = self.expectationWithDescription("Test : Check needs CAPTCHA")
-        session?.checkNeedsCAPTCHA({(result) -> Void in
-            switch result {
-            case let .Failure:
-                XCTFail(result.error!.description)
-            case let .Success:
-                XCTAssert(result.value != nil, "Unexpected error.")
-            }
-            documentOpenExpectation.fulfill()
-        })
-        self.waitForExpectationsWithTimeout(self.intervalForTimeout, handler: nil)
-    }
-    
-    func testGetIdenCAPTCHA() {
-        let documentOpenExpectation = self.expectationWithDescription("Test : Get Iden for CAPTCHA")
-        session?.getIdenForNewCAPTCHA({ (result) -> Void in
-            switch result {
-            case let .Failure:
-                XCTFail(result.error!.description)
-            case let .Success:
-                XCTAssert(result.value != nil, "Unexpected error.")
-            }
-            documentOpenExpectation.fulfill()
-        })
-        self.waitForExpectationsWithTimeout(self.intervalForTimeout, handler: nil)
-    }
-    
-    func testGetImageCAPTCHA() {
-        let documentOpenExpectation = self.expectationWithDescription("Test : Get CAPTCHA Image")
-        session?.getIdenForNewCAPTCHA({ (result) -> Void in
-            switch result {
-            case let .Failure:
-                XCTFail(result.error!.description)
-            case let .Success:
-                if let string = result.value {
-                    self.session?.getCAPTCHA(string, completion: { (result) -> Void in
+class CAPTCHATest: SessionTestSpec {
+    override func spec() {
+        beforeEach { () -> () in
+            self.createSession()
+        }
+        
+        describe("CAPTCHA") {
+            describe("Needs API response") {
+                it("is true or false as Bool") {
+                    var check:Bool? = nil
+                    self.session?.checkNeedsCAPTCHA({(result) -> Void in
                         switch result {
                         case let .Failure:
-                            XCTFail(result.error!.description)
+                            println(result.error!.description)
                         case let .Success:
-                            if let image:CAPTCHAImage = result.value {
-                                XCTAssert(image.size.width == 120, "CAPTCHA image does not have expected width.")
-                                XCTAssert(image.size.height == 50, "CAPTCHA image does not have expected height.")
-                            }
-                            else {
-                                XCTFail("Unexpected error")
-                            }
+                            check = result.value
                         }
-                        documentOpenExpectation.fulfill()
+                        
                     })
+                    expect(check).toEventuallyNot(equal(nil), timeout: 10, pollInterval: 1)
                 }
             }
-        })
-        self.waitForExpectationsWithTimeout(self.intervalForTimeout, handler: nil)
+            
+            describe("Iden for new CAPTCHA") {
+                it("is String") {
+                    var iden:String? = nil
+                    self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
+                        switch result {
+                        case let .Failure:
+                            println(result.error!.description)
+                        case let .Success:
+                            iden = result.value
+                        }
+                    })
+                    expect(iden).toEventuallyNot(equal(nil), timeout: 10, pollInterval: 1)
+                }
+            }
+            
+            describe("The size of new image generated using Iden") {
+                it("is 120x50") {
+                #if os(iOS)
+                    var size:CGSize? = nil
+                #elseif os(OSX)
+                    var size:NSSize? = nil
+                #endif
+                    self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
+                        switch result {
+                        case let .Failure:
+                            println(result.error!.description)
+                        case let .Success:
+                            if let string = result.value {
+                                self.session?.getCAPTCHA(string, completion: { (result) -> Void in
+                                    switch result {
+                                    case let .Failure:
+                                        println(result.error!.description)
+                                    case let .Success:
+                                        if let image:CAPTCHAImage = result.value {
+                                            size = image.size
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    })
+                    expect(size).toEventuallyNot(equal(nil), timeout: 10, pollInterval: 1)
+                    if let size = size {
+                    #if os(iOS)
+                        expect(size).toEventually(equal(CGSize(width: 120, height: 50)), timeout: 10, pollInterval: 1)
+                    #elseif os(OSX)
+                        expect(size).toEventually(equal(NSSize(width: 120, height: 50)), timeout: 10, pollInterval: 1)
+                    #endif
+                    }
+                }
+            }
+        }
     }
 }
