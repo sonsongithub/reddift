@@ -20,12 +20,14 @@ public class Paginator : Thing {
         self.after = ""
         self.before = ""
         self.modhash = ""
+        super.init()
     }
 	
     public init(after:String, before:String, modhash:String) {
 		self.after = after
 		self.before = before
         self.modhash = modhash
+        super.init()
 	}
     
     /**

@@ -21,8 +21,8 @@ class CommentTest: SessionTestSpec {
         }
         
         afterEach { () -> () in
-            let documentOpenExpectation = self.expectationWithDescription("")
             for thing in self.postedThings {
+                let documentOpenExpectation = self.expectationWithDescription("")
                 self.session?.deleteCommentOrLink(thing, completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
@@ -32,8 +32,8 @@ class CommentTest: SessionTestSpec {
                     }
                     documentOpenExpectation.fulfill()
                 })
+                self.waitForExpectationsWithTimeout(10, handler: nil)
             }
-            self.waitForExpectationsWithTimeout(10, handler: nil)
         }
     
         describe("Try to post a comment to the specified link") {

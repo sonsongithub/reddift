@@ -34,6 +34,7 @@ enum HttpStatus:Int {
     case Unauthorized = 401
     case PaymentRequired = 402
     case Forbidden = 403
+    case NotFound = 404
     case MethodNotAllowed = 405
     case NotAcceptable = 406
     case ProxyAuthenticationRequired = 407
@@ -146,6 +147,8 @@ enum HttpStatus:Int {
             return "Payment Required"
         case .Forbidden:
             return "Forbidden"
+        case .NotFound:
+            return "NotFound"
         case .MethodNotAllowed:
             return "Method Not Allowed"
         case .NotAcceptable:

@@ -469,4 +469,19 @@ public class Session {
         var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/del", parameter:parameter, method:"POST", token:token)
         return handleAsJSONRequest(request, completion:completion)
     }
+    
+    /**
+    Subscribe to or unsubscribe from a subreddit. The user must have access to the subreddit to be able to subscribe to it.
+    
+    :param: subreddit Subreddit obect to be subscribed/unsubscribed
+    :param: subscribe If you want to subscribe it, set true.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func setSubscribeSubreddit(subreddit:Subreddit, subscribe:Bool, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var parameter:[String:String] = ["sr":subreddit.name]
+        parameter["action"] = (subscribe) ? "sub" : "unsub"
+        var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/subscribe", parameter:parameter, method:"POST", token:token)
+        return handleAsJSONRequest(request, completion:completion)
+    }
 }
