@@ -481,9 +481,9 @@
 			children = (
 				1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */,
 				1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */,
+				140CC3FA1AFCB20A00E9CBB5 /* ExtendCommentsTest.swift */,
 				141340FF1AFBD4AB00D16B7C /* SessionTestSpec.swift */,
 				149CE2611AFAD4DF004B61C1 /* CAPTCHATest.swift */,
-				140CC3FA1AFCB20A00E9CBB5 /* ExtendCommentsTest.swift */,
 				14BEDDFF1AE454C4004F7860 /* data */,
 				147EADB91AD78568007FA2F4 /* Supporting Files */,
 			);
