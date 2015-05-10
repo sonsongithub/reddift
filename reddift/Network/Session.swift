@@ -403,6 +403,15 @@ public class Session {
         return handleAsJSONRequest(request, completion:completion)
     }
     
+    /**
+    Save a specified content.
+    
+    :param: save If you want to save the content, set to "true". On the other, if you want to remove the content from saved content, set to "false".
+    :param: thing Thing will be saved/unsaved.
+    :param: category Name of category into which you want to saved the content
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
     public func setSave(save:Bool, thing:Thing, category:String?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = ["id":thing.name]
         if let category = category {
@@ -418,6 +427,14 @@ public class Session {
         return handleAsJSONRequest(request, completion:completion)
     }
     
+    /**
+    Set hide/show a specified content.
+    
+    :param: save If you want to hide the content, set to "true". On the other, if you want to show the content, set to "false".
+    :param: thing Thing will be hide/show.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
     public func setHide(hide:Bool, thing:Thing, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = ["id":thing.name]
         var request:NSMutableURLRequest! = nil
