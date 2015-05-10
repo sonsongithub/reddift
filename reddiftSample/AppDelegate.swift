@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        println("a")
         return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion:{(result) -> Void in
             switch result {
             case let .Failure:

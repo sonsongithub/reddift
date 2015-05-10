@@ -501,4 +501,63 @@ public class Session {
         var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/subscribe", parameter:parameter, method:"POST", token:token)
         return handleAsJSONRequest(request, completion:completion)
     }
+    
+    /**
+    Submit a link to a subreddit.
+    
+    :param: subreddit The subreddit to which is submitted a link.
+    :param: title The title of the submission. up to 300 characters long.
+    :param: URL A valid URL
+    :param: captcha The user's response to the CAPTCHA challenge
+    :param: captchaIden The identifier of the CAPTCHA challenge
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func submitLink(subreddit:Subreddit, title:String, URL:String, captcha:String, captchaIden:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var parameter:[String:String] = [:]
+        
+        parameter["api_type"] = "json"
+        parameter["captcha"] = captcha
+        parameter["iden"] = captchaIden
+        parameter["kind"] = "link"
+        parameter["resubmit"] = "true"
+        parameter["sendreplies"] = "true"
+        
+        parameter["sr"] = subreddit.name
+        parameter["title"] = title
+        parameter["url"] = URL
+        
+        var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
+        return handleAsJSONRequest(request, completion:completion)
+    }
+    
+    /**
+    Submit a text to a subreddit.
+    
+    :param: subreddit The subreddit to which is submitted a link.
+    :param: title The title of the submission. up to 300 characters long.
+    :param: text Raw markdown text
+    :param: captcha The user's response to the CAPTCHA challenge
+    :param: captchaIden The identifier of the CAPTCHA challenge
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func submitText(subreddit:Subreddit, title:String, text:String, captcha:String, captchaIden:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+
+        var parameter:[String:String] = [:]
+        
+        parameter["api_type"] = "json"
+        parameter["captcha"] = captcha
+        parameter["iden"] = captchaIden
+        parameter["kind"] = "self"
+        parameter["resubmit"] = "true"
+        parameter["sendreplies"] = "true"
+        
+        parameter["sr"] = subreddit.name
+        parameter["text"] = ""
+        parameter["title"] = title
+        
+        var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
+        return handleAsJSONRequest(request, completion:completion)
+    }
 }

@@ -12,7 +12,7 @@ import reddift
 class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
     var searchController:UISearchController? = nil
     var searchResultViewController:SearchResultViewController? = nil
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 		
@@ -48,7 +48,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
 		segmentedControl = UISegmentedControl(items:sortTitles)
 		segmentedControl?.addTarget(self, action: "segmentChanged:", forControlEvents: UIControlEvents.ValueChanged)
 		segmentedControl?.frame = CGRect(x: 0, y: 0, width: 300, height: 28)
-		segmentedControl?.selectedSegmentIndex = 0
+		segmentedControl?.selectedSegmentIndex = 2
 		
 		let space = UIBarButtonItem(barButtonSystemItem:.FlexibleSpace, target: nil, action: nil)
 		let item = UIBarButtonItem(customView:self.segmentedControl!)
