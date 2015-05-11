@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import reddift
 
 class SubmitViewController: UIViewController {
+    var session:Session? = nil
+    var subreddit:Subreddit? = nil
     var textView:UITextView? = nil
     var bottom:NSLayoutConstraint? = nil
     
@@ -22,7 +25,11 @@ class SubmitViewController: UIViewController {
         let textView = UITextView(frame: CGRectZero)
         self.view.addSubview(textView)
         
-        textView.text = "aaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoi"
+        textView.text = "aaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoioiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoi"
+        textView.bounces = true
+        textView.alwaysBounceVertical = true
+        
+        textView.backgroundColor = UIColor.redColor()
         
         textView.setTranslatesAutoresizingMaskIntoConstraints(false)
 
@@ -33,19 +40,33 @@ class SubmitViewController: UIViewController {
         self.view.addConstraint(bottom)
         self.bottom = bottom
         
-        self.view.setNeedsLayout()
-        
         self.textView = textView
         
         var temp = CAPTCHAView.loadFromIdiomNib()
         if let captchaView = temp {
             self.textView?.addSubview(captchaView)
-            captchaView.frame = CGRectMake(0, -50, 320, 50)
+            captchaView.session = session
+            captchaView.startLoading()
+//            captchaView.setTranslatesAutoresizingMaskIntoConstraints(false)
+//            textView.addConstraint(NSLayoutConstraint(item: captchaView, attribute: .Top, relatedBy: .Equal, toItem: textView, attribute: .Top, multiplier: 1, constant: -50))
+//            textView.addConstraint(NSLayoutConstraint(item: captchaView, attribute: .Leading, relatedBy: .Equal, toItem: textView, attribute: .Leading, multiplier: 1, constant: 0))
+//            textView.addConstraint(NSLayoutConstraint(item: captchaView, attribute: .Trailing, relatedBy: .Equal, toItem: textView, attribute: .Trailing, multiplier: 1, constant: 0))
+//            captchaView.addConstraint(NSLayoutConstraint(item: captchaView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 50))
+            
+            captchaView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 50)
         }
+        textView.setNeedsLayout()
+        self.view.setNeedsLayout()
         
         self.textView?.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillChangeFrame:", name: UIKeyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
     }
     
     func keyboardWillChangeFrame(notification:NSNotification) {

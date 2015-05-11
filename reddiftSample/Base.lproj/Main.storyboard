@@ -634,7 +634,7 @@
                     <navigationItem key="navigationItem" title="Title" id="qNJ-lj-l6R">
                         <barButtonItem key="rightBarButtonItem" title="submit" id="sov-Nb-UYP">
                             <connections>
-                                <segue destination="ZzQ-E0-yGR" kind="presentation" id="opF-wZ-ng9"/>
+                                <segue destination="ZzQ-E0-yGR" kind="presentation" identifier="ToSubmitViewController" id="opF-wZ-ng9"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

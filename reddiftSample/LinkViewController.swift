@@ -115,6 +115,14 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
                 }
             }
         }
+        if segue.identifier == "ToSubmitViewController" {
+            if let nav = segue.destinationViewController as? UINavigationController {
+                if let con = nav.visibleViewController as? SubmitViewController {
+                    con.session = session
+                    con.subreddit = subreddit
+                }
+            }
+        }
     }
 }
 

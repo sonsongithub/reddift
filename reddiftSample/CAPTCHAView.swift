@@ -7,10 +7,26 @@
 //
 
 import UIKit
+import reddift
 
 class CAPTCHAView : UIView {
-    @IBOutlet var captchaImageView:UIImageView? = nil
-    @IBOutlet var captchaTextField:UITextField? = nil
+    var session:Session? = nil
+    private var currentIden = ""
+    
+    var iden:String {
+        return currentIden
+    }
+    
+    var response:String {
+        if let text = captchaTextField?.text {
+            return text
+        }
+        return ""
+    }
+    
+    @IBOutlet private var captchaImageView:UIImageView? = nil
+    @IBOutlet private var captchaTextField:UITextField? = nil
+    @IBOutlet private var activity:UIActivityIndicatorView? = nil
     
     class func loadFromIdiomNib() -> CAPTCHAView? {
         let nib = UINib(nibName: "CAPTCHAView", bundle: nil)
@@ -18,5 +34,42 @@ class CAPTCHAView : UIView {
             return view
         }
         return nil
+    }
+    
+    @IBAction func reload(sender:AnyObject) {
+        startLoading()
+    }
+    
+    func startLoading() {
+        captchaImageView?.image = nil
+        activity?.startAnimating()
+        activity?.hidden = false
+        self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
+            switch result {
+            case let .Failure:
+                println(result.error!.description)
+            case let .Success:
+                if let string = result.value {
+                    self.session?.getCAPTCHA(string, completion: { (result) -> Void in
+                        switch result {
+                        case let .Failure:
+                            println(result.error!.description)
+                        case let .Success:
+                            if let image:CAPTCHAImage = result.value {
+                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                    if let imageView = self.captchaImageView {
+                                        imageView.image = image
+                                    }
+                                    if let activity = self.activity {
+                                        activity.stopAnimating()
+                                        activity.hidden = true
+                                    }
+                                })
+                            }
+                        }
+                    })
+                }
+            }
+        })
     }
 }
