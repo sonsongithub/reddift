@@ -50,6 +50,7 @@ class CAPTCHAView : UIView {
                 println(result.error!.description)
             case let .Success:
                 if let string = result.value {
+                    println(string)
                     self.session?.getCAPTCHA(string, completion: { (result) -> Void in
                         switch result {
                         case let .Failure:
@@ -57,6 +58,7 @@ class CAPTCHAView : UIView {
                         case let .Success:
                             if let image:CAPTCHAImage = result.value {
                                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                    self.currentIden = string
                                     if let imageView = self.captchaImageView {
                                         imageView.image = image
                                     }

@@ -662,7 +662,7 @@
             </objects>
             <point key="canvasLocation" x="4066" y="1829"/>
         </scene>
-        <!--Submit View Controller-->
+        <!--DO NOT SUBMIT WITHOUT READING SOURCE-->
         <scene sceneID="LAi-cZ-U73">
             <objects>
                 <viewController id="ZZW-Nh-PYd" customClass="SubmitViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
@@ -675,13 +675,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="hdo-DM-mLi">
+                    <navigationItem key="navigationItem" title="DO NOT SUBMIT WITHOUT READING SOURCE" id="hdo-DM-mLi">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="cpd-x4-eou">
                             <connections>
                                 <action selector="close:" destination="ZZW-Nh-PYd" id="2p9-zT-cr2"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Send" id="7Aa-63-Rhy"/>
+                        <barButtonItem key="rightBarButtonItem" title="Send" id="7Aa-63-Rhy">
+                            <connections>
+                                <action selector="send:" destination="ZZW-Nh-PYd" id="c5A-sW-CmD"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u5m-Ux-wjI" userLabel="First Responder" sceneMemberID="firstResponder"/>

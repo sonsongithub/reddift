@@ -14,9 +14,23 @@ class SubmitViewController: UIViewController {
     var subreddit:Subreddit? = nil
     var textView:UITextView? = nil
     var bottom:NSLayoutConstraint? = nil
+    var captchaView:CAPTCHAView? = nil
     
     @IBAction func close(sender:AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBAction func send(sender:AnyObject) {
+        if let subreddit = subreddit, let captcha = captchaView?.response, let iden = captchaView?.iden {
+            session?.submitText(subreddit, title: "This is test", text: "テスト,test", captcha: captcha, captchaIden: iden, completion: { (result) -> Void in
+                switch result {
+                case let .Failure:
+                    println(result.error!.description)
+                case let .Success:
+                    println(result.value!)
+                }
+            })
+        }
     }
     
     override func viewDidLoad() {
@@ -25,11 +39,9 @@ class SubmitViewController: UIViewController {
         let textView = UITextView(frame: CGRectZero)
         self.view.addSubview(textView)
         
-        textView.text = "aaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoioiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoiaaaafdajf\n;oiweaj\noijfiojfoiajofijafoi"
+        textView.text = "DO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\n"
         textView.bounces = true
         textView.alwaysBounceVertical = true
-        
-        textView.backgroundColor = UIColor.redColor()
         
         textView.setTranslatesAutoresizingMaskIntoConstraints(false)
 
@@ -47,13 +59,8 @@ class SubmitViewController: UIViewController {
             self.textView?.addSubview(captchaView)
             captchaView.session = session
             captchaView.startLoading()
-//            captchaView.setTranslatesAutoresizingMaskIntoConstraints(false)
-//            textView.addConstraint(NSLayoutConstraint(item: captchaView, attribute: .Top, relatedBy: .Equal, toItem: textView, attribute: .Top, multiplier: 1, constant: -50))
-//            textView.addConstraint(NSLayoutConstraint(item: captchaView, attribute: .Leading, relatedBy: .Equal, toItem: textView, attribute: .Leading, multiplier: 1, constant: 0))
-//            textView.addConstraint(NSLayoutConstraint(item: captchaView, attribute: .Trailing, relatedBy: .Equal, toItem: textView, attribute: .Trailing, multiplier: 1, constant: 0))
-//            captchaView.addConstraint(NSLayoutConstraint(item: captchaView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 50))
-            
-            captchaView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 50)
+            captchaView.frame = CGRect(x: 0, y:-50, width: self.view.frame.size.width, height: 50)
+            self.captchaView = captchaView
         }
         textView.setNeedsLayout()
         self.view.setNeedsLayout()
@@ -63,10 +70,8 @@ class SubmitViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillChangeFrame:", name: UIKeyboardWillChangeFrameNotification, object: nil)
     }
     
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
     }
     
     func keyboardWillChangeFrame(notification:NSNotification) {
