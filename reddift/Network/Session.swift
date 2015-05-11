@@ -539,6 +539,7 @@ public class Session {
     
     /**
     Submit a text to a subreddit.
+    Response JSON is,  {"json":{"data":{"id":"35ljt6","name":"t3_35ljt6","url":"https://www.reddit.com/r/sandboxtest/comments/35ljt6/this_is_test/"},"errors":[]}}
     
     :param: subreddit The subreddit to which is submitted a link.
     :param: title The title of the submission. up to 300 characters long.
@@ -572,4 +573,41 @@ public class Session {
         }
         return nil
     }
+    
+    /**
+    Compose new message to specified user.
+    
+    :param: to Account object of user to who you want to send a message.
+    :param: subject A string no longer than 100 characters
+    :param: text Raw markdown text
+    :param: fromSubreddit Subreddit name?
+    :param: captcha The user's response to the CAPTCHA challenge
+    :param: captchaIden The identifier of the CAPTCHA challenge
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func composeMessage(to:Account, subject:String, text:String, fromSubreddit:Subreddit, captcha:String, captchaIden:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        
+        var customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
+        var escapedSubject = subject.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
+        var escapedText = text.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
+        
+        if let escapedSubject = escapedSubject, let escapedText = escapedText {
+            var parameter:[String:String] = [:]
+            
+            parameter["api_type"] = "json"
+            parameter["captcha"] = captcha
+            parameter["iden"] = captchaIden
+            
+            parameter["from_sr"] = fromSubreddit.displayName
+            parameter["text"] = escapedText
+            parameter["subject"] = escapedSubject
+            parameter["to"] = to.id
+            
+            var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
+            return handleAsJSONRequest(request, completion:completion)
+        }
+        return nil
+    }
+
 }
