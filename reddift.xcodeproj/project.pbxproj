@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		1403C91F1AFE39BE0094E291 /* SubscribingSubredditTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1403C91E1AFE39BE0094E291 /* SubscribingSubredditTest.swift */; };
 		1403C9201AFE39BE0094E291 /* SubscribingSubredditTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1403C91E1AFE39BE0094E291 /* SubscribingSubredditTest.swift */; };
+		1403C9241AFF453F0094E291 /* SubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1403C9231AFF453F0094E291 /* SubmitViewController.swift */; };
+		1403C9261B0018FB0094E291 /* CAPTCHAView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1403C9251B0018FB0094E291 /* CAPTCHAView.xib */; };
+		1403C9281B001DA70094E291 /* CAPTCHAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1403C9271B001DA70094E291 /* CAPTCHAView.swift */; };
 		140CC3FB1AFCB20A00E9CBB5 /* ExtendCommentsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140CC3FA1AFCB20A00E9CBB5 /* ExtendCommentsTest.swift */; };
 		140CC3FC1AFCB20A00E9CBB5 /* ExtendCommentsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140CC3FA1AFCB20A00E9CBB5 /* ExtendCommentsTest.swift */; };
 		141341001AFBD4AB00D16B7C /* SessionTestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141340FF1AFBD4AB00D16B7C /* SessionTestSpec.swift */; };
@@ -36,7 +39,6 @@
 		14B5EBB61AF34D580065BC5E /* reddift.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B5EBB51AF34D580065BC5E /* reddift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14B5EBBC1AF34D590065BC5E /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; };
 		14B5EBD31AF34E920065BC5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EBD21AF34E920065BC5E /* AppDelegate.swift */; };
-		14B5EBD51AF34E920065BC5E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EBD41AF34E920065BC5E /* ViewController.swift */; };
 		14B5EBD81AF34E920065BC5E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14B5EBD61AF34E920065BC5E /* Main.storyboard */; };
 		14B5EBDA1AF34E920065BC5E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14B5EBD91AF34E920065BC5E /* Images.xcassets */; };
 		14B5EBDD1AF34E920065BC5E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14B5EBDB1AF34E920065BC5E /* LaunchScreen.xib */; };
@@ -262,6 +264,9 @@
 
 /* Begin PBXFileReference section */
 		1403C91E1AFE39BE0094E291 /* SubscribingSubredditTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscribingSubredditTest.swift; sourceTree = "<group>"; };
+		1403C9231AFF453F0094E291 /* SubmitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitViewController.swift; sourceTree = "<group>"; };
+		1403C9251B0018FB0094E291 /* CAPTCHAView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CAPTCHAView.xib; sourceTree = "<group>"; };
+		1403C9271B001DA70094E291 /* CAPTCHAView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAPTCHAView.swift; sourceTree = "<group>"; };
 		140CC3FA1AFCB20A00E9CBB5 /* ExtendCommentsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendCommentsTest.swift; sourceTree = "<group>"; };
 		141340FF1AFBD4AB00D16B7C /* SessionTestSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionTestSpec.swift; sourceTree = "<group>"; };
 		1420ADCB1AEDD28C00BB21C3 /* helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helper.swift; sourceTree = "<group>"; };
@@ -312,7 +317,6 @@
 		14B5EBCE1AF34E920065BC5E /* reddiftSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = reddiftSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14B5EBD11AF34E920065BC5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14B5EBD21AF34E920065BC5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		14B5EBD41AF34E920065BC5E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		14B5EBD71AF34E920065BC5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		14B5EBD91AF34E920065BC5E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		14B5EBDC1AF34E920065BC5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -532,10 +536,12 @@
 				143427C31AF745E0005D0E31 /* BaseSubredditsViewController.swift */,
 				143427C11AF74597005D0E31 /* SubredditsViewController.swift */,
 				143427C51AF74E91005D0E31 /* SearchSubredditsViewController.swift */,
+				1403C9231AFF453F0094E291 /* SubmitViewController.swift */,
 				14B5EBF91AF35B620065BC5E /* UZTextViewCell.swift */,
+				1403C9271B001DA70094E291 /* CAPTCHAView.swift */,
 				14B5EBFA1AF35B620065BC5E /* UZTextViewCell.xib */,
+				1403C9251B0018FB0094E291 /* CAPTCHAView.xib */,
 				14B5EBFB1AF35B620065BC5E /* UZTextViewWithMoreButtonCell.xib */,
-				14B5EBD41AF34E920065BC5E /* ViewController.swift */,
 				14B5EC5D1AF410780065BC5E /* vendor */,
 				14B5EC531AF410560065BC5E /* Resources */,
 				14B5EBD01AF34E920065BC5E /* Supporting Files */,
@@ -883,6 +889,7 @@
 				14B5EBD81AF34E920065BC5E /* Main.storyboard in Resources */,
 				14B5EBDD1AF34E920065BC5E /* LaunchScreen.xib in Resources */,
 				14B5EC061AF35B620065BC5E /* UZTextViewWithMoreButtonCell.xib in Resources */,
+				1403C9261B0018FB0094E291 /* CAPTCHAView.xib in Resources */,
 				14B5EC051AF35B620065BC5E /* UZTextViewCell.xib in Resources */,
 				14B5EC361AF35C220065BC5E /* reddift_config.json in Resources */,
 				14B5EBDA1AF34E920065BC5E /* Images.xcassets in Resources */,
@@ -1017,7 +1024,6 @@
 				14B5EC031AF35B620065BC5E /* UserViewController.swift in Sources */,
 				14B5EBFD1AF35B620065BC5E /* CommentViewController.swift in Sources */,
 				14B5EC041AF35B620065BC5E /* UZTextViewCell.swift in Sources */,
-				14B5EBD51AF34E920065BC5E /* ViewController.swift in Sources */,
 				14B5EC5B1AF410740065BC5E /* UZLoupeView.m in Sources */,
 				14B5EBFE1AF35B620065BC5E /* LinkViewController.swift in Sources */,
 				143427C21AF74597005D0E31 /* SubredditsViewController.swift in Sources */,
@@ -1027,9 +1033,11 @@
 				14B5EC5C1AF410740065BC5E /* UZTextView.m in Sources */,
 				143427C41AF745E0005D0E31 /* BaseSubredditsViewController.swift in Sources */,
 				143427C61AF74E91005D0E31 /* SearchSubredditsViewController.swift in Sources */,
+				1403C9281B001DA70094E291 /* CAPTCHAView.swift in Sources */,
 				14B5EC011AF35B620065BC5E /* SubredditsListViewController.swift in Sources */,
 				14B5EC5A1AF410740065BC5E /* UZCursorView.m in Sources */,
 				14B5EBFF1AF35B620065BC5E /* MessageViewController.swift in Sources */,
+				1403C9241AFF453F0094E291 /* SubmitViewController.swift in Sources */,
 				14B5EBFC1AF35B620065BC5E /* AccountViewController.swift in Sources */,
 				143427BE1AF57752005D0E31 /* SearchResultViewController.swift in Sources */,
 				14B5EC331AF35C170065BC5E /* CellContent.swift in Sources */,

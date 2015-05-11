@@ -618,7 +618,7 @@
             </objects>
             <point key="canvasLocation" x="2541" y="2567"/>
         </scene>
-        <!--Link View Controller-->
+        <!--Title-->
         <scene sceneID="FNb-7H-l3U">
             <objects>
                 <tableViewController id="jER-6q-TYj" customClass="LinkViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
@@ -631,6 +631,13 @@
                             <outlet property="delegate" destination="jER-6q-TYj" id="Cmf-j9-1Yt"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Title" id="qNJ-lj-l6R">
+                        <barButtonItem key="rightBarButtonItem" title="submit" id="sov-Nb-UYP">
+                            <connections>
+                                <segue destination="ZzQ-E0-yGR" kind="presentation" identifier="ToSubmitViewController" id="opF-wZ-ng9"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="My8-W6-Umf" kind="show" identifier="ToCommentViewController" id="0sL-Ji-lAc"/>
                     </connections>
@@ -638,6 +645,52 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AM0-zJ-aTx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3351" y="1829"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="1cu-UQ-fsz">
+            <objects>
+                <navigationController id="ZzQ-E0-yGR" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qRR-Oe-xIJ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="ZZW-Nh-PYd" kind="relationship" relationship="rootViewController" id="DBr-CL-Dbt"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2ec-RT-hKe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4066" y="1829"/>
+        </scene>
+        <!--DO NOT SUBMIT WITHOUT READING SOURCE-->
+        <scene sceneID="LAi-cZ-U73">
+            <objects>
+                <viewController id="ZZW-Nh-PYd" customClass="SubmitViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xxP-GI-cFa"/>
+                        <viewControllerLayoutGuide type="bottom" id="2zr-yh-Qpi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="XIa-SR-aWS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="DO NOT SUBMIT WITHOUT READING SOURCE" id="hdo-DM-mLi">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="cpd-x4-eou">
+                            <connections>
+                                <action selector="close:" destination="ZZW-Nh-PYd" id="2p9-zT-cr2"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Send" id="7Aa-63-Rhy">
+                            <connections>
+                                <action selector="send:" destination="ZZW-Nh-PYd" id="c5A-sW-CmD"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="u5m-Ux-wjI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4764" y="1829"/>
         </scene>
         <!--Subreddits View Controller-->
         <scene sceneID="tN3-7n-Qqz">
@@ -696,6 +749,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="a04-xl-1VS"/>
-        <segue reference="DcK-hO-wyV"/>
+        <segue reference="0sL-Ji-lAc"/>
     </inferredMetricsTieBreakers>
 </document>

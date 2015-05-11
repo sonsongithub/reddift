@@ -32,7 +32,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         }
     }
     
-    func vote(direction:Int) {
+    func vote(direction:VoteDirection) {
         if let link = self.link {
             session?.setVote(direction, thing: link, completion: { (result) -> Void in
                 switch result {
@@ -72,15 +72,15 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     }
     
     func downVote(sender:AnyObject?) {
-        vote(-1)
+        vote(.Down)
     }
     
     func upVote(sender:AnyObject?) {
-        vote(1)
+        vote(.Up)
     }
     
     func cancelVote(sender:AnyObject?) {
-        vote(0)
+        vote(.No)
     }
     
     func doSave(sender:AnyObject?) {
