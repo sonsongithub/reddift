@@ -9,37 +9,6 @@
 import Foundation
 
 /**
-The type of a message box.
-*/
-public enum MessageWhere {
-    case Inbox
-    case Unread
-    case Sent
-    
-    public var  path:String {
-        switch self{
-        case .Inbox:
-            return "/inbox"
-        case .Unread:
-            return "/unread"
-        case .Sent:
-            return "/sent"
-        }
-    }
-    
-    public var  description:String {
-        switch self{
-        case .Inbox:
-            return "inbox"
-        case .Unread:
-            return "unread"
-        case .Sent:
-            return "sent"
-        }
-    }
-}
-
-/**
 Message object.
 */
 public class Message : Thing {

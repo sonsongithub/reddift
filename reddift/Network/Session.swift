@@ -17,50 +17,6 @@ import Foundation
 #endif
 
 /**
-The type of users' contents for "/user/username/where" method.
-*/
-public enum UserContent {
-    case Overview
-    case Submitted
-    case Comments
-    case Liked
-    case Disliked
-    case Hidden
-    case Saved
-    case Gilded
-    
-    var path:String {
-        switch self{
-        case .Overview:
-            return "/overview"
-        case .Submitted:
-            return "/submitted"
-        case .Comments:
-            return "/comments"
-        case .Liked:
-            return "/liked"
-        case .Disliked:
-            return "/disliked"
-        case .Hidden:
-            return "/hidden"
-        case .Saved:
-            return "/saved"
-        case .Gilded:
-            return "/glided"
-        }
-    }
-}
-
-/**
-The type of voting direction.
-*/
-public enum VoteDirection : Int {
-    case Up     =  1
-    case No     =  0
-    case Down   = -1
-}
-
-/**
 type alias for JSON object
 */
 public typealias JSON = AnyObject
@@ -170,21 +126,47 @@ public class Session {
         task.resume()
         return task
     }
-    
-    public func getSubscribingSubreddit(paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:SubredditsMineWhere.Subscriber.path, parameter:paginator?.parameters(), method:"GET", token:token)
+	
+	/**
+	Get subreddits the user has a relationship with. The where parameter chooses which subreddits are returned as follows:
+	
+	- subscriber - subreddits the user is subscribed to
+	- contributor - subreddits the user is an approved submitter in
+	- moderator - subreddits the user is a moderator of
+	
+	:param: mine The type of relationship with the user as SubredditsMineWhere.
+	:param: paginator Paginator object for paging contents.
+	:param: completion The completion handler to call when the load request is complete.
+	:returns: Data task which requests search to reddit.com.
+	*/
+	public func getUserRelatedSubreddit(mine:SubredditsMineWhere, paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:mine.path, parameter:paginator?.parameters(), method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
-    
-    public func getList(paginator:Paginator?, sort:LinkSort, subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        if paginator == nil {
-            return nil
-        }
-        var path = sort.path
+	
+	/**
+	Get Links from all subreddits or user specified subreddit.
+	
+	:param: paginator Paginator object for paging contents.
+	:param: sort The type of sorting a list.
+	:param: TimeFilterWithin The type of filtering contents.
+	:param: subreddit Subreddit from which Links will be gotten.
+	:param: completion The completion handler to call when the load request is complete.
+	:returns: Data task which requests search to reddit.com.
+	*/
+	public func getList(paginator:Paginator, sort:LinkSortBy, timeFilterWithin:TimeFilterWithin, subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+		var parameter = ["t":timeFilterWithin.param];
+		parameter["count"] = "0"
+		parameter["limit"] = "25"
+		parameter["show"] = "all"
+		// parameter["sr_detail"] = "true"
+		parameter.update(paginator.parameters())
+
+		var path = sort.path
         if let subreddit = subreddit {
             path = "/r/\(subreddit.displayName)\(path)"
         }
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:paginator?.parameters(), method:"GET", token:token)
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
@@ -193,27 +175,135 @@ public class Session {
         task.resume()
         return task
     }
-    
-    public func getUser(username:String, content:UserContent, paginator:Paginator?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/user/" + username + content.path, method:"GET", token:token)
+	
+	/**
+	Get hot Links from all subreddits or user specified subreddit.
+	
+	:param: paginator Paginator object for paging contents.
+	:param: subreddit Subreddit from which Links will be gotten.
+	:param: completion The completion handler to call when the load request is complete.
+	:returns: Data task which requests search to reddit.com.
+	*/
+	public func getHotList(paginator:Paginator, subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+		return getNewOrHotList(paginator, subreddit: subreddit, type: "hot", completion: completion)
+	}
+	
+	/**
+	Get new Links from all subreddits or user specified subreddit.
+	
+	:param: paginator Paginator object for paging contents.
+	:param: subreddit Subreddit from which Links will be gotten.
+	:param: completion The completion handler to call when the load request is complete.
+	:returns: Data task which requests search to reddit.com.
+	*/
+	public func getNewList(paginator:Paginator, subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+		return getNewOrHotList(paginator, subreddit: subreddit, type: "new", completion: completion)
+	}
+	
+	/**
+	Get hot or new Links from all subreddits or user specified subreddit.
+	
+	:param: paginator Paginator object for paging contents.
+	:param: subreddit Subreddit from which Links will be gotten.
+	:param: completion The completion handler to call when the load request is complete.
+	:returns: Data task which requests search to reddit.com.
+	*/
+	public func getNewOrHotList(paginator:Paginator, subreddit:Subreddit?, type:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+		var parameter = ["count":"0"]
+		parameter["limit"] = "25"
+		parameter["show"] = "all"
+		// parameter["sr_detail"] = "true"
+		parameter.update(paginator.parameters())
+		
+		var path = "/" + type
+		if let subreddit = subreddit {
+			path = "/r/\(subreddit.displayName)/" + type
+		}
+		var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
+		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+			let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
+			let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
+			completion(result)
+		})
+		task.resume()
+		return task
+	}
+	
+	/**
+	The Serendipity content.
+	But this endpoints return invalid redirect URL...
+	I don't know how this URL should be handled....
+	
+	:param: subreddit Specified subreddit to which you would like to get random link
+	:returns: Data task which requests search to reddit.com.
+	*/
+	public func getRandom(subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+		if let subreddit = subreddit {
+			var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:subreddit.url + "/random", method:"GET", token:token)
+			return handleAsJSONRequest(request, completion:completion)
+		}
+		else {
+			var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/random", method:"GET", token:token)
+			return handleAsJSONRequest(request, completion:completion)
+		}
+	}
+	
+	/**
+	Get Links or Comments that a user liked, saved, commented, hide, diskiked and etc.
+	
+	:param: username Name of user.
+	:param: content The type of user's contents as UserContent.
+	:param: paginator Paginator object for paging contents.
+	:param: completion The completion handler to call when the load request is complete.
+	:returns: Data task which requests search to reddit.com.
+	*/
+	public func getUserContent(username:String, content:UserContent, sort:UserContentSortBy, timeFilterWithin:TimeFilterWithin, paginator:Paginator, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+		var parameter = ["t":timeFilterWithin.param];
+		parameter["count"] = "0"
+		parameter["limit"] = "25"
+		parameter["show"] = "given"
+		parameter["sort"] = sort.param
+		// parameter["sr_detail"] = "true"
+		parameter.update(paginator.parameters())
+		
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/user/" + username + content.path, parameter:parameter, method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
-    
+	
+	/**
+	Return a listing of things specified by their fullnames.
+	Only Links, Comments, and Subreddits are allowed.
+	
+	:param: names Array of contents' fullnames.
+	:param: completion The completion handler to call when the load request is complete.
+	:returns: Data task which requests search to reddit.com.
+	*/
     public func getInfo(names:[String], completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var commaSeparatedNameString = commaSeparatedStringFromList(names)
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
-    
-    public func getInfo(name:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        return getInfo([name], completion: completion)
-    }
-    
+	
+	/**
+	Get a list of categories in which things are currently saved.
+	
+	:param: completion The completion handler to call when the load request is complete.
+	:returns: Data task which requests search to reddit.com.
+	*/
     public func getSavedCategories(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/saved_categories", method:"GET", token:token)
         return handleAsJSONRequest(request, completion:completion)
     }
-    
+	
+	/**
+	Retrieve additional comments omitted from a base comment tree. When a comment tree is rendered, the most relevant comments are selected for display first. Remaining comments are stubbed out with "MoreComments" links. This API call is used to retrieve the additional comments represented by those stubs, up to 20 at a time. The two core parameters required are link and children. link is the fullname of the link whose comments are being fetched. children is a comma-delimited list of comment ID36s that need to be fetched. If id is passed, it should be the ID of the MoreComments object this call is replacing. This is needed only for the HTML UI's purposes and is optional otherwise. NOTE: you may only make one request at a time to this API endpoint. Higher concurrency will result in an error being returned.
+	
+	:param: children A comma-delimited list of comment ID36s.
+	:param: link Thing object from which you get more children.
+	:param: sort The type of sorting children.
+	:param: completion The completion handler to call when the load request is complete.
+	:returns: Data task which requests search to reddit.com.
+	*/
     public func getMoreChildren(children:[String], link:Link, sort:CommentSort, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var commaSeparatedChildren = commaSeparatedStringFromList(children)
         var parameter = ["children":commaSeparatedChildren, "link_id":link.name, "sort":sort.type, "api_type":"json"]
@@ -227,11 +317,11 @@ public class Session {
     :param: subreddit Specified subreddit to which you would like to limit your search.
     :param: query The search keywords, must be less than 512 characters.
     :param: paginator Paginator object for paging.
-    :param: sort Sort type, specified by SearchSort.
+    :param: sort Sort type, specified by SearchSortBy.
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getSearch(subreddit:Subreddit?, query:String, paginator:Paginator?, sort:SearchSort, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getSearch(subreddit:Subreddit?, query:String, paginator:Paginator?, sort:SearchSortBy, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
         var escapedString = query.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
         if let escapedString = escapedString {
@@ -255,25 +345,6 @@ public class Session {
             }
         }
         return nil
-    }
-    
-    /**
-    The Serendipity content.
-    But this endpoints return invalid redirect URL...
-    I don't know how this URL should be handled....
-    
-    :param: subreddit Specified subreddit to which you would like to get random link
-    :returns: Data task which requests search to reddit.com.
-    */
-    public func getRandom(subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        if let subreddit = subreddit {
-            var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:subreddit.url + "/random", method:"GET", token:token)
-            return handleAsJSONRequest(request, completion:completion)
-        }
-        else {
-            var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/random", method:"GET", token:token)
-            return handleAsJSONRequest(request, completion:completion)
-        }
     }
     
     /**

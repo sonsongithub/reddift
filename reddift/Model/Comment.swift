@@ -9,62 +9,6 @@
 import Foundation
 
 /**
-The sort method for listing Comment object when using "/comments/[link_id]", "/api/morechildren".
-*/
-public enum CommentSort {
-    case Confidence
-    case Top
-    case New
-    case Hot
-    case Controversial
-    case Old
-    case Random
-    case Qa
-    
-    public var path:String {
-        switch self{
-        case .Confidence:
-            return "/confidence"
-        case .Top:
-            return "/top"
-        case .New:
-            return "/new"
-        case .Hot:
-            return "/hot"
-        case .Controversial:
-            return "/controversial"
-        case .Old:
-            return "/old"
-        case .Random:
-            return "/random"
-        case .Qa:
-            return "/qa"
-        }
-    }
-    
-    public var type:String {
-        switch self{
-        case .Confidence:
-            return "confidence"
-        case .Top:
-            return "top"
-        case .New:
-            return "new"
-        case .Hot:
-            return "hot"
-        case .Controversial:
-            return "controversial"
-        case .Old:
-            return "old"
-        case .Random:
-            return "random"
-        case .Qa:
-            return "qa"
-        }
-    }
-}
-
-/**
 Expand child comments which are included in Comment objects, recursively.
 
 :param: comment Comment object will be expanded.

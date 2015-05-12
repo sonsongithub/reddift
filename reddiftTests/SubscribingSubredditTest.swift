@@ -24,7 +24,7 @@ class SubscribingSubredditTest: SessionTestSpec {
             describe("Get subscribing subreddits") {
                 it("into initialList") {
                     var r:Bool = false
-                    self.session?.getSubscribingSubreddit(nil, completion: { (result) -> Void in
+					self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
                         switch result {
                         case let .Failure:
                             println(result.error!.description)
@@ -55,7 +55,7 @@ class SubscribingSubredditTest: SessionTestSpec {
         
                 it("subscribedList.count is one more than initialList.count") {
                     var r:Bool = false
-                    self.session?.getSubscribingSubreddit(nil, completion: { (result) -> Void in
+                    self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
                         switch result {
                         case let .Failure:
                             println(result.error!.description)
@@ -87,7 +87,7 @@ class SubscribingSubredditTest: SessionTestSpec {
         
                 it("unsubscribedList.count is equal to initialList.count") {
                     var r:Bool = false
-                    self.session?.getSubscribingSubreddit(nil, completion: { (result) -> Void in
+                    self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
                         switch result {
                         case let .Failure:
                             println(result.error!.description)

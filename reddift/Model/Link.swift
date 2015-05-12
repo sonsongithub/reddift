@@ -9,58 +9,6 @@
 import Foundation
 
 /**
-The sort method for listing Link object, "/r/[subreddit]/[sort]" or "/[sort]".
-*/
-public enum LinkSort {
-    case Controversial
-    case Hot
-    case New
-    case Random
-    case Top
-    
-    public var path:String {
-        switch self{
-        case .Controversial:
-            return "/controversial"
-        case .Hot:
-            return "/hot"
-        case .New:
-            return "/new"
-        case .Random:
-            return "/random"
-        case .Top:
-            return "/top"
-        }
-    }
-}
-
-/**
-The sort method for search Link object, "/r/[subreddit]/search" or "/search".
-*/
-public enum SearchSort {
-    case Relevance
-    case New
-    case Hot
-    case Top
-    case Comments
-    
-    var path:String {
-        switch self{
-        case .Relevance:
-            return "relevance"
-        case .New:
-            return "new"
-        case .Hot:
-            return "hot"
-        case .Top:
-            return "top"
-        case .Comments:
-            return "comments"
-        }
-    }
-}
-
-/**
 Link content.
 */
 public class Link : Thing {

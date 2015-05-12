@@ -9,62 +9,6 @@
 import Foundation
 
 /**
-The sort method for listing user's subreddit object, "/subreddits/mine/[where]".
-*/
-public enum SubredditsMineWhere {
-    case Contributor
-    case Moderator
-    case Subscriber
-    
-    public var path:String {
-        switch self{
-        case .Contributor:
-            return "/subreddits/mine/contributor"
-        case .Moderator:
-            return "/subreddits/mine/moderator"
-        case .Subscriber:
-            return "/subreddits/mine/subscriber"
-        }
-    }
-}
-
-/**
-The sort method for listing user's subreddit object, "/subreddits/[where]".
-*/
-public enum SubredditsWhere {
-    case Popular
-    case New
-    case Employee
-    case Gold
-    
-    public var path:String {
-        switch self{
-        case .Popular:
-            return "/subreddits/popular"
-        case .New:
-            return "/subreddits/new"
-        case .Employee:
-            return "/subreddits/employee"
-        case .Gold:
-            return "/subreddits/gold"
-        }
-    }
-    
-    public var title:String {
-        switch self{
-        case .Popular:
-            return "Popular"
-        case .New:
-            return "New"
-        case .Employee:
-            return "Employee"
-        case .Gold:
-            return "Gold"
-        }
-    }
-}
-
-/**
 Subreddit object.
 */
 public class Subreddit : Thing {

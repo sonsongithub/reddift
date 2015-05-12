@@ -36,7 +36,7 @@ class UserContentViewController: UITableViewController {
         self.tableView.registerNib(nib, forCellReuseIdentifier: "Cell")
         
         if let name = session?.token.name {
-            session?.getUser(name, content:userContent, paginator:nil, completion: { (result) -> Void in
+			session?.getUserContent(name, content:userContent, sort:.New, timeFilterWithin:.All, paginator:Paginator(), completion: { (result) -> Void in
                 switch result {
                 case let .Failure:
                     println(result.error)
