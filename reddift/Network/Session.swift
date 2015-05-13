@@ -88,7 +88,15 @@ public class Session {
         return task
     }
 	
-	public func getMessage(messageWhere:MessageWhere, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+	/**
+	Get the message from the specified box.
+	
+	:param: messageWhere The box from which you want to get your messages.
+	:param: limit The maximum number of comments to return. Default is 100.
+	:param: completion The completion handler to call when the load request is complete.
+	:returns: Data task which requests search to reddit.com.
+	*/
+	public func getMessage(messageWhere:MessageWhere, limit:Int = 100, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
 		var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
 		return handleRequest(request, completion:completion)
 	}
@@ -109,9 +117,21 @@ public class Session {
         task.resume()
         return task
     }
-    
-    public func getArticles(link:Link, sort:CommentSort, comments:[String]?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        var parameter:[String:String] = ["sort":sort.type, "depth":"4", "showmore":"True", "limit":"100"]
+	
+	/**
+	Get the comment tree for a given Link article.
+	If supplied, comment is the ID36 of a comment in the comment tree for article. This comment will be the (highlighted) focal point of the returned view and context will be the number of parents shown.
+	
+	:param: link Link from which comment will be got.
+	:param: sort The type of sorting.
+	:param: comments If supplied, comment is the ID36 of a comment in the comment tree for article.
+	:param: depth The maximum depth of subtrees in the thread. Default is 4.
+	:param: limit The maximum number of comments to return. Default is 100.
+	:param: completion The completion handler to call when the load request is complete.
+	:returns: Data task which requests search to reddit.com.
+	*/
+	public func getArticles(link:Link, sort:CommentSort, comments:[String]?, depth:Int = 4, limit:Int = 100, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var parameter:[String:String] = ["sort":sort.type, "depth":"\(depth)", "showmore":"True", "limit":"\(limit)"]
         if let comments = comments {
             var commaSeparatedIDString = commaSeparatedStringFromList(comments)
             parameter["comment"] = commaSeparatedIDString
@@ -151,13 +171,13 @@ public class Session {
 	:param: sort The type of sorting a list.
 	:param: TimeFilterWithin The type of filtering contents.
 	:param: subreddit Subreddit from which Links will be gotten.
+	:param: limit The maximum number of comments to return. Default is 25.
 	:param: completion The completion handler to call when the load request is complete.
 	:returns: Data task which requests search to reddit.com.
 	*/
-	public func getList(paginator:Paginator, sort:LinkSortBy, timeFilterWithin:TimeFilterWithin, subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+	public func getList(paginator:Paginator, sort:LinkSortBy, timeFilterWithin:TimeFilterWithin, subreddit:Subreddit?, limit:Int = 25, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
 		var parameter = ["t":timeFilterWithin.param];
-		parameter["count"] = "0"
-		parameter["limit"] = "25"
+		parameter["limit"] = "\(limit)"
 		parameter["show"] = "all"
 		// parameter["sr_detail"] = "true"
 		parameter.update(paginator.parameters())
@@ -205,12 +225,13 @@ public class Session {
 	
 	:param: paginator Paginator object for paging contents.
 	:param: subreddit Subreddit from which Links will be gotten.
+	:param: limit The maximum number of comments to return. Default is 25.
 	:param: completion The completion handler to call when the load request is complete.
 	:returns: Data task which requests search to reddit.com.
 	*/
-	public func getNewOrHotList(paginator:Paginator, subreddit:Subreddit?, type:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-		var parameter = ["count":"0"]
-		parameter["limit"] = "25"
+	public func getNewOrHotList(paginator:Paginator, subreddit:Subreddit?, type:String, limit:Int = 25, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+		var parameter:[String:String] = [:]
+		parameter["limit"] = "\(limit)"
 		parameter["show"] = "all"
 		// parameter["sr_detail"] = "true"
 		parameter.update(paginator.parameters())
@@ -254,13 +275,13 @@ public class Session {
 	:param: username Name of user.
 	:param: content The type of user's contents as UserContent.
 	:param: paginator Paginator object for paging contents.
+	:param: limit The maximum number of comments to return. Default is 25.
 	:param: completion The completion handler to call when the load request is complete.
 	:returns: Data task which requests search to reddit.com.
 	*/
-	public func getUserContent(username:String, content:UserContent, sort:UserContentSortBy, timeFilterWithin:TimeFilterWithin, paginator:Paginator, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+	public func getUserContent(username:String, content:UserContent, sort:UserContentSortBy, timeFilterWithin:TimeFilterWithin, paginator:Paginator, limit:Int = 25, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
 		var parameter = ["t":timeFilterWithin.param];
-		parameter["count"] = "0"
-		parameter["limit"] = "25"
+		parameter["limit"] = "\(limit)"
 		parameter["show"] = "given"
 		parameter["sort"] = sort.param
 		// parameter["sr_detail"] = "true"

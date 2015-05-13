@@ -83,7 +83,7 @@ class UserContentViewController: UITableViewController {
         if indices(source) ~= indexPath.row {
             var obj = source[indexPath.row]
             if let comment = obj as? Comment {
-                session?.getInfo(comment.linkId, completion: { (result) -> Void in
+                session?.getInfo([comment.linkId], completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
                         println(result.error)
