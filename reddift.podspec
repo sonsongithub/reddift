@@ -6,8 +6,7 @@ Pod::Spec.new do |s|
                       reddift is Swift Reddit API Wrapper.
 
                        - Supports OAuth2(and DOES NOT support Cookie-authentication).
-                       - Supports multi-accounts.
-                       - Includes a sample application(iOS only).
+                       - Supports multi-accounts using KeyChain.
                        DESC
   s.homepage         = "https://github.com/sonsongithub/reddift"
   s.license          = 'MIT'

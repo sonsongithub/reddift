@@ -4,7 +4,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/reddift.svg?style=flat)](http://cocoadocs.org/docsets/reddift)
 
 # reddift
-reddift is API wrapper for swift(for iOS).
+reddift is Swift Reddit API Wrapper.
 
  * Supports OAuth2(and DOES NOT support Cookie-authentication).
  * Supports multi-accounts.
@@ -25,7 +25,7 @@ You have to pay attention to use this library.
 #### 1. Create application(installed app) at reddit.com
 
 Create new installed app via preference page at reddit.com.
-And then, check your app's cliend_id and fill out redirect URI for OAuth2.
+And then, check your app's ```cliend_id``` and fill out ```redirect uri``` for OAuth2.
 
 ![installedapp](https://cloud.githubusercontent.com/assets/33768/7569703/7aa0cd84-f845-11e4-8860-2c953c9522a2.png)
 
@@ -36,7 +36,7 @@ Rename ```reddift_config.json.sample``` to ```reddift_config.json```.
 And fill out ```DeveloperName```, ```redirect_uri``` and ```client_id```. 
 ```redirect_uri``` must be same one you registered at reddit.com.
 You can check ```client_id``` at application tab.
-reddift generates http's user-agent property using this JSON.
+reddift generates http's user-agent property using this JSON and application's info.plist.
 
     {
       "DeveloperName": "<YOUR NAME>",
@@ -54,7 +54,22 @@ If they are not identical, reddit.com does not authorize your OAuth request.
 
 ## Getting started
 
-In more detail, See the sample application code included in reddift.
+#### Get something & Error handling
+
+reddift returns ```Result<T>``` object as a result.
+Get the value or error from ```Result<T>``` object.
+Concretely, you can access either value evaluating enum state like a following code.
+
+    
+    // do not use "!" in your code
+    switch(result) {
+    case .Failure: 
+        println(result.error!.description)
+    case .Success:
+        println(result.value!)
+    }
+    
+In more detail about this coding style, see "[Efficient JSON in Swift with Functional Concepts and Generics](https://robots.thoughtbot.com/efficient-json-in-swift-with-functional-concepts-and-generics)".
 
 #### Create session
 
@@ -92,6 +107,7 @@ Specifically, following sample code saves token as user name at reddit.com.
     }
 
 To communicate with reddit.com via OAuth2, you have to create ```Session``` object.
+See following section about getting response or error handling.
 
     let result = OAuth2TokenRepository.restoreFromKeychainWithName(name)
     switch(result) {
@@ -103,11 +119,7 @@ To communicate with reddit.com via OAuth2, you have to create ```Session``` obje
         }
     }
     
-#### Get something & Error handling
-
 You can get contents from reddit via ```Session``` object like following codes.
-reddift returns ```Result<T>``` object as a result.
-In more detail about this coding style, see "[Efficient JSON in Swift with Functional Concepts and Generics](https://robots.thoughtbot.com/efficient-json-in-swift-with-functional-concepts-and-generics)".
 
     session?.getList(paginator, sort:sortType, subreddit:subreddit, completion: { (result) in
         switch result {
@@ -151,6 +163,10 @@ Do not use ```Oauth2AppOnlyToken``` in installed app in terms of security.
             }
         }
     }))
+
+#### Further more,
+
+In more detail, See the sample application or test code included in reddift.
 
 ## How to build test
 
