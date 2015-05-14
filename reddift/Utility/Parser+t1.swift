@@ -6,19 +6,19 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 extension Parser {
     class func parseDataInThing_t1(data:[String:AnyObject]) -> Thing {
         let comment = Comment()
 		if let temp = data["subreddit_id"] as? String {
-			comment.subreddit_id = temp
+			comment.subredditId = temp
 		}
 		if let temp = data["banned_by"] as? String {
-			comment.banned_by = temp
+			comment.bannedBy = temp
 		}
 		if let temp = data["link_id"] as? String {
-			comment.link_id = temp
+			comment.linkId = temp
 		}
 		if let temp = data["likes"] as? String {
 			comment.likes = temp
@@ -29,7 +29,7 @@ extension Parser {
 			}
 		}
 //            if let temp = data["user_reports"] as? String {
-//                comment.user_reports = temp
+//                comment.userReports = temp
 //            }
 		if let temp = data["saved"] as? Bool {
 			comment.saved = temp
@@ -44,19 +44,19 @@ extension Parser {
 			comment.archived = temp
 		}
 //            if let temp = data["report_reasons"] as? String {
-//                comment.report_reasons = temp
+//                comment.reportReasons = temp
 //            }
 		if let temp = data["author"] as? String {
 			comment.author = temp
 		}
 		if let temp = data["parent_id"] as? String {
-			comment.parent_id = temp
+			comment.parentId = temp
 		}
 		if let temp = data["score"] as? Int {
 			comment.score = temp
 		}
 		if let temp = data["approved_by"] as? String {
-			comment.approved_by = temp
+			comment.approvedBy = temp
 		}
 		if let temp = data["controversiality"] as? Int {
 			comment.controversiality = temp
@@ -68,19 +68,19 @@ extension Parser {
 			comment.edited = temp
 		}
 		if let temp = data["author_flair_css_class"] as? String {
-			comment.author_flair_css_class = temp
+			comment.authorFlairCssClass = temp
 		}
 		if let temp = data["downs"] as? Int {
 			comment.downs = temp
 		}
 		if let temp = data["body_html"] as? String {
-			comment.body_html = temp
+			comment.bodyHtml = temp
 		}
 		if let temp = data["subreddit"] as? String {
 			comment.subreddit = temp
 		}
 		if let temp = data["score_hidden"] as? Bool {
-			comment.score_hidden = temp
+			comment.scoreHidden = temp
 		}
 		if let temp = data["name"] as? String {
 			comment.name = temp
@@ -89,19 +89,19 @@ extension Parser {
 			comment.created = temp
 		}
 		if let temp = data["author_flair_text"] as? String {
-			comment.author_flair_text = temp
+			comment.authorFlairText = temp
 		}
 		if let temp = data["created_utc"] as? Int {
-			comment.created_utc = temp
+			comment.createdUtc = temp
 		}
 		if let temp = data["distinguished"] as? Bool {
 			comment.distinguished = temp
 		}
 //            if let temp = data["mod_reports"] as? String {
-//                comment.mod_reports = temp
+//                comment.modReports = temp
 //            }
 		if let temp = data["num_reports"] as? Int {
-			comment.num_reports = temp
+			comment.numReports = temp
 		}
 		if let temp = data["ups"] as? Int {
 			comment.ups = temp
@@ -118,7 +118,7 @@ extension Parser {
 			more.name = temp
 		}
 		if let temp = data["parent_id"] as? String {
-			more.parent_id = temp
+			more.parentId = temp
 		}
 		if let temp = data["count"] as? Int {
 			more.count = temp

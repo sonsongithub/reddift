@@ -30,10 +30,15 @@ Pods/
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
 # Carthage/Checkouts
 
-Carthage/Build
+/Carthage
+/Cartfile.resolved
 
 # reddift
 \#*
 *~
 reddift_config.json
+test_config.json
 .DS_Store
+
+# jazzy
+/docs

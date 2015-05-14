@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 extension Parser {
 	class func parseDataInThing_t4(data:[String:AnyObject]) -> Thing {
@@ -15,16 +15,16 @@ extension Parser {
 			message.body = temp
 		}
 		if let temp = data["was_comment"] as? Bool {
-			message.was_comment = temp
+			message.wasComment = temp
 		}
 		if let temp = data["first_message"] as? String {
-			message.first_message = temp
+			message.firstMessage = temp
 		}
 		if let temp = data["name"] as? String {
 			message.name = temp
 		}
 		if let temp = data["first_message_name"] as? String {
-			message.first_message_name = temp
+			message.firstMessageName = temp
 		}
 		if let temp = data["created"] as? Int {
 			message.created = temp
@@ -36,16 +36,16 @@ extension Parser {
 			message.author = temp
 		}
 		if let temp = data["created_utc"] as? Int {
-			message.created_utc = temp
+			message.createdUtc = temp
 		}
 		if let temp = data["body_html"] as? String {
-			message.body_html = temp
+			message.bodyHtml = temp
 		}
 		if let temp = data["subreddit"] as? String {
 			message.subreddit = temp
 		}
 		if let temp = data["parent_id"] as? String {
-			message.parent_id = temp
+			message.parentId = temp
 		}
 		if let temp = data["context"] as? String {
 			message.context = temp

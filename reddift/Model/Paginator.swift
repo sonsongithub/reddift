@@ -6,8 +6,11 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
+/**
+Paginator object for paiging listing object.
+*/
 public class Paginator : Thing {
 	var after:String
 	var before:String
@@ -17,14 +20,29 @@ public class Paginator : Thing {
         self.after = ""
         self.before = ""
         self.modhash = ""
+        super.init()
     }
 	
     public init(after:String, before:String, modhash:String) {
 		self.after = after
 		self.before = before
         self.modhash = modhash
+        super.init()
+	}
+	
+	public var isVacant : Bool {
+		if (!after.isEmpty) || (!before.isEmpty) {
+			return true
+		}
+		return false
 	}
     
+    /**
+    Generate dictionary to add query parameters to URL.
+	If paginator is vacant, returns vacant dictionary as [String:String].
+    
+    :returns: Dictionary object for paging.
+    */
     public func parameters() -> [String:String] {
         var dict:[String:String] = [:]
         if count(after) > 0 {

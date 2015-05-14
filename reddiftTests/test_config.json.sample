@@ -1,0 +1,6 @@
+{
+  "username": "test user account",
+  "password": "test user password",
+  "client_id": "test app client ID(must be script type app)",
+  "secret": "test app secret"
+}

@@ -6,74 +6,18 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-/**
-type alias for JSON object
-*/
-public typealias JSON = AnyObject
-public typealias JSONDictionary = Dictionary<String, JSON>
-public typealias JSONArray = Array<JSON>
-public typealias ThingList = AnyObject
-
-public func JSONString(object: JSON?) -> String? {
-    return object as? String
-}
-
-public func JSONInt(object: JSON?) -> Int? {
-    return object as? Int
-}
-
-public func JSONObject(object: JSON?) -> JSONDictionary? {
-    return object as? JSONDictionary
-}
-
-public func JSONObjectArray(object: JSON?) -> JSONArray? {
-    return object as? JSONArray
-}
-
-public final class Box<A> {
-    public let value: A
-    public init(_ value: A) {
-        self.value = value
-    }
-}
-
-public enum Result<A> {
-    case Error(NSError)
-    case Value(Box<A>)
-    
-    public init(_ error: NSError?, _ value: A) {
-        if let err = error {
-            self = .Error(err)
-        }
-        else {
-            self = .Value(Box(value))
-        }
-    }
-}
-
-infix operator >>> { associativity left precedence 150 }
-
-public func >>><A, B>(a: A?, f: A -> B?) -> B? {
-    if let x = a {
-        return f(x)
-    } else {
-        return .None
-    }
-}
-
-public func >>><A, B>(a: Result<A>, f: A -> Result<B>) -> Result<B> {
-    switch a {
-    case let .Value(x):     return f(x.value)
-    case let .Error(error): return .Error(error)
-    }
-}
+#if os(iOS)
+    import UIKit
+#elseif os(OSX)
+    import Cocoa
+#endif
 
 /**
 Object to eliminate codes to parse http response object.
 */
-public struct Response {
+struct Response {
     let data:NSData
     let statusCode:Int
     
@@ -97,27 +41,132 @@ public struct Response {
 Function to eliminate codes to parse http response object.
 This function filters response object to handle errors.
 */
-public func parseResponse(response: Response) -> Result<NSData> {
+func parseResponse(response: Response) -> Result<NSData> {
     let successRange = 200..<300
     if !contains(successRange, response.statusCode) {
-        return .Error(NSError(domain: "com.sonson.reddift", code: response.statusCode, userInfo:nil))
+        return .Failure(HttpStatus(response.statusCode).error)
     }
-    return .Value(Box(response.data))
+    return .Success(Box(response.data))
 }
 
-public func resultFromOptional<A>(optional: A?, error: NSError) -> Result<A> {
-    if let a = optional {
-        return .Value(Box(a))
-    } else {
-        return .Error(error)
-    }
-}
-
-public func decodeJSON(data: NSData) -> Result<JSON> {
+func decodeJSON(data: NSData) -> Result<JSON> {
     var jsonErrorOptional: NSError?
     let jsonOptional: JSON? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &jsonErrorOptional)
     if let jsonError = jsonErrorOptional {
-        return resultFromOptional(jsonOptional, jsonError)
+        return Result(error: jsonError)
     }
-    return resultFromOptional(jsonOptional, NSError(domain: "com.sonson.reddift", code: 2, userInfo: ["description":"Failed to parse JSON object unexpectedly."]))
+    if let json:JSON = jsonOptional {
+        return Result(value:json)
+    }
+    return Result(error:ReddiftError.ParseJSON.error)
+}
+
+func parseThing_t2_JSON(json:JSON) -> Result<JSON> {
+    if let object = json >>> JSONObject {
+        return resultFromOptional(Parser.parseDataInThing_t2(object), ReddiftError.ParseThingT2.error)
+    }
+    return resultFromOptional(nil, ReddiftError.ParseThingT2.error)
+}
+
+func parseListFromJSON(json: JSON) -> Result<JSON> {
+    let object:AnyObject? = Parser.parseJSON(json)
+    return resultFromOptional(object, ReddiftError.ParseThing.error)
+}
+
+/**
+Parse simple string response for "/api/needs_captcha"
+
+:param: data Binary data is returned from reddit.
+
+:returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
+*/
+func decodeBooleanString(data: NSData) -> Result<Bool> {
+    var decoded = NSString(data:data, encoding:NSUTF8StringEncoding)
+    if let decoded = decoded {
+        if decoded == "true" {
+            return Result(value:true)
+        }
+        else if decoded == "false" {
+            return Result(value:false)
+        }
+    }
+    return Result(error:ReddiftError.CheckNeedsCAPTHCA.error)
+}
+
+/**
+Parse simple string response for "/api/needs_captcha"
+
+:param: data Binary data is returned from reddit.
+
+:returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
+*/
+func decodePNGImage(data: NSData) -> Result<CAPTCHAImage> {
+#if os(iOS)
+    let captcha = UIImage(data: data)
+#elseif os(OSX)
+    let captcha = NSImage(data: data)
+#endif
+    return resultFromOptional(captcha, ReddiftError.GetCAPTCHAImage.error)
+}
+
+/**
+Parse JSON contains "iden" for CAPTHA.
+{"json": {"data": {"iden": "<code>"},"errors": []}}
+
+:param: json JSON object, like above sample.
+:returns: Result object. When parsing is succeeded, object contains iden as String.
+*/
+func parseCAPTCHAIdenJSON(json: JSON) -> Result<String> {
+    if let j = json["json"] as? [String:AnyObject] {
+        if let data = j["data"] as? [String:AnyObject] {
+            if let iden = data["iden"] as? String {
+                return Result(value:iden)
+            }
+        }
+    }
+    return Result(error:ReddiftError.GetCAPTCHAIden.error)
+}
+
+/**
+Parse JSON for response to /api/comment.
+{"json": {"errors": [], "data": { "things": [] }}}
+
+:param: json JSON object, like above sample.
+:returns: Result object. When parsing is succeeded, object contains list which consists of Thing.
+*/
+func parseResponseJSONToPostComment(json: JSON) -> Result<Comment> {
+    if let j = json["json"] as? JSONDictionary {
+        if let data = j["data"] as? JSONDictionary {
+            if let things = data["things"] as? JSONArray {
+                if things.count == 1 {
+                    for thing in things {
+                        if let thing = thing as? [String:AnyObject] {
+                            let obj:AnyObject? = Parser.parseJSON(thing)
+                            if let comment = obj as? Comment {
+                                return Result(value: comment)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return Result(error:NSError.errorWithCode(10, "Could not parse response JSON to post a comment."))
+}
+
+/**
+Extract Listing object which includes Comments from JSON for articles.
+
+:param: json JSON object is obtained from reddit.com.
+:returns: List consists of Comment objects.
+*/
+func filterArticleResponse(json:JSON) -> Result<JSON> {
+    if let array = json as? [AnyObject] {
+        if array.count == 2 {
+            if let result = array[1] as? Listing {
+                return Result(value:result)
+            }
+        }
+    }
+    return Result(error:ReddiftError.ParseListingArticles.error)
 }

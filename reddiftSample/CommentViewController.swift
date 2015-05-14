@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import reddift
 
 class CommentViewController: UITableViewController, UZTextViewCellDelegate {
@@ -32,14 +32,14 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         }
     }
     
-    func vote(direction:Int) {
+    func vote(direction:VoteDirection) {
         if let link = self.link {
             session?.setVote(direction, thing: link, completion: { (result) -> Void in
                 switch result {
-                case let .Error(error):
-                    println(error.code)
-                case let .Value(box):
-                    println(box.value)
+                case let .Failure:
+                    println(result.error)
+                case let .Success:
+                    println(result.value)
                 }
             })
         }
@@ -49,10 +49,10 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.setSave(save, thing: link, category:"default", completion: { (result) -> Void in
                 switch result {
-                case let .Error(error):
-                    println(error.code)
-                case let .Value(box):
-                    println(box.value)
+                case let .Failure:
+                    println(result.error)
+                case let .Success:
+                    println(result.value)
                 }
             })
         }
@@ -62,25 +62,25 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.setHide(hide, thing: link, completion: { (result) -> Void in
                 switch result {
-                case let .Error(error):
-                    println(error.code)
-                case let .Value(box):
-                    println(box.value)
+                case let .Failure:
+                    println(result.error)
+                case let .Success:
+                    println(result.value)
                 }
             })
         }
     }
     
     func downVote(sender:AnyObject?) {
-        vote(-1)
+        vote(.Down)
     }
     
     func upVote(sender:AnyObject?) {
-        vote(1)
+        vote(.Up)
     }
     
     func cancelVote(sender:AnyObject?) {
-        vote(0)
+        vote(.No)
     }
     
     func doSave(sender:AnyObject?) {
@@ -168,15 +168,15 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.getArticles(link, sort:CommentSort.New, comments:nil, completion: { (result) -> Void in
                 switch result {
-                case let .Error(error):
-                    println(error.code)
-                case let .Value(box):
-                    println(box.value)
-                    if let listing = box.value as? Listing {
+                case let .Failure:
+                    println(result.error)
+                case let .Success:
+                    println(result.value)
+                    if let listing = result.value as? Listing {
                         var newComments:[Thing] = []
                         for obj in listing.children {
                             if let comment = obj as? Comment {
-                                newComments += extendAllReplies(comment, [])
+                                newComments += extendAllReplies(comment)
                             }
                         }
                         if let more = listing.more {
@@ -234,10 +234,10 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                 println(more)
                 session?.getMoreChildren(more.children, link:link, sort:CommentSort.New, completion:{ (result) -> Void in
                     switch result {
-                    case let .Error(error):
-                        println(error.code)
-                    case let .Value(box):
-                        println(box.value)
+                    case let .Failure:
+                        println(result.error)
+                    case let .Success:
+                        println(result.value)
                     }
                 });
             }

@@ -6,8 +6,12 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
+/**
+Listing object.
+This class has children, paginator and more.
+*/
 public class Listing {
     public var children:[Thing] = []
     public var paginator:Paginator? = nil

@@ -6,40 +6,11 @@
 //  Created at 2015-04-15 11:23:32 +0900
 //
 
-import UIKit
+import Foundation
 
-public enum MessageWhere {
-    case Inbox
-    case Unread
-    case Sent
-    
-    public var  path:String {
-        get {
-            switch self{
-            case .Inbox:
-                return "/inbox"
-            case .Unread:
-                return "/unread"
-            case .Sent:
-                return "/sent"
-            }
-        }
-    }
-    
-    public var  description:String {
-        get {
-            switch self{
-            case .Inbox:
-                return "inbox"
-            case .Unread:
-                return "unread"
-            case .Sent:
-                return "sent"
-            }
-        }
-    }
-}
-
+/**
+Message object.
+*/
 public class Message : Thing {
     /**
     the message itself
@@ -50,17 +21,17 @@ public class Message : Thing {
     
     example: false
     */
-    public var  was_comment = false
+    public var wasComment = false
     /**
     
     example:
     */
-    public var  first_message = ""
+    public var firstMessage = ""
     /**
     either null or the first message's fullname
     example:
     */
-    public var  first_message_name = ""
+    public var firstMessageName = ""
     /**
     
     example: 1427126074
@@ -80,12 +51,12 @@ public class Message : Thing {
     
     example: 1427122474
     */
-    public var  created_utc = 0
+    public var createdUtc = 0
     /**
     the message itself with HTML formatting
     example: &lt;!-- SC_OFF --&gt;&l....
     */
-    public var  body_html = ""
+    public var bodyHtml = ""
     /**
     null if not a comment.
     example:
@@ -95,7 +66,7 @@ public class Message : Thing {
     null if no parent is attached
     example:
     */
-    public var  parent_id = ""
+    public var parentId = ""
     /**
     if the message is a comment, then the permalink to the comment with ?context=3 appended to the end, otherwise an empty string
     example:

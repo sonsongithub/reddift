@@ -6,8 +6,19 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
+#if os(iOS)
+    import UIKit
+#elseif os(OSX)
+    import Cocoa
+#endif
+
+/**
+Class for opening OAuth2 authorizing page and handling redirect URL.
+This class is used by singleton model.
+You must access this class's instance by only OAuth2Authorizer.sharedInstance.
+*/
 public class OAuth2Authorizer {
     private var state = ""
     /**
@@ -15,10 +26,18 @@ public class OAuth2Authorizer {
     */
     public static let sharedInstance = OAuth2Authorizer()
     
+    /**
+    Open OAuth2 page to try to authorize with all scopes in Safari.app.
+    */
     public func challengeWithAllScopes() {
         self.challengeWithScopes(["identity", "edit", "flair", "history", "modconfig", "modflair", "modlog", "modposts", "modwiki", "mysubreddits", "privatemessages", "read", "report", "save", "submit", "subscribe", "vote", "wikiedit", "wikiread"])
     }
     
+    /**
+    Open OAuth2 page to try to authorize with user specified scopes in Safari.app.
+    
+    :param: scopes Scope you want to get authorizing. You can check all scopes at https://www.reddit.com/dev/api/oauth.
+    */
     public func challengeWithScopes(scopes:[String]) {
         var commaSeparatedScopeString = commaSeparatedStringFromList(scopes)
         
@@ -28,10 +47,22 @@ public class OAuth2Authorizer {
             let result = SecRandomCopyBytes(kSecRandomDefault, length, UnsafeMutablePointer<UInt8>(data.mutableBytes))
             self.state = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.EncodingEndLineWithLineFeed)
             let authorizationURL = NSURL(string:"https://www.reddit.com/api/v1/authorize.compact?client_id=" + Config.sharedInstance.clientID + "&response_type=code&state=" + self.state + "&redirect_uri=" + Config.sharedInstance.redirectURI + "&duration=permanent&scope=" + commaSeparatedScopeString)!
-            UIApplication.sharedApplication().openURL(authorizationURL)
+#if os(iOS)
+                UIApplication.sharedApplication().openURL(authorizationURL)
+#elseif os(OSX)
+                NSWorkspace.sharedWorkspace().openURL(authorizationURL)
+#endif
         }
     }
     
+    /**
+    Handle URL object which is returned by OAuth2 page at reddit.com
+    
+    :param: url The URL from passed by reddit.com
+    :param: completion Callback block is execeuted when the access token has been acquired using URL.
+    
+    :returns: Returns if the URL object is parsed correctly.
+    */
     public func receiveRedirect(url:NSURL, completion:(Result<OAuth2Token>)->Void) -> Bool{
         var parameters:[String:String] = [:]
         var currentState = self.state

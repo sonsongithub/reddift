@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import reddift
 
 class AccountViewController: UITableViewController {
@@ -49,15 +49,6 @@ class AccountViewController: UITableViewController {
         return cell
     }
 	
-	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indices(names) ~= indexPath.row {
-            let name:String = names[indexPath.row]
-            if let token = OAuth2TokenRepository.restoreFromKeychainWithName(name) {
-                println(token)
-            }
-        }
-	}
-    
     func didSaveToken(notification:NSNotification) {
         reload()
     }
@@ -85,8 +76,14 @@ class AccountViewController: UITableViewController {
                 if let selectedIndexPath = tableView.indexPathForSelectedRow() {
                     if indices(names) ~= selectedIndexPath.row {
                         let name:String = names[selectedIndexPath.row]
-                        if let token = OAuth2TokenRepository.restoreFromKeychainWithName(name) {
-                            con.session = Session(token: token)
+                        let result = OAuth2TokenRepository.restoreFromKeychainWithName(name)
+                        switch(result) {
+                        case .Failure:
+                            println(result.error!.description)
+                        case .Success:
+                            if let token = result.value {
+                                con.session = Session(token: token)
+                            }
                         }
                     }
                 }

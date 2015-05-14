@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import reddift
 
 class MessageViewController: UITableViewController {
@@ -20,10 +20,10 @@ class MessageViewController: UITableViewController {
 		
 		session?.getMessage(messageWhere, completion: { (result) -> Void in
             switch result {
-            case let .Error(error):
-                println(error.code)
-            case let .Value(box):
-                if let listing = box.value as? Listing {
+            case let .Failure:
+                println(result.error)
+            case let .Success:
+                if let listing = result.value as? Listing {
                     for child in listing.children {
 						if let message = child as? Message {
 							self.messages.append(message)

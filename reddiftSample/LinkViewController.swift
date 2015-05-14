@@ -6,31 +6,44 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import reddift
 
-class LinkViewController: UITableViewController {
-    var session:Session? = nil
-    var subreddit:Subreddit? = nil
-    var links:[Link] = []
-    var paginator:Paginator? = Paginator()
-    var loading = false
-    var task:NSURLSessionDataTask? = nil
-    var segmentedControl:UISegmentedControl? = nil
-	var sortTitles:[String] = []
-	var sortTypes:[LinkSort] = []
-    var contents:[CellContent] = []
-
+class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
+    var searchController:UISearchController? = nil
+    var searchResultViewController:SearchResultViewController? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let nib:UINib = UINib(nibName: "UZTextViewCell", bundle: nil)
-        self.tableView.registerNib(nib, forCellReuseIdentifier: "Cell")
 		
 		self.title = self.subreddit?.title
-		sortTypes += [.Controversial, .Hot, .New, .Random, .Top]
+        
+		sortTypes += [.Controversial, .Top]
 		for sortType in sortTypes {
 			sortTitles.append(sortType.path)
 		}
+        
+        searchResultViewController = SearchResultViewController()
+        searchResultViewController?.tableView.delegate = self
+        searchResultViewController?.session = session
+        searchResultViewController?.subreddit = subreddit
+        searchController = UISearchController(searchResultsController: searchResultViewController)
+        searchController?.searchResultsUpdater = self
+        searchController?.searchBar.sizeToFit()
+        tableView.tableHeaderView = searchController?.searchBar
+        
+        if let subreddit = self.subreddit {
+            searchController?.searchBar.placeholder = subreddit.title
+        }
+        else {
+            searchController?.searchBar.placeholder = "Search from all"
+        }
+        
+        searchController?.delegate = self
+        searchController?.dimsBackgroundDuringPresentation = false
+        searchController?.searchBar.delegate = searchResultViewController
+        
+        self.definesPresentationContext = true
 		
 		segmentedControl = UISegmentedControl(items:sortTitles)
 		segmentedControl?.addTarget(self, action: "segmentChanged:", forControlEvents: UIControlEvents.ValueChanged)
@@ -44,27 +57,31 @@ class LinkViewController: UITableViewController {
 			load()
 		}
     }
-	
-    func updateStrings() {
-        contents.removeAll(keepCapacity:true)
-        contents = links.map{CellContent(string:$0.title, width:self.view.frame.size.width)}
-    }
     
     func load() {
         if let seg = self.segmentedControl {
-            session?.getList(paginator, sort:sortTypes[seg.selectedSegmentIndex], subreddit:subreddit, completion: { (result) in
+            if loading {
+                return
+            }
+            loading = true
+			session?.getList(paginator, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.All, subreddit:subreddit, completion: { (result) in
                 switch result {
-                case let .Error(error):
-                    println(error.code)
-                case let .Value(box):
-                    println(box.value)
-                    if let listing = box.value as? Listing {
+                case let .Failure:
+                    println(result.error)
+                case let .Success:
+                    println(result.value)
+                    if let listing = result.value as? Listing {
                         for obj in listing.children {
                             if let link = obj as? Link {
                                 self.links.append(link)
                             }
                         }
-                        self.paginator = listing.paginator
+						if let paginator = listing.paginator {
+							self.paginator = paginator
+						}
+						else {
+							self.paginator = Paginator()
+						}
                     }
                     self.updateStrings()
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -86,54 +103,8 @@ class LinkViewController: UITableViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         self.navigationController?.toolbarHidden = false
-        if let subreddit = subreddit {
-            session?.getSticky(subreddit, completion: { (result) -> Void in
-                switch result {
-                case let .Error(error):
-                    println("-------------")
-                    println(error.code)
-                case let .Value(box):
-                    println("-------------")
-                    println(box.value)
-                }
-            })
-        }
-    }
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contents.count
-    }
-    
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == (contents.count - 1) {
-            load()
-        }
-    }
-    
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        performSegueWithIdentifier("ToCommentViewController", sender: nil)
-    }
-    
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indices(contents) ~= indexPath.row {
-            return contents[indexPath.row].textHeight
-        }
-        return 0
-    }
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
-        if let cell = cell as? UZTextViewCell {
-            if indices(contents) ~= indexPath.row {
-                cell.textView?.attributedString = contents[indexPath.row].attributedString
-            }
-        }
-        return cell
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -149,5 +120,135 @@ class LinkViewController: UITableViewController {
                 }
             }
         }
+        if segue.identifier == "ToSubmitViewController" {
+            if let nav = segue.destinationViewController as? UINavigationController {
+                if let con = nav.visibleViewController as? SubmitViewController {
+                    con.session = session
+                    con.subreddit = subreddit
+                }
+            }
+        }
     }
+}
+
+// MARK:
+
+extension LinkViewController {
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    }
+}
+
+// MARK:
+
+extension LinkViewController {
+    func presentSearchController(searchController: UISearchController) {
+    }
+    
+    func willPresentSearchController(searchController: UISearchController) {
+    }
+    
+    func didPresentSearchController(searchController: UISearchController) {
+    }
+    
+    func willDismissSearchController(searchController: UISearchController) {
+    }
+    
+    func didDismissSearchController(searchController: UISearchController) {
+        
+    }
+}
+
+// MARK:
+
+extension LinkViewController {
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    }
+}
+
+// MARK:
+
+extension LinkViewController {
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return links.count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        if let cell = cell as? UZTextViewCell {
+            if indices(contents) ~= indexPath.row {
+                cell.textView?.attributedString = contents[indexPath.row].attributedString
+            }
+        }
+        return cell
+    }
+    
+}
+
+// MARK:
+
+extension LinkViewController {
+    
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if tableView == self.tableView {
+            if indexPath.row == (contents.count - 1) {
+                if !paginator.isVacant {
+                    load()
+                }
+            }
+        }
+        if let searchResultViewController = searchResultViewController {
+            if tableView == searchResultViewController.tableView {
+                if indexPath.row == (searchResultViewController.contents.count - 1) {
+                    searchResultViewController.reload()
+                }
+            }
+        }
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        var link:Link? = nil
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        if tableView == self.tableView {
+            if indices(contents) ~= indexPath.row {
+                link = self.links[indexPath.row]
+            }
+        }
+        if let searchResultViewController = searchResultViewController {
+            if tableView == searchResultViewController.tableView {
+                if indices(searchResultViewController.contents) ~= indexPath.row {
+                    link = searchResultViewController.links[indexPath.row]
+                }
+            }
+        }
+        if let link = link {
+            if let con = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController {
+                con.session = session
+                con.subreddit = subreddit
+                con.link = link
+                self.navigationController?.pushViewController(con, animated: true)
+            }
+        }
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if tableView == self.tableView {
+            if indices(contents) ~= indexPath.row {
+                return contents[indexPath.row].textHeight
+            }
+        }
+        if let searchResultViewController = searchResultViewController {
+            if tableView == searchResultViewController.tableView {
+                if indices(searchResultViewController.contents) ~= indexPath.row {
+                    return searchResultViewController.contents[indexPath.row].textHeight
+                }
+            }
+        }
+        return 0
+    }
+    
 }

@@ -6,19 +6,24 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 public let OAuth2TokenRepositoryDidSaveToken = "OAuth2TokenRepositoryDidSaveToken"
 
+/**
+Repository to contain OAuth2 tokens for reddit.com based on "KeychanAccess".
+You can manage mulitple accounts using this class.
+OAuth2TokenRepository, is utility class, has only class method.
+*/
 public class OAuth2TokenRepository {
-    public class func restoreFromKeychainWithName(name:String) -> OAuth2Token? {
+    public class func restoreFromKeychainWithName(name:String) -> Result<OAuth2Token> {
         let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
         if let data = keychain.getData(name) {
             if let token = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OAuth2Token {
-                return token
+                return Result(value:token)
             }
         }
-        return nil
+        return Result(error:ReddiftError.TokenNotfound.error)
     }
     
     public class func savedNamesInKeychain() -> [String] {

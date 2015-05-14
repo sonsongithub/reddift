@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import reddift
 
 class UserContentViewController: UITableViewController {
@@ -36,13 +36,13 @@ class UserContentViewController: UITableViewController {
         self.tableView.registerNib(nib, forCellReuseIdentifier: "Cell")
         
         if let name = session?.token.name {
-            session?.getUser(name, content:userContent, paginator:nil, completion: { (result) -> Void in
+			session?.getUserContent(name, content:userContent, sort:.New, timeFilterWithin:.All, paginator:Paginator(), completion: { (result) -> Void in
                 switch result {
-                case let .Error(error):
-                    println(error.code)
-                case let .Value(box):
-                    println(box.value)
-                    if let listing = box.value as? Listing {
+                case let .Failure:
+                    println(result.error)
+                case let .Success:
+                    println(result.value)
+                    if let listing = result.value as? Listing {
                         for obj in listing.children {
                             if let link = obj as? Link {
                                 self.source.append(link)
@@ -83,12 +83,12 @@ class UserContentViewController: UITableViewController {
         if indices(source) ~= indexPath.row {
             var obj = source[indexPath.row]
             if let comment = obj as? Comment {
-                session?.getInfo(comment.link_id, completion: { (result) -> Void in
+                session?.getInfo([comment.linkId], completion: { (result) -> Void in
                     switch result {
-                    case let .Error(error):
-                        println(error.code)
-                    case let .Value(box):
-                        if let listing = box.value as? Listing {
+                    case let .Failure:
+                        println(result.error)
+                    case let .Success:
+                        if let listing = result.value as? Listing {
                             if listing.children.count == 1 {
                                 if let link = listing.children[0] as? Link {
                                     if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{

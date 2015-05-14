@@ -6,71 +6,21 @@
 //  Created at 2015-04-15 11:23:32 +0900
 //
 
-import UIKit
+import Foundation
 
-public enum CommentSort {
-    case Confidence
-    case Top
-    case New
-    case Hot
-    case Controversial
-    case Old
-    case Random
-    case Qa
-    
-    public var path:String {
-        get {
-            switch self{
-            case .Confidence:
-                return "/confidence"
-            case .Top:
-                return "/top"
-            case .New:
-                return "/new"
-            case .Hot:
-                return "/hot"
-            case .Controversial:
-                return "/controversial"
-            case .Old:
-                return "/old"
-            case .Random:
-                return "/random"
-            case .Qa:
-                return "/qa"
-            }
-        }
-    }
-    
-    public var type:String {
-        get {
-            switch self{
-            case .Confidence:
-                return "confidence"
-            case .Top:
-                return "top"
-            case .New:
-                return "new"
-            case .Hot:
-                return "hot"
-            case .Controversial:
-                return "controversial"
-            case .Old:
-                return "old"
-            case .Random:
-                return "random"
-            case .Qa:
-                return "qa"
-            }
-        }
-    }
-}
+/**
+Expand child comments which are included in Comment objects, recursively.
 
-public func extendAllReplies(comment:Comment, targetArray:[Thing]) -> [Thing] {
+:param: comment Comment object will be expanded.
+
+:returns: Array contains Comment objects which are expaned from specified Comment object.
+*/
+public func extendAllReplies(comment:Comment) -> [Thing] {
     var comments:[Thing] = [comment]
     if let listing = comment.replies {
         for obj in listing.children {
             if let obj = obj as? Comment {
-                comments.extend(extendAllReplies(obj, targetArray))
+                comments.extend(extendAllReplies(obj))
             }
         }
         if let more = listing.more {
@@ -81,20 +31,23 @@ public func extendAllReplies(comment:Comment, targetArray:[Thing]) -> [Thing] {
     return comments
 }
 
+/**
+Comment object.
+*/
 public class Comment : Thing {
     /**
     the id of the subreddit in which the thing is located
     example: t5_2qizd
     */
-    public var subreddit_id = ""
+    public var subredditId = ""
     /**
     example:
     */
-    public var banned_by = ""
+    public var bannedBy = ""
     /**
     example: t3_32wnhw
     */
-    public var link_id = ""
+    public var linkId = ""
     /**
     how the logged-in user has voted on the link - True = upvoted, False = downvoted, null = no vote
     example:
@@ -107,7 +60,7 @@ public class Comment : Thing {
     /**
     example: []
     */
-    public var user_reports:[AnyObject] = []
+    public var userReports:[AnyObject] = []
     /**
     true if this post is saved by the logged in user
     example: false
@@ -124,7 +77,7 @@ public class Comment : Thing {
     /**
     example:
     */
-    public var report_reasons:[AnyObject] = []
+    public var reportReasons:[AnyObject] = []
     /**
     the account name of the poster. null if this is a promotional link
     example: Icnoyotl
@@ -133,7 +86,7 @@ public class Comment : Thing {
     /**
     example: t1_cqfh5kz
     */
-    public var parent_id = ""
+    public var parentId = ""
     /**
     the net-score of the link.  note: A submission's score is simply the number of upvotes minus the number of downvotes. If five users like the submission and three users don't it will have a score of 2. Please note that the vote numbers are not "real" numbers, they have been "fuzzed" to prevent spam bots etc. So taking the above example, if five users upvoted the submission, and three users downvote it, the upvote/downvote numbers may say 23 upvotes and 21 downvotes, or 12 upvotes, and 10 downvotes. The points score is correct, but the vote totals are "fuzzed".
     example: 1
@@ -142,7 +95,7 @@ public class Comment : Thing {
     /**
     example:
     */
-    public var approved_by = ""
+    public var approvedBy = ""
     /**
     example: 0
     */
@@ -159,7 +112,7 @@ public class Comment : Thing {
     the CSS class of the author's flair.  subreddit specific
     example:
     */
-    public var author_flair_css_class = ""
+    public var authorFlairCssClass = ""
     /**
     example: 0
     */
@@ -168,7 +121,7 @@ public class Comment : Thing {
     example: &lt;div class="md"&gt;&lt;p&gt;The bot has been having this problem for awhile, there have been thousands of new comments since it last worked properly, so it seems like this must be something recurring? Could it have something to do with our AutoModerator?&lt;/p&gt;
     &lt;/div&gt;
     */
-    public var body_html = ""
+    public var bodyHtml = ""
     /**
     subreddit of thing excluding the /r/ prefix. "pics"
     example: redditdev
@@ -177,7 +130,7 @@ public class Comment : Thing {
     /**
     example: false
     */
-    public var score_hidden = false
+    public var scoreHidden = false
     /**
     example: 1429284845
     */
@@ -186,11 +139,11 @@ public class Comment : Thing {
     the text of the author's flair.  subreddit specific
     example:
     */
-    public var author_flair_text = ""
+    public var authorFlairText = ""
     /**
     example: 1429281245
     */
-    public var created_utc = 0
+    public var createdUtc = 0
     /**
     example:
     */
@@ -198,11 +151,11 @@ public class Comment : Thing {
     /**
     example: []
     */
-    public var mod_reports:[AnyObject] = []
+    public var modReports:[AnyObject] = []
     /**
     example:
     */
-    public var num_reports = 0
+    public var numReports = 0
     /**
     example: 1
     */

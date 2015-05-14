@@ -6,7 +6,15 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
+
+extension Dictionary {
+	mutating func update(other:Dictionary) {
+		for (key,value) in other {
+			self.updateValue(value, forKey:key)
+		}
+	}
+}
 
 func commaSeparatedStringFromList(list:[String]) -> String {
     var string = ""
@@ -18,14 +26,4 @@ func commaSeparatedStringFromList(list:[String]) -> String {
         string.removeRange(range)
     }
     return string
-}
-
-extension NSURLComponents {
-    func dictionary() -> [String:String] {
-        var parameters:[String:String] = [:]
-        for queryItem in self.queryItems as! [NSURLQueryItem] {
-            parameters[queryItem.name] = queryItem.value
-        }
-        return parameters
-    }
 }

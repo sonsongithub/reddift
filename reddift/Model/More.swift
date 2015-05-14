@@ -6,10 +6,15 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
+/**
+More object.
+"more" is included in Listing object(Maybe).
+If Listing object has "more" object, it has mure more children to be downloaded.
+*/
 public class More : Thing {
-	public var parent_id = ""
+	public var parentId = ""
 	public var count = 0
 	public var children:[String] = []
 	

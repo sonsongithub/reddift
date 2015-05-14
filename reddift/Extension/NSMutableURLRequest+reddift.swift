@@ -6,8 +6,7 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
-
+import Foundation
 
 func parameterString(dictionary:[String:String])-> String {
     var buf = ""
@@ -24,6 +23,13 @@ func parameterString(dictionary:[String:String])-> String {
 extension NSMutableURLRequest {
     func setRedditBasicAuthentication() {
         var basicAuthenticationChallenge = Config.sharedInstance.clientID + ":"
+        let data = basicAuthenticationChallenge.dataUsingEncoding(NSUTF8StringEncoding)!
+        let base64Str = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
+        setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
+    }
+    
+    func setRedditBasicAuthentication(#username:String, password:String) {
+        var basicAuthenticationChallenge = username + ":" + password
         let data = basicAuthenticationChallenge.dataUsingEncoding(NSUTF8StringEncoding)!
         let base64Str = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
         setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")

@@ -7,7 +7,7 @@
         <!--Accounts-->
         <scene sceneID="v0B-ed-nZY">
             <objects>
-                <tableViewController id="GVP-Ar-RXF" customClass="AccountViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="GVP-Ar-RXF" customClass="AccountViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="bKg-mV-BZf">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -52,7 +52,7 @@
         <!--Content-->
         <scene sceneID="aG4-yP-rNl">
             <objects>
-                <tableViewController id="YbR-M4-dsn" customClass="UserViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="YbR-M4-dsn" customClass="UserViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="vMB-id-v63">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -161,6 +161,23 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <segue destination="iF3-SN-zbq" kind="show" identifier="ToSubredditsListViewController" id="21e-rJ-mtG"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="eSR-db-ZlT" style="IBUITableViewCellStyleDefault" id="gqH-9g-dgj">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gqH-9g-dgj" id="eDa-vV-i5g">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subreddits" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eSR-db-ZlT">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="vcr-5f-TOl" kind="show" identifier="ToSubredditsViewController" id="3o8-6d-Fs6"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -355,7 +372,7 @@
         <!--Profile-->
         <scene sceneID="Glb-Ok-fX7">
             <objects>
-                <tableViewController id="kFQ-5w-ZuH" customClass="ProfileViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="kFQ-5w-ZuH" customClass="ProfileViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="hXe-ij-qIG">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -482,12 +499,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="086-fa-gk9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2541" y="-421"/>
+            <point key="canvasLocation" x="2541" y="-1161"/>
         </scene>
         <!--Inbox-->
         <scene sceneID="lcc-ml-7ra">
             <objects>
-                <tableViewController id="djJ-zp-QV7" customClass="MessageViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="djJ-zp-QV7" customClass="MessageViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="cQf-t2-f91">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -517,12 +534,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g1C-HE-nhd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2541" y="353"/>
+            <point key="canvasLocation" x="2541" y="-417"/>
         </scene>
         <!--User Content View Controller-->
         <scene sceneID="tin-lm-3AR">
             <objects>
-                <tableViewController storyboardIdentifier="UserContentViewController" id="ZwL-uw-loj" customClass="UserContentViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="UserContentViewController" id="ZwL-uw-loj" customClass="UserContentViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="YpT-IV-SUx">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -543,7 +560,7 @@
         <!--Front-->
         <scene sceneID="UGM-rZ-FAM">
             <objects>
-                <tableViewController id="WaC-et-0oF" customClass="LinkViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="WaC-et-0oF" customClass="LinkViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="9d6-um-uEY">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -566,7 +583,7 @@
         <!--Subreddits-->
         <scene sceneID="dXp-0n-1p4">
             <objects>
-                <tableViewController id="iF3-SN-zbq" customClass="SubredditsListViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="iF3-SN-zbq" customClass="SubredditsListViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="oJi-uH-dfj">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -601,10 +618,10 @@
             </objects>
             <point key="canvasLocation" x="2541" y="2567"/>
         </scene>
-        <!--Link View Controller-->
+        <!--Title-->
         <scene sceneID="FNb-7H-l3U">
             <objects>
-                <tableViewController id="jER-6q-TYj" customClass="LinkViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="jER-6q-TYj" customClass="LinkViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="F3U-3A-zmM">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -614,6 +631,13 @@
                             <outlet property="delegate" destination="jER-6q-TYj" id="Cmf-j9-1Yt"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Title" id="qNJ-lj-l6R">
+                        <barButtonItem key="rightBarButtonItem" title="submit" id="sov-Nb-UYP">
+                            <connections>
+                                <segue destination="ZzQ-E0-yGR" kind="presentation" identifier="ToSubmitViewController" id="opF-wZ-ng9"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="My8-W6-Umf" kind="show" identifier="ToCommentViewController" id="0sL-Ji-lAc"/>
                     </connections>
@@ -622,10 +646,74 @@
             </objects>
             <point key="canvasLocation" x="3351" y="1829"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="1cu-UQ-fsz">
+            <objects>
+                <navigationController id="ZzQ-E0-yGR" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qRR-Oe-xIJ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="ZZW-Nh-PYd" kind="relationship" relationship="rootViewController" id="DBr-CL-Dbt"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2ec-RT-hKe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4066" y="1829"/>
+        </scene>
+        <!--DO NOT SUBMIT WITHOUT READING SOURCE-->
+        <scene sceneID="LAi-cZ-U73">
+            <objects>
+                <viewController id="ZZW-Nh-PYd" customClass="SubmitViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xxP-GI-cFa"/>
+                        <viewControllerLayoutGuide type="bottom" id="2zr-yh-Qpi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="XIa-SR-aWS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="DO NOT SUBMIT WITHOUT READING SOURCE" id="hdo-DM-mLi">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="cpd-x4-eou">
+                            <connections>
+                                <action selector="close:" destination="ZZW-Nh-PYd" id="2p9-zT-cr2"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Send" id="7Aa-63-Rhy">
+                            <connections>
+                                <action selector="send:" destination="ZZW-Nh-PYd" id="c5A-sW-CmD"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="u5m-Ux-wjI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4764" y="1829"/>
+        </scene>
+        <!--Subreddits View Controller-->
+        <scene sceneID="tN3-7n-Qqz">
+            <objects>
+                <tableViewController id="vcr-5f-TOl" customClass="SubredditsViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Fr1-DH-a79">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="vcr-5f-TOl" id="n4g-Q2-9q1"/>
+                            <outlet property="delegate" destination="vcr-5f-TOl" id="xWM-Ct-sKO"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jP0-hQ-3yn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2541" y="353"/>
+        </scene>
         <!--Comment View Controller-->
         <scene sceneID="950-9j-DSP">
             <objects>
-                <tableViewController storyboardIdentifier="CommentViewController" id="My8-W6-Umf" customClass="CommentViewController" customModule="reddift" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="CommentViewController" id="My8-W6-Umf" customClass="CommentViewController" customModule="reddiftSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dCQ-Wc-ae1">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -661,6 +749,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="a04-xl-1VS"/>
-        <segue reference="5IA-9l-TcP"/>
+        <segue reference="0sL-Ji-lAc"/>
     </inferredMetricsTieBreakers>
 </document>

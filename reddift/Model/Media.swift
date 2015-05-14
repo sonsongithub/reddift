@@ -6,8 +6,11 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
+/**
+Media represents the content which is embeded a link.
+*/
 public class Media {
     /**
     example "i.imgur.com"
@@ -17,8 +20,12 @@ public class Media {
     oembed object
     */
     public var oembed:Oembed = Oembed()
+    /**
+    Update each property with JSON object.
     
-    public func updateWithJSON(json:[String:AnyObject]) {
+    :param: json JSON object which is included "t2" JSON.
+    */
+    func updateWithJSON(json:[String:AnyObject]) {
         if let temp = json["type"] as? String {
             self.type = temp
         }
