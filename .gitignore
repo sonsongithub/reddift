@@ -39,3 +39,6 @@ Pods/
 reddift_config.json
 test_config.json
 .DS_Store
+
+# jazzy
+/docs

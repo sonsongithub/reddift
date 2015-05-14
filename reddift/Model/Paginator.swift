@@ -29,9 +29,17 @@ public class Paginator : Thing {
         self.modhash = modhash
         super.init()
 	}
+	
+	public var isVacant : Bool {
+		if (!after.isEmpty) || (!before.isEmpty) {
+			return true
+		}
+		return false
+	}
     
     /**
     Generate dictionary to add query parameters to URL.
+	If paginator is vacant, returns vacant dictionary as [String:String].
     
     :returns: Dictionary object for paging.
     */

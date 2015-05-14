@@ -9,37 +9,6 @@
 import Foundation
 
 /**
-The sort method for listing.
-*/
-public enum TimeSort {
-    case Hour
-    case Day
-    case Week
-    case Month
-    case Year
-    case All
-    
-    public var path:String {
-        switch self{
-        case .Hour:
-            return "/hour"
-        case .Day:
-            return "/day"
-        case .Year:
-            return "/top"
-        case .Week:
-            return "/week"
-        case .Month:
-            return "/month"
-        case .Year:
-            return "/year"
-        case .All:
-            return "/all"
-        }
-    }
-}
-
-/**
 Listing object.
 This class has children, paginator and more.
 */

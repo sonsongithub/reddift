@@ -23,14 +23,14 @@ class SearchResultViewController: BaseLinkViewController {
         }
         loading = true
         if previousQuery != query {
-            paginator = nil
+            paginator = Paginator()
             links.removeAll(keepCapacity: false)
             contents.removeAll(keepCapacity: false)
             self.tableView.reloadData()
         }
         
         previousQuery = query
-        session?.getSearch(self.subreddit, query: query, paginator:paginator, sort:SearchSort.Relevance, completion: { (result) -> Void in
+        session?.getSearch(self.subreddit, query: query, paginator:paginator, sort:SearchSortBy.Relevance, completion: { (result) -> Void in
             self.loading = false
             switch result {
             case let .Failure:
@@ -43,7 +43,12 @@ class SearchResultViewController: BaseLinkViewController {
                             self.links.append(link)
                         }
                     }
-                    self.paginator = listing.paginator
+					if let paginator = listing.paginator {
+						self.paginator = paginator
+					}
+					else {
+						self.paginator = Paginator()
+					}
                 }
                 self.updateStrings()
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -54,7 +59,7 @@ class SearchResultViewController: BaseLinkViewController {
     }
     
     func reload() {
-        if !previousQuery.isEmpty && paginator != nil {
+        if !previousQuery.isEmpty && !paginator.isVacant {
             searchWithQuery(previousQuery)
         }
     }

@@ -137,6 +137,10 @@
 		14C40CBF1AFB255F00F0ECFB /* reddift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		14C40D1E1AFB847500F0ECFB /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14C40D1D1AFB847500F0ECFB /* Quick.framework */; };
 		14C40D1F1AFB848200F0ECFB /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14C40D1D1AFB847500F0ECFB /* Quick.framework */; };
+		14F422611B01C84E00608939 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F422601B01C84E00608939 /* Enum.swift */; };
+		14F422621B01C84E00608939 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F422601B01C84E00608939 /* Enum.swift */; };
+		14F422631B01C84E00608939 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F422601B01C84E00608939 /* Enum.swift */; };
+		14F422641B01C84E00608939 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F422601B01C84E00608939 /* Enum.swift */; };
 		14F8120B1AF9EA9F008F6F3C /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F812001AF9EA9F008F6F3C /* reddift.framework */; };
 		14F8121A1AF9F6B0008F6F3C /* helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1420ADCB1AEDD28C00BB21C3 /* helper.swift */; };
 		14F8121B1AF9F6B0008F6F3C /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427CF1AF96A64005D0E31 /* Result.swift */; };
@@ -360,6 +364,7 @@
 		14BEDDFD1AE44FC5004F7860 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		14C40CC31AFB26F500F0ECFB /* reddiftSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = reddiftSample.entitlements; sourceTree = "<group>"; };
 		14C40D1D1AFB847500F0ECFB /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = "../../../Library/Developer/Xcode/DerivedData/reddift-bgdxdqlfsisarvcxvmoxliqxkphk/Build/Products/Debug/Quick.framework"; sourceTree = "<group>"; };
+		14F422601B01C84E00608939 /* Enum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
 		14F76FF41AECE01800A70AA5 /* Session+helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+helper.swift"; sourceTree = "<group>"; };
 		14F812001AF9EA9F008F6F3C /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14F8120A1AF9EA9F008F6F3C /* reddift-OSXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "reddift-OSXTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -609,6 +614,7 @@
 		14B8DE041ADD3DF300237350 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				14F422601B01C84E00608939 /* Enum.swift */,
 				14B8DE2A1ADD72C900237350 /* Config.swift */,
 				148BB46C1AE49FBE006ED0D0 /* Listing.swift */,
 				142984021AE4E11000846DD3 /* Thing.swift */,
@@ -963,6 +969,7 @@
 				14B5EC181AF35BFF0065BC5E /* Thing.swift in Sources */,
 				14B5EC401AF35C500065BC5E /* Session.swift in Sources */,
 				14B5EC0D1AF35BFB0065BC5E /* Parser+t5.swift in Sources */,
+				14F422611B01C84E00608939 /* Enum.swift in Sources */,
 				14B5EC1A1AF35BFF0065BC5E /* Oembed.swift in Sources */,
 				14B5EC221AF35BFF0065BC5E /* Paginator.swift in Sources */,
 				143427D31AF96AD5005D0E31 /* NSURLComponents+reddift.swift in Sources */,
@@ -982,6 +989,7 @@
 				143427D41AF96AD5005D0E31 /* NSURLComponents+reddift.swift in Sources */,
 				14B5EC251AF35BFF0065BC5E /* Listing.swift in Sources */,
 				14B5EC121AF35BFB0065BC5E /* Parser+t3.swift in Sources */,
+				14F422621B01C84E00608939 /* Enum.swift in Sources */,
 				14B5EC421AF35C560065BC5E /* OAuth2Authorizer.swift in Sources */,
 				140CC3FB1AFCB20A00E9CBB5 /* ExtendCommentsTest.swift in Sources */,
 				14B5EC441AF35C560065BC5E /* OAuth2TokenRepository.swift in Sources */,
@@ -1078,6 +1086,7 @@
 				14F812351AF9F6B6008F6F3C /* Message.swift in Sources */,
 				14F812531AF9F6C1008F6F3C /* OAuth2Token.swift in Sources */,
 				14F8124D1AF9F6BD008F6F3C /* Session+helper.swift in Sources */,
+				14F422631B01C84E00608939 /* Enum.swift in Sources */,
 				14F812341AF9F6B6008F6F3C /* Account.swift in Sources */,
 				14F812541AF9F6C1008F6F3C /* OAuth2AppOnlyToken.swift in Sources */,
 				14F8122E1AF9F6B6008F6F3C /* Oembed.swift in Sources */,
@@ -1097,6 +1106,7 @@
 				14F8125B1AF9F6C8008F6F3C /* Keychain.swift in Sources */,
 				14F8123A1AF9F6B6008F6F3C /* Media.swift in Sources */,
 				14F812381AF9F6B6008F6F3C /* Listing.swift in Sources */,
+				14F422641B01C84E00608939 /* Enum.swift in Sources */,
 				14F812391AF9F6B6008F6F3C /* Thing.swift in Sources */,
 				140CC3FC1AFCB20A00E9CBB5 /* ExtendCommentsTest.swift in Sources */,
 				14F812561AF9F6C1008F6F3C /* OAuth2Authorizer.swift in Sources */,

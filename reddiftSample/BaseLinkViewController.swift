@@ -12,13 +12,13 @@ import reddift
 class BaseLinkViewController: UITableViewController, UISearchBarDelegate {
     var session:Session? = nil
     var subreddit:Subreddit? = nil
-    var paginator:Paginator? = Paginator()
+    var paginator:Paginator = Paginator()
     var loading = false
     var task:NSURLSessionDataTask? = nil
     var segmentedControl:UISegmentedControl? = nil
     
     var sortTitles:[String] = []
-    var sortTypes:[LinkSort] = []
+    var sortTypes:[LinkSortBy] = []
     
     var links:[Link] = []
     var contents:[CellContent] = []

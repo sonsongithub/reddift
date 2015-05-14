@@ -18,7 +18,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
 		
 		self.title = self.subreddit?.title
         
-		sortTypes += [.Controversial, .Hot, .New, .Random, .Top]
+		sortTypes += [.Controversial, .Top]
 		for sortType in sortTypes {
 			sortTitles.append(sortType.path)
 		}
@@ -48,7 +48,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
 		segmentedControl = UISegmentedControl(items:sortTitles)
 		segmentedControl?.addTarget(self, action: "segmentChanged:", forControlEvents: UIControlEvents.ValueChanged)
 		segmentedControl?.frame = CGRect(x: 0, y: 0, width: 300, height: 28)
-		segmentedControl?.selectedSegmentIndex = 2
+		segmentedControl?.selectedSegmentIndex = 0
 		
 		let space = UIBarButtonItem(barButtonSystemItem:.FlexibleSpace, target: nil, action: nil)
 		let item = UIBarButtonItem(customView:self.segmentedControl!)
@@ -64,7 +64,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
                 return
             }
             loading = true
-            session?.getList(paginator, sort:sortTypes[seg.selectedSegmentIndex], subreddit:subreddit, completion: { (result) in
+			session?.getList(paginator, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.All, subreddit:subreddit, completion: { (result) in
                 switch result {
                 case let .Failure:
                     println(result.error)
@@ -76,7 +76,12 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
                                 self.links.append(link)
                             }
                         }
-                        self.paginator = listing.paginator
+						if let paginator = listing.paginator {
+							self.paginator = paginator
+						}
+						else {
+							self.paginator = Paginator()
+						}
                     }
                     self.updateStrings()
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -191,7 +196,7 @@ extension LinkViewController {
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if tableView == self.tableView {
             if indexPath.row == (contents.count - 1) {
-                if paginator != nil {
+                if !paginator.isVacant {
                     load()
                 }
             }
