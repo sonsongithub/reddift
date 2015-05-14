@@ -13,6 +13,10 @@ reddift is API wrapper for swift(for iOS).
 ![sc02](https://cloud.githubusercontent.com/assets/33768/7570674/e68381c0-f84c-11e4-914b-532f9fd06e19.png)　
 ![sc01](https://cloud.githubusercontent.com/assets/33768/7570673/e653f39c-f84c-11e4-98c7-2c3e9ef872ad.png)
 
+## Document
+
+See [cocoapods](http://cocoadocs.org/docsets/reddift/).
+
 ## How to build
 
 Now, it's under developing.
@@ -50,6 +54,61 @@ If they are not identical, reddit.com does not authorize your OAuth request.
 
 ## Getting started
 
+In more detail, See the sample application code included in reddift.
+
+#### Create session
+
+At first, you have to implement codes to receive the response of OAuth2 in ```UIAppDelegate```.
+reddift let you save tokens as a specified name into KeyChain.
+Specifically, following sample code saves token as user name at reddit.com.
+
+    func application(
+        application: UIApplication,
+        openURL url: NSURL,
+        sourceApplication: String?,
+        annotation: AnyObject?) -> Bool
+    {
+        return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion:{(result) -> Void in
+            switch result {
+            case let .Failure:
+                println(result.error)
+            case let .Success:
+                if let token = result.value as OAuth2Token? {
+                    token.getProfile({ (result) -> Void in
+                        switch result {
+                        case let .Failure:
+                            println(result.error)
+                        case let .Success:
+                            if let profile = result.value as? Account {
+                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                    OAuth2TokenRepository.saveIntoKeychainToken(token, name:profile.name)
+                                })
+                            }
+                        }
+                    })
+                }
+            }
+        })
+    }
+
+To communicate with reddit.com via OAuth2, you have to create ```Session``` object.
+
+    let result = OAuth2TokenRepository.restoreFromKeychainWithName(name)
+    switch(result) {
+    case .Failure:
+        println(result.error!.description)
+    case .Success:
+        if let token = result.value {
+            con.session = Session(token: token)
+        }
+    }
+    
+#### Get something & Error handling
+
+You can get contents from reddit via ```Session``` object like following codes.
+reddift returns ```Result<T>``` object as a result.
+In more detail about this coding style, see "[Efficient JSON in Swift with Functional Concepts and Generics](https://robots.thoughtbot.com/efficient-json-in-swift-with-functional-concepts-and-generics)".
+
     session?.getList(paginator, sort:sortType, subreddit:subreddit, completion: { (result) in
         switch result {
         case let .Failure:
@@ -70,6 +129,28 @@ If they are not identical, reddit.com does not authorize your OAuth request.
             })
         }
     })
+
+#### Application Only OAuth
+
+You can use ```OAuth2AppOnlyToken``` when you want to write a code for test or personal script tool(such as CLI).
+```OAuth2AppOnlyToken``` enabled to access reddit without human action in order to authorize in web browser apps.
+Do not use ```Oauth2AppOnlyToken``` in installed app in terms of security.
+
+    OAuth2AppOnlyToken.getOAuth2AppOnlyToken(
+        username: username,
+        password: password,
+        clientID: clientID,
+        secret: secret,
+        completion:( { (result) -> Void in
+        switch result {
+        case let .Failure:
+            println("Could not get access token from reddit.com.")
+        case let .Success:
+            if let token:OAuth2Token = result.value {
+                self.session = Session(token: token)
+            }
+        }
+    }))
 
 ## How to build test
 

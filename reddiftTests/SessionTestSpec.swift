@@ -19,7 +19,7 @@ class SessionTestSpec: QuickSpec {
                 let clientID = json["client_id"],
                 let secret = json["secret"] {
                     let documentOpenExpectation = self.expectationWithDescription("Test : Getting OAuth2 access token")
-                    OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret) { (result) -> Void in
+					OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:( { (result) -> Void in
                         switch result {
                         case let .Failure:
                             XCTFail("Could not get access token from reddit.com.")
@@ -30,7 +30,7 @@ class SessionTestSpec: QuickSpec {
                             XCTAssert((self.session != nil), "Could not establish session.")
                         }
                         documentOpenExpectation.fulfill()
-                    }
+                    }))
                     self.waitForExpectationsWithTimeout(10, handler: nil)
             }
         }
