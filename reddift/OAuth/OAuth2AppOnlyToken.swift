@@ -12,16 +12,16 @@ import Foundation
 OAuth2Token extension to authorize without a user context.
 This class is private and for only unit testing because "Installed app" is prohibited from using "Application Only OAuth" scheme, that is without user context.
 */
-class OAuth2AppOnlyToken : OAuth2Token {
-    override func encodeWithCoder(aCoder: NSCoder) {
+public class OAuth2AppOnlyToken : OAuth2Token {
+    public override func encodeWithCoder(aCoder: NSCoder) {
         super.encodeWithCoder(aCoder)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
     }
     
-    override init(accessToken:String, tokenType:String, expiresIn:Int, scope:String, refreshToken:String) {
+    public override init(accessToken:String, tokenType:String, expiresIn:Int, scope:String, refreshToken:String) {
         super.init(accessToken: accessToken, tokenType: tokenType, expiresIn: expiresIn, scope: scope, refreshToken: refreshToken)
     }
     
@@ -32,7 +32,7 @@ class OAuth2AppOnlyToken : OAuth2Token {
     
     :returns: NSMutableURLRequest object to request your access token.
     */
-    class func requestForOAuth2AppOnly(#username:String, password:String, clientID:String, secret:String) -> NSMutableURLRequest {
+    public class func requestForOAuth2AppOnly(#username:String, password:String, clientID:String, secret:String) -> NSMutableURLRequest {
         var URL = NSURL(string: "https://ssl.reddit.com/api/v1/access_token")!
         var request = NSMutableURLRequest(URL:URL)
         request.setRedditBasicAuthentication(username:clientID, password:secret)
@@ -50,7 +50,7 @@ class OAuth2AppOnlyToken : OAuth2Token {
     
     :returns: Result object. If succeeded, it includes OAuth2AppOnlyToken with a new access token.
     */
-    class func tokenWithJSON(json:JSON) -> Result<OAuth2AppOnlyToken> {
+    public class func tokenWithJSON(json:JSON) -> Result<OAuth2AppOnlyToken> {
         var token:OAuth2AppOnlyToken? = nil
         if let temp1 = json["access_token"] as? String,
             temp2 = json["token_type"] as? String,
@@ -69,7 +69,7 @@ class OAuth2AppOnlyToken : OAuth2Token {
     
     :returns: Data task which requests search to reddit.com.
     */
-    class func getOAuth2AppOnlyToken(#username:String, password:String, clientID:String, secret:String, completion:(Result<OAuth2AppOnlyToken>)->Void) -> NSURLSessionDataTask {
+    public class func getOAuth2AppOnlyToken(#username:String, password:String, clientID:String, secret:String, completion:(Result<OAuth2AppOnlyToken>)->Void) -> NSURLSessionDataTask {
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let request = requestForOAuth2AppOnly(username:username, password:password, clientID:clientID, secret:secret)
         let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
