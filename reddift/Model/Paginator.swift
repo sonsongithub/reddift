@@ -32,9 +32,9 @@ public class Paginator : Thing {
 	
 	public var isVacant : Bool {
 		if (!after.isEmpty) || (!before.isEmpty) {
-			return true
+			return false
 		}
-		return false
+		return true
 	}
     
     /**
