@@ -45,31 +45,40 @@ public class Session {
     static let baseURL = "https://oauth.reddit.com"
     let URLSession:NSURLSession
     
-    var x_ratelimit_reset = 0
-    var x_ratelimit_used = 0
-    var x_ratelimit_remaining = 0
+	var x_ratelimit_reset:Int = 0
+	var x_ratelimit_used:Int = 0
+	var x_ratelimit_remaining:Int = 0
     
     public init(token:OAuth2Token) {
         self.token = token
         self.URLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
     }
-    
+	
+	/**
+	Update API usage state.
+
+	:param: response NSURLResponse object is passed from NSURLSession.
+	*/
     func updateRateLimitWithURLResponse(response:NSURLResponse) {
         if let httpResponse:NSHTTPURLResponse = response as? NSHTTPURLResponse {
-            if let temp = httpResponse.allHeaderFields["x-ratelimit-reset"] as? Int {
-                x_ratelimit_reset = temp
+            if let temp = httpResponse.allHeaderFields["x-ratelimit-reset"] as? String {
+                x_ratelimit_reset = temp.toInt() ?? 0
             }
-            if let temp = httpResponse.allHeaderFields["x-ratelimit-used"] as? Int {
-                x_ratelimit_used = temp
+            if let temp = httpResponse.allHeaderFields["x-ratelimit-used"] as? String {
+                x_ratelimit_used = temp.toInt() ?? 0
             }
-            if let temp = httpResponse.allHeaderFields["x-ratelimit-remaining"] as? Int {
-                x_ratelimit_remaining = temp
+            if let temp = httpResponse.allHeaderFields["x-ratelimit-remaining"] as? String {
+                x_ratelimit_remaining = temp.toInt() ?? 0
             }
         }
+//		println("x_ratelimit_reset \(x_ratelimit_reset)")
+//		println("x_ratelimit_used \(x_ratelimit_used)")
+//		println("x_ratelimit_remaining \(x_ratelimit_remaining)")
     }
     
     func handleRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+			self.updateRateLimitWithURLResponse(response)
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
             completion(result)
@@ -80,6 +89,7 @@ public class Session {
     
     func handleAsJSONRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+			self.updateRateLimitWithURLResponse(response)
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON
             completion(result)
@@ -109,7 +119,8 @@ public class Session {
     */
     public func getProfile(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/v1/me", method:"GET", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+			self.updateRateLimitWithURLResponse(response)
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseThing_t2_JSON
             completion(result)
@@ -138,6 +149,7 @@ public class Session {
         }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/comments/" + link.id, parameter:parameter, method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+			self.updateRateLimitWithURLResponse(response)
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> filterArticleResponse
             
@@ -188,6 +200,7 @@ public class Session {
         }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+			self.updateRateLimitWithURLResponse(response)
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
             completion(result)
@@ -242,6 +255,7 @@ public class Session {
 		}
 		var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
 		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+			self.updateRateLimitWithURLResponse(response)
 			let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
 			let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
 			completion(result)
@@ -423,7 +437,8 @@ public class Session {
     */
     public func checkNeedsCAPTCHA(completion:(Result<Bool>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/needs_captcha", method:"GET", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+			self.updateRateLimitWithURLResponse(response)
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeBooleanString
             completion(result)
@@ -443,7 +458,8 @@ public class Session {
     public func getIdenForNewCAPTCHA(completion:(Result<String>) -> Void) -> NSURLSessionDataTask? {
         let parameter:[String:String] = ["api_type":"json"]
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/new_captcha", parameter:parameter, method:"POST", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+			self.updateRateLimitWithURLResponse(response)
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseCAPTCHAIdenJSON
             completion(result)
@@ -464,7 +480,8 @@ public class Session {
     */
     public func getCAPTCHA(iden:String, completion:(Result<CAPTCHAImage>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/captcha/" + iden, method:"GET", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+			self.updateRateLimitWithURLResponse(response)
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodePNGImage
             completion(result)
@@ -557,7 +574,8 @@ public class Session {
     public func postComment(text:String, parent:Thing, completion:(Result<Comment>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = ["thing_id":parent.name, "api_type":"json", "text":text]
         var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/comment", parameter:parameter, method:"POST", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+			self.updateRateLimitWithURLResponse(response)
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseResponseJSONToPostComment
             completion(result)
