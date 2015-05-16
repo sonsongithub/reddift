@@ -17,56 +17,22 @@ extension Parser {
 	*/
 	class func parseDataInThing_t2(data:[String:AnyObject]) -> Thing {
 		var account = Account()
-		
-		if let temp = data["has_mail"] as? Bool {
-			account.hasMail = temp
-		}
-		if let temp = data["name"] as? String {
-			account.name = temp
-		}
-		if let temp = data["created"] as? Int {
-			account.created = temp
-		}
-		if let temp = data["hide_from_robots"] as? Bool {
-			account.hideFromRobots = temp
-		}
-		if let temp = data["gold_creddits"] as? Int {
-			account.goldCreddits = temp
-		}
-		if let temp = data["created_utc"] as? Int {
-			account.createdUtc = temp
-		}
-		if let temp = data["has_mod_mail"] as? Bool {
-			account.hasModMail = temp
-		}
-		if let temp = data["link_karma"] as? Int {
-			account.linkKarma = temp
-		}
-		if let temp = data["comment_karma"] as? Int {
-			account.commentKarma = temp
-		}
-		if let temp = data["over_18"] as? Bool {
-			account.over18 = temp
-		}
-		if let temp = data["is_gold"] as? Bool {
-			account.isGold = temp
-		}
-		if let temp = data["is_mod"] as? Bool {
-			account.isMod = temp
-		}
-		if let temp = data["gold_expiration"] as? Bool {
-			account.goldExpiration = temp
-		}
-		if let temp = data["has_verified_email"] as? Bool {
-			account.hasVerifiedEmail = temp
-		}
-		if let temp = data["id"] as? String {
-			account.id = temp
-		}
-		if let temp = data["inbox_count"] as? Int {
-			account.inboxCount = temp
-		}
-		
+		account.hasMail = data["has_mail"] as? Bool ?? false
+		account.name = data["name"] as? String ?? ""
+		account.created = data["created"] as? Int ?? 0
+		account.hideFromRobots = data["hide_from_robots"] as? Bool ?? false
+		account.goldCreddits = data["gold_creddits"] as? Int ?? 0
+		account.createdUtc = data["created_utc"] as? Int ?? 0
+		account.hasModMail = data["has_mod_mail"] as? Bool ?? false
+		account.linkKarma = data["link_karma"] as? Int ?? 0
+		account.commentKarma = data["comment_karma"] as? Int ?? 0
+		account.over18 = data["over_18"] as? Bool ?? false
+		account.isGold = data["is_gold"] as? Bool ?? false
+		account.isMod = data["is_mod"] as? Bool ?? false
+		account.goldExpiration = data["gold_expiration"] as? Bool ?? false
+		account.hasVerifiedEmail = data["has_verified_email"] as? Bool ?? false
+		account.id = data["id"] as? String ?? ""
+		account.inboxCount = data["inbox_count"] as? Int ?? 0
 		return account
 	}
 }

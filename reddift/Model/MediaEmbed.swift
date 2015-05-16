@@ -27,18 +27,10 @@ public class MediaEmbed {
     :param: json JSON object which is included "t2" JSON.
     */
     func updateWithJSON(json:[String:AnyObject]) {
-        if let temp = json["height"] as? Int {
-            self.height = temp
-        }
-        if let temp = json["width"] as? Int {
-            self.width = temp
-        }
-        if let temp = json["content"] as? String {
-            self.content = temp
-        }
-        if let temp = json["scrolling"] as? Bool {
-            self.scrolling = temp
-        }
+		self.height = json["height"] as? Int ?? 0
+		self.width = json["width"] as? Int ?? 0
+		self.content = json["content"] as? String ?? ""
+		self.scrolling = json["scrolling"] as? Bool ?? false
     }
 	
 	func toString() -> String {

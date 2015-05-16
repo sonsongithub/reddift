@@ -66,41 +66,17 @@ public class Oembed {
     :param: json JSON object which is included "t2" JSON.
     */
     func updateWithJSON(json:[String:AnyObject]) {
-        if let temp = json["provider_url"] as? String {
-            self.providerUrl = temp
-        }
-        if let temp = json["description"] as? String {
-            self.description = temp
-        }
-        if let temp = json["title"] as? String {
-            self.title = temp
-        }
-        if let temp = json["thumbnail_width"] as? Int {
-            self.thumbnailWidth = temp
-        }
-        if let temp = json["height"] as? Int {
-            self.height = temp
-        }
-        if let temp = json["width"] as? Int {
-            self.width = temp
-        }
-        if let temp = json["html"] as? String {
-            self.html = temp
-        }
-        if let temp = json["version"] as? String {
-            self.version = temp
-        }
-        if let temp = json["provider_name"] as? String {
-            self.providerName = temp
-        }
-        if let temp = json["thumbnail_url"] as? String {
-            self.thumbnailUrl = temp
-        }
-        if let temp = json["type"] as? String {
-            self.type = temp
-        }
-        if let temp = json["thumbnail_height"] as? Int {
-            self.thumbnailHeight = temp
-        }
+		self.providerUrl = json["provider_url"] as? String ?? ""
+		self.description = json["description"] as? String ?? ""
+		self.title = json["title"] as? String ?? ""
+		self.thumbnailWidth = json["thumbnail_width"] as? Int ?? 0
+		self.height = json["height"] as? Int ?? 0
+		self.width = json["width"] as? Int ?? 0
+		self.html = json["html"] as? String ?? ""
+		self.version = json["version"] as? String ?? ""
+		self.providerName = json["provider_name"] as? String ?? ""
+		self.thumbnailUrl = json["thumbnail_url"] as? String ?? ""
+		self.type = json["type"] as? String ?? ""
+		self.thumbnailHeight = json["thumbnail_height"] as? Int ?? 0
     }
 }

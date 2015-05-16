@@ -62,7 +62,7 @@ func decodeJSON(data: NSData) -> Result<JSON> {
 }
 
 func parseThing_t2_JSON(json:JSON) -> Result<JSON> {
-    if let object = json >>> JSONObject {
+    if let object = json as? JSONDictionary {
         return resultFromOptional(Parser.parseDataInThing_t2(object), ReddiftError.ParseThingT2.error)
     }
     return resultFromOptional(nil, ReddiftError.ParseThingT2.error)
