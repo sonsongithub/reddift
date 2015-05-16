@@ -8,7 +8,15 @@
 
 import Foundation
 
+/**
+Uitility class.
+Parser class parses JSON and generates objects from it.
+*/
 class Parser: NSObject {
+	/**
+	Parse thing object in JSON.
+	This method dispatches element of JSON to eithr methods to extract classes derived from Thing class.
+	*/
     class func parseThing(json:[String:AnyObject]) -> AnyObject? {
         if let data = json["data"] as? [String:AnyObject], kind = json["kind"] as? String {            
             switch(kind) {
@@ -35,7 +43,10 @@ class Parser: NSObject {
         }
         return nil
     }
-    
+	
+	/**
+	Parse list object in JSON
+	*/
     class func parseListing(json:[String:AnyObject]) -> Listing {
         let listing = Listing()
         if let data = json["data"] as? [String:AnyObject] {
@@ -56,31 +67,21 @@ class Parser: NSObject {
             }
             
             if data["after"] != nil || data["before"] != nil {
-                var a:String = ""
-                var b:String = ""
-                if let after = data["after"] as? String {
-                    if !after.isEmpty {
-                        a = after
-                    }
-                }
-                if let before = data["before"] as? String {
-                    if !before.isEmpty {
-                        b = before
-                    }
-                }
+                var a:String = data["after"] as? String ?? ""
+                var b:String = data["before"] as? String ?? ""
                 
                 if !a.isEmpty || !b.isEmpty {
-                    var paginator = Paginator(after: a, before: b, modhash: "")
-                    if let modhash = data["modhash"] as? String {
-                        paginator.modhash = modhash
-                    }
+                    var paginator = Paginator(after: a, before: b, modhash: data["modhash"] as? String ?? "")
                     listing.paginator = paginator
                 }
             }
         }
         return listing
     }
-
+	
+	/**
+	Parse JSON of the style which is Thing.
+	*/
     class func parseJSON(json:AnyObject) -> AnyObject? {
         // array
         // json->[AnyObject]
@@ -96,8 +97,8 @@ class Parser: NSObject {
             }
             return output;
         }
-            // dictionary
-            // json->[String:AnyObject]
+		// dictionary
+		// json->[String:AnyObject]
         else if let json = json as? [String:AnyObject] {
             if let kind = json["kind"] as? String {
                 if kind == "Listing" {

@@ -9,6 +9,12 @@
 import Foundation
 
 extension Parser {
+	/**
+	Parse t2 object.
+	
+	:param: data Dictionary, must be generated parsing "more".
+	:returns: Account object as Thing.
+	*/
 	class func parseDataInThing_t2(data:[String:AnyObject]) -> Thing {
 		var account = Account()
 		

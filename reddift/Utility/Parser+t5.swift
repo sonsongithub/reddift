@@ -9,6 +9,12 @@
 import Foundation
 
 extension Parser {
+	/**
+	Parse t5 object.
+	
+	:param: data Dictionary, must be generated parsing "t5".
+	:returns: Subreddit object as Thing.
+	*/
 	class func parseDataInThing_t5(data:[String:AnyObject]) -> Thing {
 		var subreddit = Subreddit()
 		if let temp = data["banner_img"] as? String {

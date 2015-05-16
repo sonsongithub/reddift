@@ -9,6 +9,12 @@
 import Foundation
 
 extension Parser {
+	/**
+	Parse t4 object.
+	
+	:param: data Dictionary, must be generated parsing "t4".
+	:returns: Message object as Thing.
+	*/
 	class func parseDataInThing_t4(data:[String:AnyObject]) -> Thing {
 		var message = Message()
 		if let temp = data["body"] as? String {

@@ -9,6 +9,12 @@
 import Foundation
 
 extension Parser {
+	/**
+	Parse t3 object.
+	
+	:param: data Dictionary, must be generated parsing "t3".
+	:returns: Link object as Thing.
+	*/
     class func parseDataInThing_t3(data:[String:AnyObject]) -> Thing {
         let link = Link()
 		if let temp = data["domain"] as? String {

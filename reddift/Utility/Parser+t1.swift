@@ -9,6 +9,12 @@
 import Foundation
 
 extension Parser {
+	/**
+	Parse t1 Thing.
+	
+	:param: data Dictionary, must be generated parsing t1 Thing.
+	:returns: Comment object as Thing.
+	*/
     class func parseDataInThing_t1(data:[String:AnyObject]) -> Thing {
         let comment = Comment()
 		if let temp = data["subreddit_id"] as? String {
@@ -109,6 +115,12 @@ extension Parser {
         return comment
     }
 	
+	/**
+	Parse more object.
+	
+	:param: data Dictionary, must be generated parsing "more".
+	:returns: More object as Thing.
+	*/
 	class func parseDataInThing_more(data:[String:AnyObject]) -> Thing {
 		let more = More()
 		if let temp = data["id"] as? String {
