@@ -12,12 +12,14 @@ import Foundation
 Root class of all models for reddit contents.
 */
 public class Thing {
+	/// identifier of Thing like 15bfi0.
 	public var id = ""
+	/// name of Thing, that is fullname, like t3_15bfi0.
 	public var name = ""
+	/// type of Thing, like t3.
     public var kind = ""
     
     public init() {
-        
     }
     
     public init(id:String, kind:String) {

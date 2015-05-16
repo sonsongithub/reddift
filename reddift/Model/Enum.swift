@@ -21,6 +21,9 @@ public enum CommentSort {
 	case Random
 	case Qa
 	
+	/**
+	Returns string to create a path of URL.
+	*/
 	public var path:String {
 		switch self{
 		case .Confidence:
@@ -42,6 +45,9 @@ public enum CommentSort {
 		}
 	}
 	
+	/**
+	Returns string to show titles.
+	*/
 	public var type:String {
 		switch self{
 		case .Confidence:

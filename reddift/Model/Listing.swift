@@ -13,7 +13,10 @@ Listing object.
 This class has children, paginator and more.
 */
 public class Listing {
-    public var children:[Thing] = []
-    public var paginator:Paginator? = nil
+	/// elements of the list
+	public var children:[Thing] = []
+	/// paginator of the list
+	public var paginator:Paginator? = nil
+	/// more object of the list, includes contents that have not been downloaded.
     public var more:More? = nil
 }

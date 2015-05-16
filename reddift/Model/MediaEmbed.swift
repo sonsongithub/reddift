@@ -12,10 +12,15 @@ import Foundation
 Media represents the content which is embeded a link.
 */
 public class MediaEmbed {
-    var height = 0
-    var width = 0
-    var content = ""
+	/// Height of content.
+	var height = 0
+	/// Width of content.
+	var width = 0
+	/// Information of content.
+	var content = ""
+	/// Is content scrolled?
     var scrolling = false
+	
     /**
     Update each property with JSON object.
     
