@@ -71,7 +71,7 @@ class ParseResponseObjectTest: QuickSpec {
         }
         
         describe("message.json file") {
-            it("has 4 entries, consComment, Comment, Comment, Message.") {
+            it("has 4 entries, Comment, Comment, Comment, Message.") {
                 let json:AnyObject? = self.jsonFromFileName("message.json")
                 expect(json != nil).to(equal(true))
                 if let json:AnyObject = json {
@@ -89,48 +89,9 @@ class ParseResponseObjectTest: QuickSpec {
                 
             }
         }
-        
-        describe("message.json file") {
-            it("has 4 entries, consComment, Comment, Comment, Message.") {
-                let json:AnyObject? = self.jsonFromFileName("message.json")
-                expect(json != nil).to(equal(true))
-                if let json:AnyObject = json {
-                    let listing:AnyObject? = Parser.parseJSON(json)
-                    expect(listing != nil).to(equal(true))
-                    
-                    if let listing = listing as? Listing {
-                        expect(listing.children.count).to(equal(4))
-                        expect(listing.children[0].dynamicType === Comment.self).to(equal(true))
-                        expect(listing.children[1].dynamicType === Comment.self).to(equal(true))
-                        expect(listing.children[2].dynamicType === Comment.self).to(equal(true))
-                        expect(listing.children[3].dynamicType === Message.self).to(equal(true))
-                    }
-                }
                 
-            }
-        }
-        
-        describe("message.json file") {
-            it("has 4 entries, consComment, Comment, Comment, Message.") {
-                let json:AnyObject? = self.jsonFromFileName("message.json")
-                expect(json != nil).to(equal(true))
-                if let json:AnyObject = json {
-                    let listing:AnyObject? = Parser.parseJSON(json)
-                    expect(listing != nil).to(equal(true))
-                    
-                    if let listing = listing as? Listing {
-                        expect(listing.children.count).to(equal(26))
-                        for child in listing.children {
-                            expect(child.dynamicType === Link.self).to(equal(true))
-                        }
-                    }
-                }
-                
-            }
-        }
-        
         describe("subreddit.json file") {
-            it("has 4 Subreddits.") {
+            it("has 5 Subreddits.") {
                 let json:AnyObject? = self.jsonFromFileName("subreddit.json")
                 expect(json != nil).to(equal(true))
                 if let json:AnyObject = json {
