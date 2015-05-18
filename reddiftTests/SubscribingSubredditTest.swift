@@ -20,9 +20,8 @@ class SubscribingSubredditTest: SessionTestSpec {
         beforeEach { () -> () in
             self.createSession()
         }
-        
-            describe("Get subscribing subreddits") {
-                it("into initialList") {
+            describe("Test subscribing a subreddit API.") {
+                it("Get initial subscribing list, to initialList") {
                     var r:Bool = false
 					self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
                         switch result {
@@ -40,7 +39,7 @@ class SubscribingSubredditTest: SessionTestSpec {
                     expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
                 }
             
-                it("Subscribe　new subreddit") {
+                it("Subscribenew subreddit") {
                     var r:Bool = false
                     self.session?.setSubscribeSubreddit(self.targetSubreedit, subscribe: true, completion: { (result) -> Void in
                         switch result {

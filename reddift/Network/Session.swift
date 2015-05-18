@@ -41,17 +41,21 @@ public func JSONObjectArray(object: JSON?) -> JSONArray? {
 }
 
 public class Session {
+    /// Token object to access via OAuth
     public let token:OAuth2Token
+    /// Base URL for OAuth API
     static let baseURL = "https://oauth.reddit.com"
-    let URLSession:NSURLSession
-    
-	var x_ratelimit_reset:Int = 0
-	var x_ratelimit_used:Int = 0
+    /// Session object to communicate a server
+    let URLSession:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    /// Duration until rate limit of API usage as second.
+    var x_ratelimit_reset:Int = 0
+    /// Count of use API after rete limit is reseted.
+    var x_ratelimit_used:Int = 0
+    /// Duration until rate limit of API usage as second.
 	var x_ratelimit_remaining:Int = 0
     
     public init(token:OAuth2Token) {
         self.token = token
-        self.URLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
     }
 	
 	/**
