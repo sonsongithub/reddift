@@ -16,7 +16,7 @@ class MultiTest: SessionTestSpec {
         beforeEach { () -> () in
             self.createSession()
         }
-        describe("Get mine") {
+        describe("Get user's multi") {
             it("Fetched current mine multi") {
                 var r:Bool = false
                 self.session?.getMineMulti({ (result) -> Void in
@@ -45,6 +45,15 @@ class MultiTest: SessionTestSpec {
                         println(result.error!.description)
                     case let .Success:
                         println(result.value!.description)
+                        if let listing = result.value as? Listing {
+                            for obj in listing.children {
+                                if let link = obj as? Link {
+                                }
+                            }
+                            if let paginator = listing.paginator {
+                            }
+                        }
+                        r = true
                     }
                 })
                 expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
