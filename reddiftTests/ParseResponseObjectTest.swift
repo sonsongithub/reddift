@@ -119,5 +119,27 @@ class ParseResponseObjectTest: QuickSpec {
             }
         }
         
+        describe("Parse JSON which contains multi") {
+            it("Must have 2 Multi objects") {
+                var r = true
+                let json:AnyObject? = self.jsonFromFileName("multi.json")
+                expect(json != nil).to(equal(true))
+                if let json:AnyObject = json {
+                    let result = Parser.parseDataInJSON_Multi(json)
+                    switch result {
+                    case .Failure:
+                        println(result.error!.description)
+                        r = false
+                    case .Success:
+                        println(result.value)
+                        if let array:[Multi] = result.value {
+                            
+                        }
+                    }
+                }
+                expect(r).to(equal(true))
+            }
+        }
+        
     }
 }

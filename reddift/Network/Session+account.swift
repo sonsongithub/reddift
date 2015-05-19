@@ -20,7 +20,7 @@ extension Session {
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseThing_t2_JSON
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> Parser.parseDataInJSON_t2
             completion(result)
         })
         task.resume()

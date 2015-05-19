@@ -304,5 +304,75 @@ class ParseThingObjectTest: QuickSpec {
                 }
             }
         }
+        
+        describe("Parsing LabeledMulti json file") {
+            it("Each property of more has been loaded correctly") {
+                let json:AnyObject? = self.jsonFromFileName("LabeledMulti.json")
+                expect(json != nil).to(equal(true))
+                
+                if let thing = json as? [String:AnyObject] {
+                    if let kind = thing["kind"] as? String {
+                        if kind == "LabeledMulti" {
+                            if let data = thing["data"] as? [String:AnyObject] {
+                                let object = Multi(json: data)
+                                expect(object.canEdit).to(equal(true))
+                                expect(object.displayName).to(equal("english"))
+                                expect(object.name).to(equal("english"))
+                                expect(object.descriptionHtml).to(equal(""))
+                                expect(object.created).to(equal(1432028681))
+                                expect(object.copiedFrom).to(equal(""))
+                                expect(object.iconUrl).to(equal(""))
+                                expect(object.subreddits).to(equal(["redditdev", "swift"]))
+                                expect(object.createdUtc).to(equal(1431999881))
+                                expect(object.keyColor).to(equal("#cee3f8"))
+                                expect(object.visibility).to(equal(MultiVisibilityType.Private))
+                                expect(object.iconName).to(equal(MultiIconName.None))
+                                expect(object.weightingScheme).to(equal("classic"))
+                                expect(object.path).to(equal("/user/sonson_twit/m/english"))
+                                expect(object.descriptionMd).to(equal(""))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        describe("Parsing Needs CAPTHCA response String test") {
+            it("is true or false") {
+                var r = false
+                if let path = NSBundle(forClass: self.classForCoder).pathForResource("api_needs_captcha.json", ofType:nil) {
+                    if let data = NSData(contentsOfFile: path) {
+                        var result = decodeBooleanString(data)
+                        switch result {
+                        case .Failure:
+                            println(result.error!.description)
+                        case .Success:
+                            println(result.value)
+                            r = true
+                        }
+                    }
+                }
+                expect(r).to(equal(true))
+            }
+        }
+        
+        describe("Parsing CAPTHCA Iden response JSON Test") {
+            it("Each property of more has been loaded correctly") {
+                var r = false
+                let json:AnyObject? = self.jsonFromFileName("api_new_captcha.json")
+                expect(json != nil).to(equal(true))
+                if let thing = json as? [String:AnyObject] {
+                    var result = parseCAPTCHAIdenJSON(thing)
+                    switch result {
+                    case .Failure:
+                        println(result.error!.description)
+                    case .Success:
+                        println(result.value)
+                        r = true
+                    }
+                }
+                expect(r).to(equal(true))
+            }
+        }
     }
 }

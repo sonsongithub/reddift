@@ -8,12 +8,6 @@
 
 import Foundation
 
-#if os(iOS)
-    import UIKit
-#elseif os(OSX)
-    import Cocoa
-#endif
-
 /**
 Object to eliminate codes to parse http response object.
 */
@@ -61,70 +55,9 @@ func decodeJSON(data: NSData) -> Result<JSON> {
     return Result(error:ReddiftError.ParseJSON.error)
 }
 
-func parseThing_t2_JSON(json:JSON) -> Result<JSON> {
-    if let object = json as? JSONDictionary {
-        return resultFromOptional(Parser.parseDataInThing_t2(object), ReddiftError.ParseThingT2.error)
-    }
-    return resultFromOptional(nil, ReddiftError.ParseThingT2.error)
-}
-
 func parseListFromJSON(json: JSON) -> Result<JSON> {
     let object:AnyObject? = Parser.parseJSON(json)
     return resultFromOptional(object, ReddiftError.ParseThing.error)
-}
-
-/**
-Parse simple string response for "/api/needs_captcha"
-
-:param: data Binary data is returned from reddit.
-
-:returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
-*/
-func decodeBooleanString(data: NSData) -> Result<Bool> {
-    var decoded = NSString(data:data, encoding:NSUTF8StringEncoding)
-    if let decoded = decoded {
-        if decoded == "true" {
-            return Result(value:true)
-        }
-        else if decoded == "false" {
-            return Result(value:false)
-        }
-    }
-    return Result(error:ReddiftError.CheckNeedsCAPTHCA.error)
-}
-
-/**
-Parse simple string response for "/api/needs_captcha"
-
-:param: data Binary data is returned from reddit.
-
-:returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
-*/
-func decodePNGImage(data: NSData) -> Result<CAPTCHAImage> {
-#if os(iOS)
-    let captcha = UIImage(data: data)
-#elseif os(OSX)
-    let captcha = NSImage(data: data)
-#endif
-    return resultFromOptional(captcha, ReddiftError.GetCAPTCHAImage.error)
-}
-
-/**
-Parse JSON contains "iden" for CAPTHA.
-{"json": {"data": {"iden": "<code>"},"errors": []}}
-
-:param: json JSON object, like above sample.
-:returns: Result object. When parsing is succeeded, object contains iden as String.
-*/
-func parseCAPTCHAIdenJSON(json: JSON) -> Result<String> {
-    if let j = json["json"] as? [String:AnyObject] {
-        if let data = j["data"] as? [String:AnyObject] {
-            if let iden = data["iden"] as? String {
-                return Result(value:iden)
-            }
-        }
-    }
-    return Result(error:ReddiftError.GetCAPTCHAIden.error)
 }
 
 /**

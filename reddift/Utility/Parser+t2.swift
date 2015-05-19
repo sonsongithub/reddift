@@ -35,4 +35,11 @@ extension Parser {
 		account.inboxCount = data["inbox_count"] as? Int ?? 0
 		return account
 	}
+    
+    class func parseDataInJSON_t2(json:JSON) -> Result<JSON> {
+        if let object = json as? JSONDictionary {
+            return resultFromOptional(Parser.parseDataInThing_t2(object), ReddiftError.ParseThingT2.error)
+        }
+        return resultFromOptional(nil, ReddiftError.ParseThingT2.error)
+    }
 }

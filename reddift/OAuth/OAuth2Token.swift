@@ -243,7 +243,7 @@ public class OAuth2Token : NSObject, NSCoding {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseThing_t2_JSON
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> Parser.parseDataInJSON_t2
             completion(result)
         })
         task.resume()

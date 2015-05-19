@@ -32,7 +32,7 @@ class CAPTCHATest: SessionTestSpec {
                         }
                         
                     })
-                    expect(check).toEventuallyNot(equal(nil), timeout: 10, pollInterval: 1)
+                    expect(check).toEventuallyNot(equal(nil), timeout: 20, pollInterval: 1)
                 }
             }
             
