@@ -10,6 +10,8 @@ import Nimble
 import Quick
 
 class MultiTest: SessionTestSpec {
+    var multi:[Multi] = []
+    
     override func spec() {
         beforeEach { () -> () in
             self.createSession()
@@ -25,6 +27,7 @@ class MultiTest: SessionTestSpec {
                         println(result.value!.description)
                         if let array:[Multi] = result.value {
                             r = true
+                            self.multi += array
                             expect(array.count).toEventually(equal(2), timeout: 10, pollInterval: 1)
                         }
                     }
@@ -36,7 +39,7 @@ class MultiTest: SessionTestSpec {
         describe("Get Multi") {
             it("Fetched specified multi") {
                 var r:Bool = false
-                self.session?.getMulti("//user/sonson_twit/m/mine", completion: { (result) -> Void in
+                self.session?.getMulti(self.multi[0], completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
                         println(result.error!.description)

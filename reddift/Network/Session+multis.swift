@@ -41,13 +41,12 @@ extension Session {
     /**
     Get specified multi.
     */
-    func getMulti(multipath:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        var parameter:[String:String] = ["expand_srs":"true"]
-        var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/multi" + multipath, parameter:parameter, method:"GET", token:token)
+    func getMulti(multi:Multi, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:multi.path + ".json", method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-            let result = responseResult >>> parseResponse >>> decodeJSON
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
             completion(result)
         })
         task.resume()
