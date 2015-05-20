@@ -11,24 +11,42 @@ import Quick
 
 class MultiTest: SessionTestSpec {
     var multi:[Multi] = []
+    var newMulti:Multi? = nil
     
     override func spec() {
         beforeEach { () -> () in
             self.createSession()
         }
         
-        describe("New multi") {
-            var r:Bool = false
-            it("is created correctly") {
-                self.session?.createMulti("/user/sonson_twit/m/testest", displayName: "testest", descriptionMd: "", subreddits:["swift", "redditdev"], completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        println(result.value!.description)
-                    }
-                    var r:Bool = true
-                })
+//        describe("New Multi") {
+//            it("is created correctly") {
+//                self.session?.createMulti("testest2", descriptionMd: "", completion: { (result) -> Void in
+//                    switch result {
+//                    case let .Failure:
+//                        println(result.error!.description)
+//                    case let .Success:
+//                        self.newMulti = result.value
+//                    }
+//                })
+//                expect(self.newMulti == nil).toEventually(equal(false), timeout: 10, pollInterval: 1)
+//            }
+//        }
+        
+        describe("Update Multi") {
+            it("is updated correctly") {
+                var r = false
+//                if let multi = self.newMulti {
+//                    multi.subreddits = ["swift"]
+                    self.session?.updateMulti(nil, completion: { (result) -> Void in
+                        switch result {
+                        case let .Failure:
+                            println(result.error!.description)
+                        case let .Success:
+                            println(result.value!)
+                            r = true
+                        }
+                    })
+//                }
                 expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
             }
         }

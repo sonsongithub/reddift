@@ -75,7 +75,15 @@ public class OAuth2AppOnlyToken : OAuth2Token {
         let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> self.tokenWithJSON
-            completion(result)
+            switch result {
+            case let .Success:
+                if let token = result.value {
+                    token.name = username
+                }
+                completion(result)
+            default:
+                completion(result)
+            }
         })
         task.resume()
         return task
