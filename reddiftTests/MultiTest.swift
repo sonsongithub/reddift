@@ -16,6 +16,13 @@ class MultiTest: SessionTestSpec {
         beforeEach { () -> () in
             self.createSession()
         }
+        
+        describe("New multi") {
+            it("is created correctly") {
+                
+            }
+        }
+        
         describe("Get user's multi") {
             it("Fetched current mine multi") {
                 var r:Bool = false
@@ -39,7 +46,7 @@ class MultiTest: SessionTestSpec {
         describe("Get Multi") {
             it("Fetched specified multi") {
                 var r:Bool = false
-                self.session?.getMulti(self.multi[0], completion: { (result) -> Void in
+                self.session?.getNewList(Paginator(), subreddit:self.multi[0], completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
                         println(result.error!.description)

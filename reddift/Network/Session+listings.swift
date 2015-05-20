@@ -70,7 +70,7 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getList(paginator:Paginator, sort:LinkSortBy, timeFilterWithin:TimeFilterWithin, subreddit:Subreddit?, limit:Int = 25, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getList(paginator:Paginator, sort:LinkSortBy, timeFilterWithin:TimeFilterWithin, subreddit:SubredditURLPath?, limit:Int = 25, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var parameter = ["t":timeFilterWithin.param];
         parameter["limit"] = "\(limit)"
         parameter["show"] = "all"
@@ -79,7 +79,7 @@ extension Session {
         
         var path = sort.path
         if let subreddit = subreddit {
-            path = "/r/\(subreddit.displayName)\(path)"
+            path = "\(subreddit.path)\(sort.path)/.json"
         }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
@@ -100,7 +100,7 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getHotList(paginator:Paginator, subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getHotList(paginator:Paginator, subreddit:SubredditURLPath?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         return getNewOrHotList(paginator, subreddit: subreddit, type: "hot", completion: completion)
     }
     
@@ -112,7 +112,7 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getNewList(paginator:Paginator, subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getNewList(paginator:Paginator, subreddit:SubredditURLPath?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         return getNewOrHotList(paginator, subreddit: subreddit, type: "new", completion: completion)
     }
     
@@ -125,16 +125,16 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getNewOrHotList(paginator:Paginator, subreddit:Subreddit?, type:String, limit:Int = 25, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getNewOrHotList(paginator:Paginator, subreddit:SubredditURLPath?, type:String, limit:Int = 25, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = [:]
         parameter["limit"] = "\(limit)"
         parameter["show"] = "all"
         // parameter["sr_detail"] = "true"
         parameter.update(paginator.parameters())
         
-        var path = "/" + type
+        var path = type
         if let subreddit = subreddit {
-            path = "/r/\(subreddit.displayName)/" + type
+            path = "\(subreddit.path)\(type)/.json"
         }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in

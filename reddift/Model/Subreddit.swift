@@ -8,10 +8,15 @@
 
 import Foundation
 
+/// Protocol to integrate a code for subreddit and multireddit.
+public protocol SubredditURLPath {
+    var path:String {get}
+}
+
 /**
 Subreddit object.
 */
-public class Subreddit : Thing {
+public class Subreddit : Thing, SubredditURLPath {
     /**
     
     example:
@@ -353,6 +358,10 @@ public class Subreddit : Thing {
     
     public override func toString() -> String {
         return "url=\(url)\ntitle=\(title)"
+    }
+    
+    public var path:String {
+        return "/r/\(displayName)"
     }
 }
 

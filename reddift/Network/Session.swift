@@ -24,22 +24,6 @@ public typealias JSONDictionary = Dictionary<String, JSON>
 public typealias JSONArray = Array<JSON>
 public typealias ThingList = AnyObject
 
-public func JSONString(object: JSON?) -> String? {
-    return object as? String
-}
-
-public func JSONInt(object: JSON?) -> Int? {
-    return object as? Int
-}
-
-public func JSONObject(object: JSON?) -> JSONDictionary? {
-    return object as? JSONDictionary
-}
-
-public func JSONObjectArray(object: JSON?) -> JSONArray? {
-    return object as? JSONArray
-}
-
 public class Session {
     /// Token object to access via OAuth
     public let token:OAuth2Token

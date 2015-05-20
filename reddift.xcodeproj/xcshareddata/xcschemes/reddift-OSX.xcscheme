@@ -52,6 +52,16 @@
                ReferencedContainer = "container:reddift.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "14B5EBBA1AF34D580065BC5E"
+               BuildableName = "reddift-iOSTests.xctest"
+               BlueprintName = "reddift-iOSTests"
+               ReferencedContainer = "container:reddift.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

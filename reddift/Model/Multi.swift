@@ -71,7 +71,7 @@ public enum MultiVisibilityType : String {
     }
 }
 
-public class Multi {
+public class Multi : SubredditURLPath {
     public var descriptionMd = ""
     public var displayName = ""
     public var iconName:MultiIconName = .None
