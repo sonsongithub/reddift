@@ -57,7 +57,7 @@ extension NSMutableURLRequest {
 		if let parameter = parameter {
 			params = parameter
 		}
-        if method == "POST" || method == "PUT" {
+        if method == "POST" {
             return self.mutableOAuthPostRequestWithBaseURL(baseURL, path:path, parameter:params, method:method, token:token)
         }
         else {
