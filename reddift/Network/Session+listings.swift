@@ -79,7 +79,7 @@ extension Session {
         
         var path = sort.path
         if let subreddit = subreddit {
-            path = "\(subreddit.path)\(sort.path)/.json"
+            path = "\(subreddit.path)/\(sort.path)/.json"
         }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
@@ -134,7 +134,7 @@ extension Session {
         
         var path = type
         if let subreddit = subreddit {
-            path = "\(subreddit.path)\(type)/.json"
+            path = "\(subreddit.path)/\(type)/.json"
         }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in

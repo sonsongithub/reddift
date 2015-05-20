@@ -8,14 +8,6 @@
 
 import Foundation
 
-#if os(iOS)
-    import UIKit
-    public typealias CAPTCHAImage = UIImage
-#elseif os(OSX)
-    import Cocoa
-    public typealias CAPTCHAImage = NSImage
-#endif
-
 /**
 type alias for JSON object
 */

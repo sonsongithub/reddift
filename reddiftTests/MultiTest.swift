@@ -18,8 +18,18 @@ class MultiTest: SessionTestSpec {
         }
         
         describe("New multi") {
+            var r:Bool = false
             it("is created correctly") {
-                
+                self.session?.createMulti("/user/sonson_twit/m/testest", displayName: "testest", descriptionMd: "", subreddits:["swift", "redditdev"], completion: { (result) -> Void in
+                    switch result {
+                    case let .Failure:
+                        println(result.error!.description)
+                    case let .Success:
+                        println(result.value!.description)
+                    }
+                    var r:Bool = true
+                })
+                expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
             }
         }
         

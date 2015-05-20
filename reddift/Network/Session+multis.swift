@@ -8,38 +8,79 @@
 
 import Foundation
 
+#if os(iOS)
+    import UIKit
+    public typealias RedditColor = UIColor
+    #elseif os(OSX)
+    import Cocoa
+    public typealias RedditColor = NSColor
+#endif
+
+//    "description_md": raw markdown text,
+//    "display_name": a string no longer than 50 characters,
+//    "icon_name"
+//    "key_color": a 6-digit rgb hex color, e.g. `#AABBCC`,
+//    "subreddits":
+//    "visibility": one of (`private`, `public`, `hidden`),
+//    "weighting_scheme": one of (`classic`, `fresh`),
+
 extension Session {
     /**
     Create a new multi. Responds with 409 Conflict if it already exists.
     
-    :param: multis Multis object for new multi.
-    :param: multipath Path at where a new multi will be created.
+    :param: multipath Multireddit url path
+    :param: displayName A string no longer than 50 characters.
+    :param: descriptionMd Raw markdown text.
+    :param: iconName Icon name as MultiIconName.
+    :param: keyColor Color. as RedditColor object.(does not implement. always uses white.)
+    :param: subreddits List of subreddits as String array.
+    :param: visibility Visibility as MultiVisibilityType.
+    :param: weightingScheme One of `classic` or `fresh`.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
     */
-    func createMulti(multi:Multi, multiPath:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {        
-//        var customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
-//        var escapedSubject = subject.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
-//        var escapedText = text.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
-//        
-//        if let escapedSubject = escapedSubject, let escapedText = escapedText {
-//            var parameter:[String:String] = [:]
-//            
-//            parameter["api_type"] = "json"
-//            parameter["captcha"] = captcha
-//            parameter["iden"] = captchaIden
-//            
-//            parameter["from_sr"] = fromSubreddit.displayName
-//            parameter["text"] = escapedText
-//            parameter["subject"] = escapedSubject
-//            parameter["to"] = to.id
-//            
-//            var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
-//            return handleAsJSONRequest(request, completion:completion)
+    func createMulti(multipath:String, displayName:String, descriptionMd:String, iconName:MultiIconName = .None, keyColor:RedditColor = RedditColor.whiteColor(), subreddits:[String], visibility:MultiVisibilityType = .Private, weightingScheme:String = "classic", completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        
+        var json:[String:AnyObject] = [:]
+        var names:[[String:String]] = []
+//        for subreddit in subreddits {
+//            names.append(["name":subreddit])
 //        }
+        json["description_md"] = descriptionMd
+        json["display_name"] = displayName
+        json["icon_name"] = ""
+        json["key_color"] = "#FFFFFF"
+        json["subreddits"] = names
+        json["visibility"] = "private"
+        json["weighting_scheme"] = "classic"
+        
+        if let data:NSData = NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions.allZeros, error: nil) {
+            if let jsonString = NSString(data: data, encoding: NSUTF8StringEncoding) {
+                let customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
+                let escapedJsonString = jsonString.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
+                if let escapedJsonString = escapedJsonString {
+                    var parameter:[String:String] = ["model":escapedJsonString, "multipath":multipath]
+                    
+                    var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/multi/" + multipath, parameter:parameter, method:"POST", token:token)
+                    let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+                        self.updateRateLimitWithURLResponse(response)
+                        let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
+                        let result = responseResult >>> parseResponse >>> decodeJSON
+                        completion(result)
+                    })
+                    task.resume()
+                }
+            }
+        }
+        
         return nil
     }
 
     /**
     Get users own multis.
+    
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
     */
     func getMineMulti(completion:(Result<[Multi]>) -> Void) -> NSURLSessionDataTask? {
         var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/multi/mine", method:"GET", token:token)
