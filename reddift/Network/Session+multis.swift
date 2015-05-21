@@ -135,16 +135,12 @@ extension Session {
         var json:[String:AnyObject] = [:]
         var names:[[String:String]] = []
         
-        for subreddit in multi.subreddits {
-            names.append(["name":subreddit])
-        }
-        
-        json["description_md"] = "aaaa"
+        json["description_md"] = multi.descriptionMd
         json["display_name"] = multi.name
-        json["icon_name"] = ""
+        json["icon_name"] = multi.iconName.rawValue
         json["key_color"] = "#FFFFFF"
         json["subreddits"] = names
-        json["visibility"] = "private"
+        json["visibility"] = multi.visibility.rawValue
         json["weighting_scheme"] = "classic"
         
         if let data:NSData = NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions.allZeros, error: nil) {
