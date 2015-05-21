@@ -327,7 +327,7 @@ class ParseThingObjectTest: QuickSpec {
                                 expect(object.keyColor).to(equal("#cee3f8"))
                                 expect(object.visibility).to(equal(MultiredditVisibility.Private))
                                 expect(object.iconName).to(equal(MultiredditIconName.None))
-                                expect(object.weightingScheme).to(equal("classic"))
+                                expect(object.weightingScheme).to(equal(MultiredditWeightingScheme.Classic))
                                 expect(object.path).to(equal("/user/sonson_twit/m/english"))
                                 expect(object.descriptionMd).to(equal(""))
                             }

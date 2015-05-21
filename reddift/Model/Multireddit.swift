@@ -9,6 +9,7 @@
 import Foundation
 
 /**
+Type of Multireddit icon.
 */
 public enum MultiredditIconName : String {
     case ArtAndDesign = "art and design"
@@ -54,6 +55,7 @@ public enum MultiredditIconName : String {
 }
 
 /**
+Type of Multireddit visibility.
 */
 public enum MultiredditVisibility : String {
     case Private = "private"
@@ -71,6 +73,27 @@ public enum MultiredditVisibility : String {
     }
 }
 
+/**
+Type of Multireddit weighting scheme.
+*/
+public enum MultiredditWeightingScheme : String {
+    case Classic = "classic"
+    case Fresh = "fresh"
+    
+    init(_ type:String) {
+        let weightingScheme = MultiredditWeightingScheme(rawValue:type)
+        if let weightingScheme:MultiredditWeightingScheme = weightingScheme {
+            self = weightingScheme
+        }
+        else {
+            self = .Classic
+        }
+    }
+}
+
+/**
+Multireddit class.
+*/
 public class Multireddit : SubredditURLPath {
     public var descriptionMd = ""
     public var displayName = ""
@@ -78,7 +101,7 @@ public class Multireddit : SubredditURLPath {
     public var keyColor = "#FFFFFF"
     public var subreddits:[String] = []
     public var visibility:MultiredditVisibility = .Private
-    public var weightingScheme = "classic"
+    public var weightingScheme:MultiredditWeightingScheme = .Classic
     
     // can not update following attritubes
     public var descriptionHtml = ""
@@ -94,12 +117,8 @@ public class Multireddit : SubredditURLPath {
         descriptionMd = json["description_md"] as? String ?? ""
         displayName = json["display_name"] as? String ?? ""
         
-        if let temp = json["icon_name"] as? String {
-            iconName = MultiredditIconName(temp)
-        }
-        if let temp = json["visibility"] as? String {
-            visibility = MultiredditVisibility(temp)
-        }
+        iconName = MultiredditIconName(json["icon_name"] as? String ?? "")
+        visibility = MultiredditVisibility(json["visibility"] as? String ?? "")
         
         keyColor = json["key_color"] as? String ?? ""
         
@@ -114,7 +133,7 @@ public class Multireddit : SubredditURLPath {
         }
         
         keyColor = json["key_color"] as? String ?? ""
-        weightingScheme = json["weighting_scheme"] as? String ?? ""
+        weightingScheme = MultiredditWeightingScheme(json["weighting_scheme"] as? String ?? "")
         
         descriptionHtml = json["description_html"] as? String ?? ""
         path = json["path"] as? String ?? ""
