@@ -314,7 +314,7 @@ class ParseThingObjectTest: QuickSpec {
                     if let kind = thing["kind"] as? String {
                         if kind == "LabeledMulti" {
                             if let data = thing["data"] as? [String:AnyObject] {
-                                let object = Multi(json: data)
+                                let object = Multireddit(json: data)
                                 expect(object.canEdit).to(equal(true))
                                 expect(object.displayName).to(equal("english"))
                                 expect(object.name).to(equal("english"))
@@ -325,8 +325,8 @@ class ParseThingObjectTest: QuickSpec {
                                 expect(object.subreddits).to(equal(["redditdev", "swift"]))
                                 expect(object.createdUtc).to(equal(1431999881))
                                 expect(object.keyColor).to(equal("#cee3f8"))
-                                expect(object.visibility).to(equal(MultiVisibilityType.Private))
-                                expect(object.iconName).to(equal(MultiIconName.None))
+                                expect(object.visibility).to(equal(MultiredditVisibility.Private))
+                                expect(object.iconName).to(equal(MultiredditIconName.None))
                                 expect(object.weightingScheme).to(equal("classic"))
                                 expect(object.path).to(equal("/user/sonson_twit/m/english"))
                                 expect(object.descriptionMd).to(equal(""))

@@ -132,7 +132,7 @@ class ParseResponseObjectTest: QuickSpec {
                         r = false
                     case .Success:
                         println(result.value)
-                        if let array:[Multi] = result.value {
+                        if let array:[Multireddit] = result.value {
                             
                         }
                     }

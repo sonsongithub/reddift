@@ -1,5 +1,5 @@
 //
-//  Multi.swift
+//  Multireddit.swift
 //  reddift
 //
 //  Created by sonson on 2015/05/19.
@@ -10,7 +10,7 @@ import Foundation
 
 /**
 */
-public enum MultiIconName : String {
+public enum MultiredditIconName : String {
     case ArtAndDesign = "art and design"
     case Ask = "ask"
     case Books = "books"
@@ -43,8 +43,8 @@ public enum MultiIconName : String {
     case None = "None"
     
     init(_ name:String) {
-        let iconName = MultiIconName(rawValue:name)
-        if let iconName:MultiIconName = iconName {
+        let iconName = MultiredditIconName(rawValue:name)
+        if let iconName:MultiredditIconName = iconName {
             self = iconName
         }
         else {
@@ -55,14 +55,14 @@ public enum MultiIconName : String {
 
 /**
 */
-public enum MultiVisibilityType : String {
+public enum MultiredditVisibility : String {
     case Private = "private"
     case Public = "public"
     case Hidden = "hidden"
     
     init(_ type:String) {
-        let visibilityType = MultiVisibilityType(rawValue:type)
-        if let visibilityType:MultiVisibilityType = visibilityType {
+        let visibilityType = MultiredditVisibility(rawValue:type)
+        if let visibilityType:MultiredditVisibility = visibilityType {
             self = visibilityType
         }
         else {
@@ -71,13 +71,13 @@ public enum MultiVisibilityType : String {
     }
 }
 
-public class Multi : SubredditURLPath {
+public class Multireddit : SubredditURLPath {
     public var descriptionMd = ""
     public var displayName = ""
-    public var iconName:MultiIconName = .None
+    public var iconName:MultiredditIconName = .None
     public var keyColor = "#FFFFFF"
     public var subreddits:[String] = []
-    public var visibility:MultiVisibilityType = .Private
+    public var visibility:MultiredditVisibility = .Private
     public var weightingScheme = "classic"
     
     // can not update following attritubes
@@ -95,10 +95,10 @@ public class Multi : SubredditURLPath {
         displayName = json["display_name"] as? String ?? ""
         
         if let temp = json["icon_name"] as? String {
-            iconName = MultiIconName(temp)
+            iconName = MultiredditIconName(temp)
         }
         if let temp = json["visibility"] as? String {
-            visibility = MultiVisibilityType(temp)
+            visibility = MultiredditVisibility(temp)
         }
         
         keyColor = json["key_color"] as? String ?? ""

@@ -13,8 +13,8 @@ class MultiTest: SessionTestSpec {
     
     var initialMultiredditCount = 0
     
-    var createdMultireddit:Multi? = nil
-    var copiedMultireddit:Multi? = nil
+    var createdMultireddit:Multireddit? = nil
+    var copiedMultireddit:Multireddit? = nil
     
     
     override func spec() {
@@ -31,7 +31,7 @@ class MultiTest: SessionTestSpec {
                         println(result.error!.description)
                     case let .Success:
                         println(result.value!.description)
-                        if let array:[Multi] = result.value {
+                        if let array:[Multireddit] = result.value {
                             self.initialMultiredditCount = array.count
                         }
                         r = true
@@ -60,7 +60,7 @@ class MultiTest: SessionTestSpec {
                         println(result.error!.description)
                     case let .Success:
                         println(result.value!.description)
-                        if let array:[Multi] = result.value {
+                        if let array:[Multireddit] = result.value {
                             multiredditCountAfterCreating = array.count
                         }
                     }
@@ -80,9 +80,9 @@ class MultiTest: SessionTestSpec {
                         case let .Success:
                             println(result.value!)
                             
-                            if let updatedMultireddit:Multi = result.value {
+                            if let updatedMultireddit:Multireddit = result.value {
                                 expect(updatedMultireddit.descriptionMd).to(equal("updated"))
-                                expect(updatedMultireddit.iconName.rawValue).to(equal(MultiIconName.Science.rawValue))
+                                expect(updatedMultireddit.iconName.rawValue).to(equal(MultiredditIconName.Science.rawValue))
                             }
                             r = true
                         }
@@ -99,7 +99,7 @@ class MultiTest: SessionTestSpec {
                         case let .Failure:
                             println(result.error!.description)
                         case let .Success:
-                            if let multireddit:Multi = result.value {
+                            if let multireddit:Multireddit = result.value {
                                 self.copiedMultireddit = multireddit
                                 println(self.copiedMultireddit)
                                 r = true
@@ -118,7 +118,7 @@ class MultiTest: SessionTestSpec {
                         println(result.error!.description)
                     case let .Success:
                         println(result.value!.description)
-                        if let array:[Multi] = result.value {
+                        if let array:[Multireddit] = result.value {
                             multiredditCountAfterCopingCreatedOne = array.count
                         }
                     }
@@ -166,7 +166,7 @@ class MultiTest: SessionTestSpec {
                         println(result.error!.description)
                     case let .Success:
                         println(result.value!.description)
-                        if let array:[Multi] = result.value {
+                        if let array:[Multireddit] = result.value {
                             multiredditCountAfterDeletingCreatedOne = array.count
                         }
                     }
