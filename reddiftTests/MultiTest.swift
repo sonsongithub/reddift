@@ -25,7 +25,7 @@ class MultiTest: SessionTestSpec {
         describe("Test Multireddit.") {
             it("Get a initial multireddit list.") {
                 var r:Bool = false
-                self.session?.getMineMulti({ (result) -> Void in
+                self.session?.getMineMultireddit({ (result) -> Void in
                     switch result {
                     case let .Failure:
                         println(result.error!.description)
@@ -41,7 +41,7 @@ class MultiTest: SessionTestSpec {
             }
         
             it("Create a new multireddit.") {
-                self.session?.createMulti("test", descriptionMd: "", completion: { (result) -> Void in
+                self.session?.createMultireddit("test", descriptionMd: "", completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
                         println(result.error!.description)
@@ -54,7 +54,7 @@ class MultiTest: SessionTestSpec {
             
             it("Check count of multireddit after creating a new multireddit.") {
                 var multiredditCountAfterCreating = 0
-                self.session?.getMineMulti({ (result) -> Void in
+                self.session?.getMineMultireddit({ (result) -> Void in
                     switch result {
                     case let .Failure:
                         println(result.error!.description)
@@ -73,7 +73,7 @@ class MultiTest: SessionTestSpec {
                 if let multi = self.createdMultireddit {
                     multi.iconName = .Science
                     multi.descriptionMd = "updated"
-                    self.session?.updateMulti(multi, completion: { (result) -> Void in
+                    self.session?.updateMultireddit(multi, completion: { (result) -> Void in
                         switch result {
                         case let .Failure:
                             println(result.error!.description)
@@ -94,7 +94,7 @@ class MultiTest: SessionTestSpec {
             it("Copy the created multireddit as copytest.") {
                 var r = false
                 if let multi = self.createdMultireddit {
-                    self.session?.copyMulti(multi, newDisplayName: "copytest", completion:{ (result) -> Void in
+                    self.session?.copyMultireddit(multi, newDisplayName: "copytest", completion:{ (result) -> Void in
                         switch result {
                         case let .Failure:
                             println(result.error!.description)
@@ -112,7 +112,7 @@ class MultiTest: SessionTestSpec {
             
             it("Check count of multireddit after copying the created multireddit.") {
                 var multiredditCountAfterCopingCreatedOne = 0
-                self.session?.getMineMulti({ (result) -> Void in
+                self.session?.getMineMultireddit({ (result) -> Void in
                     switch result {
                     case let .Failure:
                         println(result.error!.description)
@@ -129,7 +129,7 @@ class MultiTest: SessionTestSpec {
             it("Delete the copied multireddit.") {
                 var r = false
                 if let multi = self.copiedMultireddit {
-                    self.session?.deleteMulti(multi, completion: { (result) -> Void in
+                    self.session?.deleteMultireddit(multi, completion: { (result) -> Void in
                         switch result {
                         case let .Failure:
                             println(result.error!.description)
@@ -145,7 +145,7 @@ class MultiTest: SessionTestSpec {
             it("Delete the created multireddit.") {
                 var r = false
                 if let multi = self.createdMultireddit {
-                    self.session?.deleteMulti(multi, completion: { (result) -> Void in
+                    self.session?.deleteMultireddit(multi, completion: { (result) -> Void in
                         switch result {
                         case let .Failure:
                             println(result.error!.description)
@@ -160,7 +160,7 @@ class MultiTest: SessionTestSpec {
             
             it("Check count of multireddit after deleting the created multireddit.") {
                 var multiredditCountAfterDeletingCreatedOne = 0
-                self.session?.getMineMulti({ (result) -> Void in
+                self.session?.getMineMultireddit({ (result) -> Void in
                     switch result {
                     case let .Failure:
                         println(result.error!.description)

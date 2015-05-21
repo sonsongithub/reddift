@@ -16,7 +16,7 @@ import Foundation
     public typealias RedditColor = NSColor
 #endif
 
-func parseMultiFromJSON(json: JSON) -> Result<Multireddit> {
+func parseMultiredditFromJSON(json: JSON) -> Result<Multireddit> {
     if let kind = json["kind"] as? String {
         if kind == "LabeledMulti" {
             if let data = json["data"] as? [String:AnyObject] {
@@ -30,7 +30,7 @@ func parseMultiFromJSON(json: JSON) -> Result<Multireddit> {
 
 extension Session {
     /**
-    Create a new multi. Responds with 409 Conflict if it already exists.
+    Create a new multireddit. Responds with 409 Conflict if it already exists.
     
     :param: multipath Multireddit url path
     :param: displayName A string no longer than 50 characters.
@@ -43,7 +43,7 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    func createMulti(displayName:String, descriptionMd:String, iconName:MultiredditIconName = .None, keyColor:RedditColor = RedditColor.whiteColor(), visibility:MultiredditVisibility = .Private, weightingScheme:String = "classic", completion:(Result<Multireddit>) -> Void) -> NSURLSessionDataTask? {
+    func createMultireddit(displayName:String, descriptionMd:String, iconName:MultiredditIconName = .None, keyColor:RedditColor = RedditColor.whiteColor(), visibility:MultiredditVisibility = .Private, weightingScheme:String = "classic", completion:(Result<Multireddit>) -> Void) -> NSURLSessionDataTask? {
         var multipath = "/user/\(token.name)/m/\(displayName)"
         var json:[String:AnyObject] = [:]
         var names:[[String:String]] = []
@@ -66,7 +66,7 @@ extension Session {
                     let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
                         self.updateRateLimitWithURLResponse(response)
                         let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-                        let result = responseResult >>> parseResponse >>> decodeJSON >>> parseMultiFromJSON
+                        let result = responseResult >>> parseResponse >>> decodeJSON >>> parseMultiredditFromJSON
                         completion(result)
                     })
                     task.resume()
@@ -78,12 +78,12 @@ extension Session {
     }
     
     /**
-    Copy the muliti.
+    Copy the mulitireddit.
     
-    :param: multi Multi object to be copied.
+    :param: multi Multireddit object to be copied.
     :returns: Data task which requests search to reddit.com.
     */
-    func copyMulti(multi:Multireddit, newDisplayName:String, completion:(Result<Multireddit>) -> Void) -> NSURLSessionDataTask? {
+    func copyMultireddit(multi:Multireddit, newDisplayName:String, completion:(Result<Multireddit>) -> Void) -> NSURLSessionDataTask? {
         var error:NSError? = nil
         let regex = NSRegularExpression(pattern:"/[^/]+?$",
             options: .CaseInsensitive,
@@ -99,7 +99,7 @@ extension Session {
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseMultiFromJSON
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseMultiredditFromJSON
             completion(result)
         })
         task.resume()
@@ -109,10 +109,10 @@ extension Session {
     /**
     Delete the multi.
     
-    :param: multi Multi object to be deleted.
+    :param: multi Multireddit object to be deleted.
     :returns: Data task which requests search to reddit.com.
     */
-    func deleteMulti(multi:Multireddit, completion:(Result<NSData>) -> Void) -> NSURLSessionDataTask? {
+    func deleteMultireddit(multi:Multireddit, completion:(Result<NSData>) -> Void) -> NSURLSessionDataTask? {
         var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/multi/" + multi.path, method:"DELETE", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             self.updateRateLimitWithURLResponse(response)
@@ -125,12 +125,12 @@ extension Session {
     }
     
     /**
-    Update the multi. Responds with 409 Conflict if it already exists.
+    Update the multireddit. Responds with 409 Conflict if it already exists.
     
-    :param: multi Multi object to be updated.
+    :param: multi Multireddit object to be updated.
     :returns: Data task which requests search to reddit.com.
     */
-    func updateMulti(multi:Multireddit, completion:(Result<Multireddit>) -> Void) -> NSURLSessionDataTask? {
+    func updateMultireddit(multi:Multireddit, completion:(Result<Multireddit>) -> Void) -> NSURLSessionDataTask? {
         var multipath = multi.path
         var json:[String:AnyObject] = [:]
         var names:[[String:String]] = []
@@ -154,7 +154,7 @@ extension Session {
                     let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
                         self.updateRateLimitWithURLResponse(response)
                         let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-                        let result = responseResult >>> parseResponse >>> decodeJSON >>> parseMultiFromJSON
+                        let result = responseResult >>> parseResponse >>> decodeJSON >>> parseMultiredditFromJSON
                         completion(result)
                     })
                     task.resume()
@@ -167,12 +167,12 @@ extension Session {
     }
 
     /**
-    Get users own multis.
+    Get users own multireddit.
     
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    func getMineMulti(completion:(Result<[Multireddit]>) -> Void) -> NSURLSessionDataTask? {
+    func getMineMultireddit(completion:(Result<[Multireddit]>) -> Void) -> NSURLSessionDataTask? {
         var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/multi/mine", method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             self.updateRateLimitWithURLResponse(response)
