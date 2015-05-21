@@ -48,7 +48,7 @@
 		141B91C21B0A4FCB00A9E6A6 /* Session+messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C11B0A4FCB00A9E6A6 /* Session+messages.swift */; };
 		141B91C41B0A4FD900A9E6A6 /* Session+misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C31B0A4FD900A9E6A6 /* Session+misc.swift */; };
 		141B91C61B0A4FE900A9E6A6 /* Session+moderation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C51B0A4FE900A9E6A6 /* Session+moderation.swift */; };
-		141B91C81B0A4FF900A9E6A6 /* Session+multis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C71B0A4FF900A9E6A6 /* Session+multis.swift */; };
+		141B91C81B0A4FF900A9E6A6 /* Session+multireddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C71B0A4FF900A9E6A6 /* Session+multireddit.swift */; };
 		141B91CA1B0A500500A9E6A6 /* Session+search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C91B0A500500A9E6A6 /* Session+search.swift */; };
 		141B91CD1B0A501900A9E6A6 /* Session+subreddits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91CC1B0A501900A9E6A6 /* Session+subreddits.swift */; };
 		141B91CF1B0A502400A9E6A6 /* Session+users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91CE1B0A502400A9E6A6 /* Session+users.swift */; };
@@ -63,7 +63,7 @@
 		141B91D91B0A503400A9E6A6 /* Session+messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C11B0A4FCB00A9E6A6 /* Session+messages.swift */; };
 		141B91DA1B0A503400A9E6A6 /* Session+misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C31B0A4FD900A9E6A6 /* Session+misc.swift */; };
 		141B91DB1B0A503400A9E6A6 /* Session+moderation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C51B0A4FE900A9E6A6 /* Session+moderation.swift */; };
-		141B91DC1B0A503400A9E6A6 /* Session+multis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C71B0A4FF900A9E6A6 /* Session+multis.swift */; };
+		141B91DC1B0A503400A9E6A6 /* Session+multireddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C71B0A4FF900A9E6A6 /* Session+multireddit.swift */; };
 		141B91DD1B0A503400A9E6A6 /* Session+search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C91B0A500500A9E6A6 /* Session+search.swift */; };
 		141B91DE1B0A503400A9E6A6 /* Session+subreddits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91CC1B0A501900A9E6A6 /* Session+subreddits.swift */; };
 		141B91DF1B0A503400A9E6A6 /* Session+users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91CE1B0A502400A9E6A6 /* Session+users.swift */; };
@@ -78,7 +78,7 @@
 		141B91E81B0A503400A9E6A6 /* Session+messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C11B0A4FCB00A9E6A6 /* Session+messages.swift */; };
 		141B91E91B0A503400A9E6A6 /* Session+misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C31B0A4FD900A9E6A6 /* Session+misc.swift */; };
 		141B91EA1B0A503400A9E6A6 /* Session+moderation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C51B0A4FE900A9E6A6 /* Session+moderation.swift */; };
-		141B91EB1B0A503400A9E6A6 /* Session+multis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C71B0A4FF900A9E6A6 /* Session+multis.swift */; };
+		141B91EB1B0A503400A9E6A6 /* Session+multireddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C71B0A4FF900A9E6A6 /* Session+multireddit.swift */; };
 		141B91EC1B0A503400A9E6A6 /* Session+search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C91B0A500500A9E6A6 /* Session+search.swift */; };
 		141B91ED1B0A503400A9E6A6 /* Session+subreddits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91CC1B0A501900A9E6A6 /* Session+subreddits.swift */; };
 		141B91EE1B0A503400A9E6A6 /* Session+users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91CE1B0A502400A9E6A6 /* Session+users.swift */; };
@@ -93,7 +93,7 @@
 		141B91F71B0A503500A9E6A6 /* Session+messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C11B0A4FCB00A9E6A6 /* Session+messages.swift */; };
 		141B91F81B0A503500A9E6A6 /* Session+misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C31B0A4FD900A9E6A6 /* Session+misc.swift */; };
 		141B91F91B0A503500A9E6A6 /* Session+moderation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C51B0A4FE900A9E6A6 /* Session+moderation.swift */; };
-		141B91FA1B0A503500A9E6A6 /* Session+multis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C71B0A4FF900A9E6A6 /* Session+multis.swift */; };
+		141B91FA1B0A503500A9E6A6 /* Session+multireddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C71B0A4FF900A9E6A6 /* Session+multireddit.swift */; };
 		141B91FB1B0A503500A9E6A6 /* Session+search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C91B0A500500A9E6A6 /* Session+search.swift */; };
 		141B91FC1B0A503500A9E6A6 /* Session+subreddits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91CC1B0A501900A9E6A6 /* Session+subreddits.swift */; };
 		141B91FD1B0A503500A9E6A6 /* Session+users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91CE1B0A502400A9E6A6 /* Session+users.swift */; };
@@ -372,7 +372,7 @@
 		141B91C11B0A4FCB00A9E6A6 /* Session+messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+messages.swift"; sourceTree = "<group>"; };
 		141B91C31B0A4FD900A9E6A6 /* Session+misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+misc.swift"; sourceTree = "<group>"; };
 		141B91C51B0A4FE900A9E6A6 /* Session+moderation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+moderation.swift"; sourceTree = "<group>"; };
-		141B91C71B0A4FF900A9E6A6 /* Session+multis.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+multis.swift"; sourceTree = "<group>"; };
+		141B91C71B0A4FF900A9E6A6 /* Session+multireddit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+multireddit.swift"; sourceTree = "<group>"; };
 		141B91C91B0A500500A9E6A6 /* Session+search.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+search.swift"; sourceTree = "<group>"; };
 		141B91CC1B0A501900A9E6A6 /* Session+subreddits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+subreddits.swift"; sourceTree = "<group>"; };
 		141B91CE1B0A502400A9E6A6 /* Session+users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+users.swift"; sourceTree = "<group>"; };
@@ -767,7 +767,7 @@
 				141B91C11B0A4FCB00A9E6A6 /* Session+messages.swift */,
 				141B91C31B0A4FD900A9E6A6 /* Session+misc.swift */,
 				141B91C51B0A4FE900A9E6A6 /* Session+moderation.swift */,
-				141B91C71B0A4FF900A9E6A6 /* Session+multis.swift */,
+				141B91C71B0A4FF900A9E6A6 /* Session+multireddit.swift */,
 				141B91C91B0A500500A9E6A6 /* Session+search.swift */,
 				141B91CC1B0A501900A9E6A6 /* Session+subreddits.swift */,
 				141B91CE1B0A502400A9E6A6 /* Session+users.swift */,
@@ -1117,7 +1117,7 @@
 				1401269A1B0AD0ED003CA6C1 /* Parser+Multi.swift in Sources */,
 				14B5EC091AF35BFB0065BC5E /* Parser+t1.swift in Sources */,
 				14B5EC181AF35BFF0065BC5E /* Thing.swift in Sources */,
-				141B91C81B0A4FF900A9E6A6 /* Session+multis.swift in Sources */,
+				141B91C81B0A4FF900A9E6A6 /* Session+multireddit.swift in Sources */,
 				141B91BC1B0A4F9B00A9E6A6 /* Session+links.swift in Sources */,
 				14B5EC401AF35C500065BC5E /* Session.swift in Sources */,
 				14B5EC0D1AF35BFB0065BC5E /* Parser+t5.swift in Sources */,
@@ -1175,7 +1175,7 @@
 				141B91DD1B0A503400A9E6A6 /* Session+search.swift in Sources */,
 				14B5EC611AF4B9D60065BC5E /* ParseResponseObjectTest.swift in Sources */,
 				141B91D31B0A503400A9E6A6 /* Session+CAPTCHA.swift in Sources */,
-				141B91DC1B0A503400A9E6A6 /* Session+multis.swift in Sources */,
+				141B91DC1B0A503400A9E6A6 /* Session+multireddit.swift in Sources */,
 				14B5EC3B1AF35C4B0065BC5E /* NSBundle+reddift.swift in Sources */,
 				141B91E01B0A503400A9E6A6 /* Session+wiki.swift in Sources */,
 				14B5EC2D1AF35BFF0065BC5E /* Subreddit.swift in Sources */,
@@ -1269,7 +1269,7 @@
 				1401269C1B0AD0ED003CA6C1 /* Parser+Multi.swift in Sources */,
 				14F8124E1AF9F6BD008F6F3C /* HttpStatus.swift in Sources */,
 				14F812351AF9F6B6008F6F3C /* Message.swift in Sources */,
-				141B91EB1B0A503400A9E6A6 /* Session+multis.swift in Sources */,
+				141B91EB1B0A503400A9E6A6 /* Session+multireddit.swift in Sources */,
 				141B91E51B0A503400A9E6A6 /* Session+links.swift in Sources */,
 				14F812531AF9F6C1008F6F3C /* OAuth2Token.swift in Sources */,
 				14F8124D1AF9F6BD008F6F3C /* Session+helper.swift in Sources */,
@@ -1327,7 +1327,7 @@
 				141B91FB1B0A503500A9E6A6 /* Session+search.swift in Sources */,
 				14F812281AF9F6B1008F6F3C /* Parser+t4.swift in Sources */,
 				141B91F11B0A503500A9E6A6 /* Session+CAPTCHA.swift in Sources */,
-				141B91FA1B0A503500A9E6A6 /* Session+multis.swift in Sources */,
+				141B91FA1B0A503500A9E6A6 /* Session+multireddit.swift in Sources */,
 				14F8123F1AF9F6B6008F6F3C /* More.swift in Sources */,
 				141B91FE1B0A503500A9E6A6 /* Session+wiki.swift in Sources */,
 				14F812251AF9F6B1008F6F3C /* Parser+t1.swift in Sources */,

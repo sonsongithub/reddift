@@ -1,5 +1,5 @@
 //
-//  Session+multis.swift
+//  Session+multireddit.swift
 //  reddift
 //
 //  Created by sonson on 2015/05/19.
