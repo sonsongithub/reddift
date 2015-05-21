@@ -51,6 +51,11 @@
                BlueprintName = "reddift-iOSTests"
                ReferencedContainer = "container:reddift.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "MultiTest">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>

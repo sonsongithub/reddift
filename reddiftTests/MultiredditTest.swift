@@ -9,7 +9,7 @@
 import Nimble
 import Quick
 
-class MultiTest: SessionTestSpec {
+class MultiredditTest: SessionTestSpec {
     
     var initialMultiredditCount = 0
     
@@ -68,6 +68,24 @@ class MultiTest: SessionTestSpec {
                 expect(multiredditCountAfterCreating).toEventually(equal(self.initialMultiredditCount + 1), timeout: 10, pollInterval: 1)
             }
             
+            it("Add subreddit to the new multireddit") {
+                var r = false
+                let subreddit = Subreddit()
+                subreddit.displayName = "swift"
+                if let multi = self.createdMultireddit {
+                    self.session?.addSubredditToMultireddit(multi, subreddit: subreddit, completion:{ (result) -> Void in
+                        switch result {
+                        case let .Failure:
+                            println(result.error!.description)
+                        case let .Success:
+                            println(result.value!)
+                            r = true
+                        }
+                    })
+                }
+                expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
+            }
+            
             it("Update the attribute of new multireddit, except subreddits.") {
                 var r = false
                 if let multi = self.createdMultireddit {
@@ -90,7 +108,7 @@ class MultiTest: SessionTestSpec {
                 }
                 expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
             }
-            
+
             it("Copy the created multireddit as copytest.") {
                 var r = false
                 if let multi = self.createdMultireddit {
