@@ -11,8 +11,8 @@
 		140126931B0AC443003CA6C1 /* Multireddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140126911B0AC443003CA6C1 /* Multireddit.swift */; };
 		140126941B0AC443003CA6C1 /* Multireddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140126911B0AC443003CA6C1 /* Multireddit.swift */; };
 		140126951B0AC443003CA6C1 /* Multireddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140126911B0AC443003CA6C1 /* Multireddit.swift */; };
-		140126971B0ACBAD003CA6C1 /* MultiTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140126961B0ACBAD003CA6C1 /* MultiTest.swift */; };
-		140126981B0ACBAD003CA6C1 /* MultiTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140126961B0ACBAD003CA6C1 /* MultiTest.swift */; };
+		140126971B0ACBAD003CA6C1 /* MultiredditTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140126961B0ACBAD003CA6C1 /* MultiredditTest.swift */; };
+		140126981B0ACBAD003CA6C1 /* MultiredditTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140126961B0ACBAD003CA6C1 /* MultiredditTest.swift */; };
 		1401269A1B0AD0ED003CA6C1 /* Parser+Multi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140126991B0AD0ED003CA6C1 /* Parser+Multi.swift */; };
 		1401269B1B0AD0ED003CA6C1 /* Parser+Multi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140126991B0AD0ED003CA6C1 /* Parser+Multi.swift */; };
 		1401269C1B0AD0ED003CA6C1 /* Parser+Multi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140126991B0AD0ED003CA6C1 /* Parser+Multi.swift */; };
@@ -350,7 +350,7 @@
 
 /* Begin PBXFileReference section */
 		140126911B0AC443003CA6C1 /* Multireddit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Multireddit.swift; sourceTree = "<group>"; };
-		140126961B0ACBAD003CA6C1 /* MultiTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiTest.swift; sourceTree = "<group>"; };
+		140126961B0ACBAD003CA6C1 /* MultiredditTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiredditTest.swift; sourceTree = "<group>"; };
 		140126991B0AD0ED003CA6C1 /* Parser+Multi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Parser+Multi.swift"; sourceTree = "<group>"; };
 		1401269E1B0AF001003CA6C1 /* multi.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = multi.json; sourceTree = "<group>"; };
 		140126A31B0AF59C003CA6C1 /* LabeledMulti.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LabeledMulti.json; sourceTree = "<group>"; };
@@ -613,7 +613,7 @@
 				149CE2611AFAD4DF004B61C1 /* CAPTCHATest.swift */,
 				1424A8931AFDC7CD00EF08CD /* CommentTest.swift */,
 				1403C91E1AFE39BE0094E291 /* SubscribingSubredditTest.swift */,
-				140126961B0ACBAD003CA6C1 /* MultiTest.swift */,
+				140126961B0ACBAD003CA6C1 /* MultiredditTest.swift */,
 				14BEDDFF1AE454C4004F7860 /* data */,
 				147EADB91AD78568007FA2F4 /* Supporting Files */,
 			);
@@ -1183,7 +1183,7 @@
 				14B5EC3D1AF35C4B0065BC5E /* NSMutableURLRequest+reddift.swift in Sources */,
 				14B5EC241AF35BFF0065BC5E /* Config.swift in Sources */,
 				14B5EC3F1AF35C4F0065BC5E /* Session+helper.swift in Sources */,
-				140126971B0ACBAD003CA6C1 /* MultiTest.swift in Sources */,
+				140126971B0ACBAD003CA6C1 /* MultiredditTest.swift in Sources */,
 				14B5EC2B1AF35BFF0065BC5E /* Comment.swift in Sources */,
 				141B91DE1B0A503400A9E6A6 /* Session+subreddits.swift in Sources */,
 				141341001AFBD4AB00D16B7C /* SessionTestSpec.swift in Sources */,
@@ -1335,7 +1335,7 @@
 				14F812401AF9F6B6008F6F3C /* Subreddit.swift in Sources */,
 				14F812431AF9F6B6008F6F3C /* Paginator.swift in Sources */,
 				14F812511AF9F6BE008F6F3C /* HttpStatus.swift in Sources */,
-				140126981B0ACBAD003CA6C1 /* MultiTest.swift in Sources */,
+				140126981B0ACBAD003CA6C1 /* MultiredditTest.swift in Sources */,
 				14F812421AF9F6B6008F6F3C /* Message.swift in Sources */,
 				141B91FC1B0A503500A9E6A6 /* Session+subreddits.swift in Sources */,
 				14F812571AF9F6C1008F6F3C /* OAuth2Token.swift in Sources */,
