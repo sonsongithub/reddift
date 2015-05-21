@@ -12,8 +12,12 @@ import Quick
 class SubscribingSubredditTest: SessionTestSpec {
     
     var initialList:[Subreddit] = []
-    var subscribedList:[Subreddit] = []
-    var unsubscribedList:[Subreddit] = []
+    var initialCount = 0
+    
+    var afterSubscribingList:[Subreddit] = []
+    
+    var afterUnsubscribingList:[Subreddit] = []
+    
     let targetSubreedit = Subreddit(id: "2rdw8", kind: "t5")
 
     override func spec() {
@@ -21,7 +25,7 @@ class SubscribingSubredditTest: SessionTestSpec {
             self.createSession()
         }
         describe("Test subscribing a subreddit API.") {
-            it("Get initial subscribing list, to initialList") {
+            it("Get initial subscribing list and count of it.") {
                 self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
@@ -30,14 +34,15 @@ class SubscribingSubredditTest: SessionTestSpec {
                         if let listing = result.value as? Listing {
                             if let children = listing.children as? [Subreddit] {
                                 self.initialList = children
+                                self.initialCount = self.initialList.count
                             }
                         }
                     }
                 })
-                expect(self.initialList.count > 0).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(self.initialCount > 0).toEventually(equal(true), timeout: 10, pollInterval: 1)
             }
         
-            it("Subscribenew subreddit") {
+            it("Subscribe a new subreddit") {
                 var r:Bool = false
                 self.session?.setSubscribeSubreddit(self.targetSubreedit, subscribe: true, completion: { (result) -> Void in
                     switch result {
@@ -50,7 +55,8 @@ class SubscribingSubredditTest: SessionTestSpec {
                 expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
             }
     
-            it("subscribedList.count is one more than initialList.count") {
+            it("Check count of current subscribing list is increased by one") {
+                var afterSubscribingCount = 0
                 self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
@@ -58,12 +64,13 @@ class SubscribingSubredditTest: SessionTestSpec {
                     case let .Success:
                         if let listing = result.value as? Listing {
                             if let children = listing.children as? [Subreddit] {
-                                self.subscribedList = children
+                                self.afterSubscribingList = children
+                                afterSubscribingCount = self.afterSubscribingList.count
                             }
                         }
                     }
                 })
-                expect(self.initialList.count + 1).toEventually(equal(self.subscribedList.count), timeout: 10, pollInterval: 1)
+                expect(afterSubscribingCount).toEventually(equal(self.initialCount + 1), timeout: 10, pollInterval: 1)
             }
         
             it("Unsubscribe last subscribed subreddit") {
@@ -78,8 +85,9 @@ class SubscribingSubredditTest: SessionTestSpec {
                 })
                 expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
             }
-    
-            it("unsubscribedList.count is equal to initialList.count") {
+            
+            it("Check count of current subscribing list is equal to initial count.") {
+                var afterUnsubscribingCount = 0
                 self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
@@ -87,12 +95,13 @@ class SubscribingSubredditTest: SessionTestSpec {
                     case let .Success:
                         if let listing = result.value as? Listing {
                             if let children = listing.children as? [Subreddit] {
-                                self.unsubscribedList = children
+                                self.afterUnsubscribingList = children
+                                afterUnsubscribingCount = self.afterUnsubscribingList.count
                             }
                         }
                     }
                 })
-                expect(self.initialList.count).toEventually(equal(self.unsubscribedList.count), timeout: 10, pollInterval: 1)
+                expect(afterUnsubscribingCount).toEventually(equal(self.initialCount), timeout: 10, pollInterval: 1)
             }
         }
     }
