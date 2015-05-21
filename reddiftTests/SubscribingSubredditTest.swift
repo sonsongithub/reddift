@@ -22,7 +22,6 @@ class SubscribingSubredditTest: SessionTestSpec {
         }
         describe("Test subscribing a subreddit API.") {
             it("Get initial subscribing list, to initialList") {
-                var r:Bool = false
                 self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
@@ -33,10 +32,9 @@ class SubscribingSubredditTest: SessionTestSpec {
                                 self.initialList = children
                             }
                         }
-                        r = true
                     }
                 })
-                expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(self.initialList.count > 0).toEventually(equal(true), timeout: 10, pollInterval: 1)
             }
         
             it("Subscribenew subreddit") {
@@ -53,7 +51,6 @@ class SubscribingSubredditTest: SessionTestSpec {
             }
     
             it("subscribedList.count is one more than initialList.count") {
-                var r:Bool = false
                 self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
@@ -64,10 +61,8 @@ class SubscribingSubredditTest: SessionTestSpec {
                                 self.subscribedList = children
                             }
                         }
-                        r = true
                     }
                 })
-                expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
                 expect(self.initialList.count + 1).toEventually(equal(self.subscribedList.count), timeout: 10, pollInterval: 1)
             }
         
@@ -85,7 +80,6 @@ class SubscribingSubredditTest: SessionTestSpec {
             }
     
             it("unsubscribedList.count is equal to initialList.count") {
-                var r:Bool = false
                 self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
@@ -96,10 +90,8 @@ class SubscribingSubredditTest: SessionTestSpec {
                                 self.unsubscribedList = children
                             }
                         }
-                        r = true
                     }
                 })
-                expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
                 expect(self.initialList.count).toEventually(equal(self.unsubscribedList.count), timeout: 10, pollInterval: 1)
             }
         }

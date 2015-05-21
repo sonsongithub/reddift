@@ -78,22 +78,69 @@ extension Session {
     }
     
     /**
+    Copy the muliti.
+    
+    :param: multi Multi object to be copied.
+    :returns: Data task which requests search to reddit.com.
+    */
+    func copyMulti(multi:Multi, newDisplayName:String, completion:(Result<Multi>) -> Void) -> NSURLSessionDataTask? {
+        var error:NSError? = nil
+        let regex = NSRegularExpression(pattern:"/[^/]+?$",
+            options: .CaseInsensitive,
+            error: &error)
+        
+        let to = regex?.stringByReplacingMatchesInString(multi.path, options: .allZeros, range: NSMakeRange(0, count(multi.path)), withTemplate: "/" + newDisplayName)
+        
+        var parameter:[String:String] = [:]
+        parameter["display_name"] = newDisplayName
+        parameter["from"] = multi.path
+        parameter["to"] = to
+        var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/multi/copy", parameter:parameter, method:"POST", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseMultiFromJSON
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+
+    /**
+    Delete the multi.
+    
+    :param: multi Multi object to be deleted.
+    :returns: Data task which requests search to reddit.com.
+    */
+    func deleteMulti(multi:Multi, completion:(Result<NSData>) -> Void) -> NSURLSessionDataTask? {
+        var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/multi/" + multi.path, method:"DELETE", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
+            let result = responseResult >>> parseResponse
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
+    /**
     Update the multi. Responds with 409 Conflict if it already exists.
     
     :param: multi Multi object to be updated.
     :returns: Data task which requests search to reddit.com.
     */
-    func updateMulti(multi:Multi?, completion:(Result<Multi>) -> Void) -> NSURLSessionDataTask? {
-        var multipath = "/user/sonson_twit/m/testest"
+    func updateMulti(multi:Multi, completion:(Result<Multi>) -> Void) -> NSURLSessionDataTask? {
+        var multipath = multi.path
         var json:[String:AnyObject] = [:]
         var names:[[String:String]] = []
         
-//        for subreddit in multi.subreddits {
-//            names.append(["name":subreddit])
-//        }
+        for subreddit in multi.subreddits {
+            names.append(["name":subreddit])
+        }
         
         json["description_md"] = "aaaa"
-        json["display_name"] = "testest"
+        json["display_name"] = multi.name
         json["icon_name"] = ""
         json["key_color"] = "#FFFFFF"
         json["subreddits"] = names
@@ -115,6 +162,7 @@ extension Session {
                         completion(result)
                     })
                     task.resume()
+                    return task
                 }
             }
         }
