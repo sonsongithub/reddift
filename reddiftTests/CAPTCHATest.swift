@@ -32,7 +32,7 @@ class CAPTCHATest: SessionTestSpec {
                         }
                         
                     })
-                    expect(check).toEventuallyNot(equal(nil), timeout: 20, pollInterval: 1)
+                    expect(check).toEventuallyNot(equal(nil), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
                 }
             }
             
@@ -47,7 +47,7 @@ class CAPTCHATest: SessionTestSpec {
                             iden = result.value
                         }
                     })
-                    expect(iden).toEventuallyNot(equal(nil), timeout: 10, pollInterval: 1)
+                    expect(iden).toEventuallyNot(equal(nil), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
                 }
             }
             
@@ -77,12 +77,12 @@ class CAPTCHATest: SessionTestSpec {
                             }
                         }
                     })
-                    expect(size).toEventuallyNot(equal(nil), timeout: 10, pollInterval: 1)
+                    expect(size).toEventuallyNot(equal(nil), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
                     if let size = size {
                     #if os(iOS)
-                        expect(size).toEventually(equal(CGSize(width: 120, height: 50)), timeout: 10, pollInterval: 1)
+                        expect(size).toEventually(equal(CGSize(width: 120, height: 50)), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
                     #elseif os(OSX)
-                        expect(size).toEventually(equal(NSSize(width: 120, height: 50)), timeout: 10, pollInterval: 1)
+                        expect(size).toEventually(equal(NSSize(width: 120, height: 50)), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
                     #endif
                     }
                 }

@@ -41,7 +41,7 @@ class SubscribingSubredditTest: SessionTestSpec {
                         }
                     }
                 })
-                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
         
             it("Subscribe a new subreddit") {
@@ -54,7 +54,7 @@ class SubscribingSubredditTest: SessionTestSpec {
                         r = true
                     }
                 })
-                expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(r).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
     
             it("Check count of current subscribing list is increased by one") {
@@ -72,7 +72,7 @@ class SubscribingSubredditTest: SessionTestSpec {
                         }
                     }
                 })
-                expect(afterSubscribingCount).toEventually(equal(self.initialCount + 1), timeout: 10, pollInterval: 1)
+                expect(afterSubscribingCount).toEventually(equal(self.initialCount + 1), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
         
             it("Unsubscribe last subscribed subreddit") {
@@ -85,7 +85,7 @@ class SubscribingSubredditTest: SessionTestSpec {
                         r = true
                     }
                 })
-                expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(r).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
             
             it("Check count of current subscribing list is equal to initial count.") {
@@ -103,7 +103,7 @@ class SubscribingSubredditTest: SessionTestSpec {
                         }
                     }
                 })
-                expect(afterUnsubscribingCount).toEventually(equal(self.initialCount), timeout: 10, pollInterval: 1)
+                expect(afterUnsubscribingCount).toEventually(equal(self.initialCount), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
         }
     }

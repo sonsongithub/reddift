@@ -35,7 +35,7 @@ class MultiredditTest: SessionTestSpec {
                 }
             })
         }
-        expect(addedDisplayName).toEventually(equal(subredditDisplayName), timeout: 10, pollInterval: 1)
+        expect(addedDisplayName).toEventually(equal(subredditDisplayName), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
     }
     
     func testMultiredditIsRegistered(nameList:[String]) {
@@ -55,7 +55,7 @@ class MultiredditTest: SessionTestSpec {
                         }
                     }
                 }
-                expect(count).toEventually(equal(nameList.count), timeout: 10, pollInterval: 1)
+                expect(count).toEventually(equal(nameList.count), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
         })
     }
@@ -105,7 +105,7 @@ class MultiredditTest: SessionTestSpec {
                         isSucceeded = true
                     }
                 })
-                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
         
             it("Create a new multireddit.") {
@@ -117,7 +117,7 @@ class MultiredditTest: SessionTestSpec {
                         self.createdMultireddit = result.value
                     }
                 })
-                expect(self.createdMultireddit == nil).toEventually(equal(false), timeout: 10, pollInterval: 1)
+                expect(self.createdMultireddit == nil).toEventually(equal(false), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
             
             it("Check count of multireddit after creating a new multireddit.") {
@@ -132,7 +132,7 @@ class MultiredditTest: SessionTestSpec {
                         }
                     }
                 })
-                expect(multiredditCountAfterCreating).toEventually(equal(self.initialMultiredditCount + 1), timeout: 10, pollInterval: 1)
+                expect(multiredditCountAfterCreating).toEventually(equal(self.initialMultiredditCount + 1), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
             
             it("Add subreddits, swift and redditdev, to the new multireddit") {
@@ -148,7 +148,7 @@ class MultiredditTest: SessionTestSpec {
                         isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
                     })
                 }
-                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
             
             it("Check whether the multireddit does inlcude only swift and redditdev articles, Hot") {
@@ -158,7 +158,7 @@ class MultiredditTest: SessionTestSpec {
                         isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
                     })
                 }
-                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
             
             it("Check whether the multireddit does inlcude only swift and redditdev articles, New") {
@@ -168,7 +168,7 @@ class MultiredditTest: SessionTestSpec {
                         isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
                     })
                 }
-                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
             
             it("Check whether the multireddit does inlcude only swift and redditdev articles, Top") {
@@ -178,7 +178,7 @@ class MultiredditTest: SessionTestSpec {
                         isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
                     })
                 }
-                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
             
             it("Update the attribute of new multireddit, except subreddits.") {
@@ -199,25 +199,45 @@ class MultiredditTest: SessionTestSpec {
                         }
                     })
                 }
-                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
+            }
+            
+            it("Check the updated description") {
+                
+                var isSucceeded = false
+                if let multi = self.createdMultireddit {
+                    multi.iconName = .Science
+                    multi.descriptionMd = "updated"
+                    self.session?.updateMultireddit(multi, completion: { (result) -> Void in
+                        switch result {
+                        case let .Failure:
+                            println(result.error!.description)
+                        case let .Success:
+                            if let updatedMultireddit:Multireddit = result.value {
+                                expect(updatedMultireddit.descriptionMd).to(equal("updated"))
+                                expect(updatedMultireddit.iconName.rawValue).to(equal(MultiredditIconName.Science.rawValue))
+                            }
+                            isSucceeded = true
+                        }
+                    })
+                }
+                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
 
             it("Copy the created multireddit as copytest.") {
                 var isSucceeded = false
                 if let multi = self.createdMultireddit {
-                    self.session?.copyMultireddit(multi, newDisplayName: self.nameForCopy, completion:{ (result) -> Void in
+                    self.session?.getMultiredditDescription(multi, completion:{ (result) -> Void in
                         switch result {
                         case let .Failure:
                             println(result.error!.description)
                         case let .Success:
-                            if let multireddit:Multireddit = result.value {
-                                self.copiedMultireddit = multireddit
-                                isSucceeded = true
-                            }
+                            println(result.value!)
+                            isSucceeded = true
                         }
                     })
                 }
-                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
             
             it("Check count of multireddit after copying the created multireddit.") {
@@ -232,7 +252,7 @@ class MultiredditTest: SessionTestSpec {
                         }
                     }
                 })
-                expect(multiredditCountAfterCopingCreatedOne).toEventually(equal(self.initialMultiredditCount + 2), timeout: 10, pollInterval: 1)
+                expect(multiredditCountAfterCopingCreatedOne).toEventually(equal(self.initialMultiredditCount + 2), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
             
             it("Get response 409, when renaming the copied multireaddit as existing name") {
@@ -249,7 +269,7 @@ class MultiredditTest: SessionTestSpec {
                         }
                     })
                 }
-                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
             
             it("Check current multireddit list includes self.nameForCreation and self.nameForCopy") {
@@ -271,7 +291,7 @@ class MultiredditTest: SessionTestSpec {
                         }
                     })
                 }
-                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
             
             it("Check current multireddit list includes self.nameForCreation and self.nameForRename") {
@@ -290,7 +310,7 @@ class MultiredditTest: SessionTestSpec {
                         }
                     })
                 }
-                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
             
             it("Delete the renamed multireddit.") {
@@ -305,7 +325,7 @@ class MultiredditTest: SessionTestSpec {
                         }
                     })
                 }
-                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
             
             it("Check count of multireddit after deleting the created multireddit.") {
@@ -320,7 +340,7 @@ class MultiredditTest: SessionTestSpec {
                         }
                     }
                 })
-                expect(multiredditCountAfterDeletingCreatedOne).toEventually(equal(self.initialMultiredditCount), timeout: 10, pollInterval: 1)
+                expect(multiredditCountAfterDeletingCreatedOne).toEventually(equal(self.initialMultiredditCount), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
         }
     }

@@ -31,7 +31,7 @@ class CommentTest: SessionTestSpec {
                         isSucceeded = true
                     }
                 })
-                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: self.pollingInterval)
             }
         }
     
@@ -50,7 +50,7 @@ class CommentTest: SessionTestSpec {
                         comment = result.value
                     }
                 })
-                expect(comment != nil).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(comment != nil).toEventually(equal(true), timeout: 10, pollInterval: self.pollingInterval)
                 if let comment = comment {
                     self.postedThings.append(comment)
                     expect(comment.parentId).to(equal(thing.name))
@@ -73,7 +73,7 @@ class CommentTest: SessionTestSpec {
                         comment = result.value
                     }
                 })
-                expect(comment != nil).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(comment != nil).toEventually(equal(true), timeout: 10, pollInterval: self.pollingInterval)
                 if let comment = comment {
                     self.postedThings.append(comment)
                     expect(comment.parentId).to(equal(thing.name))

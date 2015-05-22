@@ -259,4 +259,23 @@ extension Session {
         task.resume()
         return task
     }
+    
+    /**
+    Get the description of the specified Multireddit.
+    
+    :param: multireddit
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    func getMultiredditDescription(multireddit:Multireddit, completion:(Result<String>) -> Void) -> NSURLSessionDataTask? {
+        var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/multi/" + multireddit.path + "/description", method:"GET", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
+            let result = responseResult >>> parseResponse >>> decodeAsString
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
 }
