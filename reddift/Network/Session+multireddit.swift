@@ -16,6 +16,13 @@ import Foundation
     public typealias RedditColor = NSColor
 #endif
 
+/**
+Parse JSON dictionary object to the list of Multireddit.
+
+:param: json JSON dictionary object is generated NSJSONSeirialize class.
+
+:returns: Result object. Result object has any Thing or Listing object, otherwise error object.
+*/
 func parseMultiredditFromJSON(json: JSON) -> Result<Multireddit> {
     if let kind = json["kind"] as? String {
         if kind == "LabeledMulti" {
@@ -28,22 +35,11 @@ func parseMultiredditFromJSON(json: JSON) -> Result<Multireddit> {
     return Result(error: ReddiftError.ParseThing.error)
 }
 
-/**
-Parse simple string response for "/api/needs_captcha"
-
-:param: data Binary data is returned from reddit.
-
-:returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
-*/
-func decodeAsString(data: NSData) -> Result<String> {
-    if data.length == 0 {
-        return Result(value: "")
+func parseJSONToSubredditName(json: JSON) -> Result<String> {
+    if let subreddit = json["name"] as? String {
+        return Result(value: subreddit)
     }
-    var decoded = NSString(data:data, encoding:NSUTF8StringEncoding)
-    if let decoded = decoded as? String {
-        return Result(value: decoded)
-    }
-    return Result(error:ReddiftError.ParseJSON.error)
+    return Result(error: ReddiftError.ParseThing.error)
 }
 
 extension Session {
@@ -160,7 +156,7 @@ extension Session {
         json["display_name"] = multi.name
         json["icon_name"] = multi.iconName.rawValue
         json["key_color"] = "#FFFFFF"
-//        json["subreddits"] = names
+        json["subreddits"] = names
         json["visibility"] = multi.visibility.rawValue
         json["weighting_scheme"] = "classic"
         
@@ -195,19 +191,19 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    func addSubredditToMultireddit(multireddit:Multireddit, subreddit:Subreddit, completion:(Result<String>) -> Void) -> NSURLSessionDataTask? {
-        let jsonString = "{\"name\":\"\(subreddit.displayName)\"}"
+    func addSubredditToMultireddit(multireddit:Multireddit, subredditDisplayName:String, completion:(Result<String>) -> Void) -> NSURLSessionDataTask? {
+        let jsonString = "{\"name\":\"\(subredditDisplayName)\"}"
         let customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
         let escapedJsonString = jsonString.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
         if let escapedJsonString:String = escapedJsonString {
-            let srname = subreddit.displayName
+            let srname = subredditDisplayName
             let parameter = ["model":escapedJsonString, "srname":srname]
         
             var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/multi/" + multireddit.path + "/r/" + srname, parameter:parameter, method:"PUT", token:token)
             let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
                 self.updateRateLimitWithURLResponse(response)
                 let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-                let result = responseResult >>> parseResponse >>> decodeAsString
+                let result = responseResult >>> parseResponse >>> decodeJSON >>> parseJSONToSubredditName
                 completion(result)
             })
             task.resume()

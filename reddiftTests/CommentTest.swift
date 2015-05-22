@@ -22,17 +22,16 @@ class CommentTest: SessionTestSpec {
         
         afterEach { () -> () in
             for thing in self.postedThings {
-                let documentOpenExpectation = self.expectationWithDescription("")
+                var isSucceeded = false
                 self.session?.deleteCommentOrLink(thing, completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
                         println(result.error!.description)
                     case let .Success:
-                        println(result.value!)
+                        isSucceeded = true
                     }
-                    documentOpenExpectation.fulfill()
                 })
-                self.waitForExpectationsWithTimeout(10, handler: nil)
+                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
             }
         }
     

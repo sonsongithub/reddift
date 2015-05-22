@@ -347,7 +347,6 @@ class ParseThingObjectTest: QuickSpec {
                         case .Failure:
                             println(result.error!.description)
                         case .Success:
-                            println(result.value)
                             r = true
                         }
                     }
@@ -367,7 +366,6 @@ class ParseThingObjectTest: QuickSpec {
                     case .Failure:
                         println(result.error!.description)
                     case .Success:
-                        println(result.value)
                         r = true
                     }
                 }

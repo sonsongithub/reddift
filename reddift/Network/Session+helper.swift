@@ -43,6 +43,13 @@ func parseResponse(response: Response) -> Result<NSData> {
     return .Success(Box(response.data))
 }
 
+/**
+Parse binary data to JSON object.
+
+:param: data Binary data is returned from reddit.
+
+:returns: Result object. Result object has JSON as [String:AnyObject] or [AnyObject], otherwise error object.
+*/
 func decodeJSON(data: NSData) -> Result<JSON> {
     var jsonErrorOptional: NSError?
     let jsonOptional: JSON? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &jsonErrorOptional)
@@ -55,9 +62,34 @@ func decodeJSON(data: NSData) -> Result<JSON> {
     return Result(error:ReddiftError.ParseJSON.error)
 }
 
+/**
+Parse Thing, Listing JSON object.
+
+:param: data Binary data is returned from reddit.
+
+:returns: Result object. Result object has any Thing or Listing object, otherwise error object.
+*/
 func parseListFromJSON(json: JSON) -> Result<JSON> {
     let object:AnyObject? = Parser.parseJSON(json)
     return resultFromOptional(object, ReddiftError.ParseThing.error)
+}
+
+/**
+Parse simple string response
+
+:param: data Binary data is returned from reddit.
+
+:returns: Result object. Result object has String, otherwise error object.
+*/
+func decodeAsString(data: NSData) -> Result<String> {
+    if data.length == 0 {
+        return Result(value: "")
+    }
+    var decoded = NSString(data:data, encoding:NSUTF8StringEncoding)
+    if let decoded = decoded as? String {
+        return Result(value: decoded)
+    }
+    return Result(error:ReddiftError.ParseJSON.error)
 }
 
 /**

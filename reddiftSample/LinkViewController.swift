@@ -64,7 +64,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
                 return
             }
             loading = true
-			session?.getList(paginator, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.All, subreddit:subreddit, completion: { (result) in
+			session?.getList(paginator, subreddit:subreddit, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.All, completion: { (result) in
                 switch result {
                 case let .Failure:
                     println(result.error)

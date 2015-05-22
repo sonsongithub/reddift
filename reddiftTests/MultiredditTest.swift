@@ -16,6 +16,49 @@ class MultiredditTest: SessionTestSpec {
     var createdMultireddit:Multireddit? = nil
     var copiedMultireddit:Multireddit? = nil
     
+    let targetSubreddits = ["swift", "redditdev"]
+    
+    func testAddSubredditToMultireddit(subredditDisplayName:String) {
+        let subreddit = Subreddit()
+        var addedDisplayName:String? = nil
+        if let multi = self.createdMultireddit {
+            self.session?.addSubredditToMultireddit(multi, subredditDisplayName:subredditDisplayName, completion:{ (result) -> Void in
+                switch result {
+                case let .Failure:
+                    println(result.error!.description)
+                case let .Success:
+                    addedDisplayName = result.value
+                }
+            })
+        }
+        expect(addedDisplayName).toEventually(equal(subredditDisplayName), timeout: 10, pollInterval: 1)
+    }
+    
+    func check(result:Result<JSON>, targetSubreddits:[String]) -> Bool {
+        var isSucceeded = false
+        switch result {
+        case let .Failure:
+            println(result.error!.description)
+        case let .Success:
+            isSucceeded = true
+            if let listing:Listing = result.value as? Listing {
+                for obj in listing.children {
+                    if let link:Link = obj as? Link {
+                        var flag = false
+                        for subreddit in targetSubreddits {
+                            if link.subreddit != subreddit {
+                                flag = true
+                            }
+                        }
+                        if !flag {
+                            isSucceeded = false
+                        }
+                    }
+                }
+            }
+        }
+        return isSucceeded
+    }
     
     override func spec() {
         beforeEach { () -> () in
@@ -24,20 +67,19 @@ class MultiredditTest: SessionTestSpec {
         
         describe("Test Multireddit.") {
             it("Get a initial multireddit list.") {
-                var r:Bool = false
+                var isSucceeded:Bool = false
                 self.session?.getMineMultireddit({ (result) -> Void in
                     switch result {
                     case let .Failure:
                         println(result.error!.description)
                     case let .Success:
-                        println(result.value!.description)
                         if let array:[Multireddit] = result.value {
                             self.initialMultiredditCount = array.count
                         }
-                        r = true
+                        isSucceeded = true
                     }
                 })
-                expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
             }
         
             it("Create a new multireddit.") {
@@ -59,7 +101,6 @@ class MultiredditTest: SessionTestSpec {
                     case let .Failure:
                         println(result.error!.description)
                     case let .Success:
-                        println(result.value!.description)
                         if let array:[Multireddit] = result.value {
                             multiredditCountAfterCreating = array.count
                         }
@@ -68,26 +109,54 @@ class MultiredditTest: SessionTestSpec {
                 expect(multiredditCountAfterCreating).toEventually(equal(self.initialMultiredditCount + 1), timeout: 10, pollInterval: 1)
             }
             
-            it("Add subreddit to the new multireddit") {
-                var r = false
-                let subreddit = Subreddit()
-                subreddit.displayName = "swift"
+            it("Add subreddits, swift and redditdev, to the new multireddit") {
+                for subreddit in self.targetSubreddits {
+                    self.testAddSubredditToMultireddit(subreddit)
+                }
+            }
+            
+            it("Check whether the multireddit does inlcude only swift and redditdev articles, Controversial") {
+                var isSucceeded = false
                 if let multi = self.createdMultireddit {
-                    self.session?.addSubredditToMultireddit(multi, subreddit: subreddit, completion:{ (result) -> Void in
-                        switch result {
-                        case let .Failure:
-                            println(result.error!.description)
-                        case let .Success:
-                            println(result.value!)
-                            r = true
-                        }
+                    self.session?.getList(Paginator(), subreddit: multi, integratedSort:.Controversial, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
+                        isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
                     })
                 }
-                expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+            }
+            
+            it("Check whether the multireddit does inlcude only swift and redditdev articles, Hot") {
+                var isSucceeded = false
+                if let multi = self.createdMultireddit {
+                    self.session?.getList(Paginator(), subreddit: multi, integratedSort:.Hot, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
+                        isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
+                    })
+                }
+                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+            }
+            
+            it("Check whether the multireddit does inlcude only swift and redditdev articles, New") {
+                var isSucceeded = false
+                if let multi = self.createdMultireddit {
+                    self.session?.getList(Paginator(), subreddit: multi, integratedSort:.New, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
+                        isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
+                    })
+                }
+                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+            }
+            
+            it("Check whether the multireddit does inlcude only swift and redditdev articles, Top") {
+                var isSucceeded = false
+                if let multi = self.createdMultireddit {
+                    self.session?.getList(Paginator(), subreddit: multi, integratedSort:.Top, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
+                        isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
+                    })
+                }
+                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
             }
             
             it("Update the attribute of new multireddit, except subreddits.") {
-                var r = false
+                var isSucceeded = false
                 if let multi = self.createdMultireddit {
                     multi.iconName = .Science
                     multi.descriptionMd = "updated"
@@ -96,21 +165,19 @@ class MultiredditTest: SessionTestSpec {
                         case let .Failure:
                             println(result.error!.description)
                         case let .Success:
-                            println(result.value!)
-                            
                             if let updatedMultireddit:Multireddit = result.value {
                                 expect(updatedMultireddit.descriptionMd).to(equal("updated"))
                                 expect(updatedMultireddit.iconName.rawValue).to(equal(MultiredditIconName.Science.rawValue))
                             }
-                            r = true
+                            isSucceeded = true
                         }
                     })
                 }
-                expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
             }
 
             it("Copy the created multireddit as copytest.") {
-                var r = false
+                var isSucceeded = false
                 if let multi = self.createdMultireddit {
                     self.session?.copyMultireddit(multi, newDisplayName: "copytest", completion:{ (result) -> Void in
                         switch result {
@@ -119,13 +186,12 @@ class MultiredditTest: SessionTestSpec {
                         case let .Success:
                             if let multireddit:Multireddit = result.value {
                                 self.copiedMultireddit = multireddit
-                                println(self.copiedMultireddit)
-                                r = true
+                                isSucceeded = true
                             }
                         }
                     })
                 }
-                expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
             }
             
             it("Check count of multireddit after copying the created multireddit.") {
@@ -135,7 +201,6 @@ class MultiredditTest: SessionTestSpec {
                     case let .Failure:
                         println(result.error!.description)
                     case let .Success:
-                        println(result.value!.description)
                         if let array:[Multireddit] = result.value {
                             multiredditCountAfterCopingCreatedOne = array.count
                         }
@@ -145,35 +210,33 @@ class MultiredditTest: SessionTestSpec {
             }
             
             it("Delete the copied multireddit.") {
-                var r = false
+                var isSucceeded = false
                 if let multi = self.copiedMultireddit {
                     self.session?.deleteMultireddit(multi, completion: { (result) -> Void in
                         switch result {
                         case let .Failure:
                             println(result.error!.description)
                         case let .Success:
-                            println(result.value!)
-                            r = true
+                            isSucceeded = true
                         }
                     })
                 }
-                expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
             }
             
             it("Delete the created multireddit.") {
-                var r = false
+                var isSucceeded = false
                 if let multi = self.createdMultireddit {
                     self.session?.deleteMultireddit(multi, completion: { (result) -> Void in
                         switch result {
                         case let .Failure:
                             println(result.error!.description)
                         case let .Success:
-                            println(result.value!)
-                            r = true
+                            isSucceeded = true
                         }
                     })
                 }
-                expect(r).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
             }
             
             it("Check count of multireddit after deleting the created multireddit.") {
@@ -183,7 +246,6 @@ class MultiredditTest: SessionTestSpec {
                     case let .Failure:
                         println(result.error!.description)
                     case let .Success:
-                        println(result.value!.description)
                         if let array:[Multireddit] = result.value {
                             multiredditCountAfterDeletingCreatedOne = array.count
                         }
