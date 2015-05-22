@@ -26,6 +26,7 @@ class SubscribingSubredditTest: SessionTestSpec {
         }
         describe("Test subscribing a subreddit API.") {
             it("Get initial subscribing list and count of it.") {
+                var isSucceeded = false
                 self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
@@ -35,11 +36,12 @@ class SubscribingSubredditTest: SessionTestSpec {
                             if let children = listing.children as? [Subreddit] {
                                 self.initialList = children
                                 self.initialCount = self.initialList.count
+                                isSucceeded = (self.initialCount > 0)
                             }
                         }
                     }
                 })
-                expect(self.initialCount > 0).toEventually(equal(true), timeout: 10, pollInterval: 1)
+                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
             }
         
             it("Subscribe a new subreddit") {

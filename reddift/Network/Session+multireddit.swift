@@ -120,6 +120,36 @@ extension Session {
         task.resume()
         return task
     }
+    
+    /**
+    Rename the mulitireddit.
+    
+    :param: multi Multireddit object to be copied.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    func renameMultireddit(multi:Multireddit, newDisplayName:String, completion:(Result<Multireddit>) -> Void) -> NSURLSessionDataTask? {
+        var error:NSError? = nil
+        let regex = NSRegularExpression(pattern:"/[^/]+?$",
+            options: .CaseInsensitive,
+            error: &error)
+        
+        let to = regex?.stringByReplacingMatchesInString(multi.path, options: .allZeros, range: NSMakeRange(0, count(multi.path)), withTemplate: "/" + newDisplayName)
+        
+        var parameter:[String:String] = [:]
+        parameter["display_name"] = newDisplayName
+        parameter["from"] = multi.path
+        parameter["to"] = to
+        var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/multi/rename", parameter:parameter, method:"POST", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseMultiredditFromJSON
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
 
     /**
     Delete the multi.

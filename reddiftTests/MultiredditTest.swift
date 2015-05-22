@@ -15,8 +15,12 @@ class MultiredditTest: SessionTestSpec {
     
     var createdMultireddit:Multireddit? = nil
     var copiedMultireddit:Multireddit? = nil
+    var renamedMultireddit:Multireddit? = nil
     
     let targetSubreddits = ["swift", "redditdev"]
+    let nameForCreation = "testmultireddit"
+    let nameForCopy = "copytest"
+    let nameForRename = "renametest"
     
     func testAddSubredditToMultireddit(subredditDisplayName:String) {
         let subreddit = Subreddit()
@@ -32,6 +36,28 @@ class MultiredditTest: SessionTestSpec {
             })
         }
         expect(addedDisplayName).toEventually(equal(subredditDisplayName), timeout: 10, pollInterval: 1)
+    }
+    
+    func testMultiredditIsRegistered(nameList:[String]) {
+        self.session?.getMineMultireddit({ (result) -> Void in
+            switch result {
+            case let .Failure:
+                println(result.error!.description)
+            case let .Success:
+                var count = 0
+                if let array:[Multireddit] = result.value {
+                    for multireddit in array {
+                        for name in nameList {
+                            if multireddit.name == name {
+                                count++
+                                break
+                            }
+                        }
+                    }
+                }
+                expect(count).toEventually(equal(nameList.count), timeout: 10, pollInterval: 1)
+            }
+        })
     }
     
     func check(result:Result<JSON>, targetSubreddits:[String]) -> Bool {
@@ -83,7 +109,7 @@ class MultiredditTest: SessionTestSpec {
             }
         
             it("Create a new multireddit.") {
-                self.session?.createMultireddit("test", descriptionMd: "", completion: { (result) -> Void in
+                self.session?.createMultireddit(self.nameForCreation, descriptionMd: "", completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
                         println(result.error!.description)
@@ -179,7 +205,7 @@ class MultiredditTest: SessionTestSpec {
             it("Copy the created multireddit as copytest.") {
                 var isSucceeded = false
                 if let multi = self.createdMultireddit {
-                    self.session?.copyMultireddit(multi, newDisplayName: "copytest", completion:{ (result) -> Void in
+                    self.session?.copyMultireddit(multi, newDisplayName: self.nameForCopy, completion:{ (result) -> Void in
                         switch result {
                         case let .Failure:
                             println(result.error!.description)
@@ -209,6 +235,49 @@ class MultiredditTest: SessionTestSpec {
                 expect(multiredditCountAfterCopingCreatedOne).toEventually(equal(self.initialMultiredditCount + 2), timeout: 10, pollInterval: 1)
             }
             
+            it("Get response 409, when renaming the copied multireaddit as existing name") {
+                var isSucceeded = false
+                if let multi = self.createdMultireddit {
+                    self.session?.renameMultireddit(multi, newDisplayName: self.nameForCopy, completion:{ (result) -> Void in
+                        switch result {
+                        case let .Failure:
+                            if let error:NSError = result.error {
+                                isSucceeded = (error.code == 409)
+                            }
+                        case let .Success:
+                            println(result.value!)
+                        }
+                    })
+                }
+                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+            }
+            
+            it("Check current multireddit list includes self.nameForCreation and self.nameForCopy") {
+                self.testMultiredditIsRegistered([self.nameForCreation, self.nameForCopy])
+            }
+            
+            it("Rename the copied multireaddit") {
+                var isSucceeded = false
+                if let multi = self.createdMultireddit {
+                    self.session?.renameMultireddit(multi, newDisplayName: self.nameForRename, completion:{ (result) -> Void in
+                        switch result {
+                        case let .Failure:
+                            println(result.error!.description)
+                        case let .Success:
+                            if let multireddit:Multireddit = result.value {
+                                isSucceeded = (multireddit.displayName == self.nameForRename)
+                                self.renamedMultireddit = multireddit
+                            }
+                        }
+                    })
+                }
+                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
+            }
+            
+            it("Check current multireddit list includes self.nameForCreation and self.nameForRename") {
+                self.testMultiredditIsRegistered([self.nameForCreation, self.nameForRename])
+            }
+            
             it("Delete the copied multireddit.") {
                 var isSucceeded = false
                 if let multi = self.copiedMultireddit {
@@ -224,9 +293,9 @@ class MultiredditTest: SessionTestSpec {
                 expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: 1)
             }
             
-            it("Delete the created multireddit.") {
+            it("Delete the renamed multireddit.") {
                 var isSucceeded = false
-                if let multi = self.createdMultireddit {
+                if let multi = self.renamedMultireddit {
                     self.session?.deleteMultireddit(multi, completion: { (result) -> Void in
                         switch result {
                         case let .Failure:
