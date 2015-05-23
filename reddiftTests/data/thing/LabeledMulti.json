@@ -1,6 +1,4 @@
 {
-  "kind": "LabeledMulti",
-  "data": {
     "can_edit": true,
     "display_name": "english",
     "name": "english",
@@ -9,13 +7,13 @@
     "copied_from": null,
     "icon_url": null,
     "subreddits": [
-      {
-        "name": "redditdev"
-      },
-      {
-        "name": "swift"
-      }
-    ],
+                   {
+                   "name": "redditdev"
+                   },
+                   {
+                   "name": "swift"
+                   }
+                   ],
     "created_utc": 1431999881,
     "key_color": "#cee3f8",
     "visibility": "private",
@@ -23,5 +21,4 @@
     "weighting_scheme": "classic",
     "path": "/user/sonson_twit/m/english",
     "description_md": ""
-  }
 }

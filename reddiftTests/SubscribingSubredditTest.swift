@@ -40,6 +40,7 @@ class SubscribingSubredditTest: SessionTestSpec {
                             }
                         }
                     }
+                    NSThread.sleepForTimeInterval(self.testInterval)
                 })
                 expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
@@ -53,6 +54,7 @@ class SubscribingSubredditTest: SessionTestSpec {
                     case let .Success:
                         r = true
                     }
+                    NSThread.sleepForTimeInterval(self.testInterval)
                 })
                 expect(r).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
@@ -71,6 +73,7 @@ class SubscribingSubredditTest: SessionTestSpec {
                             }
                         }
                     }
+                    NSThread.sleepForTimeInterval(self.testInterval)
                 })
                 expect(afterSubscribingCount).toEventually(equal(self.initialCount + 1), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
@@ -84,6 +87,7 @@ class SubscribingSubredditTest: SessionTestSpec {
                     case let .Success:
                         r = true
                     }
+                    NSThread.sleepForTimeInterval(self.testInterval)
                 })
                 expect(r).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
@@ -102,6 +106,7 @@ class SubscribingSubredditTest: SessionTestSpec {
                             }
                         }
                     }
+                    NSThread.sleepForTimeInterval(self.testInterval)
                 })
                 expect(afterUnsubscribingCount).toEventually(equal(self.initialCount), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }

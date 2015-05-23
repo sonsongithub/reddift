@@ -248,12 +248,12 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    func getMineMultireddit(completion:(Result<[Multireddit]>) -> Void) -> NSURLSessionDataTask? {
+    func getMineMultireddit(completion:(Result<AnyObject>) -> Void) -> NSURLSessionDataTask? {
         var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/multi/mine", method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> Parser.parseDataInJSON_Multi
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
             completion(result)
         })
         task.resume()
@@ -267,12 +267,12 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    func getMultiredditDescription(multireddit:Multireddit, completion:(Result<String>) -> Void) -> NSURLSessionDataTask? {
+    func getMultiredditDescription(multireddit:Multireddit, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/multi/" + multireddit.path + "/description", method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-            let result = responseResult >>> parseResponse >>> decodeAsString
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
             completion(result)
         })
         task.resume()

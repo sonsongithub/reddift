@@ -121,22 +121,17 @@ class ParseResponseObjectTest: QuickSpec {
         
         describe("Parse JSON which contains multi") {
             it("Must have 2 Multi objects") {
-                var r = true
+                var isSucceeded = false
                 let json:AnyObject? = self.jsonFromFileName("multi.json")
                 expect(json != nil).to(equal(true))
                 if let json:AnyObject = json {
-                    let result = Parser.parseDataInJSON_Multi(json)
-                    switch result {
-                    case .Failure:
-                        println(result.error!.description)
-                        r = false
-                    case .Success:
-                        if let array:[Multireddit] = result.value {
-                            
+                    if let hoge:AnyObject? = Parser.parseJSON(json) {
+                        if let array = hoge as? [Multireddit] {
+                            isSucceeded = true
                         }
                     }
                 }
-                expect(r).to(equal(true))
+                expect(isSucceeded).to(equal(true))
             }
         }
         

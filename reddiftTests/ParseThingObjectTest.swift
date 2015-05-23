@@ -31,7 +31,7 @@ class ParseThingObjectTest: QuickSpec {
         describe("Parsing t1 json file") {
             it("Each property of t1 has been loaded correctly") {
                 let json:AnyObject? = self.jsonFromFileName("t1.json")
-                expect(json != nil).to(equal(true))
+                expect(json is [String:AnyObject]).to(equal(true))
                 
                 if let json = json as? [String:AnyObject] {
                     let object = Parser.parseDataInThing_t1(json) as? Comment
@@ -91,7 +91,7 @@ class ParseThingObjectTest: QuickSpec {
         describe("Parsing t2 json file") {
             it("Each property of t2 has been loaded correctly") {
                 let json:AnyObject? = self.jsonFromFileName("t2.json")
-                expect(json != nil).to(equal(true))
+                expect(json is [String:AnyObject]).to(equal(true))
                 
                 if let json = json as? [String:AnyObject] {
                     let object = Parser.parseDataInThing_t2(json) as? Account
@@ -121,7 +121,7 @@ class ParseThingObjectTest: QuickSpec {
         describe("Parsing t3 json file") {
             it("Each property of t3 has been loaded correctly") {
                 let json:AnyObject? = self.jsonFromFileName("t3.json")
-                expect(json != nil).to(equal(true))
+                expect(json is [String:AnyObject]).to(equal(true))
                 
                 if let json = json as? [String:AnyObject] {
                     
@@ -207,7 +207,7 @@ class ParseThingObjectTest: QuickSpec {
         describe("Parsing t4 json file") {
             it("Each property of t4 has been loaded correctly") {
                 let json:AnyObject? = self.jsonFromFileName("t4.json")
-                expect(json != nil).to(equal(true))
+                expect(json is [String:AnyObject]).to(equal(true))
                 
                 if let json = json as? [String:AnyObject] {
                     let object = Parser.parseDataInThing_t4(json) as? Message
@@ -239,7 +239,7 @@ class ParseThingObjectTest: QuickSpec {
         describe("Parsing t5 json file") {
             it("Each property of t5 has been loaded correctly") {
                 let json:AnyObject? = self.jsonFromFileName("t5.json")
-                expect(json != nil).to(equal(true))
+                expect(json is [String:AnyObject]).to(equal(true))
                 
                 if let json = json as? [String:AnyObject] {
                     let object = Parser.parseDataInThing_t5(json) as? Subreddit
@@ -289,7 +289,7 @@ class ParseThingObjectTest: QuickSpec {
         describe("Parsing more json file") {
             it("Each property of more has been loaded correctly") {
                 let json:AnyObject? = self.jsonFromFileName("more.json")
-                expect(json != nil).to(equal(true))
+                expect(json is [String:AnyObject]).to(equal(true))
                 
                 if let json = json as? [String:AnyObject] {
                     var object = Parser.parseDataInThing_more(json) as? More
@@ -308,31 +308,36 @@ class ParseThingObjectTest: QuickSpec {
         describe("Parsing LabeledMulti json file") {
             it("Each property of more has been loaded correctly") {
                 let json:AnyObject? = self.jsonFromFileName("LabeledMulti.json")
-                expect(json != nil).to(equal(true))
-                
-                if let thing = json as? [String:AnyObject] {
-                    if let kind = thing["kind"] as? String {
-                        if kind == "LabeledMulti" {
-                            if let data = thing["data"] as? [String:AnyObject] {
-                                let object = Multireddit(json: data)
-                                expect(object.canEdit).to(equal(true))
-                                expect(object.displayName).to(equal("english"))
-                                expect(object.name).to(equal("english"))
-                                expect(object.descriptionHtml).to(equal(""))
-                                expect(object.created).to(equal(1432028681))
-                                expect(object.copiedFrom).to(equal(""))
-                                expect(object.iconUrl).to(equal(""))
-                                expect(object.subreddits).to(equal(["redditdev", "swift"]))
-                                expect(object.createdUtc).to(equal(1431999881))
-                                expect(object.keyColor).to(equal("#cee3f8"))
-                                expect(object.visibility).to(equal(MultiredditVisibility.Private))
-                                expect(object.iconName).to(equal(MultiredditIconName.None))
-                                expect(object.weightingScheme).to(equal(MultiredditWeightingScheme.Classic))
-                                expect(object.path).to(equal("/user/sonson_twit/m/english"))
-                                expect(object.descriptionMd).to(equal(""))
-                            }
-                        }
-                    }
+                expect(json is [String:AnyObject]).to(equal(true))
+                if let json = json as? [String:AnyObject] {
+                    let object = Multireddit(json:json)
+                    expect(object.canEdit).to(equal(true))
+                    expect(object.displayName).to(equal("english"))
+                    expect(object.name).to(equal("english"))
+                    expect(object.descriptionHtml).to(equal(""))
+                    expect(object.created).to(equal(1432028681))
+                    expect(object.copiedFrom).to(equal(""))
+                    expect(object.iconUrl).to(equal(""))
+                    expect(object.subreddits).to(equal(["redditdev", "swift"]))
+                    expect(object.createdUtc).to(equal(1431999881))
+                    expect(object.keyColor).to(equal("#cee3f8"))
+                    expect(object.visibility).to(equal(MultiredditVisibility.Private))
+                    expect(object.iconName).to(equal(MultiredditIconName.None))
+                    expect(object.weightingScheme).to(equal(MultiredditWeightingScheme.Classic))
+                    expect(object.path).to(equal("/user/sonson_twit/m/english"))
+                    expect(object.descriptionMd).to(equal(""))
+                }
+            }
+        }
+        
+        describe("Parsing LabeledMultiDescription json file") {
+            it("Each property of more has been loaded correctly") {
+                let json:AnyObject? = self.jsonFromFileName("LabeledMultiDescription.json")
+                expect(json is [String:AnyObject]).to(equal(true))
+                if let json = json as? [String:AnyObject] {
+                    let object = MultiredditDescription(json:json)
+                    expect(object.bodyHtml).to(equal("&lt;!-- SC_OFF --&gt;&lt;div class=\"md\"&gt;&lt;p&gt;updated&lt;/p&gt;\n&lt;/div&gt;&lt;!-- SC_ON --&gt;"))
+                    expect(object.bodyMd).to(equal("updated"))
                 }
             }
         }
@@ -359,7 +364,7 @@ class ParseThingObjectTest: QuickSpec {
             it("Each property of more has been loaded correctly") {
                 var r = false
                 let json:AnyObject? = self.jsonFromFileName("api_new_captcha.json")
-                expect(json != nil).to(equal(true))
+                expect(json is [String:AnyObject]).to(equal(true))
                 if let thing = json as? [String:AnyObject] {
                     var result = parseCAPTCHAIdenJSON(thing)
                     switch result {

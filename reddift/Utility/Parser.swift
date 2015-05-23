@@ -36,7 +36,11 @@ class Parser: NSObject {
                 // subreddit
 				return parseDataInThing_t5(data)
 			case "more":
-				return parseDataInThing_more(data)
+                return parseDataInThing_more(data)
+            case "LabeledMulti":
+                return Multireddit(json: data)
+            case "LabeledMultiDescription":
+                return MultiredditDescription(json: data)
             default:
                 break
             }

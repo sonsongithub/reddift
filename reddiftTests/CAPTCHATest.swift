@@ -30,7 +30,7 @@ class CAPTCHATest: SessionTestSpec {
                         case let .Success:
                             check = result.value
                         }
-                        
+                        NSThread.sleepForTimeInterval(self.testInterval)
                     })
                     expect(check).toEventuallyNot(equal(nil), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
                 }
@@ -46,6 +46,7 @@ class CAPTCHATest: SessionTestSpec {
                         case let .Success:
                             iden = result.value
                         }
+                        NSThread.sleepForTimeInterval(self.testInterval)
                     })
                     expect(iden).toEventuallyNot(equal(nil), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
                 }
@@ -76,6 +77,7 @@ class CAPTCHATest: SessionTestSpec {
                                 })
                             }
                         }
+                        NSThread.sleepForTimeInterval(self.testInterval)
                     })
                     expect(size).toEventuallyNot(equal(nil), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
                     if let size = size {
