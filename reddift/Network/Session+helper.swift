@@ -105,7 +105,7 @@ func parseResponseJSONToPostComment(json: JSON) -> Result<Comment> {
             if let things = data["things"] as? JSONArray {
                 if things.count == 1 {
                     for thing in things {
-                        if let thing = thing as? [String:AnyObject] {
+                        if let thing = thing as? JSONDictionary {
                             let obj:AnyObject? = Parser.parseJSON(thing)
                             if let comment = obj as? Comment {
                                 return Result(value: comment)
@@ -126,7 +126,7 @@ Extract Listing object which includes Comments from JSON for articles.
 :returns: List consists of Comment objects.
 */
 func filterArticleResponse(json:JSON) -> Result<JSON> {
-    if let array = json as? [AnyObject] {
+    if let array = json as? JSONArray {
         if array.count == 2 {
             if let result = array[1] as? Listing {
                 return Result(value:result)

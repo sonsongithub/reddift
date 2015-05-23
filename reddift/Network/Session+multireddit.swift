@@ -26,7 +26,7 @@ Parse JSON dictionary object to the list of Multireddit.
 func parseMultiredditFromJSON(json: JSON) -> Result<Multireddit> {
     if let kind = json["kind"] as? String {
         if kind == "LabeledMulti" {
-            if let data = json["data"] as? [String:AnyObject] {
+            if let data = json["data"] as? JSONDictionary {
                 let obj = Multireddit(json: data)
                 return Result(value: obj)
             }
@@ -59,7 +59,7 @@ extension Session {
     */
     func createMultireddit(displayName:String, descriptionMd:String, iconName:MultiredditIconName = .None, keyColor:RedditColor = RedditColor.whiteColor(), visibility:MultiredditVisibility = .Private, weightingScheme:String = "classic", completion:(Result<Multireddit>) -> Void) -> NSURLSessionDataTask? {
         var multipath = "/user/\(token.name)/m/\(displayName)"
-        var json:[String:AnyObject] = [:]
+        var json:JSONDictionary = [:]
         var names:[[String:String]] = []
         json["description_md"] = descriptionMd
         json["display_name"] = displayName
@@ -179,7 +179,7 @@ extension Session {
     */
     func updateMultireddit(multi:Multireddit, completion:(Result<Multireddit>) -> Void) -> NSURLSessionDataTask? {
         var multipath = multi.path
-        var json:[String:AnyObject] = [:]
+        var json:JSONDictionary = [:]
         var names:[[String:String]] = []
         
         json["description_md"] = multi.descriptionMd

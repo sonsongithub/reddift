@@ -100,7 +100,7 @@ public class Message : Thing {
     :param: data Dictionary, must be generated parsing "t4".
     :returns: Message object as Thing.
     */
-    public init(data:[String:AnyObject]) {
+    public init(data:JSONDictionary) {
         super.init(id: data["id"] as? String ?? "", kind: "t4")
         body = data["body"] as? String ?? ""
         wasComment = data["was_comment"] as? Bool ?? false

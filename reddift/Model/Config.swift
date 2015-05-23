@@ -57,7 +57,7 @@ struct Config {
 		}
 		if let path = NSBundle.mainBundle().pathForResource("reddift_config", ofType: "json") {
 			if let data = NSData(contentsOfFile: path) {
-				if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
+				if let json:JSONDictionary = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? JSONDictionary {
 					if let temp = json["DeveloperName"] as? String{
 						developerName = temp
 					}

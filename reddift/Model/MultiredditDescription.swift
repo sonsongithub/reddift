@@ -15,7 +15,7 @@ public class MultiredditDescription {
     public var bodyHtml = ""
     public var bodyMd = ""
     
-    public init(json:[String:AnyObject]) {
+    public init(json:JSONDictionary) {
         bodyHtml = json["body_html"] as? String ?? ""
         bodyMd = json["body_md"] as? String ?? ""
     }

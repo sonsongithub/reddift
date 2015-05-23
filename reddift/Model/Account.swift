@@ -93,7 +93,7 @@ public class Account : Thing {
     :param: data Dictionary, must be generated parsing "t2".
     :returns: Account object as Thing.
     */
-    public init(data:[String:AnyObject]) {
+    public init(data:JSONDictionary) {
         super.init(id: data["id"] as? String ?? "", kind: "t2")
         hasMail = data["has_mail"] as? Bool ?? false
         name = data["name"] as? String ?? ""

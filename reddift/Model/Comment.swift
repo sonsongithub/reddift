@@ -167,7 +167,7 @@ public class Comment : Thing {
     :param: data Dictionary, must be generated parsing t1 Thing.
     :returns: Comment object as Thing.
     */
-    public init(data:[String:AnyObject]) {
+    public init(data:JSONDictionary) {
         super.init(id: data["id"] as? String ?? "", kind: "t1")
         
         subredditId = data["subreddit_id"] as? String ?? ""
@@ -197,7 +197,7 @@ public class Comment : Thing {
         distinguished = data["distinguished"] as? Bool ?? false
         numReports = data["num_reports"] as? Int ?? 0
         ups = data["ups"] as? Int ?? 0
-        if let temp = data["replies"] as? [String:AnyObject] {
+        if let temp = data["replies"] as? JSONDictionary {
             if let obj = Parser.parseJSON(temp) as? Listing {
                 replies = obj
             }

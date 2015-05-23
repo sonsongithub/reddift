@@ -25,9 +25,9 @@ public class Media {
     
     :param: json JSON object which is included "t2" JSON.
     */
-    func updateWithJSON(json:[String:AnyObject]) {
+    func updateWithJSON(json:JSONDictionary) {
 		type = json["type"] as? String ?? ""
-        if let temp = json["oembed"] as? [String:AnyObject] {
+        if let temp = json["oembed"] as? JSONDictionary {
             self.oembed.updateWithJSON(temp)
         }
     }

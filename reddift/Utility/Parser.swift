@@ -17,8 +17,8 @@ class Parser: NSObject {
 	Parse thing object in JSON.
 	This method dispatches element of JSON to eithr methods to extract classes derived from Thing class.
 	*/
-    class func parseThing(json:[String:AnyObject]) -> AnyObject? {
-        if let data = json["data"] as? [String:AnyObject], kind = json["kind"] as? String {            
+    class func parseThing(json:JSONDictionary) -> AnyObject? {
+        if let data = json["data"] as? JSONDictionary, kind = json["kind"] as? String {
             switch(kind) {
             case "t1":
                 // comment
@@ -51,12 +51,12 @@ class Parser: NSObject {
 	/**
 	Parse list object in JSON
 	*/
-    class func parseListing(json:[String:AnyObject]) -> Listing {
+    class func parseListing(json:JSONDictionary) -> Listing {
         let listing = Listing()
-        if let data = json["data"] as? [String:AnyObject] {
-            if let children = data["children"] as? [AnyObject] {
+        if let data = json["data"] as? JSONDictionary {
+            if let children = data["children"] as? JSONArray {
                 for child in children {
-                    if let child = child as? [String:AnyObject] {
+                    if let child = child as? JSONDictionary {
                         let obj:AnyObject? = parseJSON(child)
                         if let obj = obj as? Thing {
                             if let more = obj as? More {
@@ -89,10 +89,10 @@ class Parser: NSObject {
     class func parseJSON(json:AnyObject) -> AnyObject? {
         // array
         // json->[AnyObject]
-        if let array = json as? [AnyObject] {
+        if let array = json as? JSONArray {
             var output:[AnyObject] = []
             for element in array {
-                if let element = element as? [String:AnyObject] {
+                if let element = element as? JSONDictionary {
                     let obj:AnyObject? = self.parseJSON(element)
                     if let obj:AnyObject = obj {
                         output.append(obj)
@@ -102,8 +102,8 @@ class Parser: NSObject {
             return output;
         }
 		// dictionary
-		// json->[String:AnyObject]
-        else if let json = json as? [String:AnyObject] {
+		// json->JSONDictionary
+        else if let json = json as? JSONDictionary {
             if let kind = json["kind"] as? String {
                 if kind == "Listing" {
                     let listing = parseListing(json)

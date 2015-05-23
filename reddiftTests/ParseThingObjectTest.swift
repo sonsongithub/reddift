@@ -31,9 +31,9 @@ class ParseThingObjectTest: QuickSpec {
         describe("Parsing t1 json file") {
             it("Each property of t1 has been loaded correctly") {
                 let json:AnyObject? = self.jsonFromFileName("t1.json")
-                expect(json is [String:AnyObject]).to(equal(true))
+                expect(json is JSONDictionary).to(equal(true))
                 
-                if let json = json as? [String:AnyObject] {
+                if let json = json as? JSONDictionary {
                     let object = Comment(data:json)
                     expect(object.subredditId).to(equal("t5_2qizd"))
                     expect(object.bannedBy).to(equal(""))
@@ -87,9 +87,9 @@ class ParseThingObjectTest: QuickSpec {
         describe("Parsing t2 json file") {
             it("Each property of t2 has been loaded correctly") {
                 let json:AnyObject? = self.jsonFromFileName("t2.json")
-                expect(json is [String:AnyObject]).to(equal(true))
+                expect(json is JSONDictionary).to(equal(true))
                 
-                if let json = json as? [String:AnyObject] {
+                if let json = json as? JSONDictionary {
                     let object = Account(data:json)
                     expect(object.hasMail).to(equal(false))
                     expect(object.name).to(equal("sonson_twit"))
@@ -114,9 +114,9 @@ class ParseThingObjectTest: QuickSpec {
         describe("Parsing t3 json file") {
             it("Each property of t3 has been loaded correctly") {
                 let json:AnyObject? = self.jsonFromFileName("t3.json")
-                expect(json is [String:AnyObject]).to(equal(true))
+                expect(json is JSONDictionary).to(equal(true))
                 
-                if let json = json as? [String:AnyObject] {
+                if let json = json as? JSONDictionary {
                     
                     var object = Link(data:json)
                     expect(object.domain).to(equal("self.redditdev"))
@@ -197,9 +197,9 @@ class ParseThingObjectTest: QuickSpec {
         describe("Parsing t4 json file") {
             it("Each property of t4 has been loaded correctly") {
                 let json:AnyObject? = self.jsonFromFileName("t4.json")
-                expect(json is [String:AnyObject]).to(equal(true))
+                expect(json is JSONDictionary).to(equal(true))
                 
-                if let json = json as? [String:AnyObject] {
+                if let json = json as? JSONDictionary {
                     let object = Message(data:json)
                     expect(object.body).to(equal("Hello! [Hola!](https://www.reddit.com/r/reddit.com/wiki/templat....."))
                     expect(object.wasComment).to(equal(false))
@@ -226,9 +226,9 @@ class ParseThingObjectTest: QuickSpec {
         describe("Parsing t5 json file") {
             it("Each property of t5 has been loaded correctly") {
                 let json:AnyObject? = self.jsonFromFileName("t5.json")
-                expect(json is [String:AnyObject]).to(equal(true))
+                expect(json is JSONDictionary).to(equal(true))
                 
-                if let json = json as? [String:AnyObject] {
+                if let json = json as? JSONDictionary {
                     let object = Subreddit(data:json)
                     expect(object.bannerImg).to(equal(""))
                     expect(object.userSrThemeEnabled).to(equal(true))
@@ -273,9 +273,9 @@ class ParseThingObjectTest: QuickSpec {
         describe("Parsing more json file") {
             it("Each property of more has been loaded correctly") {
                 let json:AnyObject? = self.jsonFromFileName("more.json")
-                expect(json is [String:AnyObject]).to(equal(true))
+                expect(json is JSONDictionary).to(equal(true))
                 
-                if let json = json as? [String:AnyObject] {
+                if let json = json as? JSONDictionary {
                     var object = More(data:json)
                     expect(object.count).to(equal(0))
                     expect(object.parentId).to(equal("t1_cp88kh5"))
@@ -289,8 +289,8 @@ class ParseThingObjectTest: QuickSpec {
         describe("Parsing LabeledMulti json file") {
             it("Each property of more has been loaded correctly") {
                 let json:AnyObject? = self.jsonFromFileName("LabeledMulti.json")
-                expect(json is [String:AnyObject]).to(equal(true))
-                if let json = json as? [String:AnyObject] {
+                expect(json is JSONDictionary).to(equal(true))
+                if let json = json as? JSONDictionary {
                     let object = Multireddit(json:json)
                     expect(object.canEdit).to(equal(true))
                     expect(object.displayName).to(equal("english"))
@@ -314,8 +314,8 @@ class ParseThingObjectTest: QuickSpec {
         describe("Parsing LabeledMultiDescription json file") {
             it("Each property of more has been loaded correctly") {
                 let json:AnyObject? = self.jsonFromFileName("LabeledMultiDescription.json")
-                expect(json is [String:AnyObject]).to(equal(true))
-                if let json = json as? [String:AnyObject] {
+                expect(json is JSONDictionary).to(equal(true))
+                if let json = json as? JSONDictionary {
                     let object = MultiredditDescription(json:json)
                     expect(object.bodyHtml).to(equal("&lt;!-- SC_OFF --&gt;&lt;div class=\"md\"&gt;&lt;p&gt;updated&lt;/p&gt;\n&lt;/div&gt;&lt;!-- SC_ON --&gt;"))
                     expect(object.bodyMd).to(equal("updated"))
@@ -345,8 +345,8 @@ class ParseThingObjectTest: QuickSpec {
             it("Each property of more has been loaded correctly") {
                 var r = false
                 let json:AnyObject? = self.jsonFromFileName("api_new_captcha.json")
-                expect(json is [String:AnyObject]).to(equal(true))
-                if let thing = json as? [String:AnyObject] {
+                expect(json is JSONDictionary).to(equal(true))
+                if let thing = json as? JSONDictionary {
                     var result = parseCAPTCHAIdenJSON(thing)
                     switch result {
                     case .Failure:

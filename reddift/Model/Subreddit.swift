@@ -380,7 +380,7 @@ public class Subreddit : Thing, SubredditURLPath {
     :param: data Dictionary, must be generated parsing "t5".
     :returns: Subreddit object as Thing.
     */
-    public init(data:[String:AnyObject]) {
+    public init(data:JSONDictionary) {
         super.init(id: data["id"] as? String ?? "", kind: "t5")
         
         bannerImg = data["banner_img"] as? String ?? ""

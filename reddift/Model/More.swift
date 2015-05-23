@@ -33,7 +33,7 @@ public class More : Thing {
     :param: data Dictionary, must be generated parsing "more".
     :returns: More object as Thing.
     */
-    public init(data:[String:AnyObject]) {
+    public init(data:JSONDictionary) {
         super.init(id: data["id"] as? String ?? "", kind: "more")
         name = data["name"] as? String ?? ""
         parentId = data["parent_id"] as? String ?? ""

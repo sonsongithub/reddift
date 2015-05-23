@@ -240,7 +240,7 @@ public class Link : Thing {
     :param: data Dictionary, must be generated parsing "t3".
     :returns: Link object as Thing.
     */
-    public init(data:[String:AnyObject]) {
+    public init(data:JSONDictionary) {
         super.init(id: data["id"] as? String ?? "", kind: "t3")
         
         domain = data["domain"] as? String ?? ""
@@ -280,14 +280,14 @@ public class Link : Thing {
         visited = data["visited"] as? Bool ?? false
         numReports = data["num_reports"] as? Int ?? 0
         distinguished = data["distinguished"] as? Bool ?? false
-        if let temp = data["media"] as? [String:AnyObject] {
+        if let temp = data["media"] as? JSONDictionary {
             if temp.count > 0 {
                 let obj = Media()
                 obj.updateWithJSON(temp)
                 media = obj
             }
         }
-        if let temp = data["media_embed"] as? [String:AnyObject] {
+        if let temp = data["media_embed"] as? JSONDictionary {
             if temp.count > 0 {
                 let media_embed = MediaEmbed()
                 media_embed.updateWithJSON(temp)

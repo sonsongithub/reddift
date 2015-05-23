@@ -65,7 +65,7 @@ public class Oembed {
     
     :param: json JSON object which is included "t2" JSON.
     */
-    func updateWithJSON(json:[String:AnyObject]) {
+    func updateWithJSON(json:JSONDictionary) {
 		self.providerUrl = json["provider_url"] as? String ?? ""
 		self.description = json["description"] as? String ?? ""
 		self.title = json["title"] as? String ?? ""

@@ -113,7 +113,7 @@ public class Multireddit : SubredditURLPath {
     public var created:NSTimeInterval = 0
     public var createdUtc:NSTimeInterval = 0
     
-    public init(json:[String:AnyObject]) {
+    public init(json:JSONDictionary) {
         descriptionMd = json["description_md"] as? String ?? ""
         displayName = json["display_name"] as? String ?? ""
         

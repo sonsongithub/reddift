@@ -26,7 +26,7 @@ public class MediaEmbed {
     
     :param: json JSON object which is included "t2" JSON.
     */
-    func updateWithJSON(json:[String:AnyObject]) {
+    func updateWithJSON(json:JSONDictionary) {
 		self.height = json["height"] as? Int ?? 0
 		self.width = json["width"] as? Int ?? 0
 		self.content = json["content"] as? String ?? ""
