@@ -22,21 +22,21 @@ class Parser: NSObject {
             switch(kind) {
             case "t1":
                 // comment
-                return parseDataInThing_t1(data)
+                return Comment(data:data)
             case "t2":
                 // account
-				return parseDataInThing_t2(data)
+                return Account(data:data)
             case "t3":
                 // link
-                return parseDataInThing_t3(data)
+                return Link(data:data)
             case "t4":
 				// mesasge
-				return parseDataInThing_t4(data)
+                return Message(data:data)
             case "t5":
                 // subreddit
-				return parseDataInThing_t5(data)
+                return Subreddit(data:data)
 			case "more":
-                return parseDataInThing_more(data)
+                return More(data:data)
             case "LabeledMulti":
                 return Multireddit(json: data)
             case "LabeledMultiDescription":

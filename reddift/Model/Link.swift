@@ -233,4 +233,66 @@ public class Link : Thing {
 		}
 		return buf
 	}
+    
+    /**
+    Parse t3 object.
+    
+    :param: data Dictionary, must be generated parsing "t3".
+    :returns: Link object as Thing.
+    */
+    public init(data:[String:AnyObject]) {
+        super.init(id: data["id"] as? String ?? "", kind: "t3")
+        
+        domain = data["domain"] as? String ?? ""
+        bannedBy = data["banned_by"] as? String ?? ""
+        subreddit = data["subreddit"] as? String ?? ""
+        selftextHtml = data["selftext_html"] as? String ?? ""
+        selftext = data["selftext"] as? String ?? ""
+        likes = data["likes"] as? Bool ?? nil
+        linkFlairText = data["link_flair_text"] as? String ?? ""
+        gilded = data["gilded"] as? Int ?? 0
+        archived = data["archived"] as? Bool ?? false
+        clicked = data["clicked"] as? Bool ?? false
+        author = data["author"] as? String ?? ""
+        numComments = data["num_comments"] as? Int ?? 0
+        score = data["score"] as? Int ?? 0
+        approvedBy = data["approved_by"] as? String ?? ""
+        over18 = data["over_18"] as? Bool ?? false
+        hidden = data["hidden"] as? Bool ?? false
+        thumbnail = data["thumbnail"] as? String ?? ""
+        subredditId = data["subreddit_id"] as? String ?? ""
+        edited = data["edited"] as? Bool ?? false
+        linkFlairCssClass = data["link_flair_css_class"] as? String ?? ""
+        authorFlairCssClass = data["author_flair_css_class"] as? String ?? ""
+        downs = data["downs"] as? Int ?? 0
+        saved = data["saved"] as? Bool ?? false
+        isSelf = data["is_self"] as? Bool ?? false
+        name = data["name"] as? String ?? ""
+        permalink = data["permalink"] as? String ?? ""
+        stickied = data["stickied"] as? Bool ?? false
+        created = data["created"] as? Int ?? 0
+        url = data["url"] as? String ?? ""
+        authorFlairText = data["author_flair_text"] as? String ?? ""
+        title = data["title"] as? String ?? ""
+        createdUtc = data["created_utc"] as? Int ?? 0
+        ups = data["ups"] as? Int ?? 0
+        upvoteRatio = data["upvote_ratio"] as? Double ?? 0
+        visited = data["visited"] as? Bool ?? false
+        numReports = data["num_reports"] as? Int ?? 0
+        distinguished = data["distinguished"] as? Bool ?? false
+        if let temp = data["media"] as? [String:AnyObject] {
+            if temp.count > 0 {
+                let obj = Media()
+                obj.updateWithJSON(temp)
+                media = obj
+            }
+        }
+        if let temp = data["media_embed"] as? [String:AnyObject] {
+            if temp.count > 0 {
+                let media_embed = MediaEmbed()
+                media_embed.updateWithJSON(temp)
+                mediaEmbed = media_embed
+            }
+        }
+    }
 }

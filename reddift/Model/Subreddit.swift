@@ -363,6 +363,62 @@ public class Subreddit : Thing, SubredditURLPath {
     public var path:String {
         return "/r/\(displayName)"
     }
+    
+    /**
+    Parse t5 object.
+    
+    :param: data Dictionary, must be generated parsing "t5".
+    :returns: Subreddit object as Thing.
+    */
+    override public init(id:String, kind:String) {
+        super.init(id:id, kind:kind)
+    }
+    
+    /**
+    Parse t5 object.
+    
+    :param: data Dictionary, must be generated parsing "t5".
+    :returns: Subreddit object as Thing.
+    */
+    public init(data:[String:AnyObject]) {
+        super.init(id: data["id"] as? String ?? "", kind: "t5")
+        
+        bannerImg = data["banner_img"] as? String ?? ""
+        userSrThemeEnabled = data["user_sr_theme_enabled"] as? Bool ?? false
+        submitTextHtml = data["submit_text_html"] as? String ?? ""
+        userIsBanned = data["user_is_banned"] as? Bool ?? false
+        submitText = data["submit_text"] as? String ?? ""
+        displayName = data["display_name"] as? String ?? ""
+        headerImg = data["header_img"] as? String ?? ""
+        descriptionHtml = data["description_html"] as? String ?? ""
+        title = data["title"] as? String ?? ""
+        collapseDeletedComments = data["collapse_deleted_comments"] as? Bool ?? false
+        over18 = data["over18"] as? Bool ?? false
+        publicDescriptionHtml = data["public_description_html"] as? String ?? ""
+        iconSize = data["icon_size"] as? [Int] ?? []
+        iconImg = data["icon_img"] as? String ?? ""
+        headerTitle = data["header_title"] as? String ?? ""
+        description = data["description"] as? String ?? ""
+        submitLinkLabel = data["submit_link_label"] as? String ?? ""
+        accountsActive = data["accounts_active"] as? Int ?? 0
+        publicTraffic = data["public_traffic"] as? Bool ?? false
+        headerSize = data["header_size"] as? [Int] ?? []
+        subscribers = data["subscribers"] as? Int ?? 0
+        submitTextLabel = data["submit_text_label"] as? String ?? ""
+        userIsModerator = data["user_is_moderator"] as? Bool ?? false
+        name = data["name"] as? String ?? ""
+        created = data["created"] as? Int ?? 0
+        url = data["url"] as? String ?? ""
+        hideAds = data["hide_ads"] as? Bool ?? false
+        createdUtc = data["created_utc"] as? Int ?? 0
+        bannerSize = data["banner_size"] as? [Int] ?? []
+        userIsContributor = data["user_is_contributor"] as? Bool ?? false
+        publicDescription = data["public_description"] as? String ?? ""
+        commentScoreHideMins = data["comment_score_hide_mins"] as? Int ?? 0
+        subredditType = data["subreddit_type"] as? String ?? ""
+        submissionType = data["submission_type"] as? String ?? ""
+        userIsSubscriber = data["user_is_subscriber"] as? Bool ?? false
+    }
 }
 
 

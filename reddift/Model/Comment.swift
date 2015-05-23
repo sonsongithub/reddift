@@ -160,6 +160,49 @@ public class Comment : Thing {
     example: 1
     */
     public var ups = 0
+    
+    /**
+    Parse t1 Thing.
+    
+    :param: data Dictionary, must be generated parsing t1 Thing.
+    :returns: Comment object as Thing.
+    */
+    public init(data:[String:AnyObject]) {
+        super.init(id: data["id"] as? String ?? "", kind: "t1")
+        
+        subredditId = data["subreddit_id"] as? String ?? ""
+        bannedBy = data["banned_by"] as? String ?? ""
+        linkId = data["link_id"] as? String ?? ""
+        likes = data["likes"] as? String ?? ""
+        saved = data["saved"] as? Bool ?? false
+        id = data["id"] as? String ?? ""
+        gilded = data["gilded"] as? Int ?? 0
+        archived = data["archived"] as? Bool ?? false
+        author = data["author"] as? String ?? ""
+        parentId = data["parent_id"] as? String ?? ""
+        score = data["score"] as? Int ?? 0
+        approvedBy = data["approved_by"] as? String ?? ""
+        controversiality = data["controversiality"] as? Int ?? 0
+        body = data["body"] as? String ?? ""
+        edited = data["edited"] as? Bool ?? false
+        authorFlairCssClass = data["author_flair_css_class"] as? String ?? ""
+        downs = data["downs"] as? Int ?? 0
+        bodyHtml = data["body_html"] as? String ?? ""
+        subreddit = data["subreddit"] as? String ?? ""
+        scoreHidden = data["score_hidden"] as? Bool ?? false
+        name = data["name"] as? String ?? ""
+        created = data["created"] as? Int ?? 0
+        authorFlairText = data["author_flair_text"] as? String ?? ""
+        createdUtc = data["created_utc"] as? Int ?? 0
+        distinguished = data["distinguished"] as? Bool ?? false
+        numReports = data["num_reports"] as? Int ?? 0
+        ups = data["ups"] as? Int ?? 0
+        if let temp = data["replies"] as? [String:AnyObject] {
+            if let obj = Parser.parseJSON(temp) as? Listing {
+                replies = obj
+            }
+        }
+    }
 }
 
 

@@ -86,6 +86,38 @@ public class Account : Thing {
     public override func toString() -> String {
         return ""
     }
+    
+    /**
+    Parse t2 object.
+    
+    :param: data Dictionary, must be generated parsing "t2".
+    :returns: Account object as Thing.
+    */
+    public init(data:[String:AnyObject]) {
+        super.init(id: data["id"] as? String ?? "", kind: "t2")
+        hasMail = data["has_mail"] as? Bool ?? false
+        name = data["name"] as? String ?? ""
+        created = data["created"] as? Int ?? 0
+        hideFromRobots = data["hide_from_robots"] as? Bool ?? false
+        goldCreddits = data["gold_creddits"] as? Int ?? 0
+        createdUtc = data["created_utc"] as? Int ?? 0
+        hasModMail = data["has_mod_mail"] as? Bool ?? false
+        linkKarma = data["link_karma"] as? Int ?? 0
+        commentKarma = data["comment_karma"] as? Int ?? 0
+        over18 = data["over_18"] as? Bool ?? false
+        isGold = data["is_gold"] as? Bool ?? false
+        isMod = data["is_mod"] as? Bool ?? false
+        goldExpiration = data["gold_expiration"] as? Bool ?? false
+        hasVerifiedEmail = data["has_verified_email"] as? Bool ?? false
+        id = data["id"] as? String ?? ""
+        inboxCount = data["inbox_count"] as? Int ?? 0
+    }
 }
 
+func parseDataInJSON_t2(json:JSON) -> Result<JSON> {
+    if let object = json as? JSONDictionary {
+        return resultFromOptional(Account(data:object), ReddiftError.ParseThingT2.error)
+    }
+    return resultFromOptional(nil, ReddiftError.ParseThingT2.error)
+}
 

@@ -26,4 +26,18 @@ public class More : Thing {
 		buf += "\n"
 		return buf
 	}
+    
+    /**
+    Parse more object.
+    
+    :param: data Dictionary, must be generated parsing "more".
+    :returns: More object as Thing.
+    */
+    public init(data:[String:AnyObject]) {
+        super.init(id: data["id"] as? String ?? "", kind: "more")
+        name = data["name"] as? String ?? ""
+        parentId = data["parent_id"] as? String ?? ""
+        count = data["count"] as? Int ?? 0
+        children = data["children"] as? [String] ?? []
+    }
 }

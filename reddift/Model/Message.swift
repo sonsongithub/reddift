@@ -92,6 +92,34 @@ public class Message : Thing {
     example: Hello, /u/sonson_twit! Welcome to reddit!
     */
     public var  subject = ""
+    
+    
+    /**
+    Parse t4 object.
+    
+    :param: data Dictionary, must be generated parsing "t4".
+    :returns: Message object as Thing.
+    */
+    public init(data:[String:AnyObject]) {
+        super.init(id: data["id"] as? String ?? "", kind: "t4")
+        body = data["body"] as? String ?? ""
+        wasComment = data["was_comment"] as? Bool ?? false
+        firstMessage = data["first_message"] as? String ?? ""
+        name = data["name"] as? String ?? ""
+        firstMessageName = data["first_message_name"] as? String ?? ""
+        created = data["created"] as? Int ?? 0
+        dest = data["dest"] as? String ?? ""
+        author = data["author"] as? String ?? ""
+        createdUtc = data["created_utc"] as? Int ?? 0
+        bodyHtml = data["body_html"] as? String ?? ""
+        subreddit = data["subreddit"] as? String ?? ""
+        parentId = data["parent_id"] as? String ?? ""
+        context = data["context"] as? String ?? ""
+        replies = data["replies"] as? String ?? ""
+        new = data["new"] as? Bool ?? false
+        distinguished = data["distinguished"] as? String ?? ""
+        subject = data["subject"] as? String ?? ""
+    }
 }
 
 

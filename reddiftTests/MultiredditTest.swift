@@ -24,7 +24,6 @@ class MultiredditTest: SessionTestSpec {
     let updatedDescription = "updated description"
     
     func testAddSubredditToMultireddit(subredditDisplayName:String) {
-        let subreddit = Subreddit()
         var addedDisplayName:String? = nil
         if let multi = self.createdMultireddit {
             self.session?.addSubredditToMultireddit(multi, subredditDisplayName:subredditDisplayName, completion:{ (result) -> Void in
