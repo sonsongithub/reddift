@@ -11,7 +11,14 @@ import Foundation
 /**
 Account object.
 */
-public class Account : Thing {
+public struct Account {
+    /// identifier of Thing like 15bfi0.
+    public var id = ""
+    /// name of Thing, that is fullname, like t3_15bfi0.
+    public var name = ""
+    /// type of Thing, like t3.
+    public var kind = ""
+    
     /**
     user has unread mail? null if not your account
     example: false
@@ -83,7 +90,7 @@ public class Account : Thing {
     */
     public var inboxCount = 0
     
-    public override func toString() -> String {
+    public func toString() -> String {
         return ""
     }
     
@@ -94,7 +101,8 @@ public class Account : Thing {
     :returns: Account object as Thing.
     */
     public init(data:JSONDictionary) {
-        super.init(id: data["id"] as? String ?? "", kind: "t2")
+        id = data["id"] as? String ?? ""
+        kind = "t2"
         hasMail = data["has_mail"] as? Bool ?? false
         name = data["name"] as? String ?? ""
         created = data["created"] as? Int ?? 0

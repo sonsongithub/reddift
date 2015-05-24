@@ -11,7 +11,7 @@ import Foundation
 /**
 type alias for JSON object
 */
-public typealias JSON = AnyObject
+public typealias JSON = Any
 public typealias JSONDictionary = Dictionary<String, JSON>
 public typealias JSONArray = Array<JSON>
 public typealias ThingList = AnyObject

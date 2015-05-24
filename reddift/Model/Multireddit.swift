@@ -94,7 +94,7 @@ public enum MultiredditWeightingScheme : String {
 /**
 Multireddit class.
 */
-public class Multireddit : SubredditURLPath {
+public struct Multireddit : SubredditURLPath {
     public var descriptionMd = ""
     public var displayName = ""
     public var iconName:MultiredditIconName = .None

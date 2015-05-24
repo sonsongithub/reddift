@@ -11,7 +11,14 @@ import Foundation
 /**
 Message object.
 */
-public class Message : Thing {
+public struct Message {
+    /// identifier of Thing like 15bfi0.
+    public var id = ""
+    /// name of Thing, that is fullname, like t3_15bfi0.
+    public var name = ""
+    /// type of Thing, like t3.
+    public var kind = ""
+    
     /**
     the message itself
     example: Hello! [Hola!](http....
@@ -101,7 +108,8 @@ public class Message : Thing {
     :returns: Message object as Thing.
     */
     public init(data:JSONDictionary) {
-        super.init(id: data["id"] as? String ?? "", kind: "t4")
+        id = data["id"] as? String ?? ""
+        kind = "t4"
         body = data["body"] as? String ?? ""
         wasComment = data["was_comment"] as? Bool ?? false
         firstMessage = data["first_message"] as? String ?? ""

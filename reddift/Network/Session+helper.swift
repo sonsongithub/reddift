@@ -70,7 +70,7 @@ Parse Thing, Listing JSON object.
 :returns: Result object. Result object has any Thing or Listing object, otherwise error object.
 */
 func parseListFromJSON(json: JSON) -> Result<JSON> {
-    let object:AnyObject? = Parser.parseJSON(json)
+    let object:Any? = Parser.parseJSON(json)
     return resultFromOptional(object, ReddiftError.ParseThing.error)
 }
 
@@ -100,15 +100,17 @@ Parse JSON for response to /api/comment.
 :returns: Result object. When parsing is succeeded, object contains list which consists of Thing.
 */
 func parseResponseJSONToPostComment(json: JSON) -> Result<Comment> {
-    if let j = json["json"] as? JSONDictionary {
-        if let data = j["data"] as? JSONDictionary {
-            if let things = data["things"] as? JSONArray {
-                if things.count == 1 {
-                    for thing in things {
-                        if let thing = thing as? JSONDictionary {
-                            let obj:AnyObject? = Parser.parseJSON(thing)
-                            if let comment = obj as? Comment {
-                                return Result(value: comment)
+    if let json = json as? JSONDictionary {
+        if let j = json["json"] as? JSONDictionary {
+            if let data = j["data"] as? JSONDictionary {
+                if let things = data["things"] as? JSONArray {
+                    if things.count == 1 {
+                        for thing in things {
+                            if let thing = thing as? JSONDictionary {
+                                let obj:Any? = Parser.parseJSON(thing)
+                                if let comment = obj as? Comment {
+                                    return Result(value: comment)
+                                }
                             }
                         }
                     }

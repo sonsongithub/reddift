@@ -11,7 +11,7 @@ import Foundation
 /**
 Multireddit description class.
 */
-public class MultiredditDescription {
+public struct MultiredditDescription {
     public var bodyHtml = ""
     public var bodyMd = ""
     

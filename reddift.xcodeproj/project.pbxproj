@@ -143,7 +143,6 @@
 		14B5EC151AF35BFB0065BC5E /* helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1420ADCB1AEDD28C00BB21C3 /* helper.swift */; };
 		14B5EC161AF35BFF0065BC5E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE2A1ADD72C900237350 /* Config.swift */; };
 		14B5EC171AF35BFF0065BC5E /* Listing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148BB46C1AE49FBE006ED0D0 /* Listing.swift */; };
-		14B5EC181AF35BFF0065BC5E /* Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984021AE4E11000846DD3 /* Thing.swift */; };
 		14B5EC191AF35BFF0065BC5E /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142983F81AE4C47300846DD3 /* Media.swift */; };
 		14B5EC1A1AF35BFF0065BC5E /* Oembed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984001AE4E0EA00846DD3 /* Oembed.swift */; };
 		14B5EC1B1AF35BFF0065BC5E /* MediaEmbed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984051AE5A5CD00846DD3 /* MediaEmbed.swift */; };
@@ -156,7 +155,6 @@
 		14B5EC221AF35BFF0065BC5E /* Paginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE281ADD722500237350 /* Paginator.swift */; };
 		14B5EC241AF35BFF0065BC5E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE2A1ADD72C900237350 /* Config.swift */; };
 		14B5EC251AF35BFF0065BC5E /* Listing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148BB46C1AE49FBE006ED0D0 /* Listing.swift */; };
-		14B5EC261AF35BFF0065BC5E /* Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984021AE4E11000846DD3 /* Thing.swift */; };
 		14B5EC271AF35BFF0065BC5E /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142983F81AE4C47300846DD3 /* Media.swift */; };
 		14B5EC281AF35BFF0065BC5E /* Oembed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984001AE4E0EA00846DD3 /* Oembed.swift */; };
 		14B5EC291AF35BFF0065BC5E /* MediaEmbed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984051AE5A5CD00846DD3 /* MediaEmbed.swift */; };
@@ -224,7 +222,6 @@
 		14F812241AF9F6B1008F6F3C /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BEDDFD1AE44FC5004F7860 /* Parser.swift */; };
 		14F8122A1AF9F6B6008F6F3C /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE2A1ADD72C900237350 /* Config.swift */; };
 		14F8122B1AF9F6B6008F6F3C /* Listing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148BB46C1AE49FBE006ED0D0 /* Listing.swift */; };
-		14F8122C1AF9F6B6008F6F3C /* Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984021AE4E11000846DD3 /* Thing.swift */; };
 		14F8122D1AF9F6B6008F6F3C /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142983F81AE4C47300846DD3 /* Media.swift */; };
 		14F8122E1AF9F6B6008F6F3C /* Oembed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984001AE4E0EA00846DD3 /* Oembed.swift */; };
 		14F8122F1AF9F6B6008F6F3C /* MediaEmbed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984051AE5A5CD00846DD3 /* MediaEmbed.swift */; };
@@ -237,7 +234,6 @@
 		14F812361AF9F6B6008F6F3C /* Paginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE281ADD722500237350 /* Paginator.swift */; };
 		14F812371AF9F6B6008F6F3C /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE2A1ADD72C900237350 /* Config.swift */; };
 		14F812381AF9F6B6008F6F3C /* Listing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148BB46C1AE49FBE006ED0D0 /* Listing.swift */; };
-		14F812391AF9F6B6008F6F3C /* Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984021AE4E11000846DD3 /* Thing.swift */; };
 		14F8123A1AF9F6B6008F6F3C /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142983F81AE4C47300846DD3 /* Media.swift */; };
 		14F8123B1AF9F6B6008F6F3C /* Oembed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984001AE4E0EA00846DD3 /* Oembed.swift */; };
 		14F8123C1AF9F6B6008F6F3C /* MediaEmbed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984051AE5A5CD00846DD3 /* MediaEmbed.swift */; };
@@ -363,7 +359,6 @@
 		1424A8961AFE199700EF08CD /* api_comment_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = api_comment_response.json; sourceTree = "<group>"; };
 		142983F81AE4C47300846DD3 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		142984001AE4E0EA00846DD3 /* Oembed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Oembed.swift; sourceTree = "<group>"; };
-		142984021AE4E11000846DD3 /* Thing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Thing.swift; sourceTree = "<group>"; };
 		142984051AE5A5CD00846DD3 /* MediaEmbed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaEmbed.swift; sourceTree = "<group>"; };
 		143427BD1AF57752005D0E31 /* SearchResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		143427BF1AF5AB4E005D0E31 /* BaseLinkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLinkViewController.swift; sourceTree = "<group>"; };
@@ -707,7 +702,6 @@
 				14F422601B01C84E00608939 /* Enum.swift */,
 				14B8DE2A1ADD72C900237350 /* Config.swift */,
 				148BB46C1AE49FBE006ED0D0 /* Listing.swift */,
-				142984021AE4E11000846DD3 /* Thing.swift */,
 				142983F81AE4C47300846DD3 /* Media.swift */,
 				142984001AE4E0EA00846DD3 /* Oembed.swift */,
 				142984051AE5A5CD00846DD3 /* MediaEmbed.swift */,
@@ -1089,7 +1083,6 @@
 				141B91BE1B0A4FA900A9E6A6 /* Session+listings.swift in Sources */,
 				14B5EC1D1AF35BFF0065BC5E /* Comment.swift in Sources */,
 				141B91C41B0A4FD900A9E6A6 /* Session+misc.swift in Sources */,
-				14B5EC181AF35BFF0065BC5E /* Thing.swift in Sources */,
 				141B91C81B0A4FF900A9E6A6 /* Session+multireddit.swift in Sources */,
 				141B91BC1B0A4F9B00A9E6A6 /* Session+links.swift in Sources */,
 				14B5EC401AF35C500065BC5E /* Session.swift in Sources */,
@@ -1158,7 +1151,6 @@
 				141B91DE1B0A503400A9E6A6 /* Session+subreddits.swift in Sources */,
 				141341001AFBD4AB00D16B7C /* SessionTestSpec.swift in Sources */,
 				143427D71AF98F13005D0E31 /* HttpStatus.swift in Sources */,
-				14B5EC261AF35BFF0065BC5E /* Thing.swift in Sources */,
 				14B5EC3E1AF35C4F0065BC5E /* Session.swift in Sources */,
 				14B5EC281AF35BFF0065BC5E /* Oembed.swift in Sources */,
 				14B5EC301AF35BFF0065BC5E /* Paginator.swift in Sources */,
@@ -1207,7 +1199,6 @@
 				14F8125A1AF9F6C8008F6F3C /* Keychain.swift in Sources */,
 				14F8122D1AF9F6B6008F6F3C /* Media.swift in Sources */,
 				14F8122B1AF9F6B6008F6F3C /* Listing.swift in Sources */,
-				14F8122C1AF9F6B6008F6F3C /* Thing.swift in Sources */,
 				14F812521AF9F6C1008F6F3C /* OAuth2Authorizer.swift in Sources */,
 				141B91E81B0A503400A9E6A6 /* Session+messages.swift in Sources */,
 				14F8122A1AF9F6B6008F6F3C /* Config.swift in Sources */,
@@ -1266,7 +1257,6 @@
 				14F812381AF9F6B6008F6F3C /* Listing.swift in Sources */,
 				14F422641B01C84E00608939 /* Enum.swift in Sources */,
 				141B91F91B0A503500A9E6A6 /* Session+moderation.swift in Sources */,
-				14F812391AF9F6B6008F6F3C /* Thing.swift in Sources */,
 				140CC3FC1AFCB20A00E9CBB5 /* ExtendCommentsTest.swift in Sources */,
 				141B91F61B0A503500A9E6A6 /* Session+liveThreads.swift in Sources */,
 				14F812561AF9F6C1008F6F3C /* OAuth2Authorizer.swift in Sources */,

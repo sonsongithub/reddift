@@ -187,7 +187,7 @@ class MultiredditTest: SessionTestSpec {
             
             it("Update the attribute of new multireddit, except subreddits.") {
                 var isSucceeded = false
-                if let multi = self.createdMultireddit {
+                if var multi = self.createdMultireddit {
                     multi.iconName = .Science
                     multi.descriptionMd = self.updatedDescription
                     self.session?.updateMultireddit(multi, completion: { (result) -> Void in

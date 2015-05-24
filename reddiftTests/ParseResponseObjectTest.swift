@@ -19,7 +19,7 @@ class ParseResponseObjectTest: QuickSpec {
                     let json:AnyObject? = self.jsonFromFileName(fileName)
                     expect(json != nil).to(equal(true))
                     if let json:AnyObject = json {
-                        let object:AnyObject? = Parser.parseJSON(json)
+                        let object:Any? = Parser.parseJSON(json)
                         expect(object == nil).to(equal(true))
                     }
                 }
@@ -31,7 +31,7 @@ class ParseResponseObjectTest: QuickSpec {
                 let json:AnyObject? = self.jsonFromFileName("comments.json")
                 expect(json != nil).to(equal(true))
                 if let json:AnyObject = json {
-                    let objects:AnyObject? = Parser.parseJSON(json)
+                    let objects:Any? = Parser.parseJSON(json)
                     expect(objects != nil).to(equal(true))
                     if let objects = objects as? [JSON] {
                         expect(objects.count).to(equal(2))
@@ -42,7 +42,7 @@ class ParseResponseObjectTest: QuickSpec {
                         }
                         if let comments = objects[1] as? [AnyObject] {
                             for comment in comments {
-                                expect(comment.dynamicType === Comment.self).to(equal(true))
+                                expect(comment is Comment).to(equal(true))
                             }
                             expect(comments.count).to(equal(26))
                         }
@@ -57,12 +57,12 @@ class ParseResponseObjectTest: QuickSpec {
                 let json:AnyObject? = self.jsonFromFileName("links.json")
                 expect(json != nil).to(equal(true))
                 if let json:AnyObject = json {
-                    let listing:AnyObject? = Parser.parseJSON(json)
+                    let listing:Any? = Parser.parseJSON(json)
                     expect(listing != nil).to(equal(true))
                     if let listing = listing as? Listing {
                         expect(listing.children.count).to(equal(26))
                         for child in listing.children {
-                            expect(child.dynamicType === Link.self).to(equal(true))
+                            expect(child is Link).to(equal(true))
                         }
                     }
                 }
@@ -75,15 +75,15 @@ class ParseResponseObjectTest: QuickSpec {
                 let json:AnyObject? = self.jsonFromFileName("message.json")
                 expect(json != nil).to(equal(true))
                 if let json:AnyObject = json {
-                    let listing:AnyObject? = Parser.parseJSON(json)
+                    let listing:Any? = Parser.parseJSON(json)
                     expect(listing != nil).to(equal(true))
                     
                     if let listing = listing as? Listing {
                         expect(listing.children.count).to(equal(4))
-                        expect(listing.children[0].dynamicType === Comment.self).to(equal(true))
-                        expect(listing.children[1].dynamicType === Comment.self).to(equal(true))
-                        expect(listing.children[2].dynamicType === Comment.self).to(equal(true))
-                        expect(listing.children[3].dynamicType === Message.self).to(equal(true))
+                        expect(listing.children[0] is Comment).to(equal(true))
+                        expect(listing.children[1] is Comment).to(equal(true))
+                        expect(listing.children[2] is Comment).to(equal(true))
+                        expect(listing.children[3] is Message).to(equal(true))
                     }
                 }
                 
@@ -95,13 +95,13 @@ class ParseResponseObjectTest: QuickSpec {
                 let json:AnyObject? = self.jsonFromFileName("subreddit.json")
                 expect(json != nil).to(equal(true))
                 if let json:AnyObject = json {
-                    let listing:AnyObject? = Parser.parseJSON(json)
+                    let listing:Any? = Parser.parseJSON(json)
                     expect(listing != nil).to(equal(true))
                     
                     if let listing = listing as? Listing {
                         expect(listing.children.count).to(equal(5))
                         for child in listing.children {
-                            expect(child.dynamicType === Subreddit.self).to(equal(true))
+                            expect(child is Subreddit).to(equal(true))
                         }
                     }
                 }
@@ -125,7 +125,7 @@ class ParseResponseObjectTest: QuickSpec {
                 let json:AnyObject? = self.jsonFromFileName("multi.json")
                 expect(json != nil).to(equal(true))
                 if let json:AnyObject = json {
-                    if let hoge:AnyObject? = Parser.parseJSON(json) {
+                    if let hoge:Any? = Parser.parseJSON(json) {
                         if let array = hoge as? [Multireddit] {
                             isSucceeded = true
                         }

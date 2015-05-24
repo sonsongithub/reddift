@@ -16,7 +16,14 @@ public protocol SubredditURLPath {
 /**
 Subreddit object.
 */
-public class Subreddit : Thing, SubredditURLPath {
+public struct Subreddit : SubredditURLPath {
+    /// identifier of Thing like 15bfi0.
+    public var id = ""
+    /// name of Thing, that is fullname, like t3_15bfi0.
+    public var name = ""
+    /// type of Thing, like t3.
+    public var kind = ""
+    
     /**
     
     example:
@@ -356,7 +363,7 @@ public class Subreddit : Thing, SubredditURLPath {
     */
     public var userIsSubscriber = false
     
-    public override func toString() -> String {
+    public func toString() -> String {
         return "url=\(url)\ntitle=\(title)"
     }
     
@@ -370,8 +377,9 @@ public class Subreddit : Thing, SubredditURLPath {
     :param: data Dictionary, must be generated parsing "t5".
     :returns: Subreddit object as Thing.
     */
-    override public init(id:String, kind:String) {
-        super.init(id:id, kind:kind)
+    public init(id:String, kind:String) {
+        self.id = id
+        self.kind = kind
     }
     
     /**
@@ -381,8 +389,8 @@ public class Subreddit : Thing, SubredditURLPath {
     :returns: Subreddit object as Thing.
     */
     public init(data:JSONDictionary) {
-        super.init(id: data["id"] as? String ?? "", kind: "t5")
-        
+        id = data["id"] as? String ?? ""
+        kind = "t5"
         bannerImg = data["banner_img"] as? String ?? ""
         userSrThemeEnabled = data["user_sr_theme_enabled"] as? Bool ?? false
         submitTextHtml = data["submit_text_html"] as? String ?? ""

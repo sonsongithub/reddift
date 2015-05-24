@@ -15,26 +15,29 @@ Expand child comments which are included in Comment objects, recursively.
 
 :returns: Array contains Comment objects which are expaned from specified Comment object.
 */
-public func extendAllReplies(comment:Comment) -> [Thing] {
-    var comments:[Thing] = [comment]
-    if let listing = comment.replies {
-        for obj in listing.children {
-            if let obj = obj as? Comment {
-                comments.extend(extendAllReplies(obj))
-            }
+public func extendAllReplies(comment:Comment) -> [Any] {
+    var comments:[Any] = [comment]
+    for obj in comment.replies.children {
+        if let obj = obj as? Comment {
+            comments.extend(extendAllReplies(obj))
         }
-        if let more = listing.more {
-            comments.append(more)
-        }
-        comment.replies = nil
     }
+    comments.append(comment.replies.more)
+//    comment.replies = Listing()
     return comments
 }
 
 /**
 Comment object.
 */
-public class Comment : Thing {
+public struct Comment {
+    /// identifier of Thing like 15bfi0.
+    public var id = ""
+    /// name of Thing, that is fullname, like t3_15bfi0.
+    public var name = ""
+    /// type of Thing, like t3.
+    public var kind = ""
+    
     /**
     the id of the subreddit in which the thing is located
     example: t5_2qizd
@@ -56,7 +59,7 @@ public class Comment : Thing {
     /**
     example: {"kind"=>"Listing", "data"=>{"modhash"=>nil, "children"=>[{"kind"=>"more", "data"=>{"count"=>0, "parent_id"=>"t1_cqfhkcb", "children"=>["cqfmmpp"], "name"=>"t1_cqfmmpp", "id"=>"cqfmmpp"}}], "after"=>nil, "before"=>nil}}
     */
-    public var replies:Listing? = nil
+    public var replies:Listing
     /**
     example: []
     */
@@ -168,14 +171,13 @@ public class Comment : Thing {
     :returns: Comment object as Thing.
     */
     public init(data:JSONDictionary) {
-        super.init(id: data["id"] as? String ?? "", kind: "t1")
-        
+        id = data["id"] as? String ?? ""
+        kind = "t1"
         subredditId = data["subreddit_id"] as? String ?? ""
         bannedBy = data["banned_by"] as? String ?? ""
         linkId = data["link_id"] as? String ?? ""
         likes = data["likes"] as? String ?? ""
         saved = data["saved"] as? Bool ?? false
-        id = data["id"] as? String ?? ""
         gilded = data["gilded"] as? Int ?? 0
         archived = data["archived"] as? Bool ?? false
         author = data["author"] as? String ?? ""
@@ -201,6 +203,12 @@ public class Comment : Thing {
             if let obj = Parser.parseJSON(temp) as? Listing {
                 replies = obj
             }
+            else {
+                replies = Listing()
+            }
+        }
+        else {
+            replies = Listing()
         }
     }
 }

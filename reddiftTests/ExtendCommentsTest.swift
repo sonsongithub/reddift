@@ -18,10 +18,14 @@ class ExtendCommentsTest: QuickSpec {
                     if let array = Parser.parseJSON(json) as? [AnyObject] {
                         expect(array.count).to(equal(2))
                         if let listing = array[0] as? Listing {
-                            expect(listing.children[0].dynamicType === Link.self).to(equal(true))
+                            for link in listing.children {
+                                expect(link is Link).to(equal(true))
+//                                let b = ((listing.children[0]).dynamicType === Link.Type)
+//                                expect(b).to(equal(true))
+                            }
                         }
                         if let listing = array[1] as? Listing {
-                            var comments:[Thing] = []
+                            var comments:[Any] = []
                             for obj in listing.children {
                                 if let comment = obj as? Comment {
                                     comments += extendAllReplies(comment)
@@ -30,10 +34,10 @@ class ExtendCommentsTest: QuickSpec {
                                     comments.append(obj)
                                 }
                             }
-                            let numberOfComments = comments.reduce(0, combine: { (value:Int, comment:Thing) -> Int in
+                            let numberOfComments = comments.reduce(0, combine: { (value:Int, comment:Any) -> Int in
                                 return comment is Comment ? 1 + value : value
                             })
-                            let numberOfMores = comments.reduce(0, combine: { (value:Int, comment:Thing) -> Int in
+                            let numberOfMores = comments.reduce(0, combine: { (value:Int, comment:Any) -> Int in
                                 return comment is More ? 1 + value : value
                             })
                             expect(numberOfComments).to(equal(13))

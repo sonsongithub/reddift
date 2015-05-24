@@ -96,12 +96,14 @@ public class OAuth2Token : NSObject, NSCoding {
     */
     class func tokenWithJSON(json:JSON) -> Result<OAuth2Token> {
         var token:OAuth2Token? = nil
-        if let temp1 = json["access_token"] as? String,
-            temp2 = json["token_type"] as? String,
-            temp3 = json["expires_in"] as? Int,
-            temp4 = json["scope"] as? String,
-            temp5 = json["refresh_token"] as? String {
-                token = OAuth2Token(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:temp5)
+        if let json = json as? JSONDictionary {
+            if let temp1 = json["access_token"] as? String,
+                temp2 = json["token_type"] as? String,
+                temp3 = json["expires_in"] as? Int,
+                temp4 = json["scope"] as? String,
+                temp5 = json["refresh_token"] as? String {
+                    token = OAuth2Token(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:temp5)
+            }
         }
         return resultFromOptional(token, ReddiftError.ParseAccessToken.error)
     }
@@ -115,15 +117,17 @@ public class OAuth2Token : NSObject, NSCoding {
     :returns: Result object. 
     */
     func updateWithJSON(json:JSON) -> Result<OAuth2Token> {
-        if  let temp1 = json["access_token"] as? String,
-            temp2 = json["token_type"] as? String,
-            temp3 = json["expires_in"] as? Int,
-            temp4 = json["scope"] as? String {
-                accessToken = temp1
-                tokenType = temp2
-                expiresIn = temp3
-                scope = temp4
-                return Result(value:self)
+        if let json = json as? JSONDictionary {
+            if  let temp1 = json["access_token"] as? String,
+                temp2 = json["token_type"] as? String,
+                temp3 = json["expires_in"] as? Int,
+                temp4 = json["scope"] as? String {
+                    accessToken = temp1
+                    tokenType = temp2
+                    expiresIn = temp3
+                    scope = temp4
+                    return Result(value:self)
+            }
         }
         return Result(error:ReddiftError.ParseAccessToken.error)
     }

@@ -52,11 +52,13 @@ public class OAuth2AppOnlyToken : OAuth2Token {
     */
     public class func tokenWithJSON(json:JSON) -> Result<OAuth2AppOnlyToken> {
         var token:OAuth2AppOnlyToken? = nil
-        if let temp1 = json["access_token"] as? String,
-            temp2 = json["token_type"] as? String,
-            temp3 = json["expires_in"] as? Int,
-            temp4 = json["scope"] as? String {
-                token = OAuth2AppOnlyToken(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:"")
+        if let json = json as? JSONDictionary {
+            if let temp1 = json["access_token"] as? String,
+                temp2 = json["token_type"] as? String,
+                temp3 = json["expires_in"] as? Int,
+                temp4 = json["scope"] as? String {
+                    token = OAuth2AppOnlyToken(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:"")
+            }
         }
         return resultFromOptional(token, ReddiftError.ParseAccessToken.error)
     }

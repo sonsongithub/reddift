@@ -13,12 +13,19 @@ More object.
 "more" is included in Listing object(Maybe).
 If Listing object has "more" object, it has mure more children to be downloaded.
 */
-public class More : Thing {
+public struct More {
+    /// identifier of Thing like 15bfi0.
+    public var id = ""
+    /// name of Thing, that is fullname, like t3_15bfi0.
+    public var name = ""
+    /// type of Thing, like t3.
+    public var kind = ""
+    
 	public var parentId = ""
 	public var count = 0
 	public var children:[String] = []
 	
-	public override func toString() -> String {
+	public func toString() -> String {
 		var buf = "more\n"
 		for child in children {
 			buf += (child + ",")
@@ -34,7 +41,8 @@ public class More : Thing {
     :returns: More object as Thing.
     */
     public init(data:JSONDictionary) {
-        super.init(id: data["id"] as? String ?? "", kind: "more")
+        id = data["id"] as? String ?? ""
+        kind = "more"
         name = data["name"] as? String ?? ""
         parentId = data["parent_id"] as? String ?? ""
         count = data["count"] as? Int ?? 0
