@@ -59,6 +59,17 @@ extension Session {
         return task
     }
     
+    /**
+    Get Links from all subreddits or user specified subreddit.
+    
+    :param: paginator Paginator object for paging contents.
+    :param: subreddit Subreddit from which Links will be gotten.
+    :param: integratedSort The original type of sorting a list, .Controversial, .Top, .Hot, or .New.
+    :param: TimeFilterWithin The type of filtering contents. When integratedSort is .Hot or .New, this parameter is ignored.
+    :param: limit The maximum number of comments to return. Default is 25.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
     public func getList(paginator:Paginator, subreddit:SubredditURLPath?, integratedSort:LinkSortOriginalType, timeFilterWithin:TimeFilterWithin, limit:Int = 25, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         switch integratedSort {
         case .Controversial:
@@ -76,9 +87,9 @@ extension Session {
     Get Links from all subreddits or user specified subreddit.
     
     :param: paginator Paginator object for paging contents.
+    :param: subreddit Subreddit from which Links will be gotten.
     :param: sort The type of sorting a list.
     :param: TimeFilterWithin The type of filtering contents.
-    :param: subreddit Subreddit from which Links will be gotten.
     :param: limit The maximum number of comments to return. Default is 25.
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
@@ -134,6 +145,7 @@ extension Session {
     
     :param: paginator Paginator object for paging contents.
     :param: subreddit Subreddit from which Links will be gotten.
+    :param: type "new" or "hot" as type.
     :param: limit The maximum number of comments to return. Default is 25.
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.

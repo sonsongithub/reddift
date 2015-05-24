@@ -20,8 +20,6 @@ class ExtendCommentsTest: QuickSpec {
                         if let listing = array[0] as? Listing {
                             for link in listing.children {
                                 expect(link is Link).to(equal(true))
-//                                let b = ((listing.children[0]).dynamicType === Link.Type)
-//                                expect(b).to(equal(true))
                             }
                         }
                         if let listing = array[1] as? Listing {
