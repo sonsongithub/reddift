@@ -126,8 +126,11 @@ class ParseResponseObjectTest: QuickSpec {
                 expect(json != nil).to(equal(true))
                 if let json:AnyObject = json {
                     if let hoge:Any? = Parser.parseJSON(json) {
-                        if let array = hoge as? [Multireddit] {
+                        if let array = hoge as? [Any] {
                             isSucceeded = true
+                            for obj in array {
+                                expect(obj is Multireddit).to(equal(true))
+                            }
                         }
                     }
                 }

@@ -33,11 +33,13 @@ class SubscribingSubredditTest: SessionTestSpec {
                         println(result.error!.description)
                     case let .Success:
                         if let listing = result.value as? Listing {
-                            if let children = listing.children as? [Subreddit] {
-                                self.initialList = children
-                                self.initialCount = self.initialList.count
-                                isSucceeded = (self.initialCount > 0)
+                            for obj in listing.children {
+                                if let obj = obj as? Subreddit {
+                                    self.initialList.append(obj)
+                                }
                             }
+                            self.initialCount = self.initialList.count
+                            isSucceeded = (self.initialCount > 0)
                         }
                     }
                     NSThread.sleepForTimeInterval(self.testInterval)
@@ -67,10 +69,12 @@ class SubscribingSubredditTest: SessionTestSpec {
                         println(result.error!.description)
                     case let .Success:
                         if let listing = result.value as? Listing {
-                            if let children = listing.children as? [Subreddit] {
-                                self.afterSubscribingList = children
-                                afterSubscribingCount = self.afterSubscribingList.count
+                            for obj in listing.children {
+                                if let obj = obj as? Subreddit {
+                                    self.afterSubscribingList.append(obj)
+                                }
                             }
+                            afterSubscribingCount = self.afterSubscribingList.count
                         }
                     }
                     NSThread.sleepForTimeInterval(self.testInterval)
@@ -100,10 +104,12 @@ class SubscribingSubredditTest: SessionTestSpec {
                         println(result.error!.description)
                     case let .Success:
                         if let listing = result.value as? Listing {
-                            if let children = listing.children as? [Subreddit] {
-                                self.afterUnsubscribingList = children
-                                afterUnsubscribingCount = self.afterUnsubscribingList.count
+                            for obj in listing.children {
+                                if let obj = obj as? Subreddit {
+                                    self.afterUnsubscribingList.append(obj)
+                                }
                             }
+                            afterUnsubscribingCount = self.afterUnsubscribingList.count
                         }
                     }
                     NSThread.sleepForTimeInterval(self.testInterval)

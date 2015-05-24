@@ -122,7 +122,7 @@ public struct Multireddit : SubredditURLPath {
         
         keyColor = json["key_color"] as? String ?? ""
         
-        if let temp = json["subreddits"] as? [JSON] {
+        if let temp = json["subreddits"] as? [JSONDictionary] {
             for element in temp {
                 if let element = element as? [String:String] {
                     if let name:String = element["name"] {

@@ -46,12 +46,14 @@ class MultiredditTest: SessionTestSpec {
             case let .Failure:
                 println(result.error!.description)
             case let .Success:
-                if let array = result.value as? [Multireddit] {
+                if let array = result.value as? [Any] {
                     for multireddit in array {
-                        for name in nameList {
-                            if multireddit.name == name {
-                                count = count + 1
-                                break
+                        if let multireddit = multireddit as? Multireddit {
+                            for name in nameList {
+                                if multireddit.name == name {
+                                    count = count + 1
+                                    break
+                                }
                             }
                         }
                     }
@@ -102,7 +104,7 @@ class MultiredditTest: SessionTestSpec {
                     case let .Failure:
                         println(result.error!.description)
                     case let .Success:
-                        if let array = result.value as? [Multireddit] {
+                        if let array = result.value as? [Any] {
                             self.initialMultiredditCount = array.count
                         }
                         isSucceeded = true
@@ -130,9 +132,17 @@ class MultiredditTest: SessionTestSpec {
                     case let .Failure:
                         println(result.error!.description)
                     case let .Success:
-                        if let array = result.value as? [Multireddit] {
+                        var checkType = false
+                        if let array = result.value as? [Any] {
+                            checkType = true
+                            for obj in array {
+                                if !(obj is Multireddit) {
+                                    checkType = false
+                                }
+                            }
                             multiredditCountAfterCreating = array.count
                         }
+                        expect(checkType).to(equal(true))
                     }
                     NSThread.sleepForTimeInterval(self.testInterval)
                 })
@@ -253,7 +263,7 @@ class MultiredditTest: SessionTestSpec {
                     case let .Failure:
                         println(result.error!.description)
                     case let .Success:
-                        if let array = result.value as? [Multireddit] {
+                        if let array = result.value as? [Any] {
                             multiredditCountAfterCopingCreatedOne = array.count
                         }
                     }
@@ -346,7 +356,7 @@ class MultiredditTest: SessionTestSpec {
                     case let .Failure:
                         println(result.error!.description)
                     case let .Success:
-                        if let array = result.value as? [Multireddit]{
+                        if let array = result.value as? [Any]{
                             multiredditCountAfterDeletingCreatedOne = array.count
                         }
                     }

@@ -380,6 +380,7 @@ public struct Subreddit : SubredditURLPath {
     public init(id:String, kind:String) {
         self.id = id
         self.kind = kind
+        self.name = self.kind + "_" + self.id
     }
     
     /**
