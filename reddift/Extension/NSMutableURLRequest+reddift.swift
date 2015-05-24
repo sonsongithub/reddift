@@ -66,7 +66,8 @@ extension NSMutableURLRequest {
     }
     
     class func mutableOAuthGetRequestWithBaseURL(baseURL:String, path:String, parameter:[String:String], method:String, token:OAuth2Token) -> NSMutableURLRequest {
-        let URL = NSURL(string:baseURL + path + "?" + parameterString(parameter))!
+        var param = parameterString(parameter)
+        let URL = isEmpty(param) ? NSURL(string:baseURL + path)! : NSURL(string:baseURL + path + "?" + param)!
         var URLRequest = NSMutableURLRequest(URL: URL)
         URLRequest.setOAuth2Token(token)
         URLRequest.HTTPMethod = method
