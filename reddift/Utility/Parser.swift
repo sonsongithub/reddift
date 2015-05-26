@@ -17,30 +17,30 @@ class Parser: NSObject {
 	Parse thing object in JSON.
 	This method dispatches element of JSON to eithr methods to extract classes derived from Thing class.
 	*/
-    class func parseThing(json:JSONDictionary) -> Thing? {
+    class func parseThing(json:JSONDictionary) -> Any? {
         if let data = json["data"] as? JSONDictionary, kind = json["kind"] as? String {
             switch(kind) {
             case "t1":
                 // comment
-                return Thing(Comment(data:data))
+                return Comment(data:data)
             case "t2":
                 // account
-                return Thing(Account(data:data))
+                return Account(data:data)
             case "t3":
                 // link
-                return Thing(Link(data:data))
+                return Link(data:data)
             case "t4":
 				// mesasge
-                return Thing(Message(data:data))
+                return Message(data:data)
             case "t5":
                 // subreddit
-                return Thing(Subreddit(data:data))
+                return Subreddit(data:data)
 			case "more":
-                return Thing(More(data:data))
+                return More(data:data)
             case "LabeledMulti":
-                return Thing(Multireddit(json: data))
+                return Multireddit(json: data)
             case "LabeledMultiDescription":
-                return Thing(MultiredditDescription(json: data))
+                return MultiredditDescription(json: data)
             default:
                 break
             }
@@ -51,15 +51,20 @@ class Parser: NSObject {
 	/**
 	Parse list object in JSON
 	*/
-    class func parseListing(json:JSONDictionary) -> Thing {
+    class func parseListing(json:JSONDictionary) -> Listing {
         var listing = Listing()
         if let data = json["data"] as? JSONDictionary {
             if let children = data["children"] as? JSONArray {
                 for child in children {
                     if let child = child as? JSONDictionary {
-                        let obj:Thing? = parseJSON(child)
+                        let obj:Any? = parseJSON(child)
                         if let obj = obj {
-                            listing.children.append(obj)
+                            if let more:More = obj as? More {
+                                listing.more = more
+                            }
+                            else {
+                                listing.children.append(obj)
+                            }
                         }
                     }
                 }
@@ -75,26 +80,26 @@ class Parser: NSObject {
                 }
             }
         }
-        return Thing(listing)
+        return listing
     }
 	
 	/**
 	Parse JSON of the style which is Thing.
 	*/
-    class func parseJSON(json:JSON) -> Thing? {
+    class func parseJSON(json:JSON) -> Any? {
         // array
         // json->[AnyObject]
         if let array = json as? JSONArray {
-            var output:[Thing] = []
+            var output:[Any] = []
             for element in array {
                 if let element = element as? JSONDictionary {
-                    let obj:Thing? = self.parseJSON(element)
-                    if let obj = obj {
+                    let obj:Any? = self.parseJSON(element)
+                    if let obj:Any = obj {
                         output.append(obj)
                     }
                 }
             }
-            return Thing(output);
+            return output;
         }
 		// dictionary
 		// json->JSONDictionary
