@@ -71,6 +71,9 @@
                   Identifier = "SessionTestSpec">
                </Test>
                <Test
+                  Identifier = "SubredditTest">
+               </Test>
+               <Test
                   Identifier = "SubscribingSubredditTest">
                </Test>
             </SkippedTests>
