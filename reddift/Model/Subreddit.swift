@@ -16,13 +16,13 @@ public protocol SubredditURLPath {
 /**
 Subreddit object.
 */
-public struct Subreddit : SubredditURLPath {
+public struct Subreddit : SubredditURLPath, Thing {
     /// identifier of Thing like 15bfi0.
     public var id = ""
     /// name of Thing, that is fullname, like t3_15bfi0.
     public var name = ""
     /// type of Thing, like t3.
-    public var kind = ""
+    public static var kind = "t5"
     
     /**
     
@@ -379,8 +379,7 @@ public struct Subreddit : SubredditURLPath {
     */
     public init(id:String, kind:String) {
         self.id = id
-        self.kind = kind
-        self.name = self.kind + "_" + self.id
+        self.name = Subreddit.kind + "_" + self.id
     }
     
     /**
@@ -391,7 +390,6 @@ public struct Subreddit : SubredditURLPath {
     */
     public init(data:JSONDictionary) {
         id = data["id"] as? String ?? ""
-        kind = "t5"
         bannerImg = data["banner_img"] as? String ?? ""
         userSrThemeEnabled = data["user_sr_theme_enabled"] as? Bool ?? false
         submitTextHtml = data["submit_text_html"] as? String ?? ""

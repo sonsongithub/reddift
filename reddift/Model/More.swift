@@ -13,13 +13,13 @@ More object.
 "more" is included in Listing object(Maybe).
 If Listing object has "more" object, it has mure more children to be downloaded.
 */
-public struct More {
+public struct More : Thing {
     /// identifier of Thing like 15bfi0.
     public var id = ""
     /// name of Thing, that is fullname, like t3_15bfi0.
     public var name = ""
     /// type of Thing, like t3.
-    public var kind = ""
+    public static var kind = "more"
     
 	public var parentId = ""
 	public var count = 0
@@ -42,7 +42,6 @@ public struct More {
     */
     public init(data:JSONDictionary) {
         id = data["id"] as? String ?? ""
-        kind = "more"
         name = data["name"] as? String ?? ""
         parentId = data["parent_id"] as? String ?? ""
         count = data["count"] as? Int ?? 0

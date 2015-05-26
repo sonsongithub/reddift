@@ -11,13 +11,13 @@ import Foundation
 /**
 Account object.
 */
-public struct Account {
+public struct Account : Thing {
     /// identifier of Thing like 15bfi0.
     public var id = ""
     /// name of Thing, that is fullname, like t3_15bfi0.
     public var name = ""
     /// type of Thing, like t3.
-    public var kind = ""
+    public static var kind = "t2"
     
     /**
     user has unread mail? null if not your account
@@ -102,7 +102,6 @@ public struct Account {
     */
     public init(data:JSONDictionary) {
         id = data["id"] as? String ?? ""
-        kind = "t2"
         hasMail = data["has_mail"] as? Bool ?? false
         name = data["name"] as? String ?? ""
         created = data["created"] as? Int ?? 0

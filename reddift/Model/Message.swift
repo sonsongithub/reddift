@@ -11,13 +11,13 @@ import Foundation
 /**
 Message object.
 */
-public struct Message {
+public struct Message : Thing {
     /// identifier of Thing like 15bfi0.
     public var id = ""
     /// name of Thing, that is fullname, like t3_15bfi0.
     public var name = ""
     /// type of Thing, like t3.
-    public var kind = ""
+    public static var kind = "t4"
     
     /**
     the message itself
@@ -109,7 +109,6 @@ public struct Message {
     */
     public init(data:JSONDictionary) {
         id = data["id"] as? String ?? ""
-        kind = "t4"
         body = data["body"] as? String ?? ""
         wasComment = data["was_comment"] as? Bool ?? false
         firstMessage = data["first_message"] as? String ?? ""

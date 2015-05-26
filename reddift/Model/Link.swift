@@ -11,13 +11,13 @@ import Foundation
 /**
 Link content.
 */
-public struct Link {
+public struct Link : Thing {
     /// identifier of Thing like 15bfi0.
     public var id = ""
     /// name of Thing, that is fullname, like t3_15bfi0.
     public var name = ""
     /// type of Thing, like t3.
-    public var kind = ""
+    public static var kind = "t3"
     
     /**
     example: self.redditdev
@@ -229,7 +229,7 @@ public struct Link {
     public var distinguished = false
 	
     func toString() -> String {
-		var buf = "------------------------------\nid=\(id)\nname=\(name)\nkind=\(kind)\ntitle=\(title)\nurl=\(url)\n"
+		var buf = "------------------------------\nid=\(id)\nname=\(name)\nkind=\(Link.kind)\ntitle=\(title)\nurl=\(url)\n"
 		if let media = media {
 			buf += "media\n"
 			buf += media.toString()
@@ -249,7 +249,6 @@ public struct Link {
     */
     public init(data:JSONDictionary) {
         id = data["id"] as? String ?? ""
-        kind = "t3"
         domain = data["domain"] as? String ?? ""
         bannedBy = data["banned_by"] as? String ?? ""
         subreddit = data["subreddit"] as? String ?? ""

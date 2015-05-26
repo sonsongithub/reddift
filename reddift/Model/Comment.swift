@@ -30,13 +30,13 @@ public func extendAllReplies(comment:Comment) -> [Any] {
 /**
 Comment object.
 */
-public struct Comment {
+public struct Comment : Thing {
     /// identifier of Thing like 15bfi0.
     public var id = ""
     /// name of Thing, that is fullname, like t3_15bfi0.
     public var name = ""
     /// type of Thing, like t3.
-    public var kind = ""
+    static public let kind = "t1"
     
     /**
     the id of the subreddit in which the thing is located
@@ -172,7 +172,6 @@ public struct Comment {
     */
     public init(data:JSONDictionary) {
         id = data["id"] as? String ?? ""
-        kind = "t1"
         subredditId = data["subreddit_id"] as? String ?? ""
         bannedBy = data["banned_by"] as? String ?? ""
         linkId = data["link_id"] as? String ?? ""
