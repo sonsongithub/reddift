@@ -36,7 +36,7 @@ class SessionTestSpec: QuickSpec {
                         case let .Failure:
                             XCTFail("Could not get access token from reddit.com.")
                         case let .Success:
-                            if let token:OAuth2Token = result.value {
+                            if let token:Token = result.value {
                                 self.session = Session(token: token)
                             }
                             XCTAssert((self.session != nil), "Could not establish session.")

@@ -36,10 +36,11 @@ public class OAuth2TokenRepository {
     public class func saveIntoKeychainToken(token:OAuth2Token) {
         if count(token.name) > 0 {
             // save
-            let data = NSKeyedArchiver.archivedDataWithRootObject(token)
-            let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-            keychain.set(data, key:token.name)
-            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil)
+            if let data = token.json() {
+                let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
+                keychain.set(data, key:token.name)
+                NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil)
+            }
         }
         else {
             println("Error:name property is empty.")
@@ -49,11 +50,11 @@ public class OAuth2TokenRepository {
     public class func saveIntoKeychainToken(token:OAuth2Token, name:String) {
         if count(name) > 0 {
             // save
-            token.name = name
-            let data = NSKeyedArchiver.archivedDataWithRootObject(token)
-            let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-            keychain.set(data, key:name)
-            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil);
+            if let data = token.json() {
+                let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
+                keychain.set(data, key:name)
+                NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil);
+            }
         }
         else {
             println("Error:name property is empty.")

@@ -12,17 +12,38 @@ import Foundation
 OAuth2Token extension to authorize without a user context.
 This class is private and for only unit testing because "Installed app" is prohibited from using "Application Only OAuth" scheme, that is without user context.
 */
-public class OAuth2AppOnlyToken : OAuth2Token {
-    public override func encodeWithCoder(aCoder: NSCoder) {
-        super.encodeWithCoder(aCoder)
+public struct OAuth2AppOnlyToken : Token {
+    
+    public static var baseURL = "https://www.reddit.com/api/v1"
+    
+    public var accessToken = ""
+    public var tokenType = ""
+    public var _expiresIn = 0
+    public var scope = ""
+    public var refreshToken = ""
+    
+    /// User name, which is used to save token into keychian.
+    public var name = ""
+    /// Date when the current access token expires.
+    public var expiresDate:NSTimeInterval = 0
+    
+    public init(_ json:[String:AnyObject]) {
+        self.name = json["name"] as? String ?? ""
+        self.accessToken = json["access_token"] as? String ?? ""
+        self.tokenType = json["token_type"] as? String ?? ""
+        self._expiresIn = json["expires_in"] as? Int ?? 0
+        self.expiresDate = json["expires_date"] as? NSTimeInterval ?? 0
+        self.scope = json["scope"] as? String ?? ""
+        self.refreshToken = json["refresh_token"] as? String ?? ""
     }
     
-    public required init(coder aDecoder: NSCoder) {
-        super.init(coder:aDecoder)
+    public func json() -> NSData? {
+        let dict:[String:AnyObject] = ["name":name, "access_token":accessToken, "token_type":tokenType, "expires_in":_expiresIn, "expires_date":expiresDate, "scope":scope, "refresh_token":refreshToken]
+        return NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions.allZeros, error: nil)
     }
     
-    public override init(accessToken:String, tokenType:String, expiresIn:Int, scope:String, refreshToken:String) {
-        super.init(accessToken: accessToken, tokenType: tokenType, expiresIn: expiresIn, scope: scope, refreshToken: refreshToken)
+    mutating func setName(name:String) {
+        self.name = name
     }
     
     /**
@@ -32,7 +53,7 @@ public class OAuth2AppOnlyToken : OAuth2Token {
     
     :returns: NSMutableURLRequest object to request your access token.
     */
-    public class func requestForOAuth2AppOnly(#username:String, password:String, clientID:String, secret:String) -> NSMutableURLRequest {
+    public static func requestForOAuth2AppOnly(#username:String, password:String, clientID:String, secret:String) -> NSMutableURLRequest {
         var URL = NSURL(string: "https://ssl.reddit.com/api/v1/access_token")!
         var request = NSMutableURLRequest(URL:URL)
         request.setRedditBasicAuthentication(username:clientID, password:secret)
@@ -50,14 +71,14 @@ public class OAuth2AppOnlyToken : OAuth2Token {
     
     :returns: Result object. If succeeded, it includes OAuth2AppOnlyToken with a new access token.
     */
-    public class func tokenWithJSON(json:JSON) -> Result<OAuth2AppOnlyToken> {
+    public static func tokenWithJSON(json:JSON) -> Result<OAuth2AppOnlyToken> {
         var token:OAuth2AppOnlyToken? = nil
         if let json = json as? JSONDictionary {
             if let temp1 = json["access_token"] as? String,
                 temp2 = json["token_type"] as? String,
                 temp3 = json["expires_in"] as? Int,
                 temp4 = json["scope"] as? String {
-                    token = OAuth2AppOnlyToken(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:"")
+                    token = OAuth2AppOnlyToken(json)
             }
         }
         return resultFromOptional(token, ReddiftError.ParseAccessToken.error)
@@ -71,7 +92,7 @@ public class OAuth2AppOnlyToken : OAuth2Token {
     
     :returns: Data task which requests search to reddit.com.
     */
-    public class func getOAuth2AppOnlyToken(#username:String, password:String, clientID:String, secret:String, completion:(Result<OAuth2AppOnlyToken>)->Void) -> NSURLSessionDataTask {
+    public static func getOAuth2AppOnlyToken(#username:String, password:String, clientID:String, secret:String, completion:(Result<OAuth2AppOnlyToken>)->Void) -> NSURLSessionDataTask {
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let request = requestForOAuth2AppOnly(username:username, password:password, clientID:clientID, secret:secret)
         let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
@@ -79,8 +100,8 @@ public class OAuth2AppOnlyToken : OAuth2Token {
             let result = responseResult >>> parseResponse >>> decodeJSON >>> self.tokenWithJSON
             switch result {
             case let .Success:
-                if let token = result.value {
-                    token.name = username
+                if var token = result.value {
+                    token.setName(username)
                 }
                 completion(result)
             default:

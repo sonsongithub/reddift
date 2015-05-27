@@ -18,7 +18,7 @@ public typealias ThingList = AnyObject
 
 public class Session {
     /// Token object to access via OAuth
-    public let token:OAuth2Token
+    public let token:Token
     /// Base URL for OAuth API
     static let baseURL = "https://oauth.reddit.com"
     /// Session object to communicate a server
@@ -30,7 +30,7 @@ public class Session {
     /// Duration until rate limit of API usage as second.
 	var x_ratelimit_remaining:Int = 0
     
-    public init(token:OAuth2Token) {
+    public init(token:Token) {
         self.token = token
     }
 	
