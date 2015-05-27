@@ -10,27 +10,6 @@ import Foundation
 
 let OAuth2TokenDidUpdate = "OAuth2TokenDidUpdate"
 
-public protocol Token {
-    var accessToken: String {get}
-    var tokenType: String {get}
-    var expiresIn: Int {get}
-    var _expiresIn: Int {get}
-    var scope: String {get}
-    var refreshToken: String {get}
-    
-    var name: String {get}
-    var expiresDate: NSTimeInterval {get}
-    
-    static var baseURL: String {get}
-    
-    init(_ json:[String:AnyObject])
-}
-
-func jsonForSerializeToken(token:Token) -> NSData? {
-    let dict:[String:AnyObject] = ["name":token.name, "access_token":token.accessToken, "token_type":token.tokenType, "expires_in":token.expiresIn, "expires_date":token.expiresDate, "scope":token.scope, "refresh_token":token.refreshToken]
-    return NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions.allZeros, error: nil)
-}
-
 /**
 OAuth2 token for access reddit.com API.
 */
@@ -67,23 +46,6 @@ public struct OAuth2Token : Token {
     }
     
     /**
-    Create NSMutableURLRequest object to request getting an access token.
-    
-    :param: code The code which is obtained from OAuth2 redict URL at reddit.com.
-    :returns: NSMutableURLRequest object to request your access token.
-    */
-    static func requestForOAuth(code:String) -> NSMutableURLRequest {
-        var URL = NSURL(string: OAuth2Token.baseURL + "/access_token")!
-        var request = NSMutableURLRequest(URL:URL)
-        request.setRedditBasicAuthentication()
-        var param = "grant_type=authorization_code&code=" + code + "&redirect_uri=" + Config.sharedInstance.redirectURI
-        let data = param.dataUsingEncoding(NSUTF8StringEncoding)
-        request.HTTPBody = data
-        request.HTTPMethod = "POST"
-        return request
-    }
-    
-    /**
     Create OAuth2Token object from JSON.
     
     :param: json JSON object.
@@ -101,6 +63,23 @@ public struct OAuth2Token : Token {
             }
         }
         return Result(error:ReddiftError.ParseAccessToken.error)
+    }
+    
+    /**
+    Create NSMutableURLRequest object to request getting an access token.
+    
+    :param: code The code which is obtained from OAuth2 redict URL at reddit.com.
+    :returns: NSMutableURLRequest object to request your access token.
+    */
+    static func requestForOAuth(code:String) -> NSMutableURLRequest {
+        var URL = NSURL(string: OAuth2Token.baseURL + "/access_token")!
+        var request = NSMutableURLRequest(URL:URL)
+        request.setRedditBasicAuthentication()
+        var param = "grant_type=authorization_code&code=" + code + "&redirect_uri=" + Config.sharedInstance.redirectURI
+        let data = param.dataUsingEncoding(NSUTF8StringEncoding)
+        request.HTTPBody = data
+        request.HTTPMethod = "POST"
+        return request
     }
     
     /**
