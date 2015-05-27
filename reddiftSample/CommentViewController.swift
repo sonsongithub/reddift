@@ -34,7 +34,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     
     func vote(direction:VoteDirection) {
         if let link = self.link {
-            session?.setVote(direction, thing: link, completion: { (result) -> Void in
+            session?.setVote(direction, name: link.name, completion: { (result) -> Void in
                 switch result {
                 case let .Failure:
                     println(result.error)
@@ -47,7 +47,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     
     func save(save:Bool) {
         if let link = self.link {
-            session?.setSave(save, thing: link, category:"default", completion: { (result) -> Void in
+            session?.setSave(save, name: link.name, completion: { (result) -> Void in
                 switch result {
                 case let .Failure:
                     println(result.error)
@@ -60,7 +60,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     
     func hide(hide:Bool) {
         if let link = self.link {
-            session?.setHide(hide, thing: link, completion: { (result) -> Void in
+            session?.setHide(hide, name: link.name, completion: { (result) -> Void in
                 switch result {
                 case let .Failure:
                     println(result.error)
@@ -179,13 +179,8 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                                 newComments += extendAllReplies(comment)
                             }
                         }
-                        if let more = listing.more {
-                            newComments.append(more)
-                        }
-                        
                         self.comments += newComments
                         self.contents += self.updateStrings(newComments)
-                        println(listing.more)
                         self.paginator = listing.paginator
                     }
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in

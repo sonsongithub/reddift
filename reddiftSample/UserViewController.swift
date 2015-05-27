@@ -27,22 +27,27 @@ class UserViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true);
         if indexPath.row == 2 && indexPath.section == 0 {
-            if let token = session?.token{
+            if let token = session?.token as? OAuth2Token {
                 token.refresh({ (result) -> Void in
                     switch result {
                     case let .Failure:
                         println(result.error)
                     case let .Success:
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            self.updateExpireCell(nil)
-                            OAuth2TokenRepository.saveIntoKeychainToken(token)
-                        })
+                        if let newToken = result.value {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                if var session = self.session {
+                                    session.token = newToken
+                                }
+                                self.updateExpireCell(nil)
+                                OAuth2TokenRepository.saveIntoKeychainToken(newToken)
+                            })
+                        }
                     }
                 })
             }
         }
         if indexPath.row == 3 && indexPath.section == 0 {
-            if let token = session?.token{
+            if let token = session?.token as? OAuth2Token {
                 token.revoke({ (result) -> Void in
                     switch result {
                     case let .Failure:

@@ -18,7 +18,7 @@ public typealias ThingList = AnyObject
 
 public class Session {
     /// Token object to access via OAuth
-    public let token:Token
+    public var token:Token
     /// Base URL for OAuth API
     static let baseURL = "https://oauth.reddit.com"
     /// Session object to communicate a server

@@ -76,12 +76,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
                                 self.links.append(link)
                             }
                         }
-						if let paginator = listing.paginator {
-							self.paginator = paginator
-						}
-						else {
-							self.paginator = Paginator()
-						}
+                        self.paginator = listing.paginator
                     }
                     self.updateStrings()
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in

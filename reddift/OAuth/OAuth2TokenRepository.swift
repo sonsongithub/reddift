@@ -19,9 +19,13 @@ public class OAuth2TokenRepository {
     public class func restoreFromKeychainWithName(name:String) -> Result<OAuth2Token> {
         let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
         if let data = keychain.getData(name) {
-            if let token = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OAuth2Token {
-                return Result(value:token)
+            var error:NSError? = nil
+            var json:AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.allZeros, error: &error)
+            if let json = json as? [String:AnyObject] {
+                return Result(value:OAuth2Token(json))
             }
+            removeFromKeychainTokenWithName(name)
+            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil)
         }
         return Result(error:ReddiftError.TokenNotfound.error)
     }
@@ -36,7 +40,7 @@ public class OAuth2TokenRepository {
     public class func saveIntoKeychainToken(token:OAuth2Token) {
         if count(token.name) > 0 {
             // save
-            if let data = token.json() {
+            if let data = jsonForSerializeToken(token) {
                 let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
                 keychain.set(data, key:token.name)
                 NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil)
@@ -50,7 +54,7 @@ public class OAuth2TokenRepository {
     public class func saveIntoKeychainToken(token:OAuth2Token, name:String) {
         if count(name) > 0 {
             // save
-            if let data = token.json() {
+            if let data = jsonForSerializeToken(token) {
                 let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
                 keychain.set(data, key:name)
                 NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil);

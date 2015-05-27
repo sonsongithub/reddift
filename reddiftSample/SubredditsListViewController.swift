@@ -26,9 +26,14 @@ class SubredditsListViewController: UITableViewController {
                     println(result.error)
                 case let .Success:
                     if let listing = result.value as? Listing {
-                        if let subreddits = listing.children as? [Subreddit] {
-                            self.subreddits += subreddits
+                        for obj in listing.children {
+                            if let obj = obj as? Subreddit {
+                                self.subreddits.append(obj)
+                            }
                         }
+//                        if let temp = listing.children as? [Subreddit] {
+//                            self.subreddits += temp
+//                        }
 //                        self.paginator = listing.paginator()
                     }
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in

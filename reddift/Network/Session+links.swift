@@ -77,9 +77,9 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func setSave(save:Bool, name:String, category:String?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func setSave(save:Bool, name:String, category:String = "", completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = ["id":name]
-        if let category = category {
+        if !isEmpty(category) {
             parameter["category"] = category
         }
         var request:NSMutableURLRequest! = nil
