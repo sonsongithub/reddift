@@ -18,7 +18,7 @@ class SubscribingSubredditTest: SessionTestSpec {
     
     var afterUnsubscribingList:[Subreddit] = []
     
-    let targetSubreedit = Subreddit(id: "2rdw8", kind: "t5")
+    let targetSubreedit = Subreddit(id: "2rdw8")
 
     override func spec() {
         beforeEach { () -> () in

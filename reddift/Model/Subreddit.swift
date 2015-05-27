@@ -363,23 +363,13 @@ public struct Subreddit : SubredditURLPath, Thing {
     */
     public var userIsSubscriber = false
     
-    public func toString() -> String {
-        return "url=\(url)\ntitle=\(title)"
-    }
-    
     public var path:String {
         return "/r/\(displayName)"
     }
-    
-    /**
-    Parse t5 object.
-    
-    :param: data Dictionary, must be generated parsing "t5".
-    :returns: Subreddit object as Thing.
-    */
-    public init(id:String, kind:String) {
+
+    public init(id:String) {
         self.id = id
-        self.name = Subreddit.kind + "_" + self.id
+        self.name = "\(Subreddit.kind)_\(self.id)"
     }
     
     /**

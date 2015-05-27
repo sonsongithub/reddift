@@ -228,18 +228,10 @@ public struct Link : Thing {
     */
     public var distinguished = false
 	
-    func toString() -> String {
-		var buf = "------------------------------\nid=\(id)\nname=\(name)\nkind=\(Link.kind)\ntitle=\(title)\nurl=\(url)\n"
-		if let media = media {
-			buf += "media\n"
-			buf += media.toString()
-		}
-		if let mediaEmbed = mediaEmbed {
-			buf += "media_embed\n"
-			buf += mediaEmbed.toString()
-		}
-		return buf
-	}
+    public init(id:String) {
+        self.id = id
+        self.name = "\(Link.kind)_\(self.id)"
+    }
     
     /**
     Parse t3 object.

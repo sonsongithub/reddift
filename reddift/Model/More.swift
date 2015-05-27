@@ -25,14 +25,10 @@ public struct More : Thing {
 	public var count = 0
 	public var children:[String] = []
 	
-	public func toString() -> String {
-		var buf = "more\n"
-		for child in children {
-			buf += (child + ",")
-		}
-		buf += "\n"
-		return buf
-	}
+    public init(id:String) {
+        self.id = id
+        self.name = "\(More.kind)_\(self.id)"
+    }
     
     /**
     Parse more object.

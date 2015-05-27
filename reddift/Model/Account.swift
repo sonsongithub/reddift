@@ -90,8 +90,9 @@ public struct Account : Thing {
     */
     public var inboxCount = 0
     
-    public func toString() -> String {
-        return ""
+    public init(id:String) {
+        self.id = id
+        self.name = "\(Account.kind)_\(self.id)"
     }
     
     /**

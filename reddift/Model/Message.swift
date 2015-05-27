@@ -100,6 +100,10 @@ public struct Message : Thing {
     */
     public var  subject = ""
     
+    public init(id:String) {
+        self.id = id
+        self.name = "\(Message.kind)_\(self.id)"
+    }
     
     /**
     Parse t4 object.

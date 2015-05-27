@@ -57,7 +57,7 @@ public struct Comment : Thing {
     /**
     example: {"kind"=>"Listing", "data"=>{"modhash"=>nil, "children"=>[{"kind"=>"more", "data"=>{"count"=>0, "parent_id"=>"t1_cqfhkcb", "children"=>["cqfmmpp"], "name"=>"t1_cqfmmpp", "id"=>"cqfmmpp"}}], "after"=>nil, "before"=>nil}}
     */
-    public var replies:Listing
+    public var replies:Listing = Listing()
     /**
     example: []
     */
@@ -161,6 +161,11 @@ public struct Comment : Thing {
     example: 1
     */
     public var ups = 0
+    
+    public init(id:String) {
+        self.id = id
+        self.name = "\(Comment.kind)_\(self.id)"
+    }
     
     /**
     Parse t1 Thing.
