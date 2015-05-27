@@ -27,15 +27,15 @@ public struct OAuth2Token : Token {
     Time inteval the access token expires from being authorized.
     */
     public var expiresIn:Int {
-        set (newValue) {
-            _expiresIn = newValue
-            expiresDate = NSDate.timeIntervalSinceReferenceDate() + Double(_expiresIn)
-        }
-        get {
-            return _expiresIn
-        }
+        set (newValue) { _expiresIn = newValue; expiresDate = NSDate.timeIntervalSinceReferenceDate() + Double(_expiresIn) }
+        get { return _expiresIn }
     }
-
+    
+    /**
+    Initialize OAuth2AppOnlyToken with JSON.
+    
+    :param: json JSON as [String:AnyObject] should include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token".
+    */
     public init(_ json:[String:AnyObject]) {
         self.name = json["name"] as? String ?? ""
         self.accessToken = json["access_token"] as? String ?? ""
@@ -48,7 +48,7 @@ public struct OAuth2Token : Token {
     /**
     Create OAuth2Token object from JSON.
     
-    :param: json JSON object.
+    :param: json JSON object as [String:AnyObject] must include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token". If it does not, returns Result<NSError>.
     :returns: OAuth2Token object includes a new access token.
     */
     static func tokenWithJSON(json:JSON) -> Result<OAuth2Token> {
