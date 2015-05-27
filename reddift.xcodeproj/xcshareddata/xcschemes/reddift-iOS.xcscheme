@@ -59,9 +59,6 @@
                   Identifier = "CommentTest">
                </Test>
                <Test
-                  Identifier = "ExtendCommentsTest">
-               </Test>
-               <Test
                   Identifier = "MultiTest">
                </Test>
                <Test
@@ -69,6 +66,9 @@
                </Test>
                <Test
                   Identifier = "SessionTestSpec">
+               </Test>
+               <Test
+                  Identifier = "SubredditTest">
                </Test>
                <Test
                   Identifier = "SubscribingSubredditTest">

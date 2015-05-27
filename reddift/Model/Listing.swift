@@ -14,15 +14,12 @@ This class has children, paginator and more.
 */
 public struct Listing {
 	/// elements of the list
-	public var children:[Any]
+	public var children:[Thing]
 	/// paginator of the list
     public var paginator:Paginator
-	/// more object of the list, includes contents that have not been downloaded.
-    public var more:More
     
     public init() {
         children = []
         paginator = Paginator()
-        more = More(data:[:])
     }
 }

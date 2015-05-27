@@ -15,15 +15,13 @@ Expand child comments which are included in Comment objects, recursively.
 
 :returns: Array contains Comment objects which are expaned from specified Comment object.
 */
-public func extendAllReplies(comment:Comment) -> [Any] {
-    var comments:[Any] = [comment]
-    for obj in comment.replies.children {
-        if let obj = obj as? Comment {
+public func extendAllReplies(comment:Thing) -> [Thing] {
+    var comments:[Thing] = [comment]
+    if let comment = comment as? Comment {
+        for obj in comment.replies.children {
             comments.extend(extendAllReplies(obj))
         }
     }
-    comments.append(comment.replies.more)
-//    comment.replies = Listing()
     return comments
 }
 

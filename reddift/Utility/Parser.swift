@@ -58,13 +58,8 @@ class Parser: NSObject {
                 for child in children {
                     if let child = child as? JSONDictionary {
                         let obj:Any? = parseJSON(child)
-                        if let obj = obj {
-                            if let more:More = obj as? More {
-                                listing.more = more
-                            }
-                            else {
-                                listing.children.append(obj)
-                            }
+                        if let obj = obj as? Thing {
+                            listing.children.append(obj)
                         }
                     }
                 }

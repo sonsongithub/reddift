@@ -18,28 +18,29 @@ class ExtendCommentsTest: QuickSpec {
                     if let array = Parser.parseJSON(json) as? [AnyObject] {
                         expect(array.count).to(equal(2))
                         if let listing = array[0] as? Listing {
+                            var isSucceeded = true
+                            expect(listing.children.count).to(equal(1))
                             for link in listing.children {
-                                expect(link is Link).to(equal(true))
+                                if !(link is Link) {
+                                    isSucceeded = false
+                                }
                             }
+                            expect(isSucceeded).to(equal(true))
                         }
                         if let listing = array[1] as? Listing {
-                            var comments:[Any] = []
-                            for obj in listing.children {
-                                if let comment = obj as? Comment {
-                                    comments += extendAllReplies(comment)
-                                }
-                                else {
-                                    comments.append(obj)
-                                }
+                            var comments:[Thing] = []
+                            for thing in listing.children {
+                                comments += extendAllReplies(thing)
                             }
-                            let numberOfComments = comments.reduce(0, combine: { (value:Int, comment:Any) -> Int in
+                            let numberOfComments = comments.reduce(0, combine: { (value:Int, comment:Thing) -> Int in
                                 return comment is Comment ? 1 + value : value
                             })
-                            let numberOfMores = comments.reduce(0, combine: { (value:Int, comment:Any) -> Int in
+                            let numberOfMores = comments.reduce(0, combine: { (value:Int, comment:Thing) -> Int in
                                 return comment is More ? 1 + value : value
                             })
                             expect(numberOfComments).to(equal(13))
                             expect(numberOfMores).to(equal(9))
+                            expect(comments.count).to(equal(22))
                         }
                     }
                 }

@@ -66,14 +66,16 @@ class ParseThingObjectTest: QuickSpec {
                     expect(object.numReports).to(equal(0))
                     expect(object.ups).to(equal(1))
                     
-                    expect(object.replies.children.count).to(equal(0))
-                    expect(object.replies.more.count).to(equal(0))
-                    expect(object.replies.more.parentId).to(equal("t1_cqfhkcb"))
-                    expect(object.replies.more.name).to(equal("t1_cqfmmpp"))
-                    expect(object.replies.more.id).to(equal("cqfmmpp"))
-                    expect(object.replies.more.children.count).to(equal(1))
-                    expect(object.replies.more.children[0]).to(equal("cqfmmpp"))
-                    
+                    expect(object.replies.children.count).to(equal(1))
+                    if object.replies.children.count == 1 {
+                        if let more = object.replies.children[0] as? More {
+                            expect(more.parentId).to(equal("t1_cqfhkcb"))
+                            expect(more.name).to(equal("t1_cqfmmpp"))
+                            expect(more.id).to(equal("cqfmmpp"))
+                            expect(more.children.count).to(equal(1))
+                            expect(more.children[0]).to(equal("cqfmmpp"))
+                        }
+                    }
                 }
             }
         }
