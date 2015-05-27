@@ -188,10 +188,12 @@ public struct OAuth2Token : Token {
                 if let json = result.value {
                     let r = self.updateWithJSON(json)
                     completion(r)
+                    return
                 }
             case .Failure:
                 if let error = result.error {
                     completion(Result(error: error))
+                    return
                 }
             }
             completion(Result(error: NSError.errorWithCode(0, "")))

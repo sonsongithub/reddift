@@ -92,21 +92,23 @@ public struct OAuth2AppOnlyToken : Token {
     
     :returns: Data task which requests search to reddit.com.
     */
-    public static func getOAuth2AppOnlyToken(#username:String, password:String, clientID:String, secret:String, completion:(Result<OAuth2AppOnlyToken>)->Void) -> NSURLSessionDataTask {
+    public static func getOAuth2AppOnlyToken(#username:String, password:String, clientID:String, secret:String, completion:(Result<Token>)->Void) -> NSURLSessionDataTask {
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let request = requestForOAuth2AppOnly(username:username, password:password, clientID:clientID, secret:secret)
         let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> self.tokenWithJSON
+            var token:OAuth2AppOnlyToken? = nil
             switch result {
             case let .Success:
-                if var token = result.value {
-                    token.setName(username)
+                if var value:OAuth2AppOnlyToken = result.value {
+                    value.setName(username)
+                    token = value
                 }
-                completion(result)
             default:
-                completion(result)
+                break
             }
+            completion(resultFromOptional(token, NSError.errorWithCode(0, "")))
         })
         task.resume()
         return task

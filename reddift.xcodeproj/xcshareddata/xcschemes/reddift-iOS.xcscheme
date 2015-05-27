@@ -53,6 +53,9 @@
             </BuildableReference>
             <SkippedTests>
                <Test
+                  Identifier = "CAPTCHATest">
+               </Test>
+               <Test
                   Identifier = "CommentTest">
                </Test>
                <Test
@@ -60,15 +63,6 @@
                </Test>
                <Test
                   Identifier = "MultiTest">
-               </Test>
-               <Test
-                  Identifier = "MultiredditTest">
-               </Test>
-               <Test
-                  Identifier = "ParseResponseObjectTest">
-               </Test>
-               <Test
-                  Identifier = "ParseThingObjectTest">
                </Test>
                <Test
                   Identifier = "SessionTestSpec">
