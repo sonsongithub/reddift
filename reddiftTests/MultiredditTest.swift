@@ -225,7 +225,6 @@ class MultiredditTest: SessionTestSpec {
                         case let .Failure:
                             println(result.error!.description)
                         case let .Success:
-                            println(result.value!)
                             if let multiredditDescription = result.value as? MultiredditDescription {
                                 if multiredditDescription.bodyMd == self.updatedDescription {
                                     isSucceeded = true
