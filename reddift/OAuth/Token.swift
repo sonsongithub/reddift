@@ -12,8 +12,9 @@ import Foundation
 Protocol for OAuthToken.
 */
 public protocol Token {
-    /// token information
+    /// token
     var accessToken: String {get}
+    /// the type of token
     var tokenType: String {get}
     var expiresIn: Int {get}
     var _expiresIn: Int {get}
