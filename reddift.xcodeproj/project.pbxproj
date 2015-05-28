@@ -403,6 +403,7 @@
 		148BB46C1AE49FBE006ED0D0 /* Listing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Listing.swift; sourceTree = "<group>"; };
 		149658231B1237B40071275E /* SubredditTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubredditTest.swift; sourceTree = "<group>"; };
 		149CE2611AFAD4DF004B61C1 /* CAPTCHATest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAPTCHATest.swift; sourceTree = "<group>"; };
+		14A3556D1B1705D8001D1FEA /* reddift.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = reddift.playground; sourceTree = "<group>"; };
 		14A94CF71B1000B800EDB844 /* MultiredditDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiredditDescription.swift; sourceTree = "<group>"; };
 		14A94CFC1B10727500EDB844 /* multidesc.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = multidesc.json; sourceTree = "<group>"; };
 		14B5EBB11AF34D580065BC5E /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -550,6 +551,7 @@
 		147EAD971AD78568007FA2F4 = {
 			isa = PBXGroup;
 			children = (
+				14A3556D1B1705D8001D1FEA /* reddift.playground */,
 				147EADA21AD78568007FA2F4 /* reddift */,
 				147EADB81AD78568007FA2F4 /* reddiftTests */,
 				14B5EBCF1AF34E920065BC5E /* reddiftSample */,
