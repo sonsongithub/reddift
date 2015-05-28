@@ -172,7 +172,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                     println(result.error)
                 case let .Success:
                     println(result.value)
-                    if let listing = result.value as? Listing {
+                    if let listing = result.value {
                         var newComments:[Thing] = []
                         for obj in listing.children {
                             if let comment = obj as? Comment {

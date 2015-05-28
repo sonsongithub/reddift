@@ -69,7 +69,7 @@ Parse Thing, Listing JSON object.
 
 :returns: Result object. Result object has any Thing or Listing object, otherwise error object.
 */
-func parseListFromJSON(json: JSON) -> Result<JSON> {
+func parseListFromJSON(json: JSON) -> Result<RedditAny> {
     let object:Any? = Parser.parseJSON(json)
     return resultFromOptional(object, ReddiftError.ParseThing.error)
 }
@@ -127,8 +127,8 @@ Extract Listing object which includes Comments from JSON for articles.
 :param: json JSON object is obtained from reddit.com.
 :returns: List consists of Comment objects.
 */
-func filterArticleResponse(json:JSON) -> Result<JSON> {
-    if let array = json as? JSONArray {
+func filterArticleResponse(json:JSON) -> Result<Listing> {
+    if let array = json as? [Any] {
         if array.count == 2 {
             if let result = array[1] as? Listing {
                 return Result(value:result)

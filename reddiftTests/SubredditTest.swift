@@ -17,8 +17,6 @@ class SubredditTest : SessionTestSpec {
         
         describe("Test Sticky of the subreddit") {
             it("Get sticky link") {
-//                var subreddit = Subreddit()
-//                self.session?.getSticky(<#subreddit: Subreddit#>, completion: <#(Result<JSON>) -> Void##(Result<JSON>) -> Void#>)
             }
         }
     }

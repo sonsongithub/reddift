@@ -16,6 +16,8 @@ public typealias JSONDictionary = Dictionary<String, AnyObject>
 public typealias JSONArray = Array<AnyObject>
 public typealias ThingList = AnyObject
 
+public typealias RedditAny = Any
+
 public class Session {
     /// Token object to access via OAuth
     public var token:Token
@@ -56,7 +58,7 @@ public class Session {
 //		println("x_ratelimit_remaining \(x_ratelimit_remaining)")
     }
     
-    func handleRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    func handleRequest(request:NSMutableURLRequest, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
 		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
 			self.updateRateLimitWithURLResponse(response)
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)

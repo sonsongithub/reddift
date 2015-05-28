@@ -81,7 +81,7 @@ class Parser: NSObject {
 	/**
 	Parse JSON of the style which is Thing.
 	*/
-    class func parseJSON(json:JSON) -> Any? {
+    class func parseJSON(json:JSON) -> RedditAny? {
         // array
         // json->[AnyObject]
         if let array = json as? JSONArray {

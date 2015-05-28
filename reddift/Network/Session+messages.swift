@@ -18,7 +18,7 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getMessage(messageWhere:MessageWhere, limit:Int = 100, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getMessage(messageWhere:MessageWhere, limit:Int = 100, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }

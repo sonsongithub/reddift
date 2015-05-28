@@ -191,7 +191,7 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getInfo(names:[String], completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getInfo(names:[String], completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         var commaSeparatedNameString = commaSeparatedStringFromList(names)
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
         return handleRequest(request, completion:completion)
@@ -215,7 +215,7 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func deleteCommentOrLink(name:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func deleteCommentOrLink(name:String, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = ["id":name]
         var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/del", parameter:parameter, method:"POST", token:token)
         return handleAsJSONRequest(request, completion:completion)

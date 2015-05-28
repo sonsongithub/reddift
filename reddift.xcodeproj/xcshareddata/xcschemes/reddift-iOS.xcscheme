@@ -53,15 +53,6 @@
             </BuildableReference>
             <SkippedTests>
                <Test
-                  Identifier = "CAPTCHATest">
-               </Test>
-               <Test
-                  Identifier = "CommentTest">
-               </Test>
-               <Test
-                  Identifier = "ExtendCommentsTest">
-               </Test>
-               <Test
                   Identifier = "MultiTest">
                </Test>
                <Test
@@ -69,9 +60,6 @@
                </Test>
                <Test
                   Identifier = "SubredditTest">
-               </Test>
-               <Test
-                  Identifier = "SubscribingSubredditTest">
                </Test>
             </SkippedTests>
          </TestableReference>

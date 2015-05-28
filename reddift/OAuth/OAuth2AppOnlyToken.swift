@@ -48,7 +48,6 @@ public struct OAuth2AppOnlyToken : Token {
     Create NSMutableURLRequest object to request getting an access token.
     
     :param: code The code which is obtained from OAuth2 redict URL at reddit.com.
-    
     :returns: NSMutableURLRequest object to request your access token.
     */
     public static func requestForOAuth2AppOnly(#username:String, password:String, clientID:String, secret:String) -> NSMutableURLRequest {
@@ -67,7 +66,6 @@ public struct OAuth2AppOnlyToken : Token {
     
     :param: code Code to be confirmed your identity by reddit.
     :param: completion The completion handler to call when the load request is complete.
-    
     :returns: Data task which requests search to reddit.com.
     */
     public static func getOAuth2AppOnlyToken(#username:String, password:String, clientID:String, secret:String, completion:(Result<Token>)->Void) -> NSURLSessionDataTask {
