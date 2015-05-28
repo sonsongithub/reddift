@@ -60,7 +60,6 @@ public class OAuth2Authorizer {
     
     :param: url The URL from passed by reddit.com
     :param: completion Callback block is execeuted when the access token has been acquired using URL.
-    
     :returns: Returns if the URL object is parsed correctly.
     */
     public func receiveRedirect(url:NSURL, completion:(Result<OAuth2Token>)->Void) -> Bool{

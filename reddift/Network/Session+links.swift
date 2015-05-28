@@ -37,12 +37,12 @@ extension Session {
     Response is JSON whose type is t1 Thing.
     
     :param: text The body of comment, should be the raw markdown body of the comment or message.
-    :param: parent Thing is commented or replied to.
+    :param: parentName Name of Thing is commented or replied to.
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func postComment(text:String, parent:Thing, completion:(Result<Comment>) -> Void) -> NSURLSessionDataTask? {
-        var parameter:[String:String] = ["thing_id":parent.name, "api_type":"json", "text":text]
+    public func postComment(text:String, parentName:String, completion:(Result<Comment>) -> Void) -> NSURLSessionDataTask? {
+        var parameter:[String:String] = ["thing_id":parentName, "api_type":"json", "text":text]
         var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/comment", parameter:parameter, method:"POST", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             self.updateRateLimitWithURLResponse(response)
@@ -62,8 +62,8 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func setVote(direction:VoteDirection, thing:Thing, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        let parameter:[String:String] = ["dir":String(direction.rawValue), "id":thing.name]
+    public func setVote(direction:VoteDirection, name:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        let parameter:[String:String] = ["dir":String(direction.rawValue), "id":name]
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/vote", parameter:parameter, method:"POST", token:token)
         return handleAsJSONRequest(request, completion:completion)
     }
@@ -72,14 +72,14 @@ extension Session {
     Save a specified content.
     
     :param: save If you want to save the content, set to "true". On the other, if you want to remove the content from saved content, set to "false".
-    :param: thing Thing will be saved/unsaved.
+    :param: name Name of Thing will be saved/unsaved.
     :param: category Name of category into which you want to saved the content
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func setSave(save:Bool, thing:Thing, category:String?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        var parameter:[String:String] = ["id":thing.name]
-        if let category = category {
+    public func setSave(save:Bool, name:String, category:String = "", completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var parameter:[String:String] = ["id":name]
+        if !isEmpty(category) {
             parameter["category"] = category
         }
         var request:NSMutableURLRequest! = nil
@@ -96,12 +96,12 @@ extension Session {
     Set hide/show a specified content.
     
     :param: save If you want to hide the content, set to "true". On the other, if you want to show the content, set to "false".
-    :param: thing Thing will be hide/show.
+    :param: name Name of Thing will be hide/show.
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func setHide(hide:Bool, thing:Thing, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        var parameter:[String:String] = ["id":thing.name]
+    public func setHide(hide:Bool, name:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var parameter:[String:String] = ["id":name]
         var request:NSMutableURLRequest! = nil
         if hide {
             request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/hide", parameter:parameter, method:"POST", token:token)
@@ -191,7 +191,7 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getInfo(names:[String], completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getInfo(names:[String], completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         var commaSeparatedNameString = commaSeparatedStringFromList(names)
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
         return handleRequest(request, completion:completion)
@@ -215,8 +215,8 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func deleteCommentOrLink(thing:Thing, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        var parameter:[String:String] = ["id":thing.name]
+    public func deleteCommentOrLink(name:String, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+        var parameter:[String:String] = ["id":name]
         var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/del", parameter:parameter, method:"POST", token:token)
         return handleAsJSONRequest(request, completion:completion)
     }

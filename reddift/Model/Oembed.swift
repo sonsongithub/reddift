@@ -11,7 +11,7 @@ import Foundation
 /**
 Media represents the content which is embeded a link.
 */
-public class Oembed {
+public struct Oembed {
     /**
     example, "http://i.imgur.com",
     */
@@ -65,7 +65,7 @@ public class Oembed {
     
     :param: json JSON object which is included "t2" JSON.
     */
-    func updateWithJSON(json:JSONDictionary) {
+    public init (json:JSONDictionary) {
 		self.providerUrl = json["provider_url"] as? String ?? ""
 		self.description = json["description"] as? String ?? ""
 		self.title = json["title"] as? String ?? ""

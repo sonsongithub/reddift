@@ -69,8 +69,8 @@ Parse Thing, Listing JSON object.
 
 :returns: Result object. Result object has any Thing or Listing object, otherwise error object.
 */
-func parseListFromJSON(json: JSON) -> Result<JSON> {
-    let object:AnyObject? = Parser.parseJSON(json)
+func parseListFromJSON(json: JSON) -> Result<RedditAny> {
+    let object:Any? = Parser.parseJSON(json)
     return resultFromOptional(object, ReddiftError.ParseThing.error)
 }
 
@@ -100,15 +100,17 @@ Parse JSON for response to /api/comment.
 :returns: Result object. When parsing is succeeded, object contains list which consists of Thing.
 */
 func parseResponseJSONToPostComment(json: JSON) -> Result<Comment> {
-    if let j = json["json"] as? JSONDictionary {
-        if let data = j["data"] as? JSONDictionary {
-            if let things = data["things"] as? JSONArray {
-                if things.count == 1 {
-                    for thing in things {
-                        if let thing = thing as? JSONDictionary {
-                            let obj:AnyObject? = Parser.parseJSON(thing)
-                            if let comment = obj as? Comment {
-                                return Result(value: comment)
+    if let json = json as? JSONDictionary {
+        if let j = json["json"] as? JSONDictionary {
+            if let data = j["data"] as? JSONDictionary {
+                if let things = data["things"] as? JSONArray {
+                    if things.count == 1 {
+                        for thing in things {
+                            if let thing = thing as? JSONDictionary {
+                                let obj:Any? = Parser.parseJSON(thing)
+                                if let comment = obj as? Comment {
+                                    return Result(value: comment)
+                                }
                             }
                         }
                     }
@@ -125,8 +127,8 @@ Extract Listing object which includes Comments from JSON for articles.
 :param: json JSON object is obtained from reddit.com.
 :returns: List consists of Comment objects.
 */
-func filterArticleResponse(json:JSON) -> Result<JSON> {
-    if let array = json as? JSONArray {
+func filterArticleResponse(json:JSON) -> Result<Listing> {
+    if let array = json as? [Any] {
         if array.count == 2 {
             if let result = array[1] as? Listing {
                 return Result(value:result)

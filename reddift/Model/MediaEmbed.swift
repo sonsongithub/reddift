@@ -11,7 +11,7 @@ import Foundation
 /**
 Media represents the content which is embeded a link.
 */
-public class MediaEmbed {
+public struct MediaEmbed {
 	/// Height of content.
 	var height = 0
 	/// Width of content.
@@ -26,11 +26,11 @@ public class MediaEmbed {
     
     :param: json JSON object which is included "t2" JSON.
     */
-    func updateWithJSON(json:JSONDictionary) {
-		self.height = json["height"] as? Int ?? 0
-		self.width = json["width"] as? Int ?? 0
-		self.content = json["content"] as? String ?? ""
-		self.scrolling = json["scrolling"] as? Bool ?? false
+    public init (json:JSONDictionary) {
+		height = json["height"] as? Int ?? 0
+        width = json["width"] as? Int ?? 0
+		content = json["content"] as? String ?? ""
+		scrolling = json["scrolling"] as? Bool ?? false
     }
 	
 	func toString() -> String {

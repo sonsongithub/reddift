@@ -18,7 +18,7 @@ extension Session {
     :param: subreddit Specified subreddit to which you would like to get random link
     :returns: Data task which requests search to reddit.com.
     */
-    public func getRandom(subreddit:Subreddit?, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getRandom(subreddit:Subreddit?, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         if let subreddit = subreddit {
             var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:subreddit.url + "/random", method:"GET", token:token)
             return handleAsJSONRequest(request, completion:completion)
@@ -41,7 +41,7 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getArticles(link:Link, sort:CommentSort, comments:[String]?, depth:Int = 4, limit:Int = 100, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getArticles(link:Link, sort:CommentSort, comments:[String]?, depth:Int = 4, limit:Int = 100, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = ["sort":sort.type, "depth":"\(depth)", "showmore":"True", "limit":"\(limit)"]
         if let comments = comments {
             var commaSeparatedIDString = commaSeparatedStringFromList(comments)
@@ -59,7 +59,18 @@ extension Session {
         return task
     }
     
-    public func getList(paginator:Paginator, subreddit:SubredditURLPath?, integratedSort:LinkSortOriginalType, timeFilterWithin:TimeFilterWithin, limit:Int = 25, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    /**
+    Get Links from all subreddits or user specified subreddit.
+    
+    :param: paginator Paginator object for paging contents.
+    :param: subreddit Subreddit from which Links will be gotten.
+    :param: integratedSort The original type of sorting a list, .Controversial, .Top, .Hot, or .New.
+    :param: TimeFilterWithin The type of filtering contents. When integratedSort is .Hot or .New, this parameter is ignored.
+    :param: limit The maximum number of comments to return. Default is 25.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func getList(paginator:Paginator, subreddit:SubredditURLPath?, integratedSort:LinkSortOriginalType, timeFilterWithin:TimeFilterWithin, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         switch integratedSort {
         case .Controversial:
             return getList(paginator, subreddit: subreddit, sort: LinkSortBy.Controversial, timeFilterWithin: timeFilterWithin, limit: limit, completion: completion)
@@ -76,14 +87,14 @@ extension Session {
     Get Links from all subreddits or user specified subreddit.
     
     :param: paginator Paginator object for paging contents.
+    :param: subreddit Subreddit from which Links will be gotten.
     :param: sort The type of sorting a list.
     :param: TimeFilterWithin The type of filtering contents.
-    :param: subreddit Subreddit from which Links will be gotten.
     :param: limit The maximum number of comments to return. Default is 25.
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getList(paginator:Paginator, subreddit:SubredditURLPath?, sort:LinkSortBy, timeFilterWithin:TimeFilterWithin, limit:Int = 25, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getList(paginator:Paginator, subreddit:SubredditURLPath?, sort:LinkSortBy, timeFilterWithin:TimeFilterWithin, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         var parameter = ["t":timeFilterWithin.param];
         parameter["limit"] = "\(limit)"
         parameter["show"] = "all"
@@ -113,7 +124,7 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getHotList(paginator:Paginator, subreddit:SubredditURLPath?, limit:Int = 25, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getHotList(paginator:Paginator, subreddit:SubredditURLPath?, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         return getNewOrHotList(paginator, subreddit: subreddit, type: "hot", limit:limit, completion: completion)
     }
     
@@ -125,7 +136,7 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getNewList(paginator:Paginator, subreddit:SubredditURLPath?, limit:Int = 25, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getNewList(paginator:Paginator, subreddit:SubredditURLPath?, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         return getNewOrHotList(paginator, subreddit: subreddit, type: "new", limit:limit, completion: completion)
     }
     
@@ -134,11 +145,12 @@ extension Session {
     
     :param: paginator Paginator object for paging contents.
     :param: subreddit Subreddit from which Links will be gotten.
+    :param: type "new" or "hot" as type.
     :param: limit The maximum number of comments to return. Default is 25.
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getNewOrHotList(paginator:Paginator, subreddit:SubredditURLPath?, type:String, limit:Int = 25, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getNewOrHotList(paginator:Paginator, subreddit:SubredditURLPath?, type:String, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = [:]
         parameter["limit"] = "\(limit)"
         parameter["show"] = "all"

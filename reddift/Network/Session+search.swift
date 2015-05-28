@@ -20,7 +20,7 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getSearch(subreddit:Subreddit?, query:String, paginator:Paginator?, sort:SearchSortBy, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getSearch(subreddit:Subreddit?, query:String, paginator:Paginator?, sort:SearchSortBy, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         var customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
         var escapedString = query.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
         if let escapedString = escapedString {

@@ -17,7 +17,7 @@ class Parser: NSObject {
 	Parse thing object in JSON.
 	This method dispatches element of JSON to eithr methods to extract classes derived from Thing class.
 	*/
-    class func parseThing(json:JSONDictionary) -> AnyObject? {
+    class func parseThing(json:JSONDictionary) -> Any? {
         if let data = json["data"] as? JSONDictionary, kind = json["kind"] as? String {
             switch(kind) {
             case "t1":
@@ -52,19 +52,14 @@ class Parser: NSObject {
 	Parse list object in JSON
 	*/
     class func parseListing(json:JSONDictionary) -> Listing {
-        let listing = Listing()
+        var listing = Listing()
         if let data = json["data"] as? JSONDictionary {
             if let children = data["children"] as? JSONArray {
                 for child in children {
                     if let child = child as? JSONDictionary {
-                        let obj:AnyObject? = parseJSON(child)
+                        let obj:Any? = parseJSON(child)
                         if let obj = obj as? Thing {
-                            if let more = obj as? More {
-                                listing.more = more
-                            }
-                            else {
-                                listing.children.append(obj)
-                            }
+                            listing.children.append(obj)
                         }
                     }
                 }
@@ -86,15 +81,15 @@ class Parser: NSObject {
 	/**
 	Parse JSON of the style which is Thing.
 	*/
-    class func parseJSON(json:AnyObject) -> AnyObject? {
+    class func parseJSON(json:JSON) -> RedditAny? {
         // array
         // json->[AnyObject]
         if let array = json as? JSONArray {
-            var output:[AnyObject] = []
+            var output:[Any] = []
             for element in array {
                 if let element = element as? JSONDictionary {
-                    let obj:AnyObject? = self.parseJSON(element)
-                    if let obj:AnyObject = obj {
+                    let obj:Any? = self.parseJSON(element)
+                    if let obj:Any = obj {
                         output.append(obj)
                     }
                 }

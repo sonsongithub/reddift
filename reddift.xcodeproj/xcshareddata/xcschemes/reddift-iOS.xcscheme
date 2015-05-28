@@ -55,6 +55,12 @@
                <Test
                   Identifier = "MultiTest">
                </Test>
+               <Test
+                  Identifier = "SessionTestSpec">
+               </Test>
+               <Test
+                  Identifier = "SubredditTest">
+               </Test>
             </SkippedTests>
          </TestableReference>
       </Testables>

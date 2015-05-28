@@ -12,11 +12,14 @@ import Foundation
 Listing object.
 This class has children, paginator and more.
 */
-public class Listing {
+public struct Listing {
 	/// elements of the list
-	public var children:[Thing] = []
+	public var children:[Thing]
 	/// paginator of the list
-	public var paginator:Paginator? = nil
-	/// more object of the list, includes contents that have not been downloaded.
-    public var more:More? = nil
+    public var paginator:Paginator
+    
+    public init() {
+        children = []
+        paginator = Paginator()
+    }
 }

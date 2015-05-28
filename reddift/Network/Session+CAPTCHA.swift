@@ -60,10 +60,12 @@ Parse JSON contains "iden" for CAPTHA.
 :returns: Result object. When parsing is succeeded, object contains iden as String.
 */
 func parseCAPTCHAIdenJSON(json: JSON) -> Result<String> {
-    if let j = json["json"] as? JSONDictionary {
-        if let data = j["data"] as? JSONDictionary {
-            if let iden = data["iden"] as? String {
-                return Result(value:iden)
+    if let json = json as? JSONDictionary {
+        if let j = json["json"] as? JSONDictionary {
+            if let data = j["data"] as? JSONDictionary {
+                if let iden = data["iden"] as? String {
+                    return Result(value:iden)
+                }
             }
         }
     }

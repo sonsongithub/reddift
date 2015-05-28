@@ -30,11 +30,10 @@ class ParseThingObjectTest: QuickSpec {
     override func spec() {
         describe("Parsing t1 json file") {
             it("Each property of t1 has been loaded correctly") {
-                let json:AnyObject? = self.jsonFromFileName("t1.json")
-                expect(json is JSONDictionary).to(equal(true))
-                
-                if let json = json as? JSONDictionary {
+                var isSucceeded = false
+                if let json = self.jsonFromFileName("t1.json") as? JSONDictionary {
                     let object = Comment(data:json)
+                    
                     expect(object.subredditId).to(equal("t5_2qizd"))
                     expect(object.bannedBy).to(equal(""))
                     expect(object.linkId).to(equal("t3_32wnhw"))
@@ -66,30 +65,26 @@ class ParseThingObjectTest: QuickSpec {
                     expect(object.numReports).to(equal(0))
                     expect(object.ups).to(equal(1))
                     
-                    expect(object.replies != nil).to(equal(true))
-                    if let listing = object.replies {
-                        expect(listing.children.count).to(equal(0))
-                        
-                        expect(listing.more != nil).to(equal(true))
-                        if let more = listing.more {
-                            expect(more.count).to(equal(0))
+                    expect(object.replies.children.count).to(equal(1))
+                    if object.replies.children.count == 1 {
+                        if let more = object.replies.children[0] as? More {
                             expect(more.parentId).to(equal("t1_cqfhkcb"))
                             expect(more.name).to(equal("t1_cqfmmpp"))
                             expect(more.id).to(equal("cqfmmpp"))
                             expect(more.children.count).to(equal(1))
                             expect(more.children[0]).to(equal("cqfmmpp"))
+                            isSucceeded = true
                         }
                     }
                 }
+                expect(isSucceeded).to(equal(true))
             }
         }
         
         describe("Parsing t2 json file") {
             it("Each property of t2 has been loaded correctly") {
-                let json:AnyObject? = self.jsonFromFileName("t2.json")
-                expect(json is JSONDictionary).to(equal(true))
-                
-                if let json = json as? JSONDictionary {
+                var isSucceeded = false
+                if let json = self.jsonFromFileName("t2.json") as? JSONDictionary {
                     let object = Account(data:json)
                     expect(object.hasMail).to(equal(false))
                     expect(object.name).to(equal("sonson_twit"))
@@ -107,17 +102,16 @@ class ParseThingObjectTest: QuickSpec {
                     expect(object.hasVerifiedEmail).to(equal(false))
                     expect(object.id).to(equal("mfsh8"))
                     expect(object.inboxCount).to(equal(0))
+                    isSucceeded = true
                 }
+                expect(isSucceeded).to(equal(true))
             }
         }
         
         describe("Parsing t3 json file") {
             it("Each property of t3 has been loaded correctly") {
-                let json:AnyObject? = self.jsonFromFileName("t3.json")
-                expect(json is JSONDictionary).to(equal(true))
-                
-                if let json = json as? JSONDictionary {
-                    
+                var isSucceeded = false
+                if let json = self.jsonFromFileName("t3.json") as? JSONDictionary {
                     var object = Link(data:json)
                     expect(object.domain).to(equal("self.redditdev"))
                     expect(object.bannedBy).to(equal(""))
@@ -181,6 +175,9 @@ class ParseThingObjectTest: QuickSpec {
                         expect(media.oembed.thumbnailUrl).to(equal("http://i.imgur.com/nN5D1BT.gif"))
                         expect(media.oembed.type).to(equal("video"))
                     }
+                    else {
+                        XCTFail("media has not been load correctly.")
+                    }
                     
                     // media embed
                     XCTAssertTrue((object.mediaEmbed != nil), "check media_embed's value.")
@@ -190,16 +187,19 @@ class ParseThingObjectTest: QuickSpec {
                         expect(media_embed.height).to(equal(568))
                         expect(media_embed.scrolling).to(equal(false))
                     }
+                    else {
+                        XCTFail("media has not been load correctly.")
+                    }
+                    isSucceeded = true
                 }
+                expect(isSucceeded).to(equal(true))
             }
         }
 
         describe("Parsing t4 json file") {
             it("Each property of t4 has been loaded correctly") {
-                let json:AnyObject? = self.jsonFromFileName("t4.json")
-                expect(json is JSONDictionary).to(equal(true))
-                
-                if let json = json as? JSONDictionary {
+                var isSucceeded = false
+                if let json = self.jsonFromFileName("t4.json") as? JSONDictionary {
                     let object = Message(data:json)
                     expect(object.body).to(equal("Hello! [Hola!](https://www.reddit.com/r/reddit.com/wiki/templat....."))
                     expect(object.wasComment).to(equal(false))
@@ -219,16 +219,16 @@ class ParseThingObjectTest: QuickSpec {
                     expect(object.new).to(equal(false))
                     expect(object.distinguished).to(equal("admin"))
                     expect(object.subject).to(equal("Hello, /u/sonson_twit! Welcome to reddit!"))
+                    isSucceeded = true
                 }
+                expect(isSucceeded).to(equal(true))
             }
         }
         
         describe("Parsing t5 json file") {
             it("Each property of t5 has been loaded correctly") {
-                let json:AnyObject? = self.jsonFromFileName("t5.json")
-                expect(json is JSONDictionary).to(equal(true))
-                
-                if let json = json as? JSONDictionary {
+                var isSucceeded = false
+                if let json = self.jsonFromFileName("t5.json") as? JSONDictionary {
                     let object = Subreddit(data:json)
                     expect(object.bannerImg).to(equal(""))
                     expect(object.userSrThemeEnabled).to(equal(true))
@@ -266,31 +266,32 @@ class ParseThingObjectTest: QuickSpec {
                     expect(object.subredditType).to(equal("public"))
                     expect(object.submissionType).to(equal("any"))
                     expect(object.userIsSubscriber).to(equal(true))
+                    isSucceeded = true
                 }
+                expect(isSucceeded).to(equal(true))
             }
         }
         
         describe("Parsing more json file") {
             it("Each property of more has been loaded correctly") {
-                let json:AnyObject? = self.jsonFromFileName("more.json")
-                expect(json is JSONDictionary).to(equal(true))
-                
-                if let json = json as? JSONDictionary {
+                var isSucceeded = false
+                if let json = self.jsonFromFileName("more.json") as? JSONDictionary {
                     var object = More(data:json)
                     expect(object.count).to(equal(0))
                     expect(object.parentId).to(equal("t1_cp88kh5"))
                     expect(object.children).to(equal(["cpddp7v", "cp8jvj8", "cp8cv4b"]))
                     expect(object.name).to(equal("t1_cpddp7v"))
                     expect(object.id).to(equal("cpddp7v"))
+                    isSucceeded = true
                 }
+                expect(isSucceeded).to(equal(true))
             }
         }
         
         describe("Parsing LabeledMulti json file") {
             it("Each property of more has been loaded correctly") {
-                let json:AnyObject? = self.jsonFromFileName("LabeledMulti.json")
-                expect(json is JSONDictionary).to(equal(true))
-                if let json = json as? JSONDictionary {
+                var isSucceeded = false
+                if let json = self.jsonFromFileName("LabeledMulti.json") as? JSONDictionary {
                     let object = Multireddit(json:json)
                     expect(object.canEdit).to(equal(true))
                     expect(object.displayName).to(equal("english"))
@@ -307,25 +308,28 @@ class ParseThingObjectTest: QuickSpec {
                     expect(object.weightingScheme).to(equal(MultiredditWeightingScheme.Classic))
                     expect(object.path).to(equal("/user/sonson_twit/m/english"))
                     expect(object.descriptionMd).to(equal(""))
+                    isSucceeded = true
                 }
+                expect(isSucceeded).to(equal(true))
             }
         }
         
         describe("Parsing LabeledMultiDescription json file") {
             it("Each property of more has been loaded correctly") {
-                let json:AnyObject? = self.jsonFromFileName("LabeledMultiDescription.json")
-                expect(json is JSONDictionary).to(equal(true))
-                if let json = json as? JSONDictionary {
+                var isSucceeded = false
+                if let json = self.jsonFromFileName("LabeledMultiDescription.json") as? JSONDictionary {
                     let object = MultiredditDescription(json:json)
                     expect(object.bodyHtml).to(equal("&lt;!-- SC_OFF --&gt;&lt;div class=\"md\"&gt;&lt;p&gt;updated&lt;/p&gt;\n&lt;/div&gt;&lt;!-- SC_ON --&gt;"))
                     expect(object.bodyMd).to(equal("updated"))
+                    isSucceeded = true
                 }
+                expect(isSucceeded).to(equal(true))
             }
         }
         
         describe("Parsing Needs CAPTHCA response String test") {
             it("is true or false") {
-                var r = false
+                var isSucceeded = false
                 if let path = NSBundle(forClass: self.classForCoder).pathForResource("api_needs_captcha.json", ofType:nil) {
                     if let data = NSData(contentsOfFile: path) {
                         var result = decodeBooleanString(data)
@@ -333,29 +337,27 @@ class ParseThingObjectTest: QuickSpec {
                         case .Failure:
                             println(result.error!.description)
                         case .Success:
-                            r = true
+                            isSucceeded = true
                         }
                     }
                 }
-                expect(r).to(equal(true))
+                expect(isSucceeded).to(equal(true))
             }
         }
         
         describe("Parsing CAPTHCA Iden response JSON Test") {
             it("Each property of more has been loaded correctly") {
-                var r = false
-                let json:AnyObject? = self.jsonFromFileName("api_new_captcha.json")
-                expect(json is JSONDictionary).to(equal(true))
-                if let thing = json as? JSONDictionary {
+                var isSucceeded = false
+                if let thing = self.jsonFromFileName("api_new_captcha.json") as? JSONDictionary {
                     var result = parseCAPTCHAIdenJSON(thing)
                     switch result {
                     case .Failure:
                         println(result.error!.description)
                     case .Success:
-                        r = true
+                        isSucceeded = true
                     }
                 }
-                expect(r).to(equal(true))
+                expect(isSucceeded).to(equal(true))
             }
         }
     }

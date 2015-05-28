@@ -199,6 +199,14 @@ Fill each following value using above preference pain of reddit.com.
       "secret": "test app secret"
     }
 
+## Playground
+
+You can play with reddift in Playground.
+In more detail, check reddift.playground package.
+Before using, you have to copy test_config.json into ./reddift.playground/Resources in order to specify user account and your application informatin.
+
+![playground](https://cloud.githubusercontent.com/assets/33768/7865908/e14d47b0-05a6-11e5-9799-a1cc9aa53428.png)
+
 ## Dependency
 
 * reddift depends on [KeychainAccess](https://github.com/kishikawakatsumi/KeychainAccess) for saving access tokens.

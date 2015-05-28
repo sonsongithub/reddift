@@ -13,7 +13,7 @@ class CommentTest: SessionTestSpec {
     /// Link ID, https://www.reddit.com/r/sandboxtest/comments/35dpes/reddift_test/
     let testLinkId = "35dpes"
     let testCommentId = "cr3g41y"
-    var postedThings:[Thing] = []
+    var postedThings:[Comment] = []
     
     override func spec() {
         beforeEach { () -> () in
@@ -21,9 +21,9 @@ class CommentTest: SessionTestSpec {
         }
         
         afterEach { () -> () in
-            for thing in self.postedThings {
+            for comment in self.postedThings {
                 var isSucceeded = false
-                self.session?.deleteCommentOrLink(thing, completion: { (result) -> Void in
+                self.session?.deleteCommentOrLink(comment.name, completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
                         println(result.error!.description)
@@ -37,12 +37,9 @@ class CommentTest: SessionTestSpec {
     
         describe("Try to post a comment to the specified link") {
             it("the comment is posted as a child of the specified link") {
+                let name = "t3_" + self.testLinkId
                 var comment:Comment? = nil
-                var thing = Thing()
-                thing.id = self.testLinkId
-                thing.kind = "t3"
-                thing.name = thing.kind + "_" + thing.id
-                self.session?.postComment("test comment2", parent: thing, completion: { (result) -> Void in
+                self.session?.postComment("test comment2", parentName:name, completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
                         println(result.error!.description)
@@ -53,7 +50,7 @@ class CommentTest: SessionTestSpec {
                 expect(comment != nil).toEventually(equal(true), timeout: 10, pollInterval: self.pollingInterval)
                 if let comment = comment {
                     self.postedThings.append(comment)
-                    expect(comment.parentId).to(equal(thing.name))
+                    expect(comment.parentId).to(equal(name))
                 }
             }
         }
@@ -61,11 +58,8 @@ class CommentTest: SessionTestSpec {
         describe("Try to post a comment to the specified comment") {
             it("the comment is posted as a child of the specified comment") {
                 var comment:Comment? = nil
-                var thing = Thing()
-                thing.id = self.testCommentId
-                thing.kind = "t1"
-                thing.name = thing.kind + "_" + thing.id
-                self.session?.postComment("test comment3", parent: thing, completion: { (result) -> Void in
+                let name = "t1_" + self.testCommentId
+                self.session?.postComment("test comment3", parentName:name, completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
                         println(result.error!.description)
@@ -76,7 +70,7 @@ class CommentTest: SessionTestSpec {
                 expect(comment != nil).toEventually(equal(true), timeout: 10, pollInterval: self.pollingInterval)
                 if let comment = comment {
                     self.postedThings.append(comment)
-                    expect(comment.parentId).to(equal(thing.name))
+                    expect(comment.parentId).to(equal(name))
                 }
             }
         }

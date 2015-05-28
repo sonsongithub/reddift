@@ -11,7 +11,14 @@ import Foundation
 /**
 Link content.
 */
-public class Link : Thing {
+public struct Link : Thing {
+    /// identifier of Thing like 15bfi0.
+    public var id = ""
+    /// name of Thing, that is fullname, like t3_15bfi0.
+    public var name = ""
+    /// type of Thing, like t3.
+    public static var kind = "t3"
+    
     /**
     example: self.redditdev
     */
@@ -221,18 +228,10 @@ public class Link : Thing {
     */
     public var distinguished = false
 	
-	public override func toString() -> String {
-		var buf = "------------------------------\nid=\(id)\nname=\(name)\nkind=\(kind)\ntitle=\(title)\nurl=\(url)\n"
-		if let media = media {
-			buf += "media\n"
-			buf += media.toString()
-		}
-		if let mediaEmbed = mediaEmbed {
-			buf += "media_embed\n"
-			buf += mediaEmbed.toString()
-		}
-		return buf
-	}
+    public init(id:String) {
+        self.id = id
+        self.name = "\(Link.kind)_\(self.id)"
+    }
     
     /**
     Parse t3 object.
@@ -241,8 +240,7 @@ public class Link : Thing {
     :returns: Link object as Thing.
     */
     public init(data:JSONDictionary) {
-        super.init(id: data["id"] as? String ?? "", kind: "t3")
-        
+        id = data["id"] as? String ?? ""
         domain = data["domain"] as? String ?? ""
         bannedBy = data["banned_by"] as? String ?? ""
         subreddit = data["subreddit"] as? String ?? ""
@@ -280,19 +278,7 @@ public class Link : Thing {
         visited = data["visited"] as? Bool ?? false
         numReports = data["num_reports"] as? Int ?? 0
         distinguished = data["distinguished"] as? Bool ?? false
-        if let temp = data["media"] as? JSONDictionary {
-            if temp.count > 0 {
-                let obj = Media()
-                obj.updateWithJSON(temp)
-                media = obj
-            }
-        }
-        if let temp = data["media_embed"] as? JSONDictionary {
-            if temp.count > 0 {
-                let media_embed = MediaEmbed()
-                media_embed.updateWithJSON(temp)
-                mediaEmbed = media_embed
-            }
-        }
+        media = Media(json:(data["media"] as? JSONDictionary ?? [:]))
+        mediaEmbed = MediaEmbed(json:(data["media_embed"] as? JSONDictionary ?? [:]))
     }
 }

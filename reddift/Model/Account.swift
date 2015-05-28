@@ -11,7 +11,14 @@ import Foundation
 /**
 Account object.
 */
-public class Account : Thing {
+public struct Account : Thing {
+    /// identifier of Thing like 15bfi0.
+    public var id = ""
+    /// name of Thing, that is fullname, like t3_15bfi0.
+    public var name = ""
+    /// type of Thing, like t3.
+    public static var kind = "t2"
+    
     /**
     user has unread mail? null if not your account
     example: false
@@ -83,8 +90,9 @@ public class Account : Thing {
     */
     public var inboxCount = 0
     
-    public override func toString() -> String {
-        return ""
+    public init(id:String) {
+        self.id = id
+        self.name = "\(Account.kind)_\(self.id)"
     }
     
     /**
@@ -94,7 +102,7 @@ public class Account : Thing {
     :returns: Account object as Thing.
     */
     public init(data:JSONDictionary) {
-        super.init(id: data["id"] as? String ?? "", kind: "t2")
+        id = data["id"] as? String ?? ""
         hasMail = data["has_mail"] as? Bool ?? false
         name = data["name"] as? String ?? ""
         created = data["created"] as? Int ?? 0
@@ -109,12 +117,11 @@ public class Account : Thing {
         isMod = data["is_mod"] as? Bool ?? false
         goldExpiration = data["gold_expiration"] as? Bool ?? false
         hasVerifiedEmail = data["has_verified_email"] as? Bool ?? false
-        id = data["id"] as? String ?? ""
         inboxCount = data["inbox_count"] as? Int ?? 0
     }
 }
 
-func parseDataInJSON_t2(json:JSON) -> Result<JSON> {
+func parseDataInJSON_t2(json:JSON) -> Result<Thing> {
     if let object = json as? JSONDictionary {
         return resultFromOptional(Account(data:object), ReddiftError.ParseThingT2.error)
     }

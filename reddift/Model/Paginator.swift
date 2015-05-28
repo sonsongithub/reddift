@@ -11,23 +11,21 @@ import Foundation
 /**
 Paginator object for paiging listing object.
 */
-public class Paginator : Thing {
+public struct Paginator {
 	var after:String
 	var before:String
     var modhash:String
     
-    public override init() {
+    public init() {
         self.after = ""
         self.before = ""
         self.modhash = ""
-        super.init()
     }
 	
     public init(after:String, before:String, modhash:String) {
 		self.after = after
 		self.before = before
         self.modhash = modhash
-        super.init()
 	}
 	
 	public var isVacant : Bool {
