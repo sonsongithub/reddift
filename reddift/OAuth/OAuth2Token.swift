@@ -174,7 +174,16 @@ public struct OAuth2Token : Token {
         let task = session.dataTaskWithRequest(requestForOAuth(code), completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> OAuth2Token.tokenWithJSON
-            completion(result)
+            switch result {
+            case .Success:
+                if let token = result.value {
+                    token.getProfile({ (result) -> Void in
+                        completion(result)
+                    })
+                }
+            case .Failure:
+                completion(result)
+            }
         })
         task.resume()
         return task
@@ -187,7 +196,7 @@ public struct OAuth2Token : Token {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getProfile(completion:(Result<OAuth2Token>) -> Void) -> NSURLSessionDataTask? {
+    func getProfile(completion:(Result<OAuth2Token>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/v1/me", method:"GET", token:self)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in

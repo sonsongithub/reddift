@@ -117,12 +117,11 @@ public struct Account : Thing {
         isMod = data["is_mod"] as? Bool ?? false
         goldExpiration = data["gold_expiration"] as? Bool ?? false
         hasVerifiedEmail = data["has_verified_email"] as? Bool ?? false
-        id = data["id"] as? String ?? ""
         inboxCount = data["inbox_count"] as? Int ?? 0
     }
 }
 
-func parseDataInJSON_t2(json:JSON) -> Result<JSON> {
+func parseDataInJSON_t2(json:JSON) -> Result<Thing> {
     if let object = json as? JSONDictionary {
         return resultFromOptional(Account(data:object), ReddiftError.ParseThingT2.error)
     }

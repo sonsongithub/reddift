@@ -14,21 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    func confirmTokenUserName(token:OAuth2Token) {
-        token.getProfile({ (result) -> Void in
-            switch result {
-            case let .Failure:
-                println(result.error)
-            case let .Success:
-                if var token = result.value as OAuth2Token? {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        OAuth2TokenRepository.saveIntoKeychainToken(token, name:token.name)
-                    })
-                }
-            }
-        })
-    }
-    
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
         println("a")
         return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion:{(result) -> Void in
@@ -37,7 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 println(result.error)
             case let .Success:
                 if var token = result.value as OAuth2Token? {
-                    self.confirmTokenUserName(token)
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        OAuth2TokenRepository.saveIntoKeychainToken(token, name:token.name)
+                    })
                 }
             }
         })
