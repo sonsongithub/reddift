@@ -221,4 +221,44 @@ extension Session {
         return handleAsJSONRequest(request, completion:completion)
     }
     
+    /**
+    Mark or unmark a link NSFW.
+
+    :param: thing Thing object, to set fullname of a thing.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func setNSFW(mark:Bool, thing:Thing, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+        var path = "/api/unmarknsfw"
+        if mark {
+            path = "/api/marknsfw"
+        }
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:["id":thing.name], method:"POST", token:token)
+        return handleRequest(request, completion:completion)
+    }
+    
+    /**
+    Report a link, comment or message.
+    Reporting a thing brings it to the attention of the subreddit's moderators. Reporting a message sends it to a system for admin review.
+    For links and comments, the thing is implicitly hidden as well.
+    
+    :param: thing Thing object, to set fullname of a thing.
+    :param: reason Reason of a string no longer than 100 characters.
+    :param: otherReason The other reason of a string no longer than 100 characters.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func report(thing:Thing, reason:String, otherReason:String, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+        var parameter = ["api_type":"json"]
+        var customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
+        if let reason_escaped = reason.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet) {
+            parameter["reason"] = reason_escaped
+        }
+        if let otherReason_escaped = otherReason.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet) {
+            parameter["other_reason"] = otherReason_escaped
+        }
+        parameter["thing_id"] = thing.name
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/report", parameter:parameter, method:"POST", token:token)
+        return handleRequest(request, completion:completion)
+    }
 }
