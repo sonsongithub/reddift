@@ -17,19 +17,11 @@ public struct OAuth2Token : Token {
     public static var baseURL = "https://www.reddit.com/api/v1"
     public var accessToken = ""
     public var tokenType = ""
-    public var _expiresIn = 0
+    public var expiresIn = 0
     public var scope = ""
     public var refreshToken = ""
     public var name = ""
     public var expiresDate:NSTimeInterval = 0
-    
-    /**
-    Time inteval the access token expires from being authorized.
-    */
-    public var expiresIn:Int {
-        set (newValue) { _expiresIn = newValue; expiresDate = NSDate.timeIntervalSinceReferenceDate() + Double(_expiresIn) }
-        get { return _expiresIn }
-    }
     
     /**
     Initialize vacant OAuth2AppOnlyToken with JSON.
@@ -53,6 +45,7 @@ public struct OAuth2Token : Token {
         self.accessToken = json["access_token"] as? String ?? ""
         self.tokenType = json["token_type"] as? String ?? ""
         self.expiresIn = json["expires_in"] as? Int ?? 0
+        self.expiresDate = json["expires_date"] as? NSTimeInterval ?? NSDate.timeIntervalSinceReferenceDate() + Double(self.expiresIn)
         self.scope = json["scope"] as? String ?? ""
         self.refreshToken = json["refresh_token"] as? String ?? ""
     }

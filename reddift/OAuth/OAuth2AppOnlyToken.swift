@@ -52,6 +52,7 @@ public struct OAuth2AppOnlyToken : Token {
         self.accessToken = json["access_token"] as? String ?? ""
         self.tokenType = json["token_type"] as? String ?? ""
         self.expiresIn = json["expires_in"] as? Int ?? 0
+        self.expiresDate = json["expires_date"] as? NSTimeInterval ?? NSDate.timeIntervalSinceReferenceDate() + Double(self.expiresIn)
         self.scope = json["scope"] as? String ?? ""
         self.refreshToken = json["refresh_token"] as? String ?? ""
     }

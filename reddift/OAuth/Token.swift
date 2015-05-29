@@ -17,7 +17,6 @@ public protocol Token {
     /// the type of token
     var tokenType: String {get}
     var expiresIn: Int {get}
-    var _expiresIn: Int {get}
     var expiresDate: NSTimeInterval {get}
     var scope: String {get}
     var refreshToken: String {get}
