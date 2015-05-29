@@ -28,6 +28,9 @@ public protocol Token {
     /// base URL of API
     static var baseURL: String {get}
     
+    /// vacant token
+    init()
+    
     /// deserials Token from JSON data
     init(_ json:[String:AnyObject])
 }

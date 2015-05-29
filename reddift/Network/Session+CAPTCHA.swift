@@ -121,6 +121,7 @@ extension Session {
     To request a new CAPTCHA, Session.getIdenForNewCAPTCHA.
     
     :param: iden Code to get a new CAPTCHA. Use Session.getIdenForNewCAPTCHA.
+    :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
     public func getCAPTCHA(iden:String, completion:(Result<CAPTCHAImage>) -> Void) -> NSURLSessionDataTask? {
@@ -135,4 +136,52 @@ extension Session {
         return task
     }
     
+    /**
+    Request a CAPTCHA image given an iden.
+    Responds with a 120x50 image/png which should be displayed to the user.
+    The user's response to the CAPTCHA should be sent as captcha along with your request.
+    To request a new CAPTCHA, Session.getIdenForNewCAPTCHA.
+    
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func getCAPTCHA(completion:(Result<CAPTCHA>) -> Void) -> NSURLSessionDataTask? {
+        let parameter:[String:String] = ["api_type":"json"]
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/new_captcha", parameter:parameter, method:"POST", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseCAPTCHAIdenJSON
+            
+            switch result {
+            case .Success:
+                if let iden = result.value {
+                    var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/captcha/" + iden, method:"GET", token:self.token)
+                    let task = self.URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+                        self.updateRateLimitWithURLResponse(response)
+                        let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
+                        let result = responseResult >>> parseResponse >>> decodePNGImage
+                        switch result {
+                        case .Success:
+                            if let image = result.value {
+                                completion(Result(value: CAPTCHA(iden:iden, image:image)))
+                            }
+                            else {
+                                completion(Result(error: NSError.errorWithCode(0, "")))
+                            }
+                        case .Failure:
+                            completion(Result(error: NSError.errorWithCode(0, "")))
+                        }
+                    })
+                    task.resume()
+                }
+                break
+            case .Failure:
+                break
+            }
+        })
+        task.resume()
+        return task
+    }
+
 }

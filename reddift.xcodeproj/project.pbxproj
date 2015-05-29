@@ -116,6 +116,10 @@
 		14447ECB1B16234A004FB58E /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14447EC71B16234A004FB58E /* Token.swift */; };
 		148142401B0F0C5300DE4F88 /* LabeledMultiDescription.json in Resources */ = {isa = PBXBuildFile; fileRef = 1481423F1B0F0C5300DE4F88 /* LabeledMultiDescription.json */; };
 		148142411B0F0C5300DE4F88 /* LabeledMultiDescription.json in Resources */ = {isa = PBXBuildFile; fileRef = 1481423F1B0F0C5300DE4F88 /* LabeledMultiDescription.json */; };
+		148E79961B18033900C771E3 /* CAPTCHA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148E79951B18033900C771E3 /* CAPTCHA.swift */; };
+		148E79971B18033900C771E3 /* CAPTCHA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148E79951B18033900C771E3 /* CAPTCHA.swift */; };
+		148E79981B18033900C771E3 /* CAPTCHA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148E79951B18033900C771E3 /* CAPTCHA.swift */; };
+		148E79991B18033900C771E3 /* CAPTCHA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148E79951B18033900C771E3 /* CAPTCHA.swift */; };
 		149658241B1237B40071275E /* SubredditTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149658231B1237B40071275E /* SubredditTest.swift */; };
 		149658251B1237B40071275E /* SubredditTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149658231B1237B40071275E /* SubredditTest.swift */; };
 		149CE2621AFAD4DF004B61C1 /* CAPTCHATest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149CE2611AFAD4DF004B61C1 /* CAPTCHATest.swift */; };
@@ -401,6 +405,7 @@
 		147EADBA1AD78568007FA2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1481423F1B0F0C5300DE4F88 /* LabeledMultiDescription.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LabeledMultiDescription.json; sourceTree = "<group>"; };
 		148BB46C1AE49FBE006ED0D0 /* Listing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Listing.swift; sourceTree = "<group>"; };
+		148E79951B18033900C771E3 /* CAPTCHA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAPTCHA.swift; sourceTree = "<group>"; };
 		149658231B1237B40071275E /* SubredditTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubredditTest.swift; sourceTree = "<group>"; };
 		149CE2611AFAD4DF004B61C1 /* CAPTCHATest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAPTCHATest.swift; sourceTree = "<group>"; };
 		14A3556D1B1705D8001D1FEA /* reddift.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = reddift.playground; sourceTree = "<group>"; };
@@ -731,6 +736,7 @@
 				14B8DE281ADD722500237350 /* Paginator.swift */,
 				140126911B0AC443003CA6C1 /* Multireddit.swift */,
 				14A94CF71B1000B800EDB844 /* MultiredditDescription.swift */,
+				148E79951B18033900C771E3 /* CAPTCHA.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1079,6 +1085,7 @@
 				14B5EC201AF35BFF0065BC5E /* Account.swift in Sources */,
 				14B5EC1B1AF35BFF0065BC5E /* MediaEmbed.swift in Sources */,
 				141B91C21B0A4FCB00A9E6A6 /* Session+messages.swift in Sources */,
+				148E79961B18033900C771E3 /* CAPTCHA.swift in Sources */,
 				14B5EC211AF35BFF0065BC5E /* Message.swift in Sources */,
 				143427D61AF98F13005D0E31 /* HttpStatus.swift in Sources */,
 				14B5EC391AF35C4B0065BC5E /* NSError+reddift.swift in Sources */,
@@ -1139,6 +1146,7 @@
 				14447EC91B16234A004FB58E /* Token.swift in Sources */,
 				14F422621B01C84E00608939 /* Enum.swift in Sources */,
 				141B91DB1B0A503400A9E6A6 /* Session+moderation.swift in Sources */,
+				148E79971B18033900C771E3 /* CAPTCHA.swift in Sources */,
 				14B5EC421AF35C560065BC5E /* OAuth2Authorizer.swift in Sources */,
 				140CC3FB1AFCB20A00E9CBB5 /* ExtendCommentsTest.swift in Sources */,
 				141B91D81B0A503400A9E6A6 /* Session+liveThreads.swift in Sources */,
@@ -1224,6 +1232,7 @@
 				14F8122B1AF9F6B6008F6F3C /* Listing.swift in Sources */,
 				14F812521AF9F6C1008F6F3C /* OAuth2Authorizer.swift in Sources */,
 				141B91E81B0A503400A9E6A6 /* Session+messages.swift in Sources */,
+				148E79981B18033900C771E3 /* CAPTCHA.swift in Sources */,
 				14F8122A1AF9F6B6008F6F3C /* Config.swift in Sources */,
 				14F812551AF9F6C1008F6F3C /* OAuth2TokenRepository.swift in Sources */,
 				14F812461AF9F6BA008F6F3C /* NSMutableURLRequest+reddift.swift in Sources */,
@@ -1284,6 +1293,7 @@
 				14447ECB1B16234A004FB58E /* Token.swift in Sources */,
 				14F812381AF9F6B6008F6F3C /* Listing.swift in Sources */,
 				14F422641B01C84E00608939 /* Enum.swift in Sources */,
+				148E79991B18033900C771E3 /* CAPTCHA.swift in Sources */,
 				141B91F91B0A503500A9E6A6 /* Session+moderation.swift in Sources */,
 				140CC3FC1AFCB20A00E9CBB5 /* ExtendCommentsTest.swift in Sources */,
 				141B91F61B0A503500A9E6A6 /* Session+liveThreads.swift in Sources */,

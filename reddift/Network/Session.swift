@@ -18,13 +18,13 @@ public typealias ThingList = AnyObject
 
 public typealias RedditAny = Any
 
-public class Session {
+public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
     /// Token object to access via OAuth
-    public var token:Token
+    public var token:Token = OAuth2Token()
     /// Base URL for OAuth API
     static let baseURL = "https://oauth.reddit.com"
     /// Session object to communicate a server
-    let URLSession:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    var URLSession:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
     /// Duration until rate limit of API usage as second.
     var x_ratelimit_reset:Int = 0
     /// Count of use API after rete limit is reseted.

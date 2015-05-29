@@ -31,6 +31,18 @@ public struct OAuth2AppOnlyToken : Token {
     }
     
     /**
+    Initialize vacant OAuth2AppOnlyToken with JSON.
+    */
+    public init() {
+        self.name = ""
+        self.accessToken = ""
+        self.tokenType = ""
+        self.expiresIn = 0
+        self.scope = ""
+        self.refreshToken = ""
+    }
+    
+    /**
     Initialize OAuth2AppOnlyToken with JSON.
     
     :param: json JSON as [String:AnyObject] should include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token".
