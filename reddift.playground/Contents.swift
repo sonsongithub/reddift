@@ -61,6 +61,25 @@ func getProfile(session:Session) {
     })
 }
 
+func getLinksBy(session:Session) {
+    let links:[Link] = [Link(id: "37ow7j"), Link(id: "37nvgu")]
+    session.getLinksById(links, completion: { (result) -> Void in
+        switch result {
+        case let .Failure:
+            println(result.error!.description)
+        case let .Success:
+            if let listing = result.value as? Listing {
+                println(listing.children.count)
+                for obj in listing.children {
+                    if let link = obj as? Link {
+                        println(link.title)
+                    }
+                }
+            }
+        }
+    })
+}
+
 let url: NSURL = NSBundle.mainBundle().URLForResource("test_config.json", withExtension:nil)!
 let data = NSData(contentsOfURL: url)!
 let json:AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil)
@@ -79,7 +98,8 @@ if let json = json as? [String:String] {
                     if let token:Token = result.value {
                         let session = Session(token: token)
 //                        getReleated(session)
-                        getProfile(session)
+//                        getProfile(session)
+                        getLinksBy(session)
                     }
                 }
             }))

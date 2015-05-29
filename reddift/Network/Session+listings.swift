@@ -225,4 +225,24 @@ extension Session {
         task.resume()
         return task
     }
+    
+    /**
+    Get a listing of links by fullname.
+    
+    :params: links A list of Links
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func getLinksById(links:[Link], completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+        let fullnameList = links.map({ (link: Link) -> String in link.name })
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/by_id/" + commaSeparatedStringFromList(fullnameList), method:"GET", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
 }
