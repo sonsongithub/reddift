@@ -32,6 +32,15 @@ extension Session {
         return handleRequest(request, completion:completion)
     }
     
+    /**
+    Return information about the user, including karma and gold status.
     
-    
+    :param: username The name of an existing user
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func getUserProfile(username:String, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/user/\(username)/about", method:"GET", token:token)
+        return handleRequest(request, completion:completion)
+    }
 }

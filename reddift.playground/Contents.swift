@@ -48,6 +48,19 @@ func getReleated(session:Session) {
     }
 }
 
+func getProfile(session:Session) {
+    session.getUserProfile("sonson_twit", completion: { (result) -> Void in
+        switch result {
+        case let .Failure:
+            println(result.error!.description)
+        case let .Success:
+            if let account = result.value as? Account {
+                println(account.name)
+            }
+        }
+    })
+}
+
 let url: NSURL = NSBundle.mainBundle().URLForResource("test_config.json", withExtension:nil)!
 let data = NSData(contentsOfURL: url)!
 let json:AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil)
@@ -65,7 +78,8 @@ if let json = json as? [String:String] {
                     println(result.value)
                     if let token:Token = result.value {
                         let session = Session(token: token)
-                        getReleated(session)
+//                        getReleated(session)
+                        getProfile(session)
                     }
                 }
             }))
