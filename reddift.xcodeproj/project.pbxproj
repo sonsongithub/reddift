@@ -120,6 +120,8 @@
 		148E79971B18033900C771E3 /* CAPTCHA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148E79951B18033900C771E3 /* CAPTCHA.swift */; };
 		148E79981B18033900C771E3 /* CAPTCHA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148E79951B18033900C771E3 /* CAPTCHA.swift */; };
 		148E79991B18033900C771E3 /* CAPTCHA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148E79951B18033900C771E3 /* CAPTCHA.swift */; };
+		148E799B1B187EAE00C771E3 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148E799A1B187EAE00C771E3 /* KeychainAccess.framework */; };
+		148E799C1B187EAE00C771E3 /* KeychainAccess.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 148E799A1B187EAE00C771E3 /* KeychainAccess.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		149658241B1237B40071275E /* SubredditTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149658231B1237B40071275E /* SubredditTest.swift */; };
 		149658251B1237B40071275E /* SubredditTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149658231B1237B40071275E /* SubredditTest.swift */; };
 		149CE2621AFAD4DF004B61C1 /* CAPTCHATest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149CE2611AFAD4DF004B61C1 /* CAPTCHATest.swift */; };
@@ -194,11 +196,9 @@
 		14B5EC451AF35C560065BC5E /* OAuth2Authorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1E1ADD721700237350 /* OAuth2Authorizer.swift */; };
 		14B5EC461AF35C560065BC5E /* OAuth2Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1F1ADD721700237350 /* OAuth2Token.swift */; };
 		14B5EC471AF35C560065BC5E /* OAuth2TokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE201ADD721700237350 /* OAuth2TokenRepository.swift */; };
-		14B5EC501AF40ECF0065BC5E /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */; };
 		14B5EC5A1AF410740065BC5E /* UZCursorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC551AF410740065BC5E /* UZCursorView.m */; };
 		14B5EC5B1AF410740065BC5E /* UZLoupeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC571AF410740065BC5E /* UZLoupeView.m */; };
 		14B5EC5C1AF410740065BC5E /* UZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC591AF410740065BC5E /* UZTextView.m */; };
-		14B5EC5F1AF412640065BC5E /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */; };
 		14B5EC601AF4B9D60065BC5E /* ParseThingObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */; };
 		14B5EC611AF4B9D60065BC5E /* ParseResponseObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */; };
 		14B5EC631AF4B9F00065BC5E /* create_token.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4F91AE7C9D500211DAD /* create_token.json */; };
@@ -280,8 +280,6 @@
 		14F812571AF9F6C1008F6F3C /* OAuth2Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1F1ADD721700237350 /* OAuth2Token.swift */; };
 		14F812581AF9F6C1008F6F3C /* OAuth2AppOnlyToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427C71AF858D5005D0E31 /* OAuth2AppOnlyToken.swift */; };
 		14F812591AF9F6C1008F6F3C /* OAuth2TokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE201ADD721700237350 /* OAuth2TokenRepository.swift */; };
-		14F8125A1AF9F6C8008F6F3C /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */; };
-		14F8125B1AF9F6C8008F6F3C /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */; };
 		14F8125C1AF9F918008F6F3C /* reddift.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B5EBB51AF34D580065BC5E /* reddift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14F8125D1AFA07A2008F6F3C /* ParseThingObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */; };
 		14F8125E1AFA07A2008F6F3C /* ParseResponseObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */; };
@@ -333,6 +331,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				148E799C1B187EAE00C771E3 /* KeychainAccess.framework in Embed Frameworks */,
 				14C40CBF1AFB255F00F0ECFB /* reddift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -406,6 +405,7 @@
 		1481423F1B0F0C5300DE4F88 /* LabeledMultiDescription.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LabeledMultiDescription.json; sourceTree = "<group>"; };
 		148BB46C1AE49FBE006ED0D0 /* Listing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Listing.swift; sourceTree = "<group>"; };
 		148E79951B18033900C771E3 /* CAPTCHA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAPTCHA.swift; sourceTree = "<group>"; };
+		148E799A1B187EAE00C771E3 /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/iOS/KeychainAccess.framework; sourceTree = "<group>"; };
 		149658231B1237B40071275E /* SubredditTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubredditTest.swift; sourceTree = "<group>"; };
 		149CE2611AFAD4DF004B61C1 /* CAPTCHATest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAPTCHATest.swift; sourceTree = "<group>"; };
 		14A3556D1B1705D8001D1FEA /* reddift.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = reddift.playground; sourceTree = "<group>"; };
@@ -435,7 +435,6 @@
 		14B5EC321AF35C170065BC5E /* CellContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellContent.swift; sourceTree = "<group>"; };
 		14B5EC341AF35C220065BC5E /* reddift_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reddift_config.json; sourceTree = "<group>"; };
 		14B5EC351AF35C220065BC5E /* reddift_config.json.sample */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reddift_config.json.sample; sourceTree = "<group>"; };
-		14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Keychain.swift; path = vendor/KeychainAccess/Lib/KeychainAccess/Keychain.swift; sourceTree = "<group>"; };
 		14B5EC541AF410740065BC5E /* UZCursorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UZCursorView.h; path = vendor/UZTextView/UZTextView/UZCursorView.h; sourceTree = "<group>"; };
 		14B5EC551AF410740065BC5E /* UZCursorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UZCursorView.m; path = vendor/UZTextView/UZTextView/UZCursorView.m; sourceTree = "<group>"; };
 		14B5EC561AF410740065BC5E /* UZLoupeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UZLoupeView.h; path = vendor/UZTextView/UZTextView/UZLoupeView.h; sourceTree = "<group>"; };
@@ -488,6 +487,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				148E799B1B187EAE00C771E3 /* KeychainAccess.framework in Frameworks */,
 				14C40CBE1AFB255F00F0ECFB /* reddift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -556,6 +556,7 @@
 		147EAD971AD78568007FA2F4 = {
 			isa = PBXGroup;
 			children = (
+				148E799A1B187EAE00C771E3 /* KeychainAccess.framework */,
 				14A3556D1B1705D8001D1FEA /* reddift.playground */,
 				147EADA21AD78568007FA2F4 /* reddift */,
 				147EADB81AD78568007FA2F4 /* reddiftTests */,
@@ -585,7 +586,6 @@
 				14B8DE171ADD721700237350 /* Extension */,
 				14B8DE1B1ADD721700237350 /* Network */,
 				14B8DE1D1ADD721700237350 /* OAuth */,
-				14B5EC511AF40ED20065BC5E /* vendor */,
 				147EADA31AD78568007FA2F4 /* Supporting Files */,
 			);
 			path = reddift;
@@ -668,22 +668,6 @@
 				14B5EBD11AF34E920065BC5E /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		14B5EC511AF40ED20065BC5E /* vendor */ = {
-			isa = PBXGroup;
-			children = (
-				14B5EC521AF40ED80065BC5E /* Keychain */,
-			);
-			name = vendor;
-			sourceTree = "<group>";
-		};
-		14B5EC521AF40ED80065BC5E /* Keychain */ = {
-			isa = PBXGroup;
-			children = (
-				14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */,
-			);
-			name = Keychain;
 			sourceTree = "<group>";
 		};
 		14B5EC531AF410560065BC5E /* Resources */ = {
@@ -1081,7 +1065,6 @@
 				14B5EC171AF35BFF0065BC5E /* Listing.swift in Sources */,
 				14B5EC451AF35C560065BC5E /* OAuth2Authorizer.swift in Sources */,
 				14B5EC471AF35C560065BC5E /* OAuth2TokenRepository.swift in Sources */,
-				14B5EC501AF40ECF0065BC5E /* Keychain.swift in Sources */,
 				14B5EC201AF35BFF0065BC5E /* Account.swift in Sources */,
 				14B5EC1B1AF35BFF0065BC5E /* MediaEmbed.swift in Sources */,
 				141B91C21B0A4FCB00A9E6A6 /* Session+messages.swift in Sources */,
@@ -1155,7 +1138,6 @@
 				141B91D71B0A503400A9E6A6 /* Session+listings.swift in Sources */,
 				1403C91F1AFE39BE0094E291 /* SubscribingSubredditTest.swift in Sources */,
 				141B91D91B0A503400A9E6A6 /* Session+messages.swift in Sources */,
-				14B5EC5F1AF412640065BC5E /* Keychain.swift in Sources */,
 				14B5EC2E1AF35BFF0065BC5E /* Account.swift in Sources */,
 				14B5EC291AF35BFF0065BC5E /* MediaEmbed.swift in Sources */,
 				14B5EC2F1AF35BFF0065BC5E /* Message.swift in Sources */,
@@ -1227,7 +1209,6 @@
 				141B91ED1B0A503400A9E6A6 /* Session+subreddits.swift in Sources */,
 				14F812471AF9F6BA008F6F3C /* NSURLComponents+reddift.swift in Sources */,
 				14F812451AF9F6BA008F6F3C /* NSError+reddift.swift in Sources */,
-				14F8125A1AF9F6C8008F6F3C /* Keychain.swift in Sources */,
 				14F8122D1AF9F6B6008F6F3C /* Media.swift in Sources */,
 				14F8122B1AF9F6B6008F6F3C /* Listing.swift in Sources */,
 				14F812521AF9F6C1008F6F3C /* OAuth2Authorizer.swift in Sources */,
@@ -1288,7 +1269,6 @@
 				141B91F81B0A503500A9E6A6 /* Session+misc.swift in Sources */,
 				14F812491AF9F6BA008F6F3C /* NSError+reddift.swift in Sources */,
 				141B91F31B0A503500A9E6A6 /* Session+gold.swift in Sources */,
-				14F8125B1AF9F6C8008F6F3C /* Keychain.swift in Sources */,
 				14F8123A1AF9F6B6008F6F3C /* Media.swift in Sources */,
 				14447ECB1B16234A004FB58E /* Token.swift in Sources */,
 				14F812381AF9F6B6008F6F3C /* Listing.swift in Sources */,
@@ -1463,6 +1443,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1471,7 +1452,7 @@
 				INFOPLIST_FILE = reddift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1488,11 +1469,12 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = reddift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1546,6 +1528,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Yuichi Yoshida (96SM5DT2NL)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yuichi Yoshida (96SM5DT2NL)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1568,6 +1554,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = reddiftSample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
@@ -1588,6 +1578,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac";
 				FRAMEWORK_VERSION = A;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1596,7 +1587,7 @@
 				);
 				INFOPLIST_FILE = reddift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/Mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = macosx;
@@ -1617,11 +1608,12 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/Mac";
 				FRAMEWORK_VERSION = A;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = reddift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/Mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = macosx;
