@@ -171,4 +171,58 @@ extension Session {
         task.resume()
         return task
     }
+    
+    /**
+    Related page: performs a search using title of article as the search query.
+    
+    :param: paginator Paginator object for paging contents.
+    :param: thing  Thing object to which you want to obtain the contents that are related.
+    :param: limit The maximum number of comments to return. Default is 25.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func getRelatedArticles(paginator:Paginator, thing:Thing, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+        var parameter:[String:String] = [:]
+        parameter["limit"] = "\(limit)"
+        parameter["show"] = "all"
+        // parameter["sr_detail"] = "true"
+        parameter.update(paginator.parameters())
+        
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/related/" + thing.id, parameter:parameter, method:"GET", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
+    /**
+    Return a list of other submissions of the same URL.
+    
+    :param: paginator Paginator object for paging contents.
+    :param: thing  Thing object by which you want to obtain the same URL is mentioned.
+    :param: limit The maximum number of comments to return. Default is 25.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func getDuplicatedArticles(paginator:Paginator, thing:Thing, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+        var parameter:[String:String] = [:]
+        parameter["limit"] = "\(limit)"
+        parameter["show"] = "all"
+        // parameter["sr_detail"] = "true"
+        parameter.update(paginator.parameters())
+        
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/duplicates/" + thing.id, parameter:parameter, method:"GET", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
 }
