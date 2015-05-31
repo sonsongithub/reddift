@@ -9,23 +9,6 @@
 import Foundation
 
 extension Session {
-    
-    /**
-    Retrieve additional comments omitted from a base comment tree. When a comment tree is rendered, the most relevant comments are selected for display first. Remaining comments are stubbed out with "MoreComments" links. This API call is used to retrieve the additional comments represented by those stubs, up to 20 at a time. The two core parameters required are link and children. link is the fullname of the link whose comments are being fetched. children is a comma-delimited list of comment ID36s that need to be fetched. If id is passed, it should be the ID of the MoreComments object this call is replacing. This is needed only for the HTML UI's purposes and is optional otherwise. NOTE: you may only make one request at a time to this API endpoint. Higher concurrency will result in an error being returned.
-    
-    :param: children A comma-delimited list of comment ID36s.
-    :param: link Thing object from which you get more children.
-    :param: sort The type of sorting children.
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
-    */
-    public func getMoreChildren(children:[String], link:Link, sort:CommentSort, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        var commaSeparatedChildren = commaSeparatedStringFromList(children)
-        var parameter = ["children":commaSeparatedChildren, "link_id":link.name, "sort":sort.type, "api_type":"json"]
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/morechildren", parameter:parameter, method:"GET", token:token)
-        return handleAsJSONRequest(request, completion:completion)
-    }
-    
     /**
     Submit a new comment or reply to a message, whose parent is the fullname of the thing being replied to.
     Its value changes the kind of object created by this request:
@@ -52,6 +35,19 @@ extension Session {
         })
         task.resume()
         return task
+    }
+    
+    /**
+    Delete a Link or Comment.
+    
+    :param: thing Thing object to be deleted.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func deleteCommentOrLink(name:String, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+        var parameter:[String:String] = ["id":name]
+        var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/del", parameter:parameter, method:"POST", token:token)
+        return handleAsJSONRequest(request, completion:completion)
     }
     
     /**
@@ -111,6 +107,75 @@ extension Session {
         }
         return handleAsJSONRequest(request, completion:completion)
     }
+    
+    /**
+    Return a listing of things specified by their fullnames.
+    Only Links, Comments, and Subreddits are allowed.
+    
+    :param: names Array of contents' fullnames.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func getInfo(names:[String], completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+        var commaSeparatedNameString = commaSeparatedStringFromList(names)
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
+        return handleRequest(request, completion:completion)
+    }
+    
+    /**
+    Get a list of categories in which things are currently saved.
+    
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func getSavedCategories(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/saved_categories", method:"GET", token:token)
+        return handleAsJSONRequest(request, completion:completion)
+    }
+    
+    /**
+    Mark or unmark a link NSFW.
+
+    :param: thing Thing object, to set fullname of a thing.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func setNSFW(mark:Bool, thing:Thing, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+        var path = "/api/unmarknsfw"
+        if mark {
+            path = "/api/marknsfw"
+        }
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:["id":thing.name], method:"POST", token:token)
+        return handleRequest(request, completion:completion)
+    }
+    
+    // MARK: BDT does not cover following methods.
+    
+    /**
+    Report a link, comment or message.
+    Reporting a thing brings it to the attention of the subreddit's moderators. Reporting a message sends it to a system for admin review.
+    For links and comments, the thing is implicitly hidden as well.
+    
+    :param: thing Thing object, to set fullname of a thing.
+    :param: reason Reason of a string no longer than 100 characters.
+    :param: otherReason The other reason of a string no longer than 100 characters.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func report(thing:Thing, reason:String, otherReason:String, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+        var parameter = ["api_type":"json"]
+        var customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
+        if let reason_escaped = reason.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet) {
+            parameter["reason"] = reason_escaped
+        }
+        if let otherReason_escaped = otherReason.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet) {
+            parameter["other_reason"] = otherReason_escaped
+        }
+        parameter["thing_id"] = thing.name
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/report", parameter:parameter, method:"POST", token:token)
+        return handleRequest(request, completion:completion)
+    }
+    
     /**
     Submit a link to a subreddit.
     
@@ -184,81 +249,18 @@ extension Session {
     }
     
     /**
-    Return a listing of things specified by their fullnames.
-    Only Links, Comments, and Subreddits are allowed.
+    Retrieve additional comments omitted from a base comment tree. When a comment tree is rendered, the most relevant comments are selected for display first. Remaining comments are stubbed out with "MoreComments" links. This API call is used to retrieve the additional comments represented by those stubs, up to 20 at a time. The two core parameters required are link and children. link is the fullname of the link whose comments are being fetched. children is a comma-delimited list of comment ID36s that need to be fetched. If id is passed, it should be the ID of the MoreComments object this call is replacing. This is needed only for the HTML UI's purposes and is optional otherwise. NOTE: you may only make one request at a time to this API endpoint. Higher concurrency will result in an error being returned.
     
-    :param: names Array of contents' fullnames.
+    :param: children A comma-delimited list of comment ID36s.
+    :param: link Thing object from which you get more children.
+    :param: sort The type of sorting children.
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getInfo(names:[String], completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-        var commaSeparatedNameString = commaSeparatedStringFromList(names)
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
-        return handleRequest(request, completion:completion)
-    }
-    
-    /**
-    Get a list of categories in which things are currently saved.
-    
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
-    */
-    public func getSavedCategories(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/saved_categories", method:"GET", token:token)
+    public func getMoreChildren(children:[String], link:Link, sort:CommentSort, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var commaSeparatedChildren = commaSeparatedStringFromList(children)
+        var parameter = ["children":commaSeparatedChildren, "link_id":link.name, "sort":sort.type, "api_type":"json"]
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/morechildren", parameter:parameter, method:"GET", token:token)
         return handleAsJSONRequest(request, completion:completion)
-    }
-    
-    /**
-    Delete a Link or Comment.
-    
-    :param: thing Thing object to be deleted.
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
-    */
-    public func deleteCommentOrLink(name:String, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-        var parameter:[String:String] = ["id":name]
-        var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/del", parameter:parameter, method:"POST", token:token)
-        return handleAsJSONRequest(request, completion:completion)
-    }
-    
-    /**
-    Mark or unmark a link NSFW.
-
-    :param: thing Thing object, to set fullname of a thing.
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
-    */
-    public func setNSFW(mark:Bool, thing:Thing, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-        var path = "/api/unmarknsfw"
-        if mark {
-            path = "/api/marknsfw"
-        }
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:["id":thing.name], method:"POST", token:token)
-        return handleRequest(request, completion:completion)
-    }
-    
-    /**
-    Report a link, comment or message.
-    Reporting a thing brings it to the attention of the subreddit's moderators. Reporting a message sends it to a system for admin review.
-    For links and comments, the thing is implicitly hidden as well.
-    
-    :param: thing Thing object, to set fullname of a thing.
-    :param: reason Reason of a string no longer than 100 characters.
-    :param: otherReason The other reason of a string no longer than 100 characters.
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
-    */
-    public func report(thing:Thing, reason:String, otherReason:String, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-        var parameter = ["api_type":"json"]
-        var customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
-        if let reason_escaped = reason.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet) {
-            parameter["reason"] = reason_escaped
-        }
-        if let otherReason_escaped = otherReason.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet) {
-            parameter["other_reason"] = otherReason_escaped
-        }
-        parameter["thing_id"] = thing.name
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/report", parameter:parameter, method:"POST", token:token)
-        return handleRequest(request, completion:completion)
     }
 }
