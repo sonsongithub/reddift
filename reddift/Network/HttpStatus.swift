@@ -10,6 +10,9 @@
 
 import Foundation
 
+/**
+The type of http response.
+*/
 enum HttpStatus:Int {
     case Continue = 100
     case SwitchingProtocols = 101

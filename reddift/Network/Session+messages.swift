@@ -10,6 +10,8 @@ import Foundation
 
 extension Session {
     
+    // MARK: BDT does not cover following methods.
+    
     /**
     Get the message from the specified box.
     

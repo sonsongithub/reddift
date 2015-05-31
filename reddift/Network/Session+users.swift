@@ -10,6 +10,8 @@ import Foundation
 
 extension Session {
     
+    // MARK: BDT does not cover following methods.
+    
     /**
     Get Links or Comments that a user liked, saved, commented, hide, diskiked and etc.
     

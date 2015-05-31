@@ -1,5 +1,5 @@
 //
-//  CommentTest.swift
+//  LinksTest.swift
 //  reddift
 //
 //  Created by sonson on 2015/05/09.
@@ -9,7 +9,7 @@
 import Nimble
 import Quick
 
-class CommentTest: SessionTestSpec {
+class LinksTest: SessionTestSpec {
     /// Link ID, https://www.reddit.com/r/sandboxtest/comments/35dpes/reddift_test/
     let testLinkId = "35dpes"
     let testCommentId = "cr3g41y"

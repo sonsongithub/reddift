@@ -1,15 +1,15 @@
 //
-//  SubscribingSubredditTest.swift
+//  SubredditsTest.swift
 //  reddift
 //
-//  Created by sonson on 2015/05/09.
+//  Created by sonson on 2015/05/25.
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
 import Nimble
 import Quick
 
-class SubscribingSubredditTest: SessionTestSpec {
+class SubredditsTest : SessionTestSpec {
     
     var initialList:[Subreddit] = []
     var initialCount = 0
@@ -19,7 +19,7 @@ class SubscribingSubredditTest: SessionTestSpec {
     var afterUnsubscribingList:[Subreddit] = []
     
     let targetSubreedit = Subreddit(id: "2rdw8")
-
+    
     override func spec() {
         beforeEach { () -> () in
             self.createSession()
@@ -46,7 +46,7 @@ class SubscribingSubredditTest: SessionTestSpec {
                 })
                 expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
-        
+            
             it("Subscribe a new subreddit") {
                 var r:Bool = false
                 self.session?.setSubscribeSubreddit(self.targetSubreedit, subscribe: true, completion: { (result) -> Void in
@@ -60,7 +60,7 @@ class SubscribingSubredditTest: SessionTestSpec {
                 })
                 expect(r).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
-    
+            
             it("Check count of current subscribing list is increased by one") {
                 var afterSubscribingCount = 0
                 self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
@@ -81,7 +81,7 @@ class SubscribingSubredditTest: SessionTestSpec {
                 })
                 expect(afterSubscribingCount).toEventually(equal(self.initialCount + 1), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
-        
+            
             it("Unsubscribe last subscribed subreddit") {
                 var r:Bool = false
                 self.session?.setSubscribeSubreddit(self.targetSubreedit, subscribe: false, completion: { (result) -> Void in
@@ -118,5 +118,4 @@ class SubscribingSubredditTest: SessionTestSpec {
             }
         }
     }
-    
 }

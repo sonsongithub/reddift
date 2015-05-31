@@ -8,16 +8,19 @@
 
 import Foundation
 
-/**
-type alias for JSON object
-*/
+/// For JSON object, typically this alias means [AnyObject] or [String:AnyObject], and so on.
 public typealias JSON = Any
-public typealias JSONDictionary = Dictionary<String, AnyObject>
-public typealias JSONArray = Array<AnyObject>
-public typealias ThingList = AnyObject
 
+/// For JSON object, typically this alias means [String:AnyObject]
+public typealias JSONDictionary = Dictionary<String, AnyObject>
+
+/// For JSON object, typically this alias means [AnyObject]
+public typealias JSONArray = Array<AnyObject>
+
+/// For reddit object.
 public typealias RedditAny = Any
 
+/// Session class to communicate with reddit.com using OAuth.
 public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
     /// Token object to access via OAuth
     public var token:Token = OAuth2Token()
@@ -32,6 +35,11 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
     /// Duration until rate limit of API usage as second.
 	var x_ratelimit_remaining:Int = 0
     
+    /**
+    Initialize session object with OAuth token.
+    
+    :param: token Token object, that is an instance of OAuth2Token or OAuth2AppOnlyToken.
+    */
     public init(token:Token) {
         self.token = token
     }
@@ -58,6 +66,14 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
 //		println("x_ratelimit_remaining \(x_ratelimit_remaining)")
     }
     
+    /**
+    Returns object which is generated from JSON object from reddit.com.
+    This method automatically parses JSON and generates data.
+    
+    :param: response NSURLResponse object is passed from NSURLSession.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
     func handleRequest(request:NSMutableURLRequest, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
 		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
 			self.updateRateLimitWithURLResponse(response)
@@ -69,6 +85,13 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
         return task
     }
     
+    /**
+    Returns JSON object which is obtained from reddit.com.
+    
+    :param: response NSURLResponse object is passed from NSURLSession.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
     func handleAsJSONRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
 			self.updateRateLimitWithURLResponse(response)

@@ -11,25 +11,6 @@ import Foundation
 extension Session {
     
     /**
-    The Serendipity content.
-    But this endpoints return invalid redirect URL...
-    I don't know how this URL should be handled....
-    
-    :param: subreddit Specified subreddit to which you would like to get random link
-    :returns: Data task which requests search to reddit.com.
-    */
-    public func getRandom(subreddit:Subreddit?, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-        if let subreddit = subreddit {
-            var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:subreddit.url + "/random", method:"GET", token:token)
-            return handleAsJSONRequest(request, completion:completion)
-        }
-        else {
-            var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/random", method:"GET", token:token)
-            return handleAsJSONRequest(request, completion:completion)
-        }
-    }
-    
-    /**
     Get the comment tree for a given Link article.
     If supplied, comment is the ID36 of a comment in the comment tree for article. This comment will be the (highlighted) focal point of the returned view and context will be the number of parents shown.
     
@@ -94,7 +75,7 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getList(paginator:Paginator, subreddit:SubredditURLPath?, sort:LinkSortBy, timeFilterWithin:TimeFilterWithin, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    func getList(paginator:Paginator, subreddit:SubredditURLPath?, sort:LinkSortBy, timeFilterWithin:TimeFilterWithin, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         var parameter = ["t":timeFilterWithin.param];
         parameter["limit"] = "\(limit)"
         parameter["show"] = "all"
@@ -124,7 +105,7 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getHotList(paginator:Paginator, subreddit:SubredditURLPath?, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    func getHotList(paginator:Paginator, subreddit:SubredditURLPath?, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         return getNewOrHotList(paginator, subreddit: subreddit, type: "hot", limit:limit, completion: completion)
     }
     
@@ -150,7 +131,7 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getNewOrHotList(paginator:Paginator, subreddit:SubredditURLPath?, type:String, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    func getNewOrHotList(paginator:Paginator, subreddit:SubredditURLPath?, type:String, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = [:]
         parameter["limit"] = "\(limit)"
         parameter["show"] = "all"
@@ -170,6 +151,27 @@ extension Session {
         })
         task.resume()
         return task
+    }
+    
+    // MARK: BDT does not cover following methods.
+    
+    /**
+    The Serendipity content.
+    But this endpoints return invalid redirect URL...
+    I don't know how this URL should be handled....
+    
+    :param: subreddit Specified subreddit to which you would like to get random link
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func getRandom(subreddit:Subreddit?, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+        if let subreddit = subreddit {
+            var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:subreddit.url + "/random", method:"GET", token:token)
+            return handleAsJSONRequest(request, completion:completion)
+        }
+        else {
+            var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/random", method:"GET", token:token)
+            return handleAsJSONRequest(request, completion:completion)
+        }
     }
     
     /**

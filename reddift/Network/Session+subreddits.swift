@@ -25,6 +25,44 @@ extension Session {
     }
     
     /**
+    Get all subreddits.
+    
+    :param: subredditsWhere Chooses the order in which the subreddits are displayed among SubredditsWhere.
+    :param: paginator Paginator object for paging.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func getSubreddit(subredditWhere:SubredditsWhere, paginator:Paginator?, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+        var parameter:[String:String] = [:]
+        if let paginator = paginator {
+            for (key, value) in paginator.parameters() {
+                parameter[key] = value
+            }
+        }
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:subredditWhere.path, parameter:parameter, method:"GET", token:token)
+        return handleRequest(request, completion:completion)
+    }
+    
+    /**
+    Get subreddits the user has a relationship with. The where parameter chooses which subreddits are returned as follows:
+    
+    - subscriber - subreddits the user is subscribed to
+    - contributor - subreddits the user is an approved submitter in
+    - moderator - subreddits the user is a moderator of
+    
+    :param: mine The type of relationship with the user as SubredditsMineWhere.
+    :param: paginator Paginator object for paging contents.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func getUserRelatedSubreddit(mine:SubredditsMineWhere, paginator:Paginator?, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:mine.path, parameter:paginator?.parameters(), method:"GET", token:token)
+        return handleRequest(request, completion:completion)
+    }
+    
+    // MARK: BDT does not cover following methods.
+    
+    /**
     Search subreddits by title and description.
     
     :param: query The search keywords, must be less than 512 characters.
@@ -53,47 +91,10 @@ extension Session {
     }
     
     /**
-    Get all subreddits.
-    
-    :param: subredditsWhere Chooses the order in which the subreddits are displayed among SubredditsWhere.
-    :param: paginator Paginator object for paging.
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
-    */
-    public func getSubreddit(subredditWhere:SubredditsWhere, paginator:Paginator?, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-        var parameter:[String:String] = [:]
-        if let paginator = paginator {
-            for (key, value) in paginator.parameters() {
-                parameter[key] = value
-            }
-        }
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:subredditWhere.path, parameter:parameter, method:"GET", token:token)
-        return handleRequest(request, completion:completion)
-    }
-    
-    /**
     DOES NOT WORK... WHY?
     */
     public func getSticky(subreddit:Subreddit, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/r/" + subreddit.displayName + "/sticky", method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
-    
-    /**
-    Get subreddits the user has a relationship with. The where parameter chooses which subreddits are returned as follows:
-    
-    - subscriber - subreddits the user is subscribed to
-    - contributor - subreddits the user is an approved submitter in
-    - moderator - subreddits the user is a moderator of
-    
-    :param: mine The type of relationship with the user as SubredditsMineWhere.
-    :param: paginator Paginator object for paging contents.
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
-    */
-    public func getUserRelatedSubreddit(mine:SubredditsMineWhere, paginator:Paginator?, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:mine.path, parameter:paginator?.parameters(), method:"GET", token:token)
-        return handleRequest(request, completion:completion)
-    }
-    
 }
