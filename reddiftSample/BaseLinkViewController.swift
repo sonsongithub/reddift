@@ -18,7 +18,7 @@ class BaseLinkViewController: UITableViewController, UISearchBarDelegate {
     var segmentedControl:UISegmentedControl? = nil
     
     var sortTitles:[String] = []
-    var sortTypes:[LinkSortBy] = []
+    var sortTypes:[LinkSortType] = []
     
     var links:[Link] = []
     var contents:[CellContent] = []

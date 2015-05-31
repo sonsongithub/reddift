@@ -109,7 +109,7 @@ public enum TimeFilterWithin {
 /**
 The sort method for listing Link object, reddift original.
 */
-public enum LinkSortOriginalType {
+public enum LinkSortType {
     case Controversial
     case Top
     case Hot
@@ -127,23 +127,6 @@ public enum LinkSortOriginalType {
             return "/new"
         }
     }
-}
-
-/**
-The sort method for listing Link object, "/r/[subreddit]/[sort]" or "/[sort]".
-*/
-public enum LinkSortBy {
-	case Controversial
-	case Top
-	
-	public var path:String {
-		switch self{
-		case .Controversial:
-			return "/controversial"
-		case .Top:
-			return "/hot"
-		}
-	}
 }
 
 /**

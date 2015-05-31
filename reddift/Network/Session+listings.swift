@@ -8,6 +8,23 @@
 
 import Foundation
 
+/**
+The sort method for listing Link object, "/r/[subreddit]/[sort]" or "/[sort]".
+*/
+enum PrivateLinkSortBy {
+    case Controversial
+    case Top
+    
+    var path:String {
+        switch self{
+        case .Controversial:
+            return "/controversial"
+        case .Top:
+            return "/hot"
+        }
+    }
+}
+
 extension Session {
     
     /**
@@ -51,12 +68,12 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getList(paginator:Paginator, subreddit:SubredditURLPath?, integratedSort:LinkSortOriginalType, timeFilterWithin:TimeFilterWithin, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-        switch integratedSort {
+    public func getList(paginator:Paginator, subreddit:SubredditURLPath?, sort:LinkSortType, timeFilterWithin:TimeFilterWithin, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+        switch sort {
         case .Controversial:
-            return getList(paginator, subreddit: subreddit, sort: LinkSortBy.Controversial, timeFilterWithin: timeFilterWithin, limit: limit, completion: completion)
+            return getList(paginator, subreddit: subreddit, privateSortType: PrivateLinkSortBy.Controversial, timeFilterWithin: timeFilterWithin, limit: limit, completion: completion)
         case .Top:
-            return getList(paginator, subreddit: subreddit, sort: LinkSortBy.Top, timeFilterWithin: timeFilterWithin, limit: limit, completion: completion)
+            return getList(paginator, subreddit: subreddit, privateSortType: PrivateLinkSortBy.Top, timeFilterWithin: timeFilterWithin, limit: limit, completion: completion)
         case .New:
             return getNewOrHotList(paginator, subreddit: subreddit, type: "new", limit:limit, completion: completion)
         case .Hot:
@@ -75,16 +92,16 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    func getList(paginator:Paginator, subreddit:SubredditURLPath?, sort:LinkSortBy, timeFilterWithin:TimeFilterWithin, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    func getList(paginator:Paginator, subreddit:SubredditURLPath?, privateSortType:PrivateLinkSortBy, timeFilterWithin:TimeFilterWithin, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         var parameter = ["t":timeFilterWithin.param];
         parameter["limit"] = "\(limit)"
         parameter["show"] = "all"
         // parameter["sr_detail"] = "true"
         parameter.update(paginator.parameters())
         
-        var path = sort.path
+        var path = privateSortType.path
         if let subreddit = subreddit {
-            path = "\(subreddit.path)\(sort.path).json"
+            path = "\(subreddit.path)\(privateSortType.path).json"
         }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
