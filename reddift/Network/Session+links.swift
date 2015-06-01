@@ -123,6 +123,24 @@ extension Session {
     }
     
     /**
+    Mark or unmark a link NSFW.
+
+    :param: thing Thing object, to set fullname of a thing.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    public func setNSFW(mark:Bool, thing:Thing, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var path = "/api/unmarknsfw"
+        if mark {
+            path = "/api/marknsfw"
+        }
+        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:["id":thing.name], method:"POST", token:token)
+        return handleAsJSONRequest(request, completion:completion)
+    }
+    
+    // MARK: BDT does not cover following methods.
+    
+    /**
     Get a list of categories in which things are currently saved.
     
     :param: completion The completion handler to call when the load request is complete.
@@ -132,24 +150,6 @@ extension Session {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/saved_categories", method:"GET", token:token)
         return handleAsJSONRequest(request, completion:completion)
     }
-    
-    /**
-    Mark or unmark a link NSFW.
-
-    :param: thing Thing object, to set fullname of a thing.
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
-    */
-    public func setNSFW(mark:Bool, thing:Thing, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-        var path = "/api/unmarknsfw"
-        if mark {
-            path = "/api/marknsfw"
-        }
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:["id":thing.name], method:"POST", token:token)
-        return handleRequest(request, completion:completion)
-    }
-    
-    // MARK: BDT does not cover following methods.
     
     /**
     Report a link, comment or message.
