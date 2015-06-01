@@ -15,30 +15,28 @@ class LinksTest: SessionTestSpec {
     let testCommentId = "cr3g41y"
     var postedThings:[Comment] = []
     
+    func test_deleteCommentOrLink(thing:Thing) {
+        var isSucceeded = false
+        self.session?.deleteCommentOrLink(thing.name, completion: { (result) -> Void in
+            switch result {
+            case let .Failure:
+                println(result.error!.description)
+            case let .Success:
+                isSucceeded = true
+            }
+        })
+        expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
+    }
+    
     override func spec() {
         beforeEach { () -> () in
             self.createSession()
         }
         
-        afterEach { () -> () in
-            for comment in self.postedThings {
-                var isSucceeded = false
-                self.session?.deleteCommentOrLink(comment.name, completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        isSucceeded = true
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: 10, pollInterval: self.pollingInterval)
-            }
-        }
-    
-        describe("Try to post a comment to the specified link") {
-            it("the comment is posted as a child of the specified link") {
+        describe("Test posting a comment to existing comment") {
+            var comment:Comment? = nil
+            it("Check whether the comment is posted as a child of the specified link") {
                 let name = "t3_" + self.testLinkId
-                var comment:Comment? = nil
                 self.session?.postComment("test comment2", parentName:name, completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
@@ -47,17 +45,18 @@ class LinksTest: SessionTestSpec {
                         comment = result.value
                     }
                 })
-                expect(comment != nil).toEventually(equal(true), timeout: 10, pollInterval: self.pollingInterval)
+                expect(comment != nil).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
+            }
+            it("Test to delete the last posted comment.") {
                 if let comment = comment {
-                    self.postedThings.append(comment)
-                    expect(comment.parentId).to(equal(name))
+                    self.test_deleteCommentOrLink(comment)
                 }
             }
         }
         
-        describe("Try to post a comment to the specified comment") {
+        describe("Test posting a comment to existing link") {
+            var comment:Comment? = nil
             it("the comment is posted as a child of the specified comment") {
-                var comment:Comment? = nil
                 let name = "t1_" + self.testCommentId
                 self.session?.postComment("test comment3", parentName:name, completion: { (result) -> Void in
                     switch result {
@@ -68,11 +67,16 @@ class LinksTest: SessionTestSpec {
                     }
                 })
                 expect(comment != nil).toEventually(equal(true), timeout: 10, pollInterval: self.pollingInterval)
+            }
+            it("Test to delete the last posted comment.") {
                 if let comment = comment {
-                    self.postedThings.append(comment)
-                    expect(comment.parentId).to(equal(name))
+                    self.test_deleteCommentOrLink(comment)
                 }
             }
+        }
+        
+        describe("Test set NSFW") {
+            
         }
     }
 

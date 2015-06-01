@@ -158,7 +158,7 @@ class MultiredditTest: SessionTestSpec {
             it("Check whether the multireddit does inlcude only swift and redditdev articles, Controversial") {
                 var isSucceeded = false
                 if let multi = self.createdMultireddit {
-                    self.session?.getList(Paginator(), subreddit: multi, integratedSort:LinkSortType.Controversial, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
+                    self.session?.getList(Paginator(), subreddit: multi, sort:LinkSortType.Controversial, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
                         isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
                     })
                 }
@@ -168,7 +168,7 @@ class MultiredditTest: SessionTestSpec {
             it("Check whether the multireddit does inlcude only swift and redditdev articles, Hot") {
                 var isSucceeded = false
                 if let multi = self.createdMultireddit {
-                    self.session?.getList(Paginator(), subreddit: multi, integratedSort:LinkSortType.Hot, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
+                    self.session?.getList(Paginator(), subreddit: multi, sort:.Hot, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
                         isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
                     })
                 }
@@ -179,7 +179,7 @@ class MultiredditTest: SessionTestSpec {
                 var isSucceeded = false
                 if let multi = self.createdMultireddit {
                     let a = LinkSortType.Hot
-                    self.session?.getList(Paginator(), subreddit: multi, integratedSort:.New, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
+                    self.session?.getList(Paginator(), subreddit: multi, sort:.New, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
                         isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
                     })
                 }
@@ -189,7 +189,7 @@ class MultiredditTest: SessionTestSpec {
             it("Check whether the multireddit does inlcude only swift and redditdev articles, Top") {
                 var isSucceeded = false
                 if let multi = self.createdMultireddit {
-                    self.session?.getList(Paginator(), subreddit: multi, integratedSort:.Top, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
+                    self.session?.getList(Paginator(), subreddit: multi, sort:.Top, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
                         isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
                     })
                 }
