@@ -59,7 +59,7 @@
                   Identifier = "ExtendCommentsTest">
                </Test>
                <Test
-                  Identifier = "ListingsTest">
+                  Identifier = "LinksTest">
                </Test>
                <Test
                   Identifier = "MultiTest">
