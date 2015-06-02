@@ -18,8 +18,7 @@ class ListingsTest: SessionTestSpec {
         describe("Test to download links.") {
                 let sortTypes:[LinkSortType] = [.Controversial, .Top, .Hot, .New]
                 let timeFilterTypes:[TimeFilterWithin] = [.Hour, .Day, .Week, .Month, .Year, .All]
-                var subreddit = Subreddit(id: "dummy")
-                subreddit.displayName = "sandboxtest"
+                var subreddit = Subreddit(subreddit: "sandboxtest")
                 for sortType in sortTypes {
                     for filter in timeFilterTypes {
                         it("Check whether the list which is obtained with \(sortType.description), \(filter.description) includes only Link object.") {
@@ -80,8 +79,7 @@ class ListingsTest: SessionTestSpec {
         describe("Test to download random links among the specified subreddit.") {
             it("Check whether the random list among the specified subreddit includes two Listings when using withoutLink = false.") {
                 var isSucceeded = false
-                var subreddit = Subreddit(id: "dummy")
-                subreddit.displayName = "sandboxtest"
+                var subreddit = Subreddit(subreddit: "sandboxtest")
                 self.session?.getRandom(subreddit, completion: { (result) in
                     switch result {
                     case let .Failure:
@@ -113,8 +111,7 @@ class ListingsTest: SessionTestSpec {
             
             it("Check whether the random list among the specified subreddit includes two Listings when using withoutLink = true.") {
                 var isSucceeded = false
-                var subreddit = Subreddit(id: "dummy")
-                subreddit.displayName = "sandboxtest"
+                var subreddit = Subreddit(subreddit: "sandboxtest")
                 self.session?.getRandom(subreddit, withoutLink:true, completion: { (result) in
                     switch result {
                     case let .Failure:
@@ -138,8 +135,7 @@ class ListingsTest: SessionTestSpec {
             describe("Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)") {
                 it("Check whether the aritcles include one Listing when using withoutLink = true.") {
                     var link:Link? = nil
-                    var subreddit = Subreddit(id: "dummy")
-                    subreddit.displayName = "redditdev"
+                    var subreddit = Subreddit(subreddit: "redditdev")
                     self.session?.getList(Paginator(), subreddit:subreddit, sort:.New, timeFilterWithin:.Week, completion: { (result) in
                         switch result {
                         case let .Failure:
@@ -178,8 +174,7 @@ class ListingsTest: SessionTestSpec {
                 
                 it("Check whether the aritcles include one Listing when using withoutLink = false.") {
                     var link:Link? = nil
-                    var subreddit = Subreddit(id: "dummy")
-                    subreddit.displayName = "redditdev"
+                    var subreddit = Subreddit(subreddit: "redditdev")
                     self.session?.getList(Paginator(), subreddit:subreddit, sort:.New, timeFilterWithin:.Week, completion: { (result) in
                         switch result {
                         case let .Failure:

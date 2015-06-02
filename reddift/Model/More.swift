@@ -21,13 +21,16 @@ public struct More : Thing {
     /// type of Thing, like t3.
     public static var kind = "more"
     
-	public var parentId = ""
-	public var count = 0
-	public var children:[String] = []
+    public let parentId:String
+    public let count:Int
+	public let children:[String]
 	
     public init(id:String) {
         self.id = id
         self.name = "\(More.kind)_\(self.id)"
+        parentId = ""
+        count = 0
+        children = []
     }
     
     /**
