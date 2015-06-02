@@ -38,7 +38,9 @@ extension Session {
     */
     func handleRequestFilteringLinkObject(request:NSMutableURLRequest, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            self.updateRateLimitWithURLResponse(response)
+            if let response = response {
+                self.updateRateLimitWithURLResponse(response)
+            }
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> filterArticleResponse
             completion(result)
