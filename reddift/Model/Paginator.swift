@@ -12,9 +12,9 @@ import Foundation
 Paginator object for paiging listing object.
 */
 public struct Paginator {
-	var after:String
-	var before:String
-    var modhash:String
+	let after:String
+	let before:String
+    let modhash:String
     
     public init() {
         self.after = ""

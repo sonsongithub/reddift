@@ -12,8 +12,8 @@ import Foundation
 Multireddit description class.
 */
 public struct MultiredditDescription {
-    public var bodyHtml = ""
-    public var bodyMd = ""
+    public let bodyHtml:String
+    public let bodyMd:String
     
     public init(json:JSONDictionary) {
         bodyHtml = json["body_html"] as? String ?? ""

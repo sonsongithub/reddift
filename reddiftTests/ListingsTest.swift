@@ -14,7 +14,7 @@ class ListingsTest: SessionTestSpec {
         beforeEach { () -> () in
             self.createSession()
         }
-        
+#if (true)
         describe("Test to download links.") {
                 let sortTypes:[LinkSortType] = [.Controversial, .Top, .Hot, .New]
                 let timeFilterTypes:[TimeFilterWithin] = [.Hour, .Day, .Week, .Month, .Year, .All]
@@ -42,7 +42,6 @@ class ListingsTest: SessionTestSpec {
                 }
             }
         }
-    
         describe("Test to download random links.") {
             it("Check whether the random list includes two Listings.") {
                 var isSucceeded = false
@@ -75,7 +74,8 @@ class ListingsTest: SessionTestSpec {
                 NSThread.sleepForTimeInterval(self.testInterval)
             }
         }
-
+    
+        #endif
         describe("Test to download random links among the specified subreddit.") {
             it("Check whether the random list among the specified subreddit includes two Listings when using withoutLink = false.") {
                 var isSucceeded = false
@@ -108,7 +108,6 @@ class ListingsTest: SessionTestSpec {
                 expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
                 NSThread.sleepForTimeInterval(self.testInterval)
             }
-            
             it("Check whether the random list among the specified subreddit includes two Listings when using withoutLink = true.") {
                 var isSucceeded = false
                 var subreddit = Subreddit(subreddit: "sandboxtest")
@@ -129,7 +128,7 @@ class ListingsTest: SessionTestSpec {
                 NSThread.sleepForTimeInterval(self.testInterval)
             }
         }
-        
+    #if (true)
         let sortTypes:[CommentSort] = [.Confidence, .Top, .New, .Hot, .Controversial, .Old, .Random, .Qa]
         for sort in sortTypes {
             describe("Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)") {
@@ -224,5 +223,6 @@ class ListingsTest: SessionTestSpec {
                 }
             }
         }
+    #endif
     }
 }

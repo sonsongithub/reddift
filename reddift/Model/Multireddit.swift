@@ -95,23 +95,23 @@ public enum MultiredditWeightingScheme : String {
 Multireddit class.
 */
 public struct Multireddit : SubredditURLPath {
-    public var descriptionMd = ""
-    public var displayName = ""
-    public var iconName:MultiredditIconName = .None
-    public var keyColor = "#FFFFFF"
-    public var subreddits:[String] = []
-    public var visibility:MultiredditVisibility = .Private
-    public var weightingScheme:MultiredditWeightingScheme = .Classic
+    public var descriptionMd:String
+    public var displayName:String
+    public var iconName:MultiredditIconName
+    public var keyColor:String
+    public var subreddits:[String]
+    public var visibility:MultiredditVisibility
+    public var weightingScheme:MultiredditWeightingScheme
     
     // can not update following attritubes
-    public var descriptionHtml = ""
-    public var path = ""
-    public var name = ""
-    public var iconUrl = ""
-    public var canEdit = false
-    public var copiedFrom = ""
-    public var created:NSTimeInterval = 0
-    public var createdUtc:NSTimeInterval = 0
+    public let descriptionHtml:String
+    public let path:String
+    public let name:String
+    public let iconUrl:String
+    public let canEdit:Bool
+    public let copiedFrom:String
+    public let created:NSTimeInterval
+    public let createdUtc:NSTimeInterval
     
     public init(json:JSONDictionary) {
         descriptionMd = json["description_md"] as? String ?? ""
@@ -122,17 +122,18 @@ public struct Multireddit : SubredditURLPath {
         
         keyColor = json["key_color"] as? String ?? ""
         
+        var buf:[String] = []
         if let temp = json["subreddits"] as? [JSONDictionary] {
             for element in temp {
                 if let element = element as? [String:String] {
                     if let name:String = element["name"] {
-                        subreddits.append(name)
+                        buf.append(name)
                     }
                 }
             }
         }
+        subreddits = buf
         
-        keyColor = json["key_color"] as? String ?? ""
         weightingScheme = MultiredditWeightingScheme(json["weighting_scheme"] as? String ?? "")
         
         descriptionHtml = json["description_html"] as? String ?? ""
