@@ -162,9 +162,8 @@ class LinksTest: SessionTestSpec {
                     case let .Failure:
                         println(result.error!.description)
                     case let .Success:
-                        println(result.value)
+                        isSucceeded = true
                     }
-                    isSucceeded = true
                 })
                 expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
