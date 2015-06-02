@@ -13,13 +13,13 @@ Media represents the content which is embeded a link.
 */
 public struct MediaEmbed {
 	/// Height of content.
-	var height = 0
+	let height:Int
 	/// Width of content.
-	var width = 0
+    let width:Int
 	/// Information of content.
-	var content = ""
+    let content:String
 	/// Is content scrolled?
-    var scrolling = false
+    let scrolling:Bool
 	
     /**
     Update each property with JSON object.

@@ -13,30 +13,30 @@ Link content.
 */
 public struct Link : Thing {
     /// identifier of Thing like 15bfi0.
-    public var id = ""
+    public var id:String
     /// name of Thing, that is fullname, like t3_15bfi0.
-    public var name = ""
+    public var name:String
     /// type of Thing, like t3.
     public static var kind = "t3"
     
     /**
     example: self.redditdev
     */
-    public var domain = ""
+    public let domain:String
     /**
     example:
     */
-    public var bannedBy = ""
+    public let bannedBy:String
     /**
     Used for streaming video. Technical embed specific information is found here.
     example: {}
     */
-    public var mediaEmbed:MediaEmbed? = nil
+    public let mediaEmbed:MediaEmbed?
     /**
     subreddit of thing excluding the /r/ prefix. "pics"
     example: redditdev
     */
-    public var subreddit = ""
+    public let subreddit:String
     /**
     the formatted escaped HTML text.  this is the HTML formatted version of the marked up text.  Items that are boldened by ** or *** will now have &lt;em&gt; or *** tags on them. Additionally, bullets and numbered lists will now be in HTML list format. NOTE: The HTML string will be escaped.  You must unescape to get the raw HTML. Null if not present.
     example: &lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;So this is the code I ran:&lt;/p&gt;
@@ -48,7 +48,7 @@ public struct Link : Thing {
     &lt;p&gt;From what I understand, comment_stream() gets the most recent comments. So if we specify the limit to be 100, it will initially get the 100 newest comment, and then constantly update to get new comments.  It seems to works appropriately for every subreddit except &lt;a href="/r/helpmefind"&gt;/r/helpmefind&lt;/a&gt;. For &lt;a href="/r/helpmefind"&gt;/r/helpmefind&lt;/a&gt;, it fetches around 30 comments, regardless of the limit.&lt;/p&gt;
     &lt;/div&gt;&lt;!-- SC_ON --&gt;
     */
-    public var selftextHtml = ""
+    public let selftextHtml:String
     /**
     the raw text.  this is the unformatted text which includes the raw markup characters such as ** for bold. &lt;, &gt;, and &amp; are escaped. Empty if not present.
     example: So this is the code I ran:
@@ -58,179 +58,224 @@ public struct Link : Thing {
     ---
     From what I understand, comment_stream() gets the most recent comments. So if we specify the limit to be 100, it will initially get the 100 newest comment, and then constantly update to get new comments.  It seems to works appropriately for every subreddit except /r/helpmefind. For /r/helpmefind, it fetches around 30 comments, regardless of the limit.
     */
-    public var selftext = ""
+    public let selftext:String
     /**
     how the logged-in user has voted on the link - True = upvoted, False = downvoted, null = no vote
     example:
     */
-    public var likes:Bool? = nil
+    public let likes:Bool?
     /**
     example: []
     */
-    public var userReports:[AnyObject] = []
+    public let userReports:[AnyObject]
     /**
     example:
     */
-    public var secureMedia:AnyObject? = nil
+    public let secureMedia:AnyObject?
     /**
     the text of the link's flair.
     example:
     */
-    public var linkFlairText = ""
+    public let linkFlairText:String
     /**
     example: 0
     */
-    public var gilded = 0
+    public let gilded:Int
     /**
     example: false
     */
-    public var archived = false
+    public let archived :Bool
     /**
     probably always returns false
     example: false
     */
-    public var clicked = false
+    public let clicked :Bool
     /**
     example:
     */
-    public var reportReasons:[AnyObject] = []
+    public let reportReasons:[AnyObject]
     /**
     the account name of the poster. null if this is a promotional link
     example: habnpam
     */
-    public var author = ""
+    public let author:String
     /**
     the number of comments that belong to this link. includes removed comments.
     example: 10
     */
-    public var numComments = 0
+    public let numComments:Int
     /**
     the net-score of the link.  note: A submission's score is simply the number of upvotes minus the number of downvotes. If five users like the submission and three users don't it will have a score of 2. Please note that the vote numbers are not "real" numbers, they have been "fuzzed" to prevent spam bots etc. So taking the above example, if five users upvoted the submission, and three users downvote it, the upvote/downvote numbers may say 23 upvotes and 21 downvotes, or 12 upvotes, and 10 downvotes. The points score is correct, but the vote totals are "fuzzed".
     example: 2
     */
-    public var score = 0
+    public let score:Int
     /**
     example:
     */
-    public var approvedBy = ""
+    public let approvedBy:String
     /**
     true if the post is tagged as NSFW.  False if otherwise
     example: false
     */
-    public var over18 = false
+    public let over18 :Bool
     /**
     true if the post is hidden by the logged in user.  false if not logged in or not hidden.
     example: false
     */
-    public var hidden = false
+    public let hidden :Bool
     /**
     full URL to the thumbnail for this link; "self" if this is a self post; "default" if a thumbnail is not available
     example:
     */
-    public var thumbnail = ""
+    public let thumbnail:String
     /**
     the id of the subreddit in which the thing is located
     example: t5_2qizd
     */
-    public var subredditId = ""
+    public let subredditId:String
     /**
     example: false
     */
-    public var edited = false
+    public let edited :Bool
     /**
     the CSS class of the link's flair.
     example:
     */
-    public var linkFlairCssClass = ""
+    public let linkFlairCssClass:String
     /**
     the CSS class of the author's flair.  subreddit specific
     example:
     */
-    public var authorFlairCssClass = ""
+    public let authorFlairCssClass:String
     /**
     example: 0
     */
-    public var downs = 0
+    public let downs:Int
     /**
     example: []
     */
-    public var modReports:[AnyObject] = []
+    public let modReports:[AnyObject]
     /**
     example:
     */
-    public var secureMediaEmbed:AnyObject? = nil
+    public let secureMediaEmbed:AnyObject?
     /**
     true if this post is saved by the logged in user
     example: false
     */
-    public var saved = false
+    public let saved :Bool
     /**
     true if this link is a selfpost
     example: true
     */
-    public var isSelf = false
+    public let isSelf :Bool
     /**
     relative URL of the permanent link for this link
     example: /r/redditdev/comments/32wnhw/praw_comment_stream_messes_up_when_getting/
     */
-    public var permalink = ""
+    public let permalink:String
     /**
     true if the post is set as the sticky in its subreddit.
     example: false
     */
-    public var stickied = false
+    public let stickied:Bool
     /**
     example: 1429292148
     */
-    public var created = 0
+    public let created:Int
     /**
     the link of this post.  the permalink if this is a self-post
     example: http://www.reddit.com/r/redditdev/comments/32wnhw/praw_comment_stream_messes_up_when_getting/
     */
-    public var url = ""
+    public let url:String
     /**
     the text of the author's flair.  subreddit specific
     example:
     */
-    public var authorFlairText = ""
+    public let authorFlairText:String
     /**
     the title of the link. may contain newlines for some reason
     example: [PRAW] comment_stream() messes up when getting comments from a certain subreddit.
     */
-    public var title = ""
+    public let title:String
     /**
     example: 1429263348
     */
-    public var createdUtc = 0
+    public let createdUtc:Int
     /**
     example: 2
     */
-    public var ups = 0
+    public let ups:Int
     /**
     example: 0.75
     */
-    public var upvoteRatio = 0.0
+    public let upvoteRatio:Double
     /**
     Used for streaming video. Detailed information about the video and it's origins are placed here
     example:
     */
-    public var media:Media? = nil
+    public let media:Media?
     /**
     example: false
     */
-    public var visited = false
+    public let visited:Bool
     /**
     example: 0
     */
-    public var numReports = 0
+    public let numReports:Int
     /**
     example: false
     */
-    public var distinguished = false
+    public let distinguished:Bool
 	
     public init(id:String) {
         self.id = id
         self.name = "\(Link.kind)_\(self.id)"
+        
+        domain = ""
+        bannedBy = ""
+        subreddit = ""
+        selftextHtml = ""
+        selftext = ""
+        likes = nil
+        linkFlairText = ""
+        gilded = 0
+        archived = false
+        clicked = false
+        author = ""
+        numComments = 0
+        score = 0
+        approvedBy = ""
+        over18 = false
+        hidden = false
+        thumbnail = ""
+        subredditId = ""
+        edited = false
+        linkFlairCssClass = ""
+        authorFlairCssClass = ""
+        downs = 0
+        saved = false
+        isSelf = false
+        permalink = ""
+        stickied = false
+        created = 0
+        url = ""
+        authorFlairText = ""
+        title = ""
+        createdUtc = 0
+        ups = 0
+        upvoteRatio = 0
+        visited = false
+        numReports = 0
+        distinguished = false
+        media = Media(json:([:]))
+        mediaEmbed = MediaEmbed(json:([:]))
+        
+        userReports = []
+        secureMedia = nil
+        reportReasons = []
+        modReports = []
+        secureMediaEmbed = nil;
     }
     
     /**
@@ -280,5 +325,11 @@ public struct Link : Thing {
         distinguished = data["distinguished"] as? Bool ?? false
         media = Media(json:(data["media"] as? JSONDictionary ?? [:]))
         mediaEmbed = MediaEmbed(json:(data["media_embed"] as? JSONDictionary ?? [:]))
+        
+        userReports = []
+        secureMedia = nil
+        reportReasons = []
+        modReports = []
+        secureMediaEmbed = nil;
     }
 }
