@@ -52,14 +52,16 @@ class Parser: NSObject {
 	Parse list object in JSON
 	*/
     class func parseListing(json:JSONDictionary) -> Listing {
-        var listing = Listing()
+        var list:[Thing] = []
+        var paginator:Paginator? = Paginator()
+        
         if let data = json["data"] as? JSONDictionary {
             if let children = data["children"] as? JSONArray {
                 for child in children {
                     if let child = child as? JSONDictionary {
                         let obj:Any? = parseJSON(child)
                         if let obj = obj as? Thing {
-                            listing.children.append(obj)
+                            list.append(obj)
                         }
                     }
                 }
@@ -70,14 +72,13 @@ class Parser: NSObject {
                 var b:String = data["before"] as? String ?? ""
                 
                 if !a.isEmpty || !b.isEmpty {
-                    var paginator = Paginator(after: a, before: b, modhash: data["modhash"] as? String ?? "")
-                    listing.paginator = paginator
+                    paginator = Paginator(after: a, before: b, modhash: data["modhash"] as? String ?? "")
                 }
             }
         }
-        return listing
+        return Listing(children:list, paginator: paginator ?? Paginator())
     }
-	
+    
 	/**
 	Parse JSON of the style which is Thing.
 	*/

@@ -15,11 +15,11 @@ public struct Media {
     /**
     example "i.imgur.com"
     */
-    public var type:String
+    public let type:String
     /**
     oembed object
     */
-    public var oembed:Oembed
+    public let oembed:Oembed
     /**
     Update each property with JSON object.
     
