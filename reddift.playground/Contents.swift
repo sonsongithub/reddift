@@ -80,6 +80,19 @@ func getLinksBy(session:Session) {
     })
 }
 
+func getList(session:Session) {
+    var subreddit = Subreddit(id: "a")
+//    subreddit.displayName = "sandboxtest"
+    session.getRandom(subreddit, completion: { (result) in
+        switch result {
+        case let .Failure:
+            println(result.error)
+        case let .Success:
+            println(result.value)
+        }
+    })
+}
+
 let url: NSURL = NSBundle.mainBundle().URLForResource("test_config.json", withExtension:nil)!
 let data = NSData(contentsOfURL: url)!
 let json:AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil)
@@ -97,9 +110,7 @@ if let json = json as? [String:String] {
                     println(result.value)
                     if let token:Token = result.value {
                         let session = Session(token: token)
-//                        getReleated(session)
-//                        getProfile(session)
-                        getLinksBy(session)
+                        getList(session)
                     }
                 }
             }))

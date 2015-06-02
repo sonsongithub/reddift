@@ -85,9 +85,6 @@
                <Test
                   Identifier = "SubredditsTest">
                </Test>
-               <Test
-                  Identifier = "UsersTest">
-               </Test>
             </SkippedTests>
          </TestableReference>
       </Testables>
