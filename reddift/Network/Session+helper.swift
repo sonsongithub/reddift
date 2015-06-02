@@ -127,7 +127,7 @@ Extract Listing object which includes Comments from JSON for articles.
 :param: json JSON object is obtained from reddit.com.
 :returns: List consists of Comment objects.
 */
-func filterArticleResponse(json:JSON) -> Result<Listing> {
+func filterArticleResponse(json:JSON) -> Result<RedditAny> {
     if let array = json as? [Any] {
         if array.count == 2 {
             if let result = array[1] as? Listing {

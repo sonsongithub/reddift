@@ -28,6 +28,26 @@ enum PrivateLinkSortBy {
 extension Session {
     
     /**
+    Returns object which is generated from JSON object from reddit.com.
+    Originally, response object is [Listing].
+    This method filters Listing object at index 0, and returns onlly an array such as [Comment].
+    
+    :param: response NSURLResponse object is passed from NSURLSession.
+    :param: completion The completion handler to call when the load request is complete.
+    :returns: Data task which requests search to reddit.com.
+    */
+    func handleRequestFilteringLinkObject(request:NSMutableURLRequest, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> filterArticleResponse
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+
+    /**
     Get the comment tree for a given Link article.
     If supplied, comment is the ID36 of a comment in the comment tree for article. This comment will be the (highlighted) focal point of the returned view and context will be the number of parents shown.
     
@@ -39,22 +59,17 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getArticles(link:Link, sort:CommentSort, comments:[String]?, depth:Int = 4, limit:Int = 100, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
+    public func getArticles(link:Link, sort:CommentSort, comments:[String]? = nil, withoutLink:Bool = false, depth:Int = 4, limit:Int = 100, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = ["sort":sort.type, "depth":"\(depth)", "showmore":"True", "limit":"\(limit)"]
         if let comments = comments {
             var commaSeparatedIDString = commaSeparatedStringFromList(comments)
             parameter["comment"] = commaSeparatedIDString
         }
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/comments/" + link.id, parameter:parameter, method:"GET", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> filterArticleResponse
-            
-            completion(result)
-        })
-        task.resume()
-        return task
+        if withoutLink {
+            return handleRequestFilteringLinkObject(request, completion: completion)
+        }
+        return handleRequest(request, completion: completion)
     }
     
     /**
@@ -170,8 +185,6 @@ extension Session {
         return task
     }
     
-    // MARK: BDT does not cover following methods.
-    
     /**
     The Serendipity content.
     But this endpoints return invalid redirect URL...
@@ -180,16 +193,24 @@ extension Session {
     :param: subreddit Specified subreddit to which you would like to get random link
     :returns: Data task which requests search to reddit.com.
     */
-    public func getRandom(subreddit:Subreddit?, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    public func getRandom(subreddit:Subreddit?, withoutLink:Bool = false, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         if let subreddit = subreddit {
             var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:subreddit.url + "/random", method:"GET", token:token)
-            return handleAsJSONRequest(request, completion:completion)
+            if withoutLink {
+                return handleRequestFilteringLinkObject(request, completion: completion)
+            }
+            return handleRequest(request, completion: completion)
         }
         else {
             var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/random", method:"GET", token:token)
-            return handleAsJSONRequest(request, completion:completion)
+            if withoutLink {
+                return handleRequestFilteringLinkObject(request, completion: completion)
+            }
+            return handleRequest(request, completion: completion)
         }
     }
+    
+    // MARK: BDT does not cover following methods.
     
     /**
     Related page: performs a search using title of article as the search query.
@@ -200,7 +221,7 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getRelatedArticles(paginator:Paginator, thing:Thing, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    public func getRelatedArticles(paginator:Paginator, thing:Thing, withoutLink:Bool = false, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = [:]
         parameter["limit"] = "\(limit)"
         parameter["show"] = "all"
@@ -208,14 +229,10 @@ extension Session {
         parameter.update(paginator.parameters())
         
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/related/" + thing.id, parameter:parameter, method:"GET", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
-            completion(result)
-        })
-        task.resume()
-        return task
+        if withoutLink {
+            return handleRequestFilteringLinkObject(request, completion: completion)
+        }
+        return handleRequest(request, completion: completion)
     }
     
     /**
@@ -227,7 +244,7 @@ extension Session {
     :param: completion The completion handler to call when the load request is complete.
     :returns: Data task which requests search to reddit.com.
     */
-    public func getDuplicatedArticles(paginator:Paginator, thing:Thing, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    public func getDuplicatedArticles(paginator:Paginator, thing:Thing, withoutLink:Bool = false, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = [:]
         parameter["limit"] = "\(limit)"
         parameter["show"] = "all"
@@ -235,14 +252,10 @@ extension Session {
         parameter.update(paginator.parameters())
         
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/duplicates/" + thing.id, parameter:parameter, method:"GET", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
-            completion(result)
-        })
-        task.resume()
-        return task
+        if withoutLink {
+            return handleRequestFilteringLinkObject(request, completion: completion)
+        }
+        return handleRequest(request, completion: completion)
     }
     
     /**

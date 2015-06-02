@@ -68,6 +68,27 @@ public enum CommentSort {
 			return "qa"
 		}
 	}
+    
+    public var description:String {
+        switch self{
+        case .Confidence:
+            return "Sort by Confidence"
+        case .Top:
+            return "Sort by Top"
+        case .New:
+            return "Sort by New"
+        case .Hot:
+            return "Sort by Hot"
+        case .Controversial:
+            return "Sort by Controversial"
+        case .Old:
+            return "Sort by time?"
+        case .Random:
+            return "Random"
+        case .Qa:
+            return "Sort by Quality?"
+        }
+    }
 }
 
 /**
@@ -103,7 +124,24 @@ public enum TimeFilterWithin {
 		case .All:
 			return "all"
 		}
-	}
+    }
+    
+    public var description:String {
+        switch self{
+        case .Hour:
+            return "Within an hour"
+        case .Day:
+            return "Within a day"
+        case .Week:
+            return "Within a week"
+        case .Month:
+            return "Within a month"
+        case .Year:
+            return "Within a year"
+        case .All:
+            return "All"
+        }
+    }
 }
 
 /**
@@ -125,6 +163,19 @@ public enum LinkSortType {
             return "/hot"
         case .New:
             return "/new"
+        }
+    }
+    
+    public var description:String {
+        switch self{
+        case .Controversial:
+            return "Sort by Controversial"
+        case .Top:
+            return "Sort by Top"
+        case .Hot:
+            return "Sort by Hot"
+        case .New:
+            return "Sort by New"
         }
     }
 }
