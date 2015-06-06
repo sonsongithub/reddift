@@ -13,70 +13,70 @@ let OAuth2TokenDidUpdate = "OAuth2TokenDidUpdate"
 /**
 OAuth2 token for access reddit.com API.
 */
-public class OAuth2Token : NSObject, NSCoding {
-    static let baseURL = "https://www.reddit.com/api/v1"
-    
-    var accessToken = ""
-    var tokenType = ""
-    var _expiresIn = 0
-    var scope = ""
-    var refreshToken = ""
-    
-    /// User name, which is used to save token into keychian.
+public struct OAuth2Token : Token {
+    public static var baseURL = "https://www.reddit.com/api/v1"
+    public var accessToken = ""
+    public var tokenType = ""
+    public var expiresIn = 0
+    public var scope = ""
+    public var refreshToken = ""
     public var name = ""
-    /// Date when the current access token expires.
     public var expiresDate:NSTimeInterval = 0
     
-    // MARK:
-    
-    public func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(name, forKey: "name")
-        aCoder.encodeObject(accessToken, forKey: "accessToken")
-        aCoder.encodeObject(tokenType, forKey: "tokenType")
-        aCoder.encodeObject(_expiresIn, forKey: "_expiresIn")
-        aCoder.encodeObject(expiresDate, forKey: "expiresDate")
-        aCoder.encodeObject(scope, forKey: "scope")
-        aCoder.encodeObject(refreshToken, forKey: "refreshToken")
+    /**
+    Initialize vacant OAuth2AppOnlyToken with JSON.
+    */
+    public init() {
+        self.name = ""
+        self.accessToken = ""
+        self.tokenType = ""
+        self.expiresIn = 0
+        self.scope = ""
+        self.refreshToken = ""
     }
-    
-    public required init(coder aDecoder: NSCoder) {
-        name = aDecoder.decodeObjectForKey("name") as! String
-        accessToken = aDecoder.decodeObjectForKey("accessToken") as! String
-        tokenType = aDecoder.decodeObjectForKey("tokenType") as! String
-        _expiresIn = aDecoder.decodeObjectForKey("_expiresIn") as! Int
-        expiresDate = aDecoder.decodeObjectForKey("expiresDate") as! NSTimeInterval
-        scope = aDecoder.decodeObjectForKey("scope") as! String
-        refreshToken = aDecoder.decodeObjectForKey("refreshToken") as! String
-    }
-    
-    // MARK:
     
     /**
-    Initialize OAuth2Token.
+    Initialize OAuth2AppOnlyToken with JSON.
     
-    :param: accessToken access token which is got from reddit.com.
-    :param: tokenType token type which is got from reddit.com.
-    :param: expiresIn time until token is expired.
-    :param: scope scope has been authorized by reddit.com.
-    :param: refreshToken refresh token which is got from reddit.com.
+    :param: json JSON as [String:AnyObject] should include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token".
     */
-    init(accessToken:String, tokenType:String, expiresIn:Int, scope:String, refreshToken:String) {
-        super.init()
-        self.accessToken = accessToken
-        self.tokenType = tokenType
-        self.expiresIn = expiresIn
-        self.scope = scope
-        self.refreshToken = refreshToken
+    public init(_ json:[String:AnyObject]) {
+        self.name = json["name"] as? String ?? ""
+        self.accessToken = json["access_token"] as? String ?? ""
+        self.tokenType = json["token_type"] as? String ?? ""
+        self.expiresIn = json["expires_in"] as? Int ?? 0
+        self.expiresDate = json["expires_date"] as? NSTimeInterval ?? NSDate.timeIntervalSinceReferenceDate() + Double(self.expiresIn)
+        self.scope = json["scope"] as? String ?? ""
+        self.refreshToken = json["refresh_token"] as? String ?? ""
+    }
+    
+    /**
+    Create OAuth2Token object from JSON.
+    
+    :param: json JSON object as [String:AnyObject] must include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token". If it does not, returns Result<NSError>.
+    :returns: OAuth2Token object includes a new access token.
+    */
+    static func tokenWithJSON(json:JSON) -> Result<OAuth2Token> {
+        var token:OAuth2Token? = nil
+        if let json = json as? JSONDictionary {
+            if let temp1 = json["access_token"] as? String,
+                temp2 = json["token_type"] as? String,
+                temp3 = json["expires_in"] as? Int,
+                temp4 = json["scope"] as? String,
+                temp5 = json["refresh_token"] as? String {
+                    return Result(value: OAuth2Token(json))
+            }
+        }
+        return Result(error:ReddiftError.ParseAccessToken.error)
     }
     
     /**
     Create NSMutableURLRequest object to request getting an access token.
     
     :param: code The code which is obtained from OAuth2 redict URL at reddit.com.
-    
     :returns: NSMutableURLRequest object to request your access token.
     */
-    class func requestForOAuth(code:String) -> NSMutableURLRequest {
+    static func requestForOAuth(code:String) -> NSMutableURLRequest {
         var URL = NSURL(string: OAuth2Token.baseURL + "/access_token")!
         var request = NSMutableURLRequest(URL:URL)
         request.setRedditBasicAuthentication()
@@ -85,47 +85,6 @@ public class OAuth2Token : NSObject, NSCoding {
         request.HTTPBody = data
         request.HTTPMethod = "POST"
         return request
-    }
-    
-    /**
-    Create OAuth2Token object from JSON.
-    
-    :param: json JSON object.
-    
-    :returns: OAuth2Token object includes a new access token.
-    */
-    class func tokenWithJSON(json:JSON) -> Result<OAuth2Token> {
-        var token:OAuth2Token? = nil
-        if let temp1 = json["access_token"] as? String,
-            temp2 = json["token_type"] as? String,
-            temp3 = json["expires_in"] as? Int,
-            temp4 = json["scope"] as? String,
-            temp5 = json["refresh_token"] as? String {
-                token = OAuth2Token(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:temp5)
-        }
-        return resultFromOptional(token, ReddiftError.ParseAccessToken.error)
-    }
-    
-    /**
-    Update each property according to the new json object which is obtained from reddit.com.
-    This method is used when your access token is refreshed by a refresh token.
-    
-    :param: json JSON object is parsed by NSJSONSerialization.JSONObjectWithData method.
-    
-    :returns: Result object. 
-    */
-    func updateWithJSON(json:JSON) -> Result<OAuth2Token> {
-        if  let temp1 = json["access_token"] as? String,
-            temp2 = json["token_type"] as? String,
-            temp3 = json["expires_in"] as? Int,
-            temp4 = json["scope"] as? String {
-                accessToken = temp1
-                tokenType = temp2
-                expiresIn = temp3
-                scope = temp4
-                return Result(value:self)
-        }
-        return Result(error:ReddiftError.ParseAccessToken.error)
     }
     
     /**
@@ -160,34 +119,32 @@ public class OAuth2Token : NSObject, NSCoding {
         return request
     }
     
-    // MARK:
-    
-    /**
-    Time inteval the access token expires from being authorized.
-    */
-    public var expiresIn:Int {
-        set (newValue) {
-            _expiresIn = newValue
-            expiresDate = NSDate.timeIntervalSinceReferenceDate() + Double(_expiresIn)
-        }
-        get {
-            return _expiresIn
-        }
-    }
-    
     /**
     Request to refresh access token.
     
     :param: completion The completion handler to call when the load request is complete.
-    
     :returns: Data task which requests search to reddit.com.
     */
     public func refresh(completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(requestForRefreshing(), completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> self.updateWithJSON
-            completion(result)
+            let result = responseResult >>> parseResponse >>> decodeJSON
+            switch result {
+            case .Success:
+                if var json = result.value as? [String:AnyObject] {
+                    json["name"] = self.name
+                    json["refresh_token"] = self.refreshToken
+                    completion(OAuth2Token.tokenWithJSON(json))
+                    return
+                }
+            case .Failure:
+                if let error = result.error {
+                    completion(Result(error: error))
+                    return
+                }
+            }
+            completion(Result(error: NSError.errorWithCode(0, "")))
         })
         task.resume()
         return task
@@ -197,7 +154,6 @@ public class OAuth2Token : NSObject, NSCoding {
     Request to revoke access token.
     
     :param: completion The completion handler to call when the load request is complete.
-    
     :returns: Data task which requests search to reddit.com.
     */
     public func revoke(completion:(Result<JSON>)->Void) -> NSURLSessionDataTask {
@@ -216,15 +172,23 @@ public class OAuth2Token : NSObject, NSCoding {
     
     :param: code Code to be confirmed your identity by reddit.
     :param: completion The completion handler to call when the load request is complete.
-    
     :returns: Data task which requests search to reddit.com.
     */
-    public class func getOAuth2Token(code:String, completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask {
+    public static func getOAuth2Token(code:String, completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask {
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(requestForOAuth(code), completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> OAuth2Token.tokenWithJSON
-            completion(result)
+            switch result {
+            case .Success:
+                if let token = result.value {
+                    token.getProfile({ (result) -> Void in
+                        completion(result)
+                    })
+                }
+            case .Failure:
+                completion(result)
+            }
         })
         task.resume()
         return task
@@ -235,16 +199,28 @@ public class OAuth2Token : NSObject, NSCoding {
     Use Session.getProfile instead of this.
     
     :param: completion The completion handler to call when the load request is complete.
-    
     :returns: Data task which requests search to reddit.com.
     */
-    public func getProfile(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    func getProfile(completion:(Result<OAuth2Token>) -> Void) -> NSURLSessionDataTask? {
         var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/v1/me", method:"GET", token:self)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseThing_t2_JSON
-            completion(result)
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseDataInJSON_t2
+            switch result {
+            case .Success:
+                if let profile = result.value as? Account {
+                    var json:[String:AnyObject] = ["name":profile.name, "access_token":self.accessToken, "token_type":self.tokenType, "expires_in":self.expiresIn, "expires_date":self.expiresDate, "scope":self.scope, "refresh_token":self.refreshToken]
+                    completion(OAuth2Token.tokenWithJSON(json))
+                    return
+                }
+            case .Failure:
+                if let error = result.error {
+                    completion(Result(error: error))
+                    return
+                }
+            }
+            completion(Result(error: NSError.errorWithCode(0, "")))
         })
         task.resume()
         return task

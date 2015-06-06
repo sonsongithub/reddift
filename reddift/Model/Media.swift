@@ -11,27 +11,23 @@ import Foundation
 /**
 Media represents the content which is embeded a link.
 */
-public class Media {
+public struct Media {
     /**
     example "i.imgur.com"
     */
-    public var type = ""
+    public let type:String
     /**
     oembed object
     */
-    public var oembed:Oembed = Oembed()
+    public let oembed:Oembed
     /**
     Update each property with JSON object.
     
     :param: json JSON object which is included "t2" JSON.
     */
-    func updateWithJSON(json:[String:AnyObject]) {
-        if let temp = json["type"] as? String {
-            self.type = temp
-        }
-        if let temp = json["oembed"] as? [String:AnyObject] {
-            self.oembed.updateWithJSON(temp)
-        }
+    public init(json:JSONDictionary) {
+		type = json["type"] as? String ?? ""
+        oembed = Oembed(json:(json["oembed"] as? JSONDictionary ?? [:]))
     }
 	
 	public func toString() -> String {

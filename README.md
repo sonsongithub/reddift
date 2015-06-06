@@ -77,29 +77,15 @@ At first, you have to implement codes to receive the response of OAuth2 in ```UI
 reddift let you save tokens as a specified name into KeyChain.
 Specifically, following sample code saves token as user name at reddit.com.
 
-    func application(
-        application: UIApplication,
-        openURL url: NSURL,
-        sourceApplication: String?,
-        annotation: AnyObject?) -> Bool
-    {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
         return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion:{(result) -> Void in
             switch result {
             case let .Failure:
                 println(result.error)
             case let .Success:
-                if let token = result.value as OAuth2Token? {
-                    token.getProfile({ (result) -> Void in
-                        switch result {
-                        case let .Failure:
-                            println(result.error)
-                        case let .Success:
-                            if let profile = result.value as? Account {
-                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                    OAuth2TokenRepository.saveIntoKeychainToken(token, name:profile.name)
-                                })
-                            }
-                        }
+                if var token = result.value as OAuth2Token? {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        OAuth2TokenRepository.saveIntoKeychainToken(token, name:token.name)
                     })
                 }
             }
@@ -166,7 +152,7 @@ Do not use ```Oauth2AppOnlyToken``` in installed app in terms of security.
 
 #### Further more,
 
-In more detail, See the sample application or test code included in reddift.
+In more detail, See my sample application, test code or Playground code included in this repository.
 
 ## How to build test
 
@@ -198,6 +184,14 @@ Fill each following value using above preference pain of reddit.com.
       "client_id": "test app client ID(must be script type app)",
       "secret": "test app secret"
     }
+
+## Playground
+
+You can play with reddift in Playground.
+In more detail, check reddift.playground package.
+Before using, you have to copy ```test_config.json``` into ```./reddift.playground/Resources``` in order to specify user account and your application informatin because reddift on Playground uses "Application Only OAuth".
+
+![playground](https://cloud.githubusercontent.com/assets/33768/7865908/e14d47b0-05a6-11e5-9799-a1cc9aa53428.png)
 
 ## Dependency
 

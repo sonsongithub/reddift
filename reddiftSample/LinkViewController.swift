@@ -64,7 +64,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
                 return
             }
             loading = true
-			session?.getList(paginator, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.All, subreddit:subreddit, completion: { (result) in
+			session?.getList(paginator, subreddit:subreddit, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.All, completion: { (result) in
                 switch result {
                 case let .Failure:
                     println(result.error)
@@ -76,12 +76,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
                                 self.links.append(link)
                             }
                         }
-						if let paginator = listing.paginator {
-							self.paginator = paginator
-						}
-						else {
-							self.paginator = Paginator()
-						}
+                        self.paginator = listing.paginator
                     }
                     self.updateStrings()
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in

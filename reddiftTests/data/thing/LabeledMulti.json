@@ -1,0 +1,24 @@
+{
+    "can_edit": true,
+    "display_name": "english",
+    "name": "english",
+    "description_html": "",
+    "created": 1432028681,
+    "copied_from": null,
+    "icon_url": null,
+    "subreddits": [
+                   {
+                   "name": "redditdev"
+                   },
+                   {
+                   "name": "swift"
+                   }
+                   ],
+    "created_utc": 1431999881,
+    "key_color": "#cee3f8",
+    "visibility": "private",
+    "icon_name": "",
+    "weighting_scheme": "classic",
+    "path": "/user/sonson_twit/m/english",
+    "description_md": ""
+}

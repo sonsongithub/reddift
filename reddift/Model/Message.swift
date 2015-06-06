@@ -11,87 +11,143 @@ import Foundation
 /**
 Message object.
 */
-public class Message : Thing {
+public struct Message : Thing {
+    /// identifier of Thing like 15bfi0.
+    public var id:String
+    /// name of Thing, that is fullname, like t3_15bfi0.
+    public var name:String
+    /// type of Thing, like t3.
+    public static var kind = "t4"
+    
     /**
     the message itself
     example: Hello! [Hola!](http....
     */
-    public var  body = ""
+    public let  body:String
     /**
     
     example: false
     */
-    public var wasComment = false
+    public let wasComment:Bool
     /**
     
     example:
     */
-    public var firstMessage = ""
+    public let firstMessage:String
     /**
     either null or the first message's fullname
     example:
     */
-    public var firstMessageName = ""
+    public let firstMessageName:String
     /**
     
     example: 1427126074
     */
-    public var  created = 0
+    public let  created:Int
     /**
     
     example: sonson_twit
     */
-    public var  dest = ""
+    public let  dest:String
     /**
     
     example: reddit
     */
-    public var  author = ""
+    public let  author:String
     /**
     
     example: 1427122474
     */
-    public var createdUtc = 0
+    public let createdUtc:Int
     /**
     the message itself with HTML formatting
     example: &lt;!-- SC_OFF --&gt;&l....
     */
-    public var bodyHtml = ""
+    public let bodyHtml:String
     /**
     null if not a comment.
     example:
     */
-    public var  subreddit = ""
+    public let  subreddit:String
     /**
     null if no parent is attached
     example:
     */
-    public var parentId = ""
+    public let parentId:String
     /**
     if the message is a comment, then the permalink to the comment with ?context=3 appended to the end, otherwise an empty string
     example:
     */
-    public var  context = ""
+    public let  context:String
     /**
     Again, an empty string if there are no replies.
     example:
     */
-    public var  replies = ""
+    public let  replies:String
     /**
     unread?  not sure
     example: false
     */
-    public var  new = false
+    public let  new:Bool
     /**
     
     example: admin
     */
-    public var  distinguished = ""
+    public let  distinguished:String
     /**
     subject of message
     example: Hello, /u/sonson_twit! Welcome to reddit!
     */
-    public var  subject = ""
+    public let  subject:String
+    
+    public init(id:String) {
+        self.id = id
+        self.name = "\(Message.kind)_\(self.id)"
+        
+        body = ""
+        wasComment = false
+        firstMessage = ""
+        firstMessageName = ""
+        created = 0
+        dest = ""
+        author = ""
+        createdUtc = 0
+        bodyHtml = ""
+        subreddit = ""
+        parentId = ""
+        context = ""
+        replies = ""
+        new = false
+        distinguished = ""
+        subject = ""
+    }
+    
+    /**
+    Parse t4 object.
+    
+    :param: data Dictionary, must be generated parsing "t4".
+    :returns: Message object as Thing.
+    */
+    public init(data:JSONDictionary) {
+        id = data["id"] as? String ?? ""
+        body = data["body"] as? String ?? ""
+        wasComment = data["was_comment"] as? Bool ?? false
+        firstMessage = data["first_message"] as? String ?? ""
+        name = data["name"] as? String ?? ""
+        firstMessageName = data["first_message_name"] as? String ?? ""
+        created = data["created"] as? Int ?? 0
+        dest = data["dest"] as? String ?? ""
+        author = data["author"] as? String ?? ""
+        createdUtc = data["created_utc"] as? Int ?? 0
+        bodyHtml = data["body_html"] as? String ?? ""
+        subreddit = data["subreddit"] as? String ?? ""
+        parentId = data["parent_id"] as? String ?? ""
+        context = data["context"] as? String ?? ""
+        replies = data["replies"] as? String ?? ""
+        new = data["new"] as? Bool ?? false
+        distinguished = data["distinguished"] as? String ?? ""
+        subject = data["subject"] as? String ?? ""
+    }
 }
 
 

@@ -30,9 +30,9 @@ class CAPTCHATest: SessionTestSpec {
                         case let .Success:
                             check = result.value
                         }
-                        
+                        NSThread.sleepForTimeInterval(self.testInterval)
                     })
-                    expect(check).toEventuallyNot(equal(nil), timeout: 10, pollInterval: 1)
+                    expect(check).toEventuallyNot(equal(nil), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
                 }
             }
             
@@ -46,8 +46,9 @@ class CAPTCHATest: SessionTestSpec {
                         case let .Success:
                             iden = result.value
                         }
+                        NSThread.sleepForTimeInterval(self.testInterval)
                     })
-                    expect(iden).toEventuallyNot(equal(nil), timeout: 10, pollInterval: 1)
+                    expect(iden).toEventuallyNot(equal(nil), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
                 }
             }
             
@@ -76,13 +77,14 @@ class CAPTCHATest: SessionTestSpec {
                                 })
                             }
                         }
+                        NSThread.sleepForTimeInterval(self.testInterval)
                     })
-                    expect(size).toEventuallyNot(equal(nil), timeout: 10, pollInterval: 1)
+                    expect(size).toEventuallyNot(equal(nil), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
                     if let size = size {
                     #if os(iOS)
-                        expect(size).toEventually(equal(CGSize(width: 120, height: 50)), timeout: 10, pollInterval: 1)
+                        expect(size).toEventually(equal(CGSize(width: 120, height: 50)), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
                     #elseif os(OSX)
-                        expect(size).toEventually(equal(NSSize(width: 120, height: 50)), timeout: 10, pollInterval: 1)
+                        expect(size).toEventually(equal(NSSize(width: 120, height: 50)), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
                     #endif
                     }
                 }

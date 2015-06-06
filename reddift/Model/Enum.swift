@@ -21,6 +21,9 @@ public enum CommentSort {
 	case Random
 	case Qa
 	
+	/**
+	Returns string to create a path of URL.
+	*/
 	public var path:String {
 		switch self{
 		case .Confidence:
@@ -42,6 +45,9 @@ public enum CommentSort {
 		}
 	}
 	
+	/**
+	Returns string to show titles.
+	*/
 	public var type:String {
 		switch self{
 		case .Confidence:
@@ -62,6 +68,27 @@ public enum CommentSort {
 			return "qa"
 		}
 	}
+    
+    public var description:String {
+        switch self{
+        case .Confidence:
+            return "Sort by Confidence"
+        case .Top:
+            return "Sort by Top"
+        case .New:
+            return "Sort by New"
+        case .Hot:
+            return "Sort by Hot"
+        case .Controversial:
+            return "Sort by Controversial"
+        case .Old:
+            return "Sort by time?"
+        case .Random:
+            return "Random"
+        case .Qa:
+            return "Sort by Quality?"
+        }
+    }
 }
 
 /**
@@ -97,24 +124,60 @@ public enum TimeFilterWithin {
 		case .All:
 			return "all"
 		}
-	}
+    }
+    
+    public var description:String {
+        switch self{
+        case .Hour:
+            return "Within an hour"
+        case .Day:
+            return "Within a day"
+        case .Week:
+            return "Within a week"
+        case .Month:
+            return "Within a month"
+        case .Year:
+            return "Within a year"
+        case .All:
+            return "All"
+        }
+    }
 }
 
 /**
-The sort method for listing Link object, "/r/[subreddit]/[sort]" or "/[sort]".
+The sort method for listing Link object, reddift original.
 */
-public enum LinkSortBy {
-	case Controversial
-	case Top
-	
-	public var path:String {
-		switch self{
-		case .Controversial:
-			return "/controversial"
-		case .Top:
-			return "/hot"
-		}
-	}
+public enum LinkSortType {
+    case Controversial
+    case Top
+    case Hot
+    case New
+    
+    public var path:String {
+        switch self{
+        case .Controversial:
+            return "/controversial"
+        case .Top:
+            return "/top"
+        case .Hot:
+            return "/hot"
+        case .New:
+            return "/new"
+        }
+    }
+    
+    public var description:String {
+        switch self{
+        case .Controversial:
+            return "Sort by Controversial"
+        case .Top:
+            return "Sort by Top"
+        case .Hot:
+            return "Sort by Hot"
+        case .New:
+            return "Sort by New"
+        }
+    }
 }
 
 /**

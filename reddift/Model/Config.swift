@@ -14,15 +14,15 @@ This class is used as singleton model
 */
 struct Config {
 	/// Application verison, be updated by Info.plist later.
-	var version = "1.0"
+    let version:String
 	/// Bundle identifier, be updated by Info.plist later.
-    var bundleIdentifier = ""
+    let bundleIdentifier:String
 	/// Developer's reddit user name
-	var developerName = ""
+    let developerName:String
 	/// OAuth redirect URL you register
-    var redirectURI = ""
+    let redirectURI:String
 	/// Application ID
-    var clientID = ""
+    let clientID:String
     
     /**
     Singleton model.
@@ -49,26 +49,24 @@ struct Config {
     }
 	
     init() {
-		if let temp = NSBundle.infoValueFromMainBundleForKey("CFBundleShortVersionString") as? String{
-			version = temp
-		}
-		if let temp = NSBundle.infoValueFromMainBundleForKey("CFBundleIdentifier") as? String{
-			bundleIdentifier = temp
-		}
+        version =  NSBundle.infoValueFromMainBundleForKey("CFBundleShortVersionString") as? String ?? "1.0"
+		bundleIdentifier = NSBundle.infoValueFromMainBundleForKey("CFBundleIdentifier") as? String ?? ""
+        
+        var _developerName:String? = nil
+        var _redirectURI:String? = nil
+        var _clientID:String? = nil
 		if let path = NSBundle.mainBundle().pathForResource("reddift_config", ofType: "json") {
 			if let data = NSData(contentsOfFile: path) {
-				if let json:[String:AnyObject] = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject] {
-					if let temp = json["DeveloperName"] as? String{
-						developerName = temp
-					}
-					if let temp = json["redirect_uri"] as? String{
-						redirectURI = temp
-					}
-					if let temp = json["client_id"] as? String{
-						clientID = temp
-					}
+				if let json:JSONDictionary = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? JSONDictionary {
+					_developerName = json["DeveloperName"] as? String
+					_redirectURI = json["redirect_uri"] as? String
+					_clientID = json["client_id"] as? String
 				}
 			}
 		}
+        
+        developerName = _developerName ?? ""
+        redirectURI = _redirectURI ?? ""
+        clientID = _clientID ?? ""
     }
 }

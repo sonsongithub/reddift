@@ -8,20 +8,32 @@
 
 import Foundation
 
+/// Protocol to integrate a code for subreddit and multireddit.
+public protocol SubredditURLPath {
+    var path:String {get}
+}
+
 /**
 Subreddit object.
 */
-public class Subreddit : Thing {
+public struct Subreddit : SubredditURLPath, Thing {
+    /// identifier of Thing like 15bfi0.
+    public var id:String
+    /// name of Thing, that is fullname, like t3_15bfi0.
+    public var name:String
+    /// type of Thing, like t3.
+    public static var kind = "t5"
+    
     /**
     
     example:
     */
-    public var bannerImg = ""
+    public let bannerImg:String
     /**
     
     example: true
     */
-    public var userSrThemeEnabled = false
+    public let userSrThemeEnabled:Bool
     /**
     
     example: &lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;&lt;strong&gt;GIFs are banned.&lt;/strong&gt;
@@ -37,12 +49,12 @@ public class Subreddit : Thing {
     What is WoahDude-worthy content? &lt;a href="http://www.reddit.com/r/woahdude/wiki/index#wiki_what_is_.22woahdude_material.22.3F"&gt;(Read more)&lt;/a&gt;&lt;/p&gt;
     &lt;/div&gt;&lt;!-- SC_ON --&gt;
     */
-    public var submitTextHtml = ""
+    public let submitTextHtml:String
     /**
     whether the logged-in user is banned from the subreddit
     example: false
     */
-    public var userIsBanned = false
+    public let userIsBanned:Bool
     /**
     
     example: **GIFs are banned.**
@@ -57,17 +69,17 @@ public class Subreddit : Thing {
     **Trippy or Mesmerizing content only!**
     What is WoahDude-worthy content? [(Read more)](http://www.reddit.com/r/woahdude/wiki/index#wiki_what_is_.22woahdude_material.22.3F)
     */
-    public var submitText = ""
+    public let submitText:String
     /**
     human name of the subreddit
     example: woahdude
     */
-    public var displayName = ""
+    public let displayName:String
     /**
     full URL to the header image, or null
     example: http://b.thumbs.redditmedia.com/fnO6IreM4s_Em4dTIU2HtmZ_NTw7dZdlCoaLvtKwbzM.png
     */
-    public var headerImg = ""
+    public let headerImg:String
     /**
     sidebar text, escaped HTML format
     example: &lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;h5&gt;&lt;a href="https://www.reddit.com/r/woahdude/comments/2qi1jh/best_of_rwoahdude_2014_results/?"&gt;Best of WoahDude 2014 ⇦&lt;/a&gt;&lt;/h5&gt;
@@ -144,22 +156,22 @@ public class Subreddit : Thing {
     &lt;h5&gt;&lt;a href="http://emilydavis.bandcamp.com/track/sagans-song"&gt;http://emilydavis.bandcamp.com/track/sagans-song&lt;/a&gt;&lt;/h5&gt;
     &lt;/div&gt;&lt;!-- SC_ON --&gt;
     */
-    public var descriptionHtml = ""
+    public let descriptionHtml:String
     /**
     title of the main page
     example: The BEST links to click while you're STONED
     */
-    public var  title = ""
+    public let  title:String
     /**
     
     example: true
     */
-    public var collapseDeletedComments = false
+    public let collapseDeletedComments:Bool
     /**
     whether the subreddit is marked as NSFW
     example: false
     */
-    public var  over18 = false
+    public let  over18:Bool
     /**
     
     example: &lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;The best links to click while you&amp;#39;re stoned!&lt;/p&gt;
@@ -169,22 +181,22 @@ public class Subreddit : Thing {
     &lt;p&gt;If you like to look at amazing stuff while smoking weed or doing other drugs, come inside for some Science, Philosophy, Mindfucks, Math, Engineering, Illusions and Cosmic weirdness.&lt;/p&gt;
     &lt;/div&gt;&lt;!-- SC_ON --&gt;
     */
-    public var publicDescriptionHtml = ""
+    public let publicDescriptionHtml:String
     /**
     
     example:
     */
-    public var iconSize:[Int] = []
+    public let iconSize:[Int]
     /**
     
     example:
     */
-    public var iconImg = ""
+    public let iconImg:String
     /**
     description of header image shown on hover, or null
     example: Turn on the stylesheet and click Carl Sagan's head
     */
-    public var headerTitle = ""
+    public let headerTitle:String
     /**
     sidebar text
     example: #####[Best of WoahDude 2014 ⇦](https://www.reddit.com/r/woahdude/comments/2qi1jh/best_of_rwoahdude_2014_results/?)
@@ -253,72 +265,72 @@ public class Subreddit : Thing {
     
     #####http://emilydavis.bandcamp.com/track/sagans-song
     */
-    public var  description = ""
+    public let  description:String
     /**
     the subreddit's custom label for the submit link button, if any
     example: SUBMIT LINK
     */
-    public var submitLinkLabel = ""
+    public let submitLinkLabel:String
     /**
     number of users active in last 15 minutes
     example:
     */
-    public var accountsActive = 0
+    public let accountsActive:Int
     /**
     whether the subreddit's traffic page is publicly-accessible
     example: false
     */
-    public var publicTraffic = false
+    public let publicTraffic:Bool
     /**
     width and height of the header image, or null
     example: [145, 60]
     */
-    public var headerSize:[Int] = []
+    public let headerSize:[Int]
     /**
     the number of redditors subscribed to this subreddit
     example: 778611
     */
-    public var  subscribers = 0
+    public let  subscribers:Int
     /**
     the subreddit's custom label for the submit text button, if any
     example: SUBMIT TEXT
     */
-    public var submitTextLabel = ""
+    public let submitTextLabel:String
     /**
     whether the logged-in user is a moderator of the subreddit
     example: false
     */
-    public var userIsModerator = false
+    public let userIsModerator:Bool
     /**
     
     example: 1254666760
     */
-    public var  created = 0
+    public let  created:Int
     /**
     The relative URL of the subreddit.  Ex: "/r/pics/"
     example: /r/woahdude/
     */
-    public var  url = ""
+    public let  url:String
     /**
     
     example: false
     */
-    public var hideAds = false
+    public let hideAds:Bool
     /**
     
     example: 1254663160
     */
-    public var createdUtc = 0
+    public let createdUtc:Int
     /**
     
     example:
     */
-    public var bannerSize:[Int] = []
+    public let bannerSize:[Int]
     /**
     whether the logged-in user is an approved submitter in the subreddit
     example: false
     */
-    public var userIsContributor = false
+    public let userIsContributor:Bool
     /**
     Description shown in subreddit search results?
     example: The best links to click while you're stoned!
@@ -329,30 +341,155 @@ public class Subreddit : Thing {
     
     
     */
-    public var publicDescription = ""
+    public let publicDescription:String
     /**
     number of minutes the subreddit initially hides comment scores
     example: 0
     */
-    public var commentScoreHideMins = 0
+    public let commentScoreHideMins:Int
     /**
     the subreddit's type - one of "public", "private", "restricted", or in very special cases "gold_restricted" or "archived"
     example: public
     */
-    public var subredditType = ""
+    public let subredditType:String
     /**
     the type of submissions the subreddit allows - one of "any", "link" or "self"
     example: any
     */
-    public var submissionType = ""
+    public let submissionType:String
     /**
     whether the logged-in user is subscribed to the subreddit
     example: true
     */
-    public var userIsSubscriber = false
+    public let userIsSubscriber:Bool
     
-    public override func toString() -> String {
-        return "url=\(url)\ntitle=\(title)"
+    public var path:String {
+        return "/r/\(displayName)"
+    }
+    
+    public init(subreddit:String) {
+        self.id = "dummy"
+        self.name = "\(Subreddit.kind)_\(self.id)"
+        
+        bannerImg = ""
+        userSrThemeEnabled = false
+        submitTextHtml = ""
+        userIsBanned = false
+        submitText = ""
+        displayName = subreddit
+        headerImg = ""
+        descriptionHtml = ""
+        title = ""
+        collapseDeletedComments = false
+        over18 = false
+        publicDescriptionHtml = ""
+        iconSize = []
+        iconImg = ""
+        headerTitle = ""
+        description = ""
+        submitLinkLabel = ""
+        accountsActive = 0
+        publicTraffic = false
+        headerSize = []
+        subscribers = 0
+        submitTextLabel = ""
+        userIsModerator = false
+        created = 0
+        url = ""
+        hideAds = false
+        createdUtc = 0
+        bannerSize = []
+        userIsContributor = false
+        publicDescription = ""
+        commentScoreHideMins = 0
+        subredditType = ""
+        submissionType = ""
+        userIsSubscriber = false
+    }
+
+    public init(id:String) {
+        self.id = id
+        self.name = "\(Subreddit.kind)_\(self.id)"
+        
+        bannerImg = ""
+        userSrThemeEnabled = false
+        submitTextHtml = ""
+        userIsBanned = false
+        submitText = ""
+        displayName = ""
+        headerImg = ""
+        descriptionHtml = ""
+        title = ""
+        collapseDeletedComments = false
+        over18 = false
+        publicDescriptionHtml = ""
+        iconSize = []
+        iconImg = ""
+        headerTitle = ""
+        description = ""
+        submitLinkLabel = ""
+        accountsActive = 0
+        publicTraffic = false
+        headerSize = []
+        subscribers = 0
+        submitTextLabel = ""
+        userIsModerator = false
+        created = 0
+        url = ""
+        hideAds = false
+        createdUtc = 0
+        bannerSize = []
+        userIsContributor = false
+        publicDescription = ""
+        commentScoreHideMins = 0
+        subredditType = ""
+        submissionType = ""
+        userIsSubscriber = false
+    }
+    
+    /**
+    Parse t5 object.
+    
+    :param: data Dictionary, must be generated parsing "t5".
+    :returns: Subreddit object as Thing.
+    */
+    public init(data:JSONDictionary) {
+        id = data["id"] as? String ?? ""
+        bannerImg = data["banner_img"] as? String ?? ""
+        userSrThemeEnabled = data["user_sr_theme_enabled"] as? Bool ?? false
+        submitTextHtml = data["submit_text_html"] as? String ?? ""
+        userIsBanned = data["user_is_banned"] as? Bool ?? false
+        submitText = data["submit_text"] as? String ?? ""
+        displayName = data["display_name"] as? String ?? ""
+        headerImg = data["header_img"] as? String ?? ""
+        descriptionHtml = data["description_html"] as? String ?? ""
+        title = data["title"] as? String ?? ""
+        collapseDeletedComments = data["collapse_deleted_comments"] as? Bool ?? false
+        over18 = data["over18"] as? Bool ?? false
+        publicDescriptionHtml = data["public_description_html"] as? String ?? ""
+        iconSize = data["icon_size"] as? [Int] ?? []
+        iconImg = data["icon_img"] as? String ?? ""
+        headerTitle = data["header_title"] as? String ?? ""
+        description = data["description"] as? String ?? ""
+        submitLinkLabel = data["submit_link_label"] as? String ?? ""
+        accountsActive = data["accounts_active"] as? Int ?? 0
+        publicTraffic = data["public_traffic"] as? Bool ?? false
+        headerSize = data["header_size"] as? [Int] ?? []
+        subscribers = data["subscribers"] as? Int ?? 0
+        submitTextLabel = data["submit_text_label"] as? String ?? ""
+        userIsModerator = data["user_is_moderator"] as? Bool ?? false
+        name = data["name"] as? String ?? ""
+        created = data["created"] as? Int ?? 0
+        url = data["url"] as? String ?? ""
+        hideAds = data["hide_ads"] as? Bool ?? false
+        createdUtc = data["created_utc"] as? Int ?? 0
+        bannerSize = data["banner_size"] as? [Int] ?? []
+        userIsContributor = data["user_is_contributor"] as? Bool ?? false
+        publicDescription = data["public_description"] as? String ?? ""
+        commentScoreHideMins = data["comment_score_hide_mins"] as? Int ?? 0
+        subredditType = data["subreddit_type"] as? String ?? ""
+        submissionType = data["submission_type"] as? String ?? ""
+        userIsSubscriber = data["user_is_subscriber"] as? Bool ?? false
     }
 }
 

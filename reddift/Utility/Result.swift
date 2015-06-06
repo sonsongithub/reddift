@@ -64,14 +64,6 @@ public func resultFromOptionalError<A>(value: A, optionalError: NSError?) -> Res
 
 infix operator >>> { associativity left precedence 150 }
 
-public func >>><A, B>(a: A?, f: A -> B?) -> B? {
-    if let x = a {
-        return f(x)
-    } else {
-        return .None
-    }
-}
-
 public func >>><A, B>(a: Result<A>, f: A -> Result<B>) -> Result<B> {
     switch a {
     case let .Success(x):     return f(x.value)

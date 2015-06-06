@@ -8,97 +8,98 @@
 
 import Foundation
 
+/**
+Uitility class.
+Parser class parses JSON and generates objects from it.
+*/
 class Parser: NSObject {
-    class func parseThing(json:[String:AnyObject]) -> AnyObject? {
-        if let data = json["data"] as? [String:AnyObject], kind = json["kind"] as? String {            
+	/**
+	Parse thing object in JSON.
+	This method dispatches element of JSON to eithr methods to extract classes derived from Thing class.
+	*/
+    class func parseThing(json:JSONDictionary) -> Any? {
+        if let data = json["data"] as? JSONDictionary, kind = json["kind"] as? String {
             switch(kind) {
             case "t1":
                 // comment
-                return parseDataInThing_t1(data)
+                return Comment(data:data)
             case "t2":
                 // account
-				return parseDataInThing_t2(data)
+                return Account(data:data)
             case "t3":
                 // link
-                return parseDataInThing_t3(data)
+                return Link(data:data)
             case "t4":
 				// mesasge
-				return parseDataInThing_t4(data)
+                return Message(data:data)
             case "t5":
                 // subreddit
-				return parseDataInThing_t5(data)
+                return Subreddit(data:data)
 			case "more":
-				return parseDataInThing_more(data)
+                return More(data:data)
+            case "LabeledMulti":
+                return Multireddit(json: data)
+            case "LabeledMultiDescription":
+                return MultiredditDescription(json: data)
             default:
                 break
             }
         }
         return nil
     }
-    
-    class func parseListing(json:[String:AnyObject]) -> Listing {
-        let listing = Listing()
-        if let data = json["data"] as? [String:AnyObject] {
-            if let children = data["children"] as? [AnyObject] {
+	
+	/**
+	Parse list object in JSON
+	*/
+    class func parseListing(json:JSONDictionary) -> Listing {
+        var list:[Thing] = []
+        var paginator:Paginator? = Paginator()
+        
+        if let data = json["data"] as? JSONDictionary {
+            if let children = data["children"] as? JSONArray {
                 for child in children {
-                    if let child = child as? [String:AnyObject] {
-                        let obj:AnyObject? = parseJSON(child)
+                    if let child = child as? JSONDictionary {
+                        let obj:Any? = parseJSON(child)
                         if let obj = obj as? Thing {
-                            if let more = obj as? More {
-                                listing.more = more
-                            }
-                            else {
-                                listing.children.append(obj)
-                            }
+                            list.append(obj)
                         }
                     }
                 }
             }
             
             if data["after"] != nil || data["before"] != nil {
-                var a:String = ""
-                var b:String = ""
-                if let after = data["after"] as? String {
-                    if !after.isEmpty {
-                        a = after
-                    }
-                }
-                if let before = data["before"] as? String {
-                    if !before.isEmpty {
-                        b = before
-                    }
-                }
+                var a:String = data["after"] as? String ?? ""
+                var b:String = data["before"] as? String ?? ""
                 
                 if !a.isEmpty || !b.isEmpty {
-                    var paginator = Paginator(after: a, before: b, modhash: "")
-                    if let modhash = data["modhash"] as? String {
-                        paginator.modhash = modhash
-                    }
-                    listing.paginator = paginator
+                    paginator = Paginator(after: a, before: b, modhash: data["modhash"] as? String ?? "")
                 }
             }
         }
-        return listing
+        return Listing(children:list, paginator: paginator ?? Paginator())
     }
-
-    class func parseJSON(json:AnyObject) -> AnyObject? {
+    
+	/**
+	Parse JSON of the style which is Thing.
+	*/
+    class func parseJSON(json:JSON) -> RedditAny? {
         // array
         // json->[AnyObject]
-        if let array = json as? [AnyObject] {
-            var output:[AnyObject] = []
+        if let array = json as? JSONArray {
+            var output:[Any] = []
             for element in array {
-                if let element = element as? [String:AnyObject] {
-                    let obj:AnyObject? = self.parseJSON(element)
-                    if let obj:AnyObject = obj {
+                if let element = element as? JSONDictionary {
+                    let obj:Any? = self.parseJSON(element)
+                    if let obj:Any = obj {
                         output.append(obj)
                     }
                 }
             }
             return output;
         }
-            // dictionary
-            // json->[String:AnyObject]
-        else if let json = json as? [String:AnyObject] {
+		// dictionary
+		// json->JSONDictionary
+        else if let json = json as? JSONDictionary {
             if let kind = json["kind"] as? String {
                 if kind == "Listing" {
                     let listing = parseListing(json)

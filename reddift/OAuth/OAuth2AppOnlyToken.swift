@@ -12,27 +12,58 @@ import Foundation
 OAuth2Token extension to authorize without a user context.
 This class is private and for only unit testing because "Installed app" is prohibited from using "Application Only OAuth" scheme, that is without user context.
 */
-public class OAuth2AppOnlyToken : OAuth2Token {
-    public override func encodeWithCoder(aCoder: NSCoder) {
-        super.encodeWithCoder(aCoder)
+public struct OAuth2AppOnlyToken : Token {
+    public static var baseURL = "https://www.reddit.com/api/v1"
+    public var accessToken = ""
+    public var tokenType = ""
+    public var _expiresIn = 0
+    public var scope = ""
+    public var refreshToken = ""
+    public var name = ""
+    public var expiresDate:NSTimeInterval = 0
+    
+    /**
+    Time inteval the access token expires from being authorized.
+    */
+    public var expiresIn:Int {
+        set (newValue) { _expiresIn = newValue; expiresDate = NSDate.timeIntervalSinceReferenceDate() + Double(_expiresIn) }
+        get { return _expiresIn }
     }
     
-    public required init(coder aDecoder: NSCoder) {
-        super.init(coder:aDecoder)
+    /**
+    Initialize vacant OAuth2AppOnlyToken with JSON.
+    */
+    public init() {
+        self.name = ""
+        self.accessToken = ""
+        self.tokenType = ""
+        self.expiresIn = 0
+        self.scope = ""
+        self.refreshToken = ""
     }
     
-    public override init(accessToken:String, tokenType:String, expiresIn:Int, scope:String, refreshToken:String) {
-        super.init(accessToken: accessToken, tokenType: tokenType, expiresIn: expiresIn, scope: scope, refreshToken: refreshToken)
+    /**
+    Initialize OAuth2AppOnlyToken with JSON.
+    
+    :param: json JSON as [String:AnyObject] should include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token".
+    */
+    public init(_ json:[String:AnyObject]) {
+        self.name = json["name"] as? String ?? ""
+        self.accessToken = json["access_token"] as? String ?? ""
+        self.tokenType = json["token_type"] as? String ?? ""
+        self.expiresIn = json["expires_in"] as? Int ?? 0
+        self.expiresDate = json["expires_date"] as? NSTimeInterval ?? NSDate.timeIntervalSinceReferenceDate() + Double(self.expiresIn)
+        self.scope = json["scope"] as? String ?? ""
+        self.refreshToken = json["refresh_token"] as? String ?? ""
     }
     
     /**
     Create NSMutableURLRequest object to request getting an access token.
     
     :param: code The code which is obtained from OAuth2 redict URL at reddit.com.
-    
     :returns: NSMutableURLRequest object to request your access token.
     */
-    public class func requestForOAuth2AppOnly(#username:String, password:String, clientID:String, secret:String) -> NSMutableURLRequest {
+    public static func requestForOAuth2AppOnly(#username:String, password:String, clientID:String, secret:String) -> NSMutableURLRequest {
         var URL = NSURL(string: "https://ssl.reddit.com/api/v1/access_token")!
         var request = NSMutableURLRequest(URL:URL)
         request.setRedditBasicAuthentication(username:clientID, password:secret)
@@ -44,38 +75,29 @@ public class OAuth2AppOnlyToken : OAuth2Token {
     }
     
     /**
-    Create OAuth2Token object from JSON.
-    
-    :param: json JSON object.
-    
-    :returns: Result object. If succeeded, it includes OAuth2AppOnlyToken with a new access token.
-    */
-    public class func tokenWithJSON(json:JSON) -> Result<OAuth2AppOnlyToken> {
-        var token:OAuth2AppOnlyToken? = nil
-        if let temp1 = json["access_token"] as? String,
-            temp2 = json["token_type"] as? String,
-            temp3 = json["expires_in"] as? Int,
-            temp4 = json["scope"] as? String {
-                token = OAuth2AppOnlyToken(accessToken:temp1, tokenType:temp2, expiresIn:temp3, scope:temp4, refreshToken:"")
-        }
-        return resultFromOptional(token, ReddiftError.ParseAccessToken.error)
-    }
-    
-    /**
     Request to get a new access token.
     
     :param: code Code to be confirmed your identity by reddit.
     :param: completion The completion handler to call when the load request is complete.
-    
     :returns: Data task which requests search to reddit.com.
     */
-    public class func getOAuth2AppOnlyToken(#username:String, password:String, clientID:String, secret:String, completion:(Result<OAuth2AppOnlyToken>)->Void) -> NSURLSessionDataTask {
+    public static func getOAuth2AppOnlyToken(#username:String, password:String, clientID:String, secret:String, completion:(Result<Token>)->Void) -> NSURLSessionDataTask {
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let request = requestForOAuth2AppOnly(username:username, password:password, clientID:clientID, secret:secret)
         let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> self.tokenWithJSON
-            completion(result)
+            let result = responseResult >>> parseResponse >>> decodeJSON
+            var token:OAuth2AppOnlyToken? = nil
+            switch result {
+            case let .Success:
+                if var json = result.value as? [String:AnyObject] {
+                    json["name"] = username
+                    token = OAuth2AppOnlyToken(json)
+                }
+            default:
+                break
+            }
+            completion(resultFromOptional(token, NSError.errorWithCode(0, "")))
         })
         task.resume()
         return task

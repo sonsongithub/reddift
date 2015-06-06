@@ -11,7 +11,19 @@ import Nimble
 import Quick
 
 class SessionTestSpec: QuickSpec {
+    /// timeout duration for asynchronous test
+    let timeoutDuration:NSTimeInterval = 30
+    
+    /// polling interval to check a value for asynchronous test
+    let pollingInterval:NSTimeInterval = 1
+    
+    /// interval between tests for prevent test code from using API over limit rate.
+    let testInterval:NSTimeInterval = 1
+    
+    /// shared session object
     var session:Session? = nil
+    
+    /// get token using application only oauth
     func createSession() {
         if let json = self.jsonFromFileName("test_config.json") as? [String:String] {
             if let username = json["username"],
@@ -24,14 +36,14 @@ class SessionTestSpec: QuickSpec {
                         case let .Failure:
                             XCTFail("Could not get access token from reddit.com.")
                         case let .Success:
-                            if let token:OAuth2Token = result.value {
+                            if let token:Token = result.value {
                                 self.session = Session(token: token)
                             }
                             XCTAssert((self.session != nil), "Could not establish session.")
                         }
                         documentOpenExpectation.fulfill()
                     }))
-                    self.waitForExpectationsWithTimeout(10, handler: nil)
+                    self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
             }
         }
     }

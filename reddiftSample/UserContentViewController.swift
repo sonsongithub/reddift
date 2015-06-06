@@ -48,7 +48,6 @@ class UserContentViewController: UITableViewController {
                                 self.source.append(link)
                             }
                         }
-                        println(listing.more)
 //                        self.paginator = listing.paginator
                     }
                     self.updateStrings()
