@@ -172,17 +172,27 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                     println(result.error)
                 case let .Success:
                     println(result.value)
-//                    if let listing = result.value {
-//                        var newComments:[Thing] = []
-//                        for obj in listing.children {
-//                            if let comment = obj as? Comment {
-//                                newComments += extendAllReplies(comment)
-//                            }
-//                        }
-//                        self.comments += newComments
-//                        self.contents += self.updateStrings(newComments)
-//                        self.paginator = listing.paginator
-//                    }
+                    if let redditAnyArray = result.value as? [RedditAny] {
+                        if indices(redditAnyArray) ~= 0 {
+                            let _ = redditAnyArray[0]
+                        }
+                        if indices(redditAnyArray) ~= 1 {
+                            if let listing = redditAnyArray[1] as? Listing {
+                                println(listing)
+                                
+                                var newComments:[Thing] = []
+                                for obj in listing.children {
+                                    if let comment = obj as? Comment {
+                                        newComments += extendAllReplies(comment)
+                                    }
+                                }
+                                self.comments += newComments
+                                self.contents += self.updateStrings(newComments)
+                                self.paginator = listing.paginator
+
+                            }
+                        }
+                    }
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.tableView.reloadData()
                     })
