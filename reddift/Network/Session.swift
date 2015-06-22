@@ -38,7 +38,7 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
     /**
     Initialize session object with OAuth token.
     
-    :param: token Token object, that is an instance of OAuth2Token or OAuth2AppOnlyToken.
+    - parameter token: Token object, that is an instance of OAuth2Token or OAuth2AppOnlyToken.
     */
     public init(token:Token) {
         self.token = token
@@ -47,18 +47,18 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
 	/**
 	Update API usage state.
 
-	:param: response NSURLResponse object is passed from NSURLSession.
+	- parameter response: NSURLResponse object is passed from NSURLSession.
 	*/
     func updateRateLimitWithURLResponse(response:NSURLResponse) {
         if let httpResponse:NSHTTPURLResponse = response as? NSHTTPURLResponse {
             if let temp = httpResponse.allHeaderFields["x-ratelimit-reset"] as? String {
-                x_ratelimit_reset = temp.toInt() ?? 0
+                x_ratelimit_reset = Int(temp) ?? 0
             }
             if let temp = httpResponse.allHeaderFields["x-ratelimit-used"] as? String {
-                x_ratelimit_used = temp.toInt() ?? 0
+                x_ratelimit_used = Int(temp) ?? 0
             }
             if let temp = httpResponse.allHeaderFields["x-ratelimit-remaining"] as? String {
-                x_ratelimit_remaining = temp.toInt() ?? 0
+                x_ratelimit_remaining = Int(temp) ?? 0
             }
         }
 //		println("x_ratelimit_reset \(x_ratelimit_reset)")
@@ -70,38 +70,47 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
     Returns object which is generated from JSON object from reddit.com.
     This method automatically parses JSON and generates data.
     
-    :param: response NSURLResponse object is passed from NSURLSession.
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
+    - parameter response: NSURLResponse object is passed from NSURLSession.
+    - parameter completion: The completion handler to call when the load request is complete.
+    - returns: Data task which requests search to reddit.com.
     */
     func handleRequest(request:NSMutableURLRequest, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             if let response = response {
                 self.updateRateLimitWithURLResponse(response)
             }
-            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
             let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
             completion(result)
         })
-        task.resume()
+        if let task = task {
+            task.resume()
+        }
         return task
     }
     
     /**
     Returns JSON object which is obtained from reddit.com.
     
-    :param: response NSURLResponse object is passed from NSURLSession.
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
+    - parameter response: NSURLResponse object is passed from NSURLSession.
+    - parameter completion: The completion handler to call when the load request is complete.
+    - returns: Data task which requests search to reddit.com.
     */
     func handleAsJSONRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-			self.updateRateLimitWithURLResponse(response)
-            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-            let result = responseResult >>> parseResponse >>> decodeJSON
-            completion(result)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            if let data = data, let response = response {
+                self.updateRateLimitWithURLResponse(response)
+                let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                let result = responseResult >>> parseResponse >>> decodeJSON
+                completion(result)
+            }
+            else {
+                completion(Result(error: error))
+            }
         })
-        task.resume()
+        if let task = task {
+            task.resume()
+        }
         return task
     }
 

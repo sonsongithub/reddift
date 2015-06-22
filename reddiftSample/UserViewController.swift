@@ -18,7 +18,7 @@ class UserViewController: UITableViewController {
     }
     
     func updateExpireCell(sender:AnyObject?) {
-        println(NSThread.isMainThread())
+        print(NSThread.isMainThread())
         if let token = session?.token {
             expireCell.detailTextLabel?.text = NSDate(timeIntervalSinceReferenceDate:token.expiresDate).description
         }
@@ -31,7 +31,7 @@ class UserViewController: UITableViewController {
                 token.refresh({ (result) -> Void in
                     switch result {
                     case let .Failure:
-                        println(result.error)
+                        print(result.error)
                     case let .Success:
                         if let newToken = result.value {
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -51,7 +51,7 @@ class UserViewController: UITableViewController {
                 token.revoke({ (result) -> Void in
                     switch result {
                     case let .Failure:
-                        println(result.error)
+                        print(result.error)
                     case let .Success:
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             OAuth2TokenRepository.removeFromKeychainTokenWithName(token.name)
@@ -86,7 +86,7 @@ class UserViewController: UITableViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        println(session)
+        print(session)
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

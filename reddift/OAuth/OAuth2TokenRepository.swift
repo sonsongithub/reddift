@@ -19,8 +19,13 @@ public class OAuth2TokenRepository {
     public class func restoreFromKeychainWithName(name:String) -> Result<OAuth2Token> {
         let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
         if let data = keychain.getData(name) {
-            var error:NSError? = nil
-            var json:AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.allZeros, error: &error)
+            var json:AnyObject?
+            do {
+                json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
+            } catch let error1 as NSError {
+                print(error1)
+                json = nil
+            }
             if let json = json as? [String:AnyObject] {
                 return Result(value:OAuth2Token(json))
             }
@@ -38,7 +43,7 @@ public class OAuth2TokenRepository {
     }
     
     public class func saveIntoKeychainToken(token:OAuth2Token) {
-        if count(token.name) > 0 {
+        if token.name.characters.count > 0 {
             // save
             if let data = jsonForSerializeToken(token) {
                 let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
@@ -47,12 +52,12 @@ public class OAuth2TokenRepository {
             }
         }
         else {
-            println("Error:name property is empty.")
+            print("Error:name property is empty.")
         }
     }
     
     public class func saveIntoKeychainToken(token:OAuth2Token, name:String) {
-        if count(name) > 0 {
+        if name.characters.count > 0 {
             // save
             if let data = jsonForSerializeToken(token) {
                 let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
@@ -61,17 +66,17 @@ public class OAuth2TokenRepository {
             }
         }
         else {
-            println("Error:name property is empty.")
+            print("Error:name property is empty.")
         }
     }
     
     public class func removeFromKeychainTokenWithName(name:String) {
-        if count(name) > 0 {
+        if name.characters.count > 0 {
             let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
             keychain.remove(name);
         }
         else {
-            println("Error:name property is empty.")
+            print("Error:name property is empty.")
         }
     }
 }

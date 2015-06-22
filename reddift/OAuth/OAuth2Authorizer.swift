@@ -36,15 +36,15 @@ public class OAuth2Authorizer {
     /**
     Open OAuth2 page to try to authorize with user specified scopes in Safari.app.
     
-    :param: scopes Scope you want to get authorizing. You can check all scopes at https://www.reddit.com/dev/api/oauth.
+    - parameter scopes: Scope you want to get authorizing. You can check all scopes at https://www.reddit.com/dev/api/oauth.
     */
     public func challengeWithScopes(scopes:[String]) {
-        var commaSeparatedScopeString = commaSeparatedStringFromList(scopes)
+        let commaSeparatedScopeString = commaSeparatedStringFromList(scopes)
         
         let length = 64
         let mutableData = NSMutableData(length: Int(length))
         if let data = mutableData {
-            let result = SecRandomCopyBytes(kSecRandomDefault, length, UnsafeMutablePointer<UInt8>(data.mutableBytes))
+            let _ = SecRandomCopyBytes(kSecRandomDefault, length, UnsafeMutablePointer<UInt8>(data.mutableBytes))
             self.state = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.EncodingEndLineWithLineFeed)
             let authorizationURL = NSURL(string:"https://www.reddit.com/api/v1/authorize.compact?client_id=" + Config.sharedInstance.clientID + "&response_type=code&state=" + self.state + "&redirect_uri=" + Config.sharedInstance.redirectURI + "&duration=permanent&scope=" + commaSeparatedScopeString)!
 #if os(iOS)
@@ -58,13 +58,13 @@ public class OAuth2Authorizer {
     /**
     Handle URL object which is returned by OAuth2 page at reddit.com
     
-    :param: url The URL from passed by reddit.com
-    :param: completion Callback block is execeuted when the access token has been acquired using URL.
-    :returns: Returns if the URL object is parsed correctly.
+    - parameter url: The URL from passed by reddit.com
+    - parameter completion: Callback block is execeuted when the access token has been acquired using URL.
+    - returns: Returns if the URL object is parsed correctly.
     */
     public func receiveRedirect(url:NSURL, completion:(Result<OAuth2Token>)->Void) -> Bool{
         var parameters:[String:String] = [:]
-        var currentState = self.state
+        let currentState = self.state
         self.state = ""
         if (url.scheme == Config.sharedInstance.redirectURIScheme) {
             if let temp = NSURLComponents(URL: url, resolvingAgainstBaseURL: true)?.dictionary() {
@@ -72,7 +72,7 @@ public class OAuth2Authorizer {
             }
         }
         if let code = parameters["code"], state = parameters["state"] {
-            if count(code) > 0 && state == currentState {
+            if code.characters.count > 0 && state == currentState {
                 OAuth2Token.getOAuth2Token(code, completion:completion)
                 return true
             }

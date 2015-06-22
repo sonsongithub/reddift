@@ -23,8 +23,13 @@ public enum Result<A> {
         self = .Success(Box(value))
     }
     
-    public init(error: NSError) {
-        self = .Failure(error)
+    public init(error: NSError?) {
+        if let error = error {
+            self = .Failure(error)
+        }
+        else {
+            self = .Failure(NSError.errorWithCode(0, "Fatal error"))
+        }
     }
     
     public var error: NSError? {

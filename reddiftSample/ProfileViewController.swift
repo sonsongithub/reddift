@@ -25,7 +25,7 @@ class ProfileViewController: UITableViewController {
         session?.getProfile({ (result) -> Void in
             switch result {
             case let .Failure:
-                println(result.error)
+                print(result.error)
             case let .Success:
                 if let profile = result.value as? Account {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in

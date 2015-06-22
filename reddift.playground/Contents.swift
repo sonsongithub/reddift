@@ -95,7 +95,7 @@ func getList(session:Session) {
 
 let url: NSURL = NSBundle.mainBundle().URLForResource("test_config.json", withExtension:nil)!
 let data = NSData(contentsOfURL: url)!
-let json:AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil)
+let json:AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions())
 
 if let json = json as? [String:String] {
     if let username = json["username"],

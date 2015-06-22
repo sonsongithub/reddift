@@ -37,7 +37,7 @@ This function filters response object to handle errors.
 */
 func parseResponse(response: Response) -> Result<NSData> {
     let successRange = 200..<300
-    if !contains(successRange, response.statusCode) {
+    if !successRange.contains(response.statusCode) {
         return .Failure(HttpStatus(response.statusCode).error)
     }
     return .Success(Box(response.data))
@@ -46,13 +46,19 @@ func parseResponse(response: Response) -> Result<NSData> {
 /**
 Parse binary data to JSON object.
 
-:param: data Binary data is returned from reddit.
+- parameter data: Binary data is returned from reddit.
 
-:returns: Result object. Result object has JSON as [String:AnyObject] or [AnyObject], otherwise error object.
+- returns: Result object. Result object has JSON as [String:AnyObject] or [AnyObject], otherwise error object.
 */
 func decodeJSON(data: NSData) -> Result<JSON> {
     var jsonErrorOptional: NSError?
-    let jsonOptional: JSON? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &jsonErrorOptional)
+    let jsonOptional: JSON?
+    do {
+        jsonOptional = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))
+    } catch var error as NSError {
+        jsonErrorOptional = error
+        jsonOptional = nil
+    }
     if let jsonError = jsonErrorOptional {
         return Result(error: jsonError)
     }
@@ -65,27 +71,27 @@ func decodeJSON(data: NSData) -> Result<JSON> {
 /**
 Parse Thing, Listing JSON object.
 
-:param: data Binary data is returned from reddit.
+- parameter data: Binary data is returned from reddit.
 
-:returns: Result object. Result object has any Thing or Listing object, otherwise error object.
+- returns: Result object. Result object has any Thing or Listing object, otherwise error object.
 */
 func parseListFromJSON(json: JSON) -> Result<RedditAny> {
     let object:Any? = Parser.parseJSON(json)
-    return resultFromOptional(object, ReddiftError.ParseThing.error)
+    return resultFromOptional(object, error: ReddiftError.ParseThing.error)
 }
 
 /**
 Parse simple string response
 
-:param: data Binary data is returned from reddit.
+- parameter data: Binary data is returned from reddit.
 
-:returns: Result object. Result object has String, otherwise error object.
+- returns: Result object. Result object has String, otherwise error object.
 */
 func decodeAsString(data: NSData) -> Result<String> {
     if data.length == 0 {
         return Result(value: "")
     }
-    var decoded = NSString(data:data, encoding:NSUTF8StringEncoding)
+    let decoded = NSString(data:data, encoding:NSUTF8StringEncoding)
     if let decoded = decoded as? String {
         return Result(value: decoded)
     }
@@ -96,8 +102,8 @@ func decodeAsString(data: NSData) -> Result<String> {
 Parse JSON for response to /api/comment.
 {"json": {"errors": [], "data": { "things": [] }}}
 
-:param: json JSON object, like above sample.
-:returns: Result object. When parsing is succeeded, object contains list which consists of Thing.
+- parameter json: JSON object, like above sample.
+- returns: Result object. When parsing is succeeded, object contains list which consists of Thing.
 */
 func parseResponseJSONToPostComment(json: JSON) -> Result<Comment> {
     if let json = json as? JSONDictionary {
@@ -124,8 +130,8 @@ func parseResponseJSONToPostComment(json: JSON) -> Result<Comment> {
 /**
 Extract Listing object which includes Comments from JSON for articles.
 
-:param: json JSON object is obtained from reddit.com.
-:returns: List consists of Comment objects.
+- parameter json: JSON object is obtained from reddit.com.
+- returns: List consists of Comment objects.
 */
 func filterArticleResponse(json:JSON) -> Result<RedditAny> {
     if let array = json as? [Any] {

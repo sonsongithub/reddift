@@ -37,10 +37,14 @@ public protocol Token {
 /**
 Returns json binary data for token.
 
-:param: token Token object to be serialised.
-:returns: NSData object includes binary JSON file data.
+- parameter token: Token object to be serialised.
+- returns: NSData object includes binary JSON file data.
 */
 func jsonForSerializeToken(token:Token) -> NSData? {
     let dict:[String:AnyObject] = ["name":token.name, "access_token":token.accessToken, "token_type":token.tokenType, "expires_in":token.expiresIn, "expires_date":token.expiresDate, "scope":token.scope, "refresh_token":token.refreshToken]
-    return NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions.allZeros, error: nil)
+    do {
+        return try NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions())
+    } catch _ {
+        return nil
+    }
 }

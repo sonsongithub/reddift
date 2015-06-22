@@ -15,33 +15,33 @@ extension Session {
     /**
     Get the message from the specified box.
     
-    :param: messageWhere The box from which you want to get your messages.
-    :param: limit The maximum number of comments to return. Default is 100.
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
+    - parameter messageWhere: The box from which you want to get your messages.
+    - parameter limit: The maximum number of comments to return. Default is 100.
+    - parameter completion: The completion handler to call when the load request is complete.
+    - returns: Data task which requests search to reddit.com.
     */
     public func getMessage(messageWhere:MessageWhere, limit:Int = 100, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
+        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
         return handleRequest(request, completion:completion)
     }
     
     /**
     Compose new message to specified user.
     
-    :param: to Account object of user to who you want to send a message.
-    :param: subject A string no longer than 100 characters
-    :param: text Raw markdown text
-    :param: fromSubreddit Subreddit name?
-    :param: captcha The user's response to the CAPTCHA challenge
-    :param: captchaIden The identifier of the CAPTCHA challenge
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
+    - parameter to: Account object of user to who you want to send a message.
+    - parameter subject: A string no longer than 100 characters
+    - parameter text: Raw markdown text
+    - parameter fromSubreddit: Subreddit name?
+    - parameter captcha: The user's response to the CAPTCHA challenge
+    - parameter captchaIden: The identifier of the CAPTCHA challenge
+    - parameter completion: The completion handler to call when the load request is complete.
+    - returns: Data task which requests search to reddit.com.
     */
     public func composeMessage(to:Account, subject:String, text:String, fromSubreddit:Subreddit, captcha:String, captchaIden:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         
-        var customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
-        var escapedSubject = subject.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
-        var escapedText = text.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
+        let customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
+        let escapedSubject = subject.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
+        let escapedText = text.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
         
         if let escapedSubject = escapedSubject, let escapedText = escapedText {
             var parameter:[String:String] = [:]
@@ -55,7 +55,7 @@ extension Session {
             parameter["subject"] = escapedSubject
             parameter["to"] = to.id
             
-            var request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
+            let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
             return handleAsJSONRequest(request, completion:completion)
         }
         return nil

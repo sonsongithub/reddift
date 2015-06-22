@@ -21,7 +21,7 @@ class MessageViewController: UITableViewController {
 		session?.getMessage(messageWhere, completion: { (result) -> Void in
             switch result {
             case let .Failure:
-                println(result.error)
+                print(result.error)
             case let .Success:
                 if let listing = result.value as? Listing {
                     for child in listing.children {
@@ -52,9 +52,9 @@ class MessageViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
 
-		if indices(messages) ~= indexPath.row {
+		if messages.indices ~= indexPath.row {
 			let child = messages[indexPath.row]
 			if let message = child as? Message {
 				cell.textLabel?.text = message.subject

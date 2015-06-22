@@ -39,9 +39,9 @@ class UserContentViewController: UITableViewController {
 			session?.getUserContent(name, content:userContent, sort:.New, timeFilterWithin:.All, paginator:Paginator(), completion: { (result) -> Void in
                 switch result {
                 case let .Failure:
-                    println(result.error)
+                    print(result.error)
                 case let .Success:
-                    println(result.value)
+                    print(result.value)
                     if let listing = result.value as? Listing {
                         for obj in listing.children {
                             if let link = obj as? Link {
@@ -79,13 +79,13 @@ class UserContentViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indices(source) ~= indexPath.row {
+        if source.indices ~= indexPath.row {
             var obj = source[indexPath.row]
             if let comment = obj as? Comment {
                 session?.getInfo([comment.linkId], completion: { (result) -> Void in
                     switch result {
                     case let .Failure:
-                        println(result.error)
+                        print(result.error)
                     case let .Success:
                         if let listing = result.value as? Listing {
                             if listing.children.count == 1 {
@@ -114,16 +114,16 @@ class UserContentViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indices(contents) ~= indexPath.row {
+        if contents.indices ~= indexPath.row {
             return contents[indexPath.row].textHeight
         }
         return 0
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
         if let cell = cell as? UZTextViewCell {
-            if indices(contents) ~= indexPath.row {
+            if contents.indices ~= indexPath.row {
                 cell.textView?.attributedString = contents[indexPath.row].attributedString
             }
         }

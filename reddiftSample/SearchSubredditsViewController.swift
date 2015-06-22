@@ -13,7 +13,9 @@ class SearchSubredditsViewController: BaseSubredditsViewController {
     var previousQuery = ""
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        searchWithQuery(searchBar.text)
+        if let text = searchBar.text {
+            searchWithQuery(text)
+        }
     }
     
     func searchWithQuery(query:String) {
@@ -32,9 +34,9 @@ class SearchSubredditsViewController: BaseSubredditsViewController {
             self.loading = false
             switch result {
             case let .Failure:
-                println(result.error)
+                print(result.error)
             case let .Success:
-                println(result.value)
+                print(result.value)
                 if let listing = result.value as? Listing {
                     for obj in listing.children {
                         if let subreddit = obj as? Subreddit {
@@ -71,8 +73,8 @@ extension SearchSubredditsViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
-        if indices(subreddits) ~= indexPath.row {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
+        if subreddits.indices ~= indexPath.row {
             cell.textLabel?.text = subreddits[indexPath.row].title
         }
         return cell

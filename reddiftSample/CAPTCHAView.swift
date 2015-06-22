@@ -47,14 +47,14 @@ class CAPTCHAView : UIView {
         self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
             switch result {
             case let .Failure:
-                println(result.error!.description)
+                print(result.error!.description)
             case let .Success:
                 if let string = result.value {
-                    println(string)
+                    print(string)
                     self.session?.getCAPTCHA(string, completion: { (result) -> Void in
                         switch result {
                         case let .Failure:
-                            println(result.error!.description)
+                            print(result.error!.description)
                         case let .Success:
                             if let image:CAPTCHAImage = result.value {
                                 dispatch_async(dispatch_get_main_queue(), { () -> Void in

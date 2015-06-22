@@ -21,8 +21,8 @@ func commaSeparatedStringFromList(list:[String]) -> String {
     for element in list {
         string = string + element + ","
     }
-    if count(string) > 1 {
-        var range = Range<String.Index>(start: advance(string.endIndex, -1), end: string.endIndex)
+    if string.characters.count > 1 {
+        let range = Range<String.Index>(start: advance(string.endIndex, -1), end: string.endIndex)
         string.removeRange(range)
     }
     return string

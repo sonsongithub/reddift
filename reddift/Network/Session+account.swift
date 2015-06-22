@@ -12,18 +12,25 @@ extension Session {
     /**
     Gets the identity of the user currently authenticated via OAuth.
 
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
+    - parameter completion: The completion handler to call when the load request is complete.
+    - returns: Data task which requests search to reddit.com.
     */
     public func getProfile(completion:(Result<Thing>) -> Void) -> NSURLSessionDataTask? {
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/v1/me", method:"GET", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseDataInJSON_t2
-            completion(result)
+        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/v1/me", method:"GET", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            if let data = data, let response = response {
+                self.updateRateLimitWithURLResponse(response)
+                let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                let result = responseResult >>> parseResponse >>> decodeJSON >>> parseDataInJSON_t2
+                completion(result)
+            }
+            else {
+                completion(Result(error: error))
+            }
         })
-        task.resume()
+        if let task = task {
+            task.resume()
+        }
         return task
     }
 }

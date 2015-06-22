@@ -9,7 +9,7 @@
 import Foundation
 import reddift
 
-class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
+class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpdating, UISearchControllerDelegate {
     var searchController:UISearchController? = nil
     var searchResultViewController:SearchSubredditsViewController? = nil
     
@@ -60,9 +60,9 @@ class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpd
             session?.getSubreddit(sortTypes[seg.selectedSegmentIndex], paginator:paginator, completion: { (result) in
                 switch result {
                 case let .Failure:
-                    println(result.error)
+                    print(result.error)
                 case let .Success:
-                    println(result.value)
+                    print(result.value)
                     if let listing = result.value as? Listing {
                         for obj in listing.children {
                             if let subreddit = obj as? Subreddit {
@@ -138,8 +138,8 @@ extension SubredditsViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
-        if indices(subreddits) ~= indexPath.row {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
+        if subreddits.indices ~= indexPath.row {
             let subreddit = subreddits[indexPath.row]
             cell.textLabel?.text = subreddit.title
         }
@@ -173,7 +173,7 @@ extension SubredditsViewController {
         var subreddit:Subreddit? = nil
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         if tableView == self.tableView {
-            if indices(subreddits) ~= indexPath.row {
+            if subreddits.indices ~= indexPath.row {
                 subreddit = self.subreddits[indexPath.row]
             }
         }

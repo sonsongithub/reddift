@@ -45,7 +45,7 @@ public struct OAuth2AppOnlyToken : Token {
     /**
     Initialize OAuth2AppOnlyToken with JSON.
     
-    :param: json JSON as [String:AnyObject] should include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token".
+    - parameter json: JSON as [String:AnyObject] should include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token".
     */
     public init(_ json:[String:AnyObject]) {
         self.name = json["name"] as? String ?? ""
@@ -60,14 +60,14 @@ public struct OAuth2AppOnlyToken : Token {
     /**
     Create NSMutableURLRequest object to request getting an access token.
     
-    :param: code The code which is obtained from OAuth2 redict URL at reddit.com.
-    :returns: NSMutableURLRequest object to request your access token.
+    - parameter code: The code which is obtained from OAuth2 redict URL at reddit.com.
+    - returns: NSMutableURLRequest object to request your access token.
     */
-    public static func requestForOAuth2AppOnly(#username:String, password:String, clientID:String, secret:String) -> NSMutableURLRequest {
-        var URL = NSURL(string: "https://ssl.reddit.com/api/v1/access_token")!
-        var request = NSMutableURLRequest(URL:URL)
+    public static func requestForOAuth2AppOnly(username username:String, password:String, clientID:String, secret:String) -> NSMutableURLRequest {
+        let URL = NSURL(string: "https://ssl.reddit.com/api/v1/access_token")!
+        let request = NSMutableURLRequest(URL:URL)
         request.setRedditBasicAuthentication(username:clientID, password:secret)
-        var param = "grant_type=password&username=" + username + "&password=" + password
+        let param = "grant_type=password&username=" + username + "&password=" + password
         let data = param.dataUsingEncoding(NSUTF8StringEncoding)
         request.HTTPBody = data
         request.HTTPMethod = "POST"
@@ -77,29 +77,36 @@ public struct OAuth2AppOnlyToken : Token {
     /**
     Request to get a new access token.
     
-    :param: code Code to be confirmed your identity by reddit.
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
+    - parameter code: Code to be confirmed your identity by reddit.
+    - parameter completion: The completion handler to call when the load request is complete.
+    - returns: Data task which requests search to reddit.com.
     */
-    public static func getOAuth2AppOnlyToken(#username:String, password:String, clientID:String, secret:String, completion:(Result<Token>)->Void) -> NSURLSessionDataTask {
+    public static func getOAuth2AppOnlyToken(username username:String, password:String, clientID:String, secret:String, completion:(Result<Token>)->Void) -> NSURLSessionDataTask? {
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let request = requestForOAuth2AppOnly(username:username, password:password, clientID:clientID, secret:secret)
-        let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
-            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-            let result = responseResult >>> parseResponse >>> decodeJSON
-            var token:OAuth2AppOnlyToken? = nil
-            switch result {
-            case let .Success:
-                if var json = result.value as? [String:AnyObject] {
-                    json["name"] = username
-                    token = OAuth2AppOnlyToken(json)
+        let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            if let data = data, let response = response {
+                let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                let result = responseResult >>> parseResponse >>> decodeJSON
+                var token:OAuth2AppOnlyToken? = nil
+                switch result {
+                case .Success:
+                    if var json = result.value as? [String:AnyObject] {
+                        json["name"] = username
+                        token = OAuth2AppOnlyToken(json)
+                    }
+                default:
+                    break
                 }
-            default:
-                break
+                completion(resultFromOptional(token, error:NSError.errorWithCode(0, "")))
             }
-            completion(resultFromOptional(token, NSError.errorWithCode(0, "")))
+            else {
+                completion(Result(error: error))
+            }
         })
-        task.resume()
+        if let task = task {
+            task.resume()
+        }
         return task
     }
 }

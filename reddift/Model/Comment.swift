@@ -11,9 +11,9 @@ import Foundation
 /**
 Expand child comments which are included in Comment objects, recursively.
 
-:param: comment Comment object will be expanded.
+- parameter comment: Comment object will be expanded.
 
-:returns: Array contains Comment objects which are expaned from specified Comment object.
+- returns: Array contains Comment objects which are expaned from specified Comment object.
 */
 public func extendAllReplies(comment:Thing) -> [Thing] {
     var comments:[Thing] = [comment]
@@ -200,8 +200,8 @@ public struct Comment : Thing {
     /**
     Parse t1 Thing.
     
-    :param: data Dictionary, must be generated parsing t1 Thing.
-    :returns: Comment object as Thing.
+    - parameter data: Dictionary, must be generated parsing t1 Thing.
+    - returns: Comment object as Thing.
     */
     public init(data:JSONDictionary) {
         id = data["id"] as? String ?? ""

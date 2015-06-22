@@ -23,7 +23,7 @@ class SubredditsListViewController: UITableViewController {
 			session?.getUserRelatedSubreddit(.Subscriber, paginator:paginator, completion: { (result) -> Void in
                 switch result {
                 case let .Failure:
-                    println(result.error)
+                    print(result.error)
                 case let .Success:
                     if let listing = result.value as? Listing {
                         for obj in listing.children {
@@ -53,9 +53,9 @@ class SubredditsListViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
         
-        if indices(subreddits) ~= indexPath.row {
+        if subreddits.indices ~= indexPath.row {
             let link = subreddits[indexPath.row]
             cell.textLabel?.text = link.title
         }
@@ -67,8 +67,8 @@ class SubredditsListViewController: UITableViewController {
         if segue.identifier == "ToSubredditsViewController" {
             if let con = segue.destinationViewController as? LinkViewController {
                 con.session = self.session
-                if let indexPath = self.tableView.indexPathForSelectedRow() {
-                    if indices(subreddits) ~= indexPath.row {
+                if let indexPath = self.tableView.indexPathForSelectedRow {
+                    if subreddits.indices ~= indexPath.row {
                         con.subreddit = subreddits[indexPath.row]
                     }
                 }

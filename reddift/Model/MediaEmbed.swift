@@ -24,7 +24,7 @@ public struct MediaEmbed {
     /**
     Update each property with JSON object.
     
-    :param: json JSON object which is included "t2" JSON.
+    - parameter json: JSON object which is included "t2" JSON.
     */
     public init (json:JSONDictionary) {
 		height = json["height"] as? Int ?? 0

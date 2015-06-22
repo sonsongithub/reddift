@@ -25,9 +25,9 @@ class SubmitViewController: UIViewController {
             session?.submitText(subreddit, title: "This is test", text: "テスト,test", captcha: captcha, captchaIden: iden, completion: { (result) -> Void in
                 switch result {
                 case let .Failure:
-                    println(result.error!.description)
+                    print(result.error!.description)
                 case let .Success:
-                    println(result.value!)
+                    print(result.value!)
                 }
             })
         }
@@ -43,7 +43,7 @@ class SubmitViewController: UIViewController {
         textView.bounces = true
         textView.alwaysBounceVertical = true
         
-        textView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        textView.translatesAutoresizingMaskIntoConstraints = false
 
         self.view.addConstraint(NSLayoutConstraint(item: textView, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1, constant: 0))
         self.view.addConstraint(NSLayoutConstraint(item: textView, attribute: .Leading, relatedBy: .Equal, toItem: self.view, attribute: .Leading, multiplier: 1, constant: 0))
@@ -75,7 +75,7 @@ class SubmitViewController: UIViewController {
     }
     
     func keyboardWillChangeFrame(notification:NSNotification) {
-        let keyboardRect = notification.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue()
+        let keyboardRect = notification.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue
         let r = self.view.convertRect(keyboardRect!, fromView: UIApplication.sharedApplication().keyWindow)
         let windowFrame = UIApplication.sharedApplication().keyWindow?.frame
         let intersect = CGRectIntersection(keyboardRect!, windowFrame!)

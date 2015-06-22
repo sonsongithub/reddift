@@ -63,7 +63,7 @@ public struct Oembed {
     /**
     Update each property with JSON object.
     
-    :param: json JSON object which is included "t2" JSON.
+    - parameter json: JSON object which is included "t2" JSON.
     */
     public init (json:JSONDictionary) {
 		self.providerUrl = json["provider_url"] as? String ?? ""
