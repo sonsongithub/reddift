@@ -46,16 +46,16 @@ class CAPTCHAView : UIView {
         activity?.hidden = false
         self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
             switch result {
-            case let .Failure:
+            case .Failure:
                 print(result.error!.description)
-            case let .Success:
+            case .Success:
                 if let string = result.value {
                     print(string)
                     self.session?.getCAPTCHA(string, completion: { (result) -> Void in
                         switch result {
-                        case let .Failure:
+                        case .Failure:
                             print(result.error!.description)
-                        case let .Success:
+                        case .Success:
                             if let image:CAPTCHAImage = result.value {
                                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                     self.currentIden = string

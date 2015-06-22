@@ -28,9 +28,9 @@ class MultiredditTest: SessionTestSpec {
         if let multi = self.createdMultireddit {
             self.session?.addSubredditToMultireddit(multi, subredditDisplayName:subredditDisplayName, completion:{ (result) -> Void in
                 switch result {
-                case let .Failure:
-                    println(result.error!.description)
-                case let .Success:
+                case .Failure:
+                    print(result.error!.description)
+                case .Success:
                     addedDisplayName = result.value
                 }
                 NSThread.sleepForTimeInterval(self.testInterval)
@@ -43,9 +43,9 @@ class MultiredditTest: SessionTestSpec {
         var count = 0
         self.session?.getMineMultireddit({ (result) -> Void in
             switch result {
-            case let .Failure:
-                println(result.error!.description)
-            case let .Success:
+            case .Failure:
+                print(result.error!.description)
+            case .Success:
                 if let array = result.value as? [Any] {
                     for multireddit in array {
                         if let multireddit = multireddit as? Multireddit {
@@ -67,9 +67,9 @@ class MultiredditTest: SessionTestSpec {
     func check(result:Result<RedditAny>, targetSubreddits:[String]) -> Bool {
         var isSucceeded = false
         switch result {
-        case let .Failure:
-            println(result.error!.description)
-        case let .Success:
+        case .Failure:
+            print(result.error!.description)
+        case .Success:
             isSucceeded = true
             if let listing = result.value as? Listing {
                 for obj in listing.children {
@@ -101,9 +101,9 @@ class MultiredditTest: SessionTestSpec {
                 var isSucceeded:Bool = false
                 self.session?.getMineMultireddit({ (result) -> Void in
                     switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
                         if let array = result.value as? [Any] {
                             self.initialMultiredditCount = array.count
                         }
@@ -116,9 +116,9 @@ class MultiredditTest: SessionTestSpec {
             it("Create a new multireddit.") {
                 self.session?.createMultireddit(self.nameForCreation, descriptionMd: "", completion: { (result) -> Void in
                     switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
                         self.createdMultireddit = result.value
                     }
                 })
@@ -129,9 +129,9 @@ class MultiredditTest: SessionTestSpec {
                 var multiredditCountAfterCreating = 0
                 self.session?.getMineMultireddit({ (result) -> Void in
                     switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
                         var checkType = false
                         if let array = result.value as? [Any] {
                             checkType = true
@@ -178,7 +178,6 @@ class MultiredditTest: SessionTestSpec {
             it("Check whether the multireddit does inlcude only swift and redditdev articles, New") {
                 var isSucceeded = false
                 if let multi = self.createdMultireddit {
-                    let a = LinkSortType.Hot
                     self.session?.getList(Paginator(), subreddit: multi, sort:.New, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
                         isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
                     })
@@ -203,9 +202,9 @@ class MultiredditTest: SessionTestSpec {
                     multi.descriptionMd = self.updatedDescription
                     self.session?.updateMultireddit(multi, completion: { (result) -> Void in
                         switch result {
-                        case let .Failure:
-                            println(result.error!.description)
-                        case let .Success:
+                        case .Failure:
+                            print(result.error!.description)
+                        case .Success:
                             if let updatedMultireddit:Multireddit = result.value {
                                 expect(updatedMultireddit.descriptionMd).to(equal(self.updatedDescription))
                                 expect(updatedMultireddit.iconName.rawValue).to(equal(MultiredditIconName.Science.rawValue))
@@ -223,9 +222,9 @@ class MultiredditTest: SessionTestSpec {
                 if let multi = self.createdMultireddit {
                     self.session?.getMultiredditDescription(multi, completion:{ (result) -> Void in
                         switch result {
-                        case let .Failure:
-                            println(result.error!.description)
-                        case let .Success:
+                        case .Failure:
+                            print(result.error!.description)
+                        case .Success:
                             if let multiredditDescription = result.value as? MultiredditDescription {
                                 if multiredditDescription.bodyMd == self.updatedDescription {
                                     isSucceeded = true
@@ -244,9 +243,9 @@ class MultiredditTest: SessionTestSpec {
                 if let multi = self.createdMultireddit {
                     self.session?.copyMultireddit(multi, newDisplayName:self.nameForCopy, completion: { (result) -> Void in
                         switch result {
-                        case let .Failure:
-                            println(result.error!.description)
-                        case let .Success:
+                        case .Failure:
+                            print(result.error!.description)
+                        case .Success:
                             self.copiedMultireddit = result.value
                             isSucceeded = true
                         }
@@ -260,9 +259,9 @@ class MultiredditTest: SessionTestSpec {
                 var multiredditCountAfterCopingCreatedOne = 0
                 self.session?.getMineMultireddit({ (result) -> Void in
                     switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
                         if let array = result.value as? [Any] {
                             multiredditCountAfterCopingCreatedOne = array.count
                         }
@@ -277,12 +276,12 @@ class MultiredditTest: SessionTestSpec {
                 if let multi = self.createdMultireddit {
                     self.session?.renameMultireddit(multi, newDisplayName: self.nameForCopy, completion:{ (result) -> Void in
                         switch result {
-                        case let .Failure:
+                        case .Failure:
                             if let error:NSError = result.error {
                                 isSucceeded = (error.code == 409)
                             }
-                        case let .Success:
-                            println(result.value!)
+                        case .Success:
+                            print(result.value!)
                         }
                         NSThread.sleepForTimeInterval(self.testInterval)
                     })
@@ -299,9 +298,9 @@ class MultiredditTest: SessionTestSpec {
                 if let multi = self.createdMultireddit {
                     self.session?.renameMultireddit(multi, newDisplayName: self.nameForRename, completion:{ (result) -> Void in
                         switch result {
-                        case let .Failure:
-                            println(result.error!.description)
-                        case let .Success:
+                        case .Failure:
+                            print(result.error!.description)
+                        case .Success:
                             if let multireddit:Multireddit = result.value {
                                 isSucceeded = (multireddit.displayName == self.nameForRename)
                                 self.renamedMultireddit = multireddit
@@ -322,9 +321,9 @@ class MultiredditTest: SessionTestSpec {
                 if let multi = self.copiedMultireddit {
                     self.session?.deleteMultireddit(multi, completion: { (result) -> Void in
                         switch result {
-                        case let .Failure:
-                            println(result.error!.description)
-                        case let .Success:
+                        case .Failure:
+                            print(result.error!.description)
+                        case .Success:
                             isSucceeded = true
                         }
                         NSThread.sleepForTimeInterval(self.testInterval)
@@ -338,9 +337,9 @@ class MultiredditTest: SessionTestSpec {
                 if let multi = self.renamedMultireddit {
                     self.session?.deleteMultireddit(multi, completion: { (result) -> Void in
                         switch result {
-                        case let .Failure:
-                            println(result.error!.description)
-                        case let .Success:
+                        case .Failure:
+                            print(result.error!.description)
+                        case .Success:
                             isSucceeded = true
                         }
                         NSThread.sleepForTimeInterval(self.testInterval)
@@ -353,9 +352,9 @@ class MultiredditTest: SessionTestSpec {
                 var multiredditCountAfterDeletingCreatedOne = 0
                 self.session?.getMineMultireddit({ (result) -> Void in
                     switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
                         if let array = result.value as? [Any]{
                             multiredditCountAfterDeletingCreatedOne = array.count
                         }

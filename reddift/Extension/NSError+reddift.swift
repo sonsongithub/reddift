@@ -64,9 +64,6 @@ public enum ReddiftError:Int {
             return "Failed to extract access token from response unexpectedly."
         case .TokenNotfound:
             return "Token which has the name you specified was not found."
-        
-        default:
-            return "Unknown error"
         }
     }
 }

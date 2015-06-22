@@ -17,7 +17,7 @@ class UserContentViewController: UITableViewController {
     
     func updateStrings() {
         contents.removeAll(keepCapacity:true)
-        contents = source.map{(var obj) -> CellContent in
+        contents = source.map{(let obj) -> CellContent in
             if let comment = obj as? Comment {
                 return CellContent(string:comment.body, width:self.view.frame.size.width)
             }
@@ -38,9 +38,9 @@ class UserContentViewController: UITableViewController {
         if let name = session?.token.name {
 			session?.getUserContent(name, content:userContent, sort:.New, timeFilterWithin:.All, paginator:Paginator(), completion: { (result) -> Void in
                 switch result {
-                case let .Failure:
+                case .Failure:
                     print(result.error)
-                case let .Success:
+                case .Success:
                     print(result.value)
                     if let listing = result.value as? Listing {
                         for obj in listing.children {
@@ -80,13 +80,13 @@ class UserContentViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if source.indices ~= indexPath.row {
-            var obj = source[indexPath.row]
+            let obj = source[indexPath.row]
             if let comment = obj as? Comment {
                 session?.getInfo([comment.linkId], completion: { (result) -> Void in
                     switch result {
-                    case let .Failure:
+                    case .Failure:
                         print(result.error)
-                    case let .Success:
+                    case .Success:
                         if let listing = result.value as? Listing {
                             if listing.children.count == 1 {
                                 if let link = listing.children[0] as? Link {

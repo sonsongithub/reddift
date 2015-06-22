@@ -13,8 +13,13 @@ extension QuickSpec {
     func jsonFromFileName(name:String) -> AnyObject? {
         if let path = NSBundle(forClass: self.classForCoder).pathForResource(name, ofType:nil) {
             if let data = NSData(contentsOfFile: path) {
-                if let json:AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) {
-                    return json
+                do {
+                    if let json:AnyObject? = try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions()) {
+                        return json
+                    }
+                }
+                catch {
+                    return nil
                 }
             }
         }
@@ -112,7 +117,7 @@ class ParseThingObjectTest: QuickSpec {
             it("Each property of t3 has been loaded correctly") {
                 var isSucceeded = false
                 if let json = self.jsonFromFileName("t3.json") as? JSONDictionary {
-                    var object = Link(data:json)
+                    let object = Link(data:json)
                     expect(object.domain).to(equal("self.redditdev"))
                     expect(object.bannedBy).to(equal(""))
                     expect(object.subreddit).to(equal("redditdev"))
@@ -276,7 +281,7 @@ class ParseThingObjectTest: QuickSpec {
             it("Each property of more has been loaded correctly") {
                 var isSucceeded = false
                 if let json = self.jsonFromFileName("more.json") as? JSONDictionary {
-                    var object = More(data:json)
+                    let object = More(data:json)
                     expect(object.count).to(equal(0))
                     expect(object.parentId).to(equal("t1_cp88kh5"))
                     expect(object.children).to(equal(["cpddp7v", "cp8jvj8", "cp8cv4b"]))
@@ -332,10 +337,10 @@ class ParseThingObjectTest: QuickSpec {
                 var isSucceeded = false
                 if let path = NSBundle(forClass: self.classForCoder).pathForResource("api_needs_captcha.json", ofType:nil) {
                     if let data = NSData(contentsOfFile: path) {
-                        var result = decodeBooleanString(data)
+                        let result = decodeBooleanString(data)
                         switch result {
                         case .Failure:
-                            println(result.error!.description)
+                            print(result.error!.description)
                         case .Success:
                             isSucceeded = true
                         }
@@ -349,10 +354,10 @@ class ParseThingObjectTest: QuickSpec {
             it("Each property of more has been loaded correctly") {
                 var isSucceeded = false
                 if let thing = self.jsonFromFileName("api_new_captcha.json") as? JSONDictionary {
-                    var result = parseCAPTCHAIdenJSON(thing)
+                    let result = parseCAPTCHAIdenJSON(thing)
                     switch result {
                     case .Failure:
-                        println(result.error!.description)
+                        print(result.error!.description)
                     case .Success:
                         isSucceeded = true
                     }

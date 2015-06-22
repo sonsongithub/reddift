@@ -59,9 +59,9 @@ class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpd
             loading = true
             session?.getSubreddit(sortTypes[seg.selectedSegmentIndex], paginator:paginator, completion: { (result) in
                 switch result {
-                case let .Failure:
+                case .Failure:
                     print(result.error)
-                case let .Success:
+                case .Success:
                     print(result.value)
                     if let listing = result.value as? Listing {
                         for obj in listing.children {
@@ -81,7 +81,7 @@ class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpd
     }
     
     func segmentChanged(sender:AnyObject) {
-        if let seg = sender as? UISegmentedControl {
+        if let _ = sender as? UISegmentedControl {
             self.subreddits.removeAll(keepCapacity: true)
             self.tableView.reloadData()
             self.paginator = Paginator()
@@ -177,6 +177,7 @@ extension SubredditsViewController {
                 subreddit = self.subreddits[indexPath.row]
             }
         }
+        print(subreddit)
 //        if let searchResultViewController = searchResultViewController {
 //            if tableView == searchResultViewController.tableView {
 //                if indices(searchResultViewController.contents) ~= indexPath.row {

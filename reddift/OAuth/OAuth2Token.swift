@@ -57,13 +57,12 @@ public struct OAuth2Token : Token {
     - returns: OAuth2Token object includes a new access token.
     */
     static func tokenWithJSON(json:JSON) -> Result<OAuth2Token> {
-        let token:OAuth2Token? = nil
         if let json = json as? JSONDictionary {
-            if let temp1 = json["access_token"] as? String,
-                temp2 = json["token_type"] as? String,
-                temp3 = json["expires_in"] as? Int,
-                temp4 = json["scope"] as? String,
-                temp5 = json["refresh_token"] as? String {
+            if let _ = json["access_token"] as? String,
+                _ = json["token_type"] as? String,
+                _ = json["expires_in"] as? Int,
+                _ = json["scope"] as? String,
+                _ = json["refresh_token"] as? String {
                     return Result(value: OAuth2Token(json))
             }
         }
@@ -226,7 +225,7 @@ public struct OAuth2Token : Token {
             switch result {
             case .Success:
                 if let profile = result.value as? Account {
-                    var json:[String:AnyObject] = ["name":profile.name, "access_token":self.accessToken, "token_type":self.tokenType, "expires_in":self.expiresIn, "expires_date":self.expiresDate, "scope":self.scope, "refresh_token":self.refreshToken]
+                    let json:[String:AnyObject] = ["name":profile.name, "access_token":self.accessToken, "token_type":self.tokenType, "expires_in":self.expiresIn, "expires_date":self.expiresDate, "scope":self.scope, "refresh_token":self.refreshToken]
                     completion(OAuth2Token.tokenWithJSON(json))
                     return
                 }

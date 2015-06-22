@@ -36,9 +36,9 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.setVote(direction, name: link.name, completion: { (result) -> Void in
                 switch result {
-                case let .Failure:
+                case .Failure:
                     print(result.error)
-                case let .Success:
+                case .Success:
                     print(result.value)
                 }
             })
@@ -49,9 +49,9 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.setSave(save, name: link.name, completion: { (result) -> Void in
                 switch result {
-                case let .Failure:
+                case .Failure:
                     print(result.error)
-                case let .Success:
+                case .Success:
                     print(result.value)
                 }
             })
@@ -62,9 +62,9 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.setHide(hide, name: link.name, completion: { (result) -> Void in
                 switch result {
-                case let .Failure:
+                case .Failure:
                     print(result.error)
-                case let .Success:
+                case .Success:
                     print(result.value)
                 }
             })
@@ -168,9 +168,9 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.getArticles(link, sort:CommentSort.New, comments:nil, completion: { (result) -> Void in
                 switch result {
-                case let .Failure:
+                case .Failure:
                     print(result.error)
-                case let .Success:
+                case .Success:
                     print(result.value)
                     if let redditAnyArray = result.value as? [RedditAny] {
                         if redditAnyArray.indices ~= 0 {
@@ -239,9 +239,9 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                 print(more)
                 session?.getMoreChildren(more.children, link:link, sort:CommentSort.New, completion:{ (result) -> Void in
                     switch result {
-                    case let .Failure:
+                    case .Failure:
                         print(result.error)
-                    case let .Success:
+                    case .Success:
                         print(result.value)
                     }
                 });

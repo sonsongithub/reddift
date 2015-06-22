@@ -18,16 +18,16 @@ class ListingsTest: SessionTestSpec {
         describe("Test to download links.") {
                 let sortTypes:[LinkSortType] = [.Controversial, .Top, .Hot, .New]
                 let timeFilterTypes:[TimeFilterWithin] = [.Hour, .Day, .Week, .Month, .Year, .All]
-                var subreddit = Subreddit(subreddit: "sandboxtest")
+                let subreddit = Subreddit(subreddit: "sandboxtest")
                 for sortType in sortTypes {
                     for filter in timeFilterTypes {
                         it("Check whether the list which is obtained with \(sortType.description), \(filter.description) includes only Link object.") {
                             var isSucceeded = false
                             self.session?.getList(Paginator(), subreddit:subreddit, sort:sortType, timeFilterWithin:filter, completion: { (result) in
                                 switch result {
-                                case let .Failure:
-                                    println(result.error)
-                                case let .Success:
+                                case .Failure:
+                                    print(result.error)
+                                case .Success:
                                     if let listing = result.value as? Listing {
                                         isSucceeded = (listing.children.count > 0)
                                         for obj in listing.children {
@@ -47,9 +47,9 @@ class ListingsTest: SessionTestSpec {
                 var isSucceeded = false
                 self.session?.getRandom(nil, completion: { (result) in
                     switch result {
-                    case let .Failure:
-                        println(result.error)
-                    case let .Success:
+                    case .Failure:
+                        print(result.error)
+                    case .Success:
                         if let array = result.value as? [Any] {
                             isSucceeded = (array.count == 2)
                             for obj in array {
@@ -79,12 +79,12 @@ class ListingsTest: SessionTestSpec {
         describe("Test to download random links among the specified subreddit.") {
             it("Check whether the random list among the specified subreddit includes two Listings when using withoutLink = false.") {
                 var isSucceeded = false
-                var subreddit = Subreddit(subreddit: "sandboxtest")
+                let subreddit = Subreddit(subreddit: "sandboxtest")
                 self.session?.getRandom(subreddit, completion: { (result) in
                     switch result {
-                    case let .Failure:
-                        println(result.error)
-                    case let .Success:
+                    case .Failure:
+                        print(result.error)
+                    case .Success:
                         if let array = result.value as? [Any] {
                             isSucceeded = (array.count == 2)
                             for obj in array {
@@ -110,12 +110,12 @@ class ListingsTest: SessionTestSpec {
             }
             it("Check whether the random list among the specified subreddit includes two Listings when using withoutLink = true.") {
                 var isSucceeded = false
-                var subreddit = Subreddit(subreddit: "sandboxtest")
+                let subreddit = Subreddit(subreddit: "sandboxtest")
                 self.session?.getRandom(subreddit, withoutLink:true, completion: { (result) in
                     switch result {
-                    case let .Failure:
-                        println(result.error)
-                    case let .Success:
+                    case .Failure:
+                        print(result.error)
+                    case .Success:
                         if let listing = result.value as? Listing {
                             isSucceeded = true
                             for obj in listing.children {
@@ -134,12 +134,12 @@ class ListingsTest: SessionTestSpec {
             describe("Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)") {
                 it("Check whether the aritcles include one Listing when using withoutLink = true.") {
                     var link:Link? = nil
-                    var subreddit = Subreddit(subreddit: "redditdev")
+                    let subreddit = Subreddit(subreddit: "redditdev")
                     self.session?.getList(Paginator(), subreddit:subreddit, sort:.New, timeFilterWithin:.Week, completion: { (result) in
                         switch result {
-                        case let .Failure:
-                            println(result.error)
-                        case let .Success:
+                        case .Failure:
+                            print(result.error)
+                        case .Success:
                             if let listing = result.value as? Listing {
                                 for obj in listing.children {
                                     if obj is Link {
@@ -156,9 +156,9 @@ class ListingsTest: SessionTestSpec {
                     if let link = link {
                         self.session?.getArticles(link, sort:sort, withoutLink:true, completion: { (result) -> Void in
                             switch result {
-                            case let .Failure:
-                                println(result.error)
-                            case let .Success:
+                            case .Failure:
+                                print(result.error)
+                            case .Success:
                                 if let listing = result.value as? Listing {
                                     isSucceeded = true
                                     for obj in listing.children {
@@ -173,12 +173,12 @@ class ListingsTest: SessionTestSpec {
                 
                 it("Check whether the aritcles include one Listing when using withoutLink = false.") {
                     var link:Link? = nil
-                    var subreddit = Subreddit(subreddit: "redditdev")
+                    let subreddit = Subreddit(subreddit: "redditdev")
                     self.session?.getList(Paginator(), subreddit:subreddit, sort:.New, timeFilterWithin:.Week, completion: { (result) in
                         switch result {
-                        case let .Failure:
-                            println(result.error)
-                        case let .Success:
+                        case .Failure:
+                            print(result.error)
+                        case .Success:
                             if let listing = result.value as? Listing {
                                 for obj in listing.children {
                                     if obj is Link {
@@ -195,9 +195,9 @@ class ListingsTest: SessionTestSpec {
                     if let link = link {
                         self.session?.getArticles(link, sort: sort, completion: { (result) -> Void in
                             switch result {
-                            case let .Failure:
-                                println(result.error)
-                            case let .Success:
+                            case .Failure:
+                                print(result.error)
+                            case .Success:
                                 if let array = result.value as? [Any] {
                                     isSucceeded = (array.count == 2)
                                     for obj in array {

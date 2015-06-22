@@ -25,9 +25,9 @@ class CAPTCHATest: SessionTestSpec {
                     var check:Bool? = nil
                     self.session?.checkNeedsCAPTCHA({(result) -> Void in
                         switch result {
-                        case let .Failure:
-                            println(result.error!.description)
-                        case let .Success:
+                        case .Failure:
+                            print(result.error!.description)
+                        case .Success:
                             check = result.value
                         }
                         NSThread.sleepForTimeInterval(self.testInterval)
@@ -41,9 +41,9 @@ class CAPTCHATest: SessionTestSpec {
                     var iden:String? = nil
                     self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
                         switch result {
-                        case let .Failure:
-                            println(result.error!.description)
-                        case let .Success:
+                        case .Failure:
+                            print(result.error!.description)
+                        case .Success:
                             iden = result.value
                         }
                         NSThread.sleepForTimeInterval(self.testInterval)
@@ -61,15 +61,15 @@ class CAPTCHATest: SessionTestSpec {
                 #endif
                     self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
                         switch result {
-                        case let .Failure:
-                            println(result.error!.description)
-                        case let .Success:
+                        case .Failure:
+                            print(result.error!.description)
+                        case .Success:
                             if let string = result.value {
                                 self.session?.getCAPTCHA(string, completion: { (result) -> Void in
                                     switch result {
-                                    case let .Failure:
-                                        println(result.error!.description)
-                                    case let .Success:
+                                    case .Failure:
+                                        print(result.error!.description)
+                                    case .Success:
                                         if let image:CAPTCHAImage = result.value {
                                             size = image.size
                                         }

@@ -29,9 +29,9 @@ class SubredditsTest : SessionTestSpec {
                 var isSucceeded = false
                 self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
                     switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
                         if let listing = result.value as? Listing {
                             for obj in listing.children {
                                 if let obj = obj as? Subreddit {
@@ -51,9 +51,9 @@ class SubredditsTest : SessionTestSpec {
                 var r:Bool = false
                 self.session?.setSubscribeSubreddit(self.targetSubreedit, subscribe: true, completion: { (result) -> Void in
                     switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
                         r = true
                     }
                     NSThread.sleepForTimeInterval(self.testInterval)
@@ -65,9 +65,9 @@ class SubredditsTest : SessionTestSpec {
                 var afterSubscribingCount = 0
                 self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
                     switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
                         if let listing = result.value as? Listing {
                             for obj in listing.children {
                                 if let obj = obj as? Subreddit {
@@ -86,9 +86,9 @@ class SubredditsTest : SessionTestSpec {
                 var r:Bool = false
                 self.session?.setSubscribeSubreddit(self.targetSubreedit, subscribe: false, completion: { (result) -> Void in
                     switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
                         r = true
                     }
                     NSThread.sleepForTimeInterval(self.testInterval)
@@ -100,9 +100,9 @@ class SubredditsTest : SessionTestSpec {
                 var afterUnsubscribingCount = 0
                 self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
                     switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
                         if let listing = result.value as? Listing {
                             for obj in listing.children {
                                 if let obj = obj as? Subreddit {

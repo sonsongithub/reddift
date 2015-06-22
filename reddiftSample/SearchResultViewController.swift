@@ -35,9 +35,9 @@ class SearchResultViewController: BaseLinkViewController {
         session?.getSearch(self.subreddit, query: query, paginator:paginator, sort:SearchSortBy.Relevance, completion: { (result) -> Void in
             self.loading = false
             switch result {
-            case let .Failure:
+            case .Failure:
                 print(result.error)
-            case let .Success:
+            case .Success:
                 print(result.value)
                 if let listing = result.value as? Listing {
                     for obj in listing.children {

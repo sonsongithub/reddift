@@ -24,9 +24,9 @@ class SubmitViewController: UIViewController {
         if let subreddit = subreddit, let captcha = captchaView?.response, let iden = captchaView?.iden {
             session?.submitText(subreddit, title: "This is test", text: "テスト,test", captcha: captcha, captchaIden: iden, completion: { (result) -> Void in
                 switch result {
-                case let .Failure:
+                case .Failure:
                     print(result.error!.description)
-                case let .Success:
+                case .Success:
                     print(result.value!)
                 }
             })
@@ -54,7 +54,7 @@ class SubmitViewController: UIViewController {
         
         self.textView = textView
         
-        var temp = CAPTCHAView.loadFromIdiomNib()
+        let temp = CAPTCHAView.loadFromIdiomNib()
         if let captchaView = temp {
             self.textView?.addSubview(captchaView)
             captchaView.session = session

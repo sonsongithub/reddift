@@ -24,9 +24,9 @@ class ProfileViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         session?.getProfile({ (result) -> Void in
             switch result {
-            case let .Failure:
+            case .Failure:
                 print(result.error)
-            case let .Success:
+            case .Success:
                 if let profile = result.value as? Account {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.cell1?.detailTextLabel?.text = profile.name

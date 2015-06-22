@@ -20,9 +20,9 @@ class MessageViewController: UITableViewController {
 		
 		session?.getMessage(messageWhere, completion: { (result) -> Void in
             switch result {
-            case let .Failure:
+            case .Failure:
                 print(result.error)
-            case let .Success:
+            case .Success:
                 if let listing = result.value as? Listing {
                     for child in listing.children {
 						if let message = child as? Message {

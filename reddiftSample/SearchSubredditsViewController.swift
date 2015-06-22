@@ -33,9 +33,9 @@ class SearchSubredditsViewController: BaseSubredditsViewController {
         session?.getSubredditSearch(query, paginator: paginator, completion: { (result) -> Void in
             self.loading = false
             switch result {
-            case let .Failure:
+            case .Failure:
                 print(result.error)
-            case let .Success:
+            case .Success:
                 print(result.value)
                 if let listing = result.value as? Listing {
                     for obj in listing.children {

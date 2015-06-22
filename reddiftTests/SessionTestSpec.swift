@@ -33,9 +33,9 @@ class SessionTestSpec: QuickSpec {
                     let documentOpenExpectation = self.expectationWithDescription("Test : Getting OAuth2 access token")
 					OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:( { (result) -> Void in
                         switch result {
-                        case let .Failure:
+                        case .Failure:
                             XCTFail("Could not get access token from reddit.com.")
-                        case let .Success:
+                        case .Success:
                             if let token:Token = result.value {
                                 self.session = Session(token: token)
                             }

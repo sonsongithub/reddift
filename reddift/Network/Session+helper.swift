@@ -55,7 +55,7 @@ func decodeJSON(data: NSData) -> Result<JSON> {
     let jsonOptional: JSON?
     do {
         jsonOptional = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))
-    } catch var error as NSError {
+    } catch let error as NSError {
         jsonErrorOptional = error
         jsonOptional = nil
     }

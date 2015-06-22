@@ -22,9 +22,9 @@ class SubredditsListViewController: UITableViewController {
 		if self.subreddits.count == 0 {
 			session?.getUserRelatedSubreddit(.Subscriber, paginator:paginator, completion: { (result) -> Void in
                 switch result {
-                case let .Failure:
+                case .Failure:
                     print(result.error)
-                case let .Success:
+                case .Success:
                     if let listing = result.value as? Listing {
                         for obj in listing.children {
                             if let obj = obj as? Subreddit {

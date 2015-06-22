@@ -61,9 +61,9 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
                 x_ratelimit_remaining = Int(temp) ?? 0
             }
         }
-//		println("x_ratelimit_reset \(x_ratelimit_reset)")
-//		println("x_ratelimit_used \(x_ratelimit_used)")
-//		println("x_ratelimit_remaining \(x_ratelimit_remaining)")
+//		print("x_ratelimit_reset \(x_ratelimit_reset)")
+//		print("x_ratelimit_used \(x_ratelimit_used)")
+//		print("x_ratelimit_remaining \(x_ratelimit_remaining)")
     }
     
     /**

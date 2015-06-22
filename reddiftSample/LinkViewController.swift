@@ -66,9 +66,9 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
             loading = true
 			session?.getList(paginator, subreddit:subreddit, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.All, completion: { (result) in
                 switch result {
-                case let .Failure:
+                case .Failure:
                     print(result.error)
-                case let .Success:
+                case .Success:
                     print(result.value)
                     if let listing = result.value as? Listing {
                         for obj in listing.children {
@@ -89,7 +89,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
     }
     
     func segmentChanged(sender:AnyObject) {
-        if let seg = sender as? UISegmentedControl {
+        if let _ = sender as? UISegmentedControl {
             self.links.removeAll(keepCapacity: true)
             self.tableView.reloadData()
             self.paginator = Paginator()
