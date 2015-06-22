@@ -13,22 +13,22 @@ OAuth2Token extension to authorize without a user context.
 This class is private and for only unit testing because "Installed app" is prohibited from using "Application Only OAuth" scheme, that is without user context.
 */
 public struct OAuth2AppOnlyToken : Token {
-    public static var baseURL = "https://www.reddit.com/api/v1"
-    public var accessToken = ""
-    public var tokenType = ""
-    public var _expiresIn = 0
-    public var scope = ""
-    public var refreshToken = ""
-    public var name = ""
-    public var expiresDate:NSTimeInterval = 0
+    public static let baseURL = "https://www.reddit.com/api/v1"
+    public let accessToken:String
+    public let tokenType:String
+    public let expiresIn:Int
+    public let scope:String
+    public let refreshToken:String
+    public let name:String
+    public let expiresDate:NSTimeInterval
     
     /**
     Time inteval the access token expires from being authorized.
     */
-    public var expiresIn:Int {
-        set (newValue) { _expiresIn = newValue; expiresDate = NSDate.timeIntervalSinceReferenceDate() + Double(_expiresIn) }
-        get { return _expiresIn }
-    }
+//    public var expiresIn:Int {
+//        set (newValue) { _expiresIn = newValue; expiresDate = NSDate.timeIntervalSinceReferenceDate() + Double(_expiresIn) }
+//        get { return _expiresIn }
+//    }
     
     /**
     Initialize vacant OAuth2AppOnlyToken with JSON.
@@ -40,6 +40,7 @@ public struct OAuth2AppOnlyToken : Token {
         self.expiresIn = 0
         self.scope = ""
         self.refreshToken = ""
+        self.expiresDate = NSDate.timeIntervalSinceReferenceDate() + 0
     }
     
     /**
@@ -51,8 +52,9 @@ public struct OAuth2AppOnlyToken : Token {
         self.name = json["name"] as? String ?? ""
         self.accessToken = json["access_token"] as? String ?? ""
         self.tokenType = json["token_type"] as? String ?? ""
-        self.expiresIn = json["expires_in"] as? Int ?? 0
-        self.expiresDate = json["expires_date"] as? NSTimeInterval ?? NSDate.timeIntervalSinceReferenceDate() + Double(self.expiresIn)
+        let expiresIn = json["expires_in"] as? Int ?? 0
+        self.expiresIn = expiresIn
+        self.expiresDate = json["expires_date"] as? NSTimeInterval ?? NSDate.timeIntervalSinceReferenceDate() + Double(expiresIn)
         self.scope = json["scope"] as? String ?? ""
         self.refreshToken = json["refresh_token"] as? String ?? ""
     }

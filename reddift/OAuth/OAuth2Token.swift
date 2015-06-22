@@ -14,14 +14,14 @@ let OAuth2TokenDidUpdate = "OAuth2TokenDidUpdate"
 OAuth2 token for access reddit.com API.
 */
 public struct OAuth2Token : Token {
-    public static var baseURL = "https://www.reddit.com/api/v1"
-    public var accessToken = ""
-    public var tokenType = ""
-    public var expiresIn = 0
-    public var scope = ""
-    public var refreshToken = ""
-    public var name = ""
-    public var expiresDate:NSTimeInterval = 0
+    public static let baseURL = "https://www.reddit.com/api/v1"
+    public let accessToken:String
+    public let tokenType:String
+    public let expiresIn:Int
+    public let scope:String
+    public let refreshToken:String
+    public let name:String
+    public let expiresDate:NSTimeInterval
     
     /**
     Initialize vacant OAuth2AppOnlyToken with JSON.
@@ -33,6 +33,7 @@ public struct OAuth2Token : Token {
         self.expiresIn = 0
         self.scope = ""
         self.refreshToken = ""
+        self.expiresDate = NSDate.timeIntervalSinceReferenceDate() + 0
     }
     
     /**
@@ -44,8 +45,9 @@ public struct OAuth2Token : Token {
         self.name = json["name"] as? String ?? ""
         self.accessToken = json["access_token"] as? String ?? ""
         self.tokenType = json["token_type"] as? String ?? ""
-        self.expiresIn = json["expires_in"] as? Int ?? 0
-        self.expiresDate = json["expires_date"] as? NSTimeInterval ?? NSDate.timeIntervalSinceReferenceDate() + Double(self.expiresIn)
+        let expiresIn = json["expires_in"] as? Int ?? 0
+        self.expiresIn = expiresIn
+        self.expiresDate = json["expires_date"] as? NSTimeInterval ?? NSDate.timeIntervalSinceReferenceDate() + Double(expiresIn)
         self.scope = json["scope"] as? String ?? ""
         self.refreshToken = json["refresh_token"] as? String ?? ""
     }
