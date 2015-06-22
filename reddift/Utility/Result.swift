@@ -8,19 +8,12 @@
 
 import Foundation
 
-public final class Box<A> {
-    public let value: A
-    public init(_ value: A) {
-        self.value = value
-    }
-}
-
 public enum Result<A> {
-    case Success(Box<A>)
+    case Success(A)
     case Failure(NSError)
     
     public init(value:A) {
-        self = .Success(Box(value))
+        self = .Success(value)
     }
     
     public init(error: NSError?) {
@@ -44,7 +37,7 @@ public enum Result<A> {
     public var value: A? {
         switch self {
         case .Success(let success):
-            return success.value
+            return success
         default:
             return nil
         }
@@ -53,7 +46,7 @@ public enum Result<A> {
 
 public func resultFromOptional<A>(optional: A?, error: NSError) -> Result<A> {
     if let a = optional {
-        return .Success(Box(a))
+        return .Success(a)
     } else {
         return .Failure(error)
     }
@@ -63,7 +56,7 @@ public func resultFromOptionalError<A>(value: A, optionalError: NSError?) -> Res
     if let error = optionalError {
         return .Failure(error)
     } else {
-        return .Success(Box(value))
+        return .Success(value)
     }
 }
 
@@ -71,7 +64,7 @@ infix operator >>> { associativity left precedence 150 }
 
 public func >>><A, B>(a: Result<A>, f: A -> Result<B>) -> Result<B> {
     switch a {
-    case let .Success(x):     return f(x.value)
+    case let .Success(x):     return f(x)
     case let .Failure(error): return .Failure(error)
     }
 }

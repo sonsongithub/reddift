@@ -22,17 +22,17 @@ class CAPTCHATest: SessionTestSpec {
         describe("CAPTCHA") {
             describe("Needs API response") {
                 it("is true or false as Bool") {
-                    var check:Bool? = nil
+                    var check_result:Bool? = nil
                     self.session?.checkNeedsCAPTCHA({(result) -> Void in
                         switch result {
-                        case .Failure:
-                            print(result.error!.description)
-                        case .Success:
-                            check = result.value
+                        case .Failure(let error):
+                            print(error)
+                        case .Success(let check):
+                            check_result = check
                         }
                         NSThread.sleepForTimeInterval(self.testInterval)
                     })
-                    expect(check).toEventuallyNot(equal(nil), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
+                    expect(check_result).toEventuallyNot(equal(nil), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
                 }
             }
             
@@ -41,10 +41,10 @@ class CAPTCHATest: SessionTestSpec {
                     var iden:String? = nil
                     self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
                         switch result {
-                        case .Failure:
-                            print(result.error!.description)
-                        case .Success:
-                            iden = result.value
+                        case .Failure(let error):
+                            print(error.description)
+                        case .Success(let identifier):
+                            iden = identifier
                         }
                         NSThread.sleepForTimeInterval(self.testInterval)
                     })
@@ -61,21 +61,17 @@ class CAPTCHATest: SessionTestSpec {
                 #endif
                     self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
                         switch result {
-                        case .Failure:
-                            print(result.error!.description)
-                        case .Success:
-                            if let string = result.value {
-                                self.session?.getCAPTCHA(string, completion: { (result) -> Void in
-                                    switch result {
-                                    case .Failure:
-                                        print(result.error!.description)
-                                    case .Success:
-                                        if let image:CAPTCHAImage = result.value {
-                                            size = image.size
-                                        }
-                                    }
-                                })
-                            }
+                        case .Failure(let error):
+                            print(error.description)
+                        case .Success(let string):
+                            self.session?.getCAPTCHA(string, completion: { (result) -> Void in
+                                switch result {
+                                case .Failure(let error):
+                                    print(error.description)
+                                case .Success(let image):
+                                    size = image.size
+                                }
+                            })
                         }
                         NSThread.sleepForTimeInterval(self.testInterval)
                     })

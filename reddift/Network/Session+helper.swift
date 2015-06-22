@@ -40,7 +40,7 @@ func parseResponse(response: Response) -> Result<NSData> {
     if !successRange.contains(response.statusCode) {
         return .Failure(HttpStatus(response.statusCode).error)
     }
-    return .Success(Box(response.data))
+    return .Success(response.data)
 }
 
 /**
