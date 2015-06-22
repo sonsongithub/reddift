@@ -13,6 +13,7 @@ func getCAPTCHA(session:Session) {
         case .Success:
             if let captcha:CAPTCHA = result.value {
                 let img:UIImage = captcha.image
+                print(img)
             }
         }
     })
@@ -81,7 +82,7 @@ func getLinksBy(session:Session) {
 }
 
 func getList(session:Session) {
-    var subreddit = Subreddit(id: "a")
+    let subreddit = Subreddit(id: "a")
 //    subreddit.displayName = "sandboxtest"
     session.getRandom(subreddit, completion: { (result) in
         switch result {
@@ -95,26 +96,31 @@ func getList(session:Session) {
 
 let url: NSURL = NSBundle.mainBundle().URLForResource("test_config.json", withExtension:nil)!
 let data = NSData(contentsOfURL: url)!
-let json:AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions())
-
-if let json = json as? [String:String] {
-    if let username = json["username"],
-        let password = json["password"],
-        let clientID = json["client_id"],
-        let secret = json["secret"] {
-            OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:( { (result:Result<Token>) -> Void in
-                switch result {
-                case .Failure:
-                    print(result.error)
-                case .Success:
-                    print(result.value)
-                    if let token:Token = result.value {
-                        let session = Session(token: token)
-                        getList(session)
+var json:AnyObject? = nil
+do {
+    json = try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions())
+    
+    if let json = json as? [String:String] {
+        if let username = json["username"],
+            let password = json["password"],
+            let clientID = json["client_id"],
+            let secret = json["secret"] {
+                OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:( { (result:Result<Token>) -> Void in
+                    switch result {
+                    case .Failure:
+                        print(result.error)
+                    case .Success:
+                        print(result.value)
+                        if let token:Token = result.value {
+                            let session = Session(token: token)
+                            getList(session)
+                        }
                     }
-                }
-            }))
+                }))
+        }
     }
+}
+catch {
 }
 
 XCPSetExecutionShouldContinueIndefinitely()
