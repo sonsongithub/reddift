@@ -36,10 +36,10 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.setVote(direction, name: link.name, completion: { (result) -> Void in
                 switch result {
-                case .Failure:
-                    print(result.error)
-                case .Success:
-                    print(result.value)
+                case .Failure(let error):
+                    print(error)
+                case .Success(let check):
+                    print(check)
                 }
             })
         }
@@ -49,10 +49,10 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.setSave(save, name: link.name, completion: { (result) -> Void in
                 switch result {
-                case .Failure:
-                    print(result.error)
-                case .Success:
-                    print(result.value)
+                case .Failure(let error):
+                    print(error)
+                case .Success(let check):
+                    print(check)
                 }
             })
         }
@@ -62,10 +62,10 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.setHide(hide, name: link.name, completion: { (result) -> Void in
                 switch result {
-                case .Failure:
-                    print(result.error)
-                case .Success:
-                    print(result.value)
+                case .Failure(let error):
+                    print(error)
+                case .Success(let check):
+                    print(check)
                 }
             })
         }
@@ -168,11 +168,10 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.getArticles(link, sort:CommentSort.New, comments:nil, completion: { (result) -> Void in
                 switch result {
-                case .Failure:
-                    print(result.error)
-                case .Success:
-                    print(result.value)
-                    if let redditAnyArray = result.value as? [RedditAny] {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let array):
+                    if let redditAnyArray = array as? [RedditAny] {
                         if redditAnyArray.indices ~= 0 {
                             let _ = redditAnyArray[0]
                         }
