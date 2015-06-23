@@ -238,10 +238,10 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                 print(more)
                 session?.getMoreChildren(more.children, link:link, sort:CommentSort.New, completion:{ (result) -> Void in
                     switch result {
-                    case .Failure:
-                        print(result.error)
-                    case .Success:
-                        print(result.value)
+                    case .Failure(let error):
+                        print(error)
+                    case .Success(let redditAny):
+                        print(redditAny)
                     }
                 });
             }

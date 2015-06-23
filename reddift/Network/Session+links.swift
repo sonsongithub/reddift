@@ -123,10 +123,10 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getInfo(names:[String], completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    public func getInfo(names:[String], completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         let commaSeparatedNameString = commaSeparatedStringFromList(names)
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
-        return handleRequest(request, completion:completion)
+        return handleRequestAsListing(request, completion:completion)
     }
     
     /**
@@ -136,7 +136,7 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func setNSFW(mark:Bool, thing:Thing, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func setNSFW(mark:Bool, thing:Thing, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         var path = "/api/unmarknsfw"
         if mark {
             path = "/api/marknsfw"
@@ -264,7 +264,7 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getMoreChildren(children:[String], link:Link, sort:CommentSort, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func getMoreChildren(children:[String], link:Link, sort:CommentSort, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         let commaSeparatedChildren = commaSeparatedStringFromList(children)
         let parameter = ["children":commaSeparatedChildren, "link_id":link.name, "sort":sort.type, "api_type":"json"]
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/morechildren", parameter:parameter, method:"GET", token:token)

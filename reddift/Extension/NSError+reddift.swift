@@ -31,6 +31,8 @@ public enum ReddiftError:Int {
     case ParseAccessToken       = 401
     case TokenNotfound          = 402
     
+    case Malformed              = 500
+    
     var error:NSError {
         return NSError.errorWithCode(self.rawValue, self.description)
     }
@@ -64,6 +66,8 @@ public enum ReddiftError:Int {
             return "Failed to extract access token from response unexpectedly."
         case .TokenNotfound:
             return "Token which has the name you specified was not found."
+        case .Malformed:
+            return "Data is malformed."
         }
     }
 }

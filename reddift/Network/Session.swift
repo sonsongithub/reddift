@@ -89,6 +89,21 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
         return task
     }
     
+    func handleRequestAsListing(request:NSMutableURLRequest, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            if let response = response {
+                self.updateRateLimitWithURLResponse(response)
+            }
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> listingPassFilter
+            completion(result)
+        })
+        if let task = task {
+            task.resume()
+        }
+        return task
+    }
+    
     /**
     Returns JSON object which is obtained from reddit.com.
     

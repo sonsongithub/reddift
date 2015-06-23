@@ -19,8 +19,8 @@ class LinksTest: SessionTestSpec {
         var isSucceeded = false
         self.session?.deleteCommentOrLink(thing.name, completion: { (result) -> Void in
             switch result {
-            case .Failure:
-                print(result.error!.description)
+            case .Failure(let error):
+                print(error.description)
             case .Success:
                 isSucceeded = true
             }
@@ -41,10 +41,10 @@ class LinksTest: SessionTestSpec {
                 let name = "t3_" + self.testLinkId
                 self.session?.postComment("test comment2", parentName:name, completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
-                        print(result.error!.description)
-                    case .Success:
-                        comment = result.value
+                    case .Failure(let error):
+                        print(error.description)
+                    case .Success(let postedComment):
+                        comment = postedComment
                     }
                 })
                 expect(comment != nil).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
@@ -64,10 +64,10 @@ class LinksTest: SessionTestSpec {
                 let name = "t1_" + self.testCommentId
                 self.session?.postComment("test comment3", parentName:name, completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
-                        print(result.error!.description)
-                    case .Success:
-                        comment = result.value
+                    case .Failure(let error):
+                        print(error.description)
+                    case .Success(let postedComment):
+                        comment = postedComment
                     }
                 })
                 expect(comment != nil).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
@@ -87,8 +87,8 @@ class LinksTest: SessionTestSpec {
                 let link = Link(id: self.testLinkId)
                 self.session?.setNSFW(true, thing: link, completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
-                        print(result.error!.description)
+                    case .Failure(let error):
+                        print(error.description)
                     case .Success:
                         isSucceeded = true
                     }
@@ -101,14 +101,12 @@ class LinksTest: SessionTestSpec {
                 let link = Link(id: self.testLinkId)
                 self.session?.getInfo([link.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
-                        print(result.error!.description)
-                    case .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    isSucceeded = (incommingLink.name == link.name && incommingLink.over18)
-                                }
+                    case .Failure(let error):
+                        print(error.description)
+                    case .Success(let listing):
+                        for obj in listing.children {
+                            if let incommingLink = obj as? Link {
+                                isSucceeded = (incommingLink.name == link.name && incommingLink.over18)
                             }
                         }
                     }
@@ -121,8 +119,8 @@ class LinksTest: SessionTestSpec {
                 let link = Link(id: self.testLinkId)
                 self.session?.setNSFW(false, thing: link, completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
-                        print(result.error!.description)
+                    case .Failure(let error):
+                        print(error.description)
                     case .Success:
                         isSucceeded = true
                     }
@@ -135,14 +133,12 @@ class LinksTest: SessionTestSpec {
                 let link = Link(id: self.testLinkId)
                 self.session?.getInfo([link.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
-                        print(result.error!.description)
-                    case .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    isSucceeded = (incommingLink.name == link.name && !incommingLink.over18)
-                                }
+                    case .Failure(let error):
+                        print(error.description)
+                    case .Success(let listing):
+                        for obj in listing.children {
+                            if let incommingLink = obj as? Link {
+                                isSucceeded = (incommingLink.name == link.name && !incommingLink.over18)
                             }
                         }
                     }
@@ -173,14 +169,12 @@ class LinksTest: SessionTestSpec {
                 let link = Link(id: self.testLinkId)
                 self.session?.getInfo([link.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
-                        print(result.error!.description)
-                    case .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    isSucceeded = (incommingLink.name == link.name && incommingLink.saved)
-                                }
+                    case .Failure(let error):
+                        print(error.description)
+                    case .Success(let listing):
+                        for obj in listing.children {
+                            if let incommingLink = obj as? Link {
+                                isSucceeded = (incommingLink.name == link.name && incommingLink.saved)
                             }
                         }
                     }
@@ -207,14 +201,12 @@ class LinksTest: SessionTestSpec {
                 let link = Link(id: self.testLinkId)
                 self.session?.getInfo([link.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
-                        print(result.error!.description)
-                    case .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    isSucceeded = (incommingLink.name == link.name && !incommingLink.saved)
-                                }
+                    case .Failure(let error):
+                        print(error.description)
+                    case .Success(let listing):
+                        for obj in listing.children {
+                            if let incommingLink = obj as? Link {
+                                isSucceeded = (incommingLink.name == link.name && !incommingLink.saved)
                             }
                         }
                     }
@@ -245,14 +237,12 @@ class LinksTest: SessionTestSpec {
                 let link = Link(id: self.testLinkId)
                 self.session?.getInfo([link.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
-                        print(result.error!.description)
-                    case .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    isSucceeded = (incommingLink.name == link.name && incommingLink.hidden)
-                                }
+                    case .Failure(let error):
+                        print(error.description)
+                    case .Success(let listing):
+                        for obj in listing.children {
+                            if let incommingLink = obj as? Link {
+                                isSucceeded = (incommingLink.name == link.name && incommingLink.hidden)
                             }
                         }
                     }
@@ -279,14 +269,12 @@ class LinksTest: SessionTestSpec {
                 let link = Link(id: self.testLinkId)
                 self.session?.getInfo([link.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
-                        print(result.error!.description)
-                    case .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    isSucceeded = (incommingLink.name == link.name && !incommingLink.hidden)
-                                }
+                    case .Failure(let error):
+                        print(error.description)
+                    case .Success(let listing):
+                        for obj in listing.children {
+                            if let incommingLink = obj as? Link {
+                                isSucceeded = (incommingLink.name == link.name && !incommingLink.hidden)
                             }
                         }
                     }
@@ -317,15 +305,13 @@ class LinksTest: SessionTestSpec {
                 let link = Link(id: self.testLinkId)
                 self.session?.getInfo([link.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
-                        print(result.error!.description)
-                    case .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    if let likes = incommingLink.likes {
-                                        isSucceeded = (incommingLink.name == link.name && likes)
-                                    }
+                    case .Failure(let error):
+                        print(error.description)
+                    case .Success(let listing):
+                        for obj in listing.children {
+                            if let incommingLink = obj as? Link {
+                                if let likes = incommingLink.likes {
+                                    isSucceeded = (incommingLink.name == link.name && likes)
                                 }
                             }
                         }
@@ -353,15 +339,13 @@ class LinksTest: SessionTestSpec {
                 let link = Link(id: self.testLinkId)
                 self.session?.getInfo([link.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
-                        print(result.error!.description)
-                    case .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    if let likes = incommingLink.likes {
-                                        isSucceeded = (incommingLink.name == link.name && !likes)
-                                    }
+                    case .Failure(let error):
+                        print(error.description)
+                    case .Success(let listing):
+                        for obj in listing.children {
+                            if let incommingLink = obj as? Link {
+                                if let likes = incommingLink.likes {
+                                    isSucceeded = (incommingLink.name == link.name && !likes)
                                 }
                             }
                         }
@@ -389,14 +373,12 @@ class LinksTest: SessionTestSpec {
                 let link = Link(id: self.testLinkId)
                 self.session?.getInfo([link.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
-                        print(result.error!.description)
-                    case .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    isSucceeded = (incommingLink.name == link.name && (incommingLink.likes == nil))
-                                }
+                    case .Failure(let error):
+                        print(error.description)
+                    case .Success(let listing):
+                        for obj in listing.children {
+                            if let incommingLink = obj as? Link {
+                                isSucceeded = (incommingLink.name == link.name && (incommingLink.likes == nil))
                             }
                         }
                     }

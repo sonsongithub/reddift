@@ -69,6 +69,21 @@ func decodeJSON(data: NSData) -> Result<JSON> {
 }
 
 /**
+Cast RedditAnyObject to Listing object.
+If the object is not Listing object, return error.
+
+- parameter object RedditAny object will be casted Listing.
+
+- returns: Result object. Result object has any Listing object, otherwise error object.
+*/
+func listingPassFilter(redditAny: RedditAny) -> Result<Listing> {
+    if let listing = redditAny as? Listing {
+        return Result(value: listing)
+    }
+    return Result(error: ReddiftError.Malformed.error)
+}
+
+/**
 Parse Thing, Listing JSON object.
 
 - parameter data: Binary data is returned from reddit.

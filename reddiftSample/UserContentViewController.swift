@@ -86,17 +86,15 @@ class UserContentViewController: UITableViewController {
                     switch result {
                     case .Failure:
                         print(result.error)
-                    case .Success:
-                        if let listing = result.value as? Listing {
-                            if listing.children.count == 1 {
-                                if let link = listing.children[0] as? Link {
-                                    if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{
-                                        vc.session = self.session
-                                        vc.link = link
-                                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                            self.navigationController?.pushViewController(vc, animated: true)
-                                        })
-                                    }
+                    case .Success(let listing):
+                        if listing.children.count == 1 {
+                            if let link = listing.children[0] as? Link {
+                                if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{
+                                    vc.session = self.session
+                                    vc.link = link
+                                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                        self.navigationController?.pushViewController(vc, animated: true)
+                                    })
                                 }
                             }
                         }
