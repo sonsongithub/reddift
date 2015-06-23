@@ -87,7 +87,7 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getList(paginator:Paginator, subreddit:SubredditURLPath?, sort:LinkSortType, timeFilterWithin:TimeFilterWithin, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    public func getList(paginator:Paginator, subreddit:SubredditURLPath?, sort:LinkSortType, timeFilterWithin:TimeFilterWithin, limit:Int = 25, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         switch sort {
         case .Controversial:
             return getList(paginator, subreddit: subreddit, privateSortType: PrivateLinkSortBy.Controversial, timeFilterWithin: timeFilterWithin, limit: limit, completion: completion)
@@ -111,7 +111,7 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    func getList(paginator:Paginator, subreddit:SubredditURLPath?, privateSortType:PrivateLinkSortBy, timeFilterWithin:TimeFilterWithin, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    func getList(paginator:Paginator, subreddit:SubredditURLPath?, privateSortType:PrivateLinkSortBy, timeFilterWithin:TimeFilterWithin, limit:Int = 25, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         var parameter = ["t":timeFilterWithin.param];
         parameter["limit"] = "\(limit)"
         parameter["show"] = "all"
@@ -127,7 +127,7 @@ extension Session {
             if let data = data, let response = response {
                 self.updateRateLimitWithURLResponse(response)
                 let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
+                let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> listingPassFilter
                 completion(result)
             }
             else {
@@ -148,7 +148,7 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    func getHotList(paginator:Paginator, subreddit:SubredditURLPath?, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    func getHotList(paginator:Paginator, subreddit:SubredditURLPath?, limit:Int = 25, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         return getNewOrHotList(paginator, subreddit: subreddit, type: "hot", limit:limit, completion: completion)
     }
     
@@ -160,7 +160,7 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    func getNewList(paginator:Paginator, subreddit:SubredditURLPath?, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    func getNewList(paginator:Paginator, subreddit:SubredditURLPath?, limit:Int = 25, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         return getNewOrHotList(paginator, subreddit: subreddit, type: "new", limit:limit, completion: completion)
     }
     
@@ -174,7 +174,7 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    func getNewOrHotList(paginator:Paginator, subreddit:SubredditURLPath?, type:String, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    func getNewOrHotList(paginator:Paginator, subreddit:SubredditURLPath?, type:String, limit:Int = 25, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = [:]
         parameter["limit"] = "\(limit)"
         parameter["show"] = "all"
@@ -190,7 +190,7 @@ extension Session {
             if let data = data, let response = response {
                 self.updateRateLimitWithURLResponse(response)
                 let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
+                let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> listingPassFilter
                 completion(result)
             }
             else {

@@ -59,6 +59,9 @@
                   Identifier = "ExtendCommentsTest">
                </Test>
                <Test
+                  Identifier = "Hoge">
+               </Test>
+               <Test
                   Identifier = "LinksTest">
                </Test>
                <Test
@@ -78,6 +81,9 @@
                </Test>
                <Test
                   Identifier = "SessionTestSpec">
+               </Test>
+               <Test
+                  Identifier = "SessionTestSpec2">
                </Test>
                <Test
                   Identifier = "SubredditTest">

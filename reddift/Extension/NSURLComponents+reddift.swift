@@ -16,7 +16,7 @@ extension NSURLComponents {
                 #if os(iOS)
                     parameters[queryItem.name] = queryItem.value
                 #elseif os(OSX)
-                    parameters[queryItem.name] = queryItem.value()
+                    parameters[queryItem.name] = queryItem.value!
                 #endif
             }
         }

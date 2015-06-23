@@ -155,45 +155,45 @@ class MultiredditTest: SessionTestSpec {
                 }
             }
             
-            it("Check whether the multireddit does inlcude only swift and redditdev articles, Controversial") {
-                var isSucceeded = false
-                if let multi = self.createdMultireddit {
-                    self.session?.getList(Paginator(), subreddit: multi, sort:LinkSortType.Controversial, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
-                        isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
-                    })
-                }
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Check whether the multireddit does inlcude only swift and redditdev articles, Hot") {
-                var isSucceeded = false
-                if let multi = self.createdMultireddit {
-                    self.session?.getList(Paginator(), subreddit: multi, sort:.Hot, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
-                        isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
-                    })
-                }
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Check whether the multireddit does inlcude only swift and redditdev articles, New") {
-                var isSucceeded = false
-                if let multi = self.createdMultireddit {
-                    self.session?.getList(Paginator(), subreddit: multi, sort:.New, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
-                        isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
-                    })
-                }
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Check whether the multireddit does inlcude only swift and redditdev articles, Top") {
-                var isSucceeded = false
-                if let multi = self.createdMultireddit {
-                    self.session?.getList(Paginator(), subreddit: multi, sort:.Top, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
-                        isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
-                    })
-                }
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
+//            it("Check whether the multireddit does inlcude only swift and redditdev articles, Controversial") {
+//                var isSucceeded = false
+//                if let multi = self.createdMultireddit {
+//                    self.session?.getList(Paginator(), subreddit: multi, sort:LinkSortType.Controversial, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
+//                        isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
+//                    })
+//                }
+//                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
+//            }
+//            
+//            it("Check whether the multireddit does inlcude only swift and redditdev articles, Hot") {
+//                var isSucceeded = false
+//                if let multi = self.createdMultireddit {
+//                    self.session?.getList(Paginator(), subreddit: multi, sort:.Hot, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
+//                        isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
+//                    })
+//                }
+//                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
+//            }
+//            
+//            it("Check whether the multireddit does inlcude only swift and redditdev articles, New") {
+//                var isSucceeded = false
+//                if let multi = self.createdMultireddit {
+//                    self.session?.getList(Paginator(), subreddit: multi, sort:.New, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
+//                        isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
+//                    })
+//                }
+//                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
+//            }
+//            
+//            it("Check whether the multireddit does inlcude only swift and redditdev articles, Top") {
+//                var isSucceeded = false
+//                if let multi = self.createdMultireddit {
+//                    self.session?.getList(Paginator(), subreddit: multi, sort:.Top, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
+//                        isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
+//                    })
+//                }
+//                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
+//            }
             
             it("Update the attribute of new multireddit, except subreddits.") {
                 var isSucceeded = false
