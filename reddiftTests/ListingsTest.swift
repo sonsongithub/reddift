@@ -10,17 +10,7 @@ import Foundation
 import XCTest
 
 class ListingsTest: SessionTestSpec2 {
-    
-    override func setUp() {
-        super.setUp()
-        self.createSession()
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-        NSThread.sleepForTimeInterval(self.testInterval)
-    }
-    
+
     func testDownloadLinks() {
         let sortTypes:[LinkSortType] = [.Controversial, .Top, .Hot, .New]
         let timeFilterTypes:[TimeFilterWithin] = [.Hour, .Day, .Week, .Month, .Year, .All]

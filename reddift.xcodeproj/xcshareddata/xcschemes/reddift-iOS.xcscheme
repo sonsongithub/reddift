@@ -68,9 +68,6 @@
                   Identifier = "MultiTest">
                </Test>
                <Test
-                  Identifier = "MultiredditTest">
-               </Test>
-               <Test
                   Identifier = "ParseResponseObjectTest">
                </Test>
                <Test

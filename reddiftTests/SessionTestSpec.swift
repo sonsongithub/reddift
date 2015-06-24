@@ -65,6 +65,16 @@ class SessionTestSpec2 : XCTestCase {
     /// shared session object
     var session:Session? = nil
     
+    override func setUp() {
+        super.setUp()
+        self.createSession()
+    }
+    
+    override func tearDown() {
+        super.tearDown()
+        NSThread.sleepForTimeInterval(self.testInterval)
+    }
+    
     /// get token using application only oauth
     func createSession() {
         if let json = self.jsonFromFileName("test_config.json") as? [String:String] {
