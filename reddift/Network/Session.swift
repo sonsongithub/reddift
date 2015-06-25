@@ -49,8 +49,8 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
 
 	- parameter response: NSURLResponse object is passed from NSURLSession.
 	*/
-    func updateRateLimitWithURLResponse(response:NSURLResponse) {
-        if let httpResponse:NSHTTPURLResponse = response as? NSHTTPURLResponse {
+    func updateRateLimitWithURLResponse(response:NSURLResponse?) {
+        if let response = response, let httpResponse:NSHTTPURLResponse = response as? NSHTTPURLResponse {
             if let temp = httpResponse.allHeaderFields["x-ratelimit-reset"] as? String {
                 x_ratelimit_reset = Int(temp) ?? 0
             }
