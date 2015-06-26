@@ -26,28 +26,6 @@ enum PrivateLinkSortBy {
 }
 
 extension Session {
-    
-    /**
-    Returns object which is generated from JSON object from reddit.com.
-    Originally, response object is [Listing].
-    This method filters Listing object at index 0, and returns onlly an array such as [Comment].
-    
-    - parameter response: NSURLResponse object is passed from NSURLSession.
-    - parameter completion: The completion handler to call when the load request is complete.
-    - returns: Data task which requests search to reddit.com.
-    */
-    func handleRequestFilteringLinkObject(request:NSMutableURLRequest, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> filterArticleResponse
-            completion(result)
-        })
-        if let task = task {
-            task.resume()
-        }
-        return task
-    }
 
     /**
     Get the comment tree for a given Link article.
@@ -61,17 +39,24 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getArticles(link:Link, sort:CommentSort, comments:[String]? = nil, withoutLink:Bool = false, depth:Int = 4, limit:Int = 100, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    public func getArticles(link:Link, sort:CommentSort, comments:[String]? = nil, depth:Int = 4, limit:Int = 100, completion:(Result<(Listing, Listing)>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = ["sort":sort.type, "depth":"\(depth)", "showmore":"True", "limit":"\(limit)"]
         if let comments = comments {
             let commaSeparatedIDString = commaSeparatedStringFromList(comments)
             parameter["comment"] = commaSeparatedIDString
         }
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/comments/" + link.id, parameter:parameter, method:"GET", token:token)
-        if withoutLink {
-            return handleRequestFilteringLinkObject(request, completion: completion)
+        
+        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> filterArticleResponse
+            completion(result)
+        }) {
+            task.resume()
+            return task
         }
-        return handleRequest(request, completion: completion)
+        return nil
     }
     
     /**
@@ -121,21 +106,16 @@ extension Session {
             path = "\(subreddit.path)\(privateSortType.path).json"
         }
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            if let data = data, let response = response {
-                self.updateRateLimitWithURLResponse(response)
-                let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> listingPassFilter
-                completion(result)
-            }
-            else {
-                completion(Result(error: error))
-            }
-        })
-        if let task = task {
+        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> listingPassFilter
+            completion(result)
+        }) {
             task.resume()
+            return task
         }
-        return task
+        return nil
     }
     
     /**
@@ -184,21 +164,24 @@ extension Session {
             path = "\(subreddit.path)/\(type).json"
         }
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            if let data = data, let response = response {
-                self.updateRateLimitWithURLResponse(response)
-                let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> listingPassFilter
-                completion(result)
-            }
-            else {
-                completion(Result(error: error))
-            }
-        })
-        if let task = task {
+        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodeJSON)
+                .flatMap(parseListFromJSON)
+                .flatMap({ (redditAny:RedditAny) -> Result<Listing> in
+                    if let listing = redditAny as? Listing {
+                        return Result(value: listing)
+                    }
+                    return Result(error: ReddiftError.Malformed.error)
+                })
+            completion(result)
+        }) {
             task.resume()
+            return task
         }
-        return task
+        return nil
     }
     
     /**
@@ -209,21 +192,31 @@ extension Session {
     - parameter subreddit: Specified subreddit to which you would like to get random link
     - returns: Data task which requests search to reddit.com.
     */
-    public func getRandom(subreddit:Subreddit?, withoutLink:Bool = false, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-        if let subreddit = subreddit {
-            let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:subreddit.url + "/random", method:"GET", token:token)
-            if withoutLink {
-                return handleRequestFilteringLinkObject(request, completion: completion)
-            }
-            return handleRequest(request, completion: completion)
+    public func getRandom(subreddit:Subreddit? = nil, completion:(Result<(Listing, Listing)>) -> Void) -> NSURLSessionDataTask? {
+        let path:String = (subreddit == nil) ? "/random" : subreddit!.url + "/random"
+        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, method:"GET", token:token)
+        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodeJSON)
+                .flatMap(parseListFromJSON)
+                .flatMap({ (redditAny:RedditAny) -> Result<(Listing, Listing)> in
+                    if let array = redditAny as? [RedditAny] {
+                        if array.count == 2 {
+                            if let listing0 = array[0] as? Listing, let listing1 = array[1] as? Listing {
+                                return Result(value: (listing0, listing1))
+                            }
+                        }
+                    }
+                    return Result(error: ReddiftError.Malformed.error)
+                })
+            completion(result)
+        }) {
+            task.resume()
+            return task
         }
-        else {
-            let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/random", method:"GET", token:token)
-            if withoutLink {
-                return handleRequestFilteringLinkObject(request, completion: completion)
-            }
-            return handleRequest(request, completion: completion)
-        }
+        return nil
     }
     
     // MARK: BDT does not cover following methods.
@@ -237,7 +230,7 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getRelatedArticles(paginator:Paginator, thing:Thing, withoutLink:Bool = false, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    public func getRelatedArticles(paginator:Paginator, thing:Thing, limit:Int = 25, completion:(Result<(Listing, Listing)>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = [:]
         parameter["limit"] = "\(limit)"
         parameter["show"] = "all"
@@ -245,10 +238,29 @@ extension Session {
         parameter.update(paginator.parameters())
         
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/related/" + thing.id, parameter:parameter, method:"GET", token:token)
-        if withoutLink {
-            return handleRequestFilteringLinkObject(request, completion: completion)
+        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodeJSON)
+                .flatMap(parseListFromJSON)
+                .flatMap({ (redditAny:RedditAny) -> Result<(Listing, Listing)> in
+                    if let array = redditAny as? [RedditAny] {
+                        if array.count == 2 {
+                            if let listing0 = array[0] as? Listing, let listing1 = array[1] as? Listing {
+                                return Result(value: (listing0, listing1))
+                            }
+                        }
+                    }
+                    return Result(error: ReddiftError.Malformed.error)
+                })
+            completion(result)
+        }) {
+            task.resume()
+            return task
         }
-        return handleRequest(request, completion: completion)
+        return nil
     }
     
     /**
@@ -260,7 +272,7 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getDuplicatedArticles(paginator:Paginator, thing:Thing, withoutLink:Bool = false, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    public func getDuplicatedArticles(paginator:Paginator, thing:Thing, limit:Int = 25, completion:(Result<(Listing, Listing)>) -> Void) -> NSURLSessionDataTask? {
         var parameter:[String:String] = [:]
         parameter["limit"] = "\(limit)"
         parameter["show"] = "all"
@@ -268,10 +280,28 @@ extension Session {
         parameter.update(paginator.parameters())
         
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/duplicates/" + thing.id, parameter:parameter, method:"GET", token:token)
-        if withoutLink {
-            return handleRequestFilteringLinkObject(request, completion: completion)
+        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodeJSON)
+                .flatMap(parseListFromJSON)
+                .flatMap({ (redditAny:RedditAny) -> Result<(Listing, Listing)> in
+                    if let array = redditAny as? [RedditAny] {
+                        if array.count == 2 {
+                            if let listing0 = array[0] as? Listing, let listing1 = array[1] as? Listing {
+                                return Result(value: (listing0, listing1))
+                            }
+                        }
+                    }
+                    return Result(error: ReddiftError.Malformed.error)
+                })
+            completion(result)
+        }) {
+            task.resume()
+            return task
         }
-        return handleRequest(request, completion: completion)
+        return nil
     }
     
     /**
@@ -281,23 +311,28 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getLinksById(links:[Link], completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    public func getLinksById(links:[Link], completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         let fullnameList = links.map({ (link: Link) -> String in link.name })
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/by_id/" + commaSeparatedStringFromList(fullnameList), method:"GET", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            if let data = data, let response = response {
-                self.updateRateLimitWithURLResponse(response)
-                let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
-                completion(result)
-            }
-            else {
-                completion(Result(error: error))
-            }
-        })
-        if let task = task {
+        
+        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodeJSON)
+                .flatMap(parseListFromJSON)
+                .flatMap({ (redditAny:RedditAny) -> Result<Listing> in
+                    if let listing = redditAny as? Listing {
+                        return Result(value: listing)
+                    }
+                    return Result(error: ReddiftError.Malformed.error)
+                })
+            completion(result)
+        
+        }) {
             task.resume()
+            return task
         }
-        return task
+        return nil
     }
 }

@@ -25,7 +25,7 @@ public enum Result<A> {
         }
     }
     
-    func open<B>(@noescape ifSuccess ifSuccess: A -> Result<B>, @noescape ifFailure: NSError -> Result<B>) -> Result<B> {
+    func package<B>(@noescape ifSuccess ifSuccess: A -> B, @noescape ifFailure: NSError -> B) -> B {
         switch self {
         case .Success(let value):
             return ifSuccess(value)
@@ -39,7 +39,7 @@ public enum Result<A> {
     }
     
     public func flatMap<B>(@noescape transform: A -> Result<B>) -> Result<B> {
-        return open(
+        return package(
             ifSuccess: transform,
             ifFailure: Result<B>.Failure)
     }
