@@ -15,22 +15,25 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getProfile(completion:(Result<Thing>) -> Void) -> NSURLSessionDataTask? {
+    public func getProfile(completion:(Result<Account>) -> Void) -> NSURLSessionDataTask? {
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/v1/me", method:"GET", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            if let data = data, let response = response {
-                self.updateRateLimitWithURLResponse(response)
-                let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                let result = responseResult >>> parseResponse >>> decodeJSON >>> parseDataInJSON_t2
-                completion(result)
-            }
-            else {
-                completion(Result(error: error))
-            }
-        })
-        if let task = task {
+        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodeJSON)
+                .flatMap(parseListFromJSON)
+                .flatMap({ (json:JSON) -> Result<Account> in
+                    if let object = json as? JSONDictionary {
+                        return resultFromOptional(Account(data:object), error: ReddiftError.ParseThingT2.error)
+                    }
+                    return resultFromOptional(nil, error: ReddiftError.Malformed.error)
+                })
+            completion(result)
+        }) {
             task.resume()
+            return task
         }
-        return task
+        return nil
     }
 }

@@ -129,26 +129,17 @@ public struct OAuth2Token : Token {
     public func refresh(completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask? {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(requestForRefreshing(), completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            if let data = data, let response = response {
-                let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                let result = responseResult >>> parseResponse >>> decodeJSON
-                switch result {
-                case .Success:
-                    if var json = result.value as? [String:AnyObject] {
-                        json["name"] = self.name
-                        json["refresh_token"] = self.refreshToken
-                        completion(OAuth2Token.tokenWithJSON(json))
-                        return
-                    }
-                case .Failure:
-                    if let error = result.error {
-                        completion(Result(error: error))
-                        return
-                    }
+            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            let result = responseResult >>> parseResponse >>> decodeJSON
+            switch result {
+            case .Success:
+                if var json = result.value as? [String:AnyObject] {
+                    json["name"] = self.name
+                    json["refresh_token"] = self.refreshToken
+                    completion(OAuth2Token.tokenWithJSON(json))
+                    return
                 }
-                completion(Result(error: NSError.errorWithCode(0, "")))
-            }
-            else {
+            case .Failure(let error):
                 completion(Result(error: error))
             }
         })
@@ -166,20 +157,16 @@ public struct OAuth2Token : Token {
     */
     public func revoke(completion:(Result<JSON>)->Void) -> NSURLSessionDataTask? {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        let task = session.dataTaskWithRequest(requestForRevoking(), completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            if let data = data, let response = response {
-                let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                let result = responseResult >>> parseResponse >>> decodeJSON
-                completion(result)
-            }
-            else {
-                completion(Result(error: error))
-            }
-        })
-        if let task = task {
+        if let task = session.dataTaskWithRequest(requestForRevoking(), completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodeJSON)
+            completion(result)
+        }) {
             task.resume()
+            return task
         }
-        return task
+        return nil
     }
     
     /**
@@ -191,24 +178,25 @@ public struct OAuth2Token : Token {
     */
     public static func getOAuth2Token(code:String, completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask? {
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        let task = session.dataTaskWithRequest(requestForOAuth(code), completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> OAuth2Token.tokenWithJSON
+        if let task = session.dataTaskWithRequest(requestForOAuth(code), completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodeJSON)
+                .flatMap(parseListFromJSON)
+                .flatMap(OAuth2Token.tokenWithJSON)
             switch result {
-            case .Success:
-                if let token = result.value {
-                    token.getProfile({ (result) -> Void in
-                        completion(result)
-                    })
-                }
+            case .Success(let token):
+                token.getProfile({ (result) -> Void in
+                    completion(result)
+                })
             case .Failure:
                 completion(result)
             }
-        })
-        if let task = task {
+        }) {
             task.resume()
+            return task
         }
-        return task
+        return nil
     }
     
     /**
@@ -221,27 +209,28 @@ public struct OAuth2Token : Token {
     func getProfile(completion:(Result<OAuth2Token>) -> Void) -> NSURLSessionDataTask? {
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/v1/me", method:"GET", token:self)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseDataInJSON_t2
+        if let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodeJSON)
+                .flatMap(parseListFromJSON)
+                .flatMap({ (json:JSON) -> Result<Account> in
+                    if let object = json as? JSONDictionary {
+                        return resultFromOptional(Account(data:object), error: ReddiftError.ParseThingT2.error)
+                    }
+                    return Result(error: ReddiftError.Malformed.error)
+                })
             switch result {
-            case .Success:
-                if let profile = result.value as? Account {
-                    let json:[String:AnyObject] = ["name":profile.name, "access_token":self.accessToken, "token_type":self.tokenType, "expires_in":self.expiresIn, "expires_date":self.expiresDate, "scope":self.scope, "refresh_token":self.refreshToken]
-                    completion(OAuth2Token.tokenWithJSON(json))
-                    return
-                }
-            case .Failure:
-                if let error = result.error {
-                    completion(Result(error: error))
-                    return
-                }
+            case .Success(let profile):
+                let json:[String:AnyObject] = ["name":profile.name, "access_token":self.accessToken, "token_type":self.tokenType, "expires_in":self.expiresIn, "expires_date":self.expiresDate, "scope":self.scope, "refresh_token":self.refreshToken]
+                completion(OAuth2Token.tokenWithJSON(json))
+            case .Failure(let error):
+                completion(Result(error: error))
             }
-            completion(Result(error: NSError.errorWithCode(0, "")))
-        })
-        if let task = task {
+        }) {
             task.resume()
+            return task
         }
-        return task
+        return nil
     }
 }
