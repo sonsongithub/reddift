@@ -25,6 +25,24 @@ enum PrivateLinkSortBy {
     }
 }
 
+func redditAny2Tuple(redditAny:RedditAny) -> Result<(Listing, Listing)> {
+    if let array = redditAny as? [RedditAny] {
+        if array.count == 2 {
+            if let listing0 = array[0] as? Listing, let listing1 = array[1] as? Listing {
+                return Result(value: (listing0, listing1))
+            }
+        }
+    }
+    return Result(error: ReddiftError.Malformed.error)
+}
+
+func redditAny2Listing(redditAny:RedditAny) -> Result<Listing> {
+    if let listing = redditAny as? Listing {
+        return Result(value: listing)
+    }
+    return Result(error: ReddiftError.Malformed.error)
+}
+
 extension Session {
 
     /**
@@ -49,8 +67,12 @@ extension Session {
         
         if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
-            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> filterArticleResponse
+            
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodeJSON)
+                .flatMap(parseListFromJSON)
+                .flatMap(redditAny2Tuple)
             completion(result)
         }) {
             task.resume()
@@ -108,8 +130,11 @@ extension Session {
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
         if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
-            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> listingPassFilter
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodeJSON)
+                .flatMap(parseListFromJSON)
+                .flatMap(redditAny2Listing)
             completion(result)
         }) {
             task.resume()
@@ -170,12 +195,7 @@ extension Session {
                 .flatMap(parseResponse)
                 .flatMap(decodeJSON)
                 .flatMap(parseListFromJSON)
-                .flatMap({ (redditAny:RedditAny) -> Result<Listing> in
-                    if let listing = redditAny as? Listing {
-                        return Result(value: listing)
-                    }
-                    return Result(error: ReddiftError.Malformed.error)
-                })
+                .flatMap(redditAny2Listing)
             completion(result)
         }) {
             task.resume()
@@ -201,16 +221,7 @@ extension Session {
                 .flatMap(parseResponse)
                 .flatMap(decodeJSON)
                 .flatMap(parseListFromJSON)
-                .flatMap({ (redditAny:RedditAny) -> Result<(Listing, Listing)> in
-                    if let array = redditAny as? [RedditAny] {
-                        if array.count == 2 {
-                            if let listing0 = array[0] as? Listing, let listing1 = array[1] as? Listing {
-                                return Result(value: (listing0, listing1))
-                            }
-                        }
-                    }
-                    return Result(error: ReddiftError.Malformed.error)
-                })
+                .flatMap(redditAny2Tuple)
             completion(result)
         }) {
             task.resume()
@@ -245,16 +256,7 @@ extension Session {
                 .flatMap(parseResponse)
                 .flatMap(decodeJSON)
                 .flatMap(parseListFromJSON)
-                .flatMap({ (redditAny:RedditAny) -> Result<(Listing, Listing)> in
-                    if let array = redditAny as? [RedditAny] {
-                        if array.count == 2 {
-                            if let listing0 = array[0] as? Listing, let listing1 = array[1] as? Listing {
-                                return Result(value: (listing0, listing1))
-                            }
-                        }
-                    }
-                    return Result(error: ReddiftError.Malformed.error)
-                })
+                .flatMap(redditAny2Tuple)
             completion(result)
         }) {
             task.resume()
@@ -286,16 +288,7 @@ extension Session {
                 .flatMap(parseResponse)
                 .flatMap(decodeJSON)
                 .flatMap(parseListFromJSON)
-                .flatMap({ (redditAny:RedditAny) -> Result<(Listing, Listing)> in
-                    if let array = redditAny as? [RedditAny] {
-                        if array.count == 2 {
-                            if let listing0 = array[0] as? Listing, let listing1 = array[1] as? Listing {
-                                return Result(value: (listing0, listing1))
-                            }
-                        }
-                    }
-                    return Result(error: ReddiftError.Malformed.error)
-                })
+                .flatMap(redditAny2Tuple)
             completion(result)
         }) {
             task.resume()
@@ -321,12 +314,7 @@ extension Session {
                 .flatMap(parseResponse)
                 .flatMap(decodeJSON)
                 .flatMap(parseListFromJSON)
-                .flatMap({ (redditAny:RedditAny) -> Result<Listing> in
-                    if let listing = redditAny as? Listing {
-                        return Result(value: listing)
-                    }
-                    return Result(error: ReddiftError.Malformed.error)
-                })
+                .flatMap(redditAny2Listing)
             completion(result)
         
         }) {

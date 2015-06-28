@@ -170,28 +170,20 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                 switch result {
                 case .Failure(let error):
                     print(error)
-                case .Success(let array):
-                    if let redditAnyArray = array as? [RedditAny] {
-                        if redditAnyArray.indices ~= 0 {
-                            let _ = redditAnyArray[0]
-                        }
-                        if redditAnyArray.indices ~= 1 {
-                            if let listing = redditAnyArray[1] as? Listing {
-                                print(listing)
-                                
-                                var newComments:[Thing] = []
-                                for obj in listing.children {
-                                    if let comment = obj as? Comment {
-                                        newComments += extendAllReplies(comment)
-                                    }
-                                }
-                                self.comments += newComments
-                                self.contents += self.updateStrings(newComments)
-                                self.paginator = listing.paginator
-
-                            }
+                case .Success(let tuple):
+                    let listing = tuple.1
+                    print(listing)
+                    
+                    var newComments:[Thing] = []
+                    for obj in listing.children {
+                        if let comment = obj as? Comment {
+                            newComments += extendAllReplies(comment)
                         }
                     }
+                    self.comments += newComments
+                    self.contents += self.updateStrings(newComments)
+                    self.paginator = listing.paginator
+
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.tableView.reloadData()
                     })
