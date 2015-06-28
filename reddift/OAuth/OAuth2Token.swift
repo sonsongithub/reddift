@@ -182,7 +182,6 @@ public struct OAuth2Token : Token {
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(parseResponse)
                 .flatMap(decodeJSON)
-                .flatMap(parseListFromJSON)
                 .flatMap(OAuth2Token.tokenWithJSON)
             switch result {
             case .Success(let token):
@@ -213,7 +212,6 @@ public struct OAuth2Token : Token {
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(parseResponse)
                 .flatMap(decodeJSON)
-                .flatMap(parseListFromJSON)
                 .flatMap({ (json:JSON) -> Result<Account> in
                     if let object = json as? JSONDictionary {
                         return resultFromOptional(Account(data:object), error: ReddiftError.ParseThingT2.error)
