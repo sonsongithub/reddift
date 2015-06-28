@@ -23,7 +23,7 @@ class MultiredditTest: SessionTestSpec2 {
     let nameForRename = "renametest"
     let updatedDescription = "updated description"
     
-    func testAddSubredditToMultireddit(subredditDisplayName:String) {
+    func evaluateAddSubredditToMultireddit(subredditDisplayName:String) {
         var addedDisplayName:String? = nil
         let documentOpenExpectation = self.expectationWithDescription("Add subreddits, swift and redditdev, to the new multireddit.")
         if let multi = self.createdMultireddit {
@@ -34,16 +34,17 @@ class MultiredditTest: SessionTestSpec2 {
                 case .Success:
                     addedDisplayName = result.value
                 }
-                XCTAssert(addedDisplayName == subredditDisplayName)
+                XCTAssert(addedDisplayName == subredditDisplayName, "Add subreddits, swift and redditdev, to the new multireddit.")
                 documentOpenExpectation.fulfill()
             })
         }
         self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
     }
     
-    func testMultiredditIsRegistered(nameList:[String]) {
-        var count = 0
+    func evaluateMultiredditIsRegistered(nameList:[String]) {
+        let documentOpenExpectation = self.expectationWithDescription("Test whether multireddit is registered")
         self.session?.getMineMultireddit({ (result) -> Void in
+            var count = 0
             switch result {
             case .Failure:
                 print(result.error!.description)
@@ -61,9 +62,10 @@ class MultiredditTest: SessionTestSpec2 {
                     }
                 }
             }
-            NSThread.sleepForTimeInterval(self.testInterval)
+            XCTAssert(count == nameList.count, "Test whether multireddit is registered")
+            documentOpenExpectation.fulfill()
         })
-        expect(count).toEventually(equal(nameList.count), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
+        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
     }
     
     func check(result:Result<RedditAny>, targetSubreddits:[String]) -> Bool {
@@ -107,8 +109,8 @@ class MultiredditTest: SessionTestSpec2 {
                     }
                     isSucceeded = true
                 }
-                documentOpenExpectation.fulfill()
                 XCTAssert(isSucceeded,"")
+                documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
@@ -156,7 +158,7 @@ class MultiredditTest: SessionTestSpec2 {
         
         do {
             for subreddit in self.targetSubreddits {
-                self.testAddSubredditToMultireddit(subreddit)
+                self.evaluateAddSubredditToMultireddit(subreddit)
             }
         }
     }
