@@ -11,7 +11,7 @@ import Foundation
 #if os(iOS)
     import UIKit
     public typealias CAPTCHAImage = UIImage
-    #elseif os(OSX)
+#elseif os(OSX)
     import Cocoa
     public typealias CAPTCHAImage = NSImage
 #endif
@@ -44,11 +44,11 @@ Parse simple string response for "/api/needs_captcha"
 - returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
 */
 func decodePNGImage(data: NSData) -> Result<CAPTCHAImage> {
-    #if os(iOS)
-        let captcha = UIImage(data: data)
-        #elseif os(OSX)
-        let captcha = NSImage(data: data)
-    #endif
+#if os(iOS)
+    let captcha = UIImage(data: data)
+#elseif os(OSX)
+    let captcha = NSImage(data: data)
+#endif
     return resultFromOptional(captcha, error: ReddiftError.GetCAPTCHAImage.error)
 }
 
@@ -81,21 +81,17 @@ extension Session {
     */
     public func checkNeedsCAPTCHA(completion:(Result<Bool>) -> Void) -> NSURLSessionDataTask? {
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/needs_captcha", method:"GET", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            if let data = data, let response = response {
-                self.updateRateLimitWithURLResponse(response)
-                let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                let result = responseResult >>> parseResponse >>> decodeBooleanString
-                completion(result)
-            }
-            else {
-                completion(Result(error: error))
-            }
-        })
-        if let task = task {
+        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodeBooleanString)
+            completion(result)
+        }) {
             task.resume()
+            return task
         }
-        return task
+        return nil
     }
     
     /**
@@ -109,21 +105,18 @@ extension Session {
     public func getIdenForNewCAPTCHA(completion:(Result<String>) -> Void) -> NSURLSessionDataTask? {
         let parameter:[String:String] = ["api_type":"json"]
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/new_captcha", parameter:parameter, method:"POST", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            if let data = data, let response = response {
-                self.updateRateLimitWithURLResponse(response)
-                let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                let result = responseResult >>> parseResponse >>> decodeJSON >>> parseCAPTCHAIdenJSON
-                completion(result)
-            }
-            else {
-                completion(Result(error: error))
-            }
-        })
-        if let task = task {
+        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodeJSON)
+                .flatMap(parseCAPTCHAIdenJSON)
+            completion(result)
+        }) {
             task.resume()
+            return task
         }
-        return task
+        return nil
     }
     
     /**
@@ -139,83 +132,16 @@ extension Session {
     */
     public func getCAPTCHA(iden:String, completion:(Result<CAPTCHAImage>) -> Void) -> NSURLSessionDataTask? {
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/captcha/" + iden, method:"GET", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            if let data = data, let response = response {
-                self.updateRateLimitWithURLResponse(response)
-                let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                let result = responseResult >>> parseResponse >>> decodePNGImage
-                completion(result)
-            }
-            else {
-                completion(Result(error: error))
-            }
-        })
-        if let task = task {
+        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodePNGImage)
+            completion(result)
+        }) {
             task.resume()
+            return task
         }
-        return task
+        return nil
     }
-    
-    /**
-    Request a CAPTCHA image given an iden.
-    Responds with a 120x50 image/png which should be displayed to the user.
-    The user's response to the CAPTCHA should be sent as captcha along with your request.
-    To request a new CAPTCHA, Session.getIdenForNewCAPTCHA.
-    
-    - parameter completion: The completion handler to call when the load request is complete.
-    - returns: Data task which requests search to reddit.com.
-    */
-    public func getCAPTCHA(completion:(Result<CAPTCHA>) -> Void) -> NSURLSessionDataTask? {
-        let parameter:[String:String] = ["api_type":"json"]
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/new_captcha", parameter:parameter, method:"POST", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            if let data = data, let response = response {
-                self.updateRateLimitWithURLResponse(response)
-                let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                let result = responseResult >>> parseResponse >>> decodeJSON >>> parseCAPTCHAIdenJSON
-                
-                switch result {
-                case .Success:
-                    if let iden = result.value {
-                        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/captcha/" + iden, method:"GET", token:self.token)
-                        let task = self.URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-                            if let data = data, let response = response {
-                                self.updateRateLimitWithURLResponse(response)
-                                let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                                let result = responseResult >>> parseResponse >>> decodePNGImage
-                                switch result {
-                                case .Success:
-                                    if let image = result.value {
-                                        completion(Result(value: CAPTCHA(iden:iden, image:image)))
-                                    }
-                                    else {
-                                        completion(Result(error: NSError.errorWithCode(0, "")))
-                                    }
-                                case .Failure:
-                                    completion(Result(error: NSError.errorWithCode(0, "")))
-                                }
-                            }
-                            else {
-                                completion(Result(error: error))
-                            }
-                        })
-                        if let task = task {
-                            task.resume()
-                        }
-                    }
-                    break
-                case .Failure:
-                    break
-                }
-            }
-            else {
-                completion(Result(error: error))
-            }
-        })
-        if let task = task {
-            task.resume()
-        }
-        return task
-    }
-
 }

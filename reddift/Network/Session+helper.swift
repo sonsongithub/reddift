@@ -34,21 +34,6 @@ func decodeJSON(data: NSData) -> Result<JSON> {
 }
 
 /**
-Cast RedditAnyObject to Listing object.
-If the object is not Listing object, return error.
-
-- parameter object RedditAny object will be casted Listing.
-
-- returns: Result object. Result object has any Listing object, otherwise error object.
-*/
-func listingPassFilter(redditAny: RedditAny) -> Result<Listing> {
-    if let listing = redditAny as? Listing {
-        return Result(value: listing)
-    }
-    return Result(error: ReddiftError.Malformed.error)
-}
-
-/**
 Parse Thing, Listing JSON object.
 
 - parameter data: Binary data is returned from reddit.
@@ -86,19 +71,13 @@ Parse JSON for response to /api/comment.
 - returns: Result object. When parsing is succeeded, object contains list which consists of Thing.
 */
 func parseResponseJSONToPostComment(json: JSON) -> Result<Comment> {
-    if let json = json as? JSONDictionary {
-        if let j = json["json"] as? JSONDictionary {
-            if let data = j["data"] as? JSONDictionary {
-                if let things = data["things"] as? JSONArray {
-                    if things.count == 1 {
-                        for thing in things {
-                            if let thing = thing as? JSONDictionary {
-                                let obj:Any? = Parser.parseJSON(thing)
-                                if let comment = obj as? Comment {
-                                    return Result(value: comment)
-                                }
-                            }
-                        }
+    if let json = json as? JSONDictionary, let j = json["json"] as? JSONDictionary, let data = j["data"] as? JSONDictionary, let things = data["things"] as? JSONArray {
+        if things.count == 1 {
+            for thing in things {
+                if let thing = thing as? JSONDictionary {
+                    let obj:Any? = Parser.parseJSON(thing)
+                    if let comment = obj as? Comment {
+                        return Result(value: comment)
                     }
                 }
             }

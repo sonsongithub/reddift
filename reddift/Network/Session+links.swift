@@ -27,21 +27,18 @@ extension Session {
     public func postComment(text:String, parentName:String, completion:(Result<Comment>) -> Void) -> NSURLSessionDataTask? {
         let parameter:[String:String] = ["thing_id":parentName, "api_type":"json", "text":text]
         let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/comment", parameter:parameter, method:"POST", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            if let data = data, let response = response {
-                self.updateRateLimitWithURLResponse(response)
-                let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                let result = responseResult >>> parseResponse >>> decodeJSON >>> parseResponseJSONToPostComment
-                completion(result)
-            }
-            else {
-                completion(Result(error: error))
-            }
-        })
-        if let task = task {
+        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodeJSON)
+                .flatMap(parseResponseJSONToPostComment)
+            completion(result)
+        }) {
             task.resume()
+            return task
         }
-        return task
+        return nil
     }
     
     /**
@@ -126,7 +123,25 @@ extension Session {
     public func getInfo(names:[String], completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         let commaSeparatedNameString = commaSeparatedStringFromList(names)
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
-        return handleRequestAsListing(request, completion:completion)
+        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodeJSON)
+                .flatMap(parseListFromJSON)
+                .flatMap({
+                    (redditAny: RedditAny) -> Result<Listing> in
+                    if let listing = redditAny as? Listing {
+                        return Result(value: listing)
+                    }
+                    return Result(error: ReddiftError.Malformed.error)
+                })
+            completion(result)
+        }) {
+            task.resume()
+            return task
+        }
+        return nil
     }
     
     /**

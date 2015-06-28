@@ -68,24 +68,13 @@ class ListingsTest: SessionTestSpec2 {
             switch result {
             case .Failure(let error):
                 print(error.description)
-            case .Success:
-                if let array = result.value as? [Any] {
-                    isSucceeded = (array.count == 2)
-                    for obj in array {
-                        isSucceeded = isSucceeded && (obj is Listing)
-                    }
-                    if isSucceeded {
-                        if let listing = array[0] as? Listing {
-                            isSucceeded = isSucceeded && (listing.children.count == 1)
-                            isSucceeded = isSucceeded && (listing.children[0] is Link)
-                        }
-                        if let listing = array[1] as? Listing {
-                            isSucceeded = isSucceeded && (listing.children.count > 0)
-                            for obj in listing.children {
-                                isSucceeded = isSucceeded && (obj is Comment)
-                            }
-                        }
-                    }
+            case .Success(let tuple):
+                isSucceeded = isSucceeded && (tuple.0.children.count == 1)
+                isSucceeded = isSucceeded && (tuple.0.children[0] is Link)
+                
+                isSucceeded = isSucceeded && (tuple.1.children.count > 0)
+                for obj in tuple.1.children {
+                    isSucceeded = isSucceeded && (obj is Comment)
                 }
             }
             XCTAssert(isSucceeded, "Check whether the random list among the specified subreddit includes two Listings when using withoutLink = false.")
@@ -97,26 +86,28 @@ class ListingsTest: SessionTestSpec2 {
     func testDownloadArticlesOfLinkWhichIsSelectedRandomlyFromTheSubreddit() {
         let sortTypes:[CommentSort] = [.Confidence, .Top, .New, .Hot, .Controversial, .Old, .Random, .Qa]
         for sort in sortTypes {
-            print("Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
-            let documentOpenExpectation = self.expectationWithDescription("Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
             var link:Link? = nil
-            let subreddit = Subreddit(subreddit: "redditdev")
-            self.session?.getList(Paginator(), subreddit:subreddit, sort:.New, timeFilterWithin:.Week, completion: { (result) in
-                switch result {
-                case .Failure(let error):
-                    print(error)
-                case .Success(let listing):
-                    for obj in listing.children {
-                        if obj is Link {
-                            link = obj as? Link
-                            break
+            do {
+                print("Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
+                let documentOpenExpectation = self.expectationWithDescription("Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
+                let subreddit = Subreddit(subreddit: "redditdev")
+                self.session?.getList(Paginator(), subreddit:subreddit, sort:.New, timeFilterWithin:.Week, completion: { (result) in
+                    switch result {
+                    case .Failure(let error):
+                        print(error)
+                    case .Success(let listing):
+                        for obj in listing.children {
+                            if obj is Link {
+                                link = obj as? Link
+                                break
+                            }
                         }
                     }
-                }
-                XCTAssert(link != nil, "Check whether the aritcles include one Listing when using withoutLink = true.")
-                documentOpenExpectation.fulfill()
-            })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+                    XCTAssert(link != nil, "Check whether the aritcles include one Listing when using withoutLink = true.")
+                    documentOpenExpectation.fulfill()
+                })
+                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            }
             
             do {
                 let documentOpenExpectation = self.expectationWithDescription("Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")

@@ -49,7 +49,7 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
 
 	- parameter response: NSURLResponse object is passed from NSURLSession.
 	*/
-    func updateRateLimitWithURLResponse(response:NSURLResponse?) {
+    func updateRateLimitWithURLResponse(response:NSURLResponse?, verbose:Bool = false) {
         if let response = response, let httpResponse:NSHTTPURLResponse = response as? NSHTTPURLResponse {
             if let temp = httpResponse.allHeaderFields["x-ratelimit-reset"] as? String {
                 x_ratelimit_reset = Int(temp) ?? 0
@@ -61,9 +61,11 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
                 x_ratelimit_remaining = Int(temp) ?? 0
             }
         }
-//		print("x_ratelimit_reset \(x_ratelimit_reset)")
-//		print("x_ratelimit_used \(x_ratelimit_used)")
-//		print("x_ratelimit_remaining \(x_ratelimit_remaining)")
+        if verbose {
+    		print("x_ratelimit_reset \(x_ratelimit_reset)")
+    		print("x_ratelimit_used \(x_ratelimit_used)")
+    		print("x_ratelimit_remaining \(x_ratelimit_remaining)")
+        }
     }
     
     /**
@@ -75,35 +77,20 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
     - returns: Data task which requests search to reddit.com.
     */
     func handleRequest(request:NSMutableURLRequest, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            if let response = response {
-                self.updateRateLimitWithURLResponse(response)
-            }
-            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON
+		if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodeJSON)
+                .flatMap(parseListFromJSON)
             completion(result)
-        })
-        if let task = task {
+        }) {
             task.resume()
+            return task
         }
-        return task
+        return nil
     }
-    
-    func handleRequestAsListing(request:NSMutableURLRequest, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            if let response = response {
-                self.updateRateLimitWithURLResponse(response)
-            }
-            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseListFromJSON >>> listingPassFilter
-            completion(result)
-        })
-        if let task = task {
-            task.resume()
-        }
-        return task
-    }
-    
+        
     /**
     Returns JSON object which is obtained from reddit.com.
     
@@ -112,21 +99,17 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
     - returns: Data task which requests search to reddit.com.
     */
     func handleAsJSONRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            if let data = data, let response = response {
-                self.updateRateLimitWithURLResponse(response)
-                let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                let result = responseResult >>> parseResponse >>> decodeJSON
-                completion(result)
-            }
-            else {
-                completion(Result(error: error))
-            }
-        })
-        if let task = task {
+        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(parseResponse)
+                .flatMap(decodeJSON)
+            completion(result)
+        }) {
             task.resume()
+            return task
         }
-        return task
+        return nil
     }
 
 }
