@@ -8,5 +8,5 @@
 
 import XCTest
 
-class SearchTest: SessionTestSpec2 {
+class SearchTest: SessionTestSpec {
 }

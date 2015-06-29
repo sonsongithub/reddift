@@ -13,7 +13,7 @@ import XCTest
     import UIKit
 #endif
 
-class CAPTCHATest: SessionTestSpec2 {
+class CAPTCHATest: SessionTestSpec {
 
     func testCheckWhetherCAPTCHAIsNeededOrNot() {
         let msg = "is true or false as Bool"

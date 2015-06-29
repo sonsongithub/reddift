@@ -8,7 +8,7 @@
 
 import XCTest
 
-class MultiredditTest: SessionTestSpec2 {
+class MultiredditTest: SessionTestSpec {
     
     var initialMultiredditCount = 0
     

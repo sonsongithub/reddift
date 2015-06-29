@@ -9,7 +9,7 @@
 import Nimble
 import Quick
 
-class SubredditsTest : SessionTestSpec2 {
+class SubredditsTest : SessionTestSpec {
     
     var initialList:[Subreddit] = []
     var initialCount = 0

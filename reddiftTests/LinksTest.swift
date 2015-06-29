@@ -9,7 +9,7 @@
 import Foundation
 import XCTest
 
-class LinksTest: SessionTestSpec2 {
+class LinksTest: SessionTestSpec {
     /// Link ID, https://www.reddit.com/r/sandboxtest/comments/35dpes/reddift_test/
     let testLinkId = "35dpes"
     let testCommentId = "cr3g41y"

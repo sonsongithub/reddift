@@ -9,7 +9,7 @@
 import Foundation
 import XCTest
 
-class ListingsTest: SessionTestSpec2 {
+class ListingsTest: SessionTestSpec {
 
     func testDownloadLinks() {
         let sortTypes:[LinkSortType] = [.Controversial, .Top, .Hot, .New]

@@ -6,30 +6,9 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import Quick
-import Nimble
+import XCTest
 
-extension QuickSpec {
-    func jsonFromFileName(name:String) -> AnyObject? {
-        if let path = NSBundle(forClass: self.classForCoder).pathForResource(name, ofType:nil) {
-            if let data = NSData(contentsOfFile: path) {
-                do {
-                    if let json:AnyObject? = try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions()) {
-                        return json
-                    }
-                }
-                catch {
-                    XCTFail()
-                    return nil
-                }
-            }
-        }
-        XCTFail()
-        return nil
-    }
-}
-
-extension ParseThingObjectTest {
+extension XCTestCase {
     func jsonFromFileName(name:String) -> AnyObject? {
         if let path = NSBundle(forClass: self.classForCoder).pathForResource(name, ofType:nil) {
             if let data = NSData(contentsOfFile: path) {
@@ -108,7 +87,6 @@ class ParseThingObjectTest: XCTestCase {
     
         func testParsingT2JsonFile() {
             print("Each property of t2 has been loaded correctly")
-            var isSucceeded = false
             if let json = self.jsonFromFileName("t2.json") as? JSONDictionary {
                 let object = Account(data:json)
                 XCTAssert(object.hasMail == false)
@@ -127,13 +105,11 @@ class ParseThingObjectTest: XCTestCase {
                 XCTAssert(object.hasVerifiedEmail == false)
                 XCTAssert(object.id == "mfsh8")
                 XCTAssert(object.inboxCount == 0)
-                isSucceeded = true
             }
         }
         
         func testParsingT3JsonFile() {
             print("Each property of t3 has been loaded correctly")
-            var isSucceeded = false
             if let json = self.jsonFromFileName("t3.json") as? JSONDictionary {
                 let object = Link(data:json)
                 XCTAssert(object.domain == "self.redditdev")
