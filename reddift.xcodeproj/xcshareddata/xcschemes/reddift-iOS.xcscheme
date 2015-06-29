@@ -68,9 +68,6 @@
                   Identifier = "ParseResponseObjectTest">
                </Test>
                <Test
-                  Identifier = "ParseThingObjectTest">
-               </Test>
-               <Test
                   Identifier = "SearchTest">
                </Test>
                <Test
