@@ -62,9 +62,6 @@
                   Identifier = "Hoge">
                </Test>
                <Test
-                  Identifier = "MultiTest">
-               </Test>
-               <Test
                   Identifier = "ParseResponseObjectTest">
                </Test>
                <Test

@@ -24,8 +24,9 @@ class MultiredditTest: SessionTestSpec2 {
     let updatedDescription = "updated description"
     
     func evaluateAddSubredditToMultireddit(subredditDisplayName:String) {
+        let msg = "Add subreddits, swift and redditdev, to the new multireddit."
         var addedDisplayName:String? = nil
-        let documentOpenExpectation = self.expectationWithDescription("Add subreddits, swift and redditdev, to the new multireddit.")
+        let documentOpenExpectation = self.expectationWithDescription(msg)
         if let multi = self.createdMultireddit {
             self.session?.addSubredditToMultireddit(multi, subredditDisplayName:subredditDisplayName, completion:{ (result) -> Void in
                 switch result {
@@ -34,7 +35,7 @@ class MultiredditTest: SessionTestSpec2 {
                 case .Success:
                     addedDisplayName = result.value
                 }
-                XCTAssert(addedDisplayName == subredditDisplayName, "Add subreddits, swift and redditdev, to the new multireddit.")
+                XCTAssert(addedDisplayName == subredditDisplayName, msg)
                 documentOpenExpectation.fulfill()
             })
         }
@@ -42,7 +43,8 @@ class MultiredditTest: SessionTestSpec2 {
     }
     
     func evaluateMultiredditIsRegistered(nameList:[String]) {
-        let documentOpenExpectation = self.expectationWithDescription("Test whether multireddit is registered")
+        let msg = "Test whether multireddit is registered"
+        let documentOpenExpectation = self.expectationWithDescription(msg)
         self.session?.getMineMultireddit({ (result) -> Void in
             var count = 0
             switch result {
@@ -62,31 +64,29 @@ class MultiredditTest: SessionTestSpec2 {
                     }
                 }
             }
-            XCTAssert(count == nameList.count, "Test whether multireddit is registered")
+            XCTAssert(count == nameList.count, msg)
             documentOpenExpectation.fulfill()
         })
         self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
     }
     
-    func check(result:Result<RedditAny>, targetSubreddits:[String]) -> Bool {
+    func check(result:Result<Listing>, targetSubreddits:[String]) -> Bool {
         var isSucceeded = false
         switch result {
         case .Failure:
             print(result.error!.description)
-        case .Success:
+        case .Success(let listing):
             isSucceeded = true
-            if let listing = result.value as? Listing {
-                for obj in listing.children {
-                    if let link:Link = obj as? Link {
-                        var flag = false
-                        for subreddit in targetSubreddits {
-                            if link.subreddit != subreddit {
-                                flag = true
-                            }
+            for obj in listing.children {
+                if let link:Link = obj as? Link {
+                    var flag = false
+                    for subreddit in targetSubreddits {
+                        if link.subreddit != subreddit {
+                            flag = true
                         }
-                        if !flag {
-                            isSucceeded = false
-                        }
+                    }
+                    if !flag {
+                        isSucceeded = false
                     }
                 }
             }
@@ -95,10 +95,26 @@ class MultiredditTest: SessionTestSpec2 {
         return isSucceeded
     }
     
+    func evaluateGetList(message:String, subreddit:Multireddit, sort:LinkSortType, timeFilterWithin:TimeFilterWithin) {
+        print(message)
+        var isSucceeded = false
+        let documentOpenExpectation = self.expectationWithDescription(message)
+        if let multi = self.createdMultireddit {
+            self.session?.getList(Paginator(), subreddit: multi, sort:sort, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
+                isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
+                XCTAssert(isSucceeded, message)
+                documentOpenExpectation.fulfill()
+            })
+        }
+        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+    }
+    
     func testGetInitialMultireditList() {
         do {
+            let msg = "Get a initial multireddit list."
+            print(msg)
             var isSucceeded:Bool = false
-            let documentOpenExpectation = self.expectationWithDescription("Get a initial multireddit list.")
+            let documentOpenExpectation = self.expectationWithDescription(msg)
             self.session?.getMineMultireddit({ (result) -> Void in
                 switch result {
                 case .Failure(let error):
@@ -109,14 +125,16 @@ class MultiredditTest: SessionTestSpec2 {
                     }
                     isSucceeded = true
                 }
-                XCTAssert(isSucceeded,"")
+                XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
         
         do {
-            let documentOpenExpectation = self.expectationWithDescription("Create a new multireddit.")
+            let msg = "Create a new multireddit."
+            print(msg)
+            let documentOpenExpectation = self.expectationWithDescription(msg)
             self.session?.createMultireddit(self.nameForCreation, descriptionMd: "", completion: { (result) -> Void in
                 switch result {
                 case .Failure:
@@ -124,15 +142,17 @@ class MultiredditTest: SessionTestSpec2 {
                 case .Success:
                     self.createdMultireddit = result.value
                 }
-                XCTAssert(self.createdMultireddit != nil)
+                XCTAssert(self.createdMultireddit != nil, msg)
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
         
         do {
+            let msg = "Check count of multireddit after creating a new multireddit."
+            print(msg)
             var multiredditCountAfterCreating = 0
-            let documentOpenExpectation = self.expectationWithDescription("Check count of multireddit after creating a new multireddit.")
+            let documentOpenExpectation = self.expectationWithDescription(msg)
             self.session?.getMineMultireddit({ (result) -> Void in
                 switch result {
                 case .Failure:
@@ -150,166 +170,156 @@ class MultiredditTest: SessionTestSpec2 {
                     }
                     XCTAssert(checkType)
                 }
-                XCTAssert(multiredditCountAfterCreating == self.initialMultiredditCount + 1)
+                XCTAssert(multiredditCountAfterCreating == self.initialMultiredditCount + 1, msg)
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            for subreddit in self.targetSubreddits {
+                self.evaluateAddSubredditToMultireddit(subreddit)
+            }
+        }
+        
+        if let multi = self.createdMultireddit {
+            let types:[LinkSortType] = [.Controversial, .Hot, .New, .Top]
+            
+            for type in types {
+                let msg = "Check whether the multireddit does inlcude only swift and redditdev articles, " + type.description
+                evaluateGetList(msg, subreddit: multi, sort: type, timeFilterWithin: .Week)
+            }
+        }
+        else {
+            XCTFail("Failed, checking whether the multireddit does inlcude only swift and redditdev articles")
+        }
+        
+        
+        do {
+            let msg = "Update the attribute of new multireddit, except subreddits."
+            print(msg)
+            var isSucceeded = false
+            if var multi = self.createdMultireddit {
+                multi.iconName = .Science
+                multi.descriptionMd = self.updatedDescription
+                let documentOpenExpectation = self.expectationWithDescription(msg)
+                self.session?.updateMultireddit(multi, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
+                        if let updatedMultireddit:Multireddit = result.value {
+                            XCTAssert(updatedMultireddit.descriptionMd == self.updatedDescription, msg)
+                            XCTAssert(updatedMultireddit.iconName.rawValue == MultiredditIconName.Science.rawValue, msg)
+                        }
+                        isSucceeded = true
+                    }
+                    XCTAssert(isSucceeded, msg)
+                    documentOpenExpectation.fulfill()
+                })
+            }
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        
+        do {
+            let msg = "Check the updated description"
+            print(msg)
+            var isSucceeded = false
+            if let multi = self.createdMultireddit {
+                let documentOpenExpectation = self.expectationWithDescription(msg)
+                self.session?.getMultiredditDescription(multi, completion:{ (result) -> Void in
+                    switch result {
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
+                        if let multiredditDescription = result.value as? MultiredditDescription {
+                            if multiredditDescription.bodyMd == self.updatedDescription {
+                                isSucceeded = true
+                            }
+                        }
+
+                    }
+                    XCTAssert(isSucceeded, msg)
+                    documentOpenExpectation.fulfill()
+                })
+                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            }
+            else {
+                XCTFail(msg)
+            }
+        }
+        
+        do {
+            let msg = "Copy the created multireddit as copytest."
+            print(msg)
+            var isSucceeded = false
+            if let multi = self.createdMultireddit {
+                let documentOpenExpectation = self.expectationWithDescription(msg)
+                self.session?.copyMultireddit(multi, newDisplayName:self.nameForCopy, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
+                        self.copiedMultireddit = result.value
+                        isSucceeded = true
+                    }
+                    XCTAssert(isSucceeded, msg)
+                    documentOpenExpectation.fulfill()
+                })
+                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            }
+            else {
+                XCTFail(msg)
+            }
+        }
+        
+        do {
+            let msg = "Check count of multireddit after copying the created multireddit."
+            print(msg)
+            var multiredditCountAfterCopingCreatedOne = 0
+            let documentOpenExpectation = self.expectationWithDescription(msg)
+            self.session?.getMineMultireddit({ (result) -> Void in
+                switch result {
+                case .Failure:
+                    print(result.error!.description)
+                case .Success:
+                    if let array = result.value as? [Any] {
+                        multiredditCountAfterCopingCreatedOne = array.count
+                    }
+                }
+                XCTAssert(multiredditCountAfterCopingCreatedOne == (self.initialMultiredditCount + 2), msg)
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
         
         do {
-            for subreddit in self.targetSubreddits {
-                self.evaluateAddSubredditToMultireddit(subreddit)
+            let msg = "Get response 409, when renaming the copied multireaddit as existing name"
+            print(msg)
+            var isSucceeded = false
+            if let multi = self.createdMultireddit {
+                let documentOpenExpectation = self.expectationWithDescription(msg)
+                self.session?.renameMultireddit(multi, newDisplayName: self.nameForCopy, completion:{ (result) -> Void in
+                    switch result {
+                    case .Failure:
+                        if let error:NSError = result.error {
+                            isSucceeded = (error.code == 409)
+                        }
+                    case .Success:
+                        print(result.value!)
+                    }
+                    XCTAssert(isSucceeded, msg)
+                    documentOpenExpectation.fulfill()
+                })
+                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            }
+            else {
+                XCTFail(msg)
             }
         }
+        
+        do {
+            print("Check current multireddit list includes self.nameForCreation and self.nameForCopy")
+            self.evaluateMultiredditIsRegistered([self.nameForCreation, self.nameForCopy])
+        }
     }
-    
-            
-            
-            
-            
-            
-            
-            
-            
-            
-//            it("Check whether the multireddit does inlcude only swift and redditdev articles, Controversial") {
-//                var isSucceeded = false
-//                if let multi = self.createdMultireddit {
-//                    self.session?.getList(Paginator(), subreddit: multi, sort:LinkSortType.Controversial, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
-//                        isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
-//                    })
-//                }
-//                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-//            }
-//            
-//            it("Check whether the multireddit does inlcude only swift and redditdev articles, Hot") {
-//                var isSucceeded = false
-//                if let multi = self.createdMultireddit {
-//                    self.session?.getList(Paginator(), subreddit: multi, sort:.Hot, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
-//                        isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
-//                    })
-//                }
-//                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-//            }
-//            
-//            it("Check whether the multireddit does inlcude only swift and redditdev articles, New") {
-//                var isSucceeded = false
-//                if let multi = self.createdMultireddit {
-//                    self.session?.getList(Paginator(), subreddit: multi, sort:.New, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
-//                        isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
-//                    })
-//                }
-//                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-//            }
-//            
-//            it("Check whether the multireddit does inlcude only swift and redditdev articles, Top") {
-//                var isSucceeded = false
-//                if let multi = self.createdMultireddit {
-//                    self.session?.getList(Paginator(), subreddit: multi, sort:.Top, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
-//                        isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
-//                    })
-//                }
-//                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-//            }
-            
-//            it("Update the attribute of new multireddit, except subreddits.") {
-//                var isSucceeded = false
-//                if var multi = self.createdMultireddit {
-//                    multi.iconName = .Science
-//                    multi.descriptionMd = self.updatedDescription
-//                    self.session?.updateMultireddit(multi, completion: { (result) -> Void in
-//                        switch result {
-//                        case .Failure:
-//                            print(result.error!.description)
-//                        case .Success:
-//                            if let updatedMultireddit:Multireddit = result.value {
-//                                expect(updatedMultireddit.descriptionMd).to(equal(self.updatedDescription))
-//                                expect(updatedMultireddit.iconName.rawValue).to(equal(MultiredditIconName.Science.rawValue))
-//                            }
-//                            isSucceeded = true
-//                        }
-//                        NSThread.sleepForTimeInterval(self.testInterval)
-//                    })
-//                }
-//                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-//            }
-//            
-//            it("Check the updated description") {
-//                var isSucceeded = false
-//                if let multi = self.createdMultireddit {
-//                    self.session?.getMultiredditDescription(multi, completion:{ (result) -> Void in
-//                        switch result {
-//                        case .Failure:
-//                            print(result.error!.description)
-//                        case .Success:
-//                            if let multiredditDescription = result.value as? MultiredditDescription {
-//                                if multiredditDescription.bodyMd == self.updatedDescription {
-//                                    isSucceeded = true
-//                                }
-//                            }
-//                            
-//                        }
-//                        NSThread.sleepForTimeInterval(self.testInterval)
-//                    })
-//                }
-//                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-//            }
-//            
-//            it("Copy the created multireddit as copytest.") {
-//                var isSucceeded = false
-//                if let multi = self.createdMultireddit {
-//                    self.session?.copyMultireddit(multi, newDisplayName:self.nameForCopy, completion: { (result) -> Void in
-//                        switch result {
-//                        case .Failure:
-//                            print(result.error!.description)
-//                        case .Success:
-//                            self.copiedMultireddit = result.value
-//                            isSucceeded = true
-//                        }
-//                        NSThread.sleepForTimeInterval(self.testInterval)
-//                    })
-//                }
-//                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-//            }
-//            
-//            it("Check count of multireddit after copying the created multireddit.") {
-//                var multiredditCountAfterCopingCreatedOne = 0
-//                self.session?.getMineMultireddit({ (result) -> Void in
-//                    switch result {
-//                    case .Failure:
-//                        print(result.error!.description)
-//                    case .Success:
-//                        if let array = result.value as? [Any] {
-//                            multiredditCountAfterCopingCreatedOne = array.count
-//                        }
-//                    }
-//                    NSThread.sleepForTimeInterval(self.testInterval)
-//                })
-//                expect(multiredditCountAfterCopingCreatedOne).toEventually(equal(self.initialMultiredditCount + 2), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-//            }
-//            
-//            it("Get response 409, when renaming the copied multireaddit as existing name") {
-//                var isSucceeded = false
-//                if let multi = self.createdMultireddit {
-//                    self.session?.renameMultireddit(multi, newDisplayName: self.nameForCopy, completion:{ (result) -> Void in
-//                        switch result {
-//                        case .Failure:
-//                            if let error:NSError = result.error {
-//                                isSucceeded = (error.code == 409)
-//                            }
-//                        case .Success:
-//                            print(result.value!)
-//                        }
-//                        NSThread.sleepForTimeInterval(self.testInterval)
-//                    })
-//                }
-//                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-//            }
-//            
-//            it("Check current multireddit list includes self.nameForCreation and self.nameForCopy") {
-//                self.testMultiredditIsRegistered([self.nameForCreation, self.nameForCopy])
-//            }
-//            
 //            it("Rename the copied multireaddit") {
 //                var isSucceeded = false
 //                if let multi = self.createdMultireddit {
