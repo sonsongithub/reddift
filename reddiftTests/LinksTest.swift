@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import Nimble
-import Quick
+import Foundation
+import XCTest
 
 class LinksTest: SessionTestSpec2 {
     /// Link ID, https://www.reddit.com/r/sandboxtest/comments/35dpes/reddift_test/

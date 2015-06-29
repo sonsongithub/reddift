@@ -7,84 +7,87 @@
 //
 
 import Foundation
-import Nimble
-import Quick
+import XCTest
+
 #if os(iOS)
-import UIKit
+    import UIKit
 #endif
 
-class CAPTCHATest: SessionTestSpec {
-    override func spec() {
-        beforeEach { () -> () in
-            self.createSession()
-        }
-        
-        describe("CAPTCHA") {
-            describe("Needs API response") {
-                it("is true or false as Bool") {
-                    var check_result:Bool? = nil
-                    self.session?.checkNeedsCAPTCHA({(result) -> Void in
-                        switch result {
-                        case .Failure(let error):
-                            print(error)
-                        case .Success(let check):
-                            check_result = check
-                        }
-                        NSThread.sleepForTimeInterval(self.testInterval)
-                    })
-                    expect(check_result).toEventuallyNot(equal(nil), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-                }
+class CAPTCHATest: SessionTestSpec2 {
+
+    func testCheckWhetherCAPTCHAIsNeededOrNot() {
+        let msg = "is true or false as Bool"
+        print(msg)
+        var check_result:Bool? = nil
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        self.session?.checkNeedsCAPTCHA({(result) -> Void in
+            switch result {
+            case .Failure(let error):
+                print(error)
+            case .Success(let check):
+                check_result = check
             }
-            
-            describe("Iden for new CAPTCHA") {
-                it("is String") {
-                    var iden:String? = nil
-                    self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
-                        switch result {
-                        case .Failure(let error):
-                            print(error.description)
-                        case .Success(let identifier):
-                            iden = identifier
-                        }
-                        NSThread.sleepForTimeInterval(self.testInterval)
-                    })
-                    expect(iden).toEventuallyNot(equal(nil), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-                }
+            XCTAssert(check_result != nil, msg)
+            documentOpenExpectation.fulfill()
+        })
+        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+    }
+    
+    func testGetIdenForNewCAPTCHA() {
+        let msg = "is String"
+        print(msg)
+        var iden:String? = nil
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
+            switch result {
+            case .Failure(let error):
+                print(error.description)
+            case .Success(let identifier):
+                iden = identifier
             }
-            
-            describe("The size of new image generated using Iden") {
-                it("is 120x50") {
-                #if os(iOS)
-                    var size:CGSize? = nil
-                #elseif os(OSX)
-                    var size:NSSize? = nil
-                #endif
-                    self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
-                        switch result {
-                        case .Failure(let error):
-                            print(error.description)
-                        case .Success(let string):
-                            self.session?.getCAPTCHA(string, completion: { (result) -> Void in
-                                switch result {
-                                case .Failure(let error):
-                                    print(error.description)
-                                case .Success(let image):
-                                    size = image.size
-                                }
-                            })
-                        }
-                        NSThread.sleepForTimeInterval(self.testInterval)
-                    })
-                    expect(size).toEventuallyNot(equal(nil), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-                    if let size = size {
-                    #if os(iOS)
-                        expect(size).toEventually(equal(CGSize(width: 120, height: 50)), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-                    #elseif os(OSX)
-                        expect(size).toEventually(equal(NSSize(width: 120, height: 50)), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-                    #endif
+            XCTAssert(iden != nil, msg)
+            documentOpenExpectation.fulfill()
+        })
+        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+    }
+    
+    func testSizeOfNewImageGeneratedUsingIden() {
+        let msg = "is 120x50"
+        print(msg)
+#if os(iOS)
+        var size:CGSize? = nil
+#elseif os(OSX)
+        var size:NSSize? = nil
+#endif
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
+            switch result {
+            case .Failure(let error):
+                print(error.description)
+            case .Success(let string):
+                self.session?.getCAPTCHA(string, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure(let error):
+                        print(error.description)
+                    case .Success(let image):
+                        size = image.size
                     }
-                }
+                    documentOpenExpectation.fulfill()
+                })
             }
+        })
+        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        
+        if let size = size {
+#if os(iOS)
+            XCTAssert(size == CGSize(width: 120, height: 50), msg)
+#elseif os(OSX)
+            XCTAssert(size == NSSize(width: 120, height: 50), msg)
+#endif
+        }
+        else {
+            XCTFail(msg)
         }
     }
+    
 }
