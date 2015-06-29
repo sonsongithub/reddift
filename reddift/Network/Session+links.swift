@@ -30,9 +30,9 @@ extension Session {
         if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(parseResponse)
-                .flatMap(decodeJSON)
-                .flatMap(parseResponseJSONToPostComment)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2Comment)
             completion(result)
         }) {
             task.resume()
@@ -126,9 +126,9 @@ extension Session {
         if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(parseResponse)
-                .flatMap(decodeJSON)
-                .flatMap(parseListFromJSON)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2RedditAny)
                 .flatMap({
                     (redditAny: RedditAny) -> Result<Listing> in
                     if let listing = redditAny as? Listing {

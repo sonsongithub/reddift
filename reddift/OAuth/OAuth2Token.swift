@@ -130,7 +130,7 @@ public struct OAuth2Token : Token {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(requestForRefreshing(), completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-            let result = responseResult >>> parseResponse >>> decodeJSON
+            let result = responseResult >>> response2Data >>> data2Json
             switch result {
             case .Success:
                 if var json = result.value as? [String:AnyObject] {
@@ -159,8 +159,8 @@ public struct OAuth2Token : Token {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         if let task = session.dataTaskWithRequest(requestForRevoking(), completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(parseResponse)
-                .flatMap(decodeJSON)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
             completion(result)
         }) {
             task.resume()
@@ -180,8 +180,8 @@ public struct OAuth2Token : Token {
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         if let task = session.dataTaskWithRequest(requestForOAuth(code), completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(parseResponse)
-                .flatMap(decodeJSON)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
                 .flatMap(OAuth2Token.tokenWithJSON)
             switch result {
             case .Success(let token):
@@ -210,8 +210,8 @@ public struct OAuth2Token : Token {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         if let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(parseResponse)
-                .flatMap(decodeJSON)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
                 .flatMap({ (json:JSON) -> Result<Account> in
                     if let object = json as? JSONDictionary {
                         return resultFromOptional(Account(data:object), error: ReddiftError.ParseThingT2.error)

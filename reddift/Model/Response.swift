@@ -30,15 +30,3 @@ struct Response {
         }
     }
 }
-
-/**
-Function to eliminate codes to parse http response object.
-This function filters response object to handle errors.
-*/
-func parseResponse(response: Response) -> Result<NSData> {
-    let successRange = 200..<300
-    if !successRange.contains(response.statusCode) {
-        return .Failure(HttpStatus(response.statusCode).error)
-    }
-    return .Success(response.data)
-}

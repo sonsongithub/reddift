@@ -1,5 +1,5 @@
 //
-//  ParseResponseObjectTest.swift
+//  response2DataObjectTest.swift
 //  reddift
 //
 //  Created by sonson on 2015/04/22.
@@ -9,7 +9,7 @@
 import Foundation
 import XCTest
 
-class ParseResponseObjectTest: XCTestCase {
+class response2DataObjectTest: XCTestCase {
         
         func testWhenErrorJsonWhichIsNotResponseFromRmoteIsLoaded() {
             print("output is nil")
@@ -84,7 +84,7 @@ class ParseResponseObjectTest: XCTestCase {
             print("To t1 object as Comment")
             var isSucceeded = false
             if let json:AnyObject = self.jsonFromFileName("api_comment_response.json") {
-                let result = parseResponseJSONToPostComment(json)
+                let result = json2Comment(json)
                 switch result {
                 case .Success:
                     isSucceeded = true

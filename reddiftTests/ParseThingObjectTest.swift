@@ -13,9 +13,7 @@ extension XCTestCase {
         if let path = NSBundle(forClass: self.classForCoder).pathForResource(name, ofType:nil) {
             if let data = NSData(contentsOfFile: path) {
                 do {
-                    if let json:AnyObject? = try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions()) {
-                        return json
-                    }
+                    return try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions())
                 }
                 catch {
                     XCTFail()
@@ -308,7 +306,7 @@ class ParseThingObjectTest: XCTestCase {
             var isSucceeded = false
             if let path = NSBundle(forClass: self.classForCoder).pathForResource("api_needs_captcha.json", ofType:nil) {
                 if let data = NSData(contentsOfFile: path) {
-                    let result = decodeBooleanString(data)
+                    let result = data2Bool(data)
                     switch result {
                     case .Failure:
                         print(result.error!.description)
@@ -324,10 +322,10 @@ class ParseThingObjectTest: XCTestCase {
             print("Each property of more has been loaded correctly")
             var isSucceeded = false
             if let thing = self.jsonFromFileName("api_new_captcha.json") as? JSONDictionary {
-                let result = parseCAPTCHAIdenJSON(thing)
+                let result = idenJSON2String(thing)
                 switch result {
-                case .Failure:
-                    print(result.error!.description)
+                case .Failure(let error):
+                    print(error.description)
                 case .Success:
                     isSucceeded = true
                 }

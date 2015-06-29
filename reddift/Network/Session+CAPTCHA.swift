@@ -23,7 +23,7 @@ Parse simple string response for "/api/needs_captcha"
 
 - returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
 */
-func decodeBooleanString(data: NSData) -> Result<Bool> {
+func data2Bool(data: NSData) -> Result<Bool> {
     let decoded = NSString(data:data, encoding:NSUTF8StringEncoding)
     if let decoded = decoded {
         if decoded == "true" {
@@ -43,7 +43,7 @@ Parse simple string response for "/api/needs_captcha"
 
 - returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
 */
-func decodePNGImage(data: NSData) -> Result<CAPTCHAImage> {
+func data2Image(data: NSData) -> Result<CAPTCHAImage> {
 #if os(iOS)
     let captcha = UIImage(data: data)
 #elseif os(OSX)
@@ -59,7 +59,7 @@ Parse JSON contains "iden" for CAPTHA.
 - parameter json: JSON object, like above sample.
 - returns: Result object. When parsing is succeeded, object contains iden as String.
 */
-func parseCAPTCHAIdenJSON(json: JSON) -> Result<String> {
+func idenJSON2String(json: JSON) -> Result<String> {
     if let json = json as? JSONDictionary {
         if let j = json["json"] as? JSONDictionary {
             if let data = j["data"] as? JSONDictionary {
@@ -84,8 +84,8 @@ extension Session {
         if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(parseResponse)
-                .flatMap(decodeBooleanString)
+                .flatMap(response2Data)
+                .flatMap(data2Bool)
             completion(result)
         }) {
             task.resume()
@@ -108,9 +108,9 @@ extension Session {
         if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(parseResponse)
-                .flatMap(decodeJSON)
-                .flatMap(parseCAPTCHAIdenJSON)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(idenJSON2String)
             completion(result)
         }) {
             task.resume()
@@ -135,8 +135,8 @@ extension Session {
         if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(parseResponse)
-                .flatMap(decodePNGImage)
+                .flatMap(response2Data)
+                .flatMap(data2Image)
             completion(result)
         }) {
             task.resume()

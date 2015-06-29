@@ -89,7 +89,7 @@ public struct OAuth2AppOnlyToken : Token {
         let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             if let data = data, let response = response {
                 let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                let result = responseResult >>> parseResponse >>> decodeJSON
+                let result = responseResult >>> response2Data >>> data2Json
                 var token:OAuth2AppOnlyToken? = nil
                 switch result {
                 case .Success:
