@@ -62,6 +62,9 @@
                   Identifier = "Hoge">
                </Test>
                <Test
+                  Identifier = "LinksTest">
+               </Test>
+               <Test
                   Identifier = "ParseResponseObjectTest">
                </Test>
                <Test

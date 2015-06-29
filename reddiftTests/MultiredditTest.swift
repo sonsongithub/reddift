@@ -319,77 +319,104 @@ class MultiredditTest: SessionTestSpec2 {
             print("Check current multireddit list includes self.nameForCreation and self.nameForCopy")
             self.evaluateMultiredditIsRegistered([self.nameForCreation, self.nameForCopy])
         }
+        
+        do {
+            let msg = "Rename the copied multireaddit"
+            print(msg)
+            var isSucceeded = false
+            if let multi = self.createdMultireddit {
+                let documentOpenExpectation = self.expectationWithDescription(msg)
+                self.session?.renameMultireddit(multi, newDisplayName: self.nameForRename, completion:{ (result) -> Void in
+                    switch result {
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
+                        if let multireddit:Multireddit = result.value {
+                            isSucceeded = (multireddit.displayName == self.nameForRename)
+                            self.renamedMultireddit = multireddit
+                        }
+                    }
+                    XCTAssert(isSucceeded, msg)
+                    documentOpenExpectation.fulfill()
+                })
+                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            }
+            else {
+                XCTFail(msg)
+            }
+        }
+        
+        do {
+            let msg = "Check current multireddit list includes self.nameForCreation and self.nameForRename"
+            print(msg)
+            self.evaluateMultiredditIsRegistered([self.nameForCopy, self.nameForRename])
+        }
+        
+        do {
+            let msg = "Delete the copied multireddit."
+            print(msg)
+            var isSucceeded = false
+            if let multi = self.copiedMultireddit {
+                let documentOpenExpectation = self.expectationWithDescription(msg)
+                self.session?.deleteMultireddit(multi, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
+                        isSucceeded = true
+                    }
+                    XCTAssert(isSucceeded, msg)
+                    documentOpenExpectation.fulfill()
+                })
+                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            }
+            else {
+                XCTFail(msg)
+            }
+        }
+        
+        do {
+            let msg = "Delete the renamed multireddit."
+            print(msg)
+            var isSucceeded = false
+            if let multi = self.renamedMultireddit {
+                let documentOpenExpectation = self.expectationWithDescription(msg)
+                self.session?.deleteMultireddit(multi, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
+                        isSucceeded = true
+                    }
+                    XCTAssert(isSucceeded, msg)
+                    documentOpenExpectation.fulfill()
+                })
+                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            }
+            else {
+                XCTFail(msg)
+            }
+
+        }
+        
+        do {
+            let msg = "Check count of multireddit after deleting the created multireddit."
+            print(msg)
+            var multiredditCountAfterDeletingCreatedOne = 0
+            let documentOpenExpectation = self.expectationWithDescription(msg)
+            self.session?.getMineMultireddit({ (result) -> Void in
+                switch result {
+                case .Failure:
+                    print(result.error!.description)
+                case .Success:
+                    if let array = result.value as? [Any]{
+                        multiredditCountAfterDeletingCreatedOne = array.count
+                    }
+                }
+                XCTAssert(multiredditCountAfterDeletingCreatedOne == self.initialMultiredditCount, msg)
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
     }
-//            it("Rename the copied multireaddit") {
-//                var isSucceeded = false
-//                if let multi = self.createdMultireddit {
-//                    self.session?.renameMultireddit(multi, newDisplayName: self.nameForRename, completion:{ (result) -> Void in
-//                        switch result {
-//                        case .Failure:
-//                            print(result.error!.description)
-//                        case .Success:
-//                            if let multireddit:Multireddit = result.value {
-//                                isSucceeded = (multireddit.displayName == self.nameForRename)
-//                                self.renamedMultireddit = multireddit
-//                            }
-//                        }
-//                        NSThread.sleepForTimeInterval(self.testInterval)
-//                    })
-//                }
-//                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-//            }
-//            
-//            it("Check current multireddit list includes self.nameForCreation and self.nameForRename") {
-//                self.testMultiredditIsRegistered([self.nameForCopy, self.nameForRename])
-//            }
-//            
-//            it("Delete the copied multireddit.") {
-//                var isSucceeded = false
-//                if let multi = self.copiedMultireddit {
-//                    self.session?.deleteMultireddit(multi, completion: { (result) -> Void in
-//                        switch result {
-//                        case .Failure:
-//                            print(result.error!.description)
-//                        case .Success:
-//                            isSucceeded = true
-//                        }
-//                        NSThread.sleepForTimeInterval(self.testInterval)
-//                    })
-//                }
-//                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-//            }
-//            
-//            it("Delete the renamed multireddit.") {
-//                var isSucceeded = false
-//                if let multi = self.renamedMultireddit {
-//                    self.session?.deleteMultireddit(multi, completion: { (result) -> Void in
-//                        switch result {
-//                        case .Failure:
-//                            print(result.error!.description)
-//                        case .Success:
-//                            isSucceeded = true
-//                        }
-//                        NSThread.sleepForTimeInterval(self.testInterval)
-//                    })
-//                }
-//                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-//            }
-//            
-//            it("Check count of multireddit after deleting the created multireddit.") {
-//                var multiredditCountAfterDeletingCreatedOne = 0
-//                self.session?.getMineMultireddit({ (result) -> Void in
-//                    switch result {
-//                    case .Failure:
-//                        print(result.error!.description)
-//                    case .Success:
-//                        if let array = result.value as? [Any]{
-//                            multiredditCountAfterDeletingCreatedOne = array.count
-//                        }
-//                    }
-//                    NSThread.sleepForTimeInterval(self.testInterval)
-//                })
-//                expect(multiredditCountAfterDeletingCreatedOne).toEventually(equal(self.initialMultiredditCount), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-//            }
-//        }
-//    }
 }
