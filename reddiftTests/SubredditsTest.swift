@@ -6,8 +6,7 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import Nimble
-import Quick
+import XCTest
 
 class SubredditsTest : SessionTestSpec {
     
