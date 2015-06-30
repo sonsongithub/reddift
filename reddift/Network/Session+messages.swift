@@ -20,9 +20,21 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getMessage(messageWhere:MessageWhere, limit:Int = 100, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    public func getMessage(messageWhere:MessageWhere, limit:Int = 100, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
-        return handleRequest(request, completion:completion)
+        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2RedditAny)
+                .flatMap(redditAny2Listing)
+            completion(result)
+        }) {
+            task.resume()
+            return task
+        }
+        return nil
     }
     
     /**

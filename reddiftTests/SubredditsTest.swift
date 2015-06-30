@@ -29,16 +29,14 @@ class SubredditsTest : SessionTestSpec {
                 switch result {
                 case .Failure:
                     print(result.error!.description)
-                case .Success:
-                    if let listing = result.value as? Listing {
-                        for obj in listing.children {
-                            if let obj = obj as? Subreddit {
-                                self.initialList.append(obj)
-                            }
+                case .Success(let listing):
+                    for obj in listing.children {
+                        if let obj = obj as? Subreddit {
+                            self.initialList.append(obj)
                         }
-                        self.initialCount = self.initialList.count
-                        isSucceeded = (self.initialCount > 0)
                     }
+                    self.initialCount = self.initialList.count
+                    isSucceeded = (self.initialCount > 0)
                 }
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
@@ -73,15 +71,13 @@ class SubredditsTest : SessionTestSpec {
                 switch result {
                 case .Failure:
                     print(result.error!.description)
-                case .Success:
-                    if let listing = result.value as? Listing {
-                        for obj in listing.children {
-                            if let obj = obj as? Subreddit {
-                                self.afterSubscribingList.append(obj)
-                            }
+                case .Success(let listing):
+                    for obj in listing.children {
+                        if let obj = obj as? Subreddit {
+                            self.afterSubscribingList.append(obj)
                         }
-                        afterSubscribingCount = self.afterSubscribingList.count
                     }
+                    afterSubscribingCount = self.afterSubscribingList.count
                 }
                 XCTAssert(afterSubscribingCount == self.initialCount + 1, msg)
                 documentOpenExpectation.fulfill()
@@ -116,15 +112,13 @@ class SubredditsTest : SessionTestSpec {
                 switch result {
                 case .Failure:
                     print(result.error!.description)
-                case .Success:
-                    if let listing = result.value as? Listing {
-                        for obj in listing.children {
-                            if let obj = obj as? Subreddit {
-                                self.afterUnsubscribingList.append(obj)
-                            }
+                case .Success(let listing):
+                    for obj in listing.children {
+                        if let obj = obj as? Subreddit {
+                            self.afterUnsubscribingList.append(obj)
                         }
-                        afterUnsubscribingCount = self.afterUnsubscribingList.count
                     }
+                    afterUnsubscribingCount = self.afterUnsubscribingList.count
                 }
                 XCTAssert(afterUnsubscribingCount == self.initialCount, msg)
                 documentOpenExpectation.fulfill()

@@ -172,13 +172,13 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                     print(error)
                 case .Success(let tuple):
                     let listing = tuple.1
-                    print(listing)
                     
                     var newComments:[Thing] = []
-                    for obj in listing.children {
-                        if let comment = obj as? Comment {
-                            newComments += extendAllReplies(comment)
-                        }
+                    for comment in listing.children.flatMap({(thing:Thing) -> Comment? in
+                        if let comment = thing as? Comment { return comment }
+                        return nil
+                    }) {
+                        newComments += extendAllReplies(comment)
                     }
                     self.comments += newComments
                     self.contents += self.updateStrings(newComments)

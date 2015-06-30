@@ -113,19 +113,22 @@ class LinksTest: SessionTestSpec {
         
         print("Check whether the specified Link is NSFW.")
         do{
-            var isSucceeded = false
             let link = Link(id: self.testLinkId)
             let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Link is NSFW.")
             self.session?.getInfo([link.name], completion: { (result) -> Void in
+                var isSucceeded = false
                 switch result {
                 case .Failure(let error):
                     print(error.description)
                 case .Success(let listing):
-                    for obj in listing.children {
-                        if let incommingLink = obj as? Link {
-                            isSucceeded = (incommingLink.name == link.name && incommingLink.over18)
+                    isSucceeded = listing.children
+                        .flatMap({(thing:Thing) -> Link? in
+                        if let obj = thing as? Link {if obj.name == link.name { return obj }}
+                        return nil
+                        })
+                    .reduce(true) {(a:Bool, link:Link) -> Bool in
+                            return (a && link.over18)
                         }
-                    }
                 }
                 XCTAssert(isSucceeded, "Check whether the specified Link is NSFW.")
                 documentOpenExpectation.fulfill()

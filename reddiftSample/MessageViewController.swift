@@ -22,23 +22,11 @@ class MessageViewController: UITableViewController {
             switch result {
             case .Failure:
                 print(result.error)
-            case .Success:
-                if let listing = result.value as? Listing {
-                    for child in listing.children {
-						if let message = child as? Message {
-							self.messages.append(message)
-						}
-						if let link = child as? Link {
-							self.messages.append(link)
-						}
-						if let comment = child as? Comment {
-							self.messages.append(comment)
-						}
-                    }
+            case .Success(let listing):
+                    self.messages += listing.children
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.tableView.reloadData()
                     })
-                }
             }
 		})
 	}
