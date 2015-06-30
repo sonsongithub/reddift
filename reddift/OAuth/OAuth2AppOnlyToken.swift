@@ -86,29 +86,30 @@ public struct OAuth2AppOnlyToken : Token {
     public static func getOAuth2AppOnlyToken(username username:String, password:String, clientID:String, secret:String, completion:(Result<Token>)->Void) -> NSURLSessionDataTask? {
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let request = requestForOAuth2AppOnly(username:username, password:password, clientID:clientID, secret:secret)
-        let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            if let data = data, let response = response {
-                let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                let result = responseResult >>> response2Data >>> data2Json
-                var token:OAuth2AppOnlyToken? = nil
-                switch result {
-                case .Success:
-                    if var json = result.value as? [String:AnyObject] {
-                        json["name"] = username
-                        token = OAuth2AppOnlyToken(json)
+        if let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap({(json:JSON) -> Result<[String:AnyObject]> in
+                    if let json = json as? [String:AnyObject] {
+                        return Result(value: json)
                     }
-                default:
-                    break
-                }
-                completion(resultFromOptional(token, error:NSError.errorWithCode(0, "")))
+                    return Result(error: ReddiftError.Malformed.error)
+                })
+            var token:OAuth2AppOnlyToken? = nil
+            switch result {
+            case .Success(let json):
+                var newJSON = json
+                newJSON["name"] = username
+                token = OAuth2AppOnlyToken(newJSON)
+            default:
+                break
             }
-            else {
-                completion(Result(error: error))
-            }
-        })
-        if let task = task {
+            completion(resultFromOptional(token, error:NSError.errorWithCode(0, "")))
+        }) {
             task.resume()
+            return task
         }
-        return task
+        return nil
     }
 }

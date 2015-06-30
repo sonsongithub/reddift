@@ -19,12 +19,13 @@ public class OAuth2TokenRepository {
     public class func restoreFromKeychainWithName(name:String) -> Result<OAuth2Token> {
         let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
         if let data = keychain.getData(name) {
-            var json:AnyObject?
+            var json:JSON? = nil
             do {
                 json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
-            } catch let error1 as NSError {
-                print(error1)
-                json = nil
+            } catch let error as NSError {
+                removeFromKeychainTokenWithName(name)
+                NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil)
+                return Result(error:error)
             }
             if let json = json as? [String:AnyObject] {
                 return Result(value:OAuth2Token(json))

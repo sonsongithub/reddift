@@ -41,18 +41,8 @@ class UserContentViewController: UITableViewController {
                 case .Failure:
                     print(result.error)
                 case .Success(let listing):
-                    for obj in listing.children {
-                        if let link = obj as? Link {
-                            self.source.append(link)
-                        }
-                    }
+                    self.source += listing.children
                     self.updateStrings()
-//                    if let listing = box.value as? Listing {
-//                        if let array = listing.children {
-//                            self.source += array
-//                        }
-//                    }
-//                    self.updateStrings()
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.tableView.reloadData()
                     })

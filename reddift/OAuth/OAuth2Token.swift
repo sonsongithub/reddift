@@ -128,25 +128,30 @@ public struct OAuth2Token : Token {
     */
     public func refresh(completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask? {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        let task = session.dataTaskWithRequest(requestForRefreshing(), completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-            let result = responseResult >>> response2Data >>> data2Json
+        if let task = session.dataTaskWithRequest(requestForRefreshing(), completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap({(json:JSON) -> Result<[String:AnyObject]> in
+                    if let json = json as? [String:AnyObject] {
+                        return Result(value: json)
+                    }
+                    return Result(error: ReddiftError.Malformed.error)
+                })
             switch result {
-            case .Success:
-                if var json = result.value as? [String:AnyObject] {
-                    json["name"] = self.name
-                    json["refresh_token"] = self.refreshToken
-                    completion(OAuth2Token.tokenWithJSON(json))
-                    return
-                }
+            case .Success(let json):
+                var newJSON = json
+                newJSON["name"] = self.name
+                newJSON["refresh_token"] = self.refreshToken
+                completion(OAuth2Token.tokenWithJSON(newJSON))
             case .Failure(let error):
                 completion(Result(error: error))
             }
-        })
-        if let task = task {
+        }) {
             task.resume()
+            return task
         }
-        return task
+        return nil
     }
     
     /**
