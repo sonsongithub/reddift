@@ -54,10 +54,8 @@ func getProfile(session:Session) {
         switch result {
         case .Failure:
             print(result.error!.description)
-        case .Success:
-            if let account = result.value as? Account {
-                print(account.name)
-            }
+        case .Success(let account):
+            print(account.name)
         }
     })
 }

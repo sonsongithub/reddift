@@ -20,27 +20,34 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getSearch(subreddit:Subreddit?, query:String, paginator:Paginator?, sort:SearchSortBy, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    public func getSearch(subreddit:Subreddit?, query:String, paginator:Paginator?, sort:SearchSortBy, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         let customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
-        let escapedString = query.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
-        if let escapedString = escapedString {
+        if let escapedString = query.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet) {
             if escapedString.characters.count > 512 {
                 return nil
             }
-            var parameter = ["q":escapedString, "sort":sort.path]
             
+            var parameter = ["q":escapedString, "sort":sort.path]
             if let paginator = paginator {
                 for (key, value) in paginator.parameters() {
                     parameter[key] = value
                 }
             }
-            if let subreddit = subreddit {
-                let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:subreddit.url + "search", parameter:parameter, method:"GET", token:token)
-                return handleRequest(request, completion:completion)
-            }
-            else {
-                let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/search", parameter:parameter, method:"GET", token:token)
-                return handleRequest(request, completion:completion)
+            
+            let path = (subreddit != nil) ? subreddit!.url + "search" : "/search"
+            let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
+            
+            if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+                self.updateRateLimitWithURLResponse(response)
+                let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                    .flatMap(response2Data)
+                    .flatMap(data2Json)
+                    .flatMap(json2RedditAny)
+                    .flatMap(redditAny2Listing)
+                completion(result)
+            }) {
+                task.resume()
+                return task
             }
         }
         return nil

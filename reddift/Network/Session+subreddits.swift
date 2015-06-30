@@ -55,9 +55,21 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getUserRelatedSubreddit(mine:SubredditsMineWhere, paginator:Paginator?, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    public func getUserRelatedSubreddit(mine:SubredditsMineWhere, paginator:Paginator?, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:mine.path, parameter:paginator?.parameters(), method:"GET", token:token)
-        return handleRequest(request, completion:completion)
+        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2RedditAny)
+                .flatMap(redditAny2Listing)
+            completion(result)
+        }) {
+            task.resume()
+            return task
+        }
+        return nil
     }
     
     // MARK: BDT does not cover following methods.
@@ -70,10 +82,9 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getSubredditSearch(query:String, paginator:Paginator?, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    public func getSubredditSearch(query:String, paginator:Paginator?, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         let customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
-        let escapedString = query.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
-        if let escapedString = escapedString {
+        if let escapedString = query.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet) {
             if escapedString.characters.count > 512 {
                 return nil
             }
@@ -85,7 +96,19 @@ extension Session {
                 }
             }
             let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/subreddits/search", parameter:parameter, method:"GET", token:token)
-            return handleRequest(request, completion:completion)
+            
+            if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+                self.updateRateLimitWithURLResponse(response)
+                let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                    .flatMap(response2Data)
+                    .flatMap(data2Json)
+                    .flatMap(json2RedditAny)
+                    .flatMap(redditAny2Listing)
+                completion(result)
+            }) {
+                task.resume()
+                return task
+            }
         }
         return nil
     }

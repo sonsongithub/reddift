@@ -37,16 +37,13 @@ class SearchResultViewController: BaseLinkViewController {
             switch result {
             case .Failure:
                 print(result.error)
-            case .Success:
-                print(result.value)
-                if let listing = result.value as? Listing {
-                    for obj in listing.children {
-                        if let link = obj as? Link {
-                            self.links.append(link)
-                        }
+            case .Success(let listing):
+                for obj in listing.children {
+                    if let link = obj as? Link {
+                        self.links.append(link)
                     }
-                    self.paginator = listing.paginator
                 }
+                self.paginator = listing.paginator
                 self.updateStrings()
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.tableView.reloadData()
