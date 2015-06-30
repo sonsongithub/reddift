@@ -22,7 +22,6 @@ extension Session {
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
-                .flatMap(json2RedditAny)
                 .flatMap({ (json:JSON) -> Result<Account> in
                     if let object = json as? JSONDictionary {
                         return resultFromOptional(Account(data:object), error: ReddiftError.ParseThingT2.error)
