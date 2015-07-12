@@ -1,50 +1,52 @@
 //: Playground - noun: a place where people can play
 
 import Foundation
-import reddift
 import XCPlayground
+import reddift
 
+guard #available(iOS 9, OSX 10.11, *) else { abort() }
 
-func getCAPTCHA(session:Session) {
-    session.getCAPTCHA({ (result:Result<CAPTCHA>) -> Void in
-        switch result {
-        case .Failure:
-            print(result.error!.description)
-        case .Success:
-            if let captcha:CAPTCHA = result.value {
-                let img:UIImage = captcha.image
-                print(img)
-            }
-        }
-    })
-}
+//func getCAPTCHA(session:Session) {
+//    session.getCAPTCHA({ (result:Result<CAPTCHA>) -> Void in
+//        switch result {
+//        case .Failure:
+//            print(result.error!.description)
+//        case .Success:
+//            if let captcha:CAPTCHA = result.value {
+//                let img:UIImage = captcha.image
+//                print(img)
+//            }
+//        }
+//    })
+//}
 
 func getReleated(session:Session) {
     session.getDuplicatedArticles(Paginator(), thing: Link(id: "37lhsm")) { (result) -> Void in
         switch result {
         case .Failure:
             print(result.error!.description)
-        case .Success:
-            print(result.value!)
-            if let array = result.value as? [RedditAny] {
-                print(array[0])
-                print(array[1])
-                if let listing = array[0] as? Listing {
-                    for obj in listing.children {
-                        if let link = obj as? Link {
-                            print(link.title)
-                        }
-                    }
-                }
-                if let listing = array[1] as? Listing {
-                    print(listing.children.count)
-                    for obj in listing.children {
-                        if let link = obj as? Link {
-                            print(link.title)
-                        }
-                    }
-                }
-            }
+        case .Success(let (listing1, listing2)):
+            print(listing1)
+            print(listing2)
+//            if let array = result.value as? [RedditAny] {
+//                print(array[0])
+//                print(array[1])
+//                if let listing = array[0] as? Listing {
+//                    for obj in listing.children {
+//                        if let link = obj as? Link {
+//                            print(link.title)
+//                        }
+//                    }
+//                }
+//                if let listing = array[1] as? Listing {
+//                    print(listing.children.count)
+//                    for obj in listing.children {
+//                        if let link = obj as? Link {
+//                            print(link.title)
+//                        }
+//                    }
+//                }
+//            }
         }
     }
 }
@@ -66,28 +68,13 @@ func getLinksBy(session:Session) {
         switch result {
         case .Failure:
             print(result.error!.description)
-        case .Success:
-            if let listing = result.value as? Listing {
-                print(listing.children.count)
-                for obj in listing.children {
-                    if let link = obj as? Link {
-                        print(link.title)
-                    }
+        case .Success(let listing):
+            print(listing.children.count)
+            for obj in listing.children {
+                if let link = obj as? Link {
+                    print(link.title)
                 }
             }
-        }
-    })
-}
-
-func getList(session:Session) {
-    let subreddit = Subreddit(id: "a")
-//    subreddit.displayName = "sandboxtest"
-    session.getRandom(subreddit, completion: { (result) in
-        switch result {
-        case .Failure:
-            print(result.error)
-        case .Success:
-            print(result.value)
         }
     })
 }
@@ -111,7 +98,8 @@ do {
                         print(result.value)
                         if let token:Token = result.value {
                             let session = Session(token: token)
-                            getList(session)
+                            getLinksBy(session)
+                            getReleated(session)
                         }
                     }
                 }))
