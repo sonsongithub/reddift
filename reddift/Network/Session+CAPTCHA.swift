@@ -120,7 +120,7 @@ extension Session {
     }
     
     /**
-    Request a CAPTCHA image given an iden.
+    Request a CAPTCHA image for given an iden.
     An iden is given as the captcha field with a BAD_CAPTCHA error, you should use this endpoint if you get a BAD_CAPTCHA error response.
     Responds with a 120x50 image/png which should be displayed to the user.
     The user's response to the CAPTCHA should be sent as captcha along with your request.
@@ -143,5 +143,24 @@ extension Session {
             return task
         }
         return nil
+    }
+    
+    /**
+    Request a CAPTCHA image
+    Responds with a 120x50 image/png which should be displayed to the user.
+    The user's response to the CAPTCHA should be sent as captcha along with your request.
+    
+    - parameter completion: The completion handler to call when the load request is complete.
+    - returns: Data task which requests search to reddit.com.
+    */
+    public func getCAPTCHA(completion:(Result<CAPTCHAImage>) -> Void) -> NSURLSessionDataTask? {
+        return getIdenForNewCAPTCHA { (result) -> Void in
+            switch result {
+            case .Failure(let error):
+                print(error.description)
+            case .Success(let iden):
+                self.getCAPTCHA(iden, completion:completion)
+            }
+        }
     }
 }
