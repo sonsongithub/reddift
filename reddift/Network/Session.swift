@@ -77,18 +77,16 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
     - returns: Data task which requests search to reddit.com.
     */
     func handleRequest(request:NSMutableURLRequest, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-		if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
             completion(result)
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
         
     /**
@@ -99,17 +97,15 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
     - returns: Data task which requests search to reddit.com.
     */
     func handleAsJSONRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
             completion(result)
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
 
 }

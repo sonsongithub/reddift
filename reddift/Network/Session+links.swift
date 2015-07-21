@@ -27,18 +27,16 @@ extension Session {
     public func postComment(text:String, parentName:String, completion:(Result<Comment>) -> Void) -> NSURLSessionDataTask? {
         let parameter:[String:String] = ["thing_id":parentName, "api_type":"json", "text":text]
         let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/comment", parameter:parameter, method:"POST", token:token)
-        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2Comment)
             completion(result)
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -123,7 +121,7 @@ extension Session {
     public func getInfo(names:[String], completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         let commaSeparatedNameString = commaSeparatedStringFromList(names)
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
-        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
@@ -137,11 +135,9 @@ extension Session {
                     return Result(error: ReddiftError.Malformed.error)
                 })
             completion(result)
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
     
     /**

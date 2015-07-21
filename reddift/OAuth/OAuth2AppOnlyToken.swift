@@ -86,7 +86,7 @@ public struct OAuth2AppOnlyToken : Token {
     public static func getOAuth2AppOnlyToken(username username:String, password:String, clientID:String, secret:String, completion:(Result<Token>)->Void) -> NSURLSessionDataTask? {
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let request = requestForOAuth2AppOnly(username:username, password:password, clientID:clientID, secret:secret)
-        if let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -106,10 +106,8 @@ public struct OAuth2AppOnlyToken : Token {
                 break
             }
             completion(resultFromOptional(token, error:NSError.errorWithCode(0, "")))
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
 }

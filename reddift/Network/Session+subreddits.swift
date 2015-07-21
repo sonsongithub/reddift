@@ -57,7 +57,7 @@ extension Session {
     */
     public func getUserRelatedSubreddit(mine:SubredditsMineWhere, paginator:Paginator?, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:mine.path, parameter:paginator?.parameters(), method:"GET", token:token)
-        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
@@ -65,11 +65,9 @@ extension Session {
                 .flatMap(json2RedditAny)
                 .flatMap(redditAny2Listing)
             completion(result)
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
     
     // MARK: BDT does not cover following methods.
@@ -97,7 +95,7 @@ extension Session {
             }
             let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/subreddits/search", parameter:parameter, method:"GET", token:token)
             
-            if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
                 self.updateRateLimitWithURLResponse(response)
                 let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                     .flatMap(response2Data)
@@ -105,10 +103,9 @@ extension Session {
                     .flatMap(json2RedditAny)
                     .flatMap(redditAny2Listing)
                 completion(result)
-            }) {
-                task.resume()
-                return task
-            }
+            })
+            task.resume()
+            return task
         }
         return nil
     }

@@ -31,7 +31,7 @@ extension Session {
         parameter.update(paginator.parameters())
         
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/user/" + username + content.path, parameter:parameter, method:"GET", token:token)
-        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
@@ -39,11 +39,9 @@ extension Session {
                 .flatMap(json2RedditAny)
                 .flatMap(redditAny2Listing)
             completion(result)
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -55,7 +53,7 @@ extension Session {
     */
     public func getUserProfile(username:String, completion:(Result<Account>) -> Void) -> NSURLSessionDataTask? {
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/user/\(username)/about", method:"GET", token:token)
-        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
@@ -69,10 +67,8 @@ extension Session {
                     return Result(error: ReddiftError.Malformed.error)
                 })
             completion(result)
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
 }

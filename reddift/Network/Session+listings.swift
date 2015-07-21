@@ -47,7 +47,7 @@ extension Session {
         }
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/comments/" + link.id, parameter:parameter, method:"GET", token:token)
         
-        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
@@ -56,11 +56,9 @@ extension Session {
                 .flatMap(json2RedditAny)
                 .flatMap(redditAny2Tuple)
             completion(result)
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -110,7 +108,7 @@ extension Session {
             path = "\(subreddit.path)\(privateSortType.path).json"
         }
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
-        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
@@ -118,11 +116,9 @@ extension Session {
                 .flatMap(json2RedditAny)
                 .flatMap(redditAny2Listing)
             completion(result)
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -171,7 +167,7 @@ extension Session {
             path = "\(subreddit.path)/\(type).json"
         }
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
-        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
@@ -179,11 +175,9 @@ extension Session {
                 .flatMap(json2RedditAny)
                 .flatMap(redditAny2Listing)
             completion(result)
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -197,7 +191,7 @@ extension Session {
     public func getRandom(subreddit:Subreddit? = nil, completion:(Result<(Listing, Listing)>) -> Void) -> NSURLSessionDataTask? {
         let path:String = (subreddit == nil) ? "/random" : subreddit!.url + "/random"
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, method:"GET", token:token)
-        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
@@ -205,11 +199,9 @@ extension Session {
                 .flatMap(json2RedditAny)
                 .flatMap(redditAny2Tuple)
             completion(result)
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
     
     // MARK: BDT does not cover following methods.
@@ -231,7 +223,7 @@ extension Session {
         parameter.update(paginator.parameters())
         
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/related/" + thing.id, parameter:parameter, method:"GET", token:token)
-        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
@@ -240,11 +232,9 @@ extension Session {
                 .flatMap(json2RedditAny)
                 .flatMap(redditAny2Tuple)
             completion(result)
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -264,7 +254,7 @@ extension Session {
         parameter.update(paginator.parameters())
         
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/duplicates/" + thing.id, parameter:parameter, method:"GET", token:token)
-        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
@@ -272,11 +262,9 @@ extension Session {
                 .flatMap(json2RedditAny)
                 .flatMap(redditAny2Tuple)
             completion(result)
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -290,7 +278,7 @@ extension Session {
         let fullnameList = links.map({ (link: Link) -> String in link.name })
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/by_id/" + commaSeparatedStringFromList(fullnameList), method:"GET", token:token)
         
-        if let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
@@ -298,11 +286,8 @@ extension Session {
                 .flatMap(json2RedditAny)
                 .flatMap(redditAny2Listing)
             completion(result)
-        
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
 }

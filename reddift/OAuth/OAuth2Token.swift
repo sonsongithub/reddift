@@ -128,7 +128,7 @@ public struct OAuth2Token : Token {
     */
     public func refresh(completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask? {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        if let task = session.dataTaskWithRequest(requestForRefreshing(), completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = session.dataTaskWithRequest(requestForRefreshing(), completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -147,11 +147,9 @@ public struct OAuth2Token : Token {
             case .Failure(let error):
                 completion(Result(error: error))
             }
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -162,16 +160,14 @@ public struct OAuth2Token : Token {
     */
     public func revoke(completion:(Result<JSON>)->Void) -> NSURLSessionDataTask? {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        if let task = session.dataTaskWithRequest(requestForRevoking(), completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = session.dataTaskWithRequest(requestForRevoking(), completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
             completion(result)
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -183,7 +179,7 @@ public struct OAuth2Token : Token {
     */
     public static func getOAuth2Token(code:String, completion:(Result<OAuth2Token>)->Void) -> NSURLSessionDataTask? {
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        if let task = session.dataTaskWithRequest(requestForOAuth(code), completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = session.dataTaskWithRequest(requestForOAuth(code), completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -196,11 +192,9 @@ public struct OAuth2Token : Token {
             case .Failure:
                 completion(result)
             }
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -213,7 +207,7 @@ public struct OAuth2Token : Token {
     func getProfile(completion:(Result<OAuth2Token>) -> Void) -> NSURLSessionDataTask? {
         let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/v1/me", method:"GET", token:self)
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        if let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -230,10 +224,8 @@ public struct OAuth2Token : Token {
             case .Failure(let error):
                 completion(Result(error: error))
             }
-        }) {
-            task.resume()
-            return task
-        }
-        return nil
+        })
+        task.resume()
+        return task
     }
 }
