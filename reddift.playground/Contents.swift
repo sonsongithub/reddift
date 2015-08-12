@@ -99,4 +99,18 @@ if let values = values {
     }))
 }
 
+let anonymouseSession = Session()
+anonymouseSession.getList(Paginator(), subreddit: nil, sort: .Controversial, timeFilterWithin: .Week) { (result) -> Void in
+    switch result {
+    case .Failure(let error):
+        print(error)
+    case .Success(let listing):
+        for child in listing.children {
+            if let link = child as? Link {
+                print(link.title)
+            }
+        }
+    }
+}
+
 XCPSetExecutionShouldContinueIndefinitely()

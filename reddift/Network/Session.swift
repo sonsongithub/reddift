@@ -23,9 +23,9 @@ public typealias RedditAny = Any
 /// Session class to communicate with reddit.com using OAuth.
 public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
     /// Token object to access via OAuth
-    public var token:Token = OAuth2Token()
+    public var token:Token? = nil
     /// Base URL for OAuth API
-    static let baseURL = "https://oauth.reddit.com"
+    let baseURL:String
     /// Session object to communicate a server
     var URLSession:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
     /// Duration until rate limit of API usage as second.
@@ -35,6 +35,12 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
     /// Duration until rate limit of API usage as second.
 	var x_ratelimit_remaining:Int = 0
     
+    /// OAuth endpoint URL
+    static let OAuthEndpointURL = "https://oauth.reddit.com"
+    
+    /// Public endpoint URL
+    static let publicEndpointURL = "https://www.reddit.com/"
+    
     /**
     Initialize session object with OAuth token.
     
@@ -42,6 +48,15 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
     */
     public init(token:Token) {
         self.token = token
+        baseURL = Session.OAuthEndpointURL
+    }
+    
+    /**
+    Initialize anonymouse session object
+    */
+    override public init() {
+        baseURL = Session.publicEndpointURL
+        super.init()
     }
 	
 	/**
