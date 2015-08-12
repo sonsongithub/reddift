@@ -35,6 +35,12 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
     /// Duration until rate limit of API usage as second.
 	var x_ratelimit_remaining:Int = 0
     
+    /// OAuth endpoint URL
+    static let OAuthEndpointURL = "https://oauth.reddit.com"
+    
+    /// Public endpoint URL
+    static let publicEndpointURL = "https://www.reddit.com/"
+    
     /**
     Initialize session object with OAuth token.
     
@@ -42,14 +48,14 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
     */
     public init(token:Token) {
         self.token = token
-        baseURL = "https://oauth.reddit.com"
+        baseURL = Session.OAuthEndpointURL
     }
     
     /**
     Initialize anonymouse session object
     */
     override public init() {
-        baseURL = "https://www.reddit.com/"
+        baseURL = Session.publicEndpointURL
         super.init()
     }
 	
