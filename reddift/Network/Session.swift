@@ -36,7 +36,7 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
 	var x_ratelimit_remaining:Int = 0
     
     /// OAuth endpoint URL
-    static let OAuthEndpointURL = "https://oauth.reddit.com"
+    static let OAuthEndpointURL = "https://oauth.reddit.com/"
     
     /// Public endpoint URL
     static let publicEndpointURL = "https://www.reddit.com/"
