@@ -25,8 +25,9 @@ class ListingsTest: SessionTestSpec {
                     case .Failure(let error):
                         print(error)
                     case .Success(let listing):
-                        isSucceeded = (listing.children.count > 0)
+                        isSucceeded = (listing.children.count >= 0)
                         for obj in listing.children {
+                            print(obj.dynamicType)
                             isSucceeded = isSucceeded && (obj is Link)
                         }
                     }
@@ -69,10 +70,9 @@ class ListingsTest: SessionTestSpec {
             case .Failure(let error):
                 print(error.description)
             case .Success(let tuple):
-                isSucceeded = isSucceeded && (tuple.0.children.count == 1)
+                isSucceeded = (tuple.0.children.count == 1)
                 isSucceeded = isSucceeded && (tuple.0.children[0] is Link)
-                
-                isSucceeded = isSucceeded && (tuple.1.children.count > 0)
+                isSucceeded = isSucceeded && (tuple.1.children.count >= 0)
                 for obj in tuple.1.children {
                     isSucceeded = isSucceeded && (obj is Comment)
                 }
