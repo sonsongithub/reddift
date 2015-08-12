@@ -35,7 +35,12 @@ class UserContentViewController: UITableViewController {
         let nib:UINib = UINib(nibName: "UZTextViewCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: "Cell")
         
-        if let name = session?.token.name {
+        if let name:String = (session.flatMap { (session) -> Token? in
+            return session.token
+        }
+        .flatMap { (token) -> String? in
+            return token.name
+        }) as String? {
 			session?.getUserContent(name, content:userContent, sort:.New, timeFilterWithin:.All, paginator:Paginator(), completion: { (result) -> Void in
                 switch result {
                 case .Failure:

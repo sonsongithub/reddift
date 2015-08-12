@@ -45,7 +45,7 @@ extension Session {
             let commaSeparatedIDString = commaSeparatedStringFromList(comments)
             parameter["comment"] = commaSeparatedIDString
         }
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/comments/" + link.id, parameter:parameter, method:"GET", token:token)
+        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/comments/" + link.id + ".json", parameter:parameter, method:"GET", token:token)
         
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
@@ -107,7 +107,10 @@ extension Session {
         if let subreddit = subreddit {
             path = "\(subreddit.path)\(privateSortType.path).json"
         }
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
+        else {
+            path = "\(privateSortType.path).json"
+        }
+        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
@@ -166,7 +169,10 @@ extension Session {
         if let subreddit = subreddit {
             path = "\(subreddit.path)/\(type).json"
         }
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
+        else {
+            path = "\(type).json"
+        }
+        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
@@ -190,7 +196,7 @@ extension Session {
     */
     public func getRandom(subreddit:Subreddit? = nil, completion:(Result<(Listing, Listing)>) -> Void) -> NSURLSessionDataTask? {
         let path:String = (subreddit == nil) ? "/random" : subreddit!.url + "/random"
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, method:"GET", token:token)
+        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
@@ -222,7 +228,7 @@ extension Session {
         // parameter["sr_detail"] = "true"
         parameter.update(paginator.parameters())
         
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/related/" + thing.id, parameter:parameter, method:"GET", token:token)
+        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/related/" + thing.id, parameter:parameter, method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             
@@ -253,7 +259,7 @@ extension Session {
         // parameter["sr_detail"] = "true"
         parameter.update(paginator.parameters())
         
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/duplicates/" + thing.id, parameter:parameter, method:"GET", token:token)
+        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/duplicates/" + thing.id, parameter:parameter, method:"GET", token:token)
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
@@ -276,7 +282,7 @@ extension Session {
     */
     public func getLinksById(links:[Link], completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         let fullnameList = links.map({ (link: Link) -> String in link.name })
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/by_id/" + commaSeparatedStringFromList(fullnameList), method:"GET", token:token)
+        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/by_id/" + commaSeparatedStringFromList(fullnameList), method:"GET", token:token)
         
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)

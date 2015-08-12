@@ -35,7 +35,7 @@ extension Session {
             }
             
             let path = (subreddit != nil) ? subreddit!.url + "search" : "/search"
-            let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:path, parameter:parameter, method:"GET", token:token)
+            let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
             
             let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
                 self.updateRateLimitWithURLResponse(response)

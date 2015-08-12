@@ -35,15 +35,17 @@ extension NSMutableURLRequest {
         setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
     }
     
-    func setOAuth2Token(token:Token) {
-        setValue("bearer " + token.accessToken, forHTTPHeaderField:"Authorization")
+    func setOAuth2Token(token:Token?) {
+        if let token = token {
+            setValue("bearer " + token.accessToken, forHTTPHeaderField:"Authorization")
+        }
     }
     
     func setUserAgentForReddit() {
         self.setValue(Config.sharedInstance.userAgent, forHTTPHeaderField: "User-Agent")
     }
     
-    class func mutableOAuthRequestWithBaseURL(baseURL:String, path:String, method:String, token:Token) -> NSMutableURLRequest {
+    class func mutableOAuthRequestWithBaseURL(baseURL:String, path:String, method:String, token:Token?) -> NSMutableURLRequest {
         let URL = NSURL(string:baseURL + path)!
         let URLRequest = NSMutableURLRequest(URL: URL)
         URLRequest.setOAuth2Token(token)
@@ -52,20 +54,20 @@ extension NSMutableURLRequest {
         return URLRequest
     }
     
-    class func mutableOAuthRequestWithBaseURL(baseURL:String, path:String, parameter:[String:String]?, method:String, token:Token) -> NSMutableURLRequest {
+    class func mutableOAuthRequestWithBaseURL(baseURL:String, path:String, parameter:[String:String]?, method:String, token:Token?) -> NSMutableURLRequest {
 		var params:[String:String] = [:]
 		if let parameter = parameter {
 			params = parameter
 		}
         if method == "POST" {
-            return self.mutableOAuthPostRequestWithBaseURL(baseURL, path:path, parameter:params, method:method, token:token)
+            return mutableOAuthPostRequestWithBaseURL(baseURL, path:path, parameter:params, method:method, token:token)
         }
         else {
-            return self.mutableOAuthGetRequestWithBaseURL(baseURL, path:path, parameter:params, method:method, token:token)
+            return mutableOAuthGetRequestWithBaseURL(baseURL, path:path, parameter:params, method:method, token:token)
         }
     }
     
-    class func mutableOAuthGetRequestWithBaseURL(baseURL:String, path:String, parameter:[String:String], method:String, token:Token) -> NSMutableURLRequest {
+    class func mutableOAuthGetRequestWithBaseURL(baseURL:String, path:String, parameter:[String:String], method:String, token:Token?) -> NSMutableURLRequest {
         let param = parameterString(parameter)
         let URL = param.characters.isEmpty ? NSURL(string:baseURL + path)! : NSURL(string:baseURL + path + "?" + param)!
         let URLRequest = NSMutableURLRequest(URL: URL)
@@ -75,7 +77,7 @@ extension NSMutableURLRequest {
         return URLRequest
     }
     
-    class func mutableOAuthPostRequestWithBaseURL(baseURL:String, path:String, parameter:[String:String], method:String, token:Token) -> NSMutableURLRequest {
+    class func mutableOAuthPostRequestWithBaseURL(baseURL:String, path:String, parameter:[String:String], method:String, token:Token?) -> NSMutableURLRequest {
         let URL = NSURL(string:baseURL + path)!
         let URLRequest = NSMutableURLRequest(URL: URL)
         URLRequest.setOAuth2Token(token)
