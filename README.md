@@ -77,17 +77,15 @@ At first, you have to implement codes to receive the response of OAuth2 in ```UI
 reddift let you save tokens as a specified name into KeyChain.
 Specifically, following sample code saves token as user name at reddit.com.
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion:{(result) -> Void in
             switch result {
-            case let .Failure:
-                println(result.error)
-            case let .Success:
-                if var token = result.value as OAuth2Token? {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        OAuth2TokenRepository.saveIntoKeychainToken(token, name:token.name)
-                    })
-                }
+            case .Failure(let error):
+                print(error)
+            case .Success(let token):
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    OAuth2TokenRepository.saveIntoKeychainToken(token, name:token.name)
+                })
             }
         })
     }
@@ -95,36 +93,26 @@ Specifically, following sample code saves token as user name at reddit.com.
 To communicate with reddit.com via OAuth2, you have to create ```Session``` object.
 See following section about getting response or error handling.
 
-    let result = OAuth2TokenRepository.restoreFromKeychainWithName(name)
-    switch(result) {
-    case .Failure:
-        println(result.error!.description)
-    case .Success:
-        if let token = result.value {
-            con.session = Session(token: token)
-        }
-    }
+	let result = OAuth2TokenRepository.restoreFromKeychainWithName(name)
+	switch result {
+	case .Failure(let error):
+	    print(error.description)
+	case .Success(let token):
+	    con.session = Session(token: token)
+	}
     
 You can get contents from reddit via ```Session``` object like following codes.
 
-    session?.getList(paginator, sort:sortType, subreddit:subreddit, completion: { (result) in
+    session?.getList(paginator, subreddit:subreddit, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.All, completion: { (result) in
         switch result {
-        case let .Failure:
-            println(result.error)
-        case let .Success:
-            println(result.value)
-            if let listing = result.value as? Listing {
-                for obj in listing.children {
-                    if let link = obj as? Link {
-                        self.links.append(link)
-                    }
+        case .Failure(let error):
+            print(error)
+        case .Success(let listing):
+            for obj in listing.children {
+                if let link = obj as? Link {
+                    self.links.append(link)
                 }
-                self.paginator = listing.paginator
             }
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.tableView.reloadData()
-                self.loading = false
-            })
         }
     })
 
@@ -141,12 +129,10 @@ Do not use ```Oauth2AppOnlyToken``` in installed app in terms of security.
         secret: secret,
         completion:( { (result) -> Void in
         switch result {
-        case let .Failure:
-            println("Could not get access token from reddit.com.")
-        case let .Success:
-            if let token:OAuth2Token = result.value {
-                self.session = Session(token: token)
-            }
+        case .Failure(let error):
+            print(error)
+        case .Success(let token):
+            self.session = Session(token: token)
         }
     }))
 
