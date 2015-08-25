@@ -14,7 +14,7 @@ func parameterString(dictionary:[String:String])-> String {
         buf += "\(key)=\(value)&"
     }
     if buf.characters.count > 0 {
-        let range = Range<String.Index>(start: advance(buf.endIndex, -1), end: buf.endIndex)
+        let range = Range<String.Index>(start: buf.endIndex.advancedBy(-1), end: buf.endIndex)
         buf.removeRange(range)
     }
     return buf

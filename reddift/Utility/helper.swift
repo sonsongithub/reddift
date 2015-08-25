@@ -22,7 +22,7 @@ func commaSeparatedStringFromList(list:[String]) -> String {
         string = string + element + ","
     }
     if string.characters.count > 1 {
-        let range = Range<String.Index>(start: advance(string.endIndex, -1), end: string.endIndex)
+        let range = Range<String.Index>(start: string.endIndex.advancedBy(-1), end: string.endIndex)
         string.removeRange(range)
     }
     return string

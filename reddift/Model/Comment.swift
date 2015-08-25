@@ -19,7 +19,7 @@ public func extendAllReplies(comment:Thing) -> [Thing] {
     var comments:[Thing] = [comment]
     if let comment = comment as? Comment {
         for obj in comment.replies.children {
-            comments.extend(extendAllReplies(obj))
+            comments.appendContentsOf(extendAllReplies(obj))
         }
     }
     return comments
