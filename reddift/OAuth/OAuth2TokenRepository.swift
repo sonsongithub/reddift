@@ -18,7 +18,7 @@ OAuth2TokenRepository, is utility class, has only class method.
 public class OAuth2TokenRepository {
     public class func restoreFromKeychainWithName(name:String) -> Result<OAuth2Token> {
         let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-        if let data = keychain.getData(name) {
+        if let data = try! keychain.getData(name) {
             var json:JSON? = nil
             do {
                 json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
@@ -48,7 +48,7 @@ public class OAuth2TokenRepository {
             // save
             if let data = jsonForSerializeToken(token) {
                 let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-                keychain.set(data, key:token.name)
+                try! keychain.set(data, key:token.name)
                 NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil)
             }
         }
@@ -62,8 +62,13 @@ public class OAuth2TokenRepository {
             // save
             if let data = jsonForSerializeToken(token) {
                 let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-                keychain.set(data, key:name)
-                NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil);
+                do {
+                    try keychain.set(data, key:name)
+                    NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil);
+                }
+                catch {
+                    print("Can't save a token with \(name)")
+                }
             }
         }
         else {
@@ -74,7 +79,12 @@ public class OAuth2TokenRepository {
     public class func removeFromKeychainTokenWithName(name:String) {
         if name.characters.count > 0 {
             let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-            keychain.remove(name);
+            do {
+                try keychain.remove(name);
+            }
+            catch {
+                print("Can't remove a token with \(name)")
+            }
         }
         else {
             print("Error:name property is empty.")
