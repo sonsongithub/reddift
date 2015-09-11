@@ -13,35 +13,41 @@ extension Session {
     /**
     Search link with query. If subreddit is nil, this method searched links from all of reddit.com.
     
-    :param: subreddit Specified subreddit to which you would like to limit your search.
-    :param: query The search keywords, must be less than 512 characters.
-    :param: paginator Paginator object for paging.
-    :param: sort Sort type, specified by SearchSortBy.
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
+    - parameter subreddit: Specified subreddit to which you would like to limit your search.
+    - parameter query: The search keywords, must be less than 512 characters.
+    - parameter paginator: Paginator object for paging.
+    - parameter sort: Sort type, specified by SearchSortBy.
+    - parameter completion: The completion handler to call when the load request is complete.
+    - returns: Data task which requests search to reddit.com.
     */
-    public func getSearch(subreddit:Subreddit?, query:String, paginator:Paginator?, sort:SearchSortBy, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-        var customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
-        var escapedString = query.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
-        if let escapedString = escapedString {
-            if count(escapedString) > 512 {
+    public func getSearch(subreddit:Subreddit?, query:String, paginator:Paginator?, sort:SearchSortBy, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
+        let customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
+        if let escapedString = query.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet) {
+            if escapedString.characters.count > 512 {
                 return nil
             }
-            var parameter = ["q":escapedString, "sort":sort.path]
             
+            var parameter = ["q":escapedString, "sort":sort.path]
             if let paginator = paginator {
                 for (key, value) in paginator.parameters() {
                     parameter[key] = value
                 }
             }
-            if let subreddit = subreddit {
-                var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:subreddit.url + "search", parameter:parameter, method:"GET", token:token)
-                return handleRequest(request, completion:completion)
-            }
-            else {
-                var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/search", parameter:parameter, method:"GET", token:token)
-                return handleRequest(request, completion:completion)
-            }
+            
+            let path = (subreddit != nil) ? subreddit!.url + "search" : "/search"
+            let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
+            
+            let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+                self.updateRateLimitWithURLResponse(response)
+                let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                    .flatMap(response2Data)
+                    .flatMap(data2Json)
+                    .flatMap(json2RedditAny)
+                    .flatMap(redditAny2Listing)
+                completion(result)
+            })
+            task.resume()
+            return task
         }
         return nil
     }

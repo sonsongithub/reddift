@@ -13,8 +13,8 @@ func parameterString(dictionary:[String:String])-> String {
     for (key, value) in dictionary {
         buf += "\(key)=\(value)&"
     }
-    if count(buf) > 0 {
-        var range = Range<String.Index>(start: advance(buf.endIndex, -1), end: buf.endIndex)
+    if buf.characters.count > 0 {
+        let range = Range<String.Index>(start: buf.endIndex.advancedBy(-1), end: buf.endIndex)
         buf.removeRange(range)
     }
     return buf
@@ -22,62 +22,64 @@ func parameterString(dictionary:[String:String])-> String {
 
 extension NSMutableURLRequest {
     func setRedditBasicAuthentication() {
-        var basicAuthenticationChallenge = Config.sharedInstance.clientID + ":"
+        let basicAuthenticationChallenge = Config.sharedInstance.clientID + ":"
         let data = basicAuthenticationChallenge.dataUsingEncoding(NSUTF8StringEncoding)!
         let base64Str = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
         setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
     }
     
-    func setRedditBasicAuthentication(#username:String, password:String) {
-        var basicAuthenticationChallenge = username + ":" + password
+    func setRedditBasicAuthentication(username username:String, password:String) {
+        let basicAuthenticationChallenge = username + ":" + password
         let data = basicAuthenticationChallenge.dataUsingEncoding(NSUTF8StringEncoding)!
         let base64Str = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
         setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
     }
     
-    func setOAuth2Token(token:Token) {
-        setValue("bearer " + token.accessToken, forHTTPHeaderField:"Authorization")
+    func setOAuth2Token(token:Token?) {
+        if let token = token {
+            setValue("bearer " + token.accessToken, forHTTPHeaderField:"Authorization")
+        }
     }
     
     func setUserAgentForReddit() {
         self.setValue(Config.sharedInstance.userAgent, forHTTPHeaderField: "User-Agent")
     }
     
-    class func mutableOAuthRequestWithBaseURL(baseURL:String, path:String, method:String, token:Token) -> NSMutableURLRequest {
+    class func mutableOAuthRequestWithBaseURL(baseURL:String, path:String, method:String, token:Token?) -> NSMutableURLRequest {
         let URL = NSURL(string:baseURL + path)!
-        var URLRequest = NSMutableURLRequest(URL: URL)
+        let URLRequest = NSMutableURLRequest(URL: URL)
         URLRequest.setOAuth2Token(token)
         URLRequest.HTTPMethod = method
         URLRequest.setUserAgentForReddit()
         return URLRequest
     }
     
-    class func mutableOAuthRequestWithBaseURL(baseURL:String, path:String, parameter:[String:String]?, method:String, token:Token) -> NSMutableURLRequest {
+    class func mutableOAuthRequestWithBaseURL(baseURL:String, path:String, parameter:[String:String]?, method:String, token:Token?) -> NSMutableURLRequest {
 		var params:[String:String] = [:]
 		if let parameter = parameter {
 			params = parameter
 		}
         if method == "POST" {
-            return self.mutableOAuthPostRequestWithBaseURL(baseURL, path:path, parameter:params, method:method, token:token)
+            return mutableOAuthPostRequestWithBaseURL(baseURL, path:path, parameter:params, method:method, token:token)
         }
         else {
-            return self.mutableOAuthGetRequestWithBaseURL(baseURL, path:path, parameter:params, method:method, token:token)
+            return mutableOAuthGetRequestWithBaseURL(baseURL, path:path, parameter:params, method:method, token:token)
         }
     }
     
-    class func mutableOAuthGetRequestWithBaseURL(baseURL:String, path:String, parameter:[String:String], method:String, token:Token) -> NSMutableURLRequest {
-        var param = parameterString(parameter)
-        let URL = isEmpty(param) ? NSURL(string:baseURL + path)! : NSURL(string:baseURL + path + "?" + param)!
-        var URLRequest = NSMutableURLRequest(URL: URL)
+    class func mutableOAuthGetRequestWithBaseURL(baseURL:String, path:String, parameter:[String:String], method:String, token:Token?) -> NSMutableURLRequest {
+        let param = parameterString(parameter)
+        let URL = param.characters.isEmpty ? NSURL(string:baseURL + path)! : NSURL(string:baseURL + path + "?" + param)!
+        let URLRequest = NSMutableURLRequest(URL: URL)
         URLRequest.setOAuth2Token(token)
         URLRequest.HTTPMethod = method
         URLRequest.setUserAgentForReddit()
         return URLRequest
     }
     
-    class func mutableOAuthPostRequestWithBaseURL(baseURL:String, path:String, parameter:[String:String], method:String, token:Token) -> NSMutableURLRequest {
+    class func mutableOAuthPostRequestWithBaseURL(baseURL:String, path:String, parameter:[String:String], method:String, token:Token?) -> NSMutableURLRequest {
         let URL = NSURL(string:baseURL + path)!
-        var URLRequest = NSMutableURLRequest(URL: URL)
+        let URLRequest = NSMutableURLRequest(URL: URL)
         URLRequest.setOAuth2Token(token)
         URLRequest.HTTPMethod = method
         let data = parameterString(parameter).dataUsingEncoding(NSUTF8StringEncoding)

@@ -36,8 +36,8 @@ public struct More : Thing {
     /**
     Parse more object.
     
-    :param: data Dictionary, must be generated parsing "more".
-    :returns: More object as Thing.
+    - parameter data: Dictionary, must be generated parsing "more".
+    - returns: More object as Thing.
     */
     public init(data:JSONDictionary) {
         id = data["id"] as? String ?? ""

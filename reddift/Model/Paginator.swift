@@ -39,14 +39,14 @@ public struct Paginator {
     Generate dictionary to add query parameters to URL.
 	If paginator is vacant, returns vacant dictionary as [String:String].
     
-    :returns: Dictionary object for paging.
+    - returns: Dictionary object for paging.
     */
     public func parameters() -> [String:String] {
         var dict:[String:String] = [:]
-        if count(after) > 0 {
+        if after.characters.count > 0 {
             dict["after"] = after
         }
-        if count(before) > 0 {
+        if before.characters.count > 0 {
             dict["before"] = before
         }
         return dict

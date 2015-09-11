@@ -450,8 +450,8 @@ public struct Subreddit : SubredditURLPath, Thing {
     /**
     Parse t5 object.
     
-    :param: data Dictionary, must be generated parsing "t5".
-    :returns: Subreddit object as Thing.
+    - parameter data: Dictionary, must be generated parsing "t5".
+    - returns: Subreddit object as Thing.
     */
     public init(data:JSONDictionary) {
         id = data["id"] as? String ?? ""

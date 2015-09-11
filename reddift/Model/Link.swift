@@ -281,8 +281,8 @@ public struct Link : Thing {
     /**
     Parse t3 object.
     
-    :param: data Dictionary, must be generated parsing "t3".
-    :returns: Link object as Thing.
+    - parameter data: Dictionary, must be generated parsing "t3".
+    - returns: Link object as Thing.
     */
     public init(data:JSONDictionary) {
         id = data["id"] as? String ?? ""

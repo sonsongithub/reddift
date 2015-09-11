@@ -12,15 +12,22 @@ extension Session {
     /**
     Gets the identity of the user currently authenticated via OAuth.
 
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
+    - parameter completion: The completion handler to call when the load request is complete.
+    - returns: Data task which requests search to reddit.com.
     */
-    public func getProfile(completion:(Result<Thing>) -> Void) -> NSURLSessionDataTask? {
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/api/v1/me", method:"GET", token:token)
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+    public func getProfile(completion:(Result<Account>) -> Void) -> NSURLSessionDataTask? {
+        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me", method:"GET", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
-            let responseResult = resultFromOptionalError(Response(data: data, urlResponse: response), error)
-            let result = responseResult >>> parseResponse >>> decodeJSON >>> parseDataInJSON_t2
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap({ (json:JSON) -> Result<Account> in
+                    if let object = json as? JSONDictionary {
+                        return resultFromOptional(Account(data:object), error: ReddiftError.ParseThingT2.error)
+                    }
+                    return resultFromOptional(nil, error: ReddiftError.Malformed.error)
+                })
             completion(result)
         })
         task.resume()

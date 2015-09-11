@@ -68,8 +68,8 @@ class Parser: NSObject {
             }
             
             if data["after"] != nil || data["before"] != nil {
-                var a:String = data["after"] as? String ?? ""
-                var b:String = data["before"] as? String ?? ""
+                let a:String = data["after"] as? String ?? ""
+                let b:String = data["before"] as? String ?? ""
                 
                 if !a.isEmpty || !b.isEmpty {
                     paginator = Paginator(after: a, before: b, modhash: data["modhash"] as? String ?? "")

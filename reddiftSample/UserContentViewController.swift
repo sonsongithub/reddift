@@ -17,7 +17,7 @@ class UserContentViewController: UITableViewController {
     
     func updateStrings() {
         contents.removeAll(keepCapacity:true)
-        contents = source.map{(var obj) -> CellContent in
+        contents = source.map{(let obj) -> CellContent in
             if let comment = obj as? Comment {
                 return CellContent(string:comment.body, width:self.view.frame.size.width)
             }
@@ -35,28 +35,19 @@ class UserContentViewController: UITableViewController {
         let nib:UINib = UINib(nibName: "UZTextViewCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: "Cell")
         
-        if let name = session?.token.name {
+        if let name:String = (session.flatMap { (session) -> Token? in
+            return session.token
+        }
+        .flatMap { (token) -> String? in
+            return token.name
+        }) as String? {
 			session?.getUserContent(name, content:userContent, sort:.New, timeFilterWithin:.All, paginator:Paginator(), completion: { (result) -> Void in
                 switch result {
-                case let .Failure:
-                    println(result.error)
-                case let .Success:
-                    println(result.value)
-                    if let listing = result.value as? Listing {
-                        for obj in listing.children {
-                            if let link = obj as? Link {
-                                self.source.append(link)
-                            }
-                        }
-//                        self.paginator = listing.paginator
-                    }
+                case .Failure:
+                    print(result.error)
+                case .Success(let listing):
+                    self.source += listing.children
                     self.updateStrings()
-//                    if let listing = box.value as? Listing {
-//                        if let array = listing.children {
-//                            self.source += array
-//                        }
-//                    }
-//                    self.updateStrings()
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.tableView.reloadData()
                     })
@@ -79,24 +70,22 @@ class UserContentViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indices(source) ~= indexPath.row {
-            var obj = source[indexPath.row]
+        if source.indices ~= indexPath.row {
+            let obj = source[indexPath.row]
             if let comment = obj as? Comment {
                 session?.getInfo([comment.linkId], completion: { (result) -> Void in
                     switch result {
-                    case let .Failure:
-                        println(result.error)
-                    case let .Success:
-                        if let listing = result.value as? Listing {
-                            if listing.children.count == 1 {
-                                if let link = listing.children[0] as? Link {
-                                    if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{
-                                        vc.session = self.session
-                                        vc.link = link
-                                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                            self.navigationController?.pushViewController(vc, animated: true)
-                                        })
-                                    }
+                    case .Failure:
+                        print(result.error)
+                    case .Success(let listing):
+                        if listing.children.count == 1 {
+                            if let link = listing.children[0] as? Link {
+                                if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{
+                                    vc.session = self.session
+                                    vc.link = link
+                                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                        self.navigationController?.pushViewController(vc, animated: true)
+                                    })
                                 }
                             }
                         }
@@ -114,16 +103,16 @@ class UserContentViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indices(contents) ~= indexPath.row {
+        if contents.indices ~= indexPath.row {
             return contents[indexPath.row].textHeight
         }
         return 0
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
         if let cell = cell as? UZTextViewCell {
-            if indices(contents) ~= indexPath.row {
+            if contents.indices ~= indexPath.row {
                 cell.textView?.attributedString = contents[indexPath.row].attributedString
             }
         }

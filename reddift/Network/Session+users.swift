@@ -15,14 +15,14 @@ extension Session {
     /**
     Get Links or Comments that a user liked, saved, commented, hide, diskiked and etc.
     
-    :param: username Name of user.
-    :param: content The type of user's contents as UserContent.
-    :param: paginator Paginator object for paging contents.
-    :param: limit The maximum number of comments to return. Default is 25.
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
+    - parameter username: Name of user.
+    - parameter content: The type of user's contents as UserContent.
+    - parameter paginator: Paginator object for paging contents.
+    - parameter limit: The maximum number of comments to return. Default is 25.
+    - parameter completion: The completion handler to call when the load request is complete.
+    - returns: Data task which requests search to reddit.com.
     */
-    public func getUserContent(username:String, content:UserContent, sort:UserContentSortBy, timeFilterWithin:TimeFilterWithin, paginator:Paginator, limit:Int = 25, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    public func getUserContent(username:String, content:UserContent, sort:UserContentSortBy, timeFilterWithin:TimeFilterWithin, paginator:Paginator, limit:Int = 25, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         var parameter = ["t":timeFilterWithin.param];
         parameter["limit"] = "\(limit)"
         parameter["show"] = "given"
@@ -30,19 +30,45 @@ extension Session {
         // parameter["sr_detail"] = "true"
         parameter.update(paginator.parameters())
         
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/user/" + username + content.path, parameter:parameter, method:"GET", token:token)
-        return handleRequest(request, completion:completion)
+        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/user/" + username + content.path, parameter:parameter, method:"GET", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2RedditAny)
+                .flatMap(redditAny2Listing)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     /**
     Return information about the user, including karma and gold status.
     
-    :param: username The name of an existing user
-    :param: completion The completion handler to call when the load request is complete.
-    :returns: Data task which requests search to reddit.com.
+    - parameter username: The name of an existing user
+    - parameter completion: The completion handler to call when the load request is complete.
+    - returns: Data task which requests search to reddit.com.
     */
-    public func getUserProfile(username:String, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-        var request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.baseURL, path:"/user/\(username)/about", method:"GET", token:token)
-        return handleRequest(request, completion:completion)
+    public func getUserProfile(username:String, completion:(Result<Account>) -> Void) -> NSURLSessionDataTask? {
+        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/user/\(username)/about", method:"GET", token:token)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2RedditAny)
+                .flatMap({
+                    (redditAny: RedditAny) -> Result<Account> in
+                    if let account = redditAny as? Account {
+                        return Result(value: account)
+                    }
+                    return Result(error: ReddiftError.Malformed.error)
+                })
+            completion(result)
+        })
+        task.resume()
+        return task
     }
 }

@@ -14,7 +14,9 @@ class SearchResultViewController: BaseLinkViewController {
     var originalViewController:LinkViewController? = nil
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        searchWithQuery(searchBar.text)
+        if let text = searchBar.text {
+            searchWithQuery(text)
+        }
     }
     
     func searchWithQuery(query:String) {
@@ -33,18 +35,15 @@ class SearchResultViewController: BaseLinkViewController {
         session?.getSearch(self.subreddit, query: query, paginator:paginator, sort:SearchSortBy.Relevance, completion: { (result) -> Void in
             self.loading = false
             switch result {
-            case let .Failure:
-                println(result.error)
-            case let .Success:
-                println(result.value)
-                if let listing = result.value as? Listing {
-                    for obj in listing.children {
-                        if let link = obj as? Link {
-                            self.links.append(link)
-                        }
+            case .Failure:
+                print(result.error)
+            case .Success(let listing):
+                for obj in listing.children {
+                    if let link = obj as? Link {
+                        self.links.append(link)
                     }
-                    self.paginator = listing.paginator
                 }
+                self.paginator = listing.paginator
                 self.updateStrings()
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.tableView.reloadData()
@@ -74,9 +73,9 @@ extension SearchResultViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
         if let cell = cell as? UZTextViewCell {
-            if indices(contents) ~= indexPath.row {
+            if contents.indices ~= indexPath.row {
                 cell.textView?.attributedString = contents[indexPath.row].attributedString
             }
         }

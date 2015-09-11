@@ -46,31 +46,26 @@ class CAPTCHAView : UIView {
         activity?.hidden = false
         self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
             switch result {
-            case let .Failure:
-                println(result.error!.description)
-            case let .Success:
-                if let string = result.value {
-                    println(string)
-                    self.session?.getCAPTCHA(string, completion: { (result) -> Void in
-                        switch result {
-                        case let .Failure:
-                            println(result.error!.description)
-                        case let .Success:
-                            if let image:CAPTCHAImage = result.value {
-                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                    self.currentIden = string
-                                    if let imageView = self.captchaImageView {
-                                        imageView.image = image
-                                    }
-                                    if let activity = self.activity {
-                                        activity.stopAnimating()
-                                        activity.hidden = true
-                                    }
-                                })
+            case .Failure(let error):
+                print(error.description)
+            case .Success(let identifier):
+                self.session?.getCAPTCHA(identifier, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure(let error):
+                        print(error.description)
+                    case .Success(let image):
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.currentIden = identifier
+                            if let imageView = self.captchaImageView {
+                                imageView.image = image
                             }
-                        }
-                    })
-                }
+                            if let activity = self.activity {
+                                activity.stopAnimating()
+                                activity.hidden = true
+                            }
+                        })
+                    }
+                })
             }
         })
     }

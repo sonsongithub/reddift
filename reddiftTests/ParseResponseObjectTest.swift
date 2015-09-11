@@ -1,5 +1,5 @@
 //
-//  ParseResponseObjectTest.swift
+//  response2DataObjectTest.swift
 //  reddift
 //
 //  Created by sonson on 2015/04/22.
@@ -7,128 +7,102 @@
 //
 
 import Foundation
-import Nimble
-import Quick
+import XCTest
 
-class ParseResponseObjectTest: QuickSpec {
-    override func spec() {
+class response2DataObjectTest: XCTestCase {
         
-        describe("When error json which is not a response from reddit.com is loaded") {
-            it("output is nil") {
-                for fileName in ["error.json", "t1.json", "t2.json", "t3.json", "t4.json", "t5.json"] {
-                    var isSucceeded = false
-                    if let json:AnyObject = self.jsonFromFileName(fileName) {
-                        let object:Any? = Parser.parseJSON(json)
-                        expect(object == nil).to(equal(true))
-                        isSucceeded = true
+        func testWhenErrorJsonWhichIsNotResponseFromRmoteIsLoaded() {
+            print("output is nil")
+            for fileName in ["error.json", "t1.json", "t2.json", "t3.json", "t4.json", "t5.json"] {
+                var isSucceeded = false
+                if let json:AnyObject = self.jsonFromFileName(fileName) {
+                    let object:Any? = Parser.parseJSON(json)
+                    XCTAssert(object == nil)
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded == true)
+            }
+        }
+        
+        func testCommentsJsonFile() {
+            print("has 1 Link and 26 Comments")
+            if let json:AnyObject = self.jsonFromFileName("comments.json") {
+                if let objects = Parser.parseJSON(json) as? [JSON] {
+                    XCTAssert(objects.count == 2)
+                    if let links = objects[0] as? Listing {
+                        XCTAssert(links.children.count == 1)
+                        XCTAssert(links.children[0] is Link == true)
                     }
-                    expect(isSucceeded).to(equal(true))
+                    if let comments = objects[1] as? Listing {
+                        for comment in comments.children {
+                            XCTAssert(comment is Comment == true)
+                        }
+                        XCTAssert(comments.children.count == 26)
+                    }
                 }
             }
         }
         
-        describe("comments.json file") {
-            it("has 1 Link and 26 Comments") {
-                var isSucceeded = false
-                if let json:AnyObject = self.jsonFromFileName("comments.json") {
-                    if let objects = Parser.parseJSON(json) as? [JSON] {
-                        expect(objects.count).to(equal(2))
-                        if let links = objects[0] as? Listing {
-                            expect(links.children.count).to(equal(1))
-                            expect(links.children[0] is Link).to(equal(true))
-                        }
-                        if let comments = objects[1] as? Listing {
-                            for comment in comments.children {
-                                expect(comment is Comment).to(equal(true))
-                            }
-                            expect(comments.children.count).to(equal(26))
-                        }
-                        isSucceeded = true
+        func testLinksJsonFile() {
+            print("has 26 Links")
+            if let json:AnyObject = self.jsonFromFileName("links.json") {
+                if let listing = Parser.parseJSON(json) as? Listing {
+                    XCTAssert(listing.children.count == 26)
+                    for child in listing.children {
+                        XCTAssert(child is Link == true)
                     }
                 }
-                expect(isSucceeded).to(equal(true))
             }
         }
         
-        describe("links.json file") {
-            it("has 26 Links") {
-                var isSucceeded = false
-                if let json:AnyObject = self.jsonFromFileName("links.json") {
-                    if let listing = Parser.parseJSON(json) as? Listing {
-                        expect(listing.children.count).to(equal(26))
-                        for child in listing.children {
-                            expect(child is Link).to(equal(true))
-                        }
-                        isSucceeded = true
-                    }
+        func testMessageJsonFile() {
+            print("has 4 entries, Comment, Comment, Comment, Message.")
+            if let json:AnyObject = self.jsonFromFileName("message.json") {
+                if let listing = Parser.parseJSON(json) as? Listing {
+                    XCTAssert(listing.children.count == 4)
+                    XCTAssert(listing.children[0] is Comment == true)
+                    XCTAssert(listing.children[1] is Comment == true)
+                    XCTAssert(listing.children[2] is Comment == true)
+                    XCTAssert(listing.children[3] is Message == true)
                 }
-                expect(isSucceeded).to(equal(true))
-            }
-        }
-        
-        describe("message.json file") {
-            it("has 4 entries, Comment, Comment, Comment, Message.") {
-                var isSucceeded = false
-                if let json:AnyObject = self.jsonFromFileName("message.json") {
-                    if let listing = Parser.parseJSON(json) as? Listing {
-                        isSucceeded = true
-                        expect(listing.children.count).to(equal(4))
-                        expect(listing.children[0] is Comment).to(equal(true))
-                        expect(listing.children[1] is Comment).to(equal(true))
-                        expect(listing.children[2] is Comment).to(equal(true))
-                        expect(listing.children[3] is Message).to(equal(true))
-                    }
-                }
-                expect(isSucceeded).to(equal(true))
             }
         }
                 
-        describe("subreddit.json file") {
-            it("has 5 Subreddits.") {
-                var isSucceeded = false
-                if let json:AnyObject = self.jsonFromFileName("subreddit.json") {
-                    if let listing = Parser.parseJSON(json) as? Listing {
-                        expect(listing.children.count).to(equal(5))
-                        for child in listing.children {
-                            expect(child is Subreddit).to(equal(true))
-                        }
-                        isSucceeded = true
+        func testSubredditJsonFile() {
+            print("has 5 Subreddits.")
+            if let json:AnyObject = self.jsonFromFileName("subreddit.json") {
+                if let listing = Parser.parseJSON(json) as? Listing {
+                    XCTAssert(listing.children.count == 5)
+                    for child in listing.children {
+                        XCTAssert(child is Subreddit == true)
                     }
                 }
-                expect(isSucceeded).to(equal(true))
             }
         }
+    
+        func testParseJSONIsResponseToPostingComment() {
+            print("To t1 object as Comment")
+            var isSucceeded = false
+            if let json:AnyObject = self.jsonFromFileName("api_comment_response.json") {
+                let result = json2Comment(json)
+                switch result {
+                case .Success:
+                    isSucceeded = true
+                case .Failure:
+                    break
+                }
+            }
+            XCTAssert(isSucceeded == true)
+        }
         
-        describe("Parse JSON that is a response to posting a comment") {
-            it("To t1 object as Comment") {
-                var isSucceeded = false
-                if let json:AnyObject = self.jsonFromFileName("api_comment_response.json") {
-                    let result = parseResponseJSONToPostComment(json)
-                    switch result {
-                    case .Success:
-                        isSucceeded = true
-                    case .Failure:
-                        break
+        func testParseJSONWhichContainsMulti() {
+            print("Must have 2 Multi objects")
+            if let json:AnyObject = self.jsonFromFileName("multi.json") {
+                if let array = Parser.parseJSON(json) as? [Any] {
+                    for obj in array {
+                        XCTAssert(obj is Multireddit == true)
                     }
                 }
-                expect(isSucceeded).to(equal(true))
             }
         }
-        
-        describe("Parse JSON which contains multi") {
-            it("Must have 2 Multi objects") {
-                var isSucceeded = false
-                if let json:AnyObject = self.jsonFromFileName("multi.json") {
-                    if let array = Parser.parseJSON(json) as? [Any] {
-                        isSucceeded = true
-                        for obj in array {
-                            expect(obj is Multireddit).to(equal(true))
-                        }
-                    }
-                }
-                expect(isSucceeded).to(equal(true))
-            }
-        }
-        
-    }
 }

@@ -8,23 +8,40 @@
 
 import Foundation
 
-public final class Box<A> {
-    public let value: A
-    public init(_ value: A) {
-        self.value = value
-    }
-}
-
 public enum Result<A> {
-    case Success(Box<A>)
+    case Success(A)
     case Failure(NSError)
     
     public init(value:A) {
-        self = .Success(Box(value))
+        self = .Success(value)
     }
     
-    public init(error: NSError) {
-        self = .Failure(error)
+    public init(error: NSError?) {
+        if let error = error {
+            self = .Failure(error)
+        }
+        else {
+            self = .Failure(NSError.errorWithCode(0, "Fatal error"))
+        }
+    }
+    
+    func package<B>(@noescape ifSuccess ifSuccess: A -> B, @noescape ifFailure: NSError -> B) -> B {
+        switch self {
+        case .Success(let value):
+            return ifSuccess(value)
+        case .Failure(let value):
+            return ifFailure(value)
+        }
+    }
+    
+    func map<B>(@noescape transform: A -> B) -> Result<B> {
+        return flatMap { .Success(transform($0)) }
+    }
+    
+    public func flatMap<B>(@noescape transform: A -> Result<B>) -> Result<B> {
+        return package(
+            ifSuccess: transform,
+            ifFailure: Result<B>.Failure)
     }
     
     public var error: NSError? {
@@ -39,7 +56,7 @@ public enum Result<A> {
     public var value: A? {
         switch self {
         case .Success(let success):
-            return success.value
+            return success
         default:
             return nil
         }
@@ -48,7 +65,7 @@ public enum Result<A> {
 
 public func resultFromOptional<A>(optional: A?, error: NSError) -> Result<A> {
     if let a = optional {
-        return .Success(Box(a))
+        return .Success(a)
     } else {
         return .Failure(error)
     }
@@ -58,15 +75,6 @@ public func resultFromOptionalError<A>(value: A, optionalError: NSError?) -> Res
     if let error = optionalError {
         return .Failure(error)
     } else {
-        return .Success(Box(value))
-    }
-}
-
-infix operator >>> { associativity left precedence 150 }
-
-public func >>><A, B>(a: Result<A>, f: A -> Result<B>) -> Result<B> {
-    switch a {
-    case let .Success(x):     return f(x.value)
-    case let .Failure(error): return .Failure(error)
+        return .Success(value)
     }
 }

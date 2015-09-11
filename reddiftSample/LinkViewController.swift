@@ -9,7 +9,7 @@
 import Foundation
 import reddift
 
-class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
+class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISearchControllerDelegate {
     var searchController:UISearchController? = nil
     var searchResultViewController:SearchResultViewController? = nil
     
@@ -66,18 +66,14 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
             loading = true
 			session?.getList(paginator, subreddit:subreddit, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.All, completion: { (result) in
                 switch result {
-                case let .Failure:
-                    println(result.error)
-                case let .Success:
-                    println(result.value)
-                    if let listing = result.value as? Listing {
-                        for obj in listing.children {
-                            if let link = obj as? Link {
-                                self.links.append(link)
-                            }
-                        }
-                        self.paginator = listing.paginator
-                    }
+                case .Failure:
+                    print(result.error)
+                case .Success(let listing):
+                    self.links += listing.children.flatMap({(thing:Thing) -> Link? in
+                            if let link = thing as? Link { return link}
+                            return nil
+                        })
+                    self.paginator = listing.paginator
                     self.updateStrings()
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.tableView.reloadData()
@@ -89,7 +85,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
     }
     
     func segmentChanged(sender:AnyObject) {
-        if let seg = sender as? UISegmentedControl {
+        if let _ = sender as? UISegmentedControl {
             self.links.removeAll(keepCapacity: true)
             self.tableView.reloadData()
             self.paginator = Paginator()
@@ -105,8 +101,8 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ToCommentViewController" {
             if let con = segue.destinationViewController as? CommentViewController {
-                if let selectedIndexPath = tableView.indexPathForSelectedRow() {
-                    if indices(links) ~= selectedIndexPath.row {
+                if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                    if links.indices ~= selectedIndexPath.row {
                         let link = links[selectedIndexPath.row]
                         con.session = session
                         con.subreddit = subreddit
@@ -173,9 +169,9 @@ extension LinkViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
         if let cell = cell as? UZTextViewCell {
-            if indices(contents) ~= indexPath.row {
+            if contents.indices ~= indexPath.row {
                 cell.textView?.attributedString = contents[indexPath.row].attributedString
             }
         }
@@ -209,13 +205,13 @@ extension LinkViewController {
         var link:Link? = nil
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         if tableView == self.tableView {
-            if indices(contents) ~= indexPath.row {
+            if contents.indices ~= indexPath.row {
                 link = self.links[indexPath.row]
             }
         }
         if let searchResultViewController = searchResultViewController {
             if tableView == searchResultViewController.tableView {
-                if indices(searchResultViewController.contents) ~= indexPath.row {
+                if searchResultViewController.contents.indices ~= indexPath.row {
                     link = searchResultViewController.links[indexPath.row]
                 }
             }
@@ -232,13 +228,13 @@ extension LinkViewController {
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if tableView == self.tableView {
-            if indices(contents) ~= indexPath.row {
+            if contents.indices ~= indexPath.row {
                 return contents[indexPath.row].textHeight
             }
         }
         if let searchResultViewController = searchResultViewController {
             if tableView == searchResultViewController.tableView {
-                if indices(searchResultViewController.contents) ~= indexPath.row {
+                if searchResultViewController.contents.indices ~= indexPath.row {
                     return searchResultViewController.contents[indexPath.row].textHeight
                 }
             }

@@ -57,11 +57,16 @@ struct Config {
         var _clientID:String? = nil
 		if let path = NSBundle.mainBundle().pathForResource("reddift_config", ofType: "json") {
 			if let data = NSData(contentsOfFile: path) {
-				if let json:JSONDictionary = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.allZeros, error: nil) as? JSONDictionary {
-					_developerName = json["DeveloperName"] as? String
-					_redirectURI = json["redirect_uri"] as? String
-					_clientID = json["client_id"] as? String
-				}
+                do {
+                    if let json:JSONDictionary = try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions()) as? JSONDictionary {
+                        _developerName = json["DeveloperName"] as? String
+                        _redirectURI = json["redirect_uri"] as? String
+                        _clientID = json["client_id"] as? String
+                    }
+                }
+                catch {
+                    
+                }
 			}
 		}
         

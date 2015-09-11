@@ -15,55 +15,55 @@ public struct Oembed {
     /**
     example, "http://i.imgur.com",
     */
-    let providerUrl:String
+    public let providerUrl:String
     /**
     example, "The Internet's visual storytelling community. Explore, share, and discuss the best visual stories the Internet has to offer.",
     */
-    let description:String
+    public let description:String
     /**
     example, "Imgur GIF",
     */
-    let title:String
+    public let title:String
     /**
     example, 245,
     */
-    let thumbnailWidth:Int
+    public let thumbnailWidth:Int
     /**
     example, 333,
     */
-    let height:Int
+    public let height:Int
     /**
     example, 245,
     */
-    let width:Int
+    public let width:Int
     /**
     example, "&lt;iframe class=\"embedly-embed\" src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fi.imgur.com%2FkhgfcrQ.mp4&amp;src_secure=1&amp;url=http%3A%2F%2Fi.imgur.com%2FkhgfcrQ.gifv&amp;image=http%3A%2F%2Fi.imgur.com%2FkhgfcrQ.gif&amp;key=2aa3c4d5f3de4f5b9120b660ad850dc9&amp;type=video%2Fmp4&amp;schema=imgur\" width=\"245\" height=\"333\" scrolling=\"no\" frameborder=\"0\" allowfullscreen&gt;&lt;/iframe&gt;",
     */
-    let html:String
+    public let html:String
     /**
     example, "1.0",
     */
-    let version:String
+    public let version:String
     /**
     example, "Imgur",
     */
-    let providerName:String
+    public let providerName:String
     /**
     example, "http://i.imgur.com/khgfcrQ.gif",
     */
-    let thumbnailUrl:String
+    public let thumbnailUrl:String
     /**
     example, "video",
     */
-    let type:String
+    public let type:String
     /**
     example, 333
     */
-    let thumbnailHeight:Int
+    public let thumbnailHeight:Int
     /**
     Update each property with JSON object.
     
-    :param: json JSON object which is included "t2" JSON.
+    - parameter json: JSON object which is included "t2" JSON.
     */
     public init (json:JSONDictionary) {
 		self.providerUrl = json["provider_url"] as? String ?? ""

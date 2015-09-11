@@ -18,7 +18,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     var contents:[CellContent] = []
 	
 	deinit{
-		println("deinit")
+		print("deinit")
 	}
     
     func updateStrings(newComments:[Thing]) -> [CellContent] {
@@ -36,10 +36,10 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.setVote(direction, name: link.name, completion: { (result) -> Void in
                 switch result {
-                case let .Failure:
-                    println(result.error)
-                case let .Success:
-                    println(result.value)
+                case .Failure(let error):
+                    print(error)
+                case .Success(let check):
+                    print(check)
                 }
             })
         }
@@ -49,10 +49,10 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.setSave(save, name: link.name, completion: { (result) -> Void in
                 switch result {
-                case let .Failure:
-                    println(result.error)
-                case let .Success:
-                    println(result.value)
+                case .Failure(let error):
+                    print(error)
+                case .Success(let check):
+                    print(check)
                 }
             })
         }
@@ -62,10 +62,10 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.setHide(hide, name: link.name, completion: { (result) -> Void in
                 switch result {
-                case let .Failure:
-                    println(result.error)
-                case let .Success:
-                    println(result.value)
+                case .Failure(let error):
+                    print(error)
+                case .Success(let check):
+                    print(check)
                 }
             })
         }
@@ -168,31 +168,22 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             session?.getArticles(link, sort:CommentSort.New, comments:nil, completion: { (result) -> Void in
                 switch result {
-                case let .Failure:
-                    println(result.error)
-                case let .Success:
-                    println(result.value)
-                    if let redditAnyArray = result.value as? [RedditAny] {
-                        if indices(redditAnyArray) ~= 0 {
-                            let _ = redditAnyArray[0]
-                        }
-                        if indices(redditAnyArray) ~= 1 {
-                            if let listing = redditAnyArray[1] as? Listing {
-                                println(listing)
-                                
-                                var newComments:[Thing] = []
-                                for obj in listing.children {
-                                    if let comment = obj as? Comment {
-                                        newComments += extendAllReplies(comment)
-                                    }
-                                }
-                                self.comments += newComments
-                                self.contents += self.updateStrings(newComments)
-                                self.paginator = listing.paginator
-
-                            }
-                        }
+                case .Failure(let error):
+                    print(error)
+                case .Success(let tuple):
+                    let listing = tuple.1
+                    
+                    var newComments:[Thing] = []
+                    for comment in listing.children.flatMap({(thing:Thing) -> Comment? in
+                        if let comment = thing as? Comment { return comment }
+                        return nil
+                    }) {
+                        newComments += extendAllReplies(comment)
                     }
+                    self.comments += newComments
+                    self.contents += self.updateStrings(newComments)
+                    self.paginator = listing.paginator
+
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.tableView.reloadData()
                     })
@@ -210,7 +201,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indices(contents) ~= indexPath.row {
+        if contents.indices ~= indexPath.row {
             return contents[indexPath.row].textHeight
         }
         return 0
@@ -218,8 +209,8 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell:UITableViewCell! = nil
-        if indices(contents) ~= indexPath.row {
-            cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        if contents.indices ~= indexPath.row {
+            cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
             if let cell = cell as? UZTextViewCell {
                 cell.delegate = self
                 cell.textView?.attributedString = contents[indexPath.row].attributedString
@@ -228,21 +219,21 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
             return cell
         }
         else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
             return cell
         }
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indices(comments) ~= indexPath.row {
+        if comments.indices ~= indexPath.row {
             if let more = comments[indexPath.row] as? More, link = self.link {
-                println(more)
+                print(more)
                 session?.getMoreChildren(more.children, link:link, sort:CommentSort.New, completion:{ (result) -> Void in
                     switch result {
-                    case let .Failure:
-                        println(result.error)
-                    case let .Success:
-                        println(result.value)
+                    case .Failure(let error):
+                        print(error)
+                    case .Success(let redditAny):
+                        print(redditAny)
                     }
                 });
             }

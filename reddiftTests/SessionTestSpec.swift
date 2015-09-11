@@ -7,10 +7,9 @@
 //
 
 import Foundation
-import Nimble
-import Quick
+import XCTest
 
-class SessionTestSpec: QuickSpec {
+class SessionTestSpec : XCTestCase {
     /// timeout duration for asynchronous test
     let timeoutDuration:NSTimeInterval = 30
     
@@ -23,6 +22,16 @@ class SessionTestSpec: QuickSpec {
     /// shared session object
     var session:Session? = nil
     
+    override func setUp() {
+        super.setUp()
+        self.createSession()
+    }
+    
+    override func tearDown() {
+        super.tearDown()
+        NSThread.sleepForTimeInterval(self.testInterval)
+    }
+    
     /// get token using application only oauth
     func createSession() {
         if let json = self.jsonFromFileName("test_config.json") as? [String:String] {
@@ -30,23 +39,21 @@ class SessionTestSpec: QuickSpec {
                 let password = json["password"],
                 let clientID = json["client_id"],
                 let secret = json["secret"] {
-                    let documentOpenExpectation = self.expectationWithDescription("Test : Getting OAuth2 access token")
-					OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:( { (result) -> Void in
-                        switch result {
-                        case let .Failure:
-                            XCTFail("Could not get access token from reddit.com.")
-                        case let .Success:
-                            if let token:Token = result.value {
-                                self.session = Session(token: token)
-                            }
-                            XCTAssert((self.session != nil), "Could not establish session.")
+                let documentOpenExpectation = self.expectationWithDescription("Test : Getting OAuth2 access token")
+                OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:( { (result) -> Void in
+                    switch result {
+                    case .Failure:
+                        XCTFail("Could not get access token from reddit.com.")
+                    case .Success:
+                        if let token:Token = result.value {
+                            self.session = Session(token: token)
                         }
-                        documentOpenExpectation.fulfill()
-                    }))
-                    self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+                        XCTAssert((self.session != nil), "Could not establish session.")
+                    }
+                    documentOpenExpectation.fulfill()
+                }))
+                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
             }
         }
-    }
-    override func spec() {
     }
 }
