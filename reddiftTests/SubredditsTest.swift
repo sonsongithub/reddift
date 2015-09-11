@@ -6,8 +6,7 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import Nimble
-import Quick
+import XCTest
 
 class SubredditsTest : SessionTestSpec {
     
@@ -20,102 +19,111 @@ class SubredditsTest : SessionTestSpec {
     
     let targetSubreedit = Subreddit(id: "2rdw8")
     
-    override func spec() {
-        beforeEach { () -> () in
-            self.createSession()
+    func testSubscribingSubredditAPI() {
+        do {
+            let msg = "Get initial subscribing list and count of it."
+            print(msg)
+            var isSucceeded = false
+            let documentOpenExpectation = self.expectationWithDescription(msg)
+            self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
+                switch result {
+                case .Failure:
+                    print(result.error!.description)
+                case .Success(let listing):
+                    for obj in listing.children {
+                        if let obj = obj as? Subreddit {
+                            self.initialList.append(obj)
+                        }
+                    }
+                    self.initialCount = self.initialList.count
+                    isSucceeded = (self.initialCount > 0)
+                }
+                XCTAssert(isSucceeded, msg)
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
-        describe("Test subscribing a subreddit API.") {
-            it("Get initial subscribing list and count of it.") {
-                var isSucceeded = false
-                self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let obj = obj as? Subreddit {
-                                    self.initialList.append(obj)
-                                }
-                            }
-                            self.initialCount = self.initialList.count
-                            isSucceeded = (self.initialCount > 0)
+        
+        do {
+            let msg = "Subscribe a new subreddit"
+            print(msg)
+            var isSucceeded:Bool = false
+            let documentOpenExpectation = self.expectationWithDescription(msg)
+            self.session?.setSubscribeSubreddit(self.targetSubreedit, subscribe: true, completion: { (result) -> Void in
+                switch result {
+                case .Failure:
+                    print(result.error!.description)
+                case .Success:
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, msg)
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        
+        do {
+            let msg = "Check count of current subscribing list is increased by one"
+            print(msg)
+            var afterSubscribingCount = 0
+            let documentOpenExpectation = self.expectationWithDescription(msg)
+            self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
+                switch result {
+                case .Failure:
+                    print(result.error!.description)
+                case .Success(let listing):
+                    for obj in listing.children {
+                        if let obj = obj as? Subreddit {
+                            self.afterSubscribingList.append(obj)
                         }
                     }
-                    NSThread.sleepForTimeInterval(self.testInterval)
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Subscribe a new subreddit") {
-                var r:Bool = false
-                self.session?.setSubscribeSubreddit(self.targetSubreedit, subscribe: true, completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        r = true
-                    }
-                    NSThread.sleepForTimeInterval(self.testInterval)
-                })
-                expect(r).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Check count of current subscribing list is increased by one") {
-                var afterSubscribingCount = 0
-                self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let obj = obj as? Subreddit {
-                                    self.afterSubscribingList.append(obj)
-                                }
-                            }
-                            afterSubscribingCount = self.afterSubscribingList.count
+                    afterSubscribingCount = self.afterSubscribingList.count
+                }
+                XCTAssert(afterSubscribingCount == self.initialCount + 1, msg)
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        
+        do {
+            let msg = "Unsubscribe last subscribed subreddit"
+            print(msg)
+            var isSucceeded:Bool = false
+            let documentOpenExpectation = self.expectationWithDescription(msg)
+            self.session?.setSubscribeSubreddit(self.targetSubreedit, subscribe: false, completion: { (result) -> Void in
+                switch result {
+                case .Failure:
+                    print(result.error!.description)
+                case .Success:
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, msg)
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        
+        do {
+            let msg = "Check count of current subscribing list is equal to initial count."
+            print(msg)
+            var afterUnsubscribingCount = 0
+            let documentOpenExpectation = self.expectationWithDescription(msg)
+            self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
+                switch result {
+                case .Failure:
+                    print(result.error!.description)
+                case .Success(let listing):
+                    for obj in listing.children {
+                        if let obj = obj as? Subreddit {
+                            self.afterUnsubscribingList.append(obj)
                         }
                     }
-                    NSThread.sleepForTimeInterval(self.testInterval)
-                })
-                expect(afterSubscribingCount).toEventually(equal(self.initialCount + 1), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Unsubscribe last subscribed subreddit") {
-                var r:Bool = false
-                self.session?.setSubscribeSubreddit(self.targetSubreedit, subscribe: false, completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        r = true
-                    }
-                    NSThread.sleepForTimeInterval(self.testInterval)
-                })
-                expect(r).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Check count of current subscribing list is equal to initial count.") {
-                var afterUnsubscribingCount = 0
-                self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let obj = obj as? Subreddit {
-                                    self.afterUnsubscribingList.append(obj)
-                                }
-                            }
-                            afterUnsubscribingCount = self.afterUnsubscribingList.count
-                        }
-                    }
-                    NSThread.sleepForTimeInterval(self.testInterval)
-                })
-                expect(afterUnsubscribingCount).toEventually(equal(self.initialCount), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
+                    afterUnsubscribingCount = self.afterUnsubscribingList.count
+                }
+                XCTAssert(afterUnsubscribingCount == self.initialCount, msg)
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
     }
 }

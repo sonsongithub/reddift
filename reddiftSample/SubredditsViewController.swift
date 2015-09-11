@@ -9,7 +9,7 @@
 import Foundation
 import reddift
 
-class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
+class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpdating, UISearchControllerDelegate {
     var searchController:UISearchController? = nil
     var searchResultViewController:SearchSubredditsViewController? = nil
     
@@ -59,10 +59,10 @@ class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpd
             loading = true
             session?.getSubreddit(sortTypes[seg.selectedSegmentIndex], paginator:paginator, completion: { (result) in
                 switch result {
-                case let .Failure:
-                    println(result.error)
-                case let .Success:
-                    println(result.value)
+                case .Failure:
+                    print(result.error)
+                case .Success:
+                    print(result.value)
                     if let listing = result.value as? Listing {
                         for obj in listing.children {
                             if let subreddit = obj as? Subreddit {
@@ -81,7 +81,7 @@ class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpd
     }
     
     func segmentChanged(sender:AnyObject) {
-        if let seg = sender as? UISegmentedControl {
+        if let _ = sender as? UISegmentedControl {
             self.subreddits.removeAll(keepCapacity: true)
             self.tableView.reloadData()
             self.paginator = Paginator()
@@ -138,8 +138,8 @@ extension SubredditsViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
-        if indices(subreddits) ~= indexPath.row {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
+        if subreddits.indices ~= indexPath.row {
             let subreddit = subreddits[indexPath.row]
             cell.textLabel?.text = subreddit.title
         }
@@ -173,10 +173,11 @@ extension SubredditsViewController {
         var subreddit:Subreddit? = nil
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         if tableView == self.tableView {
-            if indices(subreddits) ~= indexPath.row {
+            if subreddits.indices ~= indexPath.row {
                 subreddit = self.subreddits[indexPath.row]
             }
         }
+        print(subreddit)
 //        if let searchResultViewController = searchResultViewController {
 //            if tableView == searchResultViewController.tableView {
 //                if indices(searchResultViewController.contents) ~= indexPath.row {

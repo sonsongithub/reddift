@@ -125,8 +125,8 @@ public struct Message : Thing {
     /**
     Parse t4 object.
     
-    :param: data Dictionary, must be generated parsing "t4".
-    :returns: Message object as Thing.
+    - parameter data: Dictionary, must be generated parsing "t4".
+    - returns: Message object as Thing.
     */
     public init(data:JSONDictionary) {
         id = data["id"] as? String ?? ""

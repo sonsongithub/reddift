@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import Nimble
-import Quick
+import Foundation
+import XCTest
 
 class LinksTest: SessionTestSpec {
     /// Link ID, https://www.reddit.com/r/sandboxtest/comments/35dpes/reddift_test/
@@ -16,395 +16,458 @@ class LinksTest: SessionTestSpec {
     var postedThings:[Comment] = []
     
     func test_deleteCommentOrLink(thing:Thing) {
+        let documentOpenExpectation = self.expectationWithDescription("test_deleteCommentOrLink")
         var isSucceeded = false
         self.session?.deleteCommentOrLink(thing.name, completion: { (result) -> Void in
             switch result {
-            case let .Failure:
-                println(result.error!.description)
-            case let .Success:
+            case .Failure(let error):
+                print(error.description)
+            case .Success:
                 isSucceeded = true
             }
+            XCTAssert(isSucceeded, "Test to delete the last posted comment.")
+            documentOpenExpectation.fulfill()
         })
-        expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
+        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
     }
     
-    override func spec() {
-        beforeEach { () -> () in
-            self.createSession()
-        }
-        
-        // MARK: Test posting a comment to existing comment.
-
-        describe("Test posting a comment to existing comment") {
+    func testPostingCommentToExistingComment() {
+        print("Test posting a comment to existing comment")
+        do {
             var comment:Comment? = nil
-            it("Check whether the comment is posted as a child of the specified link") {
+            print ("Check whether the comment is posted as a child of the specified link")
+            do {
                 let name = "t3_" + self.testLinkId
+                let documentOpenExpectation = self.expectationWithDescription("Check whether the comment is posted as a child of the specified link")
                 self.session?.postComment("test comment2", parentName:name, completion: { (result) -> Void in
                     switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        comment = result.value
+                    case .Failure(let error):
+                        print(error.description)
+                    case .Success(let postedComment):
+                        comment = postedComment
                     }
+                    XCTAssert(comment != nil, "Check whether the comment is posted as a child of the specified link")
+                    documentOpenExpectation.fulfill()
                 })
-                expect(comment != nil).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
+                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
             }
-            it("Test to delete the last posted comment.") {
+            print ("Test to delete the last posted comment.")
+            do {
                 if let comment = comment {
                     self.test_deleteCommentOrLink(comment)
                 }
-            }
-        }
-    
-        // MARK: Test posting a comment to existing link.
-    
-        describe("Test posting a comment to existing link") {
-            var comment:Comment? = nil
-            it("the comment is posted as a child of the specified comment") {
-                let name = "t1_" + self.testCommentId
-                self.session?.postComment("test comment3", parentName:name, completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        comment = result.value
-                    }
-                })
-                expect(comment != nil).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            it("Test to delete the last posted comment.") {
-                if let comment = comment {
-                    self.test_deleteCommentOrLink(comment)
-                }
-            }
-        }
-    
-        // MARK: Test set NSFW.
-    
-        describe("Test set NSFW") {
-            it("Test to make specified Link NSFW.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.setNSFW(true, thing: link, completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        isSucceeded = true
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Check whether the specified Link is NSFW.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.getInfo([link.name], completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    isSucceeded = (incommingLink.name == link.name && incommingLink.over18)
-                                }
-                            }
-                        }
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Test to make specified Link NOT NSFW.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.setNSFW(false, thing: link, completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        isSucceeded = true
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Check whether the specified Link is NOT NSFW.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.getInfo([link.name], completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    isSucceeded = (incommingLink.name == link.name && !incommingLink.over18)
-                                }
-                            }
-                        }
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-        }
-        
-        // MARK: Test to save a link or a comment
-        
-        describe("Test to save") {
-            it("Test to save specified Link.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.setSave(true, name: link.name, category: "", completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        isSucceeded = true
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Check whether the specified Link is saved.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.getInfo([link.name], completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    isSucceeded = (incommingLink.name == link.name && incommingLink.saved)
-                                }
-                            }
-                        }
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Test to unsave specified Link.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.setSave(false, name: link.name, category: "", completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        isSucceeded = true
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Check whether the specified Link is unsaved.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.getInfo([link.name], completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    isSucceeded = (incommingLink.name == link.name && !incommingLink.saved)
-                                }
-                            }
-                        }
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-        }
-
-        // MARK: Test to hide a comment or a link
-        
-        describe("Test to hide") {
-            it("Test to hide the specified Link.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.setHide(true, name: link.name, completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        isSucceeded = true
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Check whether the specified Link is hidden.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.getInfo([link.name], completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    isSucceeded = (incommingLink.name == link.name && incommingLink.hidden)
-                                }
-                            }
-                        }
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Test to show the specified Link.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.setHide(false, name: link.name, completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        isSucceeded = true
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Check whether the specified Link is not hidden.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.getInfo([link.name], completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    isSucceeded = (incommingLink.name == link.name && !incommingLink.hidden)
-                                }
-                            }
-                        }
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-        }
-
-        // MARK: Test to vote a comment or a link
-        
-        describe("Test to give a upvote to a comment or a link.") {
-            it("Test to upvote the specified Link.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.setVote(VoteDirection.Up, name: link.name, completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        isSucceeded = true
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Check whether the specified Link is gave upvote.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.getInfo([link.name], completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    if let likes = incommingLink.likes {
-                                        isSucceeded = (incommingLink.name == link.name && likes)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Test to give a downvote to the specified Link.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.setVote(VoteDirection.Down, name: link.name, completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        isSucceeded = true
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Check whether the specified Link is gave downvote.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.getInfo([link.name], completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    if let likes = incommingLink.likes {
-                                        isSucceeded = (incommingLink.name == link.name && !likes)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Test to revoke voting to the specified Link.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.setVote(VoteDirection.No, name: link.name, completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        isSucceeded = true
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
-            }
-            
-            it("Check whether the downvote to the specified Link has benn revoked.") {
-                var isSucceeded = false
-                let link = Link(id: self.testLinkId)
-                self.session?.getInfo([link.name], completion: { (result) -> Void in
-                    switch result {
-                    case let .Failure:
-                        println(result.error!.description)
-                    case let .Success:
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let incommingLink = obj as? Link {
-                                    isSucceeded = (incommingLink.name == link.name && (incommingLink.likes == nil))
-                                }
-                            }
-                        }
-                    }
-                })
-                expect(isSucceeded).toEventually(equal(true), timeout: self.timeoutDuration, pollInterval: self.pollingInterval)
             }
         }
     }
+    
+    
+    func testPostingCommentToExistingLink() {
+        print("Test posting a comment to existing link")
+        do {
+            var comment:Comment? = nil
+            print("the comment is posted as a child of the specified comment")
+            do {
+                let name = "t1_" + self.testCommentId
+                let documentOpenExpectation = self.expectationWithDescription("the comment is posted as a child of the specified comment")
+                self.session?.postComment("test comment3", parentName:name, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure(let error):
+                        print(error.description)
+                    case .Success(let postedComment):
+                        comment = postedComment
+                    }
+                    XCTAssert(comment != nil, "the comment is posted as a child of the specified comment")
+                    documentOpenExpectation.fulfill()
+                })
+                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            }
+            
+            print("Test to delete the last posted comment.")
+            do {
+                if let comment = comment {
+                    self.test_deleteCommentOrLink(comment)
+                }
+            }
+        }
+    }
+    
+    func testSetNSFW() {
 
+        print("Test to make specified Link NSFW.")
+        do {
+            var isSucceeded = false
+            let link = Link(id: self.testLinkId)
+            let documentOpenExpectation = self.expectationWithDescription("Test to make specified Link NSFW.")
+            self.session?.setNSFW(true, thing: link, completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success:
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, "Test to make specified Link NSFW.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        
+        print("Check whether the specified Link is NSFW.")
+        do{
+            let link = Link(id: self.testLinkId)
+            let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Link is NSFW.")
+            self.session?.getInfo([link.name], completion: { (result) -> Void in
+                var isSucceeded = false
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success(let listing):
+                    isSucceeded = listing.children
+                        .flatMap({(thing:Thing) -> Link? in
+                        if let obj = thing as? Link {if obj.name == link.name { return obj }}
+                        return nil
+                        })
+                    .reduce(true) {(a:Bool, link:Link) -> Bool in
+                            return (a && link.over18)
+                        }
+                }
+                XCTAssert(isSucceeded, "Check whether the specified Link is NSFW.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+
+        print("Test to make specified Link NOT NSFW.")
+        do{
+            var isSucceeded = false
+            let link = Link(id: self.testLinkId)
+            let documentOpenExpectation = self.expectationWithDescription("Test to make specified Link NOT NSFW.")
+            self.session?.setNSFW(false, thing: link, completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success:
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, "Test to make specified Link NOT NSFW.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+
+        print("Check whether the specified Link is NOT NSFW.")
+        do {
+            var isSucceeded = false
+            let documentOpenExpectation = self.expectationWithDescription("Test to make specified Link NOT NSFW.")
+            let link = Link(id: self.testLinkId)
+            self.session?.getInfo([link.name], completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success(let listing):
+                    for obj in listing.children {
+                        if let incommingLink = obj as? Link {
+                            isSucceeded = (incommingLink.name == link.name && !incommingLink.over18)
+                        }
+                    }
+                }
+                XCTAssert(isSucceeded, "Test to make specified Link NOT NSFW.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+    }
+    
+    func testToSaveLinkOrComment() {
+
+        print("Test to save specified Link.")
+        do {
+            var isSucceeded = false
+            let documentOpenExpectation = self.expectationWithDescription("Test to save specified Link.")
+            let link = Link(id: self.testLinkId)
+            self.session?.setSave(true, name: link.name, category: "", completion: { (result) -> Void in
+                switch result {
+                case .Failure:
+                    print(result.error!.description)
+                case .Success:
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, "Test to save specified Link.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+
+        print("Check whether the specified Link is saved.")
+        do {
+            var isSucceeded = false
+            let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Link is saved.")
+            let link = Link(id: self.testLinkId)
+            self.session?.getInfo([link.name], completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success(let listing):
+                    for obj in listing.children {
+                        if let incommingLink = obj as? Link {
+                            isSucceeded = (incommingLink.name == link.name && incommingLink.saved)
+                        }
+                    }
+                }
+                XCTAssert(isSucceeded, "Check whether the specified Link is saved.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+
+        print("Test to unsave specified Link.")
+        do {
+            var isSucceeded = false
+            let documentOpenExpectation = self.expectationWithDescription("Test to unsave specified Link.")
+            let link = Link(id: self.testLinkId)
+            self.session?.setSave(false, name: link.name, category: "", completion: { (result) -> Void in
+                switch result {
+                case .Failure:
+                    print(result.error!.description)
+                case .Success:
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, "Test to unsave specified Link.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+
+        print("Check whether the specified Link is unsaved.")
+        do {
+            var isSucceeded = false
+            let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Link is unsaved.")
+            let link = Link(id: self.testLinkId)
+            self.session?.getInfo([link.name], completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success(let listing):
+                    for obj in listing.children {
+                        if let incommingLink = obj as? Link {
+                            isSucceeded = (incommingLink.name == link.name && !incommingLink.saved)
+                        }
+                    }
+                }
+                XCTAssert(isSucceeded, "Check whether the specified Link is unsaved.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+    }
+
+    func testToHideCommentOrLink() {
+        
+        print("Test to hide the specified Link.")
+        do {
+            var isSucceeded = false
+            let documentOpenExpectation = self.expectationWithDescription("Test to hide the specified Link.")
+            let link = Link(id: self.testLinkId)
+            self.session?.setHide(true, name: link.name, completion: { (result) -> Void in
+                switch result {
+                case .Failure:
+                    print(result.error!.description)
+                case .Success:
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, "Test to hide the specified Link.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+
+        print("Check whether the specified Link is hidden.")
+        do {
+            var isSucceeded = false
+            let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Link is hidden.")
+            let link = Link(id: self.testLinkId)
+            self.session?.getInfo([link.name], completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success(let listing):
+                    for obj in listing.children {
+                        if let incommingLink = obj as? Link {
+                            isSucceeded = (incommingLink.name == link.name && incommingLink.hidden)
+                        }
+                    }
+                }
+                XCTAssert(isSucceeded, "Check whether the specified Link is hidden.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+
+        print("Test to show the specified Link.")
+        do {
+            var isSucceeded = false
+            let documentOpenExpectation = self.expectationWithDescription("Test to show the specified Link.")
+            let link = Link(id: self.testLinkId)
+            self.session?.setHide(false, name: link.name, completion: { (result) -> Void in
+                switch result {
+                case .Failure:
+                    print(result.error!.description)
+                case .Success:
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, "Test to show the specified Link.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+
+        print("Check whether the specified Link is not hidden.")
+        do {
+            var isSucceeded = false
+            let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Link is not hidden.")
+            let link = Link(id: self.testLinkId)
+            self.session?.getInfo([link.name], completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success(let listing):
+                    for obj in listing.children {
+                        if let incommingLink = obj as? Link {
+                            isSucceeded = (incommingLink.name == link.name && !incommingLink.hidden)
+                        }
+                    }
+                }
+                XCTAssert(isSucceeded, "Check whether the specified Link is not hidden.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+    }
+    
+    func testToVoteCommentOrLink() {
+        
+        print("Test to upvote the specified Link.")
+        do {
+            var isSucceeded = false
+            let link = Link(id: self.testLinkId)
+            let documentOpenExpectation = self.expectationWithDescription("Test to upvote the specified Link.")
+            self.session?.setVote(VoteDirection.Up, name: link.name, completion: { (result) -> Void in
+                switch result {
+                case .Failure:
+                    print(result.error!.description)
+                case .Success:
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, "Test to upvote the specified Link.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+
+        print("Check whether the specified Link is gave upvote.")
+        do {
+            var isSucceeded = false
+            let link = Link(id: self.testLinkId)
+            let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Link is gave upvote.")
+            self.session?.getInfo([link.name], completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success(let listing):
+                    for obj in listing.children {
+                        if let incommingLink = obj as? Link {
+                            if let likes = incommingLink.likes {
+                                isSucceeded = (incommingLink.name == link.name && likes)
+                            }
+                        }
+                    }
+                }
+                XCTAssert(isSucceeded, "Check whether the specified Link is gave upvote.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        
+        print("Test to give a downvote to the specified Link.")
+        do {
+            var isSucceeded = false
+            let link = Link(id: self.testLinkId)
+            let documentOpenExpectation = self.expectationWithDescription("Test to give a downvote to the specified Link.")
+            self.session?.setVote(VoteDirection.Down, name: link.name, completion: { (result) -> Void in
+                switch result {
+                case .Failure:
+                    print(result.error!.description)
+                case .Success:
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, "Test to give a downvote to the specified Link.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+
+        print("Check whether the specified Link is gave downvote.")
+            do {
+            var isSucceeded = false
+                let link = Link(id: self.testLinkId)
+                let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Link is gave downvote.")
+            self.session?.getInfo([link.name], completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success(let listing):
+                    for obj in listing.children {
+                        if let incommingLink = obj as? Link {
+                            if let likes = incommingLink.likes {
+                                isSucceeded = (incommingLink.name == link.name && !likes)
+                            }
+                        }
+                    }
+                }
+                XCTAssert(isSucceeded, "Check whether the specified Link is gave downvote.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+
+        print("Test to revoke voting to the specified Link.")
+        do {
+            var isSucceeded = false
+            let link = Link(id: self.testLinkId)
+            let documentOpenExpectation = self.expectationWithDescription("Test to revoke voting to the specified Link.")
+            self.session?.setVote(VoteDirection.No, name: link.name, completion: { (result) -> Void in
+                switch result {
+                case .Failure:
+                    print(result.error!.description)
+                case .Success:
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, "Test to revoke voting to the specified Link.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+
+        print("Check whether the downvote to the specified Link has benn revoked.")
+        do {
+            var isSucceeded = false
+            let link = Link(id: self.testLinkId)
+            let documentOpenExpectation = self.expectationWithDescription("Check whether the downvote to the specified Link has benn revoked.")
+            self.session?.getInfo([link.name], completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success(let listing):
+                    for obj in listing.children {
+                        if let incommingLink = obj as? Link {
+                            isSucceeded = (incommingLink.name == link.name && (incommingLink.likes == nil))
+                        }
+                    }
+                }
+                XCTAssert(isSucceeded, "Check whether the downvote to the specified Link has benn revoked.")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+    }
 }
 

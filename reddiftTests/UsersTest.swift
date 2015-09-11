@@ -6,7 +6,6 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-import UIKit
 import XCTest
 
 class UsersTest: SessionTestSpec {

@@ -20,25 +20,13 @@ class MessageViewController: UITableViewController {
 		
 		session?.getMessage(messageWhere, completion: { (result) -> Void in
             switch result {
-            case let .Failure:
-                println(result.error)
-            case let .Success:
-                if let listing = result.value as? Listing {
-                    for child in listing.children {
-						if let message = child as? Message {
-							self.messages.append(message)
-						}
-						if let link = child as? Link {
-							self.messages.append(link)
-						}
-						if let comment = child as? Comment {
-							self.messages.append(comment)
-						}
-                    }
+            case .Failure:
+                print(result.error)
+            case .Success(let listing):
+                    self.messages += listing.children
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.tableView.reloadData()
                     })
-                }
             }
 		})
 	}
@@ -52,9 +40,9 @@ class MessageViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
 
-		if indices(messages) ~= indexPath.row {
+		if messages.indices ~= indexPath.row {
 			let child = messages[indexPath.row]
 			if let message = child as? Message {
 				cell.textLabel?.text = message.subject

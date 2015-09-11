@@ -41,8 +41,8 @@ class AccountViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
-        if indices(names) ~= indexPath.row {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
+        if names.indices ~= indexPath.row {
             let name:String = names[indexPath.row]
             cell.textLabel?.text = name
         }
@@ -59,7 +59,7 @@ class AccountViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            if indices(names) ~= indexPath.row {
+            if names.indices ~= indexPath.row {
                 let name:String = names[indexPath.row]
                 OAuth2TokenRepository.removeFromKeychainTokenWithName(name)
                 names.removeAtIndex(indexPath.row)
@@ -73,17 +73,15 @@ class AccountViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ToUserViewController" {
             if let con = segue.destinationViewController as? UserViewController {
-                if let selectedIndexPath = tableView.indexPathForSelectedRow() {
-                    if indices(names) ~= selectedIndexPath.row {
+                if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                    if names.indices ~= selectedIndexPath.row {
                         let name:String = names[selectedIndexPath.row]
                         let result = OAuth2TokenRepository.restoreFromKeychainWithName(name)
-                        switch(result) {
-                        case .Failure:
-                            println(result.error!.description)
-                        case .Success:
-                            if let token = result.value {
-                                con.session = Session(token: token)
-                            }
+                        switch result {
+                        case .Failure(let error):
+                            print(error.description)
+                        case .Success(let token):
+                            con.session = Session(token: token)
                         }
                     }
                 }
