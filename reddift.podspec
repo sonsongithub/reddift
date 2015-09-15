@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "reddift"
-  s.version          = "1.2"
+  s.version          = "1.3"
   s.summary          = "Swift Reddit API Wrapper."
   s.description      = <<-DESC
                       reddift is Swift Reddit API Wrapper.
@@ -23,8 +23,8 @@ Pod::Spec.new do |s|
 
   s.social_media_url = 'https://twitter.com/sonson_twit'
 
-  s.ios.deployment_target = "8.3"
-  s.osx.deployment_target = "10.10"
+  s.ios.deployment_target = "8.4"
+  s.osx.deployment_target = "10.9"
   s.requires_arc = true
 
   s.source_files = 'reddift/*/*.swift'

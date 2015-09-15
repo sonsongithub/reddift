@@ -67,8 +67,18 @@ public class OAuth2Authorizer {
         let currentState = self.state
         self.state = ""
         if (url.scheme == Config.sharedInstance.redirectURIScheme) {
-            if let temp = NSURLComponents(URL: url, resolvingAgainstBaseURL: true)?.dictionary() {
-                parameters = temp
+            if #available(OSX 10.10, *) {
+                if let temp = NSURLComponents(URL: url, resolvingAgainstBaseURL: true)?.dictionary() {
+                    parameters = temp
+                }
+            }
+            else {
+                url.query?.componentsSeparatedByString("&").forEach({ (aQuery) -> () in
+                    let keyAndValue = aQuery.componentsSeparatedByString("=")
+                    if keyAndValue.count == 2 {
+                        parameters[keyAndValue[0]] = keyAndValue[1]
+                    }
+                })
             }
         }
         if let code = parameters["code"], state = parameters["state"] {
