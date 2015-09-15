@@ -8,6 +8,30 @@
 
 import Foundation
 
+extension String {
+    /**
+    Returns string by replacing NOT ASCII characters with a percent escaped string using UTF8.
+    */
+    private func stringByAddingPercentEscapesUsingUTF8() -> String {
+        let raw: NSString = self
+        let str = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,raw,"","",CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding))
+        return str as String
+    }
+}
+
+/**
+Returns string by replacing NOT ASCII characters with a percent escaped string using UTF8.
+If an argument is nil, returns vacant string.
+*/
+private func convertObjectToEscapedURLString(object:AnyObject?) -> String {
+    if let urlstring = object as? String {
+        return urlstring.stringByAddingPercentEscapesUsingUTF8()
+    }
+    else {
+        return ""
+    }
+}
+
 /**
 Link content.
 */
@@ -302,7 +326,7 @@ public struct Link : Thing {
         approvedBy = data["approved_by"] as? String ?? ""
         over18 = data["over_18"] as? Bool ?? false
         hidden = data["hidden"] as? Bool ?? false
-        thumbnail = data["thumbnail"] as? String ?? ""
+        thumbnail = convertObjectToEscapedURLString(data["thumbnail"])
         subredditId = data["subreddit_id"] as? String ?? ""
         edited = data["edited"] as? Bool ?? false
         linkFlairCssClass = data["link_flair_css_class"] as? String ?? ""
@@ -314,7 +338,7 @@ public struct Link : Thing {
         permalink = data["permalink"] as? String ?? ""
         stickied = data["stickied"] as? Bool ?? false
         created = data["created"] as? Int ?? 0
-        url = data["url"] as? String ?? ""
+        url = convertObjectToEscapedURLString(data["url"])
         authorFlairText = data["author_flair_text"] as? String ?? ""
         title = data["title"] as? String ?? ""
         createdUtc = data["created_utc"] as? Int ?? 0
