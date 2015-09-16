@@ -10,7 +10,7 @@ func getCAPTCHA(session:Session) {
     session.getCAPTCHA({ (result) -> Void in
         switch result {
         case .Failure(let error):
-            print(error.description)
+            print(error)
         case .Success(let captchaImage):
             captchaImage
         }
@@ -21,8 +21,8 @@ func getReleated(session:Session) {
     session.getDuplicatedArticles(Paginator(), thing: Link(id: "37lhsm")) { (result) -> Void in
         switch result {
         case .Failure(let error):
-            print(error.description)
-        case .Success(let (listing1, listing2)):
+            print(error)
+        case .Success((let listing1, let listing2)):
             listing1.children.flatMap { $0 as? Link }.forEach { print($0.title) }
             listing2.children.flatMap { $0 as? Link }.forEach { print($0.title) }
         }
@@ -33,7 +33,7 @@ func getProfile(session:Session) {
     session.getUserProfile("sonson_twit", completion: { (result) -> Void in
         switch result {
         case .Failure(let error):
-            print(error.description)
+            print(error)
         case .Success(let account):
             print(account.name)
         }
@@ -45,7 +45,7 @@ func getLinksBy(session:Session) {
     session.getLinksById(links, completion: { (result) -> Void in
         switch result {
         case .Failure(let error):
-            print(error.description)
+            print(error)
         case .Success(let listing):
             listing.children.flatMap { $0 as? Link }.forEach { print($0.title) }
         }
