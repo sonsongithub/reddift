@@ -4,7 +4,7 @@ import Foundation
 import XCPlayground
 import reddift
 
-guard #available(iOS 9, OSX 10.11, *) else { abort() }
+guard #available(iOS 9, OSX 10.10, *) else { abort() }
 
 func getCAPTCHA(session:Session) {
     session.getCAPTCHA({ (result) -> Void in
@@ -23,16 +23,8 @@ func getReleated(session:Session) {
         case .Failure(let error):
             print(error.description)
         case .Success(let (listing1, listing2)):
-            for obj in listing1.children {
-                if let link = obj as? Link {
-                    print(link.title)
-                }
-            }
-            for obj in listing2.children {
-                if let link = obj as? Link {
-                    print(link.title)
-                }
-            }
+            listing1.children.flatMap { $0 as? Link }.forEach { print($0.title) }
+            listing2.children.flatMap { $0 as? Link }.forEach { print($0.title) }
         }
     }
 }
@@ -55,31 +47,16 @@ func getLinksBy(session:Session) {
         case .Failure(let error):
             print(error.description)
         case .Success(let listing):
-            print(listing.children.count)
-            for obj in listing.children {
-                if let link = obj as? Link {
-                    print(link.title)
-                }
-            }
+            listing.children.flatMap { $0 as? Link }.forEach { print($0.title) }
         }
     })
 }
 
 let values = NSBundle.mainBundle().URLForResource("test_config.json", withExtension:nil)
-    .flatMap { (url) -> NSData? in
-        return NSData(contentsOfURL: url)
-    }.flatMap { (data) -> [String:String]? in
-        do {
-            if let json = try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions()) as? [String:String] {
-                return json
-            }
-            return nil
-        } catch { return nil }
-    }.flatMap { (json) -> (String, String, String, String)? in
-        if let username = json["username"],
-            password = json["password"],
-            client_id = json["client_id"],
-            secret = json["secret"] {
+    .flatMap { NSData(contentsOfURL: $0) }
+    .flatMap { try! NSJSONSerialization.JSONObjectWithData($0, options:NSJSONReadingOptions()) as? [String:String] }
+    .flatMap { (json) -> (String, String, String, String)? in
+        if let username = json["username"], password = json["password"], client_id = json["client_id"], secret = json["secret"] {
             return (username, password, client_id, secret)
         }
         return nil
@@ -105,11 +82,7 @@ anonymouseSession.getList(Paginator(), subreddit: nil, sort: .Controversial, tim
     case .Failure(let error):
         print(error)
     case .Success(let listing):
-        for child in listing.children {
-            if let link = child as? Link {
-                print(link.title)
-            }
-        }
+        listing.children.flatMap { $0 as? Link }.forEach { print($0.title) }
     }
 }
 
