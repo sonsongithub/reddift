@@ -26,7 +26,7 @@ extension Session {
     */
     public func postComment(text:String, parentName:String, completion:(Result<Comment>) -> Void) -> NSURLSessionDataTask? {
         let parameter:[String:String] = ["thing_id":parentName, "api_type":"json", "text":text]
-        let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/comment", parameter:parameter, method:"POST", token:token)
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/comment", parameter:parameter, method:"POST", token:token) else { return nil }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
@@ -48,7 +48,7 @@ extension Session {
     */
     public func deleteCommentOrLink(name:String, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         let parameter:[String:String] = ["id":name]
-        let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/del", parameter:parameter, method:"POST", token:token)
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/del", parameter:parameter, method:"POST", token:token) else { return nil }
         return handleAsJSONRequest(request, completion:completion)
     }
     
@@ -62,7 +62,7 @@ extension Session {
     */
     public func setVote(direction:VoteDirection, name:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
         let parameter:[String:String] = ["dir":String(direction.rawValue), "id":name]
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/vote", parameter:parameter, method:"POST", token:token)
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/vote", parameter:parameter, method:"POST", token:token) else { return nil }
         return handleAsJSONRequest(request, completion:completion)
     }
     
@@ -120,7 +120,7 @@ extension Session {
     */
     public func getInfo(names:[String], completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
         let commaSeparatedNameString = commaSeparatedStringFromList(names)
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token) else { return nil }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
@@ -152,7 +152,7 @@ extension Session {
         if mark {
             path = "/api/marknsfw"
         }
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:["id":thing.name], method:"POST", token:token)
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:["id":thing.name], method:"POST", token:token) else { return nil }
         return handleAsJSONRequest(request, completion:completion)
     }
     
@@ -165,7 +165,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
     */
     public func getSavedCategories(completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/saved_categories", method:"GET", token:token)
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/saved_categories", method:"GET", token:token) else { return nil }
         return handleAsJSONRequest(request, completion:completion)
     }
     
@@ -181,16 +181,12 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
     */
     public func report(thing:Thing, reason:String, otherReason:String, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-        var parameter = ["api_type":"json"]
-        let customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
-        if let reason_escaped = reason.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet) {
-            parameter["reason"] = reason_escaped
-        }
-        if let otherReason_escaped = otherReason.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet) {
-            parameter["other_reason"] = otherReason_escaped
-        }
-        parameter["thing_id"] = thing.name
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/report", parameter:parameter, method:"POST", token:token)
+        let parameter = [
+            "api_type"    :"json",
+            "reason"      :reason,
+            "other_reason":otherReason,
+            "thing_id"    :thing.name]
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/report", parameter:parameter, method:"POST", token:token) else { return nil }
         return handleRequest(request, completion:completion)
     }
     
@@ -206,27 +202,20 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
     */
     public func submitLink(subreddit:Subreddit, title:String, URL:String, captcha:String, captchaIden:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        let customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
-        let escapedTitle = title.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
-        let escapedURL = URL.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
+        var parameter:[String:String] = [:]
+        parameter["api_type"] = "json"
+        parameter["captcha"] = captcha
+        parameter["iden"] = captchaIden
+        parameter["kind"] = "link"
+        parameter["resubmit"] = "true"
+        parameter["sendreplies"] = "true"
         
-        if let escapedTitle = escapedTitle, let escapedURL = escapedURL {
-            var parameter:[String:String] = [:]
-            parameter["api_type"] = "json"
-            parameter["captcha"] = captcha
-            parameter["iden"] = captchaIden
-            parameter["kind"] = "link"
-            parameter["resubmit"] = "true"
-            parameter["sendreplies"] = "true"
+        parameter["sr"] = subreddit.displayName
+        parameter["title"] = title
+        parameter["url"] = URL
             
-            parameter["sr"] = subreddit.displayName
-            parameter["title"] = escapedTitle
-            parameter["url"] = escapedURL
-            
-            let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
-            return handleAsJSONRequest(request, completion:completion)
-        }
-        return nil
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token) else { return nil }
+        return handleAsJSONRequest(request, completion:completion)
     }
     
     /**
@@ -242,28 +231,20 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
     */
     public func submitText(subreddit:Subreddit, title:String, text:String, captcha:String, captchaIden:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        let customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
-        let escapedTitle = title.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
-        let escapedText = text.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
+        var parameter:[String:String] = [:]
+        parameter["api_type"] = "json"
+        parameter["captcha"] = captcha
+        parameter["iden"] = captchaIden
+        parameter["kind"] = "self"
+        parameter["resubmit"] = "true"
+        parameter["sendreplies"] = "true"
         
-        if let escapedTitle = escapedTitle, let escapedText = escapedText {
-            var parameter:[String:String] = [:]
-            
-            parameter["api_type"] = "json"
-            parameter["captcha"] = captcha
-            parameter["iden"] = captchaIden
-            parameter["kind"] = "self"
-            parameter["resubmit"] = "true"
-            parameter["sendreplies"] = "true"
-            
-            parameter["sr"] = subreddit.displayName
-            parameter["text"] = escapedText
-            parameter["title"] = escapedTitle
-            
-            let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
-            return handleAsJSONRequest(request, completion:completion)
-        }
-        return nil
+        parameter["sr"] = subreddit.displayName
+        parameter["text"] = text
+        parameter["title"] = title
+        
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token) else { return nil }
+        return handleAsJSONRequest(request, completion:completion)
     }
     
     /**
@@ -278,7 +259,7 @@ extension Session {
     public func getMoreChildren(children:[String], link:Link, sort:CommentSort, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
         let commaSeparatedChildren = commaSeparatedStringFromList(children)
         let parameter = ["children":commaSeparatedChildren, "link_id":link.name, "sort":sort.type, "api_type":"json"]
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/morechildren", parameter:parameter, method:"GET", token:token)
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/morechildren", parameter:parameter, method:"GET", token:token) else { return nil }
         return handleAsJSONRequest(request, completion:completion)
     }
 }

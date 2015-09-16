@@ -69,10 +69,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
                 case .Failure:
                     print(result.error)
                 case .Success(let listing):
-                    self.links += listing.children.flatMap({(thing:Thing) -> Link? in
-                            if let link = thing as? Link { return link}
-                            return nil
-                        })
+                    self.links += listing.children.flatMap({$0 as? Link})
                     self.paginator = listing.paginator
                     self.updateStrings()
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in

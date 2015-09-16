@@ -205,7 +205,7 @@ public struct OAuth2Token : Token {
     - returns: Data task which requests search to reddit.com.
     */
     func getProfile(completion:(Result<OAuth2Token>) -> Void) -> NSURLSessionDataTask? {
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/v1/me", method:"GET", token:self)
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/v1/me", method:"GET", token:self) else { return nil }
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)

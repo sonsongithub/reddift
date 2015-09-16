@@ -20,8 +20,8 @@ class MessageViewController: UITableViewController {
 		
 		session?.getMessage(messageWhere, completion: { (result) -> Void in
             switch result {
-            case .Failure:
-                print(result.error)
+            case .Failure(let error):
+                print(error)
             case .Success(let listing):
                     self.messages += listing.children
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in

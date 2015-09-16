@@ -14,7 +14,7 @@ extension String {
     */
     private func stringByAddingPercentEscapesUsingUTF8() -> String {
         let raw: NSString = self
-        let str = raw.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet(charactersInString:"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$&'()*+,/:;=?@[]")) ?? raw
+        let str = raw.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet(charactersInString:"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$&'()*+,/._:;=?@[]")) ?? raw
         return str as String
     }
 }

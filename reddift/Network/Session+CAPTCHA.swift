@@ -80,7 +80,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
     */
     public func checkNeedsCAPTCHA(completion:(Result<Bool>) -> Void) -> NSURLSessionDataTask? {
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/needs_captcha", method:"GET", token:token)
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/needs_captcha", method:"GET", token:token) else { return nil }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
@@ -102,7 +102,7 @@ extension Session {
     */
     public func getIdenForNewCAPTCHA(completion:(Result<String>) -> Void) -> NSURLSessionDataTask? {
         let parameter:[String:String] = ["api_type":"json"]
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/new_captcha", parameter:parameter, method:"POST", token:token)
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/new_captcha", parameter:parameter, method:"POST", token:token) else { return nil }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
@@ -127,7 +127,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
     */
     public func getCAPTCHA(iden:String, completion:(Result<CAPTCHAImage>) -> Void) -> NSURLSessionDataTask? {
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/captcha/" + iden, method:"GET", token:token)
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/captcha/" + iden, method:"GET", token:token) else { return nil }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
