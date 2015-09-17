@@ -8,16 +8,14 @@
 
 import Foundation
 
+private let allowedCharacterSet = NSCharacterSet(charactersInString: "!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~")
+
 extension String {
     /**
     Returns string by replacing NOT ASCII characters with a percent escaped string using UTF8.
     */
     private func stringByAddingPercentEscapesUsingUTF8() -> String {
-        let raw: NSString = self
-        let allowedCharacterSet = NSMutableCharacterSet.alphanumericCharacterSet()
-        allowedCharacterSet.addCharactersInString("-._:/~")
-        let str = raw.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacterSet) ?? raw
-        return str as String
+        return (self as NSString).stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacterSet) ?? self
     }
 }
 
