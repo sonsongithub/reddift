@@ -8,21 +8,6 @@
 
 import Foundation
 
-func parameterString(dictionary:[String:String])-> String {
-    var buf = ""
-    for (key, value) in dictionary {
-        if let escapedKey = key.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.alphanumericCharacterSet()),
-            let escapedValue = value.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.alphanumericCharacterSet()) {
-                buf += "\(escapedKey)=\(escapedValue)&"
-        }
-    }
-    if buf.characters.count > 0 {
-        let range = Range<String.Index>(start: buf.endIndex.advancedBy(-1), end: buf.endIndex)
-        buf.removeRange(range)
-    }
-    return buf
-}
-
 extension NSMutableURLRequest {
     func setRedditBasicAuthentication() {
         let basicAuthenticationChallenge = Config.sharedInstance.clientID + ":"
@@ -67,7 +52,7 @@ extension NSMutableURLRequest {
     }
     
     class func mutableOAuthGetRequestWithBaseURL(baseURL:String, path:String, parameter:[String:String], method:String, token:Token?) -> NSMutableURLRequest? {
-        let param = parameterString(parameter)
+        let param = parameter.URLQueryString()
         guard let URL = param.characters.isEmpty ? NSURL(string:baseURL + path) : NSURL(string:baseURL + path + "?" + param) else { return nil }
         let URLRequest = NSMutableURLRequest(URL: URL)
         URLRequest.setOAuth2Token(token)
@@ -81,7 +66,7 @@ extension NSMutableURLRequest {
         let URLRequest = NSMutableURLRequest(URL: URL)
         URLRequest.setOAuth2Token(token)
         URLRequest.HTTPMethod = method
-        let data = parameterString(parameter).dataUsingEncoding(NSUTF8StringEncoding)
+        let data = parameter.URLQueryString().dataUsingEncoding(NSUTF8StringEncoding)
         URLRequest.HTTPBody = data
         URLRequest.setUserAgentForReddit()
         return URLRequest

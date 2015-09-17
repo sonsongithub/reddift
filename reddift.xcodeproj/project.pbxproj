@@ -138,6 +138,10 @@
 		14A94CFB1B1000B800EDB844 /* MultiredditDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A94CF71B1000B800EDB844 /* MultiredditDescription.swift */; };
 		14A94CFE1B10727500EDB844 /* multidesc.json in Resources */ = {isa = PBXBuildFile; fileRef = 14A94CFC1B10727500EDB844 /* multidesc.json */; };
 		14A94D011B10727B00EDB844 /* multidesc.json in Resources */ = {isa = PBXBuildFile; fileRef = 14A94CFC1B10727500EDB844 /* multidesc.json */; };
+		14B1216F1BAA56D800238059 /* Dictionary+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B1216E1BAA56D800238059 /* Dictionary+reddift.swift */; settings = {ASSET_TAGS = (); }; };
+		14B121701BAA56D800238059 /* Dictionary+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B1216E1BAA56D800238059 /* Dictionary+reddift.swift */; settings = {ASSET_TAGS = (); }; };
+		14B121711BAA5E7500238059 /* Dictionary+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B1216E1BAA56D800238059 /* Dictionary+reddift.swift */; settings = {ASSET_TAGS = (); }; };
+		14B121721BAA5E7600238059 /* Dictionary+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B1216E1BAA56D800238059 /* Dictionary+reddift.swift */; settings = {ASSET_TAGS = (); }; };
 		14B5EBB61AF34D580065BC5E /* reddift.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B5EBB51AF34D580065BC5E /* reddift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14B5EBBC1AF34D590065BC5E /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; };
 		14B5EBD31AF34E920065BC5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EBD21AF34E920065BC5E /* AppDelegate.swift */; };
@@ -422,6 +426,7 @@
 		14A3556D1B1705D8001D1FEA /* reddift.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = reddift.playground; sourceTree = "<group>"; };
 		14A94CF71B1000B800EDB844 /* MultiredditDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiredditDescription.swift; sourceTree = "<group>"; };
 		14A94CFC1B10727500EDB844 /* multidesc.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = multidesc.json; sourceTree = "<group>"; };
+		14B1216E1BAA56D800238059 /* Dictionary+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+reddift.swift"; sourceTree = "<group>"; };
 		14B5EBB11AF34D580065BC5E /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14B5EBB51AF34D580065BC5E /* reddift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = reddift.h; sourceTree = "<group>"; };
 		14B5EBBB1AF34D580065BC5E /* reddift-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "reddift-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -772,6 +777,7 @@
 		14B8DE171ADD721700237350 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				14B1216E1BAA56D800238059 /* Dictionary+reddift.swift */,
 				14B8DE181ADD721700237350 /* NSBundle+reddift.swift */,
 				14B8DE191ADD721700237350 /* NSError+reddift.swift */,
 				14B8DE1A1ADD721700237350 /* NSMutableURLRequest+reddift.swift */,
@@ -1108,6 +1114,7 @@
 				141B91C01B0A4FBB00A9E6A6 /* Session+liveThreads.swift in Sources */,
 				141B91CD1B0A501900A9E6A6 /* Session+subreddits.swift in Sources */,
 				14B5EC171AF35BFF0065BC5E /* Listing.swift in Sources */,
+				14B1216F1BAA56D800238059 /* Dictionary+reddift.swift in Sources */,
 				14624D011B3D184400A5D8F5 /* Response.swift in Sources */,
 				14B5EC451AF35C560065BC5E /* OAuth2Authorizer.swift in Sources */,
 				14B5EC471AF35C560065BC5E /* OAuth2TokenRepository.swift in Sources */,
@@ -1160,6 +1167,7 @@
 			files = (
 				141B91DF1B0A503400A9E6A6 /* Session+users.swift in Sources */,
 				143427C91AF858D5005D0E31 /* OAuth2AppOnlyToken.swift in Sources */,
+				14B121721BAA5E7600238059 /* Dictionary+reddift.swift in Sources */,
 				14A352021B1BA392003239F8 /* ListingsTest.swift in Sources */,
 				14B5EC271AF35BFF0065BC5E /* Media.swift in Sources */,
 				14D2E2211B14C8BF00253AC0 /* Thing.swift in Sources */,
@@ -1260,6 +1268,7 @@
 				141B91E71B0A503400A9E6A6 /* Session+liveThreads.swift in Sources */,
 				141B91ED1B0A503400A9E6A6 /* Session+subreddits.swift in Sources */,
 				14F812471AF9F6BA008F6F3C /* NSURLComponents+reddift.swift in Sources */,
+				14B121701BAA56D800238059 /* Dictionary+reddift.swift in Sources */,
 				14624D031B3D184400A5D8F5 /* Response.swift in Sources */,
 				14F812451AF9F6BA008F6F3C /* NSError+reddift.swift in Sources */,
 				14F8125A1AF9F6C8008F6F3C /* Keychain.swift in Sources */,
@@ -1312,6 +1321,7 @@
 			files = (
 				141B91FD1B0A503500A9E6A6 /* Session+users.swift in Sources */,
 				14F812231AF9F6B1008F6F3C /* Result.swift in Sources */,
+				14B121711BAA5E7500238059 /* Dictionary+reddift.swift in Sources */,
 				14A352031B1BA392003239F8 /* ListingsTest.swift in Sources */,
 				14F812481AF9F6BA008F6F3C /* NSBundle+reddift.swift in Sources */,
 				14D2E2231B14C8BF00253AC0 /* Thing.swift in Sources */,
