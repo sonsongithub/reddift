@@ -14,7 +14,9 @@ extension String {
     */
     private func stringByAddingPercentEscapesUsingUTF8() -> String {
         let raw: NSString = self
-        let str = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,raw,"","",CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding))
+        let allowedCharacterSet = NSMutableCharacterSet.alphanumericCharacterSet()
+        allowedCharacterSet.addCharactersInString("-._:/~")
+        let str = raw.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacterSet) ?? raw
         return str as String
     }
 }

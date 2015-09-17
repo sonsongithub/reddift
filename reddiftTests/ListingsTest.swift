@@ -27,7 +27,6 @@ class ListingsTest: SessionTestSpec {
                     case .Success(let listing):
                         isSucceeded = (listing.children.count >= 0)
                         for obj in listing.children {
-                            print(obj.dynamicType)
                             isSucceeded = isSucceeded && (obj is Link)
                         }
                     }

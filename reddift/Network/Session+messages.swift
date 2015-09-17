@@ -21,7 +21,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
     */
     public func getMessage(messageWhere:MessageWhere, limit:Int = 100, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
-        let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/message" + messageWhere.path, method:"GET", token:token) else { return nil }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
@@ -48,26 +48,18 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
     */
     public func composeMessage(to:Account, subject:String, text:String, fromSubreddit:Subreddit, captcha:String, captchaIden:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+        var parameter:[String:String] = [:]
         
-        let customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
-        let escapedSubject = subject.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
-        let escapedText = text.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
+        parameter["api_type"] = "json"
+        parameter["captcha"] = captcha
+        parameter["iden"] = captchaIden
         
-        if let escapedSubject = escapedSubject, let escapedText = escapedText {
-            var parameter:[String:String] = [:]
-            
-            parameter["api_type"] = "json"
-            parameter["captcha"] = captcha
-            parameter["iden"] = captchaIden
-            
-            parameter["from_sr"] = fromSubreddit.displayName
-            parameter["text"] = escapedText
-            parameter["subject"] = escapedSubject
-            parameter["to"] = to.id
-            
-            let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
-            return handleAsJSONRequest(request, completion:completion)
-        }
-        return nil
+        parameter["from_sr"] = fromSubreddit.displayName
+        parameter["text"] = text
+        parameter["subject"] = subject
+        parameter["to"] = to.id
+        
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token) else { return nil }
+        return handleAsJSONRequest(request, completion:completion)
     }
 }

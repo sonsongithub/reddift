@@ -174,10 +174,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                     let listing = tuple.1
                     
                     var newComments:[Thing] = []
-                    for comment in listing.children.flatMap({(thing:Thing) -> Comment? in
-                        if let comment = thing as? Comment { return comment }
-                        return nil
-                    }) {
+                    for comment in listing.children.flatMap({$0 as? Comment}) {
                         newComments += extendAllReplies(comment)
                     }
                     self.comments += newComments
