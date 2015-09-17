@@ -63,10 +63,10 @@ Concretely, you can access either value evaluating enum state like a following c
     
     // do not use "!" in your code
     switch(result) {
-    case .Failure: 
-        println(result.error!.description)
-    case .Success:
-        println(result.value!)
+    case .Failure(let error):
+        println(error)
+    case .Success(let listing):
+        // do something to listing
     }
     
 In more detail about this coding style, see "[Efficient JSON in Swift with Functional Concepts and Generics](https://robots.thoughtbot.com/efficient-json-in-swift-with-functional-concepts-and-generics)".
@@ -108,11 +108,7 @@ You can get contents from reddit via ```Session``` object like following codes.
         case .Failure(let error):
             print(error)
         case .Success(let listing):
-            for obj in listing.children {
-                if let link = obj as? Link {
-                    self.links.append(link)
-                }
-            }
+            self.links.appendContentsOf(listing.children.flatMap{$0 as? Link})
         }
     })
 
@@ -149,17 +145,7 @@ If you want to test reddift, you have to create another "Script" type applicatio
 
 ![userscript](https://cloud.githubusercontent.com/assets/33768/7569704/7ad7bf10-f845-11e4-8e10-89487a65d5d4.png)
 
-#### 2. Build libraries
-
-Test depends on [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble).
-You may build them using [Carthage](https://github.com/Carthage/Carthage) ver easy.
-You could install and setup Carthage using Installer or Homebrew.
-reddift include Cartfile for Carthage.
-So, you build it with the following command.
-
-    > carthage update
-    
-#### 3. Fill out ````test_config.json````
+#### 2. Fill out ````test_config.json````
 
 At first, rename ````test_config.json.sample```` to ````test_config.json````.
 Fill each following value using above preference pain of reddit.com.
@@ -170,6 +156,10 @@ Fill each following value using above preference pain of reddit.com.
       "client_id": "test app client ID(must be script type app)",
       "secret": "test app secret"
     }
+    
+#### 3. Start test
+
+Cmd + U.
 
 ## Playground
 
@@ -177,13 +167,12 @@ You can play with reddift in Playground.
 In more detail, check reddift.playground package.
 Before using, you have to copy ```test_config.json``` into ```./reddift.playground/Resources``` in order to specify user account and your application informatin because reddift on Playground uses "Application Only OAuth".
 
-![playground](https://cloud.githubusercontent.com/assets/33768/7865908/e14d47b0-05a6-11e5-9799-a1cc9aa53428.png)
+![playground](https://cloud.githubusercontent.com/assets/33768/9929315/deb40d78-5d66-11e5-908f-0445ad57ef90.png)
 
 ## Dependency
 
 * reddift depends on [KeychainAccess](https://github.com/kishikawakatsumi/KeychainAccess) for saving access tokens.
 * Sample application depends on [UZTextView](https://github.com/sonsongithub/UZTextView.git).
-* Test depends on [Quick](https://github.com/Quick/Quick) and [Nimble](https://github.com/Quick/Nimble).
 
 ## License
 
