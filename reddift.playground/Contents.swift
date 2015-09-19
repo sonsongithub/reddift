@@ -63,17 +63,20 @@ if let values = (NSBundle.mainBundle().URLForResource("test_config.json", withEx
     .flatMap { NSData(contentsOfURL: $0) }
     .flatMap { try! NSJSONSerialization.JSONObjectWithData($0, options:NSJSONReadingOptions()) as? [String:String] }
     .flatMap { getAccountInfoFromJSON($0) }) {
-        OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: values.0, password: values.1, clientID: values.2, secret: values.3, completion:( { (result) -> Void in
-            switch result {
-            case .Failure(let error):
-                print(error)
-            case .Success(let token):
-                let session = Session(token: token)
-                getLinksBy(session)
-                getReleated(session)
-                getCAPTCHA(session)
-            }
-        }))
+        do {
+            try OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: values.0, password: values.1, clientID: values.2, secret: values.3, completion:( { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let token):
+                    let session = Session(token: token)
+                    getLinksBy(session)
+                    getReleated(session)
+                    getCAPTCHA(session)
+                }
+            }))
+        }
+        catch let error { print(error) }
 }
 
 let anonymouseSession = Session()

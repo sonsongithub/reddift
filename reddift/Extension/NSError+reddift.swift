@@ -15,6 +15,7 @@ extension NSError {
 }
 
 public enum ReddiftError:Int {
+    case Unknown                = 0
     case ParseJSON              = 100
 
     case ParseThing             = 200
@@ -32,6 +33,13 @@ public enum ReddiftError:Int {
     case TokenNotfound          = 402
     
     case Malformed              = 500
+    
+    case OAuth2Error            = 600
+    
+    case KeychainTargetNameIsEmpty          = 700
+    case KeychainDidFailToSerializeToken    = 701
+    
+    case URLError               = 800
     
     var error:NSError {
         return NSError.errorWithCode(self.rawValue, self.description)
@@ -68,6 +76,14 @@ public enum ReddiftError:Int {
             return "Token which has the name you specified was not found."
         case .Malformed:
             return "Data is malformed."
+        case .KeychainTargetNameIsEmpty:
+            return "Target name is empty, reddift can not do anything."
+        case .KeychainDidFailToSerializeToken:
+            return "Failed to serialize token object in order to save into Keychain."
+        case .URLError:
+            return "Failed to parse URL and create a request object."
+        default:
+            return "Unknown error."
         }
     }
 }

@@ -21,7 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print(error)
             case .Success(let token):
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    OAuth2TokenRepository.saveIntoKeychainToken(token, name:token.name)
+                    do {
+                        try OAuth2TokenRepository.saveIntoKeychainToken(token, name:token.name)
+                    }
+                    catch let error { print(error) }
                 })
             }
         })
