@@ -49,8 +49,8 @@ func data2Json(data: NSData) -> Result<JSON> {
     do {
         let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))
         return Result(value:json)
-    } catch let error as NSError {
-        return Result(error: error)
+    } catch {
+        return Result(error: error as NSError)
     }
 }
 

@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     do {
                         try OAuth2TokenRepository.saveIntoKeychainToken(token, name:token.name)
                     }
-                    catch let error { print(error) }
+                    catch { print(error) }
                 })
             }
         })

@@ -77,7 +77,7 @@ public class OAuth2Authorizer {
                     try OAuth2Token.getOAuth2Token(code, completion:completion)
                     return true
                 }
-                catch let error {
+                catch {
                     print(error)
                     return false
                 }

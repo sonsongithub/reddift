@@ -197,7 +197,7 @@ public struct OAuth2Token : Token {
                         completion(result)
                     })
                 }
-                catch let error { completion(Result(error: error as NSError)) }
+                catch { completion(Result(error: error as NSError)) }
             case .Failure:
                 completion(result)
             }

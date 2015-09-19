@@ -76,7 +76,7 @@ if let values = (NSBundle.mainBundle().URLForResource("test_config.json", withEx
                 }
             }))
         }
-        catch let error { print(error) }
+        catch { print(error) }
 }
 
 let anonymouseSession = Session()

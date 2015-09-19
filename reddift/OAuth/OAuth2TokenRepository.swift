@@ -26,7 +26,7 @@ public class OAuth2TokenRepository {
             }
             return Result(error: ReddiftError.Unknown.error)
         }
-        catch let error {
+        catch {
             try! removeFromKeychainTokenWithName(name)
             NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil)
             return Result(error:error as NSError)
@@ -41,14 +41,14 @@ public class OAuth2TokenRepository {
     }
     
     public class func saveIntoKeychainToken(token:OAuth2Token) throws {
-        if token.name.characters.count > 0 {
+        if !token.name.isEmpty {
             // save
             if let data = jsonForSerializeToken(token) {
                 let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
                 do {
                     try keychain.set(data, key:token.name)
                     NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil)
-                } catch let error { throw error }
+                } catch { throw error }
             }
             else {
                 throw ReddiftError.KeychainDidFailToSerializeToken.error
@@ -60,14 +60,14 @@ public class OAuth2TokenRepository {
     }
     
     public class func saveIntoKeychainToken(token:OAuth2Token, name:String) throws {
-        if name.characters.count > 0 {
+        if !name.isEmpty {
             // save
             if let data = jsonForSerializeToken(token) {
                 let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
                 do {
                     try keychain.set(data, key:name)
                     NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil);
-                } catch let error { throw error }
+                } catch { throw error }
             }
             else {
                 throw ReddiftError.KeychainDidFailToSerializeToken.error
@@ -79,11 +79,11 @@ public class OAuth2TokenRepository {
     }
     
     public class func removeFromKeychainTokenWithName(name:String) throws {
-        if name.characters.count > 0 {
+        if !name.isEmpty {
             let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
             do {
                 try keychain.remove(name);
-            } catch let error { throw error }
+            } catch { throw error }
         }
         else {
             throw ReddiftError.KeychainTargetNameIsEmpty.error

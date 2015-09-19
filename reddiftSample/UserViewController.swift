@@ -42,12 +42,12 @@ class UserViewController: UITableViewController {
                                 do {
                                     try OAuth2TokenRepository.saveIntoKeychainToken(newToken)
                                 }
-                                catch let error { print(error) }
+                                catch { print(error) }
                             })
                         }
                     })
                 }
-                catch let error { print(error) }
+                catch { print(error) }
             }
         }
         if indexPath.row == 3 && indexPath.section == 0 {
@@ -64,12 +64,12 @@ class UserViewController: UITableViewController {
                                     try OAuth2TokenRepository.removeFromKeychainTokenWithName(token.name)
                                     self.navigationController?.popToRootViewControllerAnimated(true)
                                 }
-                                catch let error { print(error) }
+                                catch { print(error) }
                             })
                         }
                     })
                 }
-                catch let error { print(error) }
+                catch { print(error) }
             }
         }
         

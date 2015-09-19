@@ -68,7 +68,7 @@ class AccountViewController: UITableViewController {
                     tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
                     tableView.endUpdates()
                 }
-                catch let error { print(error) }
+                catch { print(error) }
             }
         }
     }
