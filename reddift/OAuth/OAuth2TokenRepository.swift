@@ -41,52 +41,42 @@ public class OAuth2TokenRepository {
     }
     
     public class func saveIntoKeychainToken(token:OAuth2Token) throws {
-        if !token.name.isEmpty {
-            // save
-            if let data = jsonForSerializeToken(token) {
-                let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-                do {
-                    try keychain.set(data, key:token.name)
-                    NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil)
-                } catch { throw error }
-            }
-            else {
-                throw ReddiftError.KeychainDidFailToSerializeToken.error
-            }
-        }
-        else {
+        if token.name.isEmpty {
             throw ReddiftError.KeychainTargetNameIsEmpty.error
         }
+        
+        // save
+        do {
+            let data = try NSJSONSerialization.dataWithJSONObject(token.JSONObject(), options: NSJSONWritingOptions())
+            let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
+            try keychain.set(data, key:token.name)
+            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil)
+        }
+        catch { throw error }
     }
     
     public class func saveIntoKeychainToken(token:OAuth2Token, name:String) throws {
-        if !name.isEmpty {
-            // save
-            if let data = jsonForSerializeToken(token) {
-                let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-                do {
-                    try keychain.set(data, key:name)
-                    NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil);
-                } catch { throw error }
-            }
-            else {
-                throw ReddiftError.KeychainDidFailToSerializeToken.error
-            }
-        }
-        else {
+        if name.isEmpty {
             throw ReddiftError.KeychainTargetNameIsEmpty.error
         }
+        
+        do {
+            let data = try NSJSONSerialization.dataWithJSONObject(token.JSONObject(), options: NSJSONWritingOptions())
+            let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
+            try keychain.set(data, key:name)
+            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil);
+        }
+        catch { throw error }
     }
     
     public class func removeFromKeychainTokenWithName(name:String) throws {
-        if !name.isEmpty {
-            let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-            do {
-                try keychain.remove(name);
-            } catch { throw error }
-        }
-        else {
+        if name.isEmpty {
             throw ReddiftError.KeychainTargetNameIsEmpty.error
         }
+        do {
+            let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
+            try keychain.remove(name);
+        }
+        catch { throw error }
     }
 }
