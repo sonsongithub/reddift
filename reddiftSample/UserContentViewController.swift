@@ -73,24 +73,27 @@ class UserContentViewController: UITableViewController {
         if source.indices ~= indexPath.row {
             let obj = source[indexPath.row]
             if let comment = obj as? Comment {
-                session?.getInfo([comment.linkId], completion: { (result) -> Void in
-                    switch result {
-                    case .Failure:
-                        print(result.error)
-                    case .Success(let listing):
-                        if listing.children.count == 1 {
-                            if let link = listing.children[0] as? Link {
-                                if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{
-                                    vc.session = self.session
-                                    vc.link = link
-                                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                        self.navigationController?.pushViewController(vc, animated: true)
-                                    })
+                do {
+                    try session?.getInfo([comment.linkId], completion: { (result) -> Void in
+                        switch result {
+                        case .Failure:
+                            print(result.error)
+                        case .Success(let listing):
+                            if listing.children.count == 1 {
+                                if let link = listing.children[0] as? Link {
+                                    if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{
+                                        vc.session = self.session
+                                        vc.link = link
+                                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                            self.navigationController?.pushViewController(vc, animated: true)
+                                        })
+                                    }
                                 }
                             }
                         }
-                    }
-                })
+                    })
+                }
+                catch { print(error) }
             }
             else if let link = obj as? Link {
                 if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{
