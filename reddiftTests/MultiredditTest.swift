@@ -99,11 +99,14 @@ class MultiredditTest: SessionTestSpec {
         var isSucceeded = false
         let documentOpenExpectation = self.expectationWithDescription(message)
         if let multi = self.createdMultireddit {
-            self.session?.getList(Paginator(), subreddit: multi, sort:sort, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
-                isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
-                XCTAssert(isSucceeded, message)
-                documentOpenExpectation.fulfill()
-            })
+            do {
+                try self.session?.getList(Paginator(), subreddit: multi, sort:sort, timeFilterWithin: TimeFilterWithin.Week, completion: { (result) -> Void in
+                    isSucceeded = self.check(result, targetSubreddits: self.targetSubreddits)
+                    XCTAssert(isSucceeded, message)
+                    documentOpenExpectation.fulfill()
+                })
+            }
+            catch { XCTFail((error as NSError).description) }
         }
         self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
     }

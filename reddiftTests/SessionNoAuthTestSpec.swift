@@ -33,66 +33,78 @@ class SessionNoAuthTestSpec: XCTestCase {
     func testDownloadFrontPageWithoutOAuth() {
         var isSucceeded:Bool = false
         let documentOpenExpectation = self.expectationWithDescription("")
-        session?.getList(Paginator(), subreddit: nil, sort: .Controversial, timeFilterWithin: .Week) { (result) -> Void in
-            switch result {
-            case .Failure(let error):
-                print(error)
-            case .Success:
-                isSucceeded = true
+        do {
+            try session?.getList(Paginator(), subreddit: nil, sort: .Controversial, timeFilterWithin: .Week) { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success:
+                    isSucceeded = true
+                }
+                documentOpenExpectation.fulfill()
             }
-            documentOpenExpectation.fulfill()
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            XCTAssert(isSucceeded, "Check whether front page without any authentication.")
         }
-        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        XCTAssert(isSucceeded, "Check whether front page without any authentication.")
+        catch { XCTFail((error as NSError).description) }
     }
     
     func testDownloadSubredditListWithoutOAuth() {
         var isSucceeded:Bool = false
         let documentOpenExpectation = self.expectationWithDescription("")
-        session?.getList(Paginator(), subreddit: Subreddit(subreddit: "swift"), sort: .Controversial, timeFilterWithin: .Week) { (result) -> Void in
-            switch result {
-            case .Failure(let error):
-                print(error)
-            case .Success:
-                isSucceeded = true
+        do {
+            try session?.getList(Paginator(), subreddit: Subreddit(subreddit: "swift"), sort: .Controversial, timeFilterWithin: .Week) { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success:
+                    isSucceeded = true
+                }
+                documentOpenExpectation.fulfill()
             }
-            documentOpenExpectation.fulfill()
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            XCTAssert(isSucceeded, "Check whether the link list of the subreddit without any authentication.")
         }
-        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        XCTAssert(isSucceeded, "Check whether the link list of the subreddit without any authentication.")
+        catch { XCTFail((error as NSError).description) }
     }
     
     func testDownloadListAndContentWithoutOAuth() {
         var isSucceeded:Bool = true
         let documentOpenExpectation = self.expectationWithDescription("")
-        session?.getList(Paginator(), subreddit: Subreddit(subreddit: "swift"), sort: .Controversial, timeFilterWithin: .Week) { (result) -> Void in
-            switch result {
-            case .Failure(let error):
-                print(error)
-                isSucceeded = false
-            case .Success(let listing):
-                if let link = listing.children.first as? Link {
-                    self.session?.getArticles(link, sort: CommentSort.New, completion: { (result) -> Void in
-                        switch result {
-                        case .Failure(let error):
-                            print(error)
-                            isSucceeded = false
-                        case .Success(let listing1, let listing2):
-                            print(listing1)
-                            print(listing2)
-                            for child in listing1.children {
-                                print(child.dynamicType)
-                            }
-                            for child in listing2.children {
-                                print(child.dynamicType)
-                            }
+        do {
+            try session?.getList(Paginator(), subreddit: Subreddit(subreddit: "swift"), sort: .Controversial, timeFilterWithin: .Week) { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                    isSucceeded = false
+                case .Success(let listing):
+                    if let link = listing.children.first as? Link {
+                        do {
+                            try self.session?.getArticles(link, sort: CommentSort.New, completion: { (result) -> Void in
+                                switch result {
+                                case .Failure(let error):
+                                    print(error)
+                                    isSucceeded = false
+                                case .Success(let listing1, let listing2):
+                                    print(listing1)
+                                    print(listing2)
+                                    for child in listing1.children {
+                                        print(child.dynamicType)
+                                    }
+                                    for child in listing2.children {
+                                        print(child.dynamicType)
+                                    }
+                                }
+                                documentOpenExpectation.fulfill()
+                            })
                         }
-                        documentOpenExpectation.fulfill()
-                    })
+                        catch { XCTFail((error as NSError).description) }
+                    }
                 }
             }
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            XCTAssert(isSucceeded, "Check whether comments can be downloaded from the link list of the subreddit without any authentication.")
         }
-        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        XCTAssert(isSucceeded, "Check whether comments can be downloaded from the link list of the subreddit without any authentication.")
+        catch { XCTFail((error as NSError).description) }
     }
 }
