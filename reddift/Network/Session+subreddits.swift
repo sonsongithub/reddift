@@ -17,10 +17,11 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func setSubscribeSubreddit(subreddit:Subreddit, subscribe:Bool, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
+    public func setSubscribeSubreddit(subreddit:Subreddit, subscribe:Bool, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
         var parameter:[String:String] = ["sr":subreddit.name]
         parameter["action"] = (subscribe) ? "sub" : "unsub"
-        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/subscribe", parameter:parameter, method:"POST", token:token) else { return nil }
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/subscribe", parameter:parameter, method:"POST", token:token)
+            else { throw ReddiftError.URLError.error }
         return handleAsJSONRequest(request, completion:completion)
     }
     
@@ -32,9 +33,10 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getSubreddit(subredditWhere:SubredditsWhere, paginator:Paginator?, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
+    public func getSubreddit(subredditWhere:SubredditsWhere, paginator:Paginator?, completion:(Result<RedditAny>) -> Void) throws -> NSURLSessionDataTask {
         let parameter = paginator?.addParametersToDictionary([:])
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:subredditWhere.path, parameter:parameter, method:"GET", token:token) else { return nil }
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:subredditWhere.path, parameter:parameter, method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
         return handleRequest(request, completion:completion)
     }
     
@@ -50,8 +52,9 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getUserRelatedSubreddit(mine:SubredditsMineWhere, paginator:Paginator?, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:mine.path, parameter:paginator?.parameterDictionary, method:"GET", token:token) else { return nil }
+    public func getUserRelatedSubreddit(mine:SubredditsMineWhere, paginator:Paginator?, completion:(Result<Listing>) -> Void) throws -> NSURLSessionDataTask {
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:mine.path, parameter:paginator?.parameterDictionary, method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
@@ -75,10 +78,10 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getSubredditSearch(query:String, paginator:Paginator?, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
+    public func getSubredditSearch(query:String, paginator:Paginator?, completion:(Result<Listing>) -> Void) throws -> NSURLSessionDataTask? {
         let parameter = paginator?.addParametersToDictionary(["q":query])
-        
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/subreddits/search", parameter:parameter, method:"GET", token:token) else { return nil }
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/subreddits/search", parameter:parameter, method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
@@ -95,8 +98,9 @@ extension Session {
     /**
     DOES NOT WORK... WHY?
     */
-    public func getSticky(subreddit:Subreddit, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask? {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/r/" + subreddit.displayName + "/sticky", method:"GET", token:token) else { return nil }
+    public func getSticky(subreddit:Subreddit, completion:(Result<RedditAny>) -> Void) throws -> NSURLSessionDataTask {
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/r/" + subreddit.displayName + "/sticky", method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
         return handleRequest(request, completion:completion)
     }
 }

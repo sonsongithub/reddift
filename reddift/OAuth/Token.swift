@@ -34,7 +34,7 @@ public protocol Token {
     init(_ json:[String:AnyObject])
 }
 
-public extension Token {
+extension Token {
     /**
     Returns json object
     
