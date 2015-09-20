@@ -41,6 +41,8 @@ public enum ReddiftError:Int {
     
     case URLError               = 800
     
+    case MultiredditDidFailToCreateJSON = 900
+    
     var error:NSError {
         return NSError.errorWithCode(self.rawValue, self.description)
     }
@@ -82,6 +84,8 @@ public enum ReddiftError:Int {
             return "Failed to serialize token object in order to save into Keychain."
         case .URLError:
             return "Failed to parse URL and create a request object."
+        case .MultiredditDidFailToCreateJSON:
+            return "Failed to create JSON object to post a new multireddit."
         default:
             return "Unknown error."
         }
