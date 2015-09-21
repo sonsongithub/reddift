@@ -27,50 +27,32 @@ class UserViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true);
         if indexPath.row == 2 && indexPath.section == 0 {
-            if let token = session?.token as? OAuth2Token {
-                do {
-                    try token.refresh({ (result) -> Void in
-                        switch result {
-                        case .Failure(let error):
-                            print(error)
-                        case .Success(let newToken):
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                if let session = self.session {
-                                    session.token = newToken
-                                }
-                                self.updateExpireCell(nil)
-                                do {
-                                    try OAuth2TokenRepository.saveIntoKeychainToken(newToken)
-                                }
-                                catch { print(error) }
-                            })
-                        }
-                    })
-                }
-                catch { print(error) }
+            do {
+                try self.session?.refreshToken({ (result) -> Void in
+                    switch result {
+                    case .Failure(let error):
+                        print(error)
+                    case .Success(let token):
+                        print(token)
+                        self.updateExpireCell(nil)
+                    }
+                })
             }
+            catch { print(error) }
         }
         if indexPath.row == 3 && indexPath.section == 0 {
-            if let token = session?.token as? OAuth2Token {
-                do {
-                    try token.revoke({ (result) -> Void in
-                        switch result {
-                        case .Failure(let error):
-                            print(error)
-                        case .Success:
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                
-                                do {
-                                    try OAuth2TokenRepository.removeFromKeychainTokenWithName(token.name)
-                                    self.navigationController?.popToRootViewControllerAnimated(true)
-                                }
-                                catch { print(error) }
-                            })
-                        }
-                    })
-                }
-                catch { print(error) }
+            do {
+                try self.session?.revokeToken({ (result) -> Void in
+                    switch result {
+                    case .Failure(let error):
+                        print(error)
+                    case .Success(let token):
+                        print(token)
+                        self.navigationController?.popToRootViewControllerAnimated(true)
+                    }
+                })
             }
+            catch { print(error) }
         }
         
         if indexPath.section == 3 {

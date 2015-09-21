@@ -8,7 +8,11 @@
 
 import Foundation
 
-public let OAuth2TokenRepositoryDidSaveToken = "OAuth2TokenRepositoryDidSaveToken"
+/// Posted when the OAuth2TokenRepository object succeed in saving a token successfully into Keychain.
+public let OAuth2TokenRepositoryDidSaveToken            = "OAuth2TokenRepositoryDidSaveToken"
+public let OAuth2TokenRepositoryDidFailToSaveToken      = "OAuth2TokenRepositoryDidFailToSaveToken"
+public let OAuth2TokenRepositoryDidRemvoeToken          = "OAuth2TokenRepositoryDidRemvoeToken"
+public let OAuth2TokenRepositoryDidFailToRemvoeToken    = "OAuth2TokenRepositoryDidFailToRemvoeToken"
 
 /**
 Repository to contain OAuth2 tokens for reddit.com based on "KeychanAccess".
@@ -28,7 +32,6 @@ public class OAuth2TokenRepository {
         }
         catch {
             try! removeFromKeychainTokenWithName(name)
-            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil)
             return Result(error:error as NSError)
         }
     }
@@ -44,29 +47,32 @@ public class OAuth2TokenRepository {
         if token.name.isEmpty {
             throw ReddiftError.KeychainTargetNameIsEmpty.error
         }
-        
-        // save
         do {
             let data = try NSJSONSerialization.dataWithJSONObject(token.JSONObject(), options: NSJSONWritingOptions())
             let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
             try keychain.set(data, key:token.name)
             NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil)
         }
-        catch { throw error }
+        catch {
+            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidFailToSaveToken, object: nil);
+            throw error
+        }
     }
     
     public class func saveIntoKeychainToken(token:OAuth2Token, name:String) throws {
         if name.isEmpty {
             throw ReddiftError.KeychainTargetNameIsEmpty.error
         }
-        
         do {
             let data = try NSJSONSerialization.dataWithJSONObject(token.JSONObject(), options: NSJSONWritingOptions())
             let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
             try keychain.set(data, key:name)
             NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil);
         }
-        catch { throw error }
+        catch {
+            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidFailToSaveToken, object: nil);
+            throw error
+        }
     }
     
     public class func removeFromKeychainTokenWithName(name:String) throws {
@@ -76,7 +82,11 @@ public class OAuth2TokenRepository {
         do {
             let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
             try keychain.remove(name);
+            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidRemvoeToken, object: nil);
         }
-        catch { throw error }
+        catch {
+            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidFailToRemvoeToken, object: nil);
+            throw error
+        }
     }
 }

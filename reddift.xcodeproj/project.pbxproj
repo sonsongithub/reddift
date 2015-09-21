@@ -108,6 +108,10 @@
 		143427D41AF96AD5005D0E31 /* NSURLComponents+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D21AF96AD5005D0E31 /* NSURLComponents+reddift.swift */; };
 		143427D61AF98F13005D0E31 /* HttpStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D51AF98F13005D0E31 /* HttpStatus.swift */; };
 		143427D71AF98F13005D0E31 /* HttpStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D51AF98F13005D0E31 /* HttpStatus.swift */; };
+		14395C051BAF96E700726263 /* Session+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14395C041BAF96E700726263 /* Session+Token.swift */; settings = {ASSET_TAGS = (); }; };
+		14395C061BAF96EA00726263 /* Session+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14395C041BAF96E700726263 /* Session+Token.swift */; settings = {ASSET_TAGS = (); }; };
+		14395C071BAF96EA00726263 /* Session+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14395C041BAF96E700726263 /* Session+Token.swift */; settings = {ASSET_TAGS = (); }; };
+		14395C081BAF96EB00726263 /* Session+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14395C041BAF96E700726263 /* Session+Token.swift */; settings = {ASSET_TAGS = (); }; };
 		14447EC81B16234A004FB58E /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14447EC71B16234A004FB58E /* Token.swift */; };
 		14447EC91B16234A004FB58E /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14447EC71B16234A004FB58E /* Token.swift */; };
 		14447ECA1B16234A004FB58E /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14447EC71B16234A004FB58E /* Token.swift */; };
@@ -395,6 +399,7 @@
 		143427CF1AF96A64005D0E31 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		143427D21AF96AD5005D0E31 /* NSURLComponents+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLComponents+reddift.swift"; sourceTree = "<group>"; };
 		143427D51AF98F13005D0E31 /* HttpStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpStatus.swift; sourceTree = "<group>"; };
+		14395C041BAF96E700726263 /* Session+Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+Token.swift"; sourceTree = "<group>"; };
 		1440D4F91AE7C9D500211DAD /* create_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = create_token.json; sourceTree = "<group>"; };
 		1440D4FA1AE7C9D500211DAD /* refresh_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = refresh_token.json; sourceTree = "<group>"; };
 		1440D4FC1AE7C9D500211DAD /* comments.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = comments.json; sourceTree = "<group>"; };
@@ -790,6 +795,7 @@
 			isa = PBXGroup;
 			children = (
 				14B8DE1C1ADD721700237350 /* Session.swift */,
+				14395C041BAF96E700726263 /* Session+Token.swift */,
 				141B91B31B0A4F1D00A9E6A6 /* Session+account.swift */,
 				141B91B51B0A4F3000A9E6A6 /* Session+CAPTCHA.swift */,
 				141B91B71B0A4F4200A9E6A6 /* Session+flair.swift */,
@@ -1148,6 +1154,7 @@
 				141B91C41B0A4FD900A9E6A6 /* Session+misc.swift in Sources */,
 				141B91C81B0A4FF900A9E6A6 /* Session+multireddit.swift in Sources */,
 				141B91BC1B0A4F9B00A9E6A6 /* Session+links.swift in Sources */,
+				14395C051BAF96E700726263 /* Session+Token.swift in Sources */,
 				14B5EC401AF35C500065BC5E /* Session.swift in Sources */,
 				14F422611B01C84E00608939 /* Enum.swift in Sources */,
 				14B5EC1A1AF35BFF0065BC5E /* Oembed.swift in Sources */,
@@ -1166,6 +1173,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				141B91DF1B0A503400A9E6A6 /* Session+users.swift in Sources */,
+				14395C061BAF96EA00726263 /* Session+Token.swift in Sources */,
 				143427C91AF858D5005D0E31 /* OAuth2AppOnlyToken.swift in Sources */,
 				14B121721BAA5E7600238059 /* Dictionary+reddift.swift in Sources */,
 				14A352021B1BA392003239F8 /* ListingsTest.swift in Sources */,
@@ -1302,6 +1310,7 @@
 				141B91EB1B0A503400A9E6A6 /* Session+multireddit.swift in Sources */,
 				141B91E51B0A503400A9E6A6 /* Session+links.swift in Sources */,
 				14F812531AF9F6C1008F6F3C /* OAuth2Token.swift in Sources */,
+				14395C071BAF96EA00726263 /* Session+Token.swift in Sources */,
 				14F8124D1AF9F6BD008F6F3C /* Session+helper.swift in Sources */,
 				14F422631B01C84E00608939 /* Enum.swift in Sources */,
 				14F812341AF9F6B6008F6F3C /* Account.swift in Sources */,
@@ -1320,6 +1329,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				141B91FD1B0A503500A9E6A6 /* Session+users.swift in Sources */,
+				14395C081BAF96EB00726263 /* Session+Token.swift in Sources */,
 				14F812231AF9F6B1008F6F3C /* Result.swift in Sources */,
 				14B121711BAA5E7500238059 /* Dictionary+reddift.swift in Sources */,
 				14A352031B1BA392003239F8 /* ListingsTest.swift in Sources */,
