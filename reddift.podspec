@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "reddift"
-  s.version          = "1.3"
+  s.version          = "1.3.1"
   s.summary          = "Swift Reddit API Wrapper."
   s.description      = <<-DESC
                       reddift is Swift Reddit API Wrapper.

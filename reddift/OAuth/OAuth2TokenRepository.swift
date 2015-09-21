@@ -14,26 +14,21 @@ You can manage mulitple accounts using this class.
 OAuth2TokenRepository, is utility class, has only class method.
 */
 public class OAuth2TokenRepository {
-    /**
-    Restores OAuth2Token from Keychain.
     
-    - parameter name Specifies reddit username which was used hwne saving it into Keychain.
-    - 
-    */
-    public class func restoreFromKeychainWithName(name:String) -> Result<OAuth2Token> {
+    public class func restoreFromKeychainWithName(name:String) throws -> OAuth2Token {
         let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-        do {
-            if let data = try keychain.getData(name) {
+        if let data = try! keychain.getData(name) {
+            do {
                 if let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? [String:AnyObject] {
-                    return Result(value:OAuth2Token(json))
+                    return OAuth2Token(json)
                 }
+            } catch let error as NSError {
+                removeFromKeychainTokenWithName(name)
+                throw error
             }
-            return Result(error: ReddiftError.Unknown.error)
+            removeFromKeychainTokenWithName(name)
         }
-        catch {
-            try! removeFromKeychainTokenWithName(name)
-            return Result(error:error as NSError)
-        }
+        throw ReddiftError.TokenNotfound.error
     }
     
     public class func savedNamesInKeychain() -> [String] {
