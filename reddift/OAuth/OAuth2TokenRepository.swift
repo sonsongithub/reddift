@@ -20,6 +20,12 @@ You can manage mulitple accounts using this class.
 OAuth2TokenRepository, is utility class, has only class method.
 */
 public class OAuth2TokenRepository {
+    /**
+    Restores OAuth2Token from Keychain.
+    
+    - parameter name Specifies reddit username which was used hwne saving it into Keychain.
+    - 
+    */
     public class func restoreFromKeychainWithName(name:String) -> Result<OAuth2Token> {
         let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
         do {
