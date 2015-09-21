@@ -41,18 +41,21 @@ class UserContentViewController: UITableViewController {
         .flatMap { (token) -> String? in
             return token.name
         }) as String? {
-			session?.getUserContent(name, content:userContent, sort:.New, timeFilterWithin:.All, paginator:Paginator(), completion: { (result) -> Void in
-                switch result {
-                case .Failure:
-                    print(result.error)
-                case .Success(let listing):
-                    self.source += listing.children
-                    self.updateStrings()
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.tableView.reloadData()
-                    })
-                }
-            })
+            do {
+                try session?.getUserContent(name, content:userContent, sort:.New, timeFilterWithin:.All, paginator:Paginator(), completion: { (result) -> Void in
+                    switch result {
+                    case .Failure:
+                        print(result.error)
+                    case .Success(let listing):
+                        self.source += listing.children
+                        self.updateStrings()
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.tableView.reloadData()
+                        })
+                    }
+                })
+            }
+            catch { print(error) }
         }
     }
     

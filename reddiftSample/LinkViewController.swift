@@ -64,20 +64,23 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
                 return
             }
             loading = true
-			session?.getList(paginator, subreddit:subreddit, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.All, completion: { (result) in
-                switch result {
-                case .Failure:
-                    print(result.error)
-                case .Success(let listing):
-                    self.links += listing.children.flatMap({$0 as? Link})
-                    self.paginator = listing.paginator
-                    self.updateStrings()
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.tableView.reloadData()
-                        self.loading = false
-                    })
-                }
-            })
+            do {
+                try session?.getList(paginator, subreddit:subreddit, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.All, completion: { (result) in
+                    switch result {
+                    case .Failure:
+                        print(result.error)
+                    case .Success(let listing):
+                        self.links += listing.children.flatMap({$0 as? Link})
+                        self.paginator = listing.paginator
+                        self.updateStrings()
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.tableView.reloadData()
+                            self.loading = false
+                        })
+                    }
+                })
+            }
+            catch { print(error) }
         }
     }
     

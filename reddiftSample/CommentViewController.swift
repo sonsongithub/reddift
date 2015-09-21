@@ -172,26 +172,29 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         if let link = self.link {
-            session?.getArticles(link, sort:CommentSort.New, comments:nil, completion: { (result) -> Void in
-                switch result {
-                case .Failure(let error):
-                    print(error)
-                case .Success(let tuple):
-                    let listing = tuple.1
-                    
-                    var newComments:[Thing] = []
-                    for comment in listing.children.flatMap({$0 as? Comment}) {
-                        newComments += extendAllReplies(comment)
-                    }
-                    self.comments += newComments
-                    self.contents += self.updateStrings(newComments)
-                    self.paginator = listing.paginator
+            do {
+                try session?.getArticles(link, sort:CommentSort.New, comments:nil, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure(let error):
+                        print(error)
+                    case .Success(let tuple):
+                        let listing = tuple.1
+                        
+                        var newComments:[Thing] = []
+                        for comment in listing.children.flatMap({$0 as? Comment}) {
+                            newComments += extendAllReplies(comment)
+                        }
+                        self.comments += newComments
+                        self.contents += self.updateStrings(newComments)
+                        self.paginator = listing.paginator
 
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.tableView.reloadData()
-                    })
-                }
-            });
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.tableView.reloadData()
+                        })
+                    }
+                })
+            }
+            catch { print(error) }
         }
     }
 
