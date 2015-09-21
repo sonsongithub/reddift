@@ -23,10 +23,10 @@ public class OAuth2TokenRepository {
                     return OAuth2Token(json)
                 }
             } catch let error as NSError {
-                removeFromKeychainTokenWithName(name)
+                try! removeFromKeychainTokenWithName(name)
                 throw error
             }
-            removeFromKeychainTokenWithName(name)
+            try! removeFromKeychainTokenWithName(name)
         }
         throw ReddiftError.TokenNotfound.error
     }
