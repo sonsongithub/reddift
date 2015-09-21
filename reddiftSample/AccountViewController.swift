@@ -76,13 +76,11 @@ class AccountViewController: UITableViewController {
                 if let selectedIndexPath = tableView.indexPathForSelectedRow {
                     if names.indices ~= selectedIndexPath.row {
                         let name:String = names[selectedIndexPath.row]
-                        let result = OAuth2TokenRepository.restoreFromKeychainWithName(name)
-                        switch result {
-                        case .Failure(let error):
-                            print(error.description)
-                        case .Success(let token):
+                        do {
+                            let token:OAuth2Token = try OAuth2TokenRepository.restoreFromKeychainWithName(name)
                             con.session = Session(token: token)
                         }
+                        catch { print(error) }
                     }
                 }
             }
