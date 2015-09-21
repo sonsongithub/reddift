@@ -14,7 +14,12 @@ You can manage mulitple accounts using this class.
 OAuth2TokenRepository, is utility class, has only class method.
 */
 public class OAuth2TokenRepository {
+    /**
+    Restores token for OAuth2 from Keychain.
     
+    - parameter name: Specifies user name of token you want to restore from Keychain.
+    - returns: OAuth2Token object.
+    */
     public class func restoreFromKeychainWithName(name:String) throws -> OAuth2Token {
         let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
         if let data = try! keychain.getData(name) {
@@ -31,6 +36,11 @@ public class OAuth2TokenRepository {
         throw ReddiftError.TokenNotfound.error
     }
     
+    /**
+    Restores user name list from Keychain.
+    
+    - returns: List contains user names that was used to save tokens.
+    */
     public class func savedNamesInKeychain() -> [String] {
         var keys:[String] = []
         let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
@@ -38,6 +48,11 @@ public class OAuth2TokenRepository {
         return keys
     }
     
+    /**
+    
+    
+    
+    */
     public class func saveIntoKeychainToken(token:OAuth2Token) throws {
         if token.name.isEmpty {
             throw ReddiftError.KeychainTargetNameIsEmpty.error
