@@ -7,49 +7,61 @@ import reddift
 guard #available(iOS 9, OSX 10.10, *) else { abort() }
 
 func getCAPTCHA(session:Session) {
-    session.getCAPTCHA({ (result) -> Void in
-        switch result {
-        case .Failure(let error):
-            print(error)
-        case .Success(let captchaImage):
-            captchaImage
-        }
-    })
+    do {
+        try session.getCAPTCHA({ (result) -> Void in
+            switch result {
+            case .Failure(let error):
+                print(error)
+            case .Success(let captchaImage):
+                captchaImage
+            }
+        })
+    }
+    catch { print(error) }
 }
 
 func getReleated(session:Session) {
-    session.getDuplicatedArticles(Paginator(), thing: Link(id: "37lhsm")) { (result) -> Void in
-        switch result {
-        case .Failure(let error):
-            print(error)
-        case .Success(let listing1, let listing2):
-            listing1.children.flatMap { $0 as? Link }.forEach { print($0.title) }
-            listing2.children.flatMap { $0 as? Link }.forEach { print($0.title) }
+    do {
+        try session.getDuplicatedArticles(Paginator(), thing: Link(id: "37lhsm")) { (result) -> Void in
+            switch result {
+            case .Failure(let error):
+                print(error)
+            case .Success(let listing1, let listing2):
+                listing1.children.flatMap { $0 as? Link }.forEach { print($0.title) }
+                listing2.children.flatMap { $0 as? Link }.forEach { print($0.title) }
+            }
         }
     }
+    catch { print(error) }
 }
 
 func getProfile(session:Session) {
-    session.getUserProfile("sonson_twit", completion: { (result) -> Void in
-        switch result {
-        case .Failure(let error):
-            print(error)
-        case .Success(let account):
-            print(account.name)
-        }
-    })
+    do {
+        try session.getUserProfile("sonson_twit", completion: { (result) -> Void in
+            switch result {
+            case .Failure(let error):
+                print(error)
+            case .Success(let account):
+                print(account.name)
+            }
+        })
+    }
+    catch { print(error) }
 }
 
 func getLinksBy(session:Session) {
-    let links:[Link] = [Link(id: "37ow7j"), Link(id: "37nvgu")]
-    session.getLinksById(links, completion: { (result) -> Void in
-        switch result {
-        case .Failure(let error):
-            print(error)
-        case .Success(let listing):
-            listing.children.flatMap { $0 as? Link }.forEach { print($0.title) }
-        }
-    })
+    do {
+        let links:[Link] = [Link(id: "37ow7j"), Link(id: "37nvgu")]
+        try session.getLinksById(links, completion: { (result) -> Void in
+            switch result {
+            case .Failure(let error):
+                print(error)
+            case .Success(let listing):
+                listing.children.flatMap { $0 as? Link }.forEach { print($0.title) }
+            }
+        })
+    }
+    catch { print(error) }
 }
 
 func getAccountInfoFromJSON(json:[String:String]) -> (String, String, String, String)? {
@@ -80,13 +92,16 @@ if let values = (NSBundle.mainBundle().URLForResource("test_config.json", withEx
 }
 
 let anonymouseSession = Session()
-anonymouseSession.getList(Paginator(), subreddit: nil, sort: .Controversial, timeFilterWithin: .Week) { (result) -> Void in
-    switch result {
-    case .Failure(let error):
-        print(error)
-    case .Success(let listing):
-        listing.children.flatMap { $0 as? Link }.forEach { print($0.title) }
+do {
+    try anonymouseSession.getList(Paginator(), subreddit: nil, sort: .Controversial, timeFilterWithin: .Week) { (result) -> Void in
+        switch result {
+        case .Failure(let error):
+            print(error)
+        case .Success(let listing):
+            listing.children.flatMap { $0 as? Link }.forEach { print($0.title) }
+        }
     }
 }
+catch { print(error) }
 
 XCPSetExecutionShouldContinueIndefinitely()

@@ -150,12 +150,12 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getCAPTCHA(completion:(Result<CAPTCHAImage>) -> Void) -> Void {
+    public func getCAPTCHA(completion:(Result<CAPTCHAImage>) -> Void) throws -> Void {
         do {
             try getIdenForNewCAPTCHA { (result) -> Void in
                 switch result {
                 case .Failure(let error):
-                    print(error.description)
+                    completion(Result(error: error))
                 case .Success(let iden):
                     do {
                         try self.getCAPTCHA(iden, completion:completion)
