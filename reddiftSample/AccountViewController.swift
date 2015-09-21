@@ -60,12 +60,15 @@ class AccountViewController: UITableViewController {
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             if names.indices ~= indexPath.row {
-                let name:String = names[indexPath.row]
-                OAuth2TokenRepository.removeFromKeychainTokenWithName(name)
-                names.removeAtIndex(indexPath.row)
-                tableView.beginUpdates()
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-                tableView.endUpdates()
+                do {
+                    let name:String = names[indexPath.row]
+                    try OAuth2TokenRepository.removeFromKeychainTokenWithName(name)
+                    names.removeAtIndex(indexPath.row)
+                    tableView.beginUpdates()
+                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                    tableView.endUpdates()
+                }
+                catch { print(error) }
             }
         }
     }
@@ -79,7 +82,7 @@ class AccountViewController: UITableViewController {
                         let result = OAuth2TokenRepository.restoreFromKeychainWithName(name)
                         switch result {
                         case .Failure(let error):
-                            print(error.description)
+                            print(error)
                         case .Success(let token):
                             con.session = Session(token: token)
                         }

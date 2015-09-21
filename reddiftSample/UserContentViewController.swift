@@ -41,18 +41,21 @@ class UserContentViewController: UITableViewController {
         .flatMap { (token) -> String? in
             return token.name
         }) as String? {
-			session?.getUserContent(name, content:userContent, sort:.New, timeFilterWithin:.All, paginator:Paginator(), completion: { (result) -> Void in
-                switch result {
-                case .Failure:
-                    print(result.error)
-                case .Success(let listing):
-                    self.source += listing.children
-                    self.updateStrings()
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.tableView.reloadData()
-                    })
-                }
-            })
+            do {
+                try session?.getUserContent(name, content:userContent, sort:.New, timeFilterWithin:.All, paginator:Paginator(), completion: { (result) -> Void in
+                    switch result {
+                    case .Failure:
+                        print(result.error)
+                    case .Success(let listing):
+                        self.source += listing.children
+                        self.updateStrings()
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.tableView.reloadData()
+                        })
+                    }
+                })
+            }
+            catch { print(error) }
         }
     }
     
@@ -73,24 +76,27 @@ class UserContentViewController: UITableViewController {
         if source.indices ~= indexPath.row {
             let obj = source[indexPath.row]
             if let comment = obj as? Comment {
-                session?.getInfo([comment.linkId], completion: { (result) -> Void in
-                    switch result {
-                    case .Failure:
-                        print(result.error)
-                    case .Success(let listing):
-                        if listing.children.count == 1 {
-                            if let link = listing.children[0] as? Link {
-                                if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{
-                                    vc.session = self.session
-                                    vc.link = link
-                                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                        self.navigationController?.pushViewController(vc, animated: true)
-                                    })
+                do {
+                    try session?.getInfo([comment.linkId], completion: { (result) -> Void in
+                        switch result {
+                        case .Failure:
+                            print(result.error)
+                        case .Success(let listing):
+                            if listing.children.count == 1 {
+                                if let link = listing.children[0] as? Link {
+                                    if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{
+                                        vc.session = self.session
+                                        vc.link = link
+                                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                            self.navigationController?.pushViewController(vc, animated: true)
+                                        })
+                                    }
                                 }
                             }
                         }
-                    }
-                })
+                    })
+                }
+                catch { print(error) }
             }
             else if let link = obj as? Link {
                 if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{

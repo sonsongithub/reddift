@@ -34,40 +34,46 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     
     func vote(direction:VoteDirection) {
         if let link = self.link {
-            session?.setVote(direction, name: link.name, completion: { (result) -> Void in
-                switch result {
-                case .Failure(let error):
-                    print(error)
-                case .Success(let check):
-                    print(check)
-                }
-            })
+            do {
+                try session?.setVote(direction, name: link.name, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure(let error):
+                        print(error)
+                    case .Success(let check):
+                        print(check)
+                    }
+                })
+            } catch { print(error) }
         }
     }
     
     func save(save:Bool) {
         if let link = self.link {
-            session?.setSave(save, name: link.name, completion: { (result) -> Void in
-                switch result {
-                case .Failure(let error):
-                    print(error)
-                case .Success(let check):
-                    print(check)
-                }
-            })
+            do {
+                try session?.setSave(save, name: link.name, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure(let error):
+                        print(error)
+                    case .Success(let check):
+                        print(check)
+                    }
+                })
+            } catch { print(error) }
         }
     }
     
     func hide(hide:Bool) {
         if let link = self.link {
-            session?.setHide(hide, name: link.name, completion: { (result) -> Void in
-                switch result {
-                case .Failure(let error):
-                    print(error)
-                case .Success(let check):
-                    print(check)
-                }
-            })
+            do {
+                try session?.setHide(hide, name: link.name, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure(let error):
+                        print(error)
+                    case .Success(let check):
+                        print(check)
+                    }
+                })
+            } catch { print(error) }
         }
     }
     
@@ -166,26 +172,29 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         if let link = self.link {
-            session?.getArticles(link, sort:CommentSort.New, comments:nil, completion: { (result) -> Void in
-                switch result {
-                case .Failure(let error):
-                    print(error)
-                case .Success(let tuple):
-                    let listing = tuple.1
-                    
-                    var newComments:[Thing] = []
-                    for comment in listing.children.flatMap({$0 as? Comment}) {
-                        newComments += extendAllReplies(comment)
-                    }
-                    self.comments += newComments
-                    self.contents += self.updateStrings(newComments)
-                    self.paginator = listing.paginator
+            do {
+                try session?.getArticles(link, sort:CommentSort.New, comments:nil, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure(let error):
+                        print(error)
+                    case .Success(let tuple):
+                        let listing = tuple.1
+                        
+                        var newComments:[Thing] = []
+                        for comment in listing.children.flatMap({$0 as? Comment}) {
+                            newComments += extendAllReplies(comment)
+                        }
+                        self.comments += newComments
+                        self.contents += self.updateStrings(newComments)
+                        self.paginator = listing.paginator
 
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.tableView.reloadData()
-                    })
-                }
-            });
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.tableView.reloadData()
+                        })
+                    }
+                })
+            }
+            catch { print(error) }
         }
     }
 
@@ -225,14 +234,16 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if comments.indices ~= indexPath.row {
             if let more = comments[indexPath.row] as? More, link = self.link {
                 print(more)
-                session?.getMoreChildren(more.children, link:link, sort:CommentSort.New, completion:{ (result) -> Void in
-                    switch result {
-                    case .Failure(let error):
-                        print(error)
-                    case .Success(let redditAny):
-                        print(redditAny)
-                    }
-                });
+                do {
+                    try session?.getMoreChildren(more.children, link:link, sort:CommentSort.New, completion:{ (result) -> Void in
+                        switch result {
+                        case .Failure(let error):
+                            print(error)
+                        case .Success(let redditAny):
+                            print(redditAny)
+                        }
+                    })
+                } catch { print(error) }
             }
         }
     }

@@ -40,7 +40,7 @@ class SessionTestSpec : XCTestCase {
                 let clientID = json["client_id"],
                 let secret = json["secret"] {
                 let documentOpenExpectation = self.expectationWithDescription("Test : Getting OAuth2 access token")
-                OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:( { (result) -> Void in
+                try! OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:( { (result) -> Void in
                     switch result {
                     case .Failure:
                         XCTFail("Could not get access token from reddit.com.")

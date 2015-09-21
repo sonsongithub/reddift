@@ -65,8 +65,8 @@ public struct OAuth2AppOnlyToken : Token {
     - parameter code: The code which is obtained from OAuth2 redict URL at reddit.com.
     - returns: NSMutableURLRequest object to request your access token.
     */
-    public static func requestForOAuth2AppOnly(username username:String, password:String, clientID:String, secret:String) -> NSMutableURLRequest {
-        let URL = NSURL(string: "https://ssl.reddit.com/api/v1/access_token")!
+    public static func requestForOAuth2AppOnly(username username:String, password:String, clientID:String, secret:String) -> NSMutableURLRequest? {
+        guard let URL = NSURL(string: "https://ssl.reddit.com/api/v1/access_token") else { return nil }
         let request = NSMutableURLRequest(URL:URL)
         request.setRedditBasicAuthentication(username:clientID, password:secret)
         let param = "grant_type=password&username=" + username + "&password=" + password
@@ -83,9 +83,10 @@ public struct OAuth2AppOnlyToken : Token {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public static func getOAuth2AppOnlyToken(username username:String, password:String, clientID:String, secret:String, completion:(Result<Token>)->Void) -> NSURLSessionDataTask? {
+    public static func getOAuth2AppOnlyToken(username username:String, password:String, clientID:String, secret:String, completion:(Result<Token>)->Void) throws -> NSURLSessionDataTask {
         let session:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        let request = requestForOAuth2AppOnly(username:username, password:password, clientID:clientID, secret:secret)
+        guard let request = requestForOAuth2AppOnly(username:username, password:password, clientID:clientID, secret:secret)
+            else { throw ReddiftError.URLError.error }
         let task = session.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)

@@ -17,18 +17,20 @@ class MessageViewController: UITableViewController {
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
 		self.title = messageWhere.description
-		
-		session?.getMessage(messageWhere, completion: { (result) -> Void in
-            switch result {
-            case .Failure(let error):
-                print(error)
-            case .Success(let listing):
-                    self.messages += listing.children
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.tableView.reloadData()
-                    })
-            }
-		})
+        do {
+            try session?.getMessage(messageWhere, completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let listing):
+                        self.messages += listing.children
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.tableView.reloadData()
+                        })
+                }
+            })
+        }
+        catch { print(error) }
 	}
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {

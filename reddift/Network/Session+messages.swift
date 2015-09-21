@@ -20,8 +20,9 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getMessage(messageWhere:MessageWhere, limit:Int = 100, completion:(Result<Listing>) -> Void) -> NSURLSessionDataTask? {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/message" + messageWhere.path, method:"GET", token:token) else { return nil }
+    public func getMessage(messageWhere:MessageWhere, limit:Int = 100, completion:(Result<Listing>) -> Void) throws -> NSURLSessionDataTask {
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
@@ -47,19 +48,18 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func composeMessage(to:Account, subject:String, text:String, fromSubreddit:Subreddit, captcha:String, captchaIden:String, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask? {
-        var parameter:[String:String] = [:]
-        
-        parameter["api_type"] = "json"
-        parameter["captcha"] = captcha
-        parameter["iden"] = captchaIden
-        
-        parameter["from_sr"] = fromSubreddit.displayName
-        parameter["text"] = text
-        parameter["subject"] = subject
-        parameter["to"] = to.id
-        
-        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token) else { return nil }
+    public func composeMessage(to:Account, subject:String, text:String, fromSubreddit:Subreddit, captcha:String, captchaIden:String, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+        let parameter:[String:String] = [
+            "api_type" : "json",
+            "captcha" : captcha,
+            "iden" : captchaIden,
+            "from_sr" : fromSubreddit.displayName,
+            "text" : text,
+            "subject" : subject,
+            "to" : to.id
+        ]
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
+            else { throw ReddiftError.URLError.error }
         return handleAsJSONRequest(request, completion:completion)
     }
 }

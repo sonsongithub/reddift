@@ -30,23 +30,26 @@ class SearchSubredditsViewController: BaseSubredditsViewController {
         }
         
         previousQuery = query
-        session?.getSubredditSearch(query, paginator: paginator, completion: { (result) -> Void in
-            self.loading = false
-            switch result {
-            case .Failure:
-                print(result.error)
-            case .Success(let listing):
-                for obj in listing.children {
-                    if let subreddit = obj as? Subreddit {
-                        self.subreddits.append(subreddit)
+        do {
+            try session?.getSubredditSearch(query, paginator: paginator, completion: { (result) -> Void in
+                self.loading = false
+                switch result {
+                case .Failure:
+                    print(result.error)
+                case .Success(let listing):
+                    for obj in listing.children {
+                        if let subreddit = obj as? Subreddit {
+                            self.subreddits.append(subreddit)
+                        }
                     }
+                    self.paginator = listing.paginator
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.tableView.reloadData()
+                    })
                 }
-                self.paginator = listing.paginator
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.tableView.reloadData()
-                })
-            }
-        })
+            })
+        }
+        catch { print(error) }
     }
     
     func reload() {
