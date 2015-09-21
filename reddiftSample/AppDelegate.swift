@@ -9,6 +9,11 @@
 import Foundation
 import reddift
 
+/// Posted when the OAuth2TokenRepository object succeed in saving a token successfully into Keychain.
+public let OAuth2TokenRepositoryDidSaveToken            = "OAuth2TokenRepositoryDidSaveToken"
+/// Posted when the OAuth2TokenRepository object failed to save a token successfully into Keychain.
+public let OAuth2TokenRepositoryDidFailToSaveToken      = "OAuth2TokenRepositoryDidFailToSaveToken"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -23,8 +28,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     do {
                         try OAuth2TokenRepository.saveIntoKeychainToken(token, name:token.name)
+                        NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil, userInfo: nil)
                     }
-                    catch { print(error) }
+                    catch {
+                        NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidFailToSaveToken, object: nil, userInfo: nil)
+                        print(error)
+                    }
                 })
             }
         })

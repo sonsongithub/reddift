@@ -8,12 +8,6 @@
 
 import Foundation
 
-/// Posted when the OAuth2TokenRepository object succeed in saving a token successfully into Keychain.
-public let OAuth2TokenRepositoryDidSaveToken            = "OAuth2TokenRepositoryDidSaveToken"
-public let OAuth2TokenRepositoryDidFailToSaveToken      = "OAuth2TokenRepositoryDidFailToSaveToken"
-public let OAuth2TokenRepositoryDidRemvoeToken          = "OAuth2TokenRepositoryDidRemvoeToken"
-public let OAuth2TokenRepositoryDidFailToRemvoeToken    = "OAuth2TokenRepositoryDidFailToRemvoeToken"
-
 /**
 Repository to contain OAuth2 tokens for reddit.com based on "KeychanAccess".
 You can manage mulitple accounts using this class.
@@ -57,10 +51,8 @@ public class OAuth2TokenRepository {
             let data = try NSJSONSerialization.dataWithJSONObject(token.JSONObject(), options: NSJSONWritingOptions())
             let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
             try keychain.set(data, key:token.name)
-            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil)
         }
         catch {
-            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidFailToSaveToken, object: nil);
             throw error
         }
     }
@@ -73,10 +65,8 @@ public class OAuth2TokenRepository {
             let data = try NSJSONSerialization.dataWithJSONObject(token.JSONObject(), options: NSJSONWritingOptions())
             let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
             try keychain.set(data, key:name)
-            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil);
         }
         catch {
-            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidFailToSaveToken, object: nil);
             throw error
         }
     }
@@ -88,10 +78,8 @@ public class OAuth2TokenRepository {
         do {
             let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
             try keychain.remove(name);
-            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidRemvoeToken, object: nil);
         }
         catch {
-            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidFailToRemvoeToken, object: nil);
             throw error
         }
     }
