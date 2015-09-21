@@ -8,7 +8,7 @@
 
 import Foundation
 
-public let OAuth2TokenRepositoryDidSaveToken = "OAuth2TokenRepositoryDidSaveToken"
+@available(*, deprecated) public let OAuth2TokenRepositoryDidSaveToken = "OAuth2TokenRepositoryDidSaveToken"
 
 /**
 Repository to contain OAuth2 tokens for reddit.com based on "KeychanAccess".
