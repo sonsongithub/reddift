@@ -36,22 +36,6 @@ public class OAuth2TokenRepository {
         return Result(error:ReddiftError.TokenNotfound.error)
     }
     
-    public class func restoreFromKeychainWithName(name:String) throws -> OAuth2Token {
-        let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-        if let data = try! keychain.getData(name) {
-            do {
-                if let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? [String:AnyObject] {
-                    return OAuth2Token(json)
-                }
-            } catch let error as NSError {
-                removeFromKeychainTokenWithName(name)
-                throw error
-            }
-            removeFromKeychainTokenWithName(name)
-        }
-        throw ReddiftError.TokenNotfound.error
-    }
-    
     public class func savedNamesInKeychain() -> [String] {
         var keys:[String] = []
         let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
