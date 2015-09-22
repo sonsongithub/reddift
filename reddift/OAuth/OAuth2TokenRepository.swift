@@ -49,9 +49,9 @@ public class OAuth2TokenRepository {
     }
     
     /**
+    Saves OAuth2 token object into Keychain.
     
-    
-    
+    - parameter token: OAuth2Token object, that must have valid user name which is used to save it into Keychain.
     */
     public class func saveIntoKeychainToken(token:OAuth2Token) throws {
         if token.name.isEmpty {
@@ -67,6 +67,12 @@ public class OAuth2TokenRepository {
         }
     }
     
+    /**
+    Saves OAuth2 token object into Keychain.
+    
+    - parameter token: OAuth2Token object.
+    - parameter name: Valid user name which is used to save it into Keychain.
+    */
     public class func saveIntoKeychainToken(token:OAuth2Token, name:String) throws {
         if name.isEmpty {
             throw ReddiftError.KeychainTargetNameIsEmpty.error
@@ -81,6 +87,11 @@ public class OAuth2TokenRepository {
         }
     }
     
+    /**
+    Removes OAuth2 token whose user name is specified by the name parmeter from Keychain.
+    
+    - parameter name: Valid user name which is used to save it into Keychain.
+    */
     public class func removeFromKeychainTokenWithName(name:String) throws {
         if name.isEmpty {
             throw ReddiftError.KeychainTargetNameIsEmpty.error
