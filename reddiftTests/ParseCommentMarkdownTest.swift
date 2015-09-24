@@ -31,7 +31,8 @@ class ParseCommentMarkdownTest: XCTestCase {
                         print(body)
                     }
                     if let source = dict["source"] as? String {
-                        source.simpleRedditMarkdownParse()
+                        let a:NSAttributedString = source.simpleRedditMarkdownParse()
+//                        a.enumerateAttribute(<#T##attrName: String##String#>, inRange: <#T##NSRange#>, options: <#T##NSAttributedStringEnumerationOptions#>, usingBlock: <#T##(AnyObject?, NSRange, UnsafeMutablePointer<ObjCBool>) -> Void#>)
                     }
                     if let attr = dict["attr"] as? [AnyObject] {
                         attr.forEach({(item) -> () in

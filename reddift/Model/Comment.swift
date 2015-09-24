@@ -8,6 +8,12 @@
 
 import Foundation
 
+#if os(iOS)
+    import UIKit
+#elseif os(OSX)
+    import Cocoa
+#endif
+
 private let regex = try! NSRegularExpression(pattern: "(\\n{0,1}\\s*\\*\\s)|(~~([^\\s]+?)~~)|(\\*\\*([^\\s^\\*]+?)\\*\\*)|(\\*([^\\s^\\*]+?)\\*)|(\\[(.+)\\]\\(([%!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)\\))|(\\^([^\\s\\^]+))|(https{0,1}://[%!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)", options: NSRegularExpressionOptions.CaseInsensitive)
 
 private enum Attribute {
@@ -19,7 +25,7 @@ private enum Attribute {
 }
 
 extension String {
-    func simpleRedditMarkdownParse() -> String {
+    func simpleRedditMarkdownParse() -> NSMutableAttributedString {
         let casted = self as NSString
         let copied:NSMutableString = (self as NSString).mutableCopy() as! NSMutableString
         
@@ -134,9 +140,45 @@ extension String {
             buf.appendContentsOf(copied.substringWithRange(r0))
         }
         
-        attrs.forEach { print($0) }
+//        attrs.forEach { print($0) }
         
-        return buf as String
+//        let bold =
+//        UIFont
+        
+        var output = NSMutableAttributedString(string: buf)
+        
+        
+//        return [[NSFontManager sharedFontManager] convertFont:normalFont toHaveTrait:NSItalicFontMask];
+//        output.addAttribute(NSFontAttributeName, value: NSFont, range: NSMakeRange(loc, len))
+        
+        attrs.forEach {
+            switch $0 {
+            case .Link(let link, let loc, let len):
+                output.addAttribute(NSLinkAttributeName, value: link, range: NSMakeRange(loc, len))
+                print(link)
+            case .Bold(let loc, let len):
+#if os(iOS)
+                output.addAttribute(NSFontAttributeName, value: UIFont.boldSystemFontOfSize(14), range: NSMakeRange(loc, len))
+#elseif os(OSX)
+                output.addAttribute(NSFontAttributeName, value: NSFont.boldSystemFontOfSize(14), range: NSMakeRange(loc, len))
+#endif
+            case .Italic(let loc, let len):
+#if os(iOS)
+                output.addAttribute(NSFontAttributeName, value: UIFont.italicSystemFontOfSize(14), range: NSMakeRange(loc, len))
+#elseif os(OSX)
+                let font = NSFont.systemFontOfSize(14)
+                let italic = NSFontManager.sharedFontManager().convertFont(font, toHaveTrait:NSFontTraitMask.ItalicFontMask)
+                output.addAttribute(NSFontAttributeName, value: italic, range: NSMakeRange(loc, len))
+#endif
+            case .Superscript(let loc, let len):
+                output.addAttribute(NSBaselineOffsetAttributeName, value:10, range: NSMakeRange(loc, len))
+            case .Strike(let loc, let len):
+                output.addAttribute(NSStrikethroughStyleAttributeName, value:NSUnderlineStyle.PatternSolid.rawValue, range: NSMakeRange(loc, len))
+            }
+        }
+//        output.addAttribute(<#T##name: String##String#>, value: <#T##AnyObject#>, range: <#T##NSRange#>)
+        
+        return output
     }
 }
 
