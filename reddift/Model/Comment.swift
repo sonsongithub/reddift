@@ -8,6 +8,138 @@
 
 import Foundation
 
+private let regex = try! NSRegularExpression(pattern: "(\\n{0,1}\\s*\\*\\s)|(~~([^\\s]+?)~~)|(\\*\\*([^\\s^\\*]+?)\\*\\*)|(\\*([^\\s^\\*]+?)\\*)|(\\[(.+)\\]\\(([%!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)\\))|(\\^([^\\s\\^]+))|(https{0,1}://[%!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)", options: NSRegularExpressionOptions.CaseInsensitive)
+
+private enum Attribute {
+    case Link(String, Int, Int)
+    case Bold(Int, Int)
+    case Italic(Int, Int)
+    case Superscript(Int, Int)
+    case Strike(Int, Int)
+}
+
+extension String {
+    func simpleRedditMarkdownParse() -> String {
+        let casted = self as NSString
+        let copied:NSMutableString = (self as NSString).mutableCopy() as! NSMutableString
+        
+        
+        let results = regex.matchesInString(self, options: NSMatchingOptions(), range:NSMakeRange(0, casted.length))
+        
+        var buf = ""
+        var pointer = 0
+        
+        var attrs = [Attribute]()
+        
+        results.forEach { (result) -> () in
+            if result.rangeAtIndex(1).length > 0 {
+                if result.rangeAtIndex(1).location - pointer > 0 {
+                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(1).location - pointer)
+                    buf.appendContentsOf(copied.substringWithRange(r0))
+                }
+                buf.appendContentsOf("\n・")
+                pointer = (result.rangeAtIndex(1).location + result.rangeAtIndex(1).length)
+            }
+            if result.rangeAtIndex(2).length > 0 {
+                if result.rangeAtIndex(2).location - pointer > 0 {
+                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(2).location - pointer)
+                    buf.appendContentsOf(copied.substringWithRange(r0))
+                }
+                // ~~ ~~
+                let r2 = NSMakeRange(result.rangeAtIndex(3).location, result.rangeAtIndex(3).length)
+                let sub = copied.substringWithRange(r2)
+                buf.appendContentsOf(sub)
+                
+                attrs.append(Attribute.Strike(buf.characters.count - sub.characters.count, sub.characters.count))
+                
+                pointer = (result.rangeAtIndex(2).location + result.rangeAtIndex(2).length)
+            }
+            if result.rangeAtIndex(4).length > 0 {
+                if result.rangeAtIndex(4).location - pointer > 0 {
+                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(4).location - pointer)
+                    buf.appendContentsOf(copied.substringWithRange(r0))
+                }
+                // * *
+                let r2 = NSMakeRange(result.rangeAtIndex(5).location, result.rangeAtIndex(5).length)
+                let sub = copied.substringWithRange(r2)
+                buf.appendContentsOf(sub)
+                
+                attrs.append(Attribute.Bold(buf.characters.count - result.rangeAtIndex(5).length, result.rangeAtIndex(5).length))
+                
+                pointer = (result.rangeAtIndex(4).location + result.rangeAtIndex(4).length)
+            }
+            if result.rangeAtIndex(6).length > 0 {
+                if result.rangeAtIndex(6).location - pointer > 0 {
+                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(6).location - pointer)
+                    buf.appendContentsOf(copied.substringWithRange(r0))
+                }
+                // * *
+                let r2 = NSMakeRange(result.rangeAtIndex(7).location, result.rangeAtIndex(7).length)
+                let sub = copied.substringWithRange(r2)
+                buf.appendContentsOf(sub)
+                
+                attrs.append(Attribute.Italic(buf.characters.count - result.rangeAtIndex(7).length, result.rangeAtIndex(7).length))
+                
+                pointer = (result.rangeAtIndex(6).location + result.rangeAtIndex(6).length)
+            }
+            if result.rangeAtIndex(8).length > 0 {
+                if result.rangeAtIndex(8).location - pointer > 0 {
+                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(8).location - pointer)
+                    buf.appendContentsOf(copied.substringWithRange(r0))
+                }
+                let rangeOfTitle = NSMakeRange(result.rangeAtIndex(9).location, result.rangeAtIndex(9).length)
+                let rangeOfLink = NSMakeRange(result.rangeAtIndex(10).location, result.rangeAtIndex(10).length)
+                let title = copied.substringWithRange(rangeOfTitle)
+                let url = copied.substringWithRange(rangeOfLink)
+                
+                buf.appendContentsOf(title)
+                
+                attrs.append(Attribute.Link(url, buf.characters.count - title.characters.count, title.characters.count))
+                
+                pointer = (result.rangeAtIndex(8).location + result.rangeAtIndex(8).length)
+            }
+            if result.rangeAtIndex(11).length > 0 {
+                if result.rangeAtIndex(11).location - pointer > 0 {
+                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(11).location - pointer)
+                    buf.appendContentsOf(copied.substringWithRange(r0))
+                }
+                // ^
+                let r2 = NSMakeRange(result.rangeAtIndex(12).location, result.rangeAtIndex(12).length)
+                let sub = copied.substringWithRange(r2)
+                
+                buf.appendContentsOf(sub)
+                
+                attrs.append(Attribute.Superscript(buf.characters.count - sub.characters.count, sub.characters.count))
+                
+                pointer = (result.rangeAtIndex(11).location + result.rangeAtIndex(11).length)
+            }
+            if result.rangeAtIndex(13).length > 0 {
+                if result.rangeAtIndex(13).location - pointer > 0 {
+                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(13).location - pointer)
+                    buf.appendContentsOf(copied.substringWithRange(r0))
+                }
+                // ^
+                let r2 = NSMakeRange(result.rangeAtIndex(13).location, result.rangeAtIndex(13).length)
+                let sub = copied.substringWithRange(r2)
+                buf.appendContentsOf(sub)
+                
+                attrs.append(Attribute.Link(sub, buf.characters.count - sub.characters.count, sub.characters.count))
+                
+                pointer = (result.rangeAtIndex(13).location + result.rangeAtIndex(13).length)
+            }
+        }
+        
+        if copied.length - pointer > 0 {
+            let r0 = NSMakeRange(pointer, copied.length - pointer)
+            buf.appendContentsOf(copied.substringWithRange(r0))
+        }
+        
+        attrs.forEach { print($0) }
+        
+        return buf as String
+    }
+}
+
 /**
 Expand child comments which are included in Comment objects, recursively.
 

@@ -108,6 +108,10 @@
 		143427D41AF96AD5005D0E31 /* NSURLComponents+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D21AF96AD5005D0E31 /* NSURLComponents+reddift.swift */; };
 		143427D61AF98F13005D0E31 /* HttpStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D51AF98F13005D0E31 /* HttpStatus.swift */; };
 		143427D71AF98F13005D0E31 /* HttpStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D51AF98F13005D0E31 /* HttpStatus.swift */; };
+		14375DD81BB40273007DF229 /* ParseCommentMarkdownTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14375DD71BB40273007DF229 /* ParseCommentMarkdownTest.swift */; settings = {ASSET_TAGS = (); }; };
+		14375DD91BB40273007DF229 /* ParseCommentMarkdownTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14375DD71BB40273007DF229 /* ParseCommentMarkdownTest.swift */; settings = {ASSET_TAGS = (); }; };
+		14375DDD1BB40284007DF229 /* comment_parse_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 14375DDB1BB40280007DF229 /* comment_parse_data.json */; settings = {ASSET_TAGS = (); }; };
+		14375DDE1BB40285007DF229 /* comment_parse_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 14375DDB1BB40280007DF229 /* comment_parse_data.json */; settings = {ASSET_TAGS = (); }; };
 		14395C051BAF96E700726263 /* Session+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14395C041BAF96E700726263 /* Session+Token.swift */; settings = {ASSET_TAGS = (); }; };
 		14395C061BAF96EA00726263 /* Session+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14395C041BAF96E700726263 /* Session+Token.swift */; settings = {ASSET_TAGS = (); }; };
 		14395C071BAF96EA00726263 /* Session+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14395C041BAF96E700726263 /* Session+Token.swift */; settings = {ASSET_TAGS = (); }; };
@@ -400,6 +404,8 @@
 		143427CF1AF96A64005D0E31 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		143427D21AF96AD5005D0E31 /* NSURLComponents+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLComponents+reddift.swift"; sourceTree = "<group>"; };
 		143427D51AF98F13005D0E31 /* HttpStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpStatus.swift; sourceTree = "<group>"; };
+		14375DD71BB40273007DF229 /* ParseCommentMarkdownTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseCommentMarkdownTest.swift; sourceTree = "<group>"; };
+		14375DDB1BB40280007DF229 /* comment_parse_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = comment_parse_data.json; sourceTree = "<group>"; };
 		14395C041BAF96E700726263 /* Session+Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+Token.swift"; sourceTree = "<group>"; };
 		1440D4F91AE7C9D500211DAD /* create_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = create_token.json; sourceTree = "<group>"; };
 		1440D4FA1AE7C9D500211DAD /* refresh_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = refresh_token.json; sourceTree = "<group>"; };
@@ -531,6 +537,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		14375DDA1BB40280007DF229 /* comment */ = {
+			isa = PBXGroup;
+			children = (
+				14375DDB1BB40280007DF229 /* comment_parse_data.json */,
+			);
+			path = comment;
+			sourceTree = "<group>";
+		};
 		1440D4F81AE7C9D500211DAD /* other */ = {
 			isa = PBXGroup;
 			children = (
@@ -646,6 +660,7 @@
 				1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */,
 				1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */,
 				140CC3FA1AFCB20A00E9CBB5 /* ExtendCommentsTest.swift */,
+				14375DD71BB40273007DF229 /* ParseCommentMarkdownTest.swift */,
 			);
 			name = Unit;
 			sourceTree = "<group>";
@@ -844,6 +859,7 @@
 		14BEDDFF1AE454C4004F7860 /* data */ = {
 			isa = PBXGroup;
 			children = (
+				14375DDA1BB40280007DF229 /* comment */,
 				1440D4F81AE7C9D500211DAD /* other */,
 				1440D4FB1AE7C9D500211DAD /* response */,
 				1440D5011AE7C9D500211DAD /* thing */,
@@ -1048,6 +1064,7 @@
 				140126A01B0AF001003CA6C1 /* multi.json in Resources */,
 				140126AC1B0B0EF7003CA6C1 /* api_new_captcha.json in Resources */,
 				148142401B0F0C5300DE4F88 /* LabeledMultiDescription.json in Resources */,
+				14375DDD1BB40284007DF229 /* comment_parse_data.json in Resources */,
 				14B5EC681AF4B9F00065BC5E /* links.json in Resources */,
 				14B5EC651AF4B9F00065BC5E /* comments_extend.json in Resources */,
 				14A94CFE1B10727500EDB844 /* multidesc.json in Resources */,
@@ -1100,6 +1117,7 @@
 				140126A21B0AF001003CA6C1 /* multi.json in Resources */,
 				140126AD1B0B0EF7003CA6C1 /* api_new_captcha.json in Resources */,
 				148142411B0F0C5300DE4F88 /* LabeledMultiDescription.json in Resources */,
+				14375DDE1BB40285007DF229 /* comment_parse_data.json in Resources */,
 				14F812661AFA07C5008F6F3C /* links.json in Resources */,
 				14F812631AFA07C5008F6F3C /* comments_extend.json in Resources */,
 				14A94D011B10727B00EDB844 /* multidesc.json in Resources */,
@@ -1216,6 +1234,7 @@
 				14B5EC431AF35C560065BC5E /* OAuth2Token.swift in Sources */,
 				14B5EC2C1AF35BFF0065BC5E /* More.swift in Sources */,
 				14E72CAE1B75F20300D4229D /* SessionNoAuthTestSpec.swift in Sources */,
+				14375DD81BB40273007DF229 /* ParseCommentMarkdownTest.swift in Sources */,
 				141B91DD1B0A503400A9E6A6 /* Session+search.swift in Sources */,
 				14A352081B1BA62F003239F8 /* UsersTest.swift in Sources */,
 				14B5EC611AF4B9D60065BC5E /* ParseResponseObjectTest.swift in Sources */,
@@ -1372,6 +1391,7 @@
 				14F8123C1AF9F6B6008F6F3C /* MediaEmbed.swift in Sources */,
 				141B91FB1B0A503500A9E6A6 /* Session+search.swift in Sources */,
 				14E72CAF1B75F20300D4229D /* SessionNoAuthTestSpec.swift in Sources */,
+				14375DD91BB40273007DF229 /* ParseCommentMarkdownTest.swift in Sources */,
 				141B91F11B0A503500A9E6A6 /* Session+CAPTCHA.swift in Sources */,
 				14A352091B1BA62F003239F8 /* UsersTest.swift in Sources */,
 				141B91FA1B0A503500A9E6A6 /* Session+multireddit.swift in Sources */,
