@@ -20,8 +20,14 @@ class ParseCommentMarkdownTest: XCTestCase {
         super.tearDown()
     }
     
-    func testPerformanceExample() {
-        
+    func testParserCommentMarkdown() {
+        let typeDict:[String:String] = [
+            "link": NSLinkAttributeName,
+            "bold": NSFontAttributeName,
+            "italic": NSFontAttributeName,
+            "superscript": NSBaselineOffsetAttributeName,
+            "strike": NSStrikethroughStyleAttributeName
+        ]
         
         if let array = self.json as? [AnyObject] {
             array.forEach({ (testData) -> () in
@@ -30,15 +36,19 @@ class ParseCommentMarkdownTest: XCTestCase {
                     if let body = dict["body"] as? String {
                         print(body)
                     }
-                    if let source = dict["source"] as? String {
+                    if let source = dict["source"] as? String, let attr = dict["attr"] as? [AnyObject] {
+                        print(dict)
                         let a:NSAttributedString = source.simpleRedditMarkdownParse()
-//                        a.enumerateAttribute(<#T##attrName: String##String#>, inRange: <#T##NSRange#>, options: <#T##NSAttributedStringEnumerationOptions#>, usingBlock: <#T##(AnyObject?, NSRange, UnsafeMutablePointer<ObjCBool>) -> Void#>)
-                    }
-                    if let attr = dict["attr"] as? [AnyObject] {
                         attr.forEach({(item) -> () in
-                            if let item = item as? [String:AnyObject] {
-                                print(item["location"],item["length"])
+                            var check = false
+                            if let item = item as? [String:AnyObject], let type = item["type"] as? String, let name = typeDict[type] {
+                                if let location = item["location"] as? Int, let length = item["length"] as? Int {
+                                    a.enumerateAttribute(name, inRange: NSMakeRange(location - 1, length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
+                                        check = (value != nil && (location - 1) == range.location && length == range.length)
+                                    })
+                                }
                             }
+                            XCTAssert(check == true)
                         })
                     }
                 }
