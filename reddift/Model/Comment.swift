@@ -25,7 +25,16 @@ extension NSFont {
 }
 #endif
 
-private let regex = try! NSRegularExpression(pattern: "(\\n{0,1}\\s*\\*\\s)|(~~([^\\s]+?)~~)|(\\*\\*([^\\s^\\*]+?)\\*\\*)|(\\*([^\\s^\\*]+?)\\*)|(\\[(.+)\\]\\(([%!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)\\))|(\\^([^\\s\\^]+))|(https{0,1}://[%!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)", options: NSRegularExpressionOptions.CaseInsensitive)
+private let headStarPos = 1
+private let strikePos = 3
+private let boldPos = 5
+private let italicPos = 7
+private let mdLinkPos = 9
+private let superscriptPos = 12
+private let httpLinkPos = 14
+private let redditLinkPos = 15
+
+private let regex = try! NSRegularExpression(pattern: "((\\n|^)\\*\\s)|(~~([^\\s]+?)~~)|(\\*\\*([^\\s^\\*]+?)\\*\\*)|(\\*([^\\s^\\*]+?)\\*)|(\\[(.+)\\]\\(([%!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)\\))|(\\^([^\\s\\^]+))|(https{0,1}://[%!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)|(/(r|u)/[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]+)", options: NSRegularExpressionOptions.CaseInsensitive)
 
 private enum Attribute {
     case Link(String, Int, Int)
@@ -49,63 +58,63 @@ extension String {
         var attrs = [Attribute]()
         
         results.forEach { (result) -> () in
-            if result.rangeAtIndex(1).length > 0 {
-                if result.rangeAtIndex(1).location - pointer > 0 {
-                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(1).location - pointer)
+            if result.rangeAtIndex(headStarPos).length > 0 {
+                if result.rangeAtIndex(headStarPos).location - pointer > 0 {
+                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(headStarPos).location - pointer)
                     buf.appendContentsOf(copied.substringWithRange(r0))
                 }
                 buf.appendContentsOf("\n・")
-                pointer = (result.rangeAtIndex(1).location + result.rangeAtIndex(1).length)
+                pointer = (result.rangeAtIndex(headStarPos).location + result.rangeAtIndex(headStarPos).length)
             }
-            if result.rangeAtIndex(2).length > 0 {
-                if result.rangeAtIndex(2).location - pointer > 0 {
-                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(2).location - pointer)
+            if result.rangeAtIndex(strikePos).length > 0 {
+                if result.rangeAtIndex(strikePos).location - pointer > 0 {
+                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(strikePos).location - pointer)
                     buf.appendContentsOf(copied.substringWithRange(r0))
                 }
                 // ~~ ~~
-                let r2 = NSMakeRange(result.rangeAtIndex(3).location, result.rangeAtIndex(3).length)
+                let r2 = NSMakeRange(result.rangeAtIndex(strikePos+1).location, result.rangeAtIndex(strikePos+1).length)
                 let sub = copied.substringWithRange(r2)
                 buf.appendContentsOf(sub)
                 
                 attrs.append(Attribute.Strike(buf.characters.count - sub.characters.count, sub.characters.count))
                 
-                pointer = (result.rangeAtIndex(2).location + result.rangeAtIndex(2).length)
+                pointer = (result.rangeAtIndex(strikePos).location + result.rangeAtIndex(strikePos).length)
             }
-            if result.rangeAtIndex(4).length > 0 {
-                if result.rangeAtIndex(4).location - pointer > 0 {
-                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(4).location - pointer)
+            if result.rangeAtIndex(boldPos).length > 0 {
+                if result.rangeAtIndex(boldPos).location - pointer > 0 {
+                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(boldPos).location - pointer)
                     buf.appendContentsOf(copied.substringWithRange(r0))
                 }
                 // * *
-                let r2 = NSMakeRange(result.rangeAtIndex(5).location, result.rangeAtIndex(5).length)
+                let r2 = NSMakeRange(result.rangeAtIndex(boldPos+1).location, result.rangeAtIndex(boldPos+1).length)
                 let sub = copied.substringWithRange(r2)
                 buf.appendContentsOf(sub)
                 
-                attrs.append(Attribute.Bold(buf.characters.count - result.rangeAtIndex(5).length, result.rangeAtIndex(5).length))
+                attrs.append(Attribute.Bold(buf.characters.count - result.rangeAtIndex(boldPos+1).length, result.rangeAtIndex(boldPos+1).length))
                 
-                pointer = (result.rangeAtIndex(4).location + result.rangeAtIndex(4).length)
+                pointer = (result.rangeAtIndex(boldPos).location + result.rangeAtIndex(boldPos).length)
             }
-            if result.rangeAtIndex(6).length > 0 {
-                if result.rangeAtIndex(6).location - pointer > 0 {
-                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(6).location - pointer)
+            if result.rangeAtIndex(italicPos).length > 0 {
+                if result.rangeAtIndex(italicPos).location - pointer > 0 {
+                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(italicPos).location - pointer)
                     buf.appendContentsOf(copied.substringWithRange(r0))
                 }
                 // * *
-                let r2 = NSMakeRange(result.rangeAtIndex(7).location, result.rangeAtIndex(7).length)
+                let r2 = NSMakeRange(result.rangeAtIndex(italicPos+1).location, result.rangeAtIndex(italicPos+1).length)
                 let sub = copied.substringWithRange(r2)
                 buf.appendContentsOf(sub)
                 
-                attrs.append(Attribute.Italic(buf.characters.count - result.rangeAtIndex(7).length, result.rangeAtIndex(7).length))
+                attrs.append(Attribute.Italic(buf.characters.count - result.rangeAtIndex(italicPos+1).length, result.rangeAtIndex(italicPos+1).length))
                 
-                pointer = (result.rangeAtIndex(6).location + result.rangeAtIndex(6).length)
+                pointer = (result.rangeAtIndex(italicPos).location + result.rangeAtIndex(italicPos).length)
             }
-            if result.rangeAtIndex(8).length > 0 {
-                if result.rangeAtIndex(8).location - pointer > 0 {
-                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(8).location - pointer)
+            if result.rangeAtIndex(mdLinkPos).length > 0 {
+                if result.rangeAtIndex(mdLinkPos).location - pointer > 0 {
+                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(mdLinkPos).location - pointer)
                     buf.appendContentsOf(copied.substringWithRange(r0))
                 }
-                let rangeOfTitle = NSMakeRange(result.rangeAtIndex(9).location, result.rangeAtIndex(9).length)
-                let rangeOfLink = NSMakeRange(result.rangeAtIndex(10).location, result.rangeAtIndex(10).length)
+                let rangeOfTitle = NSMakeRange(result.rangeAtIndex(mdLinkPos+1).location, result.rangeAtIndex(mdLinkPos+1).length)
+                let rangeOfLink = NSMakeRange(result.rangeAtIndex(mdLinkPos+2).location, result.rangeAtIndex(mdLinkPos+2).length)
                 let title = copied.substringWithRange(rangeOfTitle)
                 let url = copied.substringWithRange(rangeOfLink)
                 
@@ -113,36 +122,50 @@ extension String {
                 
                 attrs.append(Attribute.Link(url, buf.characters.count - title.characters.count, title.characters.count))
                 
-                pointer = (result.rangeAtIndex(8).location + result.rangeAtIndex(8).length)
+                pointer = (result.rangeAtIndex(mdLinkPos).location + result.rangeAtIndex(mdLinkPos).length)
             }
-            if result.rangeAtIndex(11).length > 0 {
-                if result.rangeAtIndex(11).location - pointer > 0 {
-                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(11).location - pointer)
+            if result.rangeAtIndex(superscriptPos).length > 0 {
+                if result.rangeAtIndex(superscriptPos).location - pointer > 0 {
+                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(superscriptPos).location - pointer)
                     buf.appendContentsOf(copied.substringWithRange(r0))
                 }
                 // ^
-                let r2 = NSMakeRange(result.rangeAtIndex(12).location, result.rangeAtIndex(12).length)
+                let r2 = NSMakeRange(result.rangeAtIndex(superscriptPos+1).location, result.rangeAtIndex(superscriptPos+1).length)
                 let sub = copied.substringWithRange(r2)
                 
                 buf.appendContentsOf(sub)
                 
                 attrs.append(Attribute.Superscript(buf.characters.count - sub.characters.count, sub.characters.count))
                 
-                pointer = (result.rangeAtIndex(11).location + result.rangeAtIndex(11).length)
+                pointer = (result.rangeAtIndex(superscriptPos).location + result.rangeAtIndex(superscriptPos).length)
             }
-            if result.rangeAtIndex(13).length > 0 {
-                if result.rangeAtIndex(13).location - pointer > 0 {
-                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(13).location - pointer)
+            if result.rangeAtIndex(httpLinkPos).length > 0 {
+                if result.rangeAtIndex(httpLinkPos).location - pointer > 0 {
+                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(httpLinkPos).location - pointer)
                     buf.appendContentsOf(copied.substringWithRange(r0))
                 }
                 // ^
-                let r2 = NSMakeRange(result.rangeAtIndex(13).location, result.rangeAtIndex(13).length)
+                let r2 = NSMakeRange(result.rangeAtIndex(httpLinkPos).location, result.rangeAtIndex(httpLinkPos).length)
                 let sub = copied.substringWithRange(r2)
                 buf.appendContentsOf(sub)
                 
                 attrs.append(Attribute.Link(sub, buf.characters.count - sub.characters.count, sub.characters.count))
                 
-                pointer = (result.rangeAtIndex(13).location + result.rangeAtIndex(13).length)
+                pointer = (result.rangeAtIndex(httpLinkPos).location + result.rangeAtIndex(httpLinkPos).length)
+            }
+            if result.rangeAtIndex(redditLinkPos).length > 0 {
+                if result.rangeAtIndex(redditLinkPos).location - pointer > 0 {
+                    let r0 = NSMakeRange(pointer, result.rangeAtIndex(redditLinkPos).location - pointer)
+                    buf.appendContentsOf(copied.substringWithRange(r0))
+                }
+                // ^
+                let r2 = NSMakeRange(result.rangeAtIndex(redditLinkPos).location, result.rangeAtIndex(redditLinkPos).length)
+                let sub = copied.substringWithRange(r2)
+                buf.appendContentsOf(sub)
+                
+                attrs.append(Attribute.Link(sub, buf.characters.count - sub.characters.count, sub.characters.count))
+                
+                pointer = (result.rangeAtIndex(redditLinkPos).location + result.rangeAtIndex(redditLinkPos).length)
             }
         }
         
