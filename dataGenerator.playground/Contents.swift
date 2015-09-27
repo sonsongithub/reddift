@@ -49,7 +49,7 @@ do {
                                         if (reg.firstMatchInString(comment.body, options: NSMatchingOptions(), range: NSMakeRange(0, comment.body.characters.count)) != nil) {
                                             buf.append(comment)
                                             appendCounter = appendCounter + 1
-                                            if appendCounter > 5 {
+                                            if appendCounter > 10 {
                                                 break
                                             }
                                         }

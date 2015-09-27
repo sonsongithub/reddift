@@ -10,21 +10,31 @@ import Foundation
 
 #if os(iOS)
     import UIKit
-    typealias ReddiftFont = UIFont
 #elseif os(OSX)
     import Cocoa
+#endif
+
+#if os(iOS)
+    /// Shared Font class
+    typealias ReddiftFont = UIFont
+#elseif os(OSX)
+    /// Shared Font class
     typealias ReddiftFont = NSFont
-#endif
-
-#if os(OSX)
-extension NSFont {
-    static func italicSystemFontOfSize(fontSize:CGFloat) -> NSFont {
-        let font = NSFont.systemFontOfSize(fontSize)
-        return NSFontManager.sharedFontManager().convertFont(font, toHaveTrait:NSFontTraitMask.ItalicFontMask)
+    
+    /// NSFont extension for "italicSystemFontOfSize"
+    extension NSFont {
+        /// Class method for OSX, instead of iOS's "italicSystemFontOfSize"
+        static func italicSystemFontOfSize(fontSize:CGFloat) -> NSFont {
+            let font = NSFont.systemFontOfSize(fontSize)
+            return NSFontManager.sharedFontManager().convertFont(font, toHaveTrait:NSFontTraitMask.ItalicFontMask)
+        }
     }
-}
 #endif
 
+/// Regular expression to parse markdown
+private let regex = try! NSRegularExpression(pattern: "((\\n|^)\\*\\s)|(~~([^\\s]+?)~~)|(\\*\\*([^\\s^\\*]+?)\\*\\*)|(\\*([^\\s^\\*]+?)\\*)|(\\[(.+?)\\]\\(([%!$&'*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)\\))|(\\^([^\\s\\^]+))|(https{0,1}://[%!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)|(/(r|u)/[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]+)", options: NSRegularExpressionOptions.CaseInsensitive)
+
+/// Index of parentheses in above regular expression to parse markdown
 private let headStarPos = 1
 private let strikePos = 3
 private let boldPos = 5
@@ -34,8 +44,7 @@ private let superscriptPos = 12
 private let httpLinkPos = 14
 private let redditLinkPos = 15
 
-private let regex = try! NSRegularExpression(pattern: "((\\n|^)\\*\\s)|(~~([^\\s]+?)~~)|(\\*\\*([^\\s^\\*]+?)\\*\\*)|(\\*([^\\s^\\*]+?)\\*)|(\\[(.+)\\]\\(([%!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)\\))|(\\^([^\\s\\^]+))|(https{0,1}://[%!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)|(/(r|u)/[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]+)", options: NSRegularExpressionOptions.CaseInsensitive)
-
+/// Enum, attributes for NSAttributedString
 private enum Attribute {
     case Link(String, Int, Int)
     case Bold(Int, Int)
@@ -44,79 +53,89 @@ private enum Attribute {
     case Strike(Int, Int)
 }
 
+/// Extension for NSAttributedString
+extension NSAttributedString {
+    var links : [NSURL] {
+        get {
+            var values:[AnyObject] = []
+            self.enumerateAttribute(NSLinkAttributeName, inRange: NSMakeRange(0, self.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
+                if let value = value {
+                    values.append(value)
+                }
+            })
+            return values.flatMap { $0 as? String }.flatMap {NSURL(string: $0)}
+        }
+    }
+}
+
 extension String {
     func simpleRedditMarkdownParse() -> NSMutableAttributedString {
-        let casted = self as NSString
-        let copied:NSMutableString = (self as NSString).mutableCopy() as! NSMutableString
-        
-        
-        let results = regex.matchesInString(self, options: NSMatchingOptions(), range:NSMakeRange(0, casted.length))
-        
+        let selfAsNSString:NSString = (self as NSString)
+        let results = regex.matchesInString(self, options: NSMatchingOptions(), range:NSMakeRange(0, self.characters.count))
         var buf = ""
         var pointer = 0
-        
         var attrs = [Attribute]()
         
         results.forEach { (result) -> () in
             if result.rangeAtIndex(headStarPos).length > 0 {
                 if result.rangeAtIndex(headStarPos).location - pointer > 0 {
                     let r0 = NSMakeRange(pointer, result.rangeAtIndex(headStarPos).location - pointer)
-                    buf.appendContentsOf(copied.substringWithRange(r0))
+                    buf.appendContentsOf(selfAsNSString.substringWithRange(r0))
                 }
                 buf.appendContentsOf("\n・")
                 pointer = (result.rangeAtIndex(headStarPos).location + result.rangeAtIndex(headStarPos).length)
             }
-            if result.rangeAtIndex(strikePos).length > 0 {
+            else if result.rangeAtIndex(strikePos).length > 0 {
                 if result.rangeAtIndex(strikePos).location - pointer > 0 {
                     let r0 = NSMakeRange(pointer, result.rangeAtIndex(strikePos).location - pointer)
-                    buf.appendContentsOf(copied.substringWithRange(r0))
+                    buf.appendContentsOf(selfAsNSString.substringWithRange(r0))
                 }
                 // ~~ ~~
                 let r2 = NSMakeRange(result.rangeAtIndex(strikePos+1).location, result.rangeAtIndex(strikePos+1).length)
-                let sub = copied.substringWithRange(r2)
+                let sub = selfAsNSString.substringWithRange(r2)
                 buf.appendContentsOf(sub)
                 
                 attrs.append(Attribute.Strike(buf.characters.count - sub.characters.count, sub.characters.count))
                 
                 pointer = (result.rangeAtIndex(strikePos).location + result.rangeAtIndex(strikePos).length)
             }
-            if result.rangeAtIndex(boldPos).length > 0 {
+            else if result.rangeAtIndex(boldPos).length > 0 {
                 if result.rangeAtIndex(boldPos).location - pointer > 0 {
                     let r0 = NSMakeRange(pointer, result.rangeAtIndex(boldPos).location - pointer)
-                    buf.appendContentsOf(copied.substringWithRange(r0))
+                    buf.appendContentsOf(selfAsNSString.substringWithRange(r0))
                 }
                 // * *
                 let r2 = NSMakeRange(result.rangeAtIndex(boldPos+1).location, result.rangeAtIndex(boldPos+1).length)
-                let sub = copied.substringWithRange(r2)
+                let sub = selfAsNSString.substringWithRange(r2)
                 buf.appendContentsOf(sub)
                 
                 attrs.append(Attribute.Bold(buf.characters.count - result.rangeAtIndex(boldPos+1).length, result.rangeAtIndex(boldPos+1).length))
                 
                 pointer = (result.rangeAtIndex(boldPos).location + result.rangeAtIndex(boldPos).length)
             }
-            if result.rangeAtIndex(italicPos).length > 0 {
+            else if result.rangeAtIndex(italicPos).length > 0 {
                 if result.rangeAtIndex(italicPos).location - pointer > 0 {
                     let r0 = NSMakeRange(pointer, result.rangeAtIndex(italicPos).location - pointer)
-                    buf.appendContentsOf(copied.substringWithRange(r0))
+                    buf.appendContentsOf(selfAsNSString.substringWithRange(r0))
                 }
                 // * *
                 let r2 = NSMakeRange(result.rangeAtIndex(italicPos+1).location, result.rangeAtIndex(italicPos+1).length)
-                let sub = copied.substringWithRange(r2)
+                let sub = selfAsNSString.substringWithRange(r2)
                 buf.appendContentsOf(sub)
                 
                 attrs.append(Attribute.Italic(buf.characters.count - result.rangeAtIndex(italicPos+1).length, result.rangeAtIndex(italicPos+1).length))
                 
                 pointer = (result.rangeAtIndex(italicPos).location + result.rangeAtIndex(italicPos).length)
             }
-            if result.rangeAtIndex(mdLinkPos).length > 0 {
+            else if result.rangeAtIndex(mdLinkPos).length > 0 {
                 if result.rangeAtIndex(mdLinkPos).location - pointer > 0 {
                     let r0 = NSMakeRange(pointer, result.rangeAtIndex(mdLinkPos).location - pointer)
-                    buf.appendContentsOf(copied.substringWithRange(r0))
+                    buf.appendContentsOf(selfAsNSString.substringWithRange(r0))
                 }
                 let rangeOfTitle = NSMakeRange(result.rangeAtIndex(mdLinkPos+1).location, result.rangeAtIndex(mdLinkPos+1).length)
                 let rangeOfLink = NSMakeRange(result.rangeAtIndex(mdLinkPos+2).location, result.rangeAtIndex(mdLinkPos+2).length)
-                let title = copied.substringWithRange(rangeOfTitle)
-                let url = copied.substringWithRange(rangeOfLink)
+                let title = selfAsNSString.substringWithRange(rangeOfTitle)
+                let url = selfAsNSString.substringWithRange(rangeOfLink)
                 
                 buf.appendContentsOf(title)
                 
@@ -124,14 +143,14 @@ extension String {
                 
                 pointer = (result.rangeAtIndex(mdLinkPos).location + result.rangeAtIndex(mdLinkPos).length)
             }
-            if result.rangeAtIndex(superscriptPos).length > 0 {
+            else if result.rangeAtIndex(superscriptPos).length > 0 {
                 if result.rangeAtIndex(superscriptPos).location - pointer > 0 {
                     let r0 = NSMakeRange(pointer, result.rangeAtIndex(superscriptPos).location - pointer)
-                    buf.appendContentsOf(copied.substringWithRange(r0))
+                    buf.appendContentsOf(selfAsNSString.substringWithRange(r0))
                 }
                 // ^
                 let r2 = NSMakeRange(result.rangeAtIndex(superscriptPos+1).location, result.rangeAtIndex(superscriptPos+1).length)
-                let sub = copied.substringWithRange(r2)
+                let sub = selfAsNSString.substringWithRange(r2)
                 
                 buf.appendContentsOf(sub)
                 
@@ -139,28 +158,28 @@ extension String {
                 
                 pointer = (result.rangeAtIndex(superscriptPos).location + result.rangeAtIndex(superscriptPos).length)
             }
-            if result.rangeAtIndex(httpLinkPos).length > 0 {
+            else if result.rangeAtIndex(httpLinkPos).length > 0 {
                 if result.rangeAtIndex(httpLinkPos).location - pointer > 0 {
                     let r0 = NSMakeRange(pointer, result.rangeAtIndex(httpLinkPos).location - pointer)
-                    buf.appendContentsOf(copied.substringWithRange(r0))
+                    buf.appendContentsOf(selfAsNSString.substringWithRange(r0))
                 }
                 // ^
                 let r2 = NSMakeRange(result.rangeAtIndex(httpLinkPos).location, result.rangeAtIndex(httpLinkPos).length)
-                let sub = copied.substringWithRange(r2)
+                let sub = selfAsNSString.substringWithRange(r2)
                 buf.appendContentsOf(sub)
                 
                 attrs.append(Attribute.Link(sub, buf.characters.count - sub.characters.count, sub.characters.count))
                 
                 pointer = (result.rangeAtIndex(httpLinkPos).location + result.rangeAtIndex(httpLinkPos).length)
             }
-            if result.rangeAtIndex(redditLinkPos).length > 0 {
+            else if result.rangeAtIndex(redditLinkPos).length > 0 {
                 if result.rangeAtIndex(redditLinkPos).location - pointer > 0 {
                     let r0 = NSMakeRange(pointer, result.rangeAtIndex(redditLinkPos).location - pointer)
-                    buf.appendContentsOf(copied.substringWithRange(r0))
+                    buf.appendContentsOf(selfAsNSString.substringWithRange(r0))
                 }
                 // ^
                 let r2 = NSMakeRange(result.rangeAtIndex(redditLinkPos).location, result.rangeAtIndex(redditLinkPos).length)
-                let sub = copied.substringWithRange(r2)
+                let sub = selfAsNSString.substringWithRange(r2)
                 buf.appendContentsOf(sub)
                 
                 attrs.append(Attribute.Link(sub, buf.characters.count - sub.characters.count, sub.characters.count))
@@ -169,9 +188,9 @@ extension String {
             }
         }
         
-        if copied.length - pointer > 0 {
-            let r0 = NSMakeRange(pointer, copied.length - pointer)
-            buf.appendContentsOf(copied.substringWithRange(r0))
+        if selfAsNSString.length - pointer > 0 {
+            let r0 = NSMakeRange(pointer, selfAsNSString.length - pointer)
+            buf.appendContentsOf(selfAsNSString.substringWithRange(r0))
         }
         
         let output = NSMutableAttributedString(string: buf)

@@ -67,6 +67,8 @@ class ParseCommentMarkdownTest: XCTestCase {
                         print("------->Parser's result")
                         print(attributedString.string)
                         
+                        print(attributedString.links)
+                        
                         /// Test string
                         XCTAssert(body == attributedString.string)
                         
@@ -75,6 +77,8 @@ class ParseCommentMarkdownTest: XCTestCase {
                             var check = false
                             if let item = item as? [String:AnyObject], let type = item["type"] as? String, let name = typeDict[type] {
                                 if let location = item["location"] as? Int, let length = item["length"] as? Int {
+                                    print(location)
+                                    print(length)
                                     attributedString.enumerateAttribute(name, inRange: NSMakeRange(location - 1, length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
                                         check = (value != nil && (location - 1) == range.location && length == range.length)
                                     })
