@@ -20,6 +20,7 @@ class ParseCommentMarkdownTest: XCTestCase {
         super.tearDown()
     }
     
+    /// Perfomance test for markdown parsing.
     func testPerformanceOfParserCommentMarkdown() {
         print("Check performance of Simple Markdown Parser to parse reddit's makrdown format.")
         print("test data : comment_parse_data.json")
@@ -30,13 +31,14 @@ class ParseCommentMarkdownTest: XCTestCase {
                 array.forEach({ (testData) -> () in
                     if let dict = testData as? [String:AnyObject],
                         let source = dict["source"] as? String {
-                            let _:NSAttributedString = source.simpleRedditMarkdownParse()
+                            let _:NSAttributedString = source.markdown2attributedStringWithFontSize(14, superscriptFontSize: 10)
                     }
                 })
             }
         }
     }
     
+    /// Unit test for markdown parsing
     func testParserCommentMarkdown() {
         print("Test whether Simple Markdown Parser can parse reddit's makrdown format.")
         print("test data : comment_parse_data.json")
@@ -59,16 +61,13 @@ class ParseCommentMarkdownTest: XCTestCase {
                     let source = dict["source"] as? String,
                     let attr = dict["attr"] as? [AnyObject] {
                         /// Parse
-                        let attributedString:NSAttributedString = source.simpleRedditMarkdownParse()
+                        let attributedString:NSAttributedString = source.markdown2attributedStringWithFontSize(14, superscriptFontSize: 10)
                         print("------->Input markdown")
                         print(source)
                         print("------->Ground truth")
                         print(body)
                         print("------->Parser's result")
                         print(attributedString.string)
-                        
-                        print(attributedString.includedURL)
-                        print(attributedString.includedImageURL)
                         
                         /// Test string
                         XCTAssert(body == attributedString.string)

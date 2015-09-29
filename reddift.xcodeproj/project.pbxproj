@@ -590,8 +590,7 @@
 		147EAD971AD78568007FA2F4 = {
 			isa = PBXGroup;
 			children = (
-				14A3556D1B1705D8001D1FEA /* reddift.playground */,
-				142DAF491BB2ADBC001E8843 /* dataGenerator.playground */,
+				14E3BAA61BBA4DA800BDDF29 /* playground */,
 				147EADA21AD78568007FA2F4 /* reddift */,
 				147EADB81AD78568007FA2F4 /* reddiftTests */,
 				14B5EBCF1AF34E920065BC5E /* reddiftSample */,
@@ -865,6 +864,15 @@
 				1440D5011AE7C9D500211DAD /* thing */,
 			);
 			path = data;
+			sourceTree = "<group>";
+		};
+		14E3BAA61BBA4DA800BDDF29 /* playground */ = {
+			isa = PBXGroup;
+			children = (
+				14A3556D1B1705D8001D1FEA /* reddift.playground */,
+				142DAF491BB2ADBC001E8843 /* dataGenerator.playground */,
+			);
+			name = playground;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
