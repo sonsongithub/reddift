@@ -67,7 +67,8 @@ class ParseCommentMarkdownTest: XCTestCase {
                         print("------->Parser's result")
                         print(attributedString.string)
                         
-                        print(attributedString.links)
+                        print(attributedString.includedURL)
+                        print(attributedString.includedImageURL)
                         
                         /// Test string
                         XCTAssert(body == attributedString.string)

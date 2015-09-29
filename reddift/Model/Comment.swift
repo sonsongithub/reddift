@@ -35,14 +35,14 @@ import Foundation
 private let regex = try! NSRegularExpression(pattern: "((\\n|^)\\*\\s)|(~~([^\\s]+?)~~)|(\\*\\*([^\\s^\\*]+?)\\*\\*)|(\\*([^\\s^\\*]+?)\\*)|(\\[(.+?)\\]\\(([%!$&'*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)\\))|(\\^([^\\s\\^]+))|(https{0,1}://[%!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)|(/(r|u)/[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]+)", options: NSRegularExpressionOptions.CaseInsensitive)
 
 /// Index of parentheses in above regular expression to parse markdown
-private let headStarPos = 1
-private let strikePos = 3
-private let boldPos = 5
-private let italicPos = 7
-private let mdLinkPos = 9
-private let superscriptPos = 12
-private let httpLinkPos = 14
-private let redditLinkPos = 15
+private let headStarPos     = 1
+private let strikePos       = 3
+private let boldPos         = 5
+private let italicPos       = 7
+private let mdLinkPos       = 9
+private let superscriptPos  = 12
+private let httpLinkPos     = 14
+private let redditLinkPos   = 15
 
 /// Enum, attributes for NSAttributedString
 private enum Attribute {
@@ -53,9 +53,25 @@ private enum Attribute {
     case Strike(Int, Int)
 }
 
+/// Regular expression to check whether the file extension is image's one.
+private let regexForHasImageFileExtension = try! NSRegularExpression(pattern: "^/.+\\.(jpg|jpeg|gif|png)$", options: NSRegularExpressionOptions.CaseInsensitive)
+
+extension NSURLComponents {
+    /// Returns true when URL's filename has image's file extension(like gif, jpg, png).
+    var hasImageFileExtension : Bool {
+        if let path = self.path {
+            if let r = regexForHasImageFileExtension.firstMatchInString(path, options: NSMatchingOptions(), range: NSMakeRange(0, path.characters.count)) {
+                return r.rangeAtIndex(1).length > 0
+            }
+        }
+        return false
+    }
+}
+
 /// Extension for NSAttributedString
 extension NSAttributedString {
-    var links : [NSURL] {
+    /// Returns list of URLs that were included in NSAttributedString as NSLinkAttributeName.
+    var includedURL : [NSURL] {
         get {
             var values:[AnyObject] = []
             self.enumerateAttribute(NSLinkAttributeName, inRange: NSMakeRange(0, self.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
@@ -64,6 +80,16 @@ extension NSAttributedString {
                 }
             })
             return values.flatMap { $0 as? String }.flatMap {NSURL(string: $0)}
+        }
+    }
+    
+    /// Returns list of image URLs(like gif, jpg, png) that were included in NSAttributedString as NSLinkAttributeName.
+    var includedImageURL : [NSURL] {
+        get {
+            return self
+                .includedURL
+                .flatMap {NSURLComponents(URL: $0, resolvingAgainstBaseURL: false)}
+                .flatMap {$0.hasImageFileExtension ? $0.URL : nil}
         }
     }
 }
