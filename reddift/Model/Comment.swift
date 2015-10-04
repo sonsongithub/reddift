@@ -31,7 +31,7 @@ import Foundation
 #endif
 
 /// Regular expression to parse markdown
-private let regex = try! NSRegularExpression(pattern: "((\\n|^)\\*\\s)|(~~([^\\s]+?)~~)|(\\*\\*([^\\s^\\*]+?)\\*\\*)|(\\*([^\\s^\\*]+?)\\*)|(\\[(.+?)\\]\\(([%!$&'*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)\\))|(\\^([^\\s\\^]+))|(https{0,1}://[%!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)|(/(r|u)/[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]+)", options: NSRegularExpressionOptions.CaseInsensitive)
+private let regexToParseRedditMarkdown = try! NSRegularExpression(pattern: "((\\n|^)\\*\\s)|(~~([^\\s]+?)~~)|(\\*\\*([^\\s^\\*]+?)\\*\\*)|(\\*([^\\s^\\*]+?)\\*)|(\\[(.+?)\\]\\(([%!$&'*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)\\))|(\\^([^\\s\\^]+))|(https{0,1}://[%!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)|(/(r|u)/[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_]+)", options: NSRegularExpressionOptions.CaseInsensitive)
 
 /// Index of parentheses in above regular expression to parse markdown
 private let headStarPos     = 1
@@ -96,7 +96,7 @@ extension NSAttributedString {
 extension String {
     private func parseMarkdownAndExtractAttributes() -> (String, [Attribute]) {
         let selfAsNSString:NSString = (self as NSString)
-        let results = regex.matchesInString(self, options: NSMatchingOptions(), range:NSMakeRange(0, self.characters.count))
+        let results = regexToParseRedditMarkdown.matchesInString(self, options: NSMatchingOptions(), range:NSMakeRange(0, self.characters.count))
         var buf = ""
         var pointer = 0
         var attrs:[Attribute] = []
@@ -250,6 +250,7 @@ extension String {
             switch $0 {
             case .Link(let link, let loc, let len):
                 output.addAttribute(NSLinkAttributeName, value: link, range: NSMakeRange(loc, len))
+                output.addAttribute(NSForegroundColorAttributeName, value: UIColor.redColor(), range: NSMakeRange(loc, len))
             case .Bold(let loc, let len):
                 output.addAttribute(NSFontAttributeName, value: ReddiftFont.boldSystemFontOfSize(fontSize), range: NSMakeRange(loc, len))
             case .Italic(let loc, let len):
