@@ -10,6 +10,5 @@
 #define reddift_objc_header_h
 
 #import "UZTextView.h"
-#import "GTMNSString+HTML.h"
 
 #endif

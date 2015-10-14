@@ -124,7 +124,6 @@
 		14624D021B3D184400A5D8F5 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14624D001B3D184400A5D8F5 /* Response.swift */; };
 		14624D031B3D184400A5D8F5 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14624D001B3D184400A5D8F5 /* Response.swift */; };
 		14624D041B3D184400A5D8F5 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14624D001B3D184400A5D8F5 /* Response.swift */; };
-		146D47691BCDACD600E78FD8 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 146D47681BCDACD600E78FD8 /* GTMNSString+HTML.m */; settings = {ASSET_TAGS = (); }; };
 		148142401B0F0C5300DE4F88 /* LabeledMultiDescription.json in Resources */ = {isa = PBXBuildFile; fileRef = 1481423F1B0F0C5300DE4F88 /* LabeledMultiDescription.json */; };
 		148142411B0F0C5300DE4F88 /* LabeledMultiDescription.json in Resources */ = {isa = PBXBuildFile; fileRef = 1481423F1B0F0C5300DE4F88 /* LabeledMultiDescription.json */; };
 		148E79961B18033900C771E3 /* CAPTCHA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148E79951B18033900C771E3 /* CAPTCHA.swift */; };
@@ -433,9 +432,6 @@
 		14624D001B3D184400A5D8F5 /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseThingObjectTest.swift; sourceTree = "<group>"; };
 		1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseResponseObjectTest.swift; sourceTree = "<group>"; };
-		146D47661BCDACD600E78FD8 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
-		146D47671BCDACD600E78FD8 /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSString+HTML.h"; sourceTree = "<group>"; };
-		146D47681BCDACD600E78FD8 /* GTMNSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTMNSString+HTML.m"; sourceTree = "<group>"; };
 		1471A6EF1AE5DD4C00816FE7 /* More.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = More.swift; sourceTree = "<group>"; };
 		147EADA41AD78568007FA2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		147EADBA1AD78568007FA2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -601,17 +597,6 @@
 				1440D5071AE7C9D500211DAD /* t5.json */,
 			);
 			path = thing;
-			sourceTree = "<group>";
-		};
-		146D47651BCDACD600E78FD8 /* Google */ = {
-			isa = PBXGroup;
-			children = (
-				146D47661BCDACD600E78FD8 /* GTMDefines.h */,
-				146D47671BCDACD600E78FD8 /* GTMNSString+HTML.h */,
-				146D47681BCDACD600E78FD8 /* GTMNSString+HTML.m */,
-			);
-			name = Google;
-			path = vendor/Google;
 			sourceTree = "<group>";
 		};
 		147EAD971AD78568007FA2F4 = {
@@ -781,7 +766,6 @@
 		14B5EC5D1AF410780065BC5E /* vendor */ = {
 			isa = PBXGroup;
 			children = (
-				146D47651BCDACD600E78FD8 /* Google */,
 				14B5EC5E1AF4107E0065BC5E /* UZTextView */,
 			);
 			name = vendor;
@@ -1333,7 +1317,6 @@
 				143427C61AF74E91005D0E31 /* SearchSubredditsViewController.swift in Sources */,
 				1403C9281B001DA70094E291 /* CAPTCHAView.swift in Sources */,
 				14B5EC011AF35B620065BC5E /* SubredditsListViewController.swift in Sources */,
-				146D47691BCDACD600E78FD8 /* GTMNSString+HTML.m in Sources */,
 				14B5EC5A1AF410740065BC5E /* UZCursorView.m in Sources */,
 				14B5EBFF1AF35B620065BC5E /* MessageViewController.swift in Sources */,
 				1403C9241AFF453F0094E291 /* SubmitViewController.swift in Sources */,

@@ -482,7 +482,9 @@ public struct Comment : Thing {
         authorFlairCssClass = data["author_flair_css_class"] as? String ?? ""
         downs = data["downs"] as? Int ?? 0
         let tempBodyHtml = data["body_html"] as? String ?? ""
+        print("------------------------")
         bodyHtml = tempBodyHtml.gtm_stringByUnescapingFromHTML()
+        print(bodyHtml)
         subreddit = data["subreddit"] as? String ?? ""
         scoreHidden = data["score_hidden"] as? Bool ?? false
         name = data["name"] as? String ?? ""
