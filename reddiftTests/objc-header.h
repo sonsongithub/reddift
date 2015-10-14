@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-#ifndef reddift_objc_header_h
-#define reddift_objc_header_h
+#ifndef reddift_test_objc_header_h
+#define reddift_test_objc_header_h
 
 #import "UZTextView.h"
 #import "GTMNSString+HTML.h"

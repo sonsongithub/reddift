@@ -29,7 +29,8 @@ public struct MediaEmbed {
     public init (json:JSONDictionary) {
 		height = json["height"] as? Int ?? 0
         width = json["width"] as? Int ?? 0
-		content = json["content"] as? String ?? ""
+		let tempContent = json["content"] as? String ?? ""
+        content = tempContent.gtm_stringByUnescapingFromHTML()
 		scrolling = json["scrolling"] as? Bool ?? false
     }
 	

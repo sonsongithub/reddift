@@ -139,7 +139,8 @@ public struct Message : Thing {
         dest = data["dest"] as? String ?? ""
         author = data["author"] as? String ?? ""
         createdUtc = data["created_utc"] as? Int ?? 0
-        bodyHtml = data["body_html"] as? String ?? ""
+        let tempBodyHtml = data["body_html"] as? String ?? ""
+        bodyHtml = tempBodyHtml.gtm_stringByUnescapingFromHTML()
         subreddit = data["subreddit"] as? String ?? ""
         parentId = data["parent_id"] as? String ?? ""
         context = data["context"] as? String ?? ""

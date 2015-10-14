@@ -236,6 +236,14 @@
 		14B5EC6E1AF4B9F00065BC5E /* t3.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5051AE7C9D500211DAD /* t3.json */; };
 		14B5EC6F1AF4B9F00065BC5E /* t4.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5061AE7C9D500211DAD /* t4.json */; };
 		14B5EC701AF4B9F00065BC5E /* t5.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5071AE7C9D500211DAD /* t5.json */; };
+		14BCBCB71BCE1E7500A1FFEB /* GTMDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 14BCBCB41BCE1E7500A1FFEB /* GTMDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14BCBCB81BCE1E7500A1FFEB /* GTMNSString+HTML.h in Headers */ = {isa = PBXBuildFile; fileRef = 14BCBCB51BCE1E7500A1FFEB /* GTMNSString+HTML.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14BCBCB91BCE1E7500A1FFEB /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BCBCB61BCE1E7500A1FFEB /* GTMNSString+HTML.m */; settings = {ASSET_TAGS = (); }; };
+		14BCBCBA1BCE20EA00A1FFEB /* GTMNSString+HTML.h in Headers */ = {isa = PBXBuildFile; fileRef = 14BCBCB51BCE1E7500A1FFEB /* GTMNSString+HTML.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14BCBCBB1BCE20EF00A1FFEB /* GTMDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 14BCBCB41BCE1E7500A1FFEB /* GTMDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14BCBCBC1BCE211300A1FFEB /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BCBCB61BCE1E7500A1FFEB /* GTMNSString+HTML.m */; settings = {ASSET_TAGS = (); }; };
+		14BCBCBD1BCE211400A1FFEB /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BCBCB61BCE1E7500A1FFEB /* GTMNSString+HTML.m */; settings = {ASSET_TAGS = (); }; };
+		14BCBCBE1BCE211400A1FFEB /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BCBCB61BCE1E7500A1FFEB /* GTMNSString+HTML.m */; settings = {ASSET_TAGS = (); }; };
 		14C40CBE1AFB255F00F0ECFB /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; };
 		14C40CBF1AFB255F00F0ECFB /* reddift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		14D2E2201B14C8BF00253AC0 /* Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D2E21F1B14C8BF00253AC0 /* Thing.swift */; };
@@ -489,6 +497,10 @@
 		14B8DE281ADD722500237350 /* Paginator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paginator.swift; sourceTree = "<group>"; };
 		14B8DE2A1ADD72C900237350 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		14BBDA231AEF250100F94E7D /* comments_extend.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = comments_extend.json; sourceTree = "<group>"; };
+		14BCBCB41BCE1E7500A1FFEB /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
+		14BCBCB51BCE1E7500A1FFEB /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSString+HTML.h"; sourceTree = "<group>"; };
+		14BCBCB61BCE1E7500A1FFEB /* GTMNSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTMNSString+HTML.m"; sourceTree = "<group>"; };
+		14BCBCBF1BCE225100A1FFEB /* objc-header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "objc-header.h"; sourceTree = "<group>"; };
 		14BEDDFD1AE44FC5004F7860 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		14C40CC31AFB26F500F0ECFB /* reddiftSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = reddiftSample.entitlements; sourceTree = "<group>"; };
 		14D2E21F1B14C8BF00253AC0 /* Thing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Thing.swift; sourceTree = "<group>"; };
@@ -662,6 +674,7 @@
 		147EADB91AD78568007FA2F4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				14BCBCBF1BCE225100A1FFEB /* objc-header.h */,
 				143427CC1AF95E80005D0E31 /* test_config.json */,
 				147EADBA1AD78568007FA2F4 /* Info.plist */,
 			);
@@ -699,7 +712,6 @@
 			isa = PBXGroup;
 			children = (
 				14C40CC31AFB26F500F0ECFB /* reddiftSample.entitlements */,
-				14B5EBF41AF35B620065BC5E /* objc-header.h */,
 				14B5EBD21AF34E920065BC5E /* AppDelegate.swift */,
 				14B5EC321AF35C170065BC5E /* CellContent.swift */,
 				14B5EBF01AF35B620065BC5E /* AccountViewController.swift */,
@@ -731,6 +743,7 @@
 		14B5EBD01AF34E920065BC5E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				14B5EBF41AF35B620065BC5E /* objc-header.h */,
 				14B5EC341AF35C220065BC5E /* reddift_config.json */,
 				14B5EC351AF35C220065BC5E /* reddift_config.json.sample */,
 				14B5EBD11AF34E920065BC5E /* Info.plist */,
@@ -741,6 +754,7 @@
 		14B5EC511AF40ED20065BC5E /* vendor */ = {
 			isa = PBXGroup;
 			children = (
+				14BCBCB31BCE1E7500A1FFEB /* Google */,
 				14B5EC521AF40ED80065BC5E /* Keychain */,
 			);
 			name = vendor;
@@ -861,6 +875,17 @@
 			path = OAuth;
 			sourceTree = "<group>";
 		};
+		14BCBCB31BCE1E7500A1FFEB /* Google */ = {
+			isa = PBXGroup;
+			children = (
+				14BCBCB41BCE1E7500A1FFEB /* GTMDefines.h */,
+				14BCBCB51BCE1E7500A1FFEB /* GTMNSString+HTML.h */,
+				14BCBCB61BCE1E7500A1FFEB /* GTMNSString+HTML.m */,
+			);
+			name = Google;
+			path = vendor/Google;
+			sourceTree = "<group>";
+		};
 		14BEDDFC1AE44FC5004F7860 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -899,6 +924,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				14B5EBB61AF34D580065BC5E /* reddift.h in Headers */,
+				14BCBCB71BCE1E7500A1FFEB /* GTMDefines.h in Headers */,
+				14BCBCB81BCE1E7500A1FFEB /* GTMNSString+HTML.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -907,6 +934,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				14F8125C1AF9F918008F6F3C /* reddift.h in Headers */,
+				14BCBCBB1BCE20EF00A1FFEB /* GTMDefines.h in Headers */,
+				14BCBCBA1BCE20EA00A1FFEB /* GTMNSString+HTML.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1183,6 +1212,7 @@
 				14B5EC1E1AF35BFF0065BC5E /* More.swift in Sources */,
 				14B5EC381AF35C4B0065BC5E /* NSBundle+reddift.swift in Sources */,
 				14B5EC1F1AF35BFF0065BC5E /* Subreddit.swift in Sources */,
+				14BCBCB91BCE1E7500A1FFEB /* GTMNSString+HTML.m in Sources */,
 				14447EC81B16234A004FB58E /* Token.swift in Sources */,
 				141B91CA1B0A500500A9E6A6 /* Session+search.swift in Sources */,
 				141B91C61B0A4FE900A9E6A6 /* Session+moderation.swift in Sources */,
@@ -1228,6 +1258,7 @@
 				14A94CF91B1000B800EDB844 /* MultiredditDescription.swift in Sources */,
 				149658241B1237B40071275E /* SubredditsTest.swift in Sources */,
 				1424A8941AFDC7CD00EF08CD /* LinksTest.swift in Sources */,
+				14BCBCBC1BCE211300A1FFEB /* GTMNSString+HTML.m in Sources */,
 				140126931B0AC443003CA6C1 /* Multireddit.swift in Sources */,
 				141B91DA1B0A503400A9E6A6 /* Session+misc.swift in Sources */,
 				14B5EC601AF4B9D60065BC5E /* ParseThingObjectTest.swift in Sources */,
@@ -1341,6 +1372,7 @@
 				14F8121C1AF9F6B0008F6F3C /* Parser.swift in Sources */,
 				14F812311AF9F6B6008F6F3C /* Comment.swift in Sources */,
 				141B91EC1B0A503400A9E6A6 /* Session+search.swift in Sources */,
+				14BCBCBD1BCE211400A1FFEB /* GTMNSString+HTML.m in Sources */,
 				14447ECA1B16234A004FB58E /* Token.swift in Sources */,
 				141B91EA1B0A503400A9E6A6 /* Session+moderation.swift in Sources */,
 				141B91E41B0A503400A9E6A6 /* Session+gold.swift in Sources */,
@@ -1386,6 +1418,7 @@
 				14A94CFB1B1000B800EDB844 /* MultiredditDescription.swift in Sources */,
 				149658251B1237B40071275E /* SubredditsTest.swift in Sources */,
 				1424A8951AFDC7CD00EF08CD /* LinksTest.swift in Sources */,
+				14BCBCBE1BCE211400A1FFEB /* GTMNSString+HTML.m in Sources */,
 				140126951B0AC443003CA6C1 /* Multireddit.swift in Sources */,
 				141B91F81B0A503500A9E6A6 /* Session+misc.swift in Sources */,
 				14F812491AF9F6BA008F6F3C /* NSError+reddift.swift in Sources */,
@@ -1624,6 +1657,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
 			};
 			name = Debug;
 		};
@@ -1638,6 +1672,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
 			};
 			name = Release;
 		};
@@ -1763,6 +1798,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
 			};
 			name = Debug;
 		};
@@ -1786,6 +1822,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
 			};
 			name = Release;
 		};

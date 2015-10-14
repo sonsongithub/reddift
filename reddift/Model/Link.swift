@@ -313,7 +313,8 @@ public struct Link : Thing {
         domain = data["domain"] as? String ?? ""
         bannedBy = data["banned_by"] as? String ?? ""
         subreddit = data["subreddit"] as? String ?? ""
-        selftextHtml = data["selftext_html"] as? String ?? ""
+        let tempSelftextHtml = data["selftext_html"] as? String ?? ""
+        selftextHtml = tempSelftextHtml.gtm_stringByUnescapingFromHTML()
         selftext = data["selftext"] as? String ?? ""
         likes = data["likes"] as? Bool ?? nil
         linkFlairText = data["link_flair_text"] as? String ?? ""

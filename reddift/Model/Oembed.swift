@@ -72,7 +72,8 @@ public struct Oembed {
 		self.thumbnailWidth = json["thumbnail_width"] as? Int ?? 0
 		self.height = json["height"] as? Int ?? 0
 		self.width = json["width"] as? Int ?? 0
-		self.html = json["html"] as? String ?? ""
+        let tempHtml = json["html"] as? String ?? ""
+        self.html = tempHtml.gtm_stringByUnescapingFromHTML()
 		self.version = json["version"] as? String ?? ""
 		self.providerName = json["provider_name"] as? String ?? ""
 		self.thumbnailUrl = json["thumbnail_url"] as? String ?? ""
