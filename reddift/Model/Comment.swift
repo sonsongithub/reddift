@@ -30,6 +30,30 @@ import Foundation
     }
 #endif
 
+/// Regular expression to preprocess before NSAttributedString class parses html.
+//private let regrexPreprocessBeforeNSAttributedStringParsing = try! NSRegularExpression(pattern: "(<del>)|(</del>)", options: NSRegularExpressionOptions.CaseInsensitive)
+
+extension String {
+    public func preprocessedHTMLStringBeforeNSAttributedStringParsing() -> String {
+        var temp = self.stringByReplacingOccurrencesOfString("<del>", withString: "<font size=\"5\">")
+        temp = temp.stringByReplacingOccurrencesOfString("<blockquote>", withString: "<cite>")
+        temp = temp.stringByReplacingOccurrencesOfString("</blockquote>", withString: "</cite>")
+        return temp.stringByReplacingOccurrencesOfString("</del>", withString: "</font>")
+        
+//        let str:NSMutableString = NSMutableString(string: self)
+//        let matches = regrexPreprocessBeforeNSAttributedStringParsing.matchesInString(self, options: NSMatchingOptions(), range: NSMakeRange(0, self.utf16.count))
+//        matches.reverse().forEach { (result:NSTextCheckingResult) -> () in
+//            if result.rangeAtIndex(1).length > 0 {
+//                (str as NSMutableString).replaceCharactersInRange(result.rangeAtIndex(1), withString: "<font size=\"5\">")
+//            }
+//            else if result.rangeAtIndex(2).length > 0 {
+//                (str as NSMutableString).replaceCharactersInRange(result.rangeAtIndex(2), withString: "</font>")
+//            }
+//        }
+//        return str as String
+    }
+}
+
 /// Regular expression to parse markdown
 private let regexToParseRedditMarkdown = try! NSRegularExpression(pattern: "((\\n|^)\\*\\s)|(~~([^\\s]+?)~~)|(\\*\\*([^\\s^\\*]+?)\\*\\*)|(\\*([^\\s^\\*]+?)\\*)|(\\[(.+?)\\]\\(([%!$&'*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)\\))|(\\^([^\\s\\^]+))|(https{0,1}://[%!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)|(/(r|u)/[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_]+)", options: NSRegularExpressionOptions.CaseInsensitive)
 
@@ -482,7 +506,7 @@ public struct Comment : Thing {
         authorFlairCssClass = data["author_flair_css_class"] as? String ?? ""
         downs = data["downs"] as? Int ?? 0
         let tempBodyHtml = data["body_html"] as? String ?? ""
-        print("------------------------")
+//        print("------------------------")
         bodyHtml = tempBodyHtml.gtm_stringByUnescapingFromHTML()
         print(bodyHtml)
         subreddit = data["subreddit"] as? String ?? ""
