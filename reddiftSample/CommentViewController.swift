@@ -25,20 +25,22 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         return newComments.map { (thing:Thing) -> CellContent in
             if let comment = thing as? Comment {
 //                print("---------")
-                let a = comment.bodyHtml.stringByReplacingOccurrencesOfString("<del>", withString: "<font size=\"200px;\">")
+                var a = comment.bodyHtml.stringByReplacingOccurrencesOfString("<del>", withString: "<font size=\"5\">")
+                a = a.stringByReplacingOccurrencesOfString("<blockquote>", withString: "<cite>")
+                a = a.stringByReplacingOccurrencesOfString("</blockquote>", withString: "</cite>")
                 let html = a.stringByReplacingOccurrencesOfString("</del>", withString: "</font>")
                 let attr = try! NSMutableAttributedString(data: html.dataUsingEncoding(NSUnicodeStringEncoding)!
                     , options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
                 //                attr.addAttribute(NSFontAttributeName, value: UIFont.preferredFontForTextStyle(UIFontTextStyleBody), range: NSMakeRange(0, attr.length))
 //                print(attr.string)
-//                attr.enumerateAttribute(NSFontAttributeName, inRange: NSMakeRange(0, attr.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
-//                    print(value)
-//                    if let font = value as? UIFont {
-//                        print(font.fontName)
-//                        print(font.pointSize)
-//                        print((attr.string as NSString).substringWithRange(range))
-//                    }
-//                })
+                attr.enumerateAttribute(NSFontAttributeName, inRange: NSMakeRange(0, attr.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
+                    print(value)
+                    if let font = value as? UIFont {
+                        print(font.fontName)
+                        print(font.pointSize)
+                        print((attr.string as NSString).substringWithRange(range))
+                    }
+                })
 ////                attr.enumerateAttribute(NSLinkAttributeName, inRange: NSMakeRange(0, attr.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
 ////                    print(value)
 ////                    print(range)
