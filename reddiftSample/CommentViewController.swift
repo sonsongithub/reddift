@@ -24,16 +24,27 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     func updateStrings(newComments:[Thing]) -> [CellContent] {
         return newComments.map { (thing:Thing) -> CellContent in
             if let comment = thing as? Comment {
-                print("---------")
-                let html = comment.bodyHtml
+//                print("---------")
+                let a = comment.bodyHtml.stringByReplacingOccurrencesOfString("<del>", withString: "<font size=\"200px;\">")
+                let html = a.stringByReplacingOccurrencesOfString("</del>", withString: "</font>")
                 let attr = try! NSMutableAttributedString(data: html.dataUsingEncoding(NSUnicodeStringEncoding)!
                     , options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
-                attr.addAttribute(NSFontAttributeName, value: UIFont.preferredFontForTextStyle(UIFontTextStyleBody), range: NSMakeRange(0, attr.length))
-                
-                attr.enumerateAttribute(NSLinkAttributeName, inRange: NSMakeRange(0, attr.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
-                    print(value)
-                    print(range)
-                })
+                //                attr.addAttribute(NSFontAttributeName, value: UIFont.preferredFontForTextStyle(UIFontTextStyleBody), range: NSMakeRange(0, attr.length))
+//                print(attr.string)
+//                attr.enumerateAttribute(NSFontAttributeName, inRange: NSMakeRange(0, attr.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
+//                    print(value)
+//                    if let font = value as? UIFont {
+//                        print(font.fontName)
+//                        print(font.pointSize)
+//                        print((attr.string as NSString).substringWithRange(range))
+//                    }
+//                })
+////                attr.enumerateAttribute(NSLinkAttributeName, inRange: NSMakeRange(0, attr.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
+////                    print(value)
+////                    print(range)
+////                })
+//                
+//                
                 
                 return CellContent(string:attr, width:self.view.frame.size.width, hasRelies:false)
             }
@@ -196,7 +207,14 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                             newComments += extendAllReplies(comment)
                         }
                         self.comments += newComments
+                        
+                        var time:timeval = timeval(tv_sec: 0, tv_usec: 0)
+                        gettimeofday(&time, nil)
                         self.contents += self.updateStrings(newComments)
+                        var time2:timeval = timeval(tv_sec: 0, tv_usec: 0)
+                        gettimeofday(&time2, nil)
+                        let r = Double(time2.tv_sec) + Double(time2.tv_usec) / 1000000.0 - Double(time.tv_sec) - Double(time.tv_usec) / 1000000.0
+                        print("\(Int(r*1000))[msec]")
                         self.paginator = listing.paginator
 
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
