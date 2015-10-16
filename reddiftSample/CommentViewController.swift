@@ -25,18 +25,9 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         return newComments.map { (thing:Thing) -> CellContent in
             if let comment = thing as? Comment {
                 let html = comment.bodyHtml.preprocessedHTMLStringBeforeNSAttributedStringParsing()
-                
                 let attr = try! NSMutableAttributedString(data: html.dataUsingEncoding(NSUnicodeStringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
-                attr.enumerateAttribute(NSFontAttributeName, inRange: NSMakeRange(0, attr.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
-//                    print(value)
-//                    if let font = value as? UIFont {
-//                        print(font.fontName)
-//                        print(font.pointSize)
-//                        print((attr.string as NSString).substringWithRange(range))
-//                    }
-                })
-                
-                return CellContent(string:attr, width:self.view.frame.size.width, hasRelies:false)
+                let attr2 = attr.reconstructAttributedString()
+                return CellContent(string:attr2, width:self.view.frame.size.width, hasRelies:false)
             }
             else {
                 return CellContent(string:"more", width:self.view.frame.size.width, hasRelies:false)

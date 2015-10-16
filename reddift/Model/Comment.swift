@@ -70,6 +70,7 @@ private let redditLinkPos   = 15
 /// Enum, attributes for NSAttributedString
 private enum Attribute {
     case Link(String, Int, Int)
+    case LinkURL(NSURL, Int, Int)
     case Bold(Int, Int)
     case Italic(Int, Int)
     case Superscript(Int, Int)
@@ -114,6 +115,66 @@ extension NSAttributedString {
                 .flatMap {NSURLComponents(URL: $0, resolvingAgainstBaseURL: false)}
                 .flatMap {$0.hasImageFileExtension ? $0.URL : nil}
         }
+    }
+    
+    /// Reconstruct attributed string
+    public func reconstructAttributedString() -> NSAttributedString {
+        var attributes:[Attribute] = []
+        
+        self.enumerateAttribute(NSLinkAttributeName, inRange: NSMakeRange(0, self.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
+            if let URL = value as? NSURL {
+                attributes.append(Attribute.LinkURL(URL, range.location, range.length))
+            }
+        })
+        
+        self.enumerateAttribute(NSFontAttributeName, inRange: NSMakeRange(0, self.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
+            if let font = value as? UIFont {
+                switch font.fontName {
+                case "TimesNewRomanPS-BoldItalicMT":
+                    attributes.append(Attribute.Italic(range.location, range.length))
+                case "TimesNewRomanPS-ItalicMT":
+                    attributes.append(Attribute.Italic(range.location, range.length))
+                case "TimesNewRomanPS-BoldMT":
+                    attributes.append(Attribute.Bold(range.location, range.length))
+                default:
+                    do {}
+                }
+                if font.pointSize < 12 {
+                    attributes.append(Attribute.Superscript(range.location, range.length))
+                }
+                else if font.pointSize > 12 {
+                    attributes.append(Attribute.Strike(range.location, range.length))
+                }
+            }
+        })
+        
+        let fontSize:CGFloat = 14
+        let superscriptFontSize:CGFloat = -7
+        
+        let output = NSMutableAttributedString(string: string)
+        
+//        output.addAttribute(NSFontAttributeName, value: ReddiftFont.systemFontOfSize(fontSize), range: NSMakeRange(0, output.length))
+        
+        attributes.forEach {
+            switch $0 {
+            case .LinkURL(let URL, let loc, let len):
+                output.addAttribute(NSLinkAttributeName, value: URL, range: NSMakeRange(loc, len))
+                output.addAttribute(NSForegroundColorAttributeName, value: UIColor.redColor(), range: NSMakeRange(loc, len))
+            case .Bold(let loc, let len):
+                output.addAttribute(NSFontAttributeName, value: ReddiftFont.boldSystemFontOfSize(fontSize), range: NSMakeRange(loc, len))
+            case .Italic(let loc, let len):
+                output.addAttribute(NSFontAttributeName, value: ReddiftFont.italicSystemFontOfSize(fontSize), range: NSMakeRange(loc, len))
+            case .Superscript(let loc, let len):
+                output.addAttribute(NSFontAttributeName, value: ReddiftFont.systemFontOfSize(6), range: NSMakeRange(loc, len))
+                output.addAttribute(NSBaselineOffsetAttributeName, value:NSNumber(int:14), range: NSMakeRange(loc, len))
+            case .Strike(let loc, let len):
+                output.addAttribute("NSStrikethrough", value:NSNumber(int:1), range: NSMakeRange(loc, len))
+            default:
+                do {}
+            }
+        }
+        
+        return output
     }
 }
 
@@ -269,7 +330,6 @@ extension String {
         let (string, attrs) = parseMarkdownAndExtractAttributes()
         
         let output = NSMutableAttributedString(string: string)
-        
         attrs.forEach {
             switch $0 {
             case .Link(let link, let loc, let len):
@@ -283,6 +343,8 @@ extension String {
                 output.addAttribute(NSBaselineOffsetAttributeName, value:superscriptFontSize, range: NSMakeRange(loc, len))
             case .Strike(let loc, let len):
                 output.addAttribute(NSStrikethroughStyleAttributeName, value:NSUnderlineStyle.PatternSolid.rawValue, range: NSMakeRange(loc, len))
+            default:
+                do {}
             }
         }
         
