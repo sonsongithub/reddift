@@ -17,17 +17,11 @@ import Foundation
 
 /// Shared Font class
 #if os(iOS)
-    typealias ReddiftFont = UIFont
+    typealias _Font = UIFont
+    typealias _Color = UIColor
 #elseif os(OSX)
-    typealias ReddiftFont = NSFont
-    /// NSFont extension for "italicSystemFontOfSize" for OSX
-    extension NSFont {
-        /// Class method for OSX, instead of iOS's "italicSystemFontOfSize"
-        static func italicSystemFontOfSize(fontSize:CGFloat) -> NSFont {
-            let font = NSFont.systemFontOfSize(fontSize)
-            return NSFontManager.sharedFontManager().convertFont(font, toHaveTrait:NSFontTraitMask.ItalicFontMask)
-        }
-    }
+    typealias _Font = NSFont
+    typealias _Color = NSColor
 #endif
 
 extension String {
@@ -88,24 +82,41 @@ extension NSAttributedString {
                 .flatMap {($0.hasImageFileExtension && $0.scheme != "applewebdata") ? $0.URL : nil}
         }
     }
-    
-    /// Reconstruct attributed string
-    public func reconstructAttributedString() -> NSAttributedString {
-        return reconstructAttributedString(UIFont.systemFontOfSize(12), color: UIColor.blackColor(), linkColor: UIColor.blueColor())
-    }
-    
+#if os(iOS)
     /// Reconstruct attributed string
     public func reconstructAttributedString(normalFont:UIFont, color:UIColor, linkColor:UIColor) -> NSAttributedString {
+        return __reconstructAttributedString(normalFont, color:color, linkColor:linkColor)
+    }
+#elseif os(OSX)
+    public func reconstructAttributedString(normalFont:NSFont, color:NSColor, linkColor:NSColor) -> NSAttributedString {
+        return __reconstructAttributedString(normalFont, color:color, linkColor:linkColor)
+    }
+#endif
+    
+    /// Reconstruct attributed string, intrinsic function.
+    /// This function is for encapsulating difference of font and color class.
+    func __reconstructAttributedString(normalFont:_Font, color:_Color, linkColor:_Color) -> NSAttributedString {
+#if os(iOS)
         let traits = normalFont.fontDescriptor().symbolicTraits
-        
+
         let italicFontDescriptor = normalFont.fontDescriptor().fontDescriptorWithSymbolicTraits([traits, .TraitItalic])
         let boldFontDescriptor = normalFont.fontDescriptor().fontDescriptorWithSymbolicTraits([traits, .TraitBold])
         
-        let italicFont = UIFont(descriptor: italicFontDescriptor, size: normalFont.fontDescriptor().pointSize)
-        let boldFont = UIFont(descriptor: boldFontDescriptor, size: normalFont.fontDescriptor().pointSize)
-        let codeFont = UIFont(name: "Courier", size: normalFont.fontDescriptor().pointSize)
-        let superscriptFont = UIFont(descriptor: normalFont.fontDescriptor(), size: normalFont.fontDescriptor().pointSize/2)
+        let italicFont = _Font(descriptor: italicFontDescriptor, size: normalFont.fontDescriptor().pointSize)
+        let boldFont = _Font(descriptor: boldFontDescriptor, size: normalFont.fontDescriptor().pointSize)
+        let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor().pointSize) ?? normalFont
+        let superscriptFont = _Font(descriptor: normalFont.fontDescriptor(), size: normalFont.fontDescriptor().pointSize/2)
+#elseif os(OSX)
+        let traits:NSFontSymbolicTraits = normalFont.fontDescriptor.symbolicTraits
+    
+        let italicFontDescriptor = normalFont.fontDescriptor.fontDescriptorWithSymbolicTraits(traits & NSFontSymbolicTraits(NSFontItalicTrait))
+        let boldFontDescriptor = normalFont.fontDescriptor.fontDescriptorWithSymbolicTraits(traits & NSFontSymbolicTraits(NSFontBoldTrait))
         
+        let italicFont = _Font(descriptor: italicFontDescriptor, size: normalFont.fontDescriptor.pointSize) ?? normalFont
+        let boldFont = _Font(descriptor: boldFontDescriptor, size: normalFont.fontDescriptor.pointSize) ?? normalFont
+        let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor.pointSize) ?? normalFont
+        let superscriptFont = _Font(descriptor: normalFont.fontDescriptor, size: normalFont.fontDescriptor.pointSize/2) ?? normalFont
+#endif
         var attributes:[Attribute] = []
         
         self.enumerateAttribute(NSLinkAttributeName, inRange: NSMakeRange(0, self.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
@@ -115,7 +126,7 @@ extension NSAttributedString {
         })
         
         self.enumerateAttribute(NSFontAttributeName, inRange: NSMakeRange(0, self.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
-            if let font = value as? UIFont {
+            if let font = value as? _Font {
                 switch font.fontName {
                 case "TimesNewRomanPS-BoldItalicMT":
                     attributes.append(Attribute.Italic(range.location, range.length))
@@ -156,7 +167,7 @@ extension NSAttributedString {
             case .Strike(let loc, let len):
                 output.addAttribute(NSStrikethroughStyleAttributeName, value:NSNumber(int:1), range: NSMakeRange(loc, len))
             case .Code(let loc, let len):
-                output.addAttribute(NSFontAttributeName, value:codeFont!, range: NSMakeRange(loc, len))
+                output.addAttribute(NSFontAttributeName, value:codeFont, range: NSMakeRange(loc, len))
             }
         }
         

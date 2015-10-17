@@ -9,7 +9,6 @@
 #ifndef reddift_test_objc_header_h
 #define reddift_test_objc_header_h
 
-#import "UZTextView.h"
 #import "GTMNSString+HTML.h"
 
 #endif

@@ -27,7 +27,8 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                 let html = comment.bodyHtml.preprocessedHTMLStringBeforeNSAttributedStringParsing()
                 do {
                     let attr = try NSMutableAttributedString(data: html.dataUsingEncoding(NSUnicodeStringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
-                    return CellContent(string:attr.reconstructAttributedString(), width:self.view.frame.size.width - 20, hasRelies:false)
+                    let attr2 = attr.reconstructAttributedString(UIFont.systemFontOfSize(12), color: UIColor.blackColor(), linkColor: UIColor.blueColor())
+                    return CellContent(string:attr2, width:self.view.frame.size.width - 20, hasRelies:false)
                 }
                 catch {
                     return CellContent(string:NSAttributedString(string: ""), width:self.view.frame.size.width - 20, hasRelies:false)
