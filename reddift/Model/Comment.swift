@@ -30,47 +30,18 @@ import Foundation
     }
 #endif
 
-/// Regular expression to preprocess before NSAttributedString class parses html.
-//private let regrexPreprocessBeforeNSAttributedStringParsing = try! NSRegularExpression(pattern: "(<del>)|(</del>)", options: NSRegularExpressionOptions.CaseInsensitive)
-
 extension String {
     public func preprocessedHTMLStringBeforeNSAttributedStringParsing() -> String {
         var temp = self.stringByReplacingOccurrencesOfString("<del>", withString: "<font size=\"5\">")
         temp = temp.stringByReplacingOccurrencesOfString("<blockquote>", withString: "<cite>")
         temp = temp.stringByReplacingOccurrencesOfString("</blockquote>", withString: "</cite>")
         return temp.stringByReplacingOccurrencesOfString("</del>", withString: "</font>")
-        
-//        let str:NSMutableString = NSMutableString(string: self)
-//        let matches = regrexPreprocessBeforeNSAttributedStringParsing.matchesInString(self, options: NSMatchingOptions(), range: NSMakeRange(0, self.utf16.count))
-//        matches.reverse().forEach { (result:NSTextCheckingResult) -> () in
-//            if result.rangeAtIndex(1).length > 0 {
-//                (str as NSMutableString).replaceCharactersInRange(result.rangeAtIndex(1), withString: "<font size=\"5\">")
-//            }
-//            else if result.rangeAtIndex(2).length > 0 {
-//                (str as NSMutableString).replaceCharactersInRange(result.rangeAtIndex(2), withString: "</font>")
-//            }
-//        }
-//        return str as String
     }
 }
 
-/// Regular expression to parse markdown
-private let regexToParseRedditMarkdown = try! NSRegularExpression(pattern: "((\\n|^)\\*\\s)|(~~([^\\s]+?)~~)|(\\*\\*([^\\s^\\*]+?)\\*\\*)|(\\*([^\\s^\\*]+?)\\*)|(\\[(.+?)\\]\\(([%!$&'*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)\\))|(\\^([^\\s\\^]+))|(https{0,1}://[%!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~]+)|(/(r|u)/[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_]+)", options: NSRegularExpressionOptions.CaseInsensitive)
-
-/// Index of parentheses in above regular expression to parse markdown
-private let headStarPos     = 1
-private let strikePos       = 3
-private let boldPos         = 5
-private let italicPos       = 7
-private let mdLinkPos       = 9
-private let superscriptPos  = 12
-private let httpLinkPos     = 14
-private let redditLinkPos   = 15
-
 /// Enum, attributes for NSAttributedString
 private enum Attribute {
-    case Link(String, Int, Int)
-    case LinkURL(NSURL, Int, Int)
+    case Link(NSURL, Int, Int)
     case Bold(Int, Int)
     case Italic(Int, Int)
     case Superscript(Int, Int)
@@ -83,7 +54,7 @@ private let regexForHasImageFileExtension = try! NSRegularExpression(pattern: "^
 
 extension NSURLComponents {
     /// Returns true when URL's filename has image's file extension(like gif, jpg, png).
-var hasImageFileExtension : Bool {
+    var hasImageFileExtension : Bool {
         if let path = self.path {
             if let r = regexForHasImageFileExtension.firstMatchInString(path, options: NSMatchingOptions(), range: NSMakeRange(0, path.characters.count)) {
                 return r.rangeAtIndex(1).length > 0
@@ -139,7 +110,7 @@ extension NSAttributedString {
         
         self.enumerateAttribute(NSLinkAttributeName, inRange: NSMakeRange(0, self.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
             if let URL = value as? NSURL {
-                attributes.append(Attribute.LinkURL(URL, range.location, range.length))
+                attributes.append(Attribute.Link(URL, range.location, range.length))
             }
         })
         
@@ -173,7 +144,7 @@ extension NSAttributedString {
         
         attributes.forEach {
             switch $0 {
-            case .LinkURL(let URL, let loc, let len):
+            case .Link(let URL, let loc, let len):
                 output.addAttribute(NSLinkAttributeName, value:URL, range: NSMakeRange(loc, len))
                 output.addAttribute(NSForegroundColorAttributeName, value: linkColor, range: NSMakeRange(loc, len))
             case .Bold(let loc, let len):
@@ -186,182 +157,6 @@ extension NSAttributedString {
                 output.addAttribute(NSStrikethroughStyleAttributeName, value:NSNumber(int:1), range: NSMakeRange(loc, len))
             case .Code(let loc, let len):
                 output.addAttribute(NSFontAttributeName, value:codeFont!, range: NSMakeRange(loc, len))
-            default:
-                do {}
-            }
-        }
-        
-        return output
-    }
-}
-
-extension String {
-    private func parseMarkdownAndExtractAttributes() -> (String, [Attribute]) {
-        let selfAsNSString:NSString = (self as NSString)
-        let results = regexToParseRedditMarkdown.matchesInString(self, options: NSMatchingOptions(), range:NSMakeRange(0, self.characters.count))
-        var buf = ""
-        var pointer = 0
-        var attrs:[Attribute] = []
-        
-        results.forEach { (result) -> () in
-            if result.rangeAtIndex(headStarPos).length > 0 {
-                /// Parse unordered list
-                /// [sample]
-                /// * hoge
-                if result.rangeAtIndex(headStarPos).location - pointer > 0 {
-                    let leftRange = NSMakeRange(pointer, result.rangeAtIndex(headStarPos).location - pointer)
-                    buf.appendContentsOf(selfAsNSString.substringWithRange(leftRange))
-                }
-                buf.appendContentsOf("\n・")
-                pointer = (result.rangeAtIndex(headStarPos).location + result.rangeAtIndex(headStarPos).length)
-            }
-            else if result.rangeAtIndex(strikePos).length > 0 {
-                /// Parse striking strings
-                /// [sample]
-                /// ~~hoge~~
-                if result.rangeAtIndex(strikePos).location - pointer > 0 {
-                    let leftRange = NSMakeRange(pointer, result.rangeAtIndex(strikePos).location - pointer)
-                    buf.appendContentsOf(selfAsNSString.substringWithRange(leftRange))
-                }
-                let strikedRange = NSMakeRange(result.rangeAtIndex(strikePos+1).location, result.rangeAtIndex(strikePos+1).length)
-                let strikedString = selfAsNSString.substringWithRange(strikedRange)
-                buf.appendContentsOf(strikedString)
-                
-                attrs.append(Attribute.Strike(buf.characters.count - strikedString.characters.count, strikedString.characters.count))
-                
-                pointer = (result.rangeAtIndex(strikePos).location + result.rangeAtIndex(strikePos).length)
-            }
-            else if result.rangeAtIndex(boldPos).length > 0 {
-                /// Parse bold strings
-                /// [sample]
-                /// **hoge**
-                if result.rangeAtIndex(boldPos).location - pointer > 0 {
-                    let leftRange = NSMakeRange(pointer, result.rangeAtIndex(boldPos).location - pointer)
-                    buf.appendContentsOf(selfAsNSString.substringWithRange(leftRange))
-                }
-                let boldRange = NSMakeRange(result.rangeAtIndex(boldPos+1).location, result.rangeAtIndex(boldPos+1).length)
-                let boldString = selfAsNSString.substringWithRange(boldRange)
-                buf.appendContentsOf(boldString)
-                
-                attrs.append(Attribute.Bold(buf.characters.count - result.rangeAtIndex(boldPos+1).length, result.rangeAtIndex(boldPos+1).length))
-                
-                pointer = (result.rangeAtIndex(boldPos).location + result.rangeAtIndex(boldPos).length)
-            }
-            else if result.rangeAtIndex(italicPos).length > 0 {
-                /// Parse italic strings
-                /// [sample]
-                /// *hoge*
-                if result.rangeAtIndex(italicPos).location - pointer > 0 {
-                    let leftRange = NSMakeRange(pointer, result.rangeAtIndex(italicPos).location - pointer)
-                    buf.appendContentsOf(selfAsNSString.substringWithRange(leftRange))
-                }
-                let italicRange = NSMakeRange(result.rangeAtIndex(italicPos+1).location, result.rangeAtIndex(italicPos+1).length)
-                let italicString = selfAsNSString.substringWithRange(italicRange)
-                buf.appendContentsOf(italicString)
-                
-                attrs.append(Attribute.Italic(buf.characters.count - result.rangeAtIndex(italicPos+1).length, result.rangeAtIndex(italicPos+1).length))
-                
-                pointer = (result.rangeAtIndex(italicPos).location + result.rangeAtIndex(italicPos).length)
-            }
-            else if result.rangeAtIndex(mdLinkPos).length > 0 {
-                /// Parse URL link style
-                /// [sample]
-                /// [description](http://www.yahoo.co.jp)
-                if result.rangeAtIndex(mdLinkPos).location - pointer > 0 {
-                    let leftRange = NSMakeRange(pointer, result.rangeAtIndex(mdLinkPos).location - pointer)
-                    buf.appendContentsOf(selfAsNSString.substringWithRange(leftRange))
-                }
-                let rangeOfTitle = NSMakeRange(result.rangeAtIndex(mdLinkPos+1).location, result.rangeAtIndex(mdLinkPos+1).length)
-                let rangeOfLink = NSMakeRange(result.rangeAtIndex(mdLinkPos+2).location, result.rangeAtIndex(mdLinkPos+2).length)
-                let title = selfAsNSString.substringWithRange(rangeOfTitle)
-                let url = selfAsNSString.substringWithRange(rangeOfLink)
-                
-                buf.appendContentsOf(title)
-                
-                attrs.append(Attribute.Link(url, buf.characters.count - title.characters.count, title.characters.count))
-                
-                pointer = (result.rangeAtIndex(mdLinkPos).location + result.rangeAtIndex(mdLinkPos).length)
-            }
-            else if result.rangeAtIndex(superscriptPos).length > 0 {
-                /// Parse superscript strings
-                /// [sample]
-                /// ^hoge
-                if result.rangeAtIndex(superscriptPos).location - pointer > 0 {
-                    let leftRange = NSMakeRange(pointer, result.rangeAtIndex(superscriptPos).location - pointer)
-                    buf.appendContentsOf(selfAsNSString.substringWithRange(leftRange))
-                }
-                let superscriptRange = NSMakeRange(result.rangeAtIndex(superscriptPos+1).location, result.rangeAtIndex(superscriptPos+1).length)
-                let superscriptString = selfAsNSString.substringWithRange(superscriptRange)
-                
-                buf.appendContentsOf(superscriptString)
-                
-                attrs.append(Attribute.Superscript(buf.characters.count - superscriptString.characters.count, superscriptString.characters.count))
-                
-                pointer = (result.rangeAtIndex(superscriptPos).location + result.rangeAtIndex(superscriptPos).length)
-            }
-            else if result.rangeAtIndex(httpLinkPos).length > 0 {
-                /// Parse http link strings
-                /// [sample]
-                /// http://sonson.jp
-                if result.rangeAtIndex(httpLinkPos).location - pointer > 0 {
-                    let leftRange = NSMakeRange(pointer, result.rangeAtIndex(httpLinkPos).location - pointer)
-                    buf.appendContentsOf(selfAsNSString.substringWithRange(leftRange))
-                }
-                let rangeOfHttpLink = NSMakeRange(result.rangeAtIndex(httpLinkPos).location, result.rangeAtIndex(httpLinkPos).length)
-                let stringOfHttpLink = selfAsNSString.substringWithRange(rangeOfHttpLink)
-                buf.appendContentsOf(stringOfHttpLink)
-                
-                attrs.append(Attribute.Link(stringOfHttpLink, buf.characters.count - stringOfHttpLink.characters.count, stringOfHttpLink.characters.count))
-                
-                pointer = (result.rangeAtIndex(httpLinkPos).location + result.rangeAtIndex(httpLinkPos).length)
-            }
-            else if result.rangeAtIndex(redditLinkPos).length > 0 {
-                /// Parse link to reddit.
-                /// [sample]
-                /// /r/hoge
-                if result.rangeAtIndex(redditLinkPos).location - pointer > 0 {
-                    let leftRange = NSMakeRange(pointer, result.rangeAtIndex(redditLinkPos).location - pointer)
-                    buf.appendContentsOf(selfAsNSString.substringWithRange(leftRange))
-                }
-                let rangeOfRedditLink = NSMakeRange(result.rangeAtIndex(redditLinkPos).location, result.rangeAtIndex(redditLinkPos).length)
-                let stringOfRedditLink = selfAsNSString.substringWithRange(rangeOfRedditLink)
-                buf.appendContentsOf(stringOfRedditLink)
-                
-                attrs.append(Attribute.Link(stringOfRedditLink, buf.characters.count - stringOfRedditLink.characters.count, stringOfRedditLink.characters.count))
-                
-                pointer = (result.rangeAtIndex(redditLinkPos).location + result.rangeAtIndex(redditLinkPos).length)
-            }
-        }
-        
-        /// output left strings from last location to EOF.
-        if selfAsNSString.length - pointer > 0 {
-            let leftRange = NSMakeRange(pointer, selfAsNSString.length - pointer)
-            buf.appendContentsOf(selfAsNSString.substringWithRange(leftRange))
-        }
-        
-        return (buf, attrs)
-    }
-    
-    func markdown2attributedStringWithFontSize(fontSize:CGFloat, superscriptFontSize:CGFloat) -> NSMutableAttributedString {
-        
-        let (string, attrs) = parseMarkdownAndExtractAttributes()
-        
-        let output = NSMutableAttributedString(string: string)
-        attrs.forEach {
-            switch $0 {
-            case .Link(let link, let loc, let len):
-                output.addAttribute(NSLinkAttributeName, value: link, range: NSMakeRange(loc, len))
-                output.addAttribute(NSForegroundColorAttributeName, value: UIColor.redColor(), range: NSMakeRange(loc, len))
-            case .Bold(let loc, let len):
-                output.addAttribute(NSFontAttributeName, value: ReddiftFont.boldSystemFontOfSize(fontSize), range: NSMakeRange(loc, len))
-            case .Italic(let loc, let len):
-                output.addAttribute(NSFontAttributeName, value: ReddiftFont.italicSystemFontOfSize(fontSize), range: NSMakeRange(loc, len))
-            case .Superscript(let loc, let len):
-                output.addAttribute(NSBaselineOffsetAttributeName, value:superscriptFontSize, range: NSMakeRange(loc, len))
-            case .Strike(let loc, let len):
-                output.addAttribute(NSStrikethroughStyleAttributeName, value:NSUnderlineStyle.PatternSolid.rawValue, range: NSMakeRange(loc, len))
-            default:
-                do {}
             }
         }
         
