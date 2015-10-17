@@ -75,6 +75,7 @@ private enum Attribute {
     case Italic(Int, Int)
     case Superscript(Int, Int)
     case Strike(Int, Int)
+    case Code(Int, Int)
 }
 
 /// Regular expression to check whether the file extension is image's one.
@@ -82,7 +83,7 @@ private let regexForHasImageFileExtension = try! NSRegularExpression(pattern: "^
 
 extension NSURLComponents {
     /// Returns true when URL's filename has image's file extension(like gif, jpg, png).
-    var hasImageFileExtension : Bool {
+var hasImageFileExtension : Bool {
         if let path = self.path {
             if let r = regexForHasImageFileExtension.firstMatchInString(path, options: NSMatchingOptions(), range: NSMakeRange(0, path.characters.count)) {
                 return r.rangeAtIndex(1).length > 0
@@ -95,7 +96,7 @@ extension NSURLComponents {
 /// Extension for NSAttributedString
 extension NSAttributedString {
     /// Returns list of URLs that were included in NSAttributedString as NSLinkAttributeName.
-    var includedURL : [NSURL] {
+    public var includedURL : [NSURL] {
         get {
             var values:[AnyObject] = []
             self.enumerateAttribute(NSLinkAttributeName, inRange: NSMakeRange(0, self.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
@@ -103,22 +104,37 @@ extension NSAttributedString {
                     values.append(value)
                 }
             })
-            return values.flatMap { $0 as? String }.flatMap {NSURL(string: $0)}
+            return values.flatMap { $0 as? NSURL }
         }
     }
     
     /// Returns list of image URLs(like gif, jpg, png) that were included in NSAttributedString as NSLinkAttributeName.
-    var includedImageURL : [NSURL] {
+    public var includedImageURL : [NSURL] {
         get {
             return self
                 .includedURL
                 .flatMap {NSURLComponents(URL: $0, resolvingAgainstBaseURL: false)}
-                .flatMap {$0.hasImageFileExtension ? $0.URL : nil}
+                .flatMap {($0.hasImageFileExtension && $0.scheme != "applewebdata") ? $0.URL : nil}
         }
     }
     
     /// Reconstruct attributed string
     public func reconstructAttributedString() -> NSAttributedString {
+        return reconstructAttributedString(UIFont.systemFontOfSize(12), color: UIColor.blackColor(), linkColor: UIColor.blueColor())
+    }
+    
+    /// Reconstruct attributed string
+    public func reconstructAttributedString(normalFont:UIFont, color:UIColor, linkColor:UIColor) -> NSAttributedString {
+        let traits = normalFont.fontDescriptor().symbolicTraits
+        
+        let italicFontDescriptor = normalFont.fontDescriptor().fontDescriptorWithSymbolicTraits([traits, .TraitItalic])
+        let boldFontDescriptor = normalFont.fontDescriptor().fontDescriptorWithSymbolicTraits([traits, .TraitBold])
+        
+        let italicFont = UIFont(descriptor: italicFontDescriptor, size: normalFont.fontDescriptor().pointSize)
+        let boldFont = UIFont(descriptor: boldFontDescriptor, size: normalFont.fontDescriptor().pointSize)
+        let codeFont = UIFont(name: "Courier", size: normalFont.fontDescriptor().pointSize)
+        let superscriptFont = UIFont(descriptor: normalFont.fontDescriptor(), size: normalFont.fontDescriptor().pointSize/2)
+        
         var attributes:[Attribute] = []
         
         self.enumerateAttribute(NSLinkAttributeName, inRange: NSMakeRange(0, self.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
@@ -136,6 +152,8 @@ extension NSAttributedString {
                     attributes.append(Attribute.Italic(range.location, range.length))
                 case "TimesNewRomanPS-BoldMT":
                     attributes.append(Attribute.Bold(range.location, range.length))
+                case "Courier":
+                    attributes.append(Attribute.Code(range.location, range.length))
                 default:
                     do {}
                 }
@@ -148,27 +166,26 @@ extension NSAttributedString {
             }
         })
         
-        let fontSize:CGFloat = 14
-        let superscriptFontSize:CGFloat = -7
-        
         let output = NSMutableAttributedString(string: string)
         
-//        output.addAttribute(NSFontAttributeName, value: ReddiftFont.systemFontOfSize(fontSize), range: NSMakeRange(0, output.length))
+        output.addAttribute(NSFontAttributeName, value: normalFont, range: NSMakeRange(0, output.length))
+        output.addAttribute(NSForegroundColorAttributeName, value: color, range: NSMakeRange(0, output.length))
         
         attributes.forEach {
             switch $0 {
             case .LinkURL(let URL, let loc, let len):
-                output.addAttribute(NSLinkAttributeName, value: URL, range: NSMakeRange(loc, len))
-                output.addAttribute(NSForegroundColorAttributeName, value: UIColor.redColor(), range: NSMakeRange(loc, len))
+                output.addAttribute(NSLinkAttributeName, value:URL, range: NSMakeRange(loc, len))
+                output.addAttribute(NSForegroundColorAttributeName, value: linkColor, range: NSMakeRange(loc, len))
             case .Bold(let loc, let len):
-                output.addAttribute(NSFontAttributeName, value: ReddiftFont.boldSystemFontOfSize(fontSize), range: NSMakeRange(loc, len))
+                output.addAttribute(NSFontAttributeName, value:boldFont, range: NSMakeRange(loc, len))
             case .Italic(let loc, let len):
-                output.addAttribute(NSFontAttributeName, value: ReddiftFont.italicSystemFontOfSize(fontSize), range: NSMakeRange(loc, len))
+                output.addAttribute(NSFontAttributeName, value:italicFont, range: NSMakeRange(loc, len))
             case .Superscript(let loc, let len):
-                output.addAttribute(NSFontAttributeName, value: ReddiftFont.systemFontOfSize(6), range: NSMakeRange(loc, len))
-                output.addAttribute(NSBaselineOffsetAttributeName, value:NSNumber(int:14), range: NSMakeRange(loc, len))
+                output.addAttribute(NSFontAttributeName, value:superscriptFont, range: NSMakeRange(loc, len))
             case .Strike(let loc, let len):
-                output.addAttribute("NSStrikethrough", value:NSNumber(int:1), range: NSMakeRange(loc, len))
+                output.addAttribute(NSStrikethroughStyleAttributeName, value:NSNumber(int:1), range: NSMakeRange(loc, len))
+            case .Code(let loc, let len):
+                output.addAttribute(NSFontAttributeName, value:codeFont!, range: NSMakeRange(loc, len))
             default:
                 do {}
             }

@@ -25,12 +25,16 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         return newComments.map { (thing:Thing) -> CellContent in
             if let comment = thing as? Comment {
                 let html = comment.bodyHtml.preprocessedHTMLStringBeforeNSAttributedStringParsing()
-                let attr = try! NSMutableAttributedString(data: html.dataUsingEncoding(NSUnicodeStringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
-                let attr2 = attr.reconstructAttributedString()
-                return CellContent(string:attr2, width:self.view.frame.size.width, hasRelies:false)
+                do {
+                    let attr = try NSMutableAttributedString(data: html.dataUsingEncoding(NSUnicodeStringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
+                    return CellContent(string:attr.reconstructAttributedString(), width:self.view.frame.size.width - 20, hasRelies:false)
+                }
+                catch {
+                    return CellContent(string:NSAttributedString(string: ""), width:self.view.frame.size.width - 20, hasRelies:false)
+                }
             }
             else {
-                return CellContent(string:"more", width:self.view.frame.size.width, hasRelies:false)
+                return CellContent(string:"more", width:self.view.frame.size.width - 20, hasRelies:false)
             }
         }
     }

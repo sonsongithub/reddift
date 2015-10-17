@@ -315,7 +315,8 @@ public struct Link : Thing {
         subreddit = data["subreddit"] as? String ?? ""
         let tempSelftextHtml = data["selftext_html"] as? String ?? ""
         selftextHtml = tempSelftextHtml.gtm_stringByUnescapingFromHTML()
-        selftext = data["selftext"] as? String ?? ""
+        let tempSelftext = data["selftext"] as? String ?? ""
+        selftext = tempSelftext.gtm_stringByUnescapingFromHTML()
         likes = data["likes"] as? Bool ?? nil
         linkFlairText = data["link_flair_text"] as? String ?? ""
         gilded = data["gilded"] as? Int ?? 0
@@ -335,13 +336,15 @@ public struct Link : Thing {
         downs = data["downs"] as? Int ?? 0
         saved = data["saved"] as? Bool ?? false
         isSelf = data["is_self"] as? Bool ?? false
-        name = data["name"] as? String ?? ""
+        let tempName = data["name"] as? String ?? ""
+        name = tempName.gtm_stringByUnescapingFromHTML()
         permalink = data["permalink"] as? String ?? ""
         stickied = data["stickied"] as? Bool ?? false
         created = data["created"] as? Int ?? 0
         url = convertObjectToEscapedURLString(data["url"])
         authorFlairText = data["author_flair_text"] as? String ?? ""
-        title = data["title"] as? String ?? ""
+        let tempTitle = data["title"] as? String ?? ""
+        title = tempTitle.gtm_stringByUnescapingFromHTML()
         createdUtc = data["created_utc"] as? Int ?? 0
         ups = data["ups"] as? Int ?? 0
         upvoteRatio = data["upvote_ratio"] as? Double ?? 0
