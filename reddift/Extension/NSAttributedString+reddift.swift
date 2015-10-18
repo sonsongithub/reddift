@@ -128,7 +128,7 @@ extension NSAttributedString {
     */
     private func __reconstructAttributedString(normalFont:_Font, color:_Color, linkColor:_Color, codeBackgroundColor:_Color) -> NSAttributedString {
         let attributes:[Attribute] = self.attributesForReddift()
-        let (italicFont, boldFont, codeFont, superscriptFont) = createFonts(normalFont)
+        let (italicFont, boldFont, codeFont, superscriptFont) = createDerivativeFonts(normalFont)
         
         let output = NSMutableAttributedString(string: string)
         output.addAttribute(NSFontAttributeName, value: normalFont, range: NSMakeRange(0, output.length))

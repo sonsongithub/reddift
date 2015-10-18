@@ -31,6 +31,6 @@ class BaseLinkViewController: UITableViewController, UISearchBarDelegate {
     
     func updateStrings() {
         contents.removeAll(keepCapacity:true)
-        contents = links.map{CellContent(string:$0.title, width:self.view.frame.size.width)}
+        contents = links.map{CellContent(string:$0.title, width:self.view.frame.size.width - 25)}
     }
 }

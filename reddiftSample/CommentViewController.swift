@@ -28,14 +28,14 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                 do {
                     let attr = try NSMutableAttributedString(data: html.dataUsingEncoding(NSUnicodeStringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
                     let attr2 = attr.reconstructAttributedString(UIFont.systemFontOfSize(12), color: UIColor.blackColor(), linkColor: UIColor.blueColor())
-                    return CellContent(string:attr2, width:self.view.frame.size.width - 20, hasRelies:false)
+                    return CellContent(string:attr2, width:self.view.frame.size.width - 25, hasRelies:false)
                 }
                 catch {
-                    return CellContent(string:NSAttributedString(string: ""), width:self.view.frame.size.width - 20, hasRelies:false)
+                    return CellContent(string:NSAttributedString(string: ""), width:self.view.frame.size.width - 25, hasRelies:false)
                 }
             }
             else {
-                return CellContent(string:"more", width:self.view.frame.size.width - 20, hasRelies:false)
+                return CellContent(string:"more", width:self.view.frame.size.width - 25, hasRelies:false)
             }
         }
     }
