@@ -34,6 +34,20 @@ private enum Attribute {
     case Code(Int, Int)
 }
 
+/// Extension for NSAttributedString
+extension String {
+    /**
+    Returns HTML string whose del and blockquote tag is replaced with font size tag in order to extract these tags using NSAttribtedString class method.
+    - returns: String, which is processed.
+    */
+    public func preprocessedHTMLStringBeforeNSAttributedStringParsing() -> String {
+        var temp = self.stringByReplacingOccurrencesOfString("<del>", withString: "<font size=\"5\">")
+        temp = temp.stringByReplacingOccurrencesOfString("<blockquote>", withString: "<cite>")
+        temp = temp.stringByReplacingOccurrencesOfString("</blockquote>", withString: "</cite>")
+        return temp.stringByReplacingOccurrencesOfString("</del>", withString: "</font>")
+    }
+}
+
 /// Regular expression to check whether the file extension is image's one.
 private let regexForHasImageFileExtension = try! NSRegularExpression(pattern: "^/.+\\.(jpg|jpeg|gif|png)$", options: NSRegularExpressionOptions.CaseInsensitive)
 
@@ -77,24 +91,24 @@ extension NSAttributedString {
     
 #if os(iOS)
     /**
-    Reconstruct attributed string.
-    - parameter normalFont : To be written
-    - parameter color : To be written
-    - parameter linkColor : To be written
-    - parameter codeBackgroundColor : To be written
-    - returns : To be written
+    Reconstructs attributed string for rendering using UZTextView or UITextView.
+    - parameter normalFont : Specified UIFont you want to use when the object is rendered.
+    - parameter color : Specified UIColor of strings.
+    - parameter linkColor : Specified UIColor of strings have NSLinkAttributeName as an attribute.
+    - parameter codeBackgroundColor : Specified UIColor of background of strings that are included in <code>.
+    - returns : NSAttributedString object to render using UZTextView or UITextView.
     */
     public func reconstructAttributedString(normalFont:UIFont, color:UIColor, linkColor:UIColor, codeBackgroundColor:UIColor = UIColor.lightGrayColor()) -> NSAttributedString {
         return __reconstructAttributedString(normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
     }
 #elseif os(OSX)
     /**
-    Reconstruct attributed string.
-    - parameter normalFont : To be written
-    - parameter color : To be written
-    - parameter linkColor : To be written
-    - parameter codeBackgroundColor : To be written
-    - returns : To be written
+    Reconstructs attributed string for rendering it.
+    - parameter normalFont : Specified NSFont you want to use when the object is rendered.
+    - parameter color : Specified NSColor of strings.
+    - parameter linkColor : Specified NSColor of strings have NSLinkAttributeName as an attribute.
+    - parameter codeBackgroundColor : Specified NSColor of background of strings that are included in <code>.
+    - returns : NSAttributedString object.
     */
     public func reconstructAttributedString(normalFont:NSFont, color:NSColor, linkColor:NSColor, codeBackgroundColor:NSColor = NSColor.lightGrayColor()) -> NSAttributedString {
         return __reconstructAttributedString(normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
@@ -106,11 +120,11 @@ extension NSAttributedString {
 extension NSAttributedString {
     /**
     Reconstruct attributed string, intrinsic function. This function is for encapsulating difference of font and color class.
-    - parameter normalFont : To be written
-    - parameter color : To be written
-    - parameter linkColor : To be written
-    - parameter codeBackgroundColor : To be written
-    - returns : To be written
+    - parameter normalFont : Specified NSFont/UIFont you want to use when the object is rendered.
+    - parameter color : Specified NSColor/UIColor of strings.
+    - parameter linkColor : Specified NSColor/UIColor of strings have NSLinkAttributeName as an attribute.
+    - parameter codeBackgroundColor : Specified NSColor/UIColor of background of strings that are included in <code>.
+    - returns : NSAttributedString object.
     */
     private func __reconstructAttributedString(normalFont:_Font, color:_Color, linkColor:_Color, codeBackgroundColor:_Color) -> NSAttributedString {
         let attributes:[Attribute] = self.attributesForReddift()
@@ -119,7 +133,6 @@ extension NSAttributedString {
         let output = NSMutableAttributedString(string: string)
         output.addAttribute(NSFontAttributeName, value: normalFont, range: NSMakeRange(0, output.length))
         output.addAttribute(NSForegroundColorAttributeName, value: color, range: NSMakeRange(0, output.length))
-        
         attributes.forEach {
             switch $0 {
             case .Link(let URL, let loc, let len):
@@ -142,38 +155,34 @@ extension NSAttributedString {
     }
 
     /**
-    Create fonts for NSAttributedString
-    - parameter normalFont : To be written
-    - returns : To be written
+    Create fonts which is derivative of specified font object.
+    - parameter normalFont : Source font from which new font objects are generated. The new font objects' size are as same as source one.
+    - returns : Four font objects as a tuple, that are italic, bold, code and superscript.
     */
-    private func createFonts(normalFont:_Font) -> (_Font, _Font, _Font, _Font) {
+    private func createDerivativeFonts(normalFont:_Font) -> (_Font, _Font, _Font, _Font) {
 #if os(iOS)
-            let traits = normalFont.fontDescriptor().symbolicTraits
-            
-            let italicFontDescriptor = normalFont.fontDescriptor().fontDescriptorWithSymbolicTraits([traits, .TraitItalic])
-            let boldFontDescriptor = normalFont.fontDescriptor().fontDescriptorWithSymbolicTraits([traits, .TraitBold])
-            
-            let italicFont = _Font(descriptor: italicFontDescriptor, size: normalFont.fontDescriptor().pointSize)
-            let boldFont = _Font(descriptor: boldFontDescriptor, size: normalFont.fontDescriptor().pointSize)
-            let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor().pointSize) ?? normalFont
-            let superscriptFont = _Font(descriptor: normalFont.fontDescriptor(), size: normalFont.fontDescriptor().pointSize/2)
+        let traits = normalFont.fontDescriptor().symbolicTraits
+        let italicFontDescriptor = normalFont.fontDescriptor().fontDescriptorWithSymbolicTraits([traits, .TraitItalic])
+        let boldFontDescriptor = normalFont.fontDescriptor().fontDescriptorWithSymbolicTraits([traits, .TraitBold])
+        let italicFont = _Font(descriptor: italicFontDescriptor, size: normalFont.fontDescriptor().pointSize)
+        let boldFont = _Font(descriptor: boldFontDescriptor, size: normalFont.fontDescriptor().pointSize)
+        let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor().pointSize) ?? normalFont
+        let superscriptFont = _Font(descriptor: normalFont.fontDescriptor(), size: normalFont.fontDescriptor().pointSize/2)
 #elseif os(OSX)
-            let traits:NSFontSymbolicTraits = normalFont.fontDescriptor.symbolicTraits
-            
-            let italicFontDescriptor = normalFont.fontDescriptor.fontDescriptorWithSymbolicTraits(traits & NSFontSymbolicTraits(NSFontItalicTrait))
-            let boldFontDescriptor = normalFont.fontDescriptor.fontDescriptorWithSymbolicTraits(traits & NSFontSymbolicTraits(NSFontBoldTrait))
-            
-            let italicFont = _Font(descriptor: italicFontDescriptor, size: normalFont.fontDescriptor.pointSize) ?? normalFont
-            let boldFont = _Font(descriptor: boldFontDescriptor, size: normalFont.fontDescriptor.pointSize) ?? normalFont
-            let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor.pointSize) ?? normalFont
-            let superscriptFont = _Font(descriptor: normalFont.fontDescriptor, size: normalFont.fontDescriptor.pointSize/2) ?? normalFont
+        let traits:NSFontSymbolicTraits = normalFont.fontDescriptor.symbolicTraits
+        let italicFontDescriptor = normalFont.fontDescriptor.fontDescriptorWithSymbolicTraits(traits & NSFontSymbolicTraits(NSFontItalicTrait))
+        let boldFontDescriptor = normalFont.fontDescriptor.fontDescriptorWithSymbolicTraits(traits & NSFontSymbolicTraits(NSFontBoldTrait))
+        let italicFont = _Font(descriptor: italicFontDescriptor, size: normalFont.fontDescriptor.pointSize) ?? normalFont
+        let boldFont = _Font(descriptor: boldFontDescriptor, size: normalFont.fontDescriptor.pointSize) ?? normalFont
+        let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor.pointSize) ?? normalFont
+        let superscriptFont = _Font(descriptor: normalFont.fontDescriptor, size: normalFont.fontDescriptor.pointSize/2) ?? normalFont
 #endif
         return (italicFont, boldFont, codeFont, superscriptFont)
     }
     
     /**
-    Extract attributes from NSAttributedString in order to set attributes and values again to new NSAttributedString for rendering
-    - returns : To be written
+    Extract attributes from NSAttributedString in order to set attributes and values again to new NSAttributedString for rendering.
+    - returns : Attribute's array to set a new NSAttributedString.
     */
     private func attributesForReddift() -> [Attribute] {
         var attributes:[Attribute] = []
@@ -189,6 +198,7 @@ extension NSAttributedString {
                 switch font.fontName {
                 case "TimesNewRomanPS-BoldItalicMT":
                     attributes.append(Attribute.Italic(range.location, range.length))
+                    attributes.append(Attribute.Bold(range.location, range.length))
                 case "TimesNewRomanPS-ItalicMT":
                     attributes.append(Attribute.Italic(range.location, range.length))
                 case "TimesNewRomanPS-BoldMT":

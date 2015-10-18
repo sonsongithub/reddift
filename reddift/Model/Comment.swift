@@ -8,19 +8,6 @@
 
 import Foundation
 
-extension String {
-    /**
-    To be written
-    - returns: To be written
-    */
-    public func preprocessedHTMLStringBeforeNSAttributedStringParsing() -> String {
-        var temp = self.stringByReplacingOccurrencesOfString("<del>", withString: "<font size=\"5\">")
-        temp = temp.stringByReplacingOccurrencesOfString("<blockquote>", withString: "<cite>")
-        temp = temp.stringByReplacingOccurrencesOfString("</blockquote>", withString: "</cite>")
-        return temp.stringByReplacingOccurrencesOfString("</del>", withString: "</font>")
-    }
-}
-
 /**
 Expand child comments which are included in Comment objects, recursively.
 - parameter comment: Comment object will be expanded.
