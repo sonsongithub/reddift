@@ -71,12 +71,12 @@ func getAccountInfoFromJSON(json:[String:String]) -> (String, String, String, St
     return nil
 }
 
-if let values = (NSBundle.mainBundle().URLForResource("test_config.json", withExtension:nil)
+if let (username, password, clientID, secret) = (NSBundle.mainBundle().URLForResource("test_config.json", withExtension:nil)
     .flatMap { NSData(contentsOfURL: $0) }
     .flatMap { try! NSJSONSerialization.JSONObjectWithData($0, options:NSJSONReadingOptions()) as? [String:String] }
     .flatMap { getAccountInfoFromJSON($0) }) {
         do {
-            try OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: values.0, password: values.1, clientID: values.2, secret: values.3, completion:( { (result) -> Void in
+            try OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:( { (result) -> Void in
                 switch result {
                 case .Failure(let error):
                     print(error)
