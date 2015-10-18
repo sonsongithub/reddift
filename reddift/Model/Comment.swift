@@ -84,18 +84,18 @@ extension NSAttributedString {
     }
 #if os(iOS)
     /// Reconstruct attributed string
-    public func reconstructAttributedString(normalFont:UIFont, color:UIColor, linkColor:UIColor) -> NSAttributedString {
-        return __reconstructAttributedString(normalFont, color:color, linkColor:linkColor)
+    public func reconstructAttributedString(normalFont:UIFont, color:UIColor, linkColor:UIColor, codeBackgroundColor:UIColor = UIColor.lightGrayColor()) -> NSAttributedString {
+        return __reconstructAttributedString(normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
     }
 #elseif os(OSX)
-    public func reconstructAttributedString(normalFont:NSFont, color:NSColor, linkColor:NSColor) -> NSAttributedString {
-        return __reconstructAttributedString(normalFont, color:color, linkColor:linkColor)
+    public func reconstructAttributedString(normalFont:NSFont, color:NSColor, linkColor:NSColor, codeBackgroundColor:NSColor = NSColor.lightGrayColor()) -> NSAttributedString {
+        return __reconstructAttributedString(normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
     }
 #endif
     
     /// Reconstruct attributed string, intrinsic function.
     /// This function is for encapsulating difference of font and color class.
-    func __reconstructAttributedString(normalFont:_Font, color:_Color, linkColor:_Color) -> NSAttributedString {
+    func __reconstructAttributedString(normalFont:_Font, color:_Color, linkColor:_Color, codeBackgroundColor:_Color) -> NSAttributedString {
 #if os(iOS)
         let traits = normalFont.fontDescriptor().symbolicTraits
 
@@ -168,6 +168,7 @@ extension NSAttributedString {
                 output.addAttribute(NSStrikethroughStyleAttributeName, value:NSNumber(int:1), range: NSMakeRange(loc, len))
             case .Code(let loc, let len):
                 output.addAttribute(NSFontAttributeName, value:codeFont, range: NSMakeRange(loc, len))
+                output.addAttribute(NSBackgroundColorAttributeName, value: codeBackgroundColor, range: NSMakeRange(loc, len))
             }
         }
         
