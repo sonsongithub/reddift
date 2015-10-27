@@ -9,7 +9,7 @@
 import Foundation
 import reddift
 
-class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISearchControllerDelegate {
+class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISearchControllerDelegate, UIViewControllerPreviewingDelegate {
     var searchController:UISearchController? = nil
     var searchResultViewController:SearchResultViewController? = nil
     
@@ -56,6 +56,35 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
 		if self.links.count == 0 {
 			load()
 		}
+        
+        // support 3d touch
+        if #available(iOS 9, *) {
+            if traitCollection.forceTouchCapability == .Available {
+                registerForPreviewingWithDelegate(self, sourceView: self.tableView)
+            }
+        }
+    }
+    
+    @available(iOS, introduced=9.0)
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation: CGPoint) -> UIViewController? {
+        let point = previewingContext.sourceView.convertPoint(viewControllerForLocation, toView: self.tableView)
+        if let indexPath = tableView.indexPathForRowAtPoint(point) {
+            if contents.indices ~= indexPath.row {
+                let link = self.links[indexPath.row]
+                if let con = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController {
+                    con.session = session
+                    con.subreddit = subreddit
+                    con.link = link
+                    return con
+                }
+            }
+        }
+        return nil
+    }
+    
+    @available(iOS, introduced=9.0)
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController: UIViewController) {
+        showViewController(commitViewController, sender: self)
     }
     
     func load() {
