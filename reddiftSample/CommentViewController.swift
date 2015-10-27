@@ -22,20 +22,23 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
 	}
     
     func updateStrings(newComments:[Thing]) -> [CellContent] {
+        let width:CGFloat = self.view.frame.size.width
+        print(width)
         return newComments.map { (thing:Thing) -> CellContent in
             if let comment = thing as? Comment {
                 let html = comment.bodyHtml.preprocessedHTMLStringBeforeNSAttributedStringParsing()
                 do {
                     let attr = try NSMutableAttributedString(data: html.dataUsingEncoding(NSUnicodeStringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
-                    let attr2 = attr.reconstructAttributedString(UIFont.systemFontOfSize(12), color: UIColor.blackColor(), linkColor: UIColor.blueColor())
-                    return CellContent(string:attr2, width:self.view.frame.size.width - 25, hasRelies:false)
+                    let font = UIFont(name: ".SFUIText-Light", size: 12) ?? UIFont.systemFontOfSize(12)
+                    let attr2 = attr.reconstructAttributedString(font, color: UIColor.blackColor(), linkColor: UIColor.blueColor())
+                    return CellContent(string:attr2, width:width - 25, hasRelies:false)
                 }
                 catch {
-                    return CellContent(string:NSAttributedString(string: ""), width:self.view.frame.size.width - 25, hasRelies:false)
+                    return CellContent(string:NSAttributedString(string: ""), width:width - 25, hasRelies:false)
                 }
             }
             else {
-                return CellContent(string:"more", width:self.view.frame.size.width - 25, hasRelies:false)
+                return CellContent(string:"more", width:width - 25, hasRelies:false)
             }
         }
     }
@@ -175,6 +178,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.toolbarHidden = false
+        print(UIApplication.sharedApplication().keyWindow?.frame)
     }
     
     override func viewWillAppear(animated: Bool) {

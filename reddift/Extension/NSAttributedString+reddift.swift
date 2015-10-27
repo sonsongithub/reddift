@@ -34,6 +34,26 @@ private enum Attribute {
     case Code(Int, Int)
 }
 
+/// Extension for NSParagraphStyle
+extension NSParagraphStyle {
+    /**
+     Returns default paragraph style for reddift framework.
+     - returns: Paragraphyt style, which is created.
+     */
+    static func defaultReddiftParagraphStyleWithFontSize(fontSize:CGFloat) -> NSParagraphStyle {
+        let paragraphStyle:NSMutableParagraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
+        paragraphStyle.lineBreakMode = .ByWordWrapping
+        paragraphStyle.alignment = .Left
+        paragraphStyle.maximumLineHeight = fontSize + 2
+        paragraphStyle.minimumLineHeight = fontSize + 2
+        paragraphStyle.lineSpacing = 1
+        paragraphStyle.paragraphSpacing = 1
+        paragraphStyle.paragraphSpacingBefore = 1
+        paragraphStyle.lineHeightMultiple = 0
+        return paragraphStyle
+    }
+}
+
 /// Extension for NSAttributedString
 extension String {
     /**
@@ -128,9 +148,12 @@ extension NSAttributedString {
     */
     private func __reconstructAttributedString(normalFont:_Font, color:_Color, linkColor:_Color, codeBackgroundColor:_Color) -> NSAttributedString {
         let attributes:[Attribute] = self.attributesForReddift()
-        let (italicFont, boldFont, codeFont, superscriptFont) = createDerivativeFonts(normalFont)
+        let (italicFont, boldFont, codeFont, superscriptFont, _) = createDerivativeFonts(normalFont)
         
         let output = NSMutableAttributedString(string: string)
+        
+        // You can set default paragraph style, here.
+        // output.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, output.length))
         output.addAttribute(NSFontAttributeName, value: normalFont, range: NSMakeRange(0, output.length))
         output.addAttribute(NSForegroundColorAttributeName, value: color, range: NSMakeRange(0, output.length))
         attributes.forEach {
@@ -157,9 +180,9 @@ extension NSAttributedString {
     /**
     Create fonts which is derivative of specified font object.
     - parameter normalFont : Source font from which new font objects are generated. The new font objects' size are as same as source one.
-    - returns : Four font objects as a tuple, that are italic, bold, code and superscript.
+    - returns : Four font objects as a tuple, that are italic, bold, code, superscript and pargraph style.
     */
-    private func createDerivativeFonts(normalFont:_Font) -> (_Font, _Font, _Font, _Font) {
+    private func createDerivativeFonts(normalFont:_Font) -> (_Font, _Font, _Font, _Font, NSParagraphStyle) {
 #if os(iOS)
         let traits = normalFont.fontDescriptor().symbolicTraits
         let italicFontDescriptor = normalFont.fontDescriptor().fontDescriptorWithSymbolicTraits([traits, .TraitItalic])
@@ -168,6 +191,7 @@ extension NSAttributedString {
         let boldFont = _Font(descriptor: boldFontDescriptor, size: normalFont.fontDescriptor().pointSize)
         let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor().pointSize) ?? normalFont
         let superscriptFont = _Font(descriptor: normalFont.fontDescriptor(), size: normalFont.fontDescriptor().pointSize/2)
+        let paragraphStyle = NSParagraphStyle.defaultReddiftParagraphStyleWithFontSize(normalFont.fontDescriptor().pointSize)
 #elseif os(OSX)
         let traits:NSFontSymbolicTraits = normalFont.fontDescriptor.symbolicTraits
         let italicFontDescriptor = normalFont.fontDescriptor.fontDescriptorWithSymbolicTraits(traits & NSFontSymbolicTraits(NSFontItalicTrait))
@@ -176,8 +200,9 @@ extension NSAttributedString {
         let boldFont = _Font(descriptor: boldFontDescriptor, size: normalFont.fontDescriptor.pointSize) ?? normalFont
         let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor.pointSize) ?? normalFont
         let superscriptFont = _Font(descriptor: normalFont.fontDescriptor, size: normalFont.fontDescriptor.pointSize/2) ?? normalFont
+        let paragraphStyle = NSParagraphStyle.defaultReddiftParagraphStyleWithFontSize(normalFont.fontDescriptor.pointSize)
 #endif
-        return (italicFont, boldFont, codeFont, superscriptFont)
+        return (italicFont, boldFont, codeFont, superscriptFont, paragraphStyle)
     }
     
     /**
