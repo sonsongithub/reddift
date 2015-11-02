@@ -27,3 +27,27 @@ func commaSeparatedStringFromList(list:[String]) -> String {
     }
     return string
 }
+
+private var time_buffer:timeval = timeval(tv_sec: 0, tv_usec: 0)
+
+func tic() {
+    gettimeofday(&time_buffer, nil)
+}
+
+func toc() {
+    var time_buffer2:timeval = timeval(tv_sec: 0, tv_usec: 0)
+    gettimeofday(&time_buffer2, nil)
+    
+    let diff = time_buffer2.tv_sec - time_buffer.tv_sec
+    let diff_u = time_buffer2.tv_usec - time_buffer.tv_usec
+
+    
+    
+    print("\(diff * 1000000 + diff_u)[msec]")
+}
+
+//func toc() -> Int32 {
+//    var time_buffer2:timeval = timeval(tv_sec: 0, tv_usec: 0)
+//    gettimeofday(&time_buffer2, nil)
+//    return (time_buffer2.tv_sec * 1000000 + time_buffer2.tv_usec) - (time_buffer.tv_sec * 1000000 + time_buffer.tv_usec)
+//}
