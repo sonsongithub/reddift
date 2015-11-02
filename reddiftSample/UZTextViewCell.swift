@@ -35,7 +35,7 @@ class UZTextViewCell: UITableViewCell {
     }
     
     class func margin() -> UIEdgeInsets {
-        return UIEdgeInsetsMake(5, 5, 5, 5)
+        return UIEdgeInsetsMake(5, 0, 5, 0)
     }
     
 }
