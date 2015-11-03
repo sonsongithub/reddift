@@ -114,7 +114,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
     */
     public func getInfo(names:[String], completion:(Result<Listing>) -> Void) throws -> NSURLSessionDataTask {
-        let commaSeparatedNameString = commaSeparatedStringFromList(names)
+        let commaSeparatedNameString = names.joinWithSeparator(",")
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
@@ -254,7 +254,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
     */
     public func getMoreChildren(children:[String], link:Link, sort:CommentSort, completion:(Result<RedditAny>) -> Void) throws -> NSURLSessionDataTask {
-        let commaSeparatedChildren = commaSeparatedStringFromList(children)
+        let commaSeparatedChildren = children.joinWithSeparator(",")
         let parameter:[String:String] = [
             "children":commaSeparatedChildren,
             "link_id":link.name,

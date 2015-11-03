@@ -42,7 +42,7 @@ extension Session {
     public func getArticles(link:Link, sort:CommentSort, comments:[String]? = nil, depth:Int = 4, limit:Int = 100, completion:(Result<(Listing, Listing)>) -> Void) throws -> NSURLSessionDataTask {
         var parameter:[String:String] = ["sort":sort.type, "depth":"\(depth)", "showmore":"True", "limit":"\(limit)"]
         if let comments = comments {
-            let commaSeparatedIDString = commaSeparatedStringFromList(comments)
+            let commaSeparatedIDString = comments.joinWithSeparator(",")
             parameter["comment"] = commaSeparatedIDString
         }
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/comments/" + link.id + ".json", parameter:parameter, method:"GET", token:token)
@@ -281,8 +281,8 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
     */
     public func getLinksById(links:[Link], completion:(Result<Listing>) -> Void) throws -> NSURLSessionDataTask {
-        let fullnameList = links.map({ (link: Link) -> String in link.name })
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/by_id/" + commaSeparatedStringFromList(fullnameList), method:"GET", token:token)
+        let fullnameList:[String] = links.map({ (link: Link) -> String in link.name })
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/by_id/" + fullnameList.joinWithSeparator(","), method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)

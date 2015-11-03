@@ -39,7 +39,7 @@ public class OAuth2Authorizer {
     - parameter scopes: Scope you want to get authorizing. You can check all scopes at https://www.reddit.com/dev/api/oauth.
     */
     public func challengeWithScopes(scopes:[String]) {
-        let commaSeparatedScopeString = commaSeparatedStringFromList(scopes)
+        let commaSeparatedScopeString = scopes.joinWithSeparator(",")
         
         let length = 64
         let mutableData = NSMutableData(length: Int(length))
