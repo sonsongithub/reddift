@@ -104,4 +104,4 @@ do {
 }
 catch { print(error) }
 
-XCPSetExecutionShouldContinueIndefinitely()
+XCPlaygroundPage.currentPage.needsIndefiniteExecution = true
