@@ -7,9 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#if TARGET_OS_IPHONE
-#import <UIKit/UIKit.h>
-#endif
 
 //! Project version number for reddift.
 FOUNDATION_EXPORT double reddiftVersionNumber;
