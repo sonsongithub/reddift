@@ -36,7 +36,7 @@ class ParseCommentMarkdownTest: XCTestCase {
         print("test data : comment_parse_data.json")
         
         /// Start to test
-        if let array = self.json as? [AnyObject] {
+        if let _ = self.json as? [AnyObject] {
         }
     }
     
