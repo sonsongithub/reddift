@@ -2454,6 +2454,7 @@
 				14364C9F1BEDA09F00FECE58 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		14364CA31BEDA09F00FECE58 /* Build configuration list for PBXNativeTarget "reddift-tvOSTests" */ = {
 			isa = XCConfigurationList;
@@ -2462,6 +2463,7 @@
 				14364CA11BEDA09F00FECE58 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		14364D531BEDA9E300FECE58 /* Build configuration list for PBXNativeTarget "reddiftSampleTV" */ = {
 			isa = XCConfigurationList;
@@ -2470,6 +2472,7 @@
 				14364D551BEDA9E300FECE58 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		147EAD9B1AD78568007FA2F4 /* Build configuration list for PBXProject "reddift" */ = {
 			isa = XCConfigurationList;
