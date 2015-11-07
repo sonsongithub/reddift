@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "14364C8C1BEDA09F00FECE58"
-               BuildableName = "reddift.framework"
-               BlueprintName = "reddift-tvOS"
+               BlueprintIdentifier = "14364D461BEDA9E200FECE58"
+               BuildableName = "reddiftSampleTV.app"
+               BlueprintName = "reddiftSampleTV"
                ReferencedContainer = "container:reddift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,23 +28,13 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "14364C951BEDA09F00FECE58"
-               BuildableName = "reddift-tvOSTests.xctest"
-               BlueprintName = "reddift-tvOSTests"
-               ReferencedContainer = "container:reddift.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "14364C8C1BEDA09F00FECE58"
-            BuildableName = "reddift.framework"
-            BlueprintName = "reddift-tvOS"
+            BlueprintIdentifier = "14364D461BEDA9E200FECE58"
+            BuildableName = "reddiftSampleTV.app"
+            BlueprintName = "reddiftSampleTV"
             ReferencedContainer = "container:reddift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -61,15 +51,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "14364C8C1BEDA09F00FECE58"
-            BuildableName = "reddift.framework"
-            BlueprintName = "reddift-tvOS"
+            BlueprintIdentifier = "14364D461BEDA9E200FECE58"
+            BuildableName = "reddiftSampleTV.app"
+            BlueprintName = "reddiftSampleTV"
             ReferencedContainer = "container:reddift.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -79,15 +70,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "14364C8C1BEDA09F00FECE58"
-            BuildableName = "reddift.framework"
-            BlueprintName = "reddift-tvOS"
+            BlueprintIdentifier = "14364D461BEDA9E200FECE58"
+            BuildableName = "reddiftSampleTV.app"
+            BlueprintName = "reddiftSampleTV"
             ReferencedContainer = "container:reddift.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

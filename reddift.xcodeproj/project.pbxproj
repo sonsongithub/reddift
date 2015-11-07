@@ -252,6 +252,12 @@
 		14364D401BEDA29B00FECE58 /* t4.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5061AE7C9D500211DAD /* t4.json */; };
 		14364D411BEDA29B00FECE58 /* t5.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5071AE7C9D500211DAD /* t5.json */; };
 		14364D421BEDA2A600FECE58 /* test_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 143427CC1AF95E80005D0E31 /* test_config.json */; };
+		14364D4A1BEDA9E300FECE58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14364D491BEDA9E300FECE58 /* AppDelegate.swift */; };
+		14364D4C1BEDA9E300FECE58 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14364D4B1BEDA9E300FECE58 /* ViewController.swift */; };
+		14364D4F1BEDA9E300FECE58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14364D4D1BEDA9E300FECE58 /* Main.storyboard */; };
+		14364D511BEDA9E300FECE58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14364D501BEDA9E300FECE58 /* Assets.xcassets */; };
+		14364D561BEDAB7B00FECE58 /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14364C8D1BEDA09F00FECE58 /* reddift.framework */; };
+		14364D571BEDAB7B00FECE58 /* reddift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 14364C8D1BEDA09F00FECE58 /* reddift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		14375DD81BB40273007DF229 /* ParseCommentMarkdownTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14375DD71BB40273007DF229 /* ParseCommentMarkdownTest.swift */; };
 		14375DD91BB40273007DF229 /* ParseCommentMarkdownTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14375DD71BB40273007DF229 /* ParseCommentMarkdownTest.swift */; };
 		14375DDD1BB40284007DF229 /* comment_parse_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 14375DDB1BB40280007DF229 /* comment_parse_data.json */; };
@@ -486,6 +492,13 @@
 			remoteGlobalIDString = 14364C8C1BEDA09F00FECE58;
 			remoteInfo = "reddift-tvOS";
 		};
+		14364D581BEDAB7B00FECE58 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 147EAD981AD78568007FA2F4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 14364C8C1BEDA09F00FECE58;
+			remoteInfo = "reddift-tvOS";
+		};
 		14B5EBBD1AF34D590065BC5E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 147EAD981AD78568007FA2F4 /* Project object */;
@@ -510,6 +523,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		14364D5A1BEDAB7B00FECE58 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				14364D571BEDAB7B00FECE58 /* reddift.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		14C40CC21AFB255F00F0ECFB /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -569,6 +593,12 @@
 		143427D51AF98F13005D0E31 /* HttpStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpStatus.swift; sourceTree = "<group>"; };
 		14364C8D1BEDA09F00FECE58 /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14364C961BEDA09F00FECE58 /* reddift-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "reddift-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		14364D471BEDA9E200FECE58 /* reddiftSampleTV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = reddiftSampleTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		14364D491BEDA9E300FECE58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		14364D4B1BEDA9E300FECE58 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		14364D4E1BEDA9E300FECE58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		14364D501BEDA9E300FECE58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		14364D521BEDA9E300FECE58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14375DD71BB40273007DF229 /* ParseCommentMarkdownTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseCommentMarkdownTest.swift; sourceTree = "<group>"; };
 		14375DDB1BB40280007DF229 /* comment_parse_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = comment_parse_data.json; sourceTree = "<group>"; };
 		14395C041BAF96E700726263 /* Session+Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+Token.swift"; sourceTree = "<group>"; };
@@ -681,6 +711,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		14364D441BEDA9E200FECE58 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14364D561BEDAB7B00FECE58 /* reddift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		14B5EBAD1AF34D580065BC5E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -722,6 +760,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		14364D481BEDA9E300FECE58 /* reddiftSampleTV */ = {
+			isa = PBXGroup;
+			children = (
+				14364D491BEDA9E300FECE58 /* AppDelegate.swift */,
+				14364D4B1BEDA9E300FECE58 /* ViewController.swift */,
+				14364D4D1BEDA9E300FECE58 /* Main.storyboard */,
+				14364D501BEDA9E300FECE58 /* Assets.xcassets */,
+				14364D521BEDA9E300FECE58 /* Info.plist */,
+			);
+			path = reddiftSampleTV;
+			sourceTree = "<group>";
+		};
 		14375DDA1BB40280007DF229 /* comment */ = {
 			isa = PBXGroup;
 			children = (
@@ -779,6 +829,7 @@
 				147EADA21AD78568007FA2F4 /* reddift */,
 				147EADB81AD78568007FA2F4 /* reddiftTests */,
 				14B5EBCF1AF34E920065BC5E /* reddiftSample */,
+				14364D481BEDA9E300FECE58 /* reddiftSampleTV */,
 				147EADA11AD78568007FA2F4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -793,6 +844,7 @@
 				14F8120A1AF9EA9F008F6F3C /* reddift-OSXTests.xctest */,
 				14364C8D1BEDA09F00FECE58 /* reddift.framework */,
 				14364C961BEDA09F00FECE58 /* reddift-tvOSTests.xctest */,
+				14364D471BEDA9E200FECE58 /* reddiftSampleTV.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1148,6 +1200,25 @@
 			productReference = 14364C961BEDA09F00FECE58 /* reddift-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		14364D461BEDA9E200FECE58 /* reddiftSampleTV */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 14364D531BEDA9E300FECE58 /* Build configuration list for PBXNativeTarget "reddiftSampleTV" */;
+			buildPhases = (
+				14364D431BEDA9E200FECE58 /* Sources */,
+				14364D441BEDA9E200FECE58 /* Frameworks */,
+				14364D451BEDA9E200FECE58 /* Resources */,
+				14364D5A1BEDAB7B00FECE58 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				14364D591BEDAB7B00FECE58 /* PBXTargetDependency */,
+			);
+			name = reddiftSampleTV;
+			productName = reddiftSampleTV;
+			productReference = 14364D471BEDA9E200FECE58 /* reddiftSampleTV.app */;
+			productType = "com.apple.product-type.application";
+		};
 		14B5EBB01AF34D580065BC5E /* reddift-iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14B5EBC41AF34D590065BC5E /* Build configuration list for PBXNativeTarget "reddift-iOS" */;
@@ -1251,9 +1322,14 @@
 				TargetAttributes = {
 					14364C8C1BEDA09F00FECE58 = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = JP866VWWSD;
 					};
 					14364C951BEDA09F00FECE58 = {
 						CreatedOnToolsVersion = 7.1;
+					};
+					14364D461BEDA9E200FECE58 = {
+						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = JP866VWWSD;
 					};
 					14B5EBB01AF34D580065BC5E = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -1298,6 +1374,7 @@
 				14F811FF1AF9EA9F008F6F3C /* reddift-OSX */,
 				14F812091AF9EA9F008F6F3C /* reddift-OSXTests */,
 				14B5EBCD1AF34E920065BC5E /* reddiftSample */,
+				14364D461BEDA9E200FECE58 /* reddiftSampleTV */,
 			);
 		};
 /* End PBXProject section */
@@ -1337,6 +1414,15 @@
 				14364D3C1BEDA29B00FECE58 /* more.json in Resources */,
 				14364D3F1BEDA29B00FECE58 /* t3.json in Resources */,
 				14364D201BEDA28800FECE58 /* refresh_token.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14364D451BEDA9E200FECE58 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14364D511BEDA9E300FECE58 /* Assets.xcassets in Resources */,
+				14364D4F1BEDA9E300FECE58 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1562,6 +1648,15 @@
 				14364CE41BEDA10900FECE58 /* NSURLComponents+reddift.swift in Sources */,
 				14364D191BEDA1D800FECE58 /* ListingsTest.swift in Sources */,
 				14364CFD1BEDA10F00FECE58 /* Oembed.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14364D431BEDA9E200FECE58 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14364D4C1BEDA9E300FECE58 /* ViewController.swift in Sources */,
+				14364D4A1BEDA9E300FECE58 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1867,6 +1962,11 @@
 			target = 14364C8C1BEDA09F00FECE58 /* reddift-tvOS */;
 			targetProxy = 14364C981BEDA09F00FECE58 /* PBXContainerItemProxy */;
 		};
+		14364D591BEDAB7B00FECE58 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 14364C8C1BEDA09F00FECE58 /* reddift-tvOS */;
+			targetProxy = 14364D581BEDAB7B00FECE58 /* PBXContainerItemProxy */;
+		};
 		14B5EBBE1AF34D590065BC5E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 14B5EBB01AF34D580065BC5E /* reddift-iOS */;
@@ -1885,6 +1985,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		14364D4D1BEDA9E300FECE58 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				14364D4E1BEDA9E300FECE58 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 		14B5EBD61AF34E920065BC5E /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1907,6 +2015,7 @@
 		14364C9E1BEDA09F00FECE58 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
@@ -1931,6 +2040,7 @@
 		14364C9F1BEDA09F00FECE58 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
@@ -1978,6 +2088,44 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
+		14364D541BEDA9E300FECE58 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = reddiftSampleTV/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sonson.reddiftSampleTV;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		14364D551BEDA9E300FECE58 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = reddiftSampleTV/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sonson.reddiftSampleTV;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
@@ -2312,6 +2460,14 @@
 			buildConfigurations = (
 				14364CA01BEDA09F00FECE58 /* Debug */,
 				14364CA11BEDA09F00FECE58 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		14364D531BEDA9E300FECE58 /* Build configuration list for PBXNativeTarget "reddiftSampleTV" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14364D541BEDA9E300FECE58 /* Debug */,
+				14364D551BEDA9E300FECE58 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
