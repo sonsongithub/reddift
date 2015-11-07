@@ -22,14 +22,16 @@ class SubmitViewController: UIViewController {
     
     @IBAction func send(sender:AnyObject) {
         if let subreddit = subreddit, let captcha = captchaView?.response, let iden = captchaView?.iden {
-            session?.submitText(subreddit, title: "This is test", text: "テスト,test", captcha: captcha, captchaIden: iden, completion: { (result) -> Void in
-                switch result {
-                case .Failure:
-                    print(result.error!.description)
-                case .Success:
-                    print(result.value!)
-                }
-            })
+            do {
+                try session?.submitText(subreddit, title: "This is test", text: "テスト,test", captcha: captcha, captchaIden: iden, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
+                        print(result.value!)
+                    }
+                })
+            } catch { print(error) }
         }
     }
     

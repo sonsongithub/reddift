@@ -22,52 +22,69 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
 	}
     
     func updateStrings(newComments:[Thing]) -> [CellContent] {
+        let width:CGFloat = self.view.frame.size.width
+        print(width)
         return newComments.map { (thing:Thing) -> CellContent in
             if let comment = thing as? Comment {
-                return CellContent(string:comment.body, width:self.view.frame.size.width, hasRelies:false)
+                let html = comment.bodyHtml.preprocessedHTMLStringBeforeNSAttributedStringParsing()
+                do {
+                    let attr = try NSMutableAttributedString(data: html.dataUsingEncoding(NSUnicodeStringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
+                    let font = UIFont(name: ".SFUIText-Light", size: 12) ?? UIFont.systemFontOfSize(12)
+                    let attr2 = attr.reconstructAttributedString(font, color: UIColor.blackColor(), linkColor: UIColor.blueColor())
+                    return CellContent(string:attr2, width:width - 25, hasRelies:false)
+                }
+                catch {
+                    return CellContent(string:NSAttributedString(string: ""), width:width - 25, hasRelies:false)
+                }
             }
             else {
-                return CellContent(string:"more", width:self.view.frame.size.width, hasRelies:false)
+                return CellContent(string:"more", width:width - 25, hasRelies:false)
             }
         }
     }
     
     func vote(direction:VoteDirection) {
         if let link = self.link {
-            session?.setVote(direction, name: link.name, completion: { (result) -> Void in
-                switch result {
-                case .Failure(let error):
-                    print(error)
-                case .Success(let check):
-                    print(check)
-                }
-            })
+            do {
+                try session?.setVote(direction, name: link.name, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure(let error):
+                        print(error)
+                    case .Success(let check):
+                        print(check)
+                    }
+                })
+            } catch { print(error) }
         }
     }
     
     func save(save:Bool) {
         if let link = self.link {
-            session?.setSave(save, name: link.name, completion: { (result) -> Void in
-                switch result {
-                case .Failure(let error):
-                    print(error)
-                case .Success(let check):
-                    print(check)
-                }
-            })
+            do {
+                try session?.setSave(save, name: link.name, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure(let error):
+                        print(error)
+                    case .Success(let check):
+                        print(check)
+                    }
+                })
+            } catch { print(error) }
         }
     }
     
     func hide(hide:Bool) {
         if let link = self.link {
-            session?.setHide(hide, name: link.name, completion: { (result) -> Void in
-                switch result {
-                case .Failure(let error):
-                    print(error)
-                case .Success(let check):
-                    print(check)
-                }
-            })
+            do {
+                try session?.setHide(hide, name: link.name, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure(let error):
+                        print(error)
+                    case .Success(let check):
+                        print(check)
+                    }
+                })
+            } catch { print(error) }
         }
     }
     
@@ -161,34 +178,43 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.toolbarHidden = false
+        print(UIApplication.sharedApplication().keyWindow?.frame)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         if let link = self.link {
-            session?.getArticles(link, sort:CommentSort.New, comments:nil, completion: { (result) -> Void in
-                switch result {
-                case .Failure(let error):
-                    print(error)
-                case .Success(let tuple):
-                    let listing = tuple.1
-                    
-                    var newComments:[Thing] = []
-                    for comment in listing.children.flatMap({(thing:Thing) -> Comment? in
-                        if let comment = thing as? Comment { return comment }
-                        return nil
-                    }) {
-                        newComments += extendAllReplies(comment)
-                    }
-                    self.comments += newComments
-                    self.contents += self.updateStrings(newComments)
-                    self.paginator = listing.paginator
+            do {
+                try session?.getArticles(link, sort:CommentSort.New, comments:nil, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure(let error):
+                        print(error)
+                    case .Success(let tuple):
+                        let listing = tuple.1
+                        
+                        var newComments:[Thing] = []
+                        for comment in listing.children.flatMap({$0 as? Comment}) {
+                            newComments += extendAllReplies(comment)
+                        }
+                        self.comments += newComments
+                        
+                        var time:timeval = timeval(tv_sec: 0, tv_usec: 0)
+                        gettimeofday(&time, nil)
+                        self.contents += self.updateStrings(newComments)
+                        var time2:timeval = timeval(tv_sec: 0, tv_usec: 0)
+                        gettimeofday(&time2, nil)
+                        let r = Double(time2.tv_sec) + Double(time2.tv_usec) / 1000000.0 - Double(time.tv_sec) - Double(time.tv_usec) / 1000000.0
+                        print("\(Int(r*1000))[msec]")
+                        
+                        self.paginator = listing.paginator
 
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.tableView.reloadData()
-                    })
-                }
-            });
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.tableView.reloadData()
+                        })
+                    }
+                })
+            }
+            catch { print(error) }
         }
     }
 
@@ -228,14 +254,16 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if comments.indices ~= indexPath.row {
             if let more = comments[indexPath.row] as? More, link = self.link {
                 print(more)
-                session?.getMoreChildren(more.children, link:link, sort:CommentSort.New, completion:{ (result) -> Void in
-                    switch result {
-                    case .Failure(let error):
-                        print(error)
-                    case .Success(let redditAny):
-                        print(redditAny)
-                    }
-                });
+                do {
+                    try session?.getMoreChildren(more.children, link:link, sort:CommentSort.New, completion:{ (result) -> Void in
+                        switch result {
+                        case .Failure(let error):
+                            print(error)
+                        case .Success(let redditAny):
+                            print(redditAny)
+                        }
+                    })
+                } catch { print(error) }
             }
         }
     }

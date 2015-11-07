@@ -39,7 +39,7 @@ public class OAuth2Authorizer {
     - parameter scopes: Scope you want to get authorizing. You can check all scopes at https://www.reddit.com/dev/api/oauth.
     */
     public func challengeWithScopes(scopes:[String]) {
-        let commaSeparatedScopeString = commaSeparatedStringFromList(scopes)
+        let commaSeparatedScopeString = scopes.joinWithSeparator(",")
         
         let length = 64
         let mutableData = NSMutableData(length: Int(length))
@@ -73,8 +73,14 @@ public class OAuth2Authorizer {
         }
         if let code = parameters["code"], state = parameters["state"] {
             if code.characters.count > 0 && state == currentState {
-                OAuth2Token.getOAuth2Token(code, completion:completion)
-                return true
+                do {
+                    try OAuth2Token.getOAuth2Token(code, completion:completion)
+                    return true
+                }
+                catch {
+                    print(error)
+                    return false
+                }
             }
         }
         return false

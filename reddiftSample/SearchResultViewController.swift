@@ -32,24 +32,23 @@ class SearchResultViewController: BaseLinkViewController {
         }
         
         previousQuery = query
-        session?.getSearch(self.subreddit, query: query, paginator:paginator, sort:SearchSortBy.Relevance, completion: { (result) -> Void in
-            self.loading = false
-            switch result {
-            case .Failure:
-                print(result.error)
-            case .Success(let listing):
-                for obj in listing.children {
-                    if let link = obj as? Link {
-                        self.links.append(link)
-                    }
+        do {
+            try session?.getSearch(self.subreddit, query: query, paginator:paginator, sort:SearchSortBy.Relevance, completion: { (result) -> Void in
+                self.loading = false
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let listing):
+                    self.links.appendContentsOf(listing.children.flatMap({$0 as? Link}))
+                    self.paginator = listing.paginator
+                    self.updateStrings()
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.tableView.reloadData()
+                    })
                 }
-                self.paginator = listing.paginator
-                self.updateStrings()
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.tableView.reloadData()
-                })
-            }
-        })
+            })
+        }
+        catch { print(error) }
     }
     
     func reload() {

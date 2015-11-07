@@ -11,14 +11,18 @@ import Foundation
 extension NSURLComponents {
     func dictionary() -> [String:String] {
         var parameters:[String:String] = [:]
-        if let queryItems = self.queryItems {
-            for queryItem in queryItems {
-                #if os(iOS)
-                    parameters[queryItem.name] = queryItem.value
-                #elseif os(OSX)
-                    parameters[queryItem.name] = queryItem.value!
-                #endif
+        if #available(OSX 10.10, *) {
+            if let queryItems = self.queryItems {
+                for queryItem in queryItems {
+                    #if os(iOS)
+                        parameters[queryItem.name] = queryItem.value
+                    #elseif os(OSX)
+                        parameters[queryItem.name] = queryItem.value!
+                    #endif
+                }
             }
+        } else {
+            // Fallback on earlier versions
         }
         return parameters
     }

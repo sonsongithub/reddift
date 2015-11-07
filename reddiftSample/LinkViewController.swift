@@ -9,7 +9,7 @@
 import Foundation
 import reddift
 
-class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISearchControllerDelegate {
+class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISearchControllerDelegate, UIViewControllerPreviewingDelegate {
     var searchController:UISearchController? = nil
     var searchResultViewController:SearchResultViewController? = nil
     
@@ -56,6 +56,35 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
 		if self.links.count == 0 {
 			load()
 		}
+        
+        // support 3d touch
+        if #available(iOS 9, *) {
+            if traitCollection.forceTouchCapability == .Available {
+                registerForPreviewingWithDelegate(self, sourceView: self.tableView)
+            }
+        }
+    }
+    
+    @available(iOS, introduced=9.0)
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation: CGPoint) -> UIViewController? {
+        let point = previewingContext.sourceView.convertPoint(viewControllerForLocation, toView: self.tableView)
+        if let indexPath = tableView.indexPathForRowAtPoint(point) {
+            if contents.indices ~= indexPath.row {
+                let link = self.links[indexPath.row]
+                if let con = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController {
+                    con.session = session
+                    con.subreddit = subreddit
+                    con.link = link
+                    return con
+                }
+            }
+        }
+        return nil
+    }
+    
+    @available(iOS, introduced=9.0)
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController: UIViewController) {
+        showViewController(commitViewController, sender: self)
     }
     
     func load() {
@@ -64,23 +93,23 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
                 return
             }
             loading = true
-			session?.getList(paginator, subreddit:subreddit, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.All, completion: { (result) in
-                switch result {
-                case .Failure:
-                    print(result.error)
-                case .Success(let listing):
-                    self.links += listing.children.flatMap({(thing:Thing) -> Link? in
-                            if let link = thing as? Link { return link}
-                            return nil
+            do {
+                try session?.getList(paginator, subreddit:subreddit, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.All, completion: { (result) in
+                    switch result {
+                    case .Failure:
+                        print(result.error)
+                    case .Success(let listing):
+                        self.links += listing.children.flatMap({$0 as? Link})
+                        self.paginator = listing.paginator
+                        self.updateStrings()
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.tableView.reloadData()
+                            self.loading = false
                         })
-                    self.paginator = listing.paginator
-                    self.updateStrings()
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.tableView.reloadData()
-                        self.loading = false
-                    })
-                }
-            })
+                    }
+                })
+            }
+            catch { print(error) }
         }
     }
     

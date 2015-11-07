@@ -1,0 +1,199 @@
+ [
+  {
+  "source": "Buzzfeed needs you, dude.\n\n^^^^So ^^^^get ^^^^the ^^^^fuck ^^^^away ^^^^from ^^^^Reddit",
+  "body": "Buzzfeed needs you, dude.\n\n^^^So ^^^get ^^^the ^^^fuck ^^^away ^^^from ^^^Reddit",
+  "attr": [
+           {
+           "location": 31,
+           "length": 2,
+           "type": "superscript"
+           },
+           {
+           "location": 37,
+           "length": 3,
+           "type": "superscript"
+           },
+           {
+           "location": 44,
+           "length": 3,
+           "type": "superscript"
+           },
+           {
+           "location": 51,
+           "length": 4,
+           "type": "superscript"
+           },
+           {
+           "location": 59,
+           "length": 4,
+           "type": "superscript"
+           },
+           {
+           "location": 67,
+           "length": 4,
+           "type": "superscript"
+           },
+           {
+           "location": 75,
+           "length": 6,
+           "type": "superscript"
+           }
+           ]
+  },
+  {
+  "source": "[deleted]",
+  "body": "[deleted]"
+  },
+  {
+  "source": "[Mine's better anyway](http://i.imgur.com/Ewj76tG.gif)",
+  "body": "Mine's better anyway",
+  "attr": [
+           {
+           "location": 1,
+           "length": 20,
+           "attr": "http://i.imgur.com/Ewj76tG.gif",
+           "type": "link"
+           }
+           ]
+  },
+  {
+  "source": "[Relevant](https://38.media.tumblr.com/b6a6b737f4f52efe9230b3f8e67dda04/tumblr_numimlgLAZ1ugu3imo1_500.gif)[Relevant](https://38.media.tumblr.com/b6a6b737f4f52efe9230b3f8e67dda04/tumblr_numimlgLAZ1ugu3imo1_500.jpg)[Relevant](https://38.media.tumblr.com/b6a6b737f4f52efe9230b3f8e67dda04/tumblr_numimlgLAZ1ugu3imo1_500.txt)[Relevant](https://38.media.tumblr.com/b6a6b737f4f52efe9230b3f8e67dda04/tumblr_numimlgLAZ1ugu3imo1_500.png)",
+  "body": "RelevantRelevantRelevantRelevant",
+  "attr": [
+           {
+           "location": 1,
+           "length": 8,
+           "attr": "https://38.media.tumblr.com/b6a6b737f4f52efe9230b3f8e67dda04/tumblr_numimlgLAZ1ugu3imo1_500.gif",
+           "type": "link"
+           },
+           {
+           "location": 9,
+           "length": 8,
+           "attr": "https://38.media.tumblr.com/b6a6b737f4f52efe9230b3f8e67dda04/tumblr_numimlgLAZ1ugu3imo1_500.jpg",
+           "type": "link"
+           },
+           {
+           "location": 17,
+           "length": 8,
+           "attr": "https://38.media.tumblr.com/b6a6b737f4f52efe9230b3f8e67dda04/tumblr_numimlgLAZ1ugu3imo1_500.txt",
+           "type": "link"
+           },
+           {
+           "location": 25,
+           "length": 8,
+           "attr": "https://38.media.tumblr.com/b6a6b737f4f52efe9230b3f8e67dda04/tumblr_numimlgLAZ1ugu3imo1_500.png",
+           "type": "link"
+           }
+           ]
+  },
+  {
+  "source": "Only works if your name is Mohammed/Ahmed.",
+  "body": "Only works if your name is Mohammed/Ahmed."
+  },
+  {
+  "source": "http://imgur.com/dbEEuR4",
+  "body": "http://imgur.com/dbEEuR4",
+  "attr": [
+           {
+           "location": 1,
+           "length": 24,
+           "attr": "http://imgur.com/dbEEuR4",
+           "type": "link"
+           }
+           ]
+  },
+  {
+  "source": "/r/didthney ",
+  "body": "/r/didthney ",
+  "attr": [
+           {
+           "location": 1,
+           "length": 11,
+           "attr": "/r/didthney",
+           "type": "link"
+           }
+           ]
+  },
+  {
+  "source": "Childhood, **ruined**.\n",
+  "body": "Childhood, ruined.\n",
+  "attr": [
+           {
+           "location": 12,
+           "length": 6,
+           "type": "bold"
+           }
+           ]
+  },
+  {
+  "source": "Looks like OP has been ****puts on shades**** burned...\n\n\n**YEEAAAHHHHH**\n\n",
+  "body": "Looks like OP has been ****puts on shades**** burned...\n\n\nYEEAAAHHHHH\n\n",
+  "attr": [
+           {
+           "location": 59,
+           "length": 11,
+           "type": "bold"
+           }
+           ]
+  },
+  {
+  "source": "DOES ANYONE REMEMBER *THIS* GEM?!",
+  "body": "DOES ANYONE REMEMBER THIS GEM?!",
+  "attr": [
+           {
+           "location": 22,
+           "length": 4,
+           "type": "italic"
+           }
+           ]
+  },
+  {
+  "source": "I used the Monkey hand to become skinny. Don't know why I'm bleeding mayo tho. Wait.....MONKEY HAND~!!!!!!!!!!!!",
+  "body": "I used the Monkey hand to become skinny. Don't know why I'm bleeding mayo tho. Wait.....MONKEY HAND~!!!!!!!!!!!!"
+  },
+  {
+  "source": "Feminist convention get ~~trolled~~ visited by a reporter using logic.",
+  "body": "Feminist convention get trolled visited by a reporter using logic.",
+  "attr": [
+           {
+           "location": 25,
+           "length": 7,
+           "type": "strike"
+           }
+           ]
+  },
+  {
+  "source": "Wallpaper version &gt; http://i.imgur.com/kGHSNq3.jpg\n\n[Check out some more of their awesome work on their site.](http://www.arsthanea.com/work/)",
+  "body": "Wallpaper version &gt; http://i.imgur.com/kGHSNq3.jpg\n\nCheck out some more of their awesome work on their site.",
+  "attr": [
+           {
+           "location": 24,
+           "length": 30,
+           "attr": "http://i.imgur.com/kGHSNq3.jpg",
+           "type": "link"
+           },
+           {
+           "location": 56,
+           "length": 56,
+           "attr": "http://www.arsthanea.com/work/",
+           "type": "link"
+           }
+           ]
+  },  {
+  "source": "Not everyone has access to original NES games like Mike does. I sure as hell don't, and am one of the people Steam releases of classic NES games would benefit. Re-releases offer a legitimate way for people to play these games if they don't have access to the original. Downloading ROMs would be illegal in this case. You can want things that do not benefit yourself because they benefit other people.\n\nOr maybe he's even referring to remasters/remakes of NES games like Ducktales. I don't get what you're trying to say with this post.\n\nEdit: /u/BRETTVARG is completely right as well. Mike can say that playing games on their original console is the *definitive* way of playing, while still believing that emulating them is viable, and an acceptable trade-off for the convenience that it can bring.",
+  "body": "Not everyone has access to original NES games like Mike does. I sure as hell don't, and am one of the people Steam releases of classic NES games would benefit. Re-releases offer a legitimate way for people to play these games if they don't have access to the original. Downloading ROMs would be illegal in this case. You can want things that do not benefit yourself because they benefit other people.\n\nOr maybe he's even referring to remasters/remakes of NES games like Ducktales. I don't get what you're trying to say with this post.\n\nEdit: /u/BRETTVARG is completely right as well. Mike can say that playing games on their original console is the definitive way of playing, while still believing that emulating them is viable, and an acceptable trade-off for the convenience that it can bring.",
+  "attr": [
+           {
+           "location": 543,
+           "length": 12,
+           "attr": "/u/BRETTVARG",
+           "type": "link"
+           },
+           {
+           "location": 650,
+           "length": 10,
+           "type": "italic"
+           }
+           ]
+  }
+  ]

@@ -10,6 +10,7 @@ import XCTest
 
 class ExtendCommentsTest: XCTestCase {
     func testListWhichHasSomeCommentsIncludingRepliesRecursively() {
+        print("Test whether Parser can extend Comment objects that has some More objects as children.")
         print("consists of 1 Link, 13 Comments and 9 Mores.")
         if let json:JSON = self.jsonFromFileName("comments_extend.json") {
             if let array = Parser.parseJSON(json) as? [Any] {

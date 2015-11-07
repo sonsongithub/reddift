@@ -19,7 +19,15 @@ class UserContentViewController: UITableViewController {
         contents.removeAll(keepCapacity:true)
         contents = source.map{(let obj) -> CellContent in
             if let comment = obj as? Comment {
-                return CellContent(string:comment.body, width:self.view.frame.size.width)
+                let html = comment.bodyHtml.preprocessedHTMLStringBeforeNSAttributedStringParsing()
+                do {
+                    let attr = try NSMutableAttributedString(data: html.dataUsingEncoding(NSUnicodeStringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
+                    let attr2 = attr.reconstructAttributedString(UIFont.systemFontOfSize(12), color: UIColor.blackColor(), linkColor: UIColor.blueColor())
+                    return CellContent(string:attr2, width:self.view.frame.size.width - 25, hasRelies:false)
+                }
+                catch {
+                    return CellContent(string:NSAttributedString(string: ""), width:self.view.frame.size.width - 25, hasRelies:false)
+                }
             }
             else if let link = obj as? Link {
                 return CellContent(string:link.title, width:self.view.frame.size.width)
@@ -41,18 +49,21 @@ class UserContentViewController: UITableViewController {
         .flatMap { (token) -> String? in
             return token.name
         }) as String? {
-			session?.getUserContent(name, content:userContent, sort:.New, timeFilterWithin:.All, paginator:Paginator(), completion: { (result) -> Void in
-                switch result {
-                case .Failure:
-                    print(result.error)
-                case .Success(let listing):
-                    self.source += listing.children
-                    self.updateStrings()
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.tableView.reloadData()
-                    })
-                }
-            })
+            do {
+                try session?.getUserContent(name, content:userContent, sort:.New, timeFilterWithin:.All, paginator:Paginator(), completion: { (result) -> Void in
+                    switch result {
+                    case .Failure:
+                        print(result.error)
+                    case .Success(let listing):
+                        self.source += listing.children
+                        self.updateStrings()
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.tableView.reloadData()
+                        })
+                    }
+                })
+            }
+            catch { print(error) }
         }
     }
     
@@ -73,24 +84,27 @@ class UserContentViewController: UITableViewController {
         if source.indices ~= indexPath.row {
             let obj = source[indexPath.row]
             if let comment = obj as? Comment {
-                session?.getInfo([comment.linkId], completion: { (result) -> Void in
-                    switch result {
-                    case .Failure:
-                        print(result.error)
-                    case .Success(let listing):
-                        if listing.children.count == 1 {
-                            if let link = listing.children[0] as? Link {
-                                if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{
-                                    vc.session = self.session
-                                    vc.link = link
-                                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                        self.navigationController?.pushViewController(vc, animated: true)
-                                    })
+                do {
+                    try session?.getInfo([comment.linkId], completion: { (result) -> Void in
+                        switch result {
+                        case .Failure:
+                            print(result.error)
+                        case .Success(let listing):
+                            if listing.children.count == 1 {
+                                if let link = listing.children[0] as? Link {
+                                    if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{
+                                        vc.session = self.session
+                                        vc.link = link
+                                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                            self.navigationController?.pushViewController(vc, animated: true)
+                                        })
+                                    }
                                 }
                             }
                         }
-                    }
-                })
+                    })
+                }
+                catch { print(error) }
             }
             else if let link = obj as? Link {
                 if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{

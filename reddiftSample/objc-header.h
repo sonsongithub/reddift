@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
-#ifndef redditch_objc_header_h
-#define redditch_objc_header_h
+#ifndef reddift_objc_header_h
+#define reddift_objc_header_h
 
 #import "UZTextView.h"
 

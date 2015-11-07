@@ -20,16 +20,19 @@ class CAPTCHATest: SessionTestSpec {
         print(msg)
         var check_result:Bool? = nil
         let documentOpenExpectation = self.expectationWithDescription(msg)
-        self.session?.checkNeedsCAPTCHA({(result) -> Void in
-            switch result {
-            case .Failure(let error):
-                print(error)
-            case .Success(let check):
-                check_result = check
-            }
-            XCTAssert(check_result != nil, msg)
-            documentOpenExpectation.fulfill()
-        })
+        do {
+            try self.session?.checkNeedsCAPTCHA({(result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let check):
+                    check_result = check
+                }
+                XCTAssert(check_result != nil, msg)
+                documentOpenExpectation.fulfill()
+            })
+        }
+        catch { XCTFail((error as NSError).description) }
         self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
     }
     
@@ -38,44 +41,50 @@ class CAPTCHATest: SessionTestSpec {
         print(msg)
         var iden:String? = nil
         let documentOpenExpectation = self.expectationWithDescription(msg)
-        self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
-            switch result {
-            case .Failure(let error):
-                print(error.description)
-            case .Success(let identifier):
-                iden = identifier
-            }
-            XCTAssert(iden != nil, msg)
-            documentOpenExpectation.fulfill()
-        })
+        do {
+            try self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success(let identifier):
+                    iden = identifier
+                }
+                XCTAssert(iden != nil, msg)
+                documentOpenExpectation.fulfill()
+            })
+        }
+        catch { XCTFail((error as NSError).description) }
         self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
     }
     
     func testSizeOfNewImageGeneratedUsingIden() {
         let msg = "is 120x50"
         print(msg)
-#if os(iOS)
+#if os(iOS) || os(tvOS)
         var size:CGSize? = nil
 #elseif os(OSX)
         var size:NSSize? = nil
 #endif
         let documentOpenExpectation = self.expectationWithDescription(msg)
-        self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
-            switch result {
-            case .Failure(let error):
-                print(error.description)
-            case .Success(let string):
-                self.session?.getCAPTCHA(string, completion: { (result) -> Void in
-                    switch result {
-                    case .Failure(let error):
-                        print(error.description)
-                    case .Success(let image):
-                        size = image.size
-                    }
-                    documentOpenExpectation.fulfill()
-                })
-            }
-        })
+        do {
+            try self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success(let string):
+                    try! self.session?.getCAPTCHA(string, completion: { (result) -> Void in
+                        switch result {
+                        case .Failure(let error):
+                            print(error.description)
+                        case .Success(let image):
+                            size = image.size
+                        }
+                        documentOpenExpectation.fulfill()
+                    })
+                }
+            })
+        }
+        catch { XCTFail((error as NSError).description) }
         self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         
         if let size = size {

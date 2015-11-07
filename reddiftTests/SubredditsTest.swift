@@ -25,23 +25,26 @@ class SubredditsTest : SessionTestSpec {
             print(msg)
             var isSucceeded = false
             let documentOpenExpectation = self.expectationWithDescription(msg)
-            self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
-                switch result {
-                case .Failure:
-                    print(result.error!.description)
-                case .Success(let listing):
-                    for obj in listing.children {
-                        if let obj = obj as? Subreddit {
-                            self.initialList.append(obj)
+            do {
+                try self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success(let listing):
+                        for obj in listing.children {
+                            if let obj = obj as? Subreddit {
+                                self.initialList.append(obj)
+                            }
                         }
+                        self.initialCount = self.initialList.count
+                        isSucceeded = (self.initialCount > 0)
                     }
-                    self.initialCount = self.initialList.count
-                    isSucceeded = (self.initialCount > 0)
-                }
-                XCTAssert(isSucceeded, msg)
-                documentOpenExpectation.fulfill()
-            })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+                    XCTAssert(isSucceeded, msg)
+                    documentOpenExpectation.fulfill()
+                })
+                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            }
+            catch { XCTFail((error as NSError).description) }
         }
         
         do {
@@ -49,17 +52,20 @@ class SubredditsTest : SessionTestSpec {
             print(msg)
             var isSucceeded:Bool = false
             let documentOpenExpectation = self.expectationWithDescription(msg)
-            self.session?.setSubscribeSubreddit(self.targetSubreedit, subscribe: true, completion: { (result) -> Void in
-                switch result {
-                case .Failure:
-                    print(result.error!.description)
-                case .Success:
-                    isSucceeded = true
-                }
-                XCTAssert(isSucceeded, msg)
-                documentOpenExpectation.fulfill()
-            })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            do {
+                try self.session?.setSubscribeSubreddit(self.targetSubreedit, subscribe: true, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
+                        isSucceeded = true
+                    }
+                    XCTAssert(isSucceeded, msg)
+                    documentOpenExpectation.fulfill()
+                })
+                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            }
+            catch { XCTFail((error as NSError).description) }
         }
         
         do {
@@ -67,22 +73,25 @@ class SubredditsTest : SessionTestSpec {
             print(msg)
             var afterSubscribingCount = 0
             let documentOpenExpectation = self.expectationWithDescription(msg)
-            self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
-                switch result {
-                case .Failure:
-                    print(result.error!.description)
-                case .Success(let listing):
-                    for obj in listing.children {
-                        if let obj = obj as? Subreddit {
-                            self.afterSubscribingList.append(obj)
+            do {
+                try self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success(let listing):
+                        for obj in listing.children {
+                            if let obj = obj as? Subreddit {
+                                self.afterSubscribingList.append(obj)
+                            }
                         }
+                        afterSubscribingCount = self.afterSubscribingList.count
                     }
-                    afterSubscribingCount = self.afterSubscribingList.count
-                }
-                XCTAssert(afterSubscribingCount == self.initialCount + 1, msg)
-                documentOpenExpectation.fulfill()
-            })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+                    XCTAssert(afterSubscribingCount == self.initialCount + 1, msg)
+                    documentOpenExpectation.fulfill()
+                })
+                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            }
+            catch { XCTFail((error as NSError).description) }
         }
         
         do {
@@ -90,17 +99,20 @@ class SubredditsTest : SessionTestSpec {
             print(msg)
             var isSucceeded:Bool = false
             let documentOpenExpectation = self.expectationWithDescription(msg)
-            self.session?.setSubscribeSubreddit(self.targetSubreedit, subscribe: false, completion: { (result) -> Void in
-                switch result {
-                case .Failure:
-                    print(result.error!.description)
-                case .Success:
-                    isSucceeded = true
-                }
-                XCTAssert(isSucceeded, msg)
-                documentOpenExpectation.fulfill()
-            })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            do {
+                try self.session?.setSubscribeSubreddit(self.targetSubreedit, subscribe: false, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success:
+                        isSucceeded = true
+                    }
+                    XCTAssert(isSucceeded, msg)
+                    documentOpenExpectation.fulfill()
+                })
+                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            }
+            catch { XCTFail((error as NSError).description) }
         }
         
         do {
@@ -108,22 +120,25 @@ class SubredditsTest : SessionTestSpec {
             print(msg)
             var afterUnsubscribingCount = 0
             let documentOpenExpectation = self.expectationWithDescription(msg)
-            self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
-                switch result {
-                case .Failure:
-                    print(result.error!.description)
-                case .Success(let listing):
-                    for obj in listing.children {
-                        if let obj = obj as? Subreddit {
-                            self.afterUnsubscribingList.append(obj)
+            do {
+                try self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure:
+                        print(result.error!.description)
+                    case .Success(let listing):
+                        for obj in listing.children {
+                            if let obj = obj as? Subreddit {
+                                self.afterUnsubscribingList.append(obj)
+                            }
                         }
+                        afterUnsubscribingCount = self.afterUnsubscribingList.count
                     }
-                    afterUnsubscribingCount = self.afterUnsubscribingList.count
-                }
-                XCTAssert(afterUnsubscribingCount == self.initialCount, msg)
-                documentOpenExpectation.fulfill()
-            })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+                    XCTAssert(afterUnsubscribingCount == self.initialCount, msg)
+                    documentOpenExpectation.fulfill()
+                })
+                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            }
+            catch { XCTFail((error as NSError).description) }
         }
     }
 }

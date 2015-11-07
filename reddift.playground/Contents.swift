@@ -4,113 +4,104 @@ import Foundation
 import XCPlayground
 import reddift
 
-guard #available(iOS 9, OSX 10.11, *) else { abort() }
+guard #available(iOS 9, OSX 10.10, *) else { abort() }
 
 func getCAPTCHA(session:Session) {
-    session.getCAPTCHA({ (result) -> Void in
-        switch result {
-        case .Failure(let error):
-            print(error.description)
-        case .Success(let captchaImage):
-            captchaImage
-        }
-    })
+    do {
+        try session.getCAPTCHA({ (result) -> Void in
+            switch result {
+            case .Failure(let error):
+                print(error)
+            case .Success(let captchaImage):
+                captchaImage
+            }
+        })
+    }
+    catch { print(error) }
 }
 
 func getReleated(session:Session) {
-    session.getDuplicatedArticles(Paginator(), thing: Link(id: "37lhsm")) { (result) -> Void in
-        switch result {
-        case .Failure(let error):
-            print(error.description)
-        case .Success(let (listing1, listing2)):
-            for obj in listing1.children {
-                if let link = obj as? Link {
-                    print(link.title)
-                }
-            }
-            for obj in listing2.children {
-                if let link = obj as? Link {
-                    print(link.title)
-                }
+    do {
+        try session.getDuplicatedArticles(Paginator(), thing: Link(id: "37lhsm")) { (result) -> Void in
+            switch result {
+            case .Failure(let error):
+                print(error)
+            case .Success(let listing1, let listing2):
+                listing1.children.flatMap { $0 as? Link }.forEach { print($0.title) }
+                listing2.children.flatMap { $0 as? Link }.forEach { print($0.title) }
             }
         }
     }
+    catch { print(error) }
 }
 
 func getProfile(session:Session) {
-    session.getUserProfile("sonson_twit", completion: { (result) -> Void in
-        switch result {
-        case .Failure(let error):
-            print(error.description)
-        case .Success(let account):
-            print(account.name)
-        }
-    })
+    do {
+        try session.getUserProfile("sonson_twit", completion: { (result) -> Void in
+            switch result {
+            case .Failure(let error):
+                print(error)
+            case .Success(let account):
+                print(account.name)
+            }
+        })
+    }
+    catch { print(error) }
 }
 
 func getLinksBy(session:Session) {
-    let links:[Link] = [Link(id: "37ow7j"), Link(id: "37nvgu")]
-    session.getLinksById(links, completion: { (result) -> Void in
-        switch result {
-        case .Failure(let error):
-            print(error.description)
-        case .Success(let listing):
-            print(listing.children.count)
-            for obj in listing.children {
-                if let link = obj as? Link {
-                    print(link.title)
-                }
+    do {
+        let links:[Link] = [Link(id: "37ow7j"), Link(id: "37nvgu")]
+        try session.getLinksById(links, completion: { (result) -> Void in
+            switch result {
+            case .Failure(let error):
+                print(error)
+            case .Success(let listing):
+                listing.children.flatMap { $0 as? Link }.forEach { print($0.title) }
             }
-        }
-    })
+        })
+    }
+    catch { print(error) }
 }
 
-let values = NSBundle.mainBundle().URLForResource("test_config.json", withExtension:nil)
-    .flatMap { (url) -> NSData? in
-        return NSData(contentsOfURL: url)
-    }.flatMap { (data) -> [String:String]? in
-        do {
-            if let json = try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions()) as? [String:String] {
-                return json
-            }
-            return nil
-        } catch { return nil }
-    }.flatMap { (json) -> (String, String, String, String)? in
-        if let username = json["username"],
-            password = json["password"],
-            client_id = json["client_id"],
-            secret = json["secret"] {
-            return (username, password, client_id, secret)
-        }
-        return nil
+func getAccountInfoFromJSON(json:[String:String]) -> (String, String, String, String)? {
+    if let username = json["username"], password = json["password"], client_id = json["client_id"], secret = json["secret"] {
+        return (username, password, client_id, secret)
     }
+    return nil
+}
 
-if let values = values {
-    OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: values.0, password: values.1, clientID: values.2, secret: values.3, completion:( { (result) -> Void in
-        switch result {
-        case .Failure(let error):
-            print(error)
-        case .Success(let token):
-            let session = Session(token: token)
-            getLinksBy(session)
-            getReleated(session)
-            getCAPTCHA(session)
+if let (username, password, clientID, secret) = (NSBundle.mainBundle().URLForResource("test_config.json", withExtension:nil)
+    .flatMap { NSData(contentsOfURL: $0) }
+    .flatMap { try! NSJSONSerialization.JSONObjectWithData($0, options:NSJSONReadingOptions()) as? [String:String] }
+    .flatMap { getAccountInfoFromJSON($0) }) {
+        do {
+            try OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:( { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let token):
+                    let session = Session(token: token)
+                    getLinksBy(session)
+                    getReleated(session)
+                    getCAPTCHA(session)
+                }
+            }))
         }
-    }))
+        catch { print(error) }
 }
 
 let anonymouseSession = Session()
-anonymouseSession.getList(Paginator(), subreddit: nil, sort: .Controversial, timeFilterWithin: .Week) { (result) -> Void in
-    switch result {
-    case .Failure(let error):
-        print(error)
-    case .Success(let listing):
-        for child in listing.children {
-            if let link = child as? Link {
-                print(link.title)
-            }
+do {
+    try anonymouseSession.getList(Paginator(), subreddit: nil, sort: .Controversial, timeFilterWithin: .Week) { (result) -> Void in
+        switch result {
+        case .Failure(let error):
+            print(error)
+        case .Success(let listing):
+            listing.children.flatMap { $0 as? Link }.forEach { print($0.title) }
         }
     }
 }
+catch { print(error) }
 
-XCPSetExecutionShouldContinueIndefinitely()
+XCPlaygroundPage.currentPage.needsIndefiniteExecution = true

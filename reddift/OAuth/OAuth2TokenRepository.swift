@@ -8,34 +8,39 @@
 
 import Foundation
 
-public let OAuth2TokenRepositoryDidSaveToken = "OAuth2TokenRepositoryDidSaveToken"
-
 /**
 Repository to contain OAuth2 tokens for reddit.com based on "KeychanAccess".
 You can manage mulitple accounts using this class.
 OAuth2TokenRepository, is utility class, has only class method.
 */
 public class OAuth2TokenRepository {
-    public class func restoreFromKeychainWithName(name:String) -> Result<OAuth2Token> {
+    /**
+    Restores token for OAuth2 from Keychain.
+    
+    - parameter name: Specifies user name of token you want to restore from Keychain.
+    - returns: OAuth2Token object.
+    */
+    public class func restoreFromKeychainWithName(name:String) throws -> OAuth2Token {
         let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
         if let data = try! keychain.getData(name) {
-            var json:JSON? = nil
             do {
-                json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
+                if let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? [String:AnyObject] {
+                    return OAuth2Token(json)
+                }
             } catch let error as NSError {
-                removeFromKeychainTokenWithName(name)
-                NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil)
-                return Result(error:error)
+                try! removeFromKeychainTokenWithName(name)
+                throw error
             }
-            if let json = json as? [String:AnyObject] {
-                return Result(value:OAuth2Token(json))
-            }
-            removeFromKeychainTokenWithName(name)
-            NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil)
+            try! removeFromKeychainTokenWithName(name)
         }
-        return Result(error:ReddiftError.TokenNotfound.error)
+        throw ReddiftError.TokenNotfound.error
     }
     
+    /**
+    Restores user name list from Keychain.
+    
+    - returns: List contains user names that was used to save tokens.
+    */
     public class func savedNamesInKeychain() -> [String] {
         var keys:[String] = []
         let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
@@ -43,51 +48,60 @@ public class OAuth2TokenRepository {
         return keys
     }
     
-    public class func saveIntoKeychainToken(token:OAuth2Token) {
-        if token.name.characters.count > 0 {
-            // save
-            if let data = jsonForSerializeToken(token) {
-                let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-                try! keychain.set(data, key:token.name)
-                NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil)
-            }
-        }
-        else {
-            print("Error:name property is empty.")
-        }
-    }
+    /**
+    Saves OAuth2 token object into Keychain.
     
-    public class func saveIntoKeychainToken(token:OAuth2Token, name:String) {
-        if name.characters.count > 0 {
-            // save
-            if let data = jsonForSerializeToken(token) {
-                let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-                do {
-                    try keychain.set(data, key:name)
-                    NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil);
-                }
-                catch {
-                    print("Can't save a token with \(name)")
-                }
-            }
+    - parameter token: OAuth2Token object, that must have valid user name which is used to save it into Keychain.
+    */
+    public class func saveIntoKeychainToken(token:OAuth2Token) throws {
+        if token.name.isEmpty {
+            throw ReddiftError.KeychainTargetNameIsEmpty.error
         }
-        else {
-            print("Error:name property is empty.")
-        }
-    }
-    
-    public class func removeFromKeychainTokenWithName(name:String) {
-        if name.characters.count > 0 {
+        do {
+            let data = try NSJSONSerialization.dataWithJSONObject(token.JSONObject(), options: NSJSONWritingOptions())
             let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-            do {
-                try keychain.remove(name);
-            }
-            catch {
-                print("Can't remove a token with \(name)")
-            }
+            try keychain.set(data, key:token.name)
         }
-        else {
-            print("Error:name property is empty.")
+        catch {
+            throw error
+        }
+    }
+    
+    /**
+    Saves OAuth2 token object into Keychain.
+    
+    - parameter token: OAuth2Token object.
+    - parameter name: Valid user name which is used to save it into Keychain.
+    */
+    public class func saveIntoKeychainToken(token:OAuth2Token, name:String) throws {
+        if name.isEmpty {
+            throw ReddiftError.KeychainTargetNameIsEmpty.error
+        }
+        do {
+            let data = try NSJSONSerialization.dataWithJSONObject(token.JSONObject(), options: NSJSONWritingOptions())
+            let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
+            try keychain.set(data, key:name)
+        }
+        catch {
+            throw error
+        }
+    }
+    
+    /**
+    Removes OAuth2 token whose user name is specified by the name parmeter from Keychain.
+    
+    - parameter name: Valid user name which is used to save it into Keychain.
+    */
+    public class func removeFromKeychainTokenWithName(name:String) throws {
+        if name.isEmpty {
+            throw ReddiftError.KeychainTargetNameIsEmpty.error
+        }
+        do {
+            let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
+            try keychain.remove(name);
+        }
+        catch {
+            throw error
         }
     }
 }
