@@ -9,14 +9,14 @@
 import Foundation
 
 /// import to use NSFont/UIFont
-#if os(iOS)
+#if os(iOS) || os(tvOS)
     import UIKit
 #elseif os(OSX)
     import Cocoa
 #endif
 
 /// Shared font and color class
-#if os(iOS)
+#if os(iOS) || os(tvOS)
     private typealias _Font = UIFont
     private typealias _Color = UIColor
 #elseif os(OSX)
@@ -109,7 +109,7 @@ extension NSAttributedString {
         }
     }
     
-#if os(iOS)
+#if os(iOS) || os(tvOS)
     /**
     Reconstructs attributed string for rendering using UZTextView or UITextView.
     - parameter normalFont : Specified UIFont you want to use when the object is rendered.
@@ -183,7 +183,7 @@ extension NSAttributedString {
     - returns : Four font objects as a tuple, that are italic, bold, code, superscript and pargraph style.
     */
     private func createDerivativeFonts(normalFont:_Font) -> (_Font, _Font, _Font, _Font, NSParagraphStyle) {
-#if os(iOS)
+#if os(iOS) || os(tvOS)
         let traits = normalFont.fontDescriptor().symbolicTraits
         let italicFontDescriptor = normalFont.fontDescriptor().fontDescriptorWithSymbolicTraits([traits, .TraitItalic])
         let boldFontDescriptor = normalFont.fontDescriptor().fontDescriptorWithSymbolicTraits([traits, .TraitBold])

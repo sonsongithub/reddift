@@ -16,7 +16,6 @@ OAuth2TokenRepository, is utility class, has only class method.
 public class OAuth2TokenRepository {
     /**
     Restores token for OAuth2 from Keychain.
-    
     - parameter name: Specifies user name of token you want to restore from Keychain.
     - returns: OAuth2Token object.
     */
@@ -35,10 +34,10 @@ public class OAuth2TokenRepository {
         }
         throw ReddiftError.TokenNotfound.error
     }
-    
+
     /**
     Restores user name list from Keychain.
-    
+
     - returns: List contains user names that was used to save tokens.
     */
     public class func savedNamesInKeychain() -> [String] {
@@ -47,10 +46,10 @@ public class OAuth2TokenRepository {
         keys += keychain.allKeys()
         return keys
     }
-    
+
     /**
     Saves OAuth2 token object into Keychain.
-    
+
     - parameter token: OAuth2Token object, that must have valid user name which is used to save it into Keychain.
     */
     public class func saveIntoKeychainToken(token:OAuth2Token) throws {
@@ -66,10 +65,10 @@ public class OAuth2TokenRepository {
             throw error
         }
     }
-    
+
     /**
     Saves OAuth2 token object into Keychain.
-    
+
     - parameter token: OAuth2Token object.
     - parameter name: Valid user name which is used to save it into Keychain.
     */
@@ -86,10 +85,10 @@ public class OAuth2TokenRepository {
             throw error
         }
     }
-    
+
     /**
     Removes OAuth2 token whose user name is specified by the name parmeter from Keychain.
-    
+
     - parameter name: Valid user name which is used to save it into Keychain.
     */
     public class func removeFromKeychainTokenWithName(name:String) throws {

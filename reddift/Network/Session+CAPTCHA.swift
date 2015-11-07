@@ -8,7 +8,7 @@
 
 import Foundation
 
-#if os(iOS)
+#if os(iOS) || os(tvOS)
     import UIKit
     public typealias CAPTCHAImage = UIImage
 #elseif os(OSX)
@@ -44,7 +44,7 @@ Parse simple string response for "/api/needs_captcha"
 - returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
 */
 func data2Image(data: NSData) -> Result<CAPTCHAImage> {
-#if os(iOS)
+#if os(iOS) || os(tvOS)
     let captcha = UIImage(data: data)
 #elseif os(OSX)
     let captcha = NSImage(data: data)

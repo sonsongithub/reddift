@@ -10,10 +10,13 @@ import Foundation
 import XCTest
 
 class LinksTest: SessionTestSpec {
-    /// Link ID, https://www.reddit.com/r/sandboxtest/comments/35dpes/reddift_test/
-    let testLinkId = "35dpes"
-    let testCommentId = "cr3g41y"
+    /// Link ID, https://www.reddit.com/r/sandboxtest/comments/35ljt6/test/cwrghum
+    
+    let testLinkId = "35ljt6"
+    let testCommentId = "cv9xid2"
     var postedThings:[Comment] = []
+    
+//    https://www.reddit.com/r/sandboxtest/comments/35ljt6/this_is_test/cv9xid2
     
     func test_deleteCommentOrLink(thing:Thing) {
         let documentOpenExpectation = self.expectationWithDescription("test_deleteCommentOrLink")
