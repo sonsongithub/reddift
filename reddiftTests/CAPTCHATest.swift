@@ -60,7 +60,7 @@ class CAPTCHATest: SessionTestSpec {
     func testSizeOfNewImageGeneratedUsingIden() {
         let msg = "is 120x50"
         print(msg)
-#if os(iOS)
+#if os(iOS) || os(tvOS)
         var size:CGSize? = nil
 #elseif os(OSX)
         var size:NSSize? = nil

@@ -15,9 +15,7 @@
 		140126981B0ACBAD003CA6C1 /* MultiredditTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140126961B0ACBAD003CA6C1 /* MultiredditTest.swift */; };
 		140126A01B0AF001003CA6C1 /* multi.json in Resources */ = {isa = PBXBuildFile; fileRef = 1401269E1B0AF001003CA6C1 /* multi.json */; };
 		140126A21B0AF001003CA6C1 /* multi.json in Resources */ = {isa = PBXBuildFile; fileRef = 1401269E1B0AF001003CA6C1 /* multi.json */; };
-		140126A41B0AF59C003CA6C1 /* LabeledMulti.json in Resources */ = {isa = PBXBuildFile; fileRef = 140126A31B0AF59C003CA6C1 /* LabeledMulti.json */; };
 		140126A51B0AF59C003CA6C1 /* LabeledMulti.json in Resources */ = {isa = PBXBuildFile; fileRef = 140126A31B0AF59C003CA6C1 /* LabeledMulti.json */; };
-		140126A61B0AF59C003CA6C1 /* LabeledMulti.json in Resources */ = {isa = PBXBuildFile; fileRef = 140126A31B0AF59C003CA6C1 /* LabeledMulti.json */; };
 		140126A71B0AF59C003CA6C1 /* LabeledMulti.json in Resources */ = {isa = PBXBuildFile; fileRef = 140126A31B0AF59C003CA6C1 /* LabeledMulti.json */; };
 		140126AA1B0B0EF7003CA6C1 /* api_needs_captcha.json in Resources */ = {isa = PBXBuildFile; fileRef = 140126A81B0B0EF7003CA6C1 /* api_needs_captcha.json */; };
 		140126AB1B0B0EF7003CA6C1 /* api_needs_captcha.json in Resources */ = {isa = PBXBuildFile; fileRef = 140126A81B0B0EF7003CA6C1 /* api_needs_captcha.json */; };
@@ -108,6 +106,152 @@
 		143427D41AF96AD5005D0E31 /* NSURLComponents+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D21AF96AD5005D0E31 /* NSURLComponents+reddift.swift */; };
 		143427D61AF98F13005D0E31 /* HttpStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D51AF98F13005D0E31 /* HttpStatus.swift */; };
 		143427D71AF98F13005D0E31 /* HttpStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D51AF98F13005D0E31 /* HttpStatus.swift */; };
+		14364C971BEDA09F00FECE58 /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14364C8D1BEDA09F00FECE58 /* reddift.framework */; };
+		14364CA41BEDA0DC00FECE58 /* GTMDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 14BCBCB41BCE1E7500A1FFEB /* GTMDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14364CA51BEDA0E200FECE58 /* GTMNSString+HTML.h in Headers */ = {isa = PBXBuildFile; fileRef = 14BCBCB51BCE1E7500A1FFEB /* GTMNSString+HTML.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14364CA61BEDA0E600FECE58 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BCBCB61BCE1E7500A1FFEB /* GTMNSString+HTML.m */; };
+		14364CA71BEDA0E700FECE58 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BCBCB61BCE1E7500A1FFEB /* GTMNSString+HTML.m */; };
+		14364CA81BEDA0EC00FECE58 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */; };
+		14364CA91BEDA0EC00FECE58 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */; };
+		14364CAA1BEDA0F800FECE58 /* OAuth2Authorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1E1ADD721700237350 /* OAuth2Authorizer.swift */; };
+		14364CAB1BEDA0F800FECE58 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14447EC71B16234A004FB58E /* Token.swift */; };
+		14364CAC1BEDA0F800FECE58 /* OAuth2Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1F1ADD721700237350 /* OAuth2Token.swift */; };
+		14364CAD1BEDA0F800FECE58 /* OAuth2AppOnlyToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427C71AF858D5005D0E31 /* OAuth2AppOnlyToken.swift */; };
+		14364CAE1BEDA0F800FECE58 /* OAuth2TokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE201ADD721700237350 /* OAuth2TokenRepository.swift */; };
+		14364CAF1BEDA0F900FECE58 /* OAuth2Authorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1E1ADD721700237350 /* OAuth2Authorizer.swift */; };
+		14364CB01BEDA0F900FECE58 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14447EC71B16234A004FB58E /* Token.swift */; };
+		14364CB11BEDA0F900FECE58 /* OAuth2Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1F1ADD721700237350 /* OAuth2Token.swift */; };
+		14364CB21BEDA0F900FECE58 /* OAuth2AppOnlyToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427C71AF858D5005D0E31 /* OAuth2AppOnlyToken.swift */; };
+		14364CB31BEDA0F900FECE58 /* OAuth2TokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE201ADD721700237350 /* OAuth2TokenRepository.swift */; };
+		14364CB41BEDA10200FECE58 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1C1ADD721700237350 /* Session.swift */; };
+		14364CB51BEDA10200FECE58 /* Session+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14395C041BAF96E700726263 /* Session+Token.swift */; };
+		14364CB61BEDA10200FECE58 /* Session+account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91B31B0A4F1D00A9E6A6 /* Session+account.swift */; };
+		14364CB71BEDA10200FECE58 /* Session+CAPTCHA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91B51B0A4F3000A9E6A6 /* Session+CAPTCHA.swift */; };
+		14364CB81BEDA10200FECE58 /* Session+flair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91B71B0A4F4200A9E6A6 /* Session+flair.swift */; };
+		14364CB91BEDA10200FECE58 /* Session+gold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91B91B0A4F8C00A9E6A6 /* Session+gold.swift */; };
+		14364CBA1BEDA10200FECE58 /* Session+links.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91BB1B0A4F9B00A9E6A6 /* Session+links.swift */; };
+		14364CBB1BEDA10200FECE58 /* Session+listings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91BD1B0A4FA900A9E6A6 /* Session+listings.swift */; };
+		14364CBC1BEDA10200FECE58 /* Session+liveThreads.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91BF1B0A4FBB00A9E6A6 /* Session+liveThreads.swift */; };
+		14364CBD1BEDA10200FECE58 /* Session+messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C11B0A4FCB00A9E6A6 /* Session+messages.swift */; };
+		14364CBE1BEDA10200FECE58 /* Session+misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C31B0A4FD900A9E6A6 /* Session+misc.swift */; };
+		14364CBF1BEDA10200FECE58 /* Session+moderation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C51B0A4FE900A9E6A6 /* Session+moderation.swift */; };
+		14364CC01BEDA10200FECE58 /* Session+multireddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C71B0A4FF900A9E6A6 /* Session+multireddit.swift */; };
+		14364CC11BEDA10200FECE58 /* Session+search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C91B0A500500A9E6A6 /* Session+search.swift */; };
+		14364CC21BEDA10200FECE58 /* Session+subreddits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91CC1B0A501900A9E6A6 /* Session+subreddits.swift */; };
+		14364CC31BEDA10200FECE58 /* Session+users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91CE1B0A502400A9E6A6 /* Session+users.swift */; };
+		14364CC41BEDA10200FECE58 /* Session+wiki.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91D01B0A502C00A9E6A6 /* Session+wiki.swift */; };
+		14364CC51BEDA10200FECE58 /* Session+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F76FF41AECE01800A70AA5 /* Session+helper.swift */; };
+		14364CC61BEDA10200FECE58 /* HttpStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D51AF98F13005D0E31 /* HttpStatus.swift */; };
+		14364CC71BEDA10300FECE58 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1C1ADD721700237350 /* Session.swift */; };
+		14364CC81BEDA10300FECE58 /* Session+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14395C041BAF96E700726263 /* Session+Token.swift */; };
+		14364CC91BEDA10300FECE58 /* Session+account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91B31B0A4F1D00A9E6A6 /* Session+account.swift */; };
+		14364CCA1BEDA10300FECE58 /* Session+CAPTCHA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91B51B0A4F3000A9E6A6 /* Session+CAPTCHA.swift */; };
+		14364CCB1BEDA10300FECE58 /* Session+flair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91B71B0A4F4200A9E6A6 /* Session+flair.swift */; };
+		14364CCC1BEDA10300FECE58 /* Session+gold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91B91B0A4F8C00A9E6A6 /* Session+gold.swift */; };
+		14364CCD1BEDA10300FECE58 /* Session+links.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91BB1B0A4F9B00A9E6A6 /* Session+links.swift */; };
+		14364CCE1BEDA10300FECE58 /* Session+listings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91BD1B0A4FA900A9E6A6 /* Session+listings.swift */; };
+		14364CCF1BEDA10300FECE58 /* Session+liveThreads.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91BF1B0A4FBB00A9E6A6 /* Session+liveThreads.swift */; };
+		14364CD01BEDA10300FECE58 /* Session+messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C11B0A4FCB00A9E6A6 /* Session+messages.swift */; };
+		14364CD11BEDA10300FECE58 /* Session+misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C31B0A4FD900A9E6A6 /* Session+misc.swift */; };
+		14364CD21BEDA10300FECE58 /* Session+moderation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C51B0A4FE900A9E6A6 /* Session+moderation.swift */; };
+		14364CD31BEDA10300FECE58 /* Session+multireddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C71B0A4FF900A9E6A6 /* Session+multireddit.swift */; };
+		14364CD41BEDA10300FECE58 /* Session+search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91C91B0A500500A9E6A6 /* Session+search.swift */; };
+		14364CD51BEDA10300FECE58 /* Session+subreddits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91CC1B0A501900A9E6A6 /* Session+subreddits.swift */; };
+		14364CD61BEDA10300FECE58 /* Session+users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91CE1B0A502400A9E6A6 /* Session+users.swift */; };
+		14364CD71BEDA10300FECE58 /* Session+wiki.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B91D01B0A502C00A9E6A6 /* Session+wiki.swift */; };
+		14364CD81BEDA10300FECE58 /* Session+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F76FF41AECE01800A70AA5 /* Session+helper.swift */; };
+		14364CD91BEDA10300FECE58 /* HttpStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D51AF98F13005D0E31 /* HttpStatus.swift */; };
+		14364CDA1BEDA10800FECE58 /* Dictionary+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B1216E1BAA56D800238059 /* Dictionary+reddift.swift */; };
+		14364CDB1BEDA10800FECE58 /* NSBundle+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE181ADD721700237350 /* NSBundle+reddift.swift */; };
+		14364CDC1BEDA10800FECE58 /* NSError+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE191ADD721700237350 /* NSError+reddift.swift */; };
+		14364CDD1BEDA10800FECE58 /* NSMutableURLRequest+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1A1ADD721700237350 /* NSMutableURLRequest+reddift.swift */; };
+		14364CDE1BEDA10800FECE58 /* NSURLComponents+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D21AF96AD5005D0E31 /* NSURLComponents+reddift.swift */; };
+		14364CDF1BEDA10800FECE58 /* NSAttributedString+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F0163A1BD3D190003CF077 /* NSAttributedString+reddift.swift */; };
+		14364CE01BEDA10900FECE58 /* Dictionary+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B1216E1BAA56D800238059 /* Dictionary+reddift.swift */; };
+		14364CE11BEDA10900FECE58 /* NSBundle+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE181ADD721700237350 /* NSBundle+reddift.swift */; };
+		14364CE21BEDA10900FECE58 /* NSError+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE191ADD721700237350 /* NSError+reddift.swift */; };
+		14364CE31BEDA10900FECE58 /* NSMutableURLRequest+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1A1ADD721700237350 /* NSMutableURLRequest+reddift.swift */; };
+		14364CE41BEDA10900FECE58 /* NSURLComponents+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D21AF96AD5005D0E31 /* NSURLComponents+reddift.swift */; };
+		14364CE51BEDA10900FECE58 /* NSAttributedString+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F0163A1BD3D190003CF077 /* NSAttributedString+reddift.swift */; };
+		14364CE61BEDA10F00FECE58 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F422601B01C84E00608939 /* Enum.swift */; };
+		14364CE71BEDA10F00FECE58 /* Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D2E21F1B14C8BF00253AC0 /* Thing.swift */; };
+		14364CE81BEDA10F00FECE58 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE2A1ADD72C900237350 /* Config.swift */; };
+		14364CE91BEDA10F00FECE58 /* Listing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148BB46C1AE49FBE006ED0D0 /* Listing.swift */; };
+		14364CEA1BEDA10F00FECE58 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142983F81AE4C47300846DD3 /* Media.swift */; };
+		14364CEB1BEDA10F00FECE58 /* Oembed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984001AE4E0EA00846DD3 /* Oembed.swift */; };
+		14364CEC1BEDA10F00FECE58 /* MediaEmbed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984051AE5A5CD00846DD3 /* MediaEmbed.swift */; };
+		14364CED1BEDA10F00FECE58 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE081ADD3DF300237350 /* Link.swift */; };
+		14364CEE1BEDA10F00FECE58 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE061ADD3DF300237350 /* Comment.swift */; };
+		14364CEF1BEDA10F00FECE58 /* More.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1471A6EF1AE5DD4C00816FE7 /* More.swift */; };
+		14364CF01BEDA10F00FECE58 /* Subreddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE0C1ADD3DF300237350 /* Subreddit.swift */; };
+		14364CF11BEDA10F00FECE58 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE051ADD3DF300237350 /* Account.swift */; };
+		14364CF21BEDA10F00FECE58 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE091ADD3DF300237350 /* Message.swift */; };
+		14364CF31BEDA10F00FECE58 /* Paginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE281ADD722500237350 /* Paginator.swift */; };
+		14364CF41BEDA10F00FECE58 /* Multireddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140126911B0AC443003CA6C1 /* Multireddit.swift */; };
+		14364CF51BEDA10F00FECE58 /* MultiredditDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A94CF71B1000B800EDB844 /* MultiredditDescription.swift */; };
+		14364CF61BEDA10F00FECE58 /* CAPTCHA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148E79951B18033900C771E3 /* CAPTCHA.swift */; };
+		14364CF71BEDA10F00FECE58 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14624D001B3D184400A5D8F5 /* Response.swift */; };
+		14364CF81BEDA10F00FECE58 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F422601B01C84E00608939 /* Enum.swift */; };
+		14364CF91BEDA10F00FECE58 /* Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D2E21F1B14C8BF00253AC0 /* Thing.swift */; };
+		14364CFA1BEDA10F00FECE58 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE2A1ADD72C900237350 /* Config.swift */; };
+		14364CFB1BEDA10F00FECE58 /* Listing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148BB46C1AE49FBE006ED0D0 /* Listing.swift */; };
+		14364CFC1BEDA10F00FECE58 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142983F81AE4C47300846DD3 /* Media.swift */; };
+		14364CFD1BEDA10F00FECE58 /* Oembed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984001AE4E0EA00846DD3 /* Oembed.swift */; };
+		14364CFE1BEDA10F00FECE58 /* MediaEmbed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142984051AE5A5CD00846DD3 /* MediaEmbed.swift */; };
+		14364CFF1BEDA10F00FECE58 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE081ADD3DF300237350 /* Link.swift */; };
+		14364D001BEDA10F00FECE58 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE061ADD3DF300237350 /* Comment.swift */; };
+		14364D011BEDA10F00FECE58 /* More.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1471A6EF1AE5DD4C00816FE7 /* More.swift */; };
+		14364D021BEDA10F00FECE58 /* Subreddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE0C1ADD3DF300237350 /* Subreddit.swift */; };
+		14364D031BEDA10F00FECE58 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE051ADD3DF300237350 /* Account.swift */; };
+		14364D041BEDA10F00FECE58 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE091ADD3DF300237350 /* Message.swift */; };
+		14364D051BEDA10F00FECE58 /* Paginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE281ADD722500237350 /* Paginator.swift */; };
+		14364D061BEDA10F00FECE58 /* Multireddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140126911B0AC443003CA6C1 /* Multireddit.swift */; };
+		14364D071BEDA10F00FECE58 /* MultiredditDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A94CF71B1000B800EDB844 /* MultiredditDescription.swift */; };
+		14364D081BEDA10F00FECE58 /* CAPTCHA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148E79951B18033900C771E3 /* CAPTCHA.swift */; };
+		14364D091BEDA10F00FECE58 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14624D001B3D184400A5D8F5 /* Response.swift */; };
+		14364D0A1BEDA11600FECE58 /* helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1420ADCB1AEDD28C00BB21C3 /* helper.swift */; };
+		14364D0B1BEDA11600FECE58 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427CF1AF96A64005D0E31 /* Result.swift */; };
+		14364D0C1BEDA11600FECE58 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BEDDFD1AE44FC5004F7860 /* Parser.swift */; };
+		14364D0D1BEDA11700FECE58 /* helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1420ADCB1AEDD28C00BB21C3 /* helper.swift */; };
+		14364D0E1BEDA11700FECE58 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427CF1AF96A64005D0E31 /* Result.swift */; };
+		14364D0F1BEDA11700FECE58 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BEDDFD1AE44FC5004F7860 /* Parser.swift */; };
+		14364D101BEDA11B00FECE58 /* reddift.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B5EBB51AF34D580065BC5E /* reddift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		14364D111BEDA1D200FECE58 /* ParseThingObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */; };
+		14364D121BEDA1D200FECE58 /* ParseResponseObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */; };
+		14364D131BEDA1D200FECE58 /* ExtendCommentsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140CC3FA1AFCB20A00E9CBB5 /* ExtendCommentsTest.swift */; };
+		14364D141BEDA1D200FECE58 /* ParseCommentMarkdownTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14375DD71BB40273007DF229 /* ParseCommentMarkdownTest.swift */; };
+		14364D151BEDA1D800FECE58 /* SessionTestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141340FF1AFBD4AB00D16B7C /* SessionTestSpec.swift */; };
+		14364D161BEDA1D800FECE58 /* SessionNoAuthTestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E72CAD1B75F20300D4229D /* SessionNoAuthTestSpec.swift */; };
+		14364D171BEDA1D800FECE58 /* CAPTCHATest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149CE2611AFAD4DF004B61C1 /* CAPTCHATest.swift */; };
+		14364D181BEDA1D800FECE58 /* LinksTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1424A8931AFDC7CD00EF08CD /* LinksTest.swift */; };
+		14364D191BEDA1D800FECE58 /* ListingsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A352011B1BA392003239F8 /* ListingsTest.swift */; };
+		14364D1A1BEDA1D800FECE58 /* MultiredditTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140126961B0ACBAD003CA6C1 /* MultiredditTest.swift */; };
+		14364D1B1BEDA1D800FECE58 /* SearchTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A352041B1BA618003239F8 /* SearchTest.swift */; };
+		14364D1C1BEDA1D800FECE58 /* SubredditsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149658231B1237B40071275E /* SubredditsTest.swift */; };
+		14364D1D1BEDA1D800FECE58 /* UsersTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A352071B1BA62F003239F8 /* UsersTest.swift */; };
+		14364D1E1BEDA1DF00FECE58 /* comment_parse_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 14375DDB1BB40280007DF229 /* comment_parse_data.json */; };
+		14364D1F1BEDA28800FECE58 /* create_token.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4F91AE7C9D500211DAD /* create_token.json */; };
+		14364D201BEDA28800FECE58 /* refresh_token.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4FA1AE7C9D500211DAD /* refresh_token.json */; };
+		14364D211BEDA28D00FECE58 /* multidesc.json in Resources */ = {isa = PBXBuildFile; fileRef = 14A94CFC1B10727500EDB844 /* multidesc.json */; };
+		14364D221BEDA28D00FECE58 /* api_needs_captcha.json in Resources */ = {isa = PBXBuildFile; fileRef = 140126A81B0B0EF7003CA6C1 /* api_needs_captcha.json */; };
+		14364D231BEDA28D00FECE58 /* api_new_captcha.json in Resources */ = {isa = PBXBuildFile; fileRef = 140126A91B0B0EF7003CA6C1 /* api_new_captcha.json */; };
+		14364D241BEDA28D00FECE58 /* multi.json in Resources */ = {isa = PBXBuildFile; fileRef = 1401269E1B0AF001003CA6C1 /* multi.json */; };
+		14364D251BEDA28D00FECE58 /* api_comment_response.json in Resources */ = {isa = PBXBuildFile; fileRef = 1424A8961AFE199700EF08CD /* api_comment_response.json */; };
+		14364D261BEDA28D00FECE58 /* comments_extend.json in Resources */ = {isa = PBXBuildFile; fileRef = 14BBDA231AEF250100F94E7D /* comments_extend.json */; };
+		14364D271BEDA28D00FECE58 /* comments.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4FC1AE7C9D500211DAD /* comments.json */; };
+		14364D281BEDA28D00FECE58 /* error.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4FD1AE7C9D500211DAD /* error.json */; };
+		14364D291BEDA28D00FECE58 /* links.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4FE1AE7C9D500211DAD /* links.json */; };
+		14364D2A1BEDA28D00FECE58 /* message.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4FF1AE7C9D500211DAD /* message.json */; };
+		14364D2B1BEDA28D00FECE58 /* subreddit.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5001AE7C9D500211DAD /* subreddit.json */; };
+		14364D3A1BEDA29B00FECE58 /* LabeledMultiDescription.json in Resources */ = {isa = PBXBuildFile; fileRef = 1481423F1B0F0C5300DE4F88 /* LabeledMultiDescription.json */; };
+		14364D3B1BEDA29B00FECE58 /* LabeledMulti.json in Resources */ = {isa = PBXBuildFile; fileRef = 140126A31B0AF59C003CA6C1 /* LabeledMulti.json */; };
+		14364D3C1BEDA29B00FECE58 /* more.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5021AE7C9D500211DAD /* more.json */; };
+		14364D3D1BEDA29B00FECE58 /* t1.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5031AE7C9D500211DAD /* t1.json */; };
+		14364D3E1BEDA29B00FECE58 /* t2.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5041AE7C9D500211DAD /* t2.json */; };
+		14364D3F1BEDA29B00FECE58 /* t3.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5051AE7C9D500211DAD /* t3.json */; };
+		14364D401BEDA29B00FECE58 /* t4.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5061AE7C9D500211DAD /* t4.json */; };
+		14364D411BEDA29B00FECE58 /* t5.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5071AE7C9D500211DAD /* t5.json */; };
+		14364D421BEDA2A600FECE58 /* test_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 143427CC1AF95E80005D0E31 /* test_config.json */; };
 		14375DD81BB40273007DF229 /* ParseCommentMarkdownTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14375DD71BB40273007DF229 /* ParseCommentMarkdownTest.swift */; };
 		14375DD91BB40273007DF229 /* ParseCommentMarkdownTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14375DD71BB40273007DF229 /* ParseCommentMarkdownTest.swift */; };
 		14375DDD1BB40284007DF229 /* comment_parse_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 14375DDB1BB40280007DF229 /* comment_parse_data.json */; };
@@ -335,6 +479,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		14364C981BEDA09F00FECE58 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 147EAD981AD78568007FA2F4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 14364C8C1BEDA09F00FECE58;
+			remoteInfo = "reddift-tvOS";
+		};
 		14B5EBBD1AF34D590065BC5E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 147EAD981AD78568007FA2F4 /* Project object */;
@@ -416,6 +567,8 @@
 		143427CF1AF96A64005D0E31 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		143427D21AF96AD5005D0E31 /* NSURLComponents+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLComponents+reddift.swift"; sourceTree = "<group>"; };
 		143427D51AF98F13005D0E31 /* HttpStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpStatus.swift; sourceTree = "<group>"; };
+		14364C8D1BEDA09F00FECE58 /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		14364C961BEDA09F00FECE58 /* reddift-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "reddift-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14375DD71BB40273007DF229 /* ParseCommentMarkdownTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseCommentMarkdownTest.swift; sourceTree = "<group>"; };
 		14375DDB1BB40280007DF229 /* comment_parse_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = comment_parse_data.json; sourceTree = "<group>"; };
 		14395C041BAF96E700726263 /* Session+Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+Token.swift"; sourceTree = "<group>"; };
@@ -513,6 +666,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		14364C891BEDA09F00FECE58 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14364C931BEDA09F00FECE58 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14364C971BEDA09F00FECE58 /* reddift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		14B5EBAD1AF34D580065BC5E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -623,6 +791,8 @@
 				14B5EBCE1AF34E920065BC5E /* reddiftSample.app */,
 				14F812001AF9EA9F008F6F3C /* reddift.framework */,
 				14F8120A1AF9EA9F008F6F3C /* reddift-OSXTests.xctest */,
+				14364C8D1BEDA09F00FECE58 /* reddift.framework */,
+				14364C961BEDA09F00FECE58 /* reddift-tvOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -909,6 +1079,16 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		14364C8A1BEDA09F00FECE58 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14364D101BEDA11B00FECE58 /* reddift.h in Headers */,
+				14364CA41BEDA0DC00FECE58 /* GTMDefines.h in Headers */,
+				14364CA51BEDA0E200FECE58 /* GTMNSString+HTML.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		14B5EBAE1AF34D580065BC5E /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -932,6 +1112,42 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		14364C8C1BEDA09F00FECE58 /* reddift-tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 14364CA21BEDA09F00FECE58 /* Build configuration list for PBXNativeTarget "reddift-tvOS" */;
+			buildPhases = (
+				14364C881BEDA09F00FECE58 /* Sources */,
+				14364C891BEDA09F00FECE58 /* Frameworks */,
+				14364C8A1BEDA09F00FECE58 /* Headers */,
+				14364C8B1BEDA09F00FECE58 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "reddift-tvOS";
+			productName = "reddift-tvOS";
+			productReference = 14364C8D1BEDA09F00FECE58 /* reddift.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		14364C951BEDA09F00FECE58 /* reddift-tvOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 14364CA31BEDA09F00FECE58 /* Build configuration list for PBXNativeTarget "reddift-tvOSTests" */;
+			buildPhases = (
+				14364C921BEDA09F00FECE58 /* Sources */,
+				14364C931BEDA09F00FECE58 /* Frameworks */,
+				14364C941BEDA09F00FECE58 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				14364C991BEDA09F00FECE58 /* PBXTargetDependency */,
+			);
+			name = "reddift-tvOSTests";
+			productName = "reddift-tvOSTests";
+			productReference = 14364C961BEDA09F00FECE58 /* reddift-tvOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		14B5EBB01AF34D580065BC5E /* reddift-iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14B5EBC41AF34D590065BC5E /* Build configuration list for PBXNativeTarget "reddift-iOS" */;
@@ -1029,10 +1245,16 @@
 		147EAD981AD78568007FA2F4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = sonson;
 				TargetAttributes = {
+					14364C8C1BEDA09F00FECE58 = {
+						CreatedOnToolsVersion = 7.1;
+					};
+					14364C951BEDA09F00FECE58 = {
+						CreatedOnToolsVersion = 7.1;
+					};
 					14B5EBB01AF34D580065BC5E = {
 						CreatedOnToolsVersion = 6.3.1;
 					};
@@ -1071,6 +1293,8 @@
 			targets = (
 				14B5EBB01AF34D580065BC5E /* reddift-iOS */,
 				14B5EBBA1AF34D580065BC5E /* reddift-iOSTests */,
+				14364C8C1BEDA09F00FECE58 /* reddift-tvOS */,
+				14364C951BEDA09F00FECE58 /* reddift-tvOSTests */,
 				14F811FF1AF9EA9F008F6F3C /* reddift-OSX */,
 				14F812091AF9EA9F008F6F3C /* reddift-OSXTests */,
 				14B5EBCD1AF34E920065BC5E /* reddiftSample */,
@@ -1079,11 +1303,47 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		14364C8B1BEDA09F00FECE58 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14364C941BEDA09F00FECE58 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14364D3E1BEDA29B00FECE58 /* t2.json in Resources */,
+				14364D3A1BEDA29B00FECE58 /* LabeledMultiDescription.json in Resources */,
+				14364D221BEDA28D00FECE58 /* api_needs_captcha.json in Resources */,
+				14364D211BEDA28D00FECE58 /* multidesc.json in Resources */,
+				14364D261BEDA28D00FECE58 /* comments_extend.json in Resources */,
+				14364D421BEDA2A600FECE58 /* test_config.json in Resources */,
+				14364D291BEDA28D00FECE58 /* links.json in Resources */,
+				14364D271BEDA28D00FECE58 /* comments.json in Resources */,
+				14364D1E1BEDA1DF00FECE58 /* comment_parse_data.json in Resources */,
+				14364D251BEDA28D00FECE58 /* api_comment_response.json in Resources */,
+				14364D1F1BEDA28800FECE58 /* create_token.json in Resources */,
+				14364D2B1BEDA28D00FECE58 /* subreddit.json in Resources */,
+				14364D281BEDA28D00FECE58 /* error.json in Resources */,
+				14364D401BEDA29B00FECE58 /* t4.json in Resources */,
+				14364D2A1BEDA28D00FECE58 /* message.json in Resources */,
+				14364D3D1BEDA29B00FECE58 /* t1.json in Resources */,
+				14364D241BEDA28D00FECE58 /* multi.json in Resources */,
+				14364D411BEDA29B00FECE58 /* t5.json in Resources */,
+				14364D3B1BEDA29B00FECE58 /* LabeledMulti.json in Resources */,
+				14364D231BEDA28D00FECE58 /* api_new_captcha.json in Resources */,
+				14364D3C1BEDA29B00FECE58 /* more.json in Resources */,
+				14364D3F1BEDA29B00FECE58 /* t3.json in Resources */,
+				14364D201BEDA28800FECE58 /* refresh_token.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		14B5EBAF1AF34D580065BC5E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				140126A41B0AF59C003CA6C1 /* LabeledMulti.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1136,7 +1396,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				140126A61B0AF59C003CA6C1 /* LabeledMulti.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1173,6 +1432,139 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		14364C881BEDA09F00FECE58 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14364CF41BEDA10F00FECE58 /* Multireddit.swift in Sources */,
+				14364CEA1BEDA10F00FECE58 /* Media.swift in Sources */,
+				14364CF11BEDA10F00FECE58 /* Account.swift in Sources */,
+				14364CBF1BEDA10200FECE58 /* Session+moderation.swift in Sources */,
+				14364CF31BEDA10F00FECE58 /* Paginator.swift in Sources */,
+				14364CDC1BEDA10800FECE58 /* NSError+reddift.swift in Sources */,
+				14364D0A1BEDA11600FECE58 /* helper.swift in Sources */,
+				14364CBA1BEDA10200FECE58 /* Session+links.swift in Sources */,
+				14364CEF1BEDA10F00FECE58 /* More.swift in Sources */,
+				14364CC31BEDA10200FECE58 /* Session+users.swift in Sources */,
+				14364CC61BEDA10200FECE58 /* HttpStatus.swift in Sources */,
+				14364CC01BEDA10200FECE58 /* Session+multireddit.swift in Sources */,
+				14364CB71BEDA10200FECE58 /* Session+CAPTCHA.swift in Sources */,
+				14364CEE1BEDA10F00FECE58 /* Comment.swift in Sources */,
+				14364D0B1BEDA11600FECE58 /* Result.swift in Sources */,
+				14364CAD1BEDA0F800FECE58 /* OAuth2AppOnlyToken.swift in Sources */,
+				14364CF21BEDA10F00FECE58 /* Message.swift in Sources */,
+				14364D0C1BEDA11600FECE58 /* Parser.swift in Sources */,
+				14364CDD1BEDA10800FECE58 /* NSMutableURLRequest+reddift.swift in Sources */,
+				14364CB51BEDA10200FECE58 /* Session+Token.swift in Sources */,
+				14364CF61BEDA10F00FECE58 /* CAPTCHA.swift in Sources */,
+				14364CE91BEDA10F00FECE58 /* Listing.swift in Sources */,
+				14364CF51BEDA10F00FECE58 /* MultiredditDescription.swift in Sources */,
+				14364CB81BEDA10200FECE58 /* Session+flair.swift in Sources */,
+				14364CC41BEDA10200FECE58 /* Session+wiki.swift in Sources */,
+				14364CC21BEDA10200FECE58 /* Session+subreddits.swift in Sources */,
+				14364CEB1BEDA10F00FECE58 /* Oembed.swift in Sources */,
+				14364CF71BEDA10F00FECE58 /* Response.swift in Sources */,
+				14364CA61BEDA0E600FECE58 /* GTMNSString+HTML.m in Sources */,
+				14364CAC1BEDA0F800FECE58 /* OAuth2Token.swift in Sources */,
+				14364CAA1BEDA0F800FECE58 /* OAuth2Authorizer.swift in Sources */,
+				14364CED1BEDA10F00FECE58 /* Link.swift in Sources */,
+				14364CDF1BEDA10800FECE58 /* NSAttributedString+reddift.swift in Sources */,
+				14364CE81BEDA10F00FECE58 /* Config.swift in Sources */,
+				14364CF01BEDA10F00FECE58 /* Subreddit.swift in Sources */,
+				14364CB41BEDA10200FECE58 /* Session.swift in Sources */,
+				14364CA81BEDA0EC00FECE58 /* Keychain.swift in Sources */,
+				14364CAB1BEDA0F800FECE58 /* Token.swift in Sources */,
+				14364CB91BEDA10200FECE58 /* Session+gold.swift in Sources */,
+				14364CC51BEDA10200FECE58 /* Session+helper.swift in Sources */,
+				14364CC11BEDA10200FECE58 /* Session+search.swift in Sources */,
+				14364CB61BEDA10200FECE58 /* Session+account.swift in Sources */,
+				14364CAE1BEDA0F800FECE58 /* OAuth2TokenRepository.swift in Sources */,
+				14364CBC1BEDA10200FECE58 /* Session+liveThreads.swift in Sources */,
+				14364CEC1BEDA10F00FECE58 /* MediaEmbed.swift in Sources */,
+				14364CE61BEDA10F00FECE58 /* Enum.swift in Sources */,
+				14364CDA1BEDA10800FECE58 /* Dictionary+reddift.swift in Sources */,
+				14364CBD1BEDA10200FECE58 /* Session+messages.swift in Sources */,
+				14364CDB1BEDA10800FECE58 /* NSBundle+reddift.swift in Sources */,
+				14364CE71BEDA10F00FECE58 /* Thing.swift in Sources */,
+				14364CBE1BEDA10200FECE58 /* Session+misc.swift in Sources */,
+				14364CBB1BEDA10200FECE58 /* Session+listings.swift in Sources */,
+				14364CDE1BEDA10800FECE58 /* NSURLComponents+reddift.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		14364C921BEDA09F00FECE58 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14364CFF1BEDA10F00FECE58 /* Link.swift in Sources */,
+				14364CFC1BEDA10F00FECE58 /* Media.swift in Sources */,
+				14364CD71BEDA10300FECE58 /* Session+wiki.swift in Sources */,
+				14364D061BEDA10F00FECE58 /* Multireddit.swift in Sources */,
+				14364D1C1BEDA1D800FECE58 /* SubredditsTest.swift in Sources */,
+				14364CB01BEDA0F900FECE58 /* Token.swift in Sources */,
+				14364D031BEDA10F00FECE58 /* Account.swift in Sources */,
+				14364CCD1BEDA10300FECE58 /* Session+links.swift in Sources */,
+				14364D171BEDA1D800FECE58 /* CAPTCHATest.swift in Sources */,
+				14364D051BEDA10F00FECE58 /* Paginator.swift in Sources */,
+				14364CCC1BEDA10300FECE58 /* Session+gold.swift in Sources */,
+				14364CD21BEDA10300FECE58 /* Session+moderation.swift in Sources */,
+				14364CD81BEDA10300FECE58 /* Session+helper.swift in Sources */,
+				14364CC91BEDA10300FECE58 /* Session+account.swift in Sources */,
+				14364CC81BEDA10300FECE58 /* Session+Token.swift in Sources */,
+				14364CB31BEDA0F900FECE58 /* OAuth2TokenRepository.swift in Sources */,
+				14364CB11BEDA0F900FECE58 /* OAuth2Token.swift in Sources */,
+				14364CD11BEDA10300FECE58 /* Session+misc.swift in Sources */,
+				14364D121BEDA1D200FECE58 /* ParseResponseObjectTest.swift in Sources */,
+				14364CCB1BEDA10300FECE58 /* Session+flair.swift in Sources */,
+				14364CF91BEDA10F00FECE58 /* Thing.swift in Sources */,
+				14364D041BEDA10F00FECE58 /* Message.swift in Sources */,
+				14364CE31BEDA10900FECE58 /* NSMutableURLRequest+reddift.swift in Sources */,
+				14364D1A1BEDA1D800FECE58 /* MultiredditTest.swift in Sources */,
+				14364D0E1BEDA11700FECE58 /* Result.swift in Sources */,
+				14364CAF1BEDA0F900FECE58 /* OAuth2Authorizer.swift in Sources */,
+				14364D181BEDA1D800FECE58 /* LinksTest.swift in Sources */,
+				14364D111BEDA1D200FECE58 /* ParseThingObjectTest.swift in Sources */,
+				14364CE01BEDA10900FECE58 /* Dictionary+reddift.swift in Sources */,
+				14364D0D1BEDA11700FECE58 /* helper.swift in Sources */,
+				14364CD41BEDA10300FECE58 /* Session+search.swift in Sources */,
+				14364D021BEDA10F00FECE58 /* Subreddit.swift in Sources */,
+				14364CCF1BEDA10300FECE58 /* Session+liveThreads.swift in Sources */,
+				14364D011BEDA10F00FECE58 /* More.swift in Sources */,
+				14364CD31BEDA10300FECE58 /* Session+multireddit.swift in Sources */,
+				14364CE51BEDA10900FECE58 /* NSAttributedString+reddift.swift in Sources */,
+				14364CD91BEDA10300FECE58 /* HttpStatus.swift in Sources */,
+				14364CCA1BEDA10300FECE58 /* Session+CAPTCHA.swift in Sources */,
+				14364CD01BEDA10300FECE58 /* Session+messages.swift in Sources */,
+				14364CFB1BEDA10F00FECE58 /* Listing.swift in Sources */,
+				14364CE11BEDA10900FECE58 /* NSBundle+reddift.swift in Sources */,
+				14364D081BEDA10F00FECE58 /* CAPTCHA.swift in Sources */,
+				14364CB21BEDA0F900FECE58 /* OAuth2AppOnlyToken.swift in Sources */,
+				14364CD51BEDA10300FECE58 /* Session+subreddits.swift in Sources */,
+				14364D091BEDA10F00FECE58 /* Response.swift in Sources */,
+				14364CE21BEDA10900FECE58 /* NSError+reddift.swift in Sources */,
+				14364D001BEDA10F00FECE58 /* Comment.swift in Sources */,
+				14364CA71BEDA0E700FECE58 /* GTMNSString+HTML.m in Sources */,
+				14364CFA1BEDA10F00FECE58 /* Config.swift in Sources */,
+				14364D141BEDA1D200FECE58 /* ParseCommentMarkdownTest.swift in Sources */,
+				14364CFE1BEDA10F00FECE58 /* MediaEmbed.swift in Sources */,
+				14364D161BEDA1D800FECE58 /* SessionNoAuthTestSpec.swift in Sources */,
+				14364D131BEDA1D200FECE58 /* ExtendCommentsTest.swift in Sources */,
+				14364CCE1BEDA10300FECE58 /* Session+listings.swift in Sources */,
+				14364CA91BEDA0EC00FECE58 /* Keychain.swift in Sources */,
+				14364CF81BEDA10F00FECE58 /* Enum.swift in Sources */,
+				14364D1D1BEDA1D800FECE58 /* UsersTest.swift in Sources */,
+				14364D071BEDA10F00FECE58 /* MultiredditDescription.swift in Sources */,
+				14364CC71BEDA10300FECE58 /* Session.swift in Sources */,
+				14364D0F1BEDA11700FECE58 /* Parser.swift in Sources */,
+				14364D1B1BEDA1D800FECE58 /* SearchTest.swift in Sources */,
+				14364D151BEDA1D800FECE58 /* SessionTestSpec.swift in Sources */,
+				14364CD61BEDA10300FECE58 /* Session+users.swift in Sources */,
+				14364CE41BEDA10900FECE58 /* NSURLComponents+reddift.swift in Sources */,
+				14364D191BEDA1D800FECE58 /* ListingsTest.swift in Sources */,
+				14364CFD1BEDA10F00FECE58 /* Oembed.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		14B5EBAC1AF34D580065BC5E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1470,6 +1862,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		14364C991BEDA09F00FECE58 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 14364C8C1BEDA09F00FECE58 /* reddift-tvOS */;
+			targetProxy = 14364C981BEDA09F00FECE58 /* PBXContainerItemProxy */;
+		};
 		14B5EBBE1AF34D590065BC5E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 14B5EBB01AF34D580065BC5E /* reddift-iOS */;
@@ -1507,6 +1904,84 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		14364C9E1BEDA09F00FECE58 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = reddift/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sonson.reddift.framework;
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		14364C9F1BEDA09F00FECE58 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = reddift/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sonson.reddift.framework;
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		14364CA01BEDA09F00FECE58 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = reddiftTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.reddift-tvOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		14364CA11BEDA09F00FECE58 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = reddiftTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.reddift-tvOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
 		147EADBD1AD78568007FA2F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1824,6 +2299,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		14364CA21BEDA09F00FECE58 /* Build configuration list for PBXNativeTarget "reddift-tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14364C9E1BEDA09F00FECE58 /* Debug */,
+				14364C9F1BEDA09F00FECE58 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		14364CA31BEDA09F00FECE58 /* Build configuration list for PBXNativeTarget "reddift-tvOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14364CA01BEDA09F00FECE58 /* Debug */,
+				14364CA11BEDA09F00FECE58 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		147EAD9B1AD78568007FA2F4 /* Build configuration list for PBXProject "reddift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
