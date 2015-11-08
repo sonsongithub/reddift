@@ -10,13 +10,62 @@ import Foundation
 import XCTest
 
 class LinksTest: SessionTestSpec {
-    /// Contents for test
-    /// https://www.reddit.com/r/sandboxtest/comments/3r2pih/teest/
-    /// https://www.reddit.com/r/sandboxtest/comments/35ljt6/this_is_test/cw05r44
-
-    let testLinkId = "3r2pih"
-    let testCommentId = "cw05r44"
-    var postedThings:[Comment] = []
+    /// Default contents to be used by test
+    var testLinkId = "3r2pih"
+    var testCommentId = "cw05r44"
+    let nsfwTestLinkId = "35ljt6"
+    
+    override func setUp() {
+        super.setUp()
+        getTestLinkID()
+        getTestCommentID()
+    }
+    
+    func getTestCommentID() {
+        let documentOpenExpectation = self.expectationWithDescription("getTestCommentID")
+        let link = Link(id: self.testLinkId)
+        do {
+            try self.session?.getArticles(link, sort:.New, comments:nil, completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let (_, listing1)):
+                    for obj in listing1.children {
+                        if let comment = obj as? Comment {
+                            self.testCommentId = comment.id
+                        }
+                        break
+                    }
+                }
+                documentOpenExpectation.fulfill()
+            })
+        }
+        catch { print(error) }
+        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+    }
+    
+    func getTestLinkID() {
+        let subreddit = Subreddit(subreddit: "sandboxtest")
+        let documentOpenExpectation = self.expectationWithDescription("getTestLinkID")
+        do {
+            try self.session?.getList(Paginator(), subreddit:subreddit, sort:.New, timeFilterWithin:.Week, completion: { (result) in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let listing):
+                    for obj in listing.children {
+                        if let link = obj as? Link {
+                            self.testLinkId = link.id
+                        }
+                        break
+                    }
+                }
+                documentOpenExpectation.fulfill()
+            })
+        }
+        catch { XCTFail((error as NSError).description) }
+        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+    }
     
     func test_deleteCommentOrLink(thing:Thing) {
         let documentOpenExpectation = self.expectationWithDescription("test_deleteCommentOrLink")
@@ -78,6 +127,7 @@ class LinksTest: SessionTestSpec {
             do {
                 do {
                     let name = "t1_" + self.testCommentId
+                    print(self.testCommentId)
                     let documentOpenExpectation = self.expectationWithDescription("the comment is posted as a child of the specified comment")
                     try self.session?.postComment("test comment3", parentName:name, completion: { (result) -> Void in
                         switch result {
@@ -103,12 +153,11 @@ class LinksTest: SessionTestSpec {
         }
     }
     
-    func testSetNSFW() {
-
+    func testSetNSFW() {nsfwTestLinkId
         print("Test to make specified Link NSFW.")
         do {
             var isSucceeded = false
-            let link = Link(id: self.testLinkId)
+            let link = Link(id: nsfwTestLinkId)
             let documentOpenExpectation = self.expectationWithDescription("Test to make specified Link NSFW.")
             do {
                 try self.session?.setNSFW(true, thing: link, completion: { (result) -> Void in
@@ -128,7 +177,7 @@ class LinksTest: SessionTestSpec {
         
         print("Check whether the specified Link is NSFW.")
         do{
-            let link = Link(id: self.testLinkId)
+            let link = Link(id: nsfwTestLinkId)
             let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Link is NSFW.")
             do {
                 try self.session?.getInfo([link.name], completion: { (result) -> Void in
@@ -157,7 +206,7 @@ class LinksTest: SessionTestSpec {
         print("Test to make specified Link NOT NSFW.")
         do{
             var isSucceeded = false
-            let link = Link(id: self.testLinkId)
+            let link = Link(id: nsfwTestLinkId)
             let documentOpenExpectation = self.expectationWithDescription("Test to make specified Link NOT NSFW.")
             do {
                 try self.session?.setNSFW(false, thing: link, completion: { (result) -> Void in
@@ -179,7 +228,7 @@ class LinksTest: SessionTestSpec {
         do {
             var isSucceeded = false
             let documentOpenExpectation = self.expectationWithDescription("Test to make specified Link NOT NSFW.")
-            let link = Link(id: self.testLinkId)
+            let link = Link(id: nsfwTestLinkId)
             do {
                 try self.session?.getInfo([link.name], completion: { (result) -> Void in
                     switch result {
