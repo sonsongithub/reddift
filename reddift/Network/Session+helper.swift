@@ -57,9 +57,7 @@ func data2Json(data: NSData) -> Result<JSON> {
 
 /**
 Parse Thing, Listing JSON object.
-
 - parameter data: Binary data is returned from reddit.
-
 - returns: Result object. Result object has any Thing or Listing object, otherwise error object.
 */
 func json2RedditAny(json: JSON) -> Result<RedditAny> {
@@ -69,9 +67,7 @@ func json2RedditAny(json: JSON) -> Result<RedditAny> {
 
 /**
 Parse simple string response
-
 - parameter data: Binary data is returned from reddit.
-
 - returns: Result object. Result object has String, otherwise error object.
 */
 func data2String(data: NSData) -> Result<String> {
@@ -88,12 +84,12 @@ func data2String(data: NSData) -> Result<String> {
 /**
 Parse JSON for response to /api/comment.
 {"json": {"errors": [], "data": { "things": [] }}}
-
 - parameter json: JSON object, like above sample.
 - returns: Result object. When parsing is succeeded, object contains list which consists of Thing.
 */
 func json2Comment(json: JSON) -> Result<Comment> {
     if let json = json as? JSONDictionary, let j = json["json"] as? JSONDictionary, let data = j["data"] as? JSONDictionary, let things = data["things"] as? JSONArray {
+        // No error?
         if things.count == 1 {
             for thing in things {
                 if let thing = thing as? JSONDictionary {
@@ -105,5 +101,13 @@ func json2Comment(json: JSON) -> Result<Comment> {
             }
         }
     }
-    return Result(error:NSError.errorWithCode(10, "Could not parse response JSON to post a comment."))
+    else if let json = json as? JSONDictionary, let j = json["json"] as? JSONDictionary, let errors = j["errors"] as? JSONArray {
+        // Error happened.
+        for obj in errors {
+            if let errorStrings = obj as? [String] {
+                return Result(error:NSError.errorWithCode(ReddiftError.ReturnedCommentError.rawValue, errorStrings.joinWithSeparator(",")))
+            }
+        }
+    }
+    return Result(error:ReddiftError.ParseCommentError.error)
 }
