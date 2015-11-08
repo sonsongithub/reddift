@@ -127,7 +127,6 @@ class LinksTest: SessionTestSpec {
             do {
                 do {
                     let name = "t1_cw05r44" // old comment object ID
-                    print(self.testCommentId)
                     let documentOpenExpectation = self.expectationWithDescription("Test whether Parse class can parse returned JSON object when posting a comment to the too old comment")
                     try self.session?.postComment("test comment3", parentName:name, completion: { (result) -> Void in
                         switch result {
@@ -159,7 +158,6 @@ class LinksTest: SessionTestSpec {
             do {
                 do {
                     let name = "t1_" + self.testCommentId
-                    print(self.testCommentId)
                     let documentOpenExpectation = self.expectationWithDescription("the comment is posted as a child of the specified comment")
                     try self.session?.postComment("test comment3", parentName:name, completion: { (result) -> Void in
                         switch result {
