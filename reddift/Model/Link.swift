@@ -87,7 +87,7 @@ public struct Link : Thing {
     how the logged-in user has voted on the link - True = upvoted, False = downvoted, null = no vote
     example:
     */
-    public let likes:Bool?
+    public let likes:VoteDirection
     /**
     example: []
     */
@@ -261,7 +261,7 @@ public struct Link : Thing {
         subreddit = ""
         selftextHtml = ""
         selftext = ""
-        likes = nil
+        likes = .None
         linkFlairText = ""
         gilded = 0
         archived = false
@@ -317,7 +317,12 @@ public struct Link : Thing {
         selftextHtml = tempSelftextHtml.gtm_stringByUnescapingFromHTML()
         let tempSelftext = data["selftext"] as? String ?? ""
         selftext = tempSelftext.gtm_stringByUnescapingFromHTML()
-        likes = data["likes"] as? Bool ?? nil
+        if let temp = data["likes"] as? Bool {
+            likes = temp ? .Up : .Down
+        }
+        else {
+            likes = .None
+        }
         linkFlairText = data["link_flair_text"] as? String ?? ""
         gilded = data["gilded"] as? Int ?? 0
         archived = data["archived"] as? Bool ?? false
