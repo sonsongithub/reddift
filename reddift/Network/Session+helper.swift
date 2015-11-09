@@ -31,6 +31,13 @@ func redditAny2Tuple(redditAny:RedditAny) -> Result<(Listing, Listing)> {
     return Result(error: ReddiftError.Malformed.error)
 }
 
+func redditAny2MultiredditDescription(redditAny:RedditAny) -> Result<MultiredditDescription> {
+    if let obj = redditAny as? MultiredditDescription {
+        return Result(value: obj)
+    }
+    return Result(error: ReddiftError.Malformed.error)
+}
+
 func redditAny2Listing(redditAny:RedditAny) -> Result<Listing> {
     if let listing = redditAny as? Listing {
         return Result(value: listing)

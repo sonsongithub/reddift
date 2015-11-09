@@ -21,6 +21,7 @@ class MultiredditTest: SessionTestSpec {
     let nameForCopy = "copytest"
     let nameForRename = "renametest"
     let updatedDescription = "updated description"
+    let updatedDescription2 = "updated description2"
     
     func evaluateAddSubredditToMultireddit(subredditDisplayName:String) {
         let msg = "Add subreddits, swift and redditdev, to the new multireddit."
@@ -239,7 +240,7 @@ class MultiredditTest: SessionTestSpec {
         }
         
         do {
-            let msg = "Check the updated description"
+            let msg = "Check the updated description by updateMultireddit"
             print(msg)
             var isSucceeded = false
             if let multi = self.createdMultireddit {
@@ -247,15 +248,40 @@ class MultiredditTest: SessionTestSpec {
                 do {
                     try self.session?.getMultiredditDescription(multi, completion:{ (result) -> Void in
                         switch result {
-                        case .Failure:
-                            print(result.error!.description)
-                        case .Success:
-                            if let multiredditDescription = result.value as? MultiredditDescription {
-                                if multiredditDescription.bodyMd == self.updatedDescription {
-                                    isSucceeded = true
-                                }
+                        case .Failure(let error):
+                            print(error.description)
+                        case .Success(let multiredditDescription):
+                            if multiredditDescription.bodyMd == self.updatedDescription {
+                                isSucceeded = true
                             }
-
+                        }
+                        XCTAssert(isSucceeded, msg)
+                        documentOpenExpectation.fulfill()
+                    })
+                    self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+                }
+                catch { XCTFail((error as NSError).description) }
+            }
+            else {
+                XCTFail(msg)
+            }
+        }
+        
+        do {
+            let msg = "Update the description of multireddit by putMultiredditDescription"
+            print(msg)
+            var isSucceeded = false
+            if let multi = self.createdMultireddit {
+                let documentOpenExpectation = self.expectationWithDescription(msg)
+                do {
+                    try self.session?.putMultiredditDescription(multi, description: self.updatedDescription2, completion:{ (result) -> Void in
+                        switch result {
+                        case .Failure(let error):
+                            print(error.description)
+                        case .Success(let multiredditDescription):
+                            if multiredditDescription.bodyMd == self.updatedDescription2 {
+                                isSucceeded = true
+                            }
                         }
                         XCTAssert(isSucceeded, msg)
                         documentOpenExpectation.fulfill()

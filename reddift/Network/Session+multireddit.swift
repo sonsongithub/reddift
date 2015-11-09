@@ -53,29 +53,25 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
     */
     func createMultireddit(displayName:String, descriptionMd:String, iconName:MultiredditIconName = .None, keyColor:RedditColor = RedditColor.whiteColor(), visibility:MultiredditVisibility = .Private, weightingScheme:String = "classic", completion:(Result<Multireddit>) -> Void) throws -> NSURLSessionDataTask {
-        guard let token = self.token
-            else { throw ReddiftError.URLError.error }
+        guard let token = self.token else { throw ReddiftError.URLError.error }
         
         let multipath = "/user/\(token.name)/m/\(displayName)"
-        var json:[String:AnyObject] = [:]
         let names:[[String:String]] = []
-        json["description_md"] = descriptionMd
-        json["display_name"] = displayName
-        json["icon_name"] = ""
-        json["key_color"] = "#FFFFFF"
-        json["subreddits"] = names
-        json["visibility"] = "private"
-        json["weighting_scheme"] = "classic"
-        
-        var jsonStringOptional:String? = nil
+        let json:[String:AnyObject] = [
+            "description_md" : descriptionMd,
+            "display_name" : displayName,
+            "icon_name" : "",
+            "key_color" : "#FFFFFF",
+            "subreddits" : names,
+            "visibility" : "private",
+            "weighting_scheme" : "classic"
+        ]
         
         do {
             let data:NSData = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
-            jsonStringOptional = NSString(data: data, encoding: NSUTF8StringEncoding) as String?
-        }
-        catch { throw error }
+            guard let jsonString = NSString(data: data, encoding: NSUTF8StringEncoding) as String?
+                else { throw ReddiftError.MultiredditDidFailToCreateJSON.error }
         
-        if let jsonString = jsonStringOptional {
             let parameter:[String:String] = ["model":jsonString]
             guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multipath, parameter:parameter, method:"POST", token:token)
                 else { throw ReddiftError.URLError.error }
@@ -90,9 +86,7 @@ extension Session {
             task.resume()
             return task
         }
-        else {
-            throw ReddiftError.MultiredditDidFailToCreateJSON.error
-        }
+        catch { throw error }
     }
     
 
@@ -240,7 +234,7 @@ extension Session {
     /**
     Add a subreddit to multireddit.
     
-    - parameter multireddit:
+    - parameter multireddit: multireddit url path.
     - parameter subreddit:
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
@@ -295,11 +289,11 @@ extension Session {
     /**
     Get the description of the specified Multireddit.
     
-    - parameter multireddit:
+    - parameter multireddit: multireddit url path.
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    func getMultiredditDescription(multireddit:Multireddit, completion:(Result<RedditAny>) -> Void) throws -> NSURLSessionDataTask {
+    func getMultiredditDescription(multireddit:Multireddit, completion:(Result<MultiredditDescription>) -> Void) throws -> NSURLSessionDataTask {
         guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multireddit.path + "/description", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
@@ -308,9 +302,44 @@ extension Session {
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
+                .flatMap(redditAny2MultiredditDescription)
             completion(result)
         })
         task.resume()
         return task
+    }
+    
+    /**
+     Put the description of the specified Multireddit.
+     
+     - parameter multireddit: multireddit url path.
+     - parameter description: description as Markdown format.
+     - parameter modhash: a modhash, default is blank string.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    func putMultiredditDescription(multireddit:Multireddit, description:String, modhash:String = "", completion:(Result<MultiredditDescription>) -> Void) throws -> NSURLSessionDataTask {
+        let json:[String:AnyObject] = ["body_md":description]
+        do {
+            let data:NSData = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
+            guard let jsonString = NSString(data: data, encoding: NSUTF8StringEncoding) as String?
+                else { throw ReddiftError.MultiredditDidFailToCreateJSON.error }
+            
+            let parameter = ["model":jsonString]
+            guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multireddit.path + "/description/", parameter:parameter, method:"PUT", token:token)
+                else { throw ReddiftError.URLError.error }
+            let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+                self.updateRateLimitWithURLResponse(response)
+                let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                    .flatMap(response2Data)
+                    .flatMap(data2Json)
+                    .flatMap(json2RedditAny)
+                    .flatMap(redditAny2MultiredditDescription)
+                completion(result)
+            })
+            task.resume()
+            return task
+        }
+        catch { throw error }
     }
 }
