@@ -45,6 +45,13 @@ func redditAny2Listing(redditAny:RedditAny) -> Result<Listing> {
     return Result(error: ReddiftError.Malformed.error)
 }
 
+func json2Account(json:JSON) -> Result<Account> {
+    if let object = json as? JSONDictionary {
+        return resultFromOptional(Account(data:object), error: ReddiftError.ParseThingT2.error)
+    }
+    return resultFromOptional(nil, error: ReddiftError.Malformed.error)
+}
+
 /**
 Parse binary data to JSON object.
 
