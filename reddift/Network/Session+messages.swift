@@ -20,7 +20,8 @@ extension Session {
     */
     public func markMessagesAsUnread(fullnames:[String], modhash:String = "", completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
         let commaSeparatedFullameString = fullnames.joinWithSeparator(",")
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path: "", method:"GET", token:token)
+        let parameter = ["id":commaSeparatedFullameString]
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/unread_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
@@ -41,7 +42,8 @@ extension Session {
     */
     public func markMessagesAsRead(fullnames:[String], modhash:String = "", completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
         let commaSeparatedFullameString = fullnames.joinWithSeparator(",")
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path: "", method:"GET", token:token)
+        let parameter = ["id":commaSeparatedFullameString]
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/read_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
@@ -56,11 +58,13 @@ extension Session {
     
     /**
      Mark all messages as "read"
+     Queue up marking all messages for a user as read.
+     This may take some time, and returns 202 to acknowledge acceptance of the request.
      - parameter modhash: A modhash, default is blank string not nil.
      - returns: Data task which requests search to reddit.com.
      */
     public func markAllMessagesAsRead(modhash:String = "", completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path: "", method:"GET", token:token)
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/read_all_messages", parameter:nil, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
@@ -74,14 +78,15 @@ extension Session {
     }
     
     /**
-     Uncollapse messages
+     Collapse messages
      - parameter id: A comma-separated list of thing fullnames
      - parameter modhash: A modhash, default is blank string not nil.
      - returns: Data task which requests search to reddit.com.
      */
     public func collapseMessages(fullnames:[String], modhash:String = "", completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
         let commaSeparatedFullameString = fullnames.joinWithSeparator(",")
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path: "", method:"GET", token:token)
+        let parameter = ["id":commaSeparatedFullameString]
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/collapse_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
@@ -102,7 +107,8 @@ extension Session {
      */
     public func uncollapseMessages(fullnames:[String], modhash:String = "", completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
         let commaSeparatedFullameString = fullnames.joinWithSeparator(",")
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path: "", method:"GET", token:token)
+        let parameter = ["id":commaSeparatedFullameString]
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/uncollapse_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
@@ -122,7 +128,8 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     public func blockViaInbox(fullname:String, modhash:String = "", completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path: "", method:"GET", token:token)
+        let parameter = ["id":fullname]
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/block", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
@@ -142,7 +149,8 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     public func unblockViaInbox(fullname:String, modhash:String = "", completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path: "", method:"GET", token:token)
+        let parameter = ["id":fullname]
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/unblock_subreddit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
