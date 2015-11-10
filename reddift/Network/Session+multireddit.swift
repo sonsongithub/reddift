@@ -295,8 +295,8 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    func removeSubredditFromMultireddit(multireddit:Multireddit, subredditDisplayName:String, completion:(Result<String>) -> Void) throws -> NSURLSessionDataTask {
-    }
+//    func removeSubredditFromMultireddit(multireddit:Multireddit, subredditDisplayName:String, completion:(Result<String>) -> Void) throws -> NSURLSessionDataTask {
+//    }
     
     /**
     Get users own multireddit.

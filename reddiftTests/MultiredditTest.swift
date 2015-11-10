@@ -8,6 +8,16 @@
 
 import XCTest
 
+extension Array {
+    func checkAllElementsIncludedIn<T : Equatable>(array:[T]) -> Bool {
+        var result = true
+        for obj in self {
+            result = result && (array.indexOf(obj as! T) != nil)
+        }
+        return result
+    }
+}
+
 class MultiredditTest: SessionTestSpec {
     
     var initialMultiredditCount = 0
@@ -43,6 +53,26 @@ class MultiredditTest: SessionTestSpec {
             catch { XCTFail((error as NSError).description) }
         }
         self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+    }
+    
+    func getMineMultireddit() -> [Multireddit] {
+        var list:[Multireddit] = []
+        let documentOpenExpectation = self.expectationWithDescription("getMineMultireddit")
+        do {
+            try self.session?.getMineMultireddit({ (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success(let multireddits):
+                    list.appendContentsOf(multireddits)
+                }
+                XCTAssert(list.count > 0, "getMineMultireddit")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+        return list
     }
     
     func evaluateMultiredditIsRegistered(nameList:[String]) {
@@ -141,13 +171,152 @@ class MultiredditTest: SessionTestSpec {
         }
     }
     
+    func getNumberOfMultireddits() -> Int {
+        var getNumberOfMultireddits = 0
+        let msg = "Get a initial multireddit list."
+        print(msg)
+        var isSucceeded:Bool = false
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.getMineMultireddit({ (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success(let multireddits):
+                    getNumberOfMultireddits = multireddits.count
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, msg)
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+        return getNumberOfMultireddits
+    }
+    
+    func createMultireddit(name:String) -> Multireddit? {
+        var createdMultireddit:Multireddit? = nil
+        let msg = "Create a new multireddit."
+        print(msg)
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.createMultireddit(self.nameForCreation, descriptionMd: "", completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success(let multireddit):
+                    createdMultireddit = multireddit
+                }
+                XCTAssert(createdMultireddit != nil, msg)
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+        return createdMultireddit
+    }
+    
+    func deleteMultireddit(multireddit:Multireddit) {
+        let msg = "Delete the copied multireddit."
+        print(msg)
+        var isSucceeded = false
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.deleteMultireddit(multireddit, completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success:
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, msg)
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+    }
+    
     func testCreateAndDeleteMultireddit() {
+        let nameForCreation = "testmultireddit"
+        let initialNumberOfMultireddits = getNumberOfMultireddits()
+        let multireddit = createMultireddit(nameForCreation)
+        let numberOfMultiredditsAfterCreating = getNumberOfMultireddits()
+        XCTAssert(numberOfMultiredditsAfterCreating == initialNumberOfMultireddits + 1)
+        if let multireddit = multireddit {
+            deleteMultireddit(multireddit)
+        }
+        let numberOfMultiredditsAfterDeleting = getNumberOfMultireddits()
+        XCTAssert(numberOfMultiredditsAfterDeleting == initialNumberOfMultireddits)
     }
     
     func testRenameMultireddit() {
+        let nameForCreation = "testmultireddit"
+        let nameForRename = "renametest"
+        guard let multireddit = createMultireddit(nameForCreation) else { XCTFail("Error"); return }
+        let msg = "Rename a multireaddit"
+        print(msg)
+        var isSucceeded = false
+        var renamedMultireddit:Multireddit? = nil
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.renameMultireddit(multireddit, newDisplayName: nameForRename, completion:{ (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success(let multireddit):
+                    renamedMultireddit = multireddit
+                    isSucceeded = (multireddit.displayName == nameForRename)
+                }
+                XCTAssert(isSucceeded, msg)
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+        
+        let currentMultiredditNameList = getMineMultireddit().map({$0.displayName})
+        [nameForRename].checkAllElementsIncludedIn(currentMultiredditNameList)
+        
+        if let renamedMultireddit = renamedMultireddit {
+            deleteMultireddit(renamedMultireddit)
+        }
+        else { XCTFail("Error") }
     }
     
-    func testDuplicateMultireddit() {
+    func testCopyMultireddit() {
+        let nameForCreation = "testmultireddit"
+        let nameForCopy = "copiedtest"
+        guard let multireddit = createMultireddit(nameForCreation) else { XCTFail("Error"); return }
+        let msg = "Rename a multireaddit"
+        print(msg)
+        var isSucceeded = false
+        var renamedMultireddit:Multireddit? = nil
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.copyMultireddit(multireddit, newDisplayName: nameForCopy, completion:{ (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error.description)
+                case .Success(let multireddit):
+                    renamedMultireddit = multireddit
+                    isSucceeded = (multireddit.displayName == nameForCopy)
+                }
+                XCTAssert(isSucceeded, msg)
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+        
+        let currentMultiredditNameList = getMineMultireddit().map({$0.displayName})
+        [nameForCopy].checkAllElementsIncludedIn(currentMultiredditNameList)
+        
+        if let renamedMultireddit = renamedMultireddit {
+            deleteMultireddit(renamedMultireddit)
+        }
+        else { XCTFail("Error") }
     }
     
     func testPutMultiredditDescription() {
@@ -158,6 +327,7 @@ class MultiredditTest: SessionTestSpec {
     
     func testAddAndRemoveSubredditFromMultireddit() {
     }
+    
     
     func testGetInitialMultiredditList() {
         do {
