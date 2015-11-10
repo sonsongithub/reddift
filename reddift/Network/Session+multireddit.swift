@@ -41,7 +41,6 @@ extension Session {
     /**
     Create a new multireddit. Responds with 409 Conflict if it already exists.
     
-    - parameter multipath: Multireddit url path
     - parameter displayName: A string no longer than 50 characters.
     - parameter descriptionMd: Raw markdown text.
     - parameter iconName: Icon name as MultiIconName.
@@ -257,7 +256,7 @@ extension Session {
     /**
     Add a subreddit to multireddit.
     
-    - parameter multireddit: multireddit url path.
+    - parameter multireddit: multireddit object
     - parameter subreddit:
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
@@ -289,6 +288,17 @@ extension Session {
     }
 
     /**
+     Remove a subreddit from multireddit.
+     
+     - parameter multireddit: multireddit object
+     - parameter subreddit: displayname of subreddit to be removed.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    func removeSubredditFromMultireddit(multireddit:Multireddit, subredditDisplayName:String, completion:(Result<String>) -> Void) throws -> NSURLSessionDataTask {
+    }
+    
+    /**
     Get users own multireddit.
     
     - parameter completion: The completion handler to call when the load request is complete.
@@ -313,7 +323,7 @@ extension Session {
     /**
     Get the description of the specified Multireddit.
     
-    - parameter multireddit: multireddit url path.
+    - parameter multireddit: multireddit object
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
@@ -336,7 +346,7 @@ extension Session {
     /**
      Put the description of the specified Multireddit.
      
-     - parameter multireddit: multireddit url path.
+     - parameter multireddit: multireddit object
      - parameter description: description as Markdown format.
      - parameter modhash: a modhash, default is blank string.
      - parameter completion: The completion handler to call when the load request is complete.
