@@ -356,6 +356,6 @@ The type of voting direction.
 */
 public enum VoteDirection : Int {
 	case Up     =  1
-	case None     =  0
+	case None   =  0
 	case Down   = -1
 }
