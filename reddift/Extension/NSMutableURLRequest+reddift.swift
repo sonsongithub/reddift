@@ -42,6 +42,19 @@ extension NSMutableURLRequest {
         return URLRequest
     }
     
+    class func mutableOAuthRequestWithBaseURL(baseURL:String, path:String, data:NSData, method:String, token:Token?) -> NSMutableURLRequest? {
+        if method == "POST" || method == "PATCH" {
+            guard let URL = NSURL(string:baseURL + path) else { return nil }
+            let URLRequest = NSMutableURLRequest(URL: URL)
+            URLRequest.setOAuth2Token(token)
+            URLRequest.HTTPMethod = method
+            URLRequest.HTTPBody = data
+            URLRequest.setUserAgentForReddit()
+            return URLRequest
+        }
+        else { return nil }
+    }
+    
     class func mutableOAuthRequestWithBaseURL(baseURL:String, path:String, parameter:[String:String]?, method:String, token:Token?) -> NSMutableURLRequest? {
         if method == "POST" {
             return mutableOAuthPostRequestWithBaseURL(baseURL, path:path, parameter:parameter ?? [:], method:method, token:token)

@@ -52,6 +52,13 @@ func json2Account(json:JSON) -> Result<Account> {
     return resultFromOptional(nil, error: ReddiftError.Malformed.error)
 }
 
+func json2Preference(json:JSON) -> Result<Preference> {
+    if let object = json as? JSONDictionary {
+        return Result(value: Preference(json: object))
+    }
+    return resultFromOptional(nil, error: ReddiftError.Malformed.error)
+}
+
 /**
 Parse binary data to JSON object.
 
