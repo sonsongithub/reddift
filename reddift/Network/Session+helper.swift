@@ -38,6 +38,13 @@ func redditAny2MultiredditDescription(redditAny:RedditAny) -> Result<Multireddit
     return Result(error: ReddiftError.Malformed.error)
 }
 
+func redditAny2Multireddits(redditAny:RedditAny) -> Result<[Multireddit]> {
+    if let array = redditAny as? [Any] {
+        return Result(value:array.flatMap({$0 as? Multireddit}))
+    }
+    return Result(error: ReddiftError.Malformed.error)
+}
+
 func redditAny2Listing(redditAny:RedditAny) -> Result<Listing> {
     if let listing = redditAny as? Listing {
         return Result(value: listing)

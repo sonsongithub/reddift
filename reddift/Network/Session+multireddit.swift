@@ -89,6 +89,29 @@ extension Session {
         catch { throw error }
     }
     
+    /**
+     Fetch a list of public multis belonging to username.
+     - parameter username: A valid, existing reddit username
+     - parameter expandSrs: Boolean value, default is false.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    public func getPublicMultiredditOfUsername(username:String, expandSrs:Bool = false, completion:(Result<[Multireddit]>) -> Void) throws -> NSURLSessionDataTask {
+        let parameter:[String:String] = ["expand_srs":expandSrs ? "true" : "false", "username":username]
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/user/" + username, parameter:parameter, method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2RedditAny)
+                .flatMap(redditAny2Multireddits)
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
 
     /**
     Convert "/user/sonson_twit/m/testmultireddit12" to "/user/sonson_twit/m/[newName]".
@@ -271,7 +294,7 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    func getMineMultireddit(completion:(Result<RedditAny>) -> Void) throws -> NSURLSessionDataTask {
+    func getMineMultireddit(completion:(Result<[Multireddit]>) -> Void) throws -> NSURLSessionDataTask {
         guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/mine", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
@@ -280,6 +303,7 @@ extension Session {
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
+                .flatMap(redditAny2Multireddits)
             completion(result)
         })
         task.resume()

@@ -28,6 +28,7 @@ extension Session {
         task.resume()
         return task
     }
+    
     /**
      Patch preference with Preference object.
      - parameter preference: Preference object.
