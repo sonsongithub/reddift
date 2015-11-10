@@ -141,6 +141,24 @@ class MultiredditTest: SessionTestSpec {
         }
     }
     
+    func testCreateAndDeleteMultireddit() {
+    }
+    
+    func testRenameMultireddit() {
+    }
+    
+    func testDuplicateMultireddit() {
+    }
+    
+    func testPutMultiredditDescription() {
+    }
+   
+    func testUpdateMultiredditDescription() {
+    }
+    
+    func testAddAndRemoveSubredditFromMultireddit() {
+    }
+    
     func testGetInitialMultiredditList() {
         do {
             let msg = "Get a initial multireddit list."
