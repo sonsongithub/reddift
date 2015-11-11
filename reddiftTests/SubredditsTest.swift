@@ -19,6 +19,42 @@ class SubredditsTest : SessionTestSpec {
     
     let targetSubreedit = Subreddit(id: "2rdw8")
     
+    func userList(subreddit:Subreddit, aboutWhere:SubredditAbout) -> [Thing] {
+        var list:[Thing] = []
+        let msg = "Get initial subscribing list and count of it."
+        var isSucceeded = false
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.about(subreddit, paginator:nil, aboutWhere:aboutWhere, completion: { (result) -> Void in
+                switch result {
+                case .Failure:
+                    print(result.error!.description)
+                case .Success(let listing):
+                    print(listing)
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, msg)
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+        return list
+    }
+    
+    func testAbout() {
+        /**
+         This endpoint is a listing.
+         */
+        let subreddit = Subreddit(subreddit: "newsokur")
+        userList(subreddit, aboutWhere: .Banned)
+        userList(subreddit, aboutWhere: .Muted)
+        userList(subreddit, aboutWhere: .Contributors)
+        userList(subreddit, aboutWhere: .Moderators)
+        userList(subreddit, aboutWhere: .Wikibanned)
+        userList(subreddit, aboutWhere: .Wikicontributors)
+    }
+    
     func testSubscribingSubredditAPI() {
         do {
             let msg = "Get initial subscribing list and count of it."

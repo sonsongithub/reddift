@@ -111,7 +111,7 @@ func json2Preference(json:JSON) -> Result<Preference> {
 */
 func data2Json(data: NSData) -> Result<JSON> {
     do {
-//        print(String(data: data, encoding: NSUTF8StringEncoding)) // for debug
+        print(String(data: data, encoding: NSUTF8StringEncoding)) // for debug
         if data.length == 0 { return Result(value:[:]) }
         else {
             let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))

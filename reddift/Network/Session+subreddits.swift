@@ -8,7 +8,51 @@
 
 import Foundation
 
+/**
+ The type of voting direction.
+ */
+public enum SubredditAbout : String {
+    case Banned             = "banned"
+    case Muted              = "muted"
+    case Wikibanned         = "wikibanned"
+    case Contributors       = "contributors"
+    case Wikicontributors   = "wikicontributors"
+    case Moderators         = "moderators"
+}
+
 extension Session {
+    /**
+     This endpoint is a listing.
+    */
+    public func about(subreddit:Subreddit?, paginator:Paginator?, aboutWhere:SubredditAbout, user:String = "", count:Int = 0, limit:Int = 25, completion:(Result<Listing>) -> Void) throws -> NSURLSessionDataTask {
+        let paginator = paginator ?? Paginator()
+        let parameter = paginator.addParametersToDictionary([
+            "count"    : "\(count)",
+            "limit"    : "\(limit)",
+            "show"     : "all",
+//          "sr_detail": "true",
+//          "user"     :"username"
+            ])
+        var path = ""
+        if let subreddit = subreddit { path = "/r/\(subreddit.displayName)/about/\(aboutWhere.rawValue)" }
+        else { path = "/about/\(aboutWhere.rawValue)" }
+        print(path)
+        
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2RedditAny)
+                .flatMap(redditAny2Listing)
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
     /**
     Subscribe to or unsubscribe from a subreddit. The user must have access to the subreddit to be able to subscribe to it.
     
