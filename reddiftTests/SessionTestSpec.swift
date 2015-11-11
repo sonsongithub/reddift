@@ -39,20 +39,23 @@ class SessionTestSpec : XCTestCase {
                 let password = json["password"],
                 let clientID = json["client_id"],
                 let secret = json["secret"] {
-                let documentOpenExpectation = self.expectationWithDescription("Test : Getting OAuth2 access token")
-                try! OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:( { (result) -> Void in
-                    switch result {
-                    case .Failure:
-                        XCTFail("Could not get access token from reddit.com.")
-                    case .Success:
-                        if let token:Token = result.value {
-                            self.session = Session(token: token)
-                        }
-                        XCTAssert((self.session != nil), "Could not establish session.")
+                    let documentOpenExpectation = self.expectationWithDescription("Test : Getting OAuth2 access token")
+                    do {
+                        try OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:( { (result) -> Void in
+                            switch result {
+                            case .Failure:
+                                XCTFail("Could not get access token from reddit.com.")
+                            case .Success:
+                                if let token:Token = result.value {
+                                    self.session = Session(token: token)
+                                }
+                                XCTAssert((self.session != nil), "Could not establish session.")
+                            }
+                            documentOpenExpectation.fulfill()
+                        }))
+                        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
                     }
-                    documentOpenExpectation.fulfill()
-                }))
-                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+                    catch { print(error) }
             }
         }
     }
