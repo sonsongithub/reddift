@@ -76,8 +76,11 @@ Parse binary data to JSON object.
 func data2Json(data: NSData) -> Result<JSON> {
     do {
 //        print(String(data: data, encoding: NSUTF8StringEncoding)) // for debug
-        let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))
-        return Result(value:json)
+        if data.length == 0 { return Result(value:[:]) }
+        else {
+            let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))
+            return Result(value:json)
+        }
     } catch {
         return Result(error: error as NSError)
     }
