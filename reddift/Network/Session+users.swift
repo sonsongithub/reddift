@@ -94,17 +94,18 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func getfriend(username:String, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
-        let parameters:[String:String] = [
-            "id":username,
-        ]
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/friends/" + username, parameter:parameters, method:"GET", token:token)
+    public func getFriend(username:String? = nil, completion:(Result<[User]>) -> Void) throws -> NSURLSessionDataTask {
+        var path = "/api/v1/me/friends"
+        if let username = username { path = "/api/v1/me/friends/" + username }
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:path, parameter:[:], method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
+                .flatMap(json2RedditAny)
+                .flatMap(redditAny2Users)
             completion(result)
         })
         task.resume()
@@ -319,13 +320,7 @@ extension Session {
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
-                .flatMap({
-                    (redditAny: RedditAny) -> Result<Account> in
-                    if let account = redditAny as? Account {
-                        return Result(value: account)
-                    }
-                    return Result(error: ReddiftError.Malformed.error)
-                })
+                .flatMap(redditAny2Account)
             completion(result)
         })
         task.resume()
