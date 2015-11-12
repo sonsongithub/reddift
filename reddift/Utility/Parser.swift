@@ -58,10 +58,9 @@ class Parser: NSObject {
         if let children = json["children"] as? [[String:AnyObject]] {
             children.forEach({
                 if let date = $0["date"] as? Double,
-                    let permissions = $0["mod_permissions"] as? [String],
                     let name = $0["name"] as? String,
                     let id = $0["id"] as? String {
-                    result.append(User(date: date, permissions: permissions, name: name, id: id))
+                    result.append(User(date: date, permissions: $0["mod_permissions"] as? [String], name: name, id: id))
                 }
             })
         }
