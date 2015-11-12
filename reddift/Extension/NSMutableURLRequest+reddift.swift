@@ -43,7 +43,7 @@ extension NSMutableURLRequest {
     }
     
     class func mutableOAuthRequestWithBaseURL(baseURL:String, path:String, data:NSData, method:String, token:Token?) -> NSMutableURLRequest? {
-        if method == "POST" || method == "PATCH" {
+        if method == "POST" || method == "PATCH" || method == "PUT" {
             guard let URL = NSURL(string:baseURL + path) else { return nil }
             let URLRequest = NSMutableURLRequest(URL: URL)
             URLRequest.setOAuth2Token(token)

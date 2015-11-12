@@ -21,7 +21,7 @@ public enum NotificationSort : String {
  The friend type
  */
 public enum FriendType : String {
-    case New                = "friend"
+    case Friend             = "friend"
     case Enemy              = "enemy"
     case Moderator          = "moderator"
     case Moderator_invite   = "moderator_invite"
@@ -42,21 +42,27 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     public func friend(username:String, note:String, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
-        let parameters:[String:String] = [
-            "name":username,
-            "note":note
-        ]
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/friends/" + username, parameter:parameters, method:"PUT", token:token)
-            else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-            completion(result)
-        })
-        task.resume()
-        return task
+        var json:[String:String] = [:]
+        if !note.isEmpty { json["note"] = note }
+        do {
+            let data:NSData = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
+            print(String(data: data, encoding: NSUTF8StringEncoding))
+//            let string =
+            guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"api/v1/me/friends/" + username, data:data, method:"PUT", token:token)
+                else { throw ReddiftError.URLError.error }
+            let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+                self.updateRateLimitWithURLResponse(response)
+                let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                    .flatMap(response2Data)
+                    .flatMap(data2Json)
+                completion(result)
+            })
+            task.resume()
+            return task
+        } catch {
+            throw error
+        }
+        
     }
     
     /**
@@ -67,9 +73,9 @@ extension Session {
      */
     public func unfriend(username:String, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
         let parameters:[String:String] = [
-            "id":username,
+            "id":username
         ]
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/friends/" + username, parameter:parameters, method:"DELETE", token:token)
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"api/v1/me/friends/" + username, parameter:parameters, method:"DELETE", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
@@ -125,16 +131,13 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func friend(name:String, note:String, banMessageMd:String, duration:Int, type:FriendType, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+    
+    
+    public func friend(name:String, note:String, banMessageMd:String, container:String, duration:Int, type:FriendType, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
         let parameters:[String:String] = [
-            "api_type":"json",
-            "ban_message":banMessageMd,
-//            "container","",
-            "duration":"\(duration)",
+            "container":container,
             "name":name,
-            "note":note,
-//            "permissions", "+update,+edit,-manage"
-            "type":type.rawValue
+            "type":"friend"
 //            "uh":modhash
         ]
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/friend", parameter:parameters, method:"POST", token:token)
