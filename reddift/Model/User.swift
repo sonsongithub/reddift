@@ -45,9 +45,14 @@ public struct User {
     let name:String
     let id:String
     
-    init(date:Double, permissions:[String], name:String, id:String) {
+    init(date:Double, permissions:[String]?, name:String, id:String) {
         self.date = date
-        self.modPermissions = permissions.map({UserModPermission($0)})
+        if let permissions = permissions {
+            self.modPermissions = permissions.map({UserModPermission($0)})
+        }
+        else {
+            self.modPermissions = []
+        }
         self.name = name
         self.id = id
     }
