@@ -9,8 +9,26 @@
 import Foundation
 
 extension Session {
-    
-    // MARK: BDT does not cover following methods.
+    /**
+     Return a list of trophies for the specified user.
+     - parameter username: Name of user.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    public func getTrophies(username:String, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+        let path = "/api/v1/user/\(username)/trophies"
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
     
     /**
     Get Links or Comments that a user liked, saved, commented, hide, diskiked and etc.
