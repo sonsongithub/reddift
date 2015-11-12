@@ -91,6 +91,19 @@ func redditAny2Listing(redditAny:RedditAny) -> Result<Listing> {
 }
 
 /**
+ Function to extract Account from reddit's response as RedditAny.
+ Returns Result<Error> object when any error happned.
+ - parameter data: RedditAny object is extracted from JSON.
+ - returns: Result object. Result object has Account object, otherwise error object.
+ */
+func redditAny2Account(redditAny:RedditAny) -> Result<Account> {
+    if let account = redditAny as? Account {
+        return Result(value: account)
+    }
+    return Result(error: ReddiftError.Malformed.error)
+}
+
+/**
  Function to extract Account object from JSON object.
  Returns Result<Error> object when any error happned.
  - parameter data: JSON object is returned from reddit.
