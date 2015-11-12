@@ -8,7 +8,71 @@
 
 import Foundation
 
+/**
+ The sort method for listing user's subreddit object, "/subreddits/[where]".
+ */
+public enum NotificationSort : String {
+    case New  = "new"
+    case Old  = "old"
+    case None = "none"
+}
+
 extension Session {
+    /**
+     Get my notifications.
+     - parameter sort: Sort type of notifications, as NotificationSort.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    public func getNotifications(sort:NotificationSort, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+        let parameters:[String:String] = [
+            "count":"30",
+            "start_date":"",
+            "end_date":"",
+            "sort":sort.rawValue
+        ]
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/notifications", parameter:parameters, method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
+    /**
+     Mark a notification as read or unread.
+     - parameter id: Notification's ID.
+     - parameter read: true or false as boolean.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    public func setNotifications(id:Int, read:Bool, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+        let json:[String:String] = [
+            "read": read ? "true" : "false"
+        ]
+        do {
+            let data:NSData = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
+            
+            guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/notifications/\(id)", data:data, method:"PATCH", token:token)
+                else { throw ReddiftError.URLError.error }
+            let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+                self.updateRateLimitWithURLResponse(response)
+                let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                    .flatMap(response2Data)
+                    .flatMap(data2Json)
+                completion(result)
+            })
+            task.resume()
+            return task
+        }
+        catch { throw error }
+    }
+    
     /**
      Return a list of trophies for the specified user.
      - parameter username: Name of user.
