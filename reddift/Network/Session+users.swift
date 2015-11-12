@@ -17,7 +17,181 @@ public enum NotificationSort : String {
     case None = "none"
 }
 
+/**
+ The friend type
+ */
+public enum FriendType : String {
+    case New                = "friend"
+    case Enemy              = "enemy"
+    case Moderator          = "moderator"
+    case Moderator_invite   = "moderator_invite"
+    case Contributor        = "contributor"
+    case Banned             = "banned"
+    case Muted              = "muted"
+    case Wikibanned         = "wikibanned"
+    case Wikicontributor    = "wikicontributor"
+}
+
 extension Session {
+    /**
+     Create or update a "friend" relationship.
+     This operation is idempotent. It can be used to add a new friend, or update an existing friend (e.g., add/change the note on that friend)
+     - parameter username: A valid, existing reddit username.
+     - parameter note: A string no longer than 300 characters.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    public func friend(username:String, note:String, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+        let parameters:[String:String] = [
+            "name":username,
+            "note":note
+        ]
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/friends/" + username, parameter:parameters, method:"PUT", token:token)
+            else { throw ReddiftError.URLError.error }
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
+    /**
+     Stop being friends with a user.
+     - parameter username: A valid, existing reddit username.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    public func unfriend(username:String, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+        let parameters:[String:String] = [
+            "id":username,
+        ]
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/friends/" + username, parameter:parameters, method:"DELETE", token:token)
+            else { throw ReddiftError.URLError.error }
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
+    /**
+     Get information about a specific 'friend', such as notes.
+     - parameter username: A valid, existing reddit username.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    public func getfriend(username:String, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+        let parameters:[String:String] = [
+            "id":username,
+        ]
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/friends/" + username, parameter:parameters, method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
+    /**
+     Create a relationship between a user and another user or subreddit.
+     OAuth2 use requires appropriate scope based on the 'type' of the relationship:
+     * moderator: Use "moderator_invite"
+     * moderator_invite: modothers
+     * contributor: modcontributors
+     * banned: modcontributors
+     * muted: modcontributors
+     * wikibanned: modcontributors and modwiki
+     * wikicontributor: modcontributors and modwiki
+     * friend: Use /api/v1/me/friends/{username}
+     * enemy: Use /api/block
+     - parameter name: the name of an existing user
+     - parameter note: a string no longer than 300 characters
+     - parameter banMessageMd: raw markdown text
+     - parameter duration: an integer between 1 and 999
+     - parameter type: FriendType
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    public func friend(name:String, note:String, banMessageMd:String, duration:Int, type:FriendType, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+        let parameters:[String:String] = [
+            "api_type":"json",
+            "ban_message":banMessageMd,
+//            "container","",
+            "duration":"\(duration)",
+            "name":name,
+            "note":note,
+//            "permissions", "+update,+edit,-manage"
+            "type":type.rawValue
+//            "uh":modhash
+        ]
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/friend", parameter:parameters, method:"POST", token:token)
+            else { throw ReddiftError.URLError.error }
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
+    /**
+     Remove a relationship between a user and another user or subreddit
+     The user can either be passed in by name (nuser) or by fullname (iuser).
+     If type is friend or enemy, 'container' MUST be the current user's fullname; for other types, the subreddit must be set via URL (e.g., /r/funny/api/unfriend)
+     OAuth2 use requires appropriate scope based on the 'type' of the relationship:
+     * moderator: modothers
+     * moderator_invite: modothers
+     * contributor: modcontributors
+     * banned: modcontributors
+     * muted: modcontributors
+     * wikibanned: modcontributors and modwiki
+     * wikicontributor: modcontributors and modwiki
+     * friend: Use /api/v1/me/friends/{username}
+     * enemy: privatemessages
+     - parameter name: the name of an existing user
+     - parameter id: fullname of a thing
+     - parameter type: FriendType
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    public func unfriend(name:String = "", id:String = "", type:FriendType, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+        var parameters:[String:String] = [
+            "type":type.rawValue
+//            "uh":modhash
+        ]
+        
+        if !name.isEmpty { parameters["name"] = name }
+        if !id.isEmpty { parameters["id"] = id }
+        
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/unfriend", parameter:parameters, method:"POST", token:token)
+            else { throw ReddiftError.URLError.error }
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
     /**
      Get my notifications.
      - parameter sort: Sort type of notifications, as NotificationSort.
@@ -27,8 +201,8 @@ extension Session {
     public func getNotifications(sort:NotificationSort, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
         let parameters:[String:String] = [
             "count":"30",
-            "start_date":"",
-            "end_date":"",
+//            "start_date":"",
+//            "end_date":"",
             "sort":sort.rawValue
         ]
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/notifications", parameter:parameters, method:"GET", token:token)
