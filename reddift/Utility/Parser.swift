@@ -41,11 +41,31 @@ class Parser: NSObject {
                 return Multireddit(json: data)
             case "LabeledMultiDescription":
                 return MultiredditDescription(json: data)
+            case "UserList":
+                return parseUserList(data)
             default:
                 break
             }
         }
         return nil
+    }
+    
+    /**
+    Parse user list
+    */
+    class func parseUserList(json:JSONDictionary) -> [User] {
+        var result:[User] = []
+        if let children = json["children"] as? [[String:AnyObject]] {
+            children.forEach({
+                if let date = $0["date"] as? Double,
+                    let permissions = $0["mod_permissions"] as? [String],
+                    let name = $0["name"] as? String,
+                    let id = $0["id"] as? String {
+                    result.append(User(date: date, permissions: permissions, name: name, id: id))
+                }
+            })
+        }
+        return result
     }
 	
 	/**

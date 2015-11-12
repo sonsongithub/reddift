@@ -274,6 +274,12 @@
 		14624D021B3D184400A5D8F5 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14624D001B3D184400A5D8F5 /* Response.swift */; };
 		14624D031B3D184400A5D8F5 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14624D001B3D184400A5D8F5 /* Response.swift */; };
 		14624D041B3D184400A5D8F5 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14624D001B3D184400A5D8F5 /* Response.swift */; };
+		147868B21BF41DFE00D493B5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147868B11BF41DFE00D493B5 /* User.swift */; };
+		147868B31BF41DFE00D493B5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147868B11BF41DFE00D493B5 /* User.swift */; };
+		147868B41BF41DFE00D493B5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147868B11BF41DFE00D493B5 /* User.swift */; };
+		147868B51BF41DFE00D493B5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147868B11BF41DFE00D493B5 /* User.swift */; };
+		147868B61BF41DFE00D493B5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147868B11BF41DFE00D493B5 /* User.swift */; };
+		147868B71BF41DFE00D493B5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147868B11BF41DFE00D493B5 /* User.swift */; };
 		148142401B0F0C5300DE4F88 /* LabeledMultiDescription.json in Resources */ = {isa = PBXBuildFile; fileRef = 1481423F1B0F0C5300DE4F88 /* LabeledMultiDescription.json */; };
 		148142411B0F0C5300DE4F88 /* LabeledMultiDescription.json in Resources */ = {isa = PBXBuildFile; fileRef = 1481423F1B0F0C5300DE4F88 /* LabeledMultiDescription.json */; };
 		148E79961B18033900C771E3 /* CAPTCHA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148E79951B18033900C771E3 /* CAPTCHA.swift */; };
@@ -625,6 +631,7 @@
 		1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseThingObjectTest.swift; sourceTree = "<group>"; };
 		1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseResponseObjectTest.swift; sourceTree = "<group>"; };
 		1471A6EF1AE5DD4C00816FE7 /* More.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = More.swift; sourceTree = "<group>"; };
+		147868B11BF41DFE00D493B5 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		147EADA41AD78568007FA2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		147EADBA1AD78568007FA2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1481423F1B0F0C5300DE4F88 /* LabeledMultiDescription.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LabeledMultiDescription.json; sourceTree = "<group>"; };
@@ -1039,6 +1046,7 @@
 				148E79951B18033900C771E3 /* CAPTCHA.swift */,
 				14624D001B3D184400A5D8F5 /* Response.swift */,
 				14E816CD1BF1785300AAAEFA /* Preference.swift */,
+				147868B11BF41DFE00D493B5 /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1571,6 +1579,7 @@
 				14364CC11BEDA10200FECE58 /* Session+search.swift in Sources */,
 				14364CB61BEDA10200FECE58 /* Session+account.swift in Sources */,
 				14364CAE1BEDA0F800FECE58 /* OAuth2TokenRepository.swift in Sources */,
+				147868B41BF41DFE00D493B5 /* User.swift in Sources */,
 				14364CBC1BEDA10200FECE58 /* Session+liveThreads.swift in Sources */,
 				14364CEC1BEDA10F00FECE58 /* MediaEmbed.swift in Sources */,
 				14364CE61BEDA10F00FECE58 /* Enum.swift in Sources */,
@@ -1613,6 +1622,7 @@
 				14364CF91BEDA10F00FECE58 /* Thing.swift in Sources */,
 				14364D041BEDA10F00FECE58 /* Message.swift in Sources */,
 				14364CE31BEDA10900FECE58 /* NSMutableURLRequest+reddift.swift in Sources */,
+				147868B51BF41DFE00D493B5 /* User.swift in Sources */,
 				14364D1A1BEDA1D800FECE58 /* MultiredditTest.swift in Sources */,
 				14364D0E1BEDA11700FECE58 /* Result.swift in Sources */,
 				14364CAF1BEDA0F900FECE58 /* OAuth2Authorizer.swift in Sources */,
@@ -1715,6 +1725,7 @@
 				141B91C81B0A4FF900A9E6A6 /* Session+multireddit.swift in Sources */,
 				141B91BC1B0A4F9B00A9E6A6 /* Session+links.swift in Sources */,
 				14395C051BAF96E700726263 /* Session+Token.swift in Sources */,
+				147868B21BF41DFE00D493B5 /* User.swift in Sources */,
 				14B5EC401AF35C500065BC5E /* Session.swift in Sources */,
 				14F422611B01C84E00608939 /* Enum.swift in Sources */,
 				14B5EC1A1AF35BFF0065BC5E /* Oembed.swift in Sources */,
@@ -1757,6 +1768,7 @@
 				14F422621B01C84E00608939 /* Enum.swift in Sources */,
 				141B91DB1B0A503400A9E6A6 /* Session+moderation.swift in Sources */,
 				148E79971B18033900C771E3 /* CAPTCHA.swift in Sources */,
+				147868B31BF41DFE00D493B5 /* User.swift in Sources */,
 				14B5EC421AF35C560065BC5E /* OAuth2Authorizer.swift in Sources */,
 				140CC3FB1AFCB20A00E9CBB5 /* ExtendCommentsTest.swift in Sources */,
 				141B91D81B0A503400A9E6A6 /* Session+liveThreads.swift in Sources */,
@@ -1878,6 +1890,7 @@
 				141B91E51B0A503400A9E6A6 /* Session+links.swift in Sources */,
 				14F812531AF9F6C1008F6F3C /* OAuth2Token.swift in Sources */,
 				14395C071BAF96EA00726263 /* Session+Token.swift in Sources */,
+				147868B61BF41DFE00D493B5 /* User.swift in Sources */,
 				14F8124D1AF9F6BD008F6F3C /* Session+helper.swift in Sources */,
 				14F422631B01C84E00608939 /* Enum.swift in Sources */,
 				14F812341AF9F6B6008F6F3C /* Account.swift in Sources */,
@@ -1920,6 +1933,7 @@
 				14F812381AF9F6B6008F6F3C /* Listing.swift in Sources */,
 				14F422641B01C84E00608939 /* Enum.swift in Sources */,
 				148E79991B18033900C771E3 /* CAPTCHA.swift in Sources */,
+				147868B71BF41DFE00D493B5 /* User.swift in Sources */,
 				141B91F91B0A503500A9E6A6 /* Session+moderation.swift in Sources */,
 				140CC3FC1AFCB20A00E9CBB5 /* ExtendCommentsTest.swift in Sources */,
 				141B91F61B0A503500A9E6A6 /* Session+liveThreads.swift in Sources */,

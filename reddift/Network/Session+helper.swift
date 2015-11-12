@@ -65,6 +65,19 @@ func redditAny2Multireddits(redditAny:RedditAny) -> Result<[Multireddit]> {
 }
 
 /**
+ Function to extract User list from reddit's response as RedditAny.
+ Returns Result<Error> object when any error happned.
+ - parameter data: RedditAny object is extracted from JSON.
+ - returns: Result object. Result object has [User] object, otherwise error object.
+ */
+func redditAny2Users(redditAny:RedditAny) -> Result<[User]> {
+    if let array = redditAny as? [User] {
+        return Result(value:array)
+    }
+    return Result(error: ReddiftError.Malformed.error)
+}
+
+/**
  Function to extract Multireddit list from reddit's response as RedditAny.
  Returns Result<Error> object when any error happned.
  - parameter data: RedditAny object is extracted from JSON.
@@ -111,7 +124,7 @@ func json2Preference(json:JSON) -> Result<Preference> {
 */
 func data2Json(data: NSData) -> Result<JSON> {
     do {
-        print(String(data: data, encoding: NSUTF8StringEncoding)) // for debug
+//        print(String(data: data, encoding: NSUTF8StringEncoding)) // for debug
         if data.length == 0 { return Result(value:[:]) }
         else {
             let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))

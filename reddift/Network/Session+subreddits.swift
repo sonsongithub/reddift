@@ -22,22 +22,21 @@ public enum SubredditAbout : String {
 
 extension Session {
     /**
-     This endpoint is a listing.
+     Fetch user list of subreddit.
+     - parameter subreddit: Subreddit.
+     - parameter aboutWhere: Type of user list, SubredditAbout.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
     */
-    public func about(subreddit:Subreddit?, paginator:Paginator?, aboutWhere:SubredditAbout, user:String = "", count:Int = 0, limit:Int = 25, completion:(Result<Listing>) -> Void) throws -> NSURLSessionDataTask {
-        let paginator = paginator ?? Paginator()
-        let parameter = paginator.addParametersToDictionary([
+    public func about(subreddit:Subreddit, aboutWhere:SubredditAbout, user:String = "", count:Int = 0, limit:Int = 25, completion:(Result<[User]>) -> Void) throws -> NSURLSessionDataTask {
+        let parameter = [
             "count"    : "\(count)",
             "limit"    : "\(limit)",
             "show"     : "all",
 //          "sr_detail": "true",
 //          "user"     :"username"
-            ])
-        var path = ""
-        if let subreddit = subreddit { path = "/r/\(subreddit.displayName)/about/\(aboutWhere.rawValue)" }
-        else { path = "/about/\(aboutWhere.rawValue)" }
-        print(path)
-        
+            ]
+        let path = "/r/\(subreddit.displayName)/about/\(aboutWhere.rawValue)"
         guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
@@ -46,7 +45,7 @@ extension Session {
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
-                .flatMap(redditAny2Listing)
+                .flatMap(redditAny2Users)
             completion(result)
         })
         task.resume()
@@ -55,7 +54,6 @@ extension Session {
     
     /**
     Subscribe to or unsubscribe from a subreddit. The user must have access to the subreddit to be able to subscribe to it.
-    
     - parameter subreddit: Subreddit obect to be subscribed/unsubscribed
     - parameter subscribe: If you want to subscribe it, set true.
     - parameter completion: The completion handler to call when the load request is complete.

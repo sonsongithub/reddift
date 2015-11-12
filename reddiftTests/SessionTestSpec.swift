@@ -9,6 +9,26 @@
 import Foundation
 import XCTest
 
+/// following extension for test only
+extension Array {
+    /// check whether argument includes elements in self.
+    func checkAllElementsIncludedIn<T : Equatable>(array:[T]) -> Bool {
+        var result = true
+        for obj in self {
+            result = result && (array.indexOf(obj as! T) != nil)
+        }
+        return result
+    }
+    
+    /// check whether self is equal to argument.
+    func hasSameElements<T : Equatable>(array:[T]) -> Bool {
+        if self.count != array.count {
+            return false
+        }
+        return self.checkAllElementsIncludedIn(array)
+    }
+}
+
 class SessionTestSpec : XCTestCase {
     /// timeout duration for asynchronous test
     let timeoutDuration:NSTimeInterval = 30
