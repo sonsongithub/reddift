@@ -9,7 +9,7 @@
 import Foundation
 
 /**
- The type of voting direction.
+ The type of subreddit user
  */
 public enum SubredditAbout : String {
     case Banned             = "banned"
@@ -68,8 +68,10 @@ extension Session {
     }
     
     /**
-    Get all subreddits.
-    
+     Get all subreddits.
+     The where parameter chooses the order in which the subreddits are displayed.
+     popular sorts on the activity of the subreddit and the position of the subreddits can shift around. 
+     new sorts the subreddits based on their creation date, newest first.
     - parameter subredditsWhere: Chooses the order in which the subreddits are displayed among SubredditsWhere.
     - parameter paginator: Paginator object for paging.
     - parameter completion: The completion handler to call when the load request is complete.

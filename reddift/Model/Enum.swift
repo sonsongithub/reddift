@@ -234,6 +234,7 @@ public enum SubredditsWhere {
 	case New
 	case Employee
 	case Gold
+    case Default
 	
 	public var path:String {
 		switch self{
@@ -244,7 +245,9 @@ public enum SubredditsWhere {
 		case .Employee:
 			return "/subreddits/employee"
 		case .Gold:
-			return "/subreddits/gold"
+            return "/subreddits/gold"
+        case .Default:
+            return "/subreddits/default"
 		}
 	}
 	
@@ -257,7 +260,9 @@ public enum SubredditsWhere {
 		case .Employee:
 			return "Employee"
 		case .Gold:
-			return "Gold"
+            return "Gold"
+        case .Default:
+            return "Default"
 		}
 	}
 }
