@@ -65,6 +65,19 @@ func redditAny2Multireddits(redditAny:RedditAny) -> Result<[Multireddit]> {
 }
 
 /**
+ Function to extract Trophy list from reddit's response as RedditAny.
+ Returns Result<Error> object when any error happned.
+ - parameter data: RedditAny object is extracted from JSON.
+ - returns: Result object. Result object has [Trophy] object, otherwise error object.
+ */
+func redditAny2Trophies(redditAny:RedditAny) -> Result<[Trophy]> {
+    if let array = redditAny as? [Trophy] {
+        return Result(value:array)
+    }
+    return Result(error: ReddiftError.Malformed.error)
+}
+
+/**
  Function to extract User list from reddit's response as RedditAny.
  Returns Result<Error> object when any error happned.
  - parameter data: RedditAny object is extracted from JSON.

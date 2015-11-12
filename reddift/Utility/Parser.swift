@@ -35,6 +35,9 @@ class Parser: NSObject {
             case "t5":
                 // subreddit
                 return Subreddit(data:data)
+            case "t6":
+                // trophy
+                return Trophy(data:data)
 			case "more":
                 return More(data:data)
             case "LabeledMulti":
@@ -43,6 +46,8 @@ class Parser: NSObject {
                 return MultiredditDescription(json: data)
             case "UserList":
                 return parseUserList(data)
+            case "TrophyList":
+                return parseTrophyList(data)
             default:
                 break
             }
@@ -63,6 +68,17 @@ class Parser: NSObject {
                     result.append(User(date: date, permissions: $0["mod_permissions"] as? [String], name: name, id: id))
                 }
             })
+        }
+        return result
+    }
+    
+    /**
+     Parse Trophy list
+     */
+    class func parseTrophyList(json:JSONDictionary) -> [Trophy] {
+        var result:[Trophy] = []
+        if let children = json["trophies"] as? [[String:AnyObject]] {
+            result.appendContentsOf(children.flatMap({ parseThing($0) as? Trophy }))
         }
         return result
     }

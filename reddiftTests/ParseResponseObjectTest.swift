@@ -135,4 +135,21 @@ class response2DataObjectTest: XCTestCase {
             else { XCTFail("can not parse JSON") }
         }
     }
+    
+    func testParsingTrophyList() {
+        if let json = self.jsonFromFileName("TrophyList.json") as? JSONDictionary {
+            if let trophylist = Parser.parseJSON(json) as? [Trophy] {
+                if trophylist.count == 0 { XCTFail("can not parse JSON") }
+                
+                XCTAssert(trophylist[0].id == "10wnxy")
+                XCTAssert(trophylist[0].description == "")
+                XCTAssert(trophylist[0].url == NSURL(string: "")!)
+                XCTAssert(trophylist[0].icon40 == NSURL(string: "https://s3.amazonaws.com/redditstatic/award/n00b-40.png")!)
+                XCTAssert(trophylist[0].icon70 == NSURL(string: "https://s3.amazonaws.com/redditstatic/award/n00b-70.png")!)
+                XCTAssert(trophylist[0].awardID == "j")
+                XCTAssert(trophylist[0].title == "New User")
+            }
+            else { XCTFail("can not parse JSON") }
+        }
+    }
 }

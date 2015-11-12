@@ -53,6 +53,7 @@ extension UsersTest {
         catch { XCTFail((error as NSError).description) }
     }
     
+    /// Make
     func makeUnfriend(username:String) {
         do {
             let msg = "Make \(username) unfriend."
@@ -150,5 +151,31 @@ class UsersTest: SessionTestSpec {
         XCTAssert(intermediateFriendsNames2.hasSameElements(initialFriendsNames + [username2]))
         // 11
         XCTAssert(finalFriendsNames.hasSameElements(initialFriendsNames))
+    }
+    
+    
+    /**
+     Test procedure
+     1. Get reddift_test_1's trophies.
+     */
+    func testGetTrophies() {
+        let msg = "Get reddift_test_1's trophy."
+        var isSucceeded:Bool = false
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.getTrophies("reddift_test_1", completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let trophies):
+                    print(trophies)
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, msg)
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
     }
 }
