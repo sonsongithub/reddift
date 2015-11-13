@@ -14,8 +14,13 @@ This function filters response object to handle errors.
 Returns Result<Error> object when any error happned.
 */
 func response2Data(response: Response) -> Result<NSData> {
-    let successRange = 200..<300
-    if !successRange.contains(response.statusCode) {
+    if !(200..<300 ~= response.statusCode) {
+        do {
+            let json = try NSJSONSerialization.JSONObjectWithData(response.data, options: NSJSONReadingOptions())
+            if let json = json as? [String:AnyObject] { return .Failure(HttpStatus(response.statusCode).errorWithJSON(json)) }
+        }
+        catch { print(error) }
+        if let bodyAsString = String(data: response.data, encoding: NSUTF8StringEncoding) { return .Failure(HttpStatus(response.statusCode).errorWithString(bodyAsString)) }
         return .Failure(HttpStatus(response.statusCode).error)
     }
     return .Success(response.data)
