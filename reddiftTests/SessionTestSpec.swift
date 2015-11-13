@@ -80,3 +80,75 @@ class SessionTestSpec : XCTestCase {
         }
     }
 }
+
+extension SessionTestSpec {
+    /// Get friends
+    func friends() -> [User] {
+        var list:[User] = []
+        let msg = "Get friends list."
+        var isSucceeded:Bool = false
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.getFriends(completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let users):
+                    list.appendContentsOf(users)
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, msg)
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+        return list
+    }
+    
+    /// Friend specified user
+    func makeFriend(username:String) {
+        let msg = "Make \(username) friend."
+        var isSucceeded:Bool = false
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.friend(username, note: "", completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let json):
+                    print(json)
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, msg)
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+    }
+    
+    /// Unfriend specified user
+    func makeUnfriend(username:String) {
+        do {
+            let msg = "Make \(username) unfriend."
+            var isSucceeded:Bool = false
+            let documentOpenExpectation = self.expectationWithDescription(msg)
+            do {
+                try self.session?.unfriend(username, completion: { (result) -> Void in
+                    switch result {
+                    case .Failure(let error):
+                        print(error)
+                    case .Success(let json):
+                        print(json)
+                        isSucceeded = true
+                    }
+                    XCTAssert(isSucceeded, msg)
+                    documentOpenExpectation.fulfill()
+                })
+                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            }
+            catch { XCTFail((error as NSError).description) }
+        }
+    }
+}
