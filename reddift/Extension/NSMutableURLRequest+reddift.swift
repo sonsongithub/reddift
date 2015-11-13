@@ -9,6 +9,32 @@
 import Foundation
 
 extension NSMutableURLRequest {
+    
+    func curl() -> String {
+        var command = "curl"
+        if let allHTTPHeaderFields = allHTTPHeaderFields {
+            allHTTPHeaderFields.keys.forEach({
+                let key = $0
+                let value = allHTTPHeaderFields[$0]!.stringByReplacingOccurrencesOfString("\"", withString: "\\\"")
+                command += " --header \"\(key): \(value)\""
+            })
+        }
+        if let url = self.URL {
+            command += " '\(url.absoluteString)'"
+        }
+        command += " -X \(self.HTTPMethod)"
+        if let data = self.HTTPBody {
+            if var str = String(data: data, encoding: NSUTF8StringEncoding) {
+                str = str.stringByReplacingOccurrencesOfString("\"", withString: "\\\"")
+                command += " -d \"\(str)\""
+            }
+            else {
+                command += " -d <CANNOT PARSE AS STRING DATA>"
+            }
+        }
+        return command
+    }
+    
     func setRedditBasicAuthentication() {
         let basicAuthenticationChallenge = Config.sharedInstance.clientID + ":"
         let data = basicAuthenticationChallenge.dataUsingEncoding(NSUTF8StringEncoding)!
@@ -39,6 +65,9 @@ extension NSMutableURLRequest {
         URLRequest.setOAuth2Token(token)
         URLRequest.HTTPMethod = method
         URLRequest.setUserAgentForReddit()
+#if _TEST
+        print(URLRequest.curl())
+#endif
         return URLRequest
     }
     
@@ -50,6 +79,9 @@ extension NSMutableURLRequest {
             URLRequest.HTTPMethod = method
             URLRequest.HTTPBody = data
             URLRequest.setUserAgentForReddit()
+#if _TEST
+            print(URLRequest.curl())
+#endif
             return URLRequest
         }
         else { return nil }
@@ -71,6 +103,9 @@ extension NSMutableURLRequest {
         URLRequest.setOAuth2Token(token)
         URLRequest.HTTPMethod = method
         URLRequest.setUserAgentForReddit()
+#if _TEST
+        print(URLRequest.curl())
+#endif
         return URLRequest
     }
     
@@ -82,6 +117,9 @@ extension NSMutableURLRequest {
         let data = parameter.URLQueryString().dataUsingEncoding(NSUTF8StringEncoding)
         URLRequest.HTTPBody = data
         URLRequest.setUserAgentForReddit()
+#if _TEST
+        print(URLRequest.curl())
+#endif
         return URLRequest
     }
 }
