@@ -15,7 +15,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     public func getPreference(completion:(Result<Preference>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/prefs", method:"GET", token:token)
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/v1/me/prefs", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
@@ -30,6 +30,7 @@ extension Session {
     }
     
     /**
+     DOES NOT WORK, I CAN NOT UNDERSTAND ABOUT REASON.
      Patch preference with Preference object.
      - parameter preference: Preference object.
      - parameter completion: The completion handler to call when the load request is complete.
@@ -39,8 +40,7 @@ extension Session {
         let json = preference.json()
         do {
             let data:NSData = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
-            
-            guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/prefs", data:data, method:"PATCH", token:token)
+            guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/v1/me/prefs", data:data, method:"PATCH", token:token)
                 else { throw ReddiftError.URLError.error }
             let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
                 self.updateRateLimitWithURLResponse(response)
