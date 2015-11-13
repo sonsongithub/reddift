@@ -283,6 +283,12 @@
 		147868C41BF4609000D493B5 /* UserList.json in Resources */ = {isa = PBXBuildFile; fileRef = 147868C21BF4600300D493B5 /* UserList.json */; };
 		147868C51BF4609100D493B5 /* UserList.json in Resources */ = {isa = PBXBuildFile; fileRef = 147868C21BF4600300D493B5 /* UserList.json */; };
 		147868C61BF4609400D493B5 /* UserList.json in Resources */ = {isa = PBXBuildFile; fileRef = 147868C21BF4600300D493B5 /* UserList.json */; };
+		147868CA1BF56B6800D493B5 /* AccountTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147868C91BF56B6800D493B5 /* AccountTest.swift */; };
+		147868CB1BF56B6800D493B5 /* AccountTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147868C91BF56B6800D493B5 /* AccountTest.swift */; };
+		147868CC1BF56B6800D493B5 /* AccountTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147868C91BF56B6800D493B5 /* AccountTest.swift */; };
+		147868CD1BF56C6400D493B5 /* TrophyList.json in Resources */ = {isa = PBXBuildFile; fileRef = 147868C71BF56AAB00D493B5 /* TrophyList.json */; };
+		147868CE1BF56C6400D493B5 /* TrophyList.json in Resources */ = {isa = PBXBuildFile; fileRef = 147868C71BF56AAB00D493B5 /* TrophyList.json */; };
+		147868CF1BF56C6500D493B5 /* TrophyList.json in Resources */ = {isa = PBXBuildFile; fileRef = 147868C71BF56AAB00D493B5 /* TrophyList.json */; };
 		148142401B0F0C5300DE4F88 /* LabeledMultiDescription.json in Resources */ = {isa = PBXBuildFile; fileRef = 1481423F1B0F0C5300DE4F88 /* LabeledMultiDescription.json */; };
 		148142411B0F0C5300DE4F88 /* LabeledMultiDescription.json in Resources */ = {isa = PBXBuildFile; fileRef = 1481423F1B0F0C5300DE4F88 /* LabeledMultiDescription.json */; };
 		148E79961B18033900C771E3 /* CAPTCHA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148E79951B18033900C771E3 /* CAPTCHA.swift */; };
@@ -424,9 +430,6 @@
 		14F422621B01C84E00608939 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F422601B01C84E00608939 /* Enum.swift */; };
 		14F422631B01C84E00608939 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F422601B01C84E00608939 /* Enum.swift */; };
 		14F422641B01C84E00608939 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F422601B01C84E00608939 /* Enum.swift */; };
-		14F6A4301BF5003700736040 /* TrophyList.json in Resources */ = {isa = PBXBuildFile; fileRef = 14F6A42F1BF5003700736040 /* TrophyList.json */; };
-		14F6A4311BF5003700736040 /* TrophyList.json in Resources */ = {isa = PBXBuildFile; fileRef = 14F6A42F1BF5003700736040 /* TrophyList.json */; };
-		14F6A4321BF5003700736040 /* TrophyList.json in Resources */ = {isa = PBXBuildFile; fileRef = 14F6A42F1BF5003700736040 /* TrophyList.json */; };
 		14F6A4341BF500F100736040 /* Trophy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F6A4331BF500F100736040 /* Trophy.swift */; };
 		14F6A4351BF500F100736040 /* Trophy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F6A4331BF500F100736040 /* Trophy.swift */; };
 		14F6A4361BF500F100736040 /* Trophy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F6A4331BF500F100736040 /* Trophy.swift */; };
@@ -645,6 +648,8 @@
 		1471A6EF1AE5DD4C00816FE7 /* More.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = More.swift; sourceTree = "<group>"; };
 		147868B11BF41DFE00D493B5 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		147868C21BF4600300D493B5 /* UserList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = UserList.json; path = ../thing/UserList.json; sourceTree = "<group>"; };
+		147868C71BF56AAB00D493B5 /* TrophyList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TrophyList.json; sourceTree = "<group>"; };
+		147868C91BF56B6800D493B5 /* AccountTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountTest.swift; sourceTree = "<group>"; };
 		147EADA41AD78568007FA2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		147EADBA1AD78568007FA2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1481423F1B0F0C5300DE4F88 /* LabeledMultiDescription.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LabeledMultiDescription.json; sourceTree = "<group>"; };
@@ -716,7 +721,6 @@
 		14E816CD1BF1785300AAAEFA /* Preference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
 		14F0163A1BD3D190003CF077 /* NSAttributedString+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+reddift.swift"; sourceTree = "<group>"; };
 		14F422601B01C84E00608939 /* Enum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
-		14F6A42F1BF5003700736040 /* TrophyList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = TrophyList.json; path = ../../../../../Desktop/TrophyList.json; sourceTree = "<group>"; };
 		14F6A4331BF500F100736040 /* Trophy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trophy.swift; sourceTree = "<group>"; };
 		14F76FF41AECE01800A70AA5 /* Session+helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+helper.swift"; sourceTree = "<group>"; };
 		14F812001AF9EA9F008F6F3C /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -820,7 +824,7 @@
 		1440D4FB1AE7C9D500211DAD /* response */ = {
 			isa = PBXGroup;
 			children = (
-				14F6A42F1BF5003700736040 /* TrophyList.json */,
+				147868C71BF56AAB00D493B5 /* TrophyList.json */,
 				147868C21BF4600300D493B5 /* UserList.json */,
 				14A94CFC1B10727500EDB844 /* multidesc.json */,
 				140126A81B0B0EF7003CA6C1 /* api_needs_captcha.json */,
@@ -946,6 +950,7 @@
 				14A352041B1BA618003239F8 /* SearchTest.swift */,
 				149658231B1237B40071275E /* SubredditsTest.swift */,
 				14A352071B1BA62F003239F8 /* UsersTest.swift */,
+				147868C91BF56B6800D493B5 /* AccountTest.swift */,
 			);
 			name = BDT;
 			sourceTree = "<group>";
@@ -1440,7 +1445,7 @@
 				14364D401BEDA29B00FECE58 /* t4.json in Resources */,
 				14364D2A1BEDA28D00FECE58 /* message.json in Resources */,
 				14364D3D1BEDA29B00FECE58 /* t1.json in Resources */,
-				14F6A4311BF5003700736040 /* TrophyList.json in Resources */,
+				147868CE1BF56C6400D493B5 /* TrophyList.json in Resources */,
 				14364D241BEDA28D00FECE58 /* multi.json in Resources */,
 				14364D411BEDA29B00FECE58 /* t5.json in Resources */,
 				14364D3B1BEDA29B00FECE58 /* LabeledMulti.json in Resources */,
@@ -1488,7 +1493,7 @@
 				140126A01B0AF001003CA6C1 /* multi.json in Resources */,
 				140126AC1B0B0EF7003CA6C1 /* api_new_captcha.json in Resources */,
 				148142401B0F0C5300DE4F88 /* LabeledMultiDescription.json in Resources */,
-				14F6A4301BF5003700736040 /* TrophyList.json in Resources */,
+				147868CD1BF56C6400D493B5 /* TrophyList.json in Resources */,
 				14375DDD1BB40284007DF229 /* comment_parse_data.json in Resources */,
 				14B5EC681AF4B9F00065BC5E /* links.json in Resources */,
 				14B5EC651AF4B9F00065BC5E /* comments_extend.json in Resources */,
@@ -1542,7 +1547,7 @@
 				140126A21B0AF001003CA6C1 /* multi.json in Resources */,
 				140126AD1B0B0EF7003CA6C1 /* api_new_captcha.json in Resources */,
 				148142411B0F0C5300DE4F88 /* LabeledMultiDescription.json in Resources */,
-				14F6A4321BF5003700736040 /* TrophyList.json in Resources */,
+				147868CF1BF56C6500D493B5 /* TrophyList.json in Resources */,
 				14375DDE1BB40285007DF229 /* comment_parse_data.json in Resources */,
 				14F812661AFA07C5008F6F3C /* links.json in Resources */,
 				14F812631AFA07C5008F6F3C /* comments_extend.json in Resources */,
@@ -1660,6 +1665,7 @@
 				14364CCF1BEDA10300FECE58 /* Session+liveThreads.swift in Sources */,
 				14364D011BEDA10F00FECE58 /* More.swift in Sources */,
 				14364CD31BEDA10300FECE58 /* Session+multireddit.swift in Sources */,
+				147868CB1BF56B6800D493B5 /* AccountTest.swift in Sources */,
 				14364CE51BEDA10900FECE58 /* NSAttributedString+reddift.swift in Sources */,
 				14364CD91BEDA10300FECE58 /* HttpStatus.swift in Sources */,
 				14364CCA1BEDA10300FECE58 /* Session+CAPTCHA.swift in Sources */,
@@ -1808,6 +1814,7 @@
 				14B5EC291AF35BFF0065BC5E /* MediaEmbed.swift in Sources */,
 				14B5EC2F1AF35BFF0065BC5E /* Message.swift in Sources */,
 				14B5EC3C1AF35C4B0065BC5E /* NSError+reddift.swift in Sources */,
+				147868CA1BF56B6800D493B5 /* AccountTest.swift in Sources */,
 				141B91D61B0A503400A9E6A6 /* Session+links.swift in Sources */,
 				14624D021B3D184400A5D8F5 /* Response.swift in Sources */,
 				141B91D21B0A503400A9E6A6 /* Session+account.swift in Sources */,
@@ -1975,6 +1982,7 @@
 				14F812221AF9F6B1008F6F3C /* helper.swift in Sources */,
 				141B91F41B0A503500A9E6A6 /* Session+links.swift in Sources */,
 				141B91F01B0A503500A9E6A6 /* Session+account.swift in Sources */,
+				147868CC1BF56B6800D493B5 /* AccountTest.swift in Sources */,
 				14F8123D1AF9F6B6008F6F3C /* Link.swift in Sources */,
 				14624D041B3D184400A5D8F5 /* Response.swift in Sources */,
 				14F812241AF9F6B1008F6F3C /* Parser.swift in Sources */,
@@ -2125,6 +2133,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = reddiftTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-D_TEST";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.reddift-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -2140,6 +2149,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = reddiftTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-D_TEST";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.reddift-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -2327,6 +2337,7 @@
 				INFOPLIST_FILE = reddiftTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-D_TEST";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
@@ -2342,6 +2353,7 @@
 				INFOPLIST_FILE = reddiftTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-D_TEST";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
@@ -2469,6 +2481,7 @@
 				INFOPLIST_FILE = reddift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_SWIFT_FLAGS = "-D_TEST";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -2493,6 +2506,7 @@
 				INFOPLIST_FILE = reddift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_SWIFT_FLAGS = "-D_TEST";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
