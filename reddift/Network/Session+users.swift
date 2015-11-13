@@ -91,9 +91,31 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func getFriend(username:String? = nil, completion:(Result<[User]>) -> Void) throws -> NSURLSessionDataTask {
+    public func getFriends(username:String? = nil, completion:(Result<[User]>) -> Void) throws -> NSURLSessionDataTask {
         var path = "/api/v1/me/friends"
         if let username = username { path = "/api/v1/me/friends/" + username }
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:path, parameter:[:], method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2RedditAny)
+                .flatMap(redditAny2Users)
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
+    /**
+     Get information about a specific 'blocked', such as notes.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    public func getBlocked(completion:(Result<[User]>) -> Void) throws -> NSURLSessionDataTask {
+        let path = "/api/v1/me/blocked"
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:path, parameter:[:], method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
@@ -305,7 +327,8 @@ extension Session {
     Return information about the user, including karma and gold status.
     
     - parameter username: The name of an existing user
-    - parameter completion: The completion handler to call when the load request is complete.
+     
+     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
     public func getUserProfile(username:String, completion:(Result<Account>) -> Void) throws -> NSURLSessionDataTask {

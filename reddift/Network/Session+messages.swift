@@ -129,7 +129,7 @@ extension Session {
      */
     public func blockViaInbox(fullname:String, modhash:String = "", completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
         let parameter = ["id":fullname]
-        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/block", parameter:parameter, method:"POST", token:token)
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/block", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
