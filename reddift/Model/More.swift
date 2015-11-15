@@ -15,11 +15,11 @@ If Listing object has "more" object, it has mure more children to be downloaded.
 */
 public struct More : Thing {
     /// identifier of Thing like 15bfi0.
-    public var id = ""
+    public let id:String
     /// name of Thing, that is fullname, like t3_15bfi0.
-    public var name = ""
+    public let name:String
     /// type of Thing, like t3.
-    public static var kind = "more"
+    public static let kind = "more"
     
     public let parentId:String
     public let count:Int

@@ -13,19 +13,19 @@ import Foundation
  */
 public struct Trophy : Thing {
     /// identifier of Thing like 15bfi0.
-    public var id:String
+    public let id:String
     /// name of Thing, that is fullname, like t3_15bfi0.
-    public var name:String
+    public let name:String
     /// type of Thing, like t3.
     static public let kind = "t6"
     
     /// Trophy data
-    public var title:String
-    public var description:String
-    public var awardID:String
-    public var icon40:NSURL?
-    public var icon70:NSURL?
-    public var url:NSURL?
+    public let title:String
+    public let description:String
+    public let awardID:String
+    public let icon40:NSURL?
+    public let icon70:NSURL?
+    public let url:NSURL?
     
     public init(id:String) {
         self.id = id
