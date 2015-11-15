@@ -96,7 +96,7 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func getBlocked(paginator:Paginator, count:Int = 0, limit:Int = 25, completion:(Result<RedditAny>) -> Void) throws -> NSURLSessionDataTask {
+    public func getBlocked(paginator:Paginator, count:Int = 0, limit:Int = 25, completion:(Result<[User]>) -> Void) throws -> NSURLSessionDataTask {
         do {
             let parameter = paginator.addParametersToDictionary([
                 "limit"    : "\(limit)",
@@ -104,7 +104,7 @@ extension Session {
                 "count"    : "\(count)"
                 //          "sr_detail": "true",
                 ])
-            guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/prefs/blocked", parameter:[:], method:"GET", token:token)
+            guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/prefs/blocked", parameter:parameter, method:"GET", token:token)
                 else { throw ReddiftError.URLError.error }
             let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
                 self.updateRateLimitWithURLResponse(response)
@@ -112,6 +112,7 @@ extension Session {
                     .flatMap(response2Data)
                     .flatMap(data2Json)
                     .flatMap(json2RedditAny)
+                    .flatMap(redditAny2Users)
                 completion(result)
             })
             task.resume()
