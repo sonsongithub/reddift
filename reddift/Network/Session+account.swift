@@ -125,7 +125,7 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func getKarma(completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+    public func getKarma(completion:(Result<[SubredditKarma]>) -> Void) throws -> NSURLSessionDataTask {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/karma", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
@@ -133,6 +133,8 @@ extension Session {
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
+                .flatMap(json2RedditAny)
+                .flatMap(redditAny2SubredditKarmas)
             completion(result)
         })
         task.resume()

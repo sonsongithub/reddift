@@ -52,11 +52,19 @@ class Parser: NSObject {
                 break
             }
         }
+        else if let data = json["data"] as? JSONArray, kind = json["kind"] as? String {
+            switch(kind) {
+            case "KarmaList":
+                return parseSubredditKarmaList(data)
+            default:
+                break
+            }
+        }
         return nil
     }
     
     /**
-    Parse user list
+    Parse User list
     */
     class func parseUserList(json:JSONDictionary) -> [User] {
         var result:[User] = []
@@ -66,6 +74,23 @@ class Parser: NSObject {
                     let name = $0["name"] as? String,
                     let id = $0["id"] as? String {
                     result.append(User(date: date, permissions: $0["mod_permissions"] as? [String], name: name, id: id))
+                }
+            })
+        }
+        return result
+    }
+    
+    /**
+     Parse SubredditKarma list
+     */
+    class func parseSubredditKarmaList(array:JSONArray) -> [SubredditKarma] {
+        var result:[SubredditKarma] = []
+        if let children = array as? [[String:AnyObject]] {
+            children.forEach({
+                if let sr = $0["sr"] as? String,
+                    let comment_karma = $0["comment_karma"] as? Int,
+                    let link_karma = $0["link_karma"] as? Int {
+                        result.append(SubredditKarma(subreddit: sr, commentKarma: comment_karma, linkKarma: link_karma))
                 }
             })
         }
