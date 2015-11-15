@@ -16,6 +16,9 @@ Returns Result<Error> object when any error happned.
 func response2Data(response: Response) -> Result<NSData> {
     if !(200..<300 ~= response.statusCode) {
         do {
+#if _TEST
+            if let str = String(data: response.data, encoding: NSUTF8StringEncoding) { print("response body:\n\(str)") }
+#endif
             let json = try NSJSONSerialization.JSONObjectWithData(response.data, options: NSJSONReadingOptions())
             if let json = json as? [String:AnyObject] { return .Failure(HttpStatus(response.statusCode).errorWithJSON(json)) }
         }
@@ -96,6 +99,19 @@ func redditAny2Users(redditAny:RedditAny) -> Result<[User]> {
 }
 
 /**
+ Function to extract User list from reddit's response as RedditAny.
+ Returns Result<Error> object when any error happned.
+ - parameter data: RedditAny object is extracted from JSON.
+ - returns: Result object. Result object has [User] object, otherwise error object.
+ */
+func redditAny2SubredditKarmas(redditAny:RedditAny) -> Result<[SubredditKarma]> {
+    if let array = redditAny as? [SubredditKarma] {
+        return Result(value:array)
+    }
+    return Result(error: ReddiftError.Malformed.error)
+}
+
+/**
  Function to extract Multireddit list from reddit's response as RedditAny.
  Returns Result<Error> object when any error happned.
  - parameter data: RedditAny object is extracted from JSON.
@@ -155,7 +171,6 @@ func json2Preference(json:JSON) -> Result<Preference> {
 */
 func data2Json(data: NSData) -> Result<JSON> {
     do {
-//        print(String(data: data, encoding: NSUTF8StringEncoding)) // for debug
         if data.length == 0 { return Result(value:[:]) }
         else {
             let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))

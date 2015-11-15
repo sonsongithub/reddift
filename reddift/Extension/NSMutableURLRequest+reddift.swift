@@ -66,7 +66,7 @@ extension NSMutableURLRequest {
         URLRequest.HTTPMethod = method
         URLRequest.setUserAgentForReddit()
 #if _TEST
-        print(URLRequest.curl())
+        print("curl command:\n\(URLRequest.curl())")
 #endif
         return URLRequest
     }
@@ -80,7 +80,7 @@ extension NSMutableURLRequest {
             URLRequest.HTTPBody = data
             URLRequest.setUserAgentForReddit()
 #if _TEST
-            print(URLRequest.curl())
+            print("curl command:\n\(URLRequest.curl())")
 #endif
             return URLRequest
         }
@@ -104,7 +104,7 @@ extension NSMutableURLRequest {
         URLRequest.HTTPMethod = method
         URLRequest.setUserAgentForReddit()
 #if _TEST
-        print(URLRequest.curl())
+        print("curl command:\n\(URLRequest.curl())")
 #endif
         return URLRequest
     }
