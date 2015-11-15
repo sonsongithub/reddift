@@ -107,12 +107,12 @@ extension SessionTestSpec {
     }
     
     /// Friend specified user
-    func makeFriend(username:String) {
+    func makeFriend(username:String, note:String) {
         let msg = "Make \(username) friend."
         var isSucceeded:Bool = false
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
-            try self.session?.friend(username, note: "", completion: { (result) -> Void in
+            try self.session?.friend(username, note: note, completion: { (result) -> Void in
                 switch result {
                 case .Failure(let error):
                     print(error)

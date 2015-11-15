@@ -43,7 +43,7 @@ extension Session {
      */
     public func friend(username:String, note:String = "", completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
         var json:[String:String] = [:]
-        if !note.isEmpty { json["note"] = "" }
+        if !note.isEmpty { json["note"] = note }
         do {
             let data:NSData = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
             guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"api/v1/me/friends/" + username, data:data, method:"PUT", token:token)

@@ -57,7 +57,9 @@ class UsersTest: SessionTestSpec {
         // 1.
         let initialFriends = friends()
         // 2-3
-        usernames.forEach({ makeFriend($0) })
+        // note must be blank... This is a bug of reddit.com?
+        // https://github.com/sonsongithub/reddift/issues/180
+        usernames.forEach({ makeFriend($0, note:"") })
         // 4
         let intermediateFriends = friends()
         // 5
