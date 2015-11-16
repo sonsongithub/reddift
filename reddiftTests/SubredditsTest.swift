@@ -59,6 +59,31 @@ extension SubredditsTest {
 class SubredditsTest : SessionTestSpec {
     /**
      Test procedure
+     1. Get informations of swift subreddit.
+    */
+    func testGetAbountOfSpecifiedSubreddit() {
+        var subreddit:Subreddit? = nil
+        let msg = "Get informations of \(subreddit)"
+        var isSucceeded:Bool = false
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.about(Subreddit(subreddit: "swift"), completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let obj):
+                    subreddit = obj
+                }
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+        XCTAssert(subreddit != nil, msg)
+    }
+    
+    /**
+     Test procedure
      1. Iterate following steps for 5 subreddits.
      2. Get banned user list of the specified subreddit.
      3. Get muted user list of the specified subreddit.

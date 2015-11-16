@@ -22,6 +22,27 @@ public enum SubredditAbout : String {
 
 extension Session {
     /**
+     Return information about the subreddit.
+     Data includes the subscriber count, description, and header image.
+    */
+    public func about(subreddit:Subreddit, completion:(Result<Subreddit>) -> Void) throws -> NSURLSessionDataTask {
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/r/subreddit/about", method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result:Result<Subreddit> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2RedditAny)
+                .flatMap(redditAny2Object)
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+
+    
+    /**
      Fetch user list of subreddit.
      - parameter subreddit: Subreddit.
      - parameter aboutWhere: Type of user list, SubredditAbout.
@@ -41,11 +62,11 @@ extension Session {
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            let result:Result<[User]> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
-                .flatMap(redditAny2Users)
+                .flatMap(redditAny2Object)
             completion(result)
         })
         task.resume()
@@ -111,8 +132,6 @@ extension Session {
         task.resume()
         return task
     }
-    
-    // MARK: BDT does not cover following methods.
     
     /**
     Search subreddits by title and description.
