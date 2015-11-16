@@ -64,21 +64,6 @@ func getLinksBy(session:Session) {
     catch { print(error) }
 }
 
-func a(session:Session) {
-    do {
-        let multi = Multireddit(name:"mine")
-        try session.getMultireddit(multi, completion: { (result) -> Void in
-            switch result {
-            case .Failure(let error):
-                print(error)
-            case .Success(let list):
-                print(list)
-            }
-        })
-    }
-    catch { print(error) }
-}
-
 func getAccountInfoFromJSON(json:[String:String]) -> (String, String, String, String)? {
     if let username = json["username"], password = json["password"], client_id = json["client_id"], secret = json["secret"] {
         return (username, password, client_id, secret)
@@ -121,3 +106,5 @@ do {
 catch { print(error) }
 
 XCPlaygroundPage.currentPage.needsIndefiniteExecution = true
+
+    
