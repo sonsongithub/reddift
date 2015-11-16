@@ -107,6 +107,8 @@ public enum TimeFilterWithin {
 	case Year
 	/// All contents
 	case All
+    
+    static let cases:[TimeFilterWithin] = [.Hour, .Day, .Week, .Month, .Year, .All]
 	
 	/// String for URL parameter
 	public var param:String {
@@ -310,6 +312,8 @@ public enum UserContent {
 	case Hidden
 	case Saved
 	case Gilded
+    
+    static let cases:[UserContent] = [.Overview, .Submitted, .Comments, .Liked, .Disliked, .Hidden, .Saved, .Gilded]
 	
 	var path:String {
 		switch self{
@@ -341,7 +345,9 @@ public enum UserContentSortBy {
 	case New
 	case Top
 	case Controversial
-	
+    
+    static let cases:[UserContentSortBy] = [.Hot, .New, .Top, .Controversial]
+    
 	var param:String {
 		switch self{
 		case .Hot:

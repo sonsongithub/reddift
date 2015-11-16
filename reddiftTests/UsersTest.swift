@@ -9,6 +9,47 @@
 import XCTest
 
 class UsersTest: SessionTestSpec {
+    /**
+     Test procedure
+     1. Get speficified user contents
+     */
+    func testGetUserContents() {
+        let username = "sonson_twit"
+        for content in UserContent.cases {
+            for sort in UserContentSortBy.cases {
+                for within in TimeFilterWithin.cases {
+                    let _ = userContentsWith(username, content: content, sort: sort, timeFilterWithin: within)
+                    NSThread.sleepForTimeInterval(1)
+                }
+            }
+        }
+    }
+    
+    /**
+     Test procedure
+     1. Get speficified user profile
+     */
+    func testGetUserProfile() {
+        let username = "reddift_test_1"
+        let msg = "Get \(username)'s user profile."
+        var isSucceeded:Bool = false
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.getUserProfile(username, completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let json):
+                    print(json)
+                    isSucceeded = true
+                }
+                XCTAssert(isSucceeded, msg)
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+    }
     
     /**
      Test procedure
@@ -113,4 +154,25 @@ class UsersTest: SessionTestSpec {
 }
 
 extension UsersTest {
+    /// Get user contents with username, a type of content, sort and time filter.
+    func userContentsWith(username:String, content:UserContent, sort:UserContentSortBy, timeFilterWithin:TimeFilterWithin) -> Listing? {
+        var listing:Listing? = nil
+        let msg = "Get \(username)'s user contents."
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.getUserContent(username, content: content, sort: sort, timeFilterWithin: timeFilterWithin, paginator: Paginator(), completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let list):
+                    listing = list
+                }
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+        XCTAssert(listing != nil, msg)
+        return listing
+    }
 }

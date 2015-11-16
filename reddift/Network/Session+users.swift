@@ -293,7 +293,6 @@ extension Session {
     
     /**
     Get Links or Comments that a user liked, saved, commented, hide, diskiked and etc.
-    
     - parameter username: Name of user.
     - parameter content: The type of user's contents as UserContent.
     - parameter paginator: Paginator object for paging contents.
@@ -325,10 +324,8 @@ extension Session {
     
     /**
     Return information about the user, including karma and gold status.
-    
     - parameter username: The name of an existing user
-     
-     - parameter completion: The completion handler to call when the load request is complete.
+    - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
     public func getUserProfile(username:String, completion:(Result<Account>) -> Void) throws -> NSURLSessionDataTask {
