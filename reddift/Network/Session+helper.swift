@@ -149,110 +149,21 @@ func redditAny2Object<T>(redditAny:RedditAny) -> Result<T> {
     return Result(error: ReddiftError.Malformed.error)
 }
 
-/**
- Function to extract two Listing objects from reddit's response as RedditAny.
- Returns Result<Error> object when any error happned.
- - parameter data: RedditAny object is extracted from JSON.
- - returns: Result object. Result object has (Listing, Listing) as tuple object, otherwise error object.
- */
-func redditAny2Tuple(redditAny:RedditAny) -> Result<(Listing, Listing)> {
+func redditAny2Object(redditAny:RedditAny) -> Result<[Multireddit]> {
+    if let array = redditAny as? [Any] {
+        return Result(value:array.flatMap({$0 as? Multireddit}))
+    }
+    return Result(error: ReddiftError.Malformed.error)
+}
+
+
+func redditAny2Object(redditAny:RedditAny) -> Result<(Listing, Listing)> {
     if let array = redditAny as? [RedditAny] {
         if array.count == 2 {
             if let listing0 = array[0] as? Listing, let listing1 = array[1] as? Listing {
                 return Result(value: (listing0, listing1))
             }
         }
-    }
-    return Result(error: ReddiftError.Malformed.error)
-}
-
-/**
- Function to extract MultiredditDescription object from reddit's response as RedditAny.
- Returns Result<Error> object when any error happned.
- - parameter data: RedditAny object is extracted from JSON.
- - returns: Result object. Result object has MultiredditDescription object, otherwise error object.
- */
-func redditAny2MultiredditDescription(redditAny:RedditAny) -> Result<MultiredditDescription> {
-    if let obj = redditAny as? MultiredditDescription {
-        return Result(value: obj)
-    }
-    return Result(error: ReddiftError.Malformed.error)
-}
-
-/**
- Function to extract Multireddit list from reddit's response as RedditAny.
- Returns Result<Error> object when any error happned.
- - parameter data: RedditAny object is extracted from JSON.
- - returns: Result object. Result object has [Multireddit] object, otherwise error object.
- */
-func redditAny2Multireddits(redditAny:RedditAny) -> Result<[Multireddit]> {
-    if let array = redditAny as? [Multireddit] {
-        return Result(value:array)
-    }
-    return Result(error: ReddiftError.Malformed.error)
-}
-
-/**
- Function to extract Trophy list from reddit's response as RedditAny.
- Returns Result<Error> object when any error happned.
- - parameter data: RedditAny object is extracted from JSON.
- - returns: Result object. Result object has [Trophy] object, otherwise error object.
- */
-func redditAny2Trophies(redditAny:RedditAny) -> Result<[Trophy]> {
-    if let array = redditAny as? [Trophy] {
-        return Result(value:array)
-    }
-    return Result(error: ReddiftError.Malformed.error)
-}
-
-/**
- Function to extract User list from reddit's response as RedditAny.
- Returns Result<Error> object when any error happned.
- - parameter data: RedditAny object is extracted from JSON.
- - returns: Result object. Result object has [User] object, otherwise error object.
- */
-func redditAny2Users(redditAny:RedditAny) -> Result<[User]> {
-    if let array = redditAny as? [User] {
-        return Result(value:array)
-    }
-    return Result(error: ReddiftError.Malformed.error)
-}
-
-/**
- Function to extract User list from reddit's response as RedditAny.
- Returns Result<Error> object when any error happned.
- - parameter data: RedditAny object is extracted from JSON.
- - returns: Result object. Result object has [User] object, otherwise error object.
- */
-func redditAny2SubredditKarmas(redditAny:RedditAny) -> Result<[SubredditKarma]> {
-    if let array = redditAny as? [SubredditKarma] {
-        return Result(value:array)
-    }
-    return Result(error: ReddiftError.Malformed.error)
-}
-
-/**
- Function to extract Multireddit list from reddit's response as RedditAny.
- Returns Result<Error> object when any error happned.
- - parameter data: RedditAny object is extracted from JSON.
- - returns: Result object. Result object has Listing object, otherwise error object.
- */
-func redditAny2Listing(redditAny:RedditAny) -> Result<Listing> {
-    if let listing = redditAny as? Listing {
-        return Result(value: listing)
-    }
-    return Result(error: ReddiftError.Malformed.error)
-}
-
-/**
- Function to extract Account from reddit's response as RedditAny.
- Returns Result<Error> object when any error happned.
- - parameter data: RedditAny object is extracted from JSON.
- - returns: Result object. Result object has Account object, otherwise error object.
- */
-func redditAny2Account(redditAny:RedditAny) -> Result<Account> {
-    if let account = redditAny as? Account {
-        return Result(value: account)
     }
     return Result(error: ReddiftError.Malformed.error)
 }

@@ -64,7 +64,6 @@ class SubredditsTest : SessionTestSpec {
     func testGetAbountOfSpecifiedSubreddit() {
         var subreddit:Subreddit? = nil
         let msg = "Get informations of \(subreddit)"
-        var isSucceeded:Bool = false
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
             try self.session?.about(Subreddit(subreddit: "swift"), completion: { (result) -> Void in

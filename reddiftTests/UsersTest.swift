@@ -20,7 +20,9 @@ class UsersTest: SessionTestSpec {
                 for within in TimeFilterWithin.cases {
                     let _ = userContentsWith(username, content: content, sort: sort, timeFilterWithin: within)
                     NSThread.sleepForTimeInterval(1)
+                    break
                 }
+                break
             }
         }
     }

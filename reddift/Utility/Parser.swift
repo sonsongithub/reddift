@@ -41,7 +41,7 @@ class Parser: NSObject {
 			case "more":
                 return More(data:data)
             case "LabeledMulti":
-                return Multireddit(json: data)
+                return Multireddit(json: data) as Multireddit
             case "LabeledMultiDescription":
                 return MultiredditDescription(json: data)
             case "UserList":
