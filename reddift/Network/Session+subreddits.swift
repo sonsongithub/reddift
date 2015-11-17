@@ -25,8 +25,8 @@ extension Session {
      Return information about the subreddit.
      Data includes the subscriber count, description, and header image.
     */
-    public func about(subreddit:Subreddit, completion:(Result<Subreddit>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/r/subreddit/about", method:"GET", token:token)
+    public func about(subredditName:String, completion:(Result<Subreddit>) -> Void) throws -> NSURLSessionDataTask {
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/r/\(subredditName)/about", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
@@ -40,7 +40,6 @@ extension Session {
         task.resume()
         return task
     }
-
     
     /**
      Fetch user list of subreddit.

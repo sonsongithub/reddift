@@ -66,7 +66,7 @@ class SubredditsTest : SessionTestSpec {
         let msg = "Get informations of \(subreddit)"
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
-            try self.session?.about(Subreddit(subreddit: "swift"), completion: { (result) -> Void in
+            try self.session?.about("apple", completion: { (result) -> Void in
                 switch result {
                 case .Failure(let error):
                     print(error)
