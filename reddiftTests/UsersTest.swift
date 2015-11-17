@@ -161,20 +161,23 @@ extension UsersTest {
         var listing:Listing? = nil
         let msg = "Get \(username)'s user contents."
         let documentOpenExpectation = self.expectationWithDescription(msg)
+        var isSucceeded = false
         do {
             try self.session?.getUserContent(username, content: content, sort: sort, timeFilterWithin: timeFilterWithin, paginator: Paginator(), completion: { (result) -> Void in
                 switch result {
                 case .Failure(let error):
+                    isSucceeded = (error.code == 404)   // Return 404 code when there are not any data.
                     print(error)
                 case .Success(let list):
                     listing = list
+                    isSucceeded = true
                 }
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
         catch { XCTFail((error as NSError).description) }
-        XCTAssert(listing != nil, msg)
+        XCTAssert(isSucceeded, msg)
         return listing
     }
 }
