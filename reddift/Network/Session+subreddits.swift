@@ -22,6 +22,39 @@ public enum SubredditAbout : String {
 
 extension Session {
     /**
+     Return subreddits recommended for the given subreddit(s).
+     Gets a list of subreddits recommended for srnames, filtering out any that appear in the optional omit param.
+    */
+    public func recommendedSubreddits(omit:[String], srnames:[String], completion:(Result<[String]>) -> Void) throws -> NSURLSessionDataTask {
+        var parameter:[String:String] = [:]
+        
+        if omit.count > 0 {
+            parameter["omit"] = omit.joinWithSeparator(",")
+        }
+        if srnames.count > 0 {
+            parameter["srnames"] = srnames.joinWithSeparator(",")
+        }
+        
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/recommend/sr/srnames", parameter:parameter, method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result:Result<[String]> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap({
+                    if let array = $0 as? [[String:String]] {
+                        return Result(value: array.flatMap({$0["sr_name"]}))
+                    }
+                    return Result(error:ReddiftError.ParseCommentError.error)
+                })
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
+    /**
      List subreddit names that begin with a query string.
      Subreddits whose names begin with query will be returned. If include_over_18 is false, subreddits with over-18 content restrictions will be filtered from the results.
      If exact is true, only an exact match will be returned.
@@ -50,7 +83,6 @@ extension Session {
         task.resume()
         return task
     }
-     
      
     /**
      Return information about the subreddit.

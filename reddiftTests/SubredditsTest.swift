@@ -59,6 +59,30 @@ extension SubredditsTest {
 class SubredditsTest : SessionTestSpec {
     /**
      Test procedure
+     */
+    func testRecommendSubreddit() {
+        var names:[String] = []
+        let srnames:[String] = ["apple", "swift"]
+        let msg = "Get recommended subreddits for \(srnames.joinWithSeparator(","))"
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.recommendedSubreddits([], srnames: srnames, completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let obj):
+                    names.appendContentsOf(obj)
+                }
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+        XCTAssert(names.count > 0, msg)
+    }
+    
+    /**
+     Test procedure
      1. Get informations of apple subreddit.
      */
     func testGetSubredditSubmitTxt() {
