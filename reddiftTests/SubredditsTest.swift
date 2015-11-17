@@ -60,13 +60,39 @@ class SubredditsTest : SessionTestSpec {
     /**
      Test procedure
      1. Get informations of apple subreddit.
-    */
-    func testGetAbountOfSpecifiedSubreddit() {
-        var subreddit:Subreddit? = nil
-        let msg = "Get informations of \(subreddit)"
+     */
+    func testGetSubredditSubmitTxt() {
+        var submitText:String? = nil
+        let subredditName = "apple"
+        let msg = "Get submit text of \(subredditName)"
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
-            try self.session?.about("apple", completion: { (result) -> Void in
+            try self.session?.getSubmitText(subredditName, completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let obj):
+                    submitText = obj
+                }
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+        XCTAssert(submitText != nil, msg)
+    }
+    
+    /**
+     Test procedure
+     1. Get informations of apple subreddit.
+    */
+    func testGetAbountOfSpecifiedSubreddit() {
+        let subredditName = "apple"
+        var subreddit:Subreddit? = nil
+        let msg = "Get informations of \(subredditName)"
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.about(subredditName, completion: { (result) -> Void in
                 switch result {
                 case .Failure(let error):
                     print(error)

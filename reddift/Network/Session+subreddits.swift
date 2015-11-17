@@ -46,6 +46,9 @@ extension Session {
     /**
      Return a list of subreddits that are relevant to a search query.
      Data includes the subscriber count, description, and header image.
+     - parameter query: Query is used for seqrch.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
      */
     public func searchSubredditsByTopic(query:String, completion:(Result<[String]>) -> Void) throws -> NSURLSessionDataTask {
         let parameter = ["query":query]
@@ -57,6 +60,29 @@ extension Session {
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2SubredditNameList)
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
+    /**
+     Get the submission text for the subreddit.
+     This text is set by the subreddit moderators and intended to be displayed on the submission form.
+     See also: /api/site_admin.
+     - parameter subredditName: Subreddit's name.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    public func getSubmitText(subredditName:String, completion:(Result<String>) -> Void) throws -> NSURLSessionDataTask {
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/r/\(subredditName)/api/submit_text", method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result:Result<String> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2SubmitText)
             completion(result)
         })
         task.resume()
