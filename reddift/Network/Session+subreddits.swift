@@ -23,7 +23,9 @@ public enum SubredditAbout : String {
 extension Session {
     /**
      Return information about the subreddit.
-     Data includes the subscriber count, description, and header image.
+     - parameter subredditName: Subreddit's name.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
     */
     public func about(subredditName:String, completion:(Result<Subreddit>) -> Void) throws -> NSURLSessionDataTask {
         guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/r/\(subredditName)/about", method:"GET", token:token)
@@ -35,6 +37,26 @@ extension Session {
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
                 .flatMap(redditAny2Object)
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+    
+    /**
+     Return a list of subreddits that are relevant to a search query.
+     Data includes the subscriber count, description, and header image.
+     */
+    public func searchSubredditsByTopic(query:String, completion:(Result<[String]>) -> Void) throws -> NSURLSessionDataTask {
+        let parameter = ["query":query]
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/subreddits_by_topic", parameter:parameter, method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result:Result<[String]> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2SubredditNameList)
             completion(result)
         })
         task.resume()

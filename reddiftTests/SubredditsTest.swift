@@ -59,7 +59,7 @@ extension SubredditsTest {
 class SubredditsTest : SessionTestSpec {
     /**
      Test procedure
-     1. Get informations of swift subreddit.
+     1. Get informations of apple subreddit.
     */
     func testGetAbountOfSpecifiedSubreddit() {
         var subreddit:Subreddit? = nil
@@ -79,6 +79,56 @@ class SubredditsTest : SessionTestSpec {
         }
         catch { XCTFail((error as NSError).description) }
         XCTAssert(subreddit != nil, msg)
+    }
+    
+    /**
+     Test procedure
+     1. Search subreddit by swift
+     */
+    func testSearchSubredditsByQuery() {
+        var subredditNames:[String] = []
+        let query = "sift"
+        let msg = "Search subreddits by \(query)"
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.searchSubredditsByTopic(query, completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let names):
+                    subredditNames.appendContentsOf(names)
+                }
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+        XCTAssert(subredditNames.count > 0, msg)
+    }
+    
+    /**
+     Test procedure
+     1. Search subreddit by 日本
+     */
+    func testSearchSubredditsByJapaneseQuery() {
+        var subredditNames:[String] = []
+        let query = "日本"
+        let msg = "Search subreddits by \(query)"
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.searchSubredditsByTopic(query, completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let names):
+                    subredditNames.appendContentsOf(names)
+                }
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+        XCTAssert(subredditNames.count > 0, msg)
     }
     
     /**
