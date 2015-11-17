@@ -140,37 +140,6 @@ func json2Comment(json: JSON) -> Result<Comment> {
     return Result(error:ReddiftError.ParseCommentError.error)
 }
 
-/**
- Parse JSON for response to /api/subreddits_by_topic
- Returns Result<Error> object when any error happned.
- - parameter json: JSON object, like above sample.
- - returns: Result object. When parsing is succeeded, object contains subreddit name list as [String].
- */
-func json2SubredditNameList(json: JSON) -> Result<[String]> {
-    if let array = json as? [[String:String]] {
-        return Result(value: array.flatMap({$0["name"]}))
-    }
-    if let dict = json as? [String:AnyObject] {
-        if let array = dict["names"] as? [String] {
-            return Result(value: array.flatMap({$0}))
-        }
-    }
-    return Result(error:ReddiftError.ParseCommentError.error)
-}
-
-/**
- Parse JSON for response to /api/subreddits_by_topic
- Returns Result<Error> object when any error happned.
- - parameter json: JSON object, like above sample.
- - returns: Result object. When parsing is succeeded, object contains subreddit name list as [String].
- */
-func json2SubmitText(json: JSON) -> Result<String> {
-    if let dict = json as? [String:String], let submitText = dict["submit_text"] {
-        return Result(value: submitText)
-    }
-    return Result(error:ReddiftError.ParseCommentError.error)
-}
-
 // MARK: RedditAny -> Objects
 
 func redditAny2Object<T>(redditAny:RedditAny) -> Result<T> {

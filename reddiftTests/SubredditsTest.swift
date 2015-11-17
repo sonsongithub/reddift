@@ -59,6 +59,7 @@ extension SubredditsTest {
 class SubredditsTest : SessionTestSpec {
     /**
      Test procedure
+     1. Get recommended subreddits for apple and swift.
      */
     func testRecommendSubreddit() {
         var names:[String] = []
@@ -83,7 +84,7 @@ class SubredditsTest : SessionTestSpec {
     
     /**
      Test procedure
-     1. Get informations of apple subreddit.
+     1. Get submit text of apple subreddit.
      */
     func testGetSubredditSubmitTxt() {
         var submitText:String? = nil

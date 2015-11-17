@@ -77,7 +77,12 @@ extension Session {
             let result:Result<[String]> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
-                .flatMap(json2SubredditNameList)
+                .flatMap({
+                    if let dict = $0 as? [String:AnyObject], let array = dict["names"] as? [String] {
+                        return Result(value: array.flatMap({$0}))
+                    }
+                    return Result(error:ReddiftError.ParseCommentError.error)
+                })
             completion(result)
         })
         task.resume()
@@ -122,7 +127,12 @@ extension Session {
             let result:Result<[String]> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
-                .flatMap(json2SubredditNameList)
+                .flatMap({
+                    if let array = $0 as? [[String:String]] {
+                        return Result(value: array.flatMap({$0["name"]}))
+                    }
+                    return Result(error:ReddiftError.ParseCommentError.error)
+                })
             completion(result)
         })
         task.resume()
@@ -145,7 +155,12 @@ extension Session {
             let result:Result<String> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
-                .flatMap(json2SubmitText)
+                .flatMap({
+                    if let dict = $0 as? [String:String], let submitText = dict["submit_text"] {
+                        return Result(value: submitText)
+                    }
+                    return Result(error:ReddiftError.ParseCommentError.error)
+                })
             completion(result)
         })
         task.resume()
