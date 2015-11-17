@@ -22,6 +22,37 @@ public enum SubredditAbout : String {
 
 extension Session {
     /**
+     List subreddit names that begin with a query string.
+     Subreddits whose names begin with query will be returned. If include_over_18 is false, subreddits with over-18 content restrictions will be filtered from the results.
+     If exact is true, only an exact match will be returned.
+     - parameter exact: boolean value, if this is true, only an exact match will be returned.
+     - parameter include_over_18: boolean value, if this is true NSFW contents will be included returned list.
+     - parameter query: a string up to 50 characters long, consisting of printable characters.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    public func searchRedditNames(query:String, exact:Bool = false, includeOver18:Bool = false, completion:(Result<[String]>) -> Void) throws -> NSURLSessionDataTask {
+        let parameter = [
+            "query":query,
+            "exact":exact.string,
+            "include_over_18":includeOver18.string
+        ]
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/search_reddit_names", parameter:parameter, method:"POST", token:token)
+            else { throw ReddiftError.URLError.error }
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result:Result<[String]> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2SubredditNameList)
+            completion(result)
+        })
+        task.resume()
+        return task
+    }
+     
+     
+    /**
      Return information about the subreddit.
      - parameter subredditName: Subreddit's name.
      - parameter completion: The completion handler to call when the load request is complete.

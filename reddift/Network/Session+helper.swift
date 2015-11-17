@@ -150,6 +150,11 @@ func json2SubredditNameList(json: JSON) -> Result<[String]> {
     if let array = json as? [[String:String]] {
         return Result(value: array.flatMap({$0["name"]}))
     }
+    if let dict = json as? [String:AnyObject] {
+        if let array = dict["names"] as? [String] {
+            return Result(value: array.flatMap({$0}))
+        }
+    }
     return Result(error:ReddiftError.ParseCommentError.error)
 }
 

@@ -85,7 +85,7 @@ class SubredditsTest : SessionTestSpec {
     /**
      Test procedure
      1. Get informations of apple subreddit.
-    */
+     */
     func testGetAbountOfSpecifiedSubreddit() {
         let subredditName = "apple"
         var subreddit:Subreddit? = nil
@@ -105,6 +105,31 @@ class SubredditsTest : SessionTestSpec {
         }
         catch { XCTFail((error as NSError).description) }
         XCTAssert(subreddit != nil, msg)
+    }
+    
+    /**
+     Test procedure
+     1. Search subreddit names.
+    */
+    func testSearchSubredditNames() {
+        var names:[String] = []
+        let query = "apple"
+        let msg = "Search subreddit name used of \(query)"
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.searchRedditNames(query, completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let obj):
+                    names.appendContentsOf(obj)
+                }
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+        XCTAssert(names.count > 0, msg)
     }
     
     /**
