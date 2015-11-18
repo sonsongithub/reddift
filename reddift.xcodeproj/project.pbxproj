@@ -253,7 +253,6 @@
 		14364D411BEDA29B00FECE58 /* t5.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D5071AE7C9D500211DAD /* t5.json */; };
 		14364D421BEDA2A600FECE58 /* test_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 143427CC1AF95E80005D0E31 /* test_config.json */; };
 		14364D4A1BEDA9E300FECE58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14364D491BEDA9E300FECE58 /* AppDelegate.swift */; };
-		14364D4C1BEDA9E300FECE58 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14364D4B1BEDA9E300FECE58 /* ViewController.swift */; };
 		14364D4F1BEDA9E300FECE58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14364D4D1BEDA9E300FECE58 /* Main.storyboard */; };
 		14364D511BEDA9E300FECE58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14364D501BEDA9E300FECE58 /* Assets.xcassets */; };
 		14364D561BEDAB7B00FECE58 /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14364C8D1BEDA09F00FECE58 /* reddift.framework */; };
@@ -266,6 +265,14 @@
 		14395C061BAF96EA00726263 /* Session+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14395C041BAF96E700726263 /* Session+Token.swift */; };
 		14395C071BAF96EA00726263 /* Session+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14395C041BAF96E700726263 /* Session+Token.swift */; };
 		14395C081BAF96EB00726263 /* Session+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14395C041BAF96E700726263 /* Session+Token.swift */; };
+		143FF1701BFC1AD2001AE88F /* UZCursorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC551AF410740065BC5E /* UZCursorView.m */; };
+		143FF1711BFC1AD2001AE88F /* UZLoupeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC571AF410740065BC5E /* UZLoupeView.m */; };
+		143FF1721BFC1AD2001AE88F /* UZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC591AF410740065BC5E /* UZTextView.m */; };
+		143FF1741BFC1CF4001AE88F /* TVUZTextVIewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143FF1731BFC1CF4001AE88F /* TVUZTextVIewCell.swift */; };
+		143FF1761BFC1D2E001AE88F /* TVUZTextVIewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 143FF1751BFC1D2E001AE88F /* TVUZTextVIewCell.xib */; };
+		143FF1781BFC1DC2001AE88F /* FrontCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143FF1771BFC1DC2001AE88F /* FrontCollectionViewController.swift */; };
+		143FF1791BFC38F4001AE88F /* CellContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC321AF35C170065BC5E /* CellContent.swift */; };
+		143FF17A1BFC38FF001AE88F /* UZTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EBF91AF35B620065BC5E /* UZTextViewCell.swift */; };
 		14447EC81B16234A004FB58E /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14447EC71B16234A004FB58E /* Token.swift */; };
 		14447EC91B16234A004FB58E /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14447EC71B16234A004FB58E /* Token.swift */; };
 		14447ECA1B16234A004FB58E /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14447EC71B16234A004FB58E /* Token.swift */; };
@@ -627,13 +634,15 @@
 		14364C961BEDA09F00FECE58 /* reddift-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "reddift-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14364D471BEDA9E200FECE58 /* reddiftSampleTV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = reddiftSampleTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14364D491BEDA9E300FECE58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		14364D4B1BEDA9E300FECE58 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		14364D4E1BEDA9E300FECE58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		14364D501BEDA9E300FECE58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		14364D521BEDA9E300FECE58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14375DD71BB40273007DF229 /* ParseCommentMarkdownTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseCommentMarkdownTest.swift; sourceTree = "<group>"; };
 		14375DDB1BB40280007DF229 /* comment_parse_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = comment_parse_data.json; sourceTree = "<group>"; };
 		14395C041BAF96E700726263 /* Session+Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+Token.swift"; sourceTree = "<group>"; };
+		143FF1731BFC1CF4001AE88F /* TVUZTextVIewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVUZTextVIewCell.swift; sourceTree = "<group>"; };
+		143FF1751BFC1D2E001AE88F /* TVUZTextVIewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TVUZTextVIewCell.xib; sourceTree = "<group>"; };
+		143FF1771BFC1DC2001AE88F /* FrontCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrontCollectionViewController.swift; sourceTree = "<group>"; };
 		1440D4F91AE7C9D500211DAD /* create_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = create_token.json; sourceTree = "<group>"; };
 		1440D4FA1AE7C9D500211DAD /* refresh_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = refresh_token.json; sourceTree = "<group>"; };
 		1440D4FC1AE7C9D500211DAD /* comments.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = comments.json; sourceTree = "<group>"; };
@@ -803,7 +812,9 @@
 			isa = PBXGroup;
 			children = (
 				14364D491BEDA9E300FECE58 /* AppDelegate.swift */,
-				14364D4B1BEDA9E300FECE58 /* ViewController.swift */,
+				143FF1731BFC1CF4001AE88F /* TVUZTextVIewCell.swift */,
+				143FF1751BFC1D2E001AE88F /* TVUZTextVIewCell.xib */,
+				143FF1771BFC1DC2001AE88F /* FrontCollectionViewController.swift */,
 				14364D4D1BEDA9E300FECE58 /* Main.storyboard */,
 				14364D501BEDA9E300FECE58 /* Assets.xcassets */,
 				14364D521BEDA9E300FECE58 /* Info.plist */,
@@ -1468,6 +1479,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				143FF1761BFC1D2E001AE88F /* TVUZTextVIewCell.xib in Resources */,
 				14364D511BEDA9E300FECE58 /* Assets.xcassets in Resources */,
 				14364D4F1BEDA9E300FECE58 /* Main.storyboard in Resources */,
 			);
@@ -1715,8 +1727,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14364D4C1BEDA9E300FECE58 /* ViewController.swift in Sources */,
+				143FF1781BFC1DC2001AE88F /* FrontCollectionViewController.swift in Sources */,
+				143FF1701BFC1AD2001AE88F /* UZCursorView.m in Sources */,
+				143FF1791BFC38F4001AE88F /* CellContent.swift in Sources */,
+				143FF1741BFC1CF4001AE88F /* TVUZTextVIewCell.swift in Sources */,
 				14364D4A1BEDA9E300FECE58 /* AppDelegate.swift in Sources */,
+				143FF1711BFC1AD2001AE88F /* UZLoupeView.m in Sources */,
+				143FF17A1BFC38FF001AE88F /* UZTextViewCell.swift in Sources */,
+				143FF1721BFC1AD2001AE88F /* UZTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2186,6 +2204,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sonson.reddiftSampleTV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
+				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftSample/objc-header.h";
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
@@ -2205,6 +2224,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sonson.reddiftSampleTV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
+				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftSample/objc-header.h";
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
