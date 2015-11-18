@@ -20,8 +20,9 @@ struct CellContent {
         textHeight = size.height + verticalMargin
     }
     
-    init(string:String, width:CGFloat) {
-        attributedString = NSAttributedString(string:string)
+    init(string:String, width:CGFloat, fontSize:CGFloat = 14) {
+        let font = UIFont(name: UIFont.systemFontOfSize(fontSize).fontName, size: fontSize) ?? UIFont.systemFontOfSize(fontSize)
+        attributedString = NSAttributedString(string: string, attributes: [NSFontAttributeName : font])
         let horizontalMargin = UZTextViewCell.margin().left + UZTextViewCell.margin().right
         let verticalMargin = UZTextViewCell.margin().top + UZTextViewCell.margin().bottom
         let size = UZTextView.sizeForAttributedString(attributedString, withBoundWidth:width - horizontalMargin, margin: UIEdgeInsetsMake(0, 0, 0, 0))
@@ -41,8 +42,9 @@ struct CellContent {
         }
     }
     
-    init(string:String, width:CGFloat, hasRelies:Bool) {
-        attributedString = NSAttributedString(string:string)
+    init(string:String, width:CGFloat, hasRelies:Bool, fontSize:CGFloat = 14) {
+        let font = UIFont(name: UIFont.systemFontOfSize(fontSize).fontName, size: fontSize) ?? UIFont.systemFontOfSize(fontSize)
+        attributedString = NSAttributedString(string: string, attributes: [NSFontAttributeName : font])
         let horizontalMargin = UZTextViewCell.margin().left + UZTextViewCell.margin().right
         let verticalMargin = UZTextViewCell.margin().top + UZTextViewCell.margin().bottom
         let size = UZTextView.sizeForAttributedString(attributedString, withBoundWidth:width - horizontalMargin, margin: UIEdgeInsetsMake(0, 0, 0, 0))

@@ -113,6 +113,24 @@ public struct Multireddit : SubredditURLPath {
     public let created:NSTimeInterval
     public let createdUtc:NSTimeInterval
     
+    public init(name:String) {
+        self.descriptionMd = ""
+        self.displayName = name
+        self.iconName = MultiredditIconName("")
+        self.visibility = MultiredditVisibility("")
+        self.keyColor = ""
+        self.subreddits = []
+        self.weightingScheme = MultiredditWeightingScheme("")
+        self.descriptionHtml = ""
+        self.path = name
+        self.name = name
+        self.iconUrl = ""
+        self.canEdit = false
+        self.copiedFrom = ""
+        self.created = 0
+        self.createdUtc = 0
+    }
+    
     public init(json:JSONDictionary) {
         descriptionMd = json["description_md"] as? String ?? ""
         displayName = json["display_name"] as? String ?? ""

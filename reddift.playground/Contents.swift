@@ -85,6 +85,7 @@ if let (username, password, clientID, secret) = (NSBundle.mainBundle().URLForRes
                     getLinksBy(session)
                     getReleated(session)
                     getCAPTCHA(session)
+                    a(session)
                 }
             }))
         }
@@ -105,3 +106,5 @@ do {
 catch { print(error) }
 
 XCPlaygroundPage.currentPage.needsIndefiniteExecution = true
+
+    

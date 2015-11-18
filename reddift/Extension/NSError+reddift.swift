@@ -22,6 +22,8 @@ public enum ReddiftError:Int {
     case ParseListing           = 201
     case ParseListingArticles   = 202
     case ParseThingT2           = 203
+    case ParseCommentError      = 204
+    case ReturnedCommentError   = 205
     
     case GetCAPTCHA             = 300
     case CheckNeedsCAPTHCA      = 301
@@ -60,6 +62,10 @@ public enum ReddiftError:Int {
             return "Failed to parse artcles unexpectedly."
         case .ParseThingT2:
             return "Failed to parse t2 content unexpectedly."
+        case .ParseCommentError:
+            return "Returned error JSON object instead of Comment objects, and could not parse it."
+        case .ReturnedCommentError:
+            return "Returned error JSON object instead of Comment objects."
             
         case .GetCAPTCHA:
             return "Failed to dosomething for CAPTCHA unexpectedly."

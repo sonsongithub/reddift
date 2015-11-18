@@ -97,7 +97,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     }
     
     func cancelVote(sender:AnyObject?) {
-        vote(.No)
+        vote(.None)
     }
     
     func doSave(sender:AnyObject?) {
@@ -122,19 +122,16 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         if let link = self.link {
             items.append(space)
             // voting status
-            if let likes = link.likes {
-                if likes {
-                    items.append(UIBarButtonItem(image: UIImage(named: "thumbDown"), style:.Plain, target: self, action: "downVote:"))
-                    items.append(space)
-                    items.append(UIBarButtonItem(image: UIImage(named: "thumbUpFill"), style:.Plain, target: self, action: "cancelVote:"))
-                }
-                else {
-                    items.append(UIBarButtonItem(image: UIImage(named: "thumbDownFill"), style:.Plain, target: self, action: "cancelVote:"))
-                    items.append(space)
-                    items.append(UIBarButtonItem(image: UIImage(named: "thumbUp"), style:.Plain, target: self, action: "upVote:"))
-                }
-            }
-            else {
+            switch(link.likes) {
+            case .Up:
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbDown"), style:.Plain, target: self, action: "downVote:"))
+                items.append(space)
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbUpFill"), style:.Plain, target: self, action: "cancelVote:"))
+            case .Down:
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbDownFill"), style:.Plain, target: self, action: "cancelVote:"))
+                items.append(space)
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbUp"), style:.Plain, target: self, action: "upVote:"))
+            case .None:
                 items.append(UIBarButtonItem(image: UIImage(named: "thumbDown"), style:.Plain, target: self, action: "downVote:"))
                 items.append(space)
                 items.append(UIBarButtonItem(image: UIImage(named: "thumbUp"), style:.Plain, target: self, action: "upVote:"))

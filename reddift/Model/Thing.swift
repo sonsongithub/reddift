@@ -9,8 +9,8 @@
 import Foundation
 
 public protocol Thing {
-    var id: String {get set}
-    var name: String {get set}
+    var id: String {get}
+    var name: String {get}
     static var kind: String {get}
 
     init(id:String)

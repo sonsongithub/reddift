@@ -107,6 +107,8 @@ public enum TimeFilterWithin {
 	case Year
 	/// All contents
 	case All
+    
+    static let cases:[TimeFilterWithin] = [.Hour, .Day, .Week, .Month, .Year, .All]
 	
 	/// String for URL parameter
 	public var param:String {
@@ -234,6 +236,7 @@ public enum SubredditsWhere {
 	case New
 	case Employee
 	case Gold
+    case Default
 	
 	public var path:String {
 		switch self{
@@ -244,7 +247,9 @@ public enum SubredditsWhere {
 		case .Employee:
 			return "/subreddits/employee"
 		case .Gold:
-			return "/subreddits/gold"
+            return "/subreddits/gold"
+        case .Default:
+            return "/subreddits/default"
 		}
 	}
 	
@@ -257,7 +262,9 @@ public enum SubredditsWhere {
 		case .Employee:
 			return "Employee"
 		case .Gold:
-			return "Gold"
+            return "Gold"
+        case .Default:
+            return "Default"
 		}
 	}
 }
@@ -305,6 +312,8 @@ public enum UserContent {
 	case Hidden
 	case Saved
 	case Gilded
+    
+    static let cases:[UserContent] = [.Overview, .Submitted, .Comments, .Liked, .Disliked, .Hidden, .Saved, .Gilded]
 	
 	var path:String {
 		switch self{
@@ -336,7 +345,9 @@ public enum UserContentSortBy {
 	case New
 	case Top
 	case Controversial
-	
+    
+    static let cases:[UserContentSortBy] = [.Hot, .New, .Top, .Controversial]
+    
 	var param:String {
 		switch self{
 		case .Hot:
@@ -356,6 +367,6 @@ The type of voting direction.
 */
 public enum VoteDirection : Int {
 	case Up     =  1
-	case No     =  0
+	case None   =  0
 	case Down   = -1
 }

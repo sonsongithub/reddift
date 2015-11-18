@@ -35,17 +35,77 @@ class Parser: NSObject {
             case "t5":
                 // subreddit
                 return Subreddit(data:data)
+            case "t6":
+                // trophy
+                return Trophy(data:data)
 			case "more":
                 return More(data:data)
             case "LabeledMulti":
-                return Multireddit(json: data)
+                return Multireddit(json: data) as Multireddit
             case "LabeledMultiDescription":
                 return MultiredditDescription(json: data)
+            case "UserList":
+                return parseUserList(data)
+            case "TrophyList":
+                return parseTrophyList(data)
+            default:
+                break
+            }
+        }
+        else if let data = json["data"] as? JSONArray, kind = json["kind"] as? String {
+            switch(kind) {
+            case "KarmaList":
+                return parseSubredditKarmaList(data)
             default:
                 break
             }
         }
         return nil
+    }
+    
+    /**
+    Parse User list
+    */
+    class func parseUserList(json:JSONDictionary) -> [User] {
+        var result:[User] = []
+        if let children = json["children"] as? [[String:AnyObject]] {
+            children.forEach({
+                if let date = $0["date"] as? Double,
+                    let name = $0["name"] as? String,
+                    let id = $0["id"] as? String {
+                    result.append(User(date: date, permissions: $0["mod_permissions"] as? [String], name: name, id: id))
+                }
+            })
+        }
+        return result
+    }
+    
+    /**
+     Parse SubredditKarma list
+     */
+    class func parseSubredditKarmaList(array:JSONArray) -> [SubredditKarma] {
+        var result:[SubredditKarma] = []
+        if let children = array as? [[String:AnyObject]] {
+            children.forEach({
+                if let sr = $0["sr"] as? String,
+                    let comment_karma = $0["comment_karma"] as? Int,
+                    let link_karma = $0["link_karma"] as? Int {
+                        result.append(SubredditKarma(subreddit: sr, commentKarma: comment_karma, linkKarma: link_karma))
+                }
+            })
+        }
+        return result
+    }
+    
+    /**
+     Parse Trophy list
+     */
+    class func parseTrophyList(json:JSONDictionary) -> [Trophy] {
+        var result:[Trophy] = []
+        if let children = json["trophies"] as? [[String:AnyObject]] {
+            result.appendContentsOf(children.flatMap({ parseThing($0) as? Trophy }))
+        }
+        return result
     }
 	
 	/**

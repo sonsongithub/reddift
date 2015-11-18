@@ -18,11 +18,11 @@ Subreddit object.
 */
 public struct Subreddit : SubredditURLPath, Thing {
     /// identifier of Thing like 15bfi0.
-    public var id:String
+    public let id:String
     /// name of Thing, that is fullname, like t3_15bfi0.
-    public var name:String
+    public let name:String
     /// type of Thing, like t3.
-    public static var kind = "t5"
+    public static let kind = "t5"
     
     /**
     

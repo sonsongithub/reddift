@@ -19,6 +19,12 @@ extension Dictionary {
 	}
 }
 
+extension Bool {
+    var string:String {
+        return self ? "true" : "false"
+    }
+}
+
 private var time_buffer:timeval = timeval(tv_sec: 0, tv_usec: 0)
 
 func tic() {

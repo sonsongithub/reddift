@@ -2,7 +2,7 @@
     "subreddit_id": "t5_2qizd",
     "banned_by": null,
     "link_id": "t3_32wnhw",
-    "likes": null,
+    "likes": true,
     "replies": {
         "kind": "Listing",
         "data": {

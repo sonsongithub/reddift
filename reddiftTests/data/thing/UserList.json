@@ -1,0 +1,32 @@
+{
+  "kind": "UserList",
+  "data": {
+    "children": [
+      {
+        "date": 1382991535,
+        "mod_permissions": [],
+        "name": "PicsMod",
+        "id": "t2_5onsi"
+      },
+      {
+        "date": 1415392097,
+        "mod_permissions": [
+          "all"
+        ],
+        "name": "cwenham",
+        "id": "t2_2fpn"
+      },
+      {
+        "date": 1445810001,
+        "mod_permissions": [
+          "wiki",
+          "posts",
+          "mail",
+          "flair"
+        ],
+        "name": "adeadhead",
+        "id": "t2_5tt1l"
+      }
+    ]
+  }
+}

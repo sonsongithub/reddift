@@ -28,9 +28,9 @@ Comment object.
 */
 public struct Comment : Thing {
     /// identifier of Thing like 15bfi0.
-    public var id:String
+    public let id:String
     /// name of Thing, that is fullname, like t3_15bfi0.
-    public var name:String
+    public let name:String
     /// type of Thing, like t3.
     static public let kind = "t1"
     
@@ -51,7 +51,7 @@ public struct Comment : Thing {
     how the logged-in user has voted on the link - True = upvoted, False = downvoted, null = no vote
     example:
     */
-    public let likes:String
+    public let likes:VoteDirection
     /**
     example: {"kind"=>"Listing", "data"=>{"modhash"=>nil, "children"=>[{"kind"=>"more", "data"=>{"count"=>0, "parent_id"=>"t1_cqfhkcb", "children"=>["cqfmmpp"], "name"=>"t1_cqfmmpp", "id"=>"cqfmmpp"}}], "after"=>nil, "before"=>nil}}
     */
@@ -167,7 +167,7 @@ public struct Comment : Thing {
         subredditId = ""
         bannedBy = ""
         linkId = ""
-        likes = ""
+        likes = .None
         replies = Listing()
         userReports = []
         saved = false
@@ -206,7 +206,12 @@ public struct Comment : Thing {
         subredditId = data["subreddit_id"] as? String ?? ""
         bannedBy = data["banned_by"] as? String ?? ""
         linkId = data["link_id"] as? String ?? ""
-        likes = data["likes"] as? String ?? ""
+        if let temp = data["likes"] as? Bool {
+            likes = temp ? .Up : .Down
+        }
+        else {
+            likes = .None
+        }
         userReports = []
         saved = data["saved"] as? Bool ?? false
         gilded = data["gilded"] as? Int ?? 0
@@ -222,9 +227,7 @@ public struct Comment : Thing {
         authorFlairCssClass = data["author_flair_css_class"] as? String ?? ""
         downs = data["downs"] as? Int ?? 0
         let tempBodyHtml = data["body_html"] as? String ?? ""
-//        print("------------------------")
         bodyHtml = tempBodyHtml.gtm_stringByUnescapingFromHTML()
-        print(bodyHtml)
         subreddit = data["subreddit"] as? String ?? ""
         scoreHidden = data["score_hidden"] as? Bool ?? false
         name = data["name"] as? String ?? ""
