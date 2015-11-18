@@ -6,16 +6,21 @@
 # reddift
 reddift is Swift Reddit API Wrapper.
 
- * Supports OAuth2(and DOES NOT support Cookie-authentication).
+ * Supports OAuth2(is not supported on tvOS currently).
  * Supports multi-accounts.
  * Includes a sample application(iOS only).
 
+## Sample on iOS
 ![sc02](https://cloud.githubusercontent.com/assets/33768/7570674/e68381c0-f84c-11e4-914b-532f9fd06e19.png)　
 ![sc01](https://cloud.githubusercontent.com/assets/33768/7570673/e653f39c-f84c-11e4-98c7-2c3e9ef872ad.png)
 
+## Sample on tvOS
+![simulator screen shot 2015 11 18 14 48 05](https://cloud.githubusercontent.com/assets/33768/11233653/71979ba6-8e03-11e5-9ca5-077bcf2abfa5.png)
+
 ## Document
 
-See [cocoapods](http://cocoadocs.org/docsets/reddift/).
+* See [cocoapods](http://cocoadocs.org/docsets/reddift/).
+* [List of not implemented APIs](https://github.com/sonsongithub/reddift/wiki/Not-implemented-APIs)
 
 ## How to build
 
