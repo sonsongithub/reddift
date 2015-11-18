@@ -12,7 +12,8 @@ import reddift
 private let reuseIdentifier = "Cell"
 
 class FrontCollectionViewController: UICollectionViewController {
-    let horizontalMargin:CGFloat = 200
+    let horizontalMargin:CGFloat = 400
+    let textViewMargin:CGFloat = 10
     var link:[Link] = []
     var contents:[CellContent] = []
     
@@ -28,7 +29,7 @@ class FrontCollectionViewController: UICollectionViewController {
                 case .Success(let listing):
                     let incomming = listing.children.flatMap({$0 as? Link})
                     let incommingContents = incomming.map({
-                        return CellContent(string:$0.title, width:self.view.frame.size.width - self.horizontalMargin, fontSize: 32)
+                        return CellContent(string:$0.title, width:self.view.frame.size.width - self.horizontalMargin - self.textViewMargin, fontSize: 32)
                     })
                     
                     self.link.appendContentsOf(incomming)
@@ -46,6 +47,7 @@ class FrontCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView?.registerNib(UINib(nibName: "TVUZTextVIewCell", bundle: nil), forCellWithReuseIdentifier: "TVUZTextVIewCell")
+        self.collectionView?.contentInset = UIEdgeInsetsMake(0, 0, 100, 0)
     }
 
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -58,7 +60,7 @@ class FrontCollectionViewController: UICollectionViewController {
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
-        return CGSizeMake(self.view.frame.size.width - horizontalMargin, contents[indexPath.row].textHeight + 10)
+        return CGSizeMake(self.view.frame.size.width - horizontalMargin, contents[indexPath.row].textHeight + textViewMargin)
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

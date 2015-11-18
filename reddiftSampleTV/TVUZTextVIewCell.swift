@@ -22,4 +22,20 @@ class TVUZTextVIewCell: UICollectionViewCell {
         layer.shadowOffset = CGSizeMake(0, 1)
         layer.shouldRasterize = true
     }
+    
+    override func didUpdateFocusInContext(context: UIFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
+        /*
+        Update the label's alpha value using the `UIFocusAnimationCoordinator`.
+        This will ensure all animations run alongside each other when the focus
+        changes.
+        */
+        coordinator.addCoordinatedAnimations({ [unowned self] in
+            if self.focused {
+                self.transform = CGAffineTransformMakeScale(1.2, 1.2)
+            }
+            else {
+                self.transform = CGAffineTransformIdentity
+            }
+            }, completion: nil)
+    }
 }
