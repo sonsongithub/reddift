@@ -41,7 +41,8 @@ extension NSParagraphStyle {
      - returns: Paragraphyt style, which is created.
      */
     static func defaultReddiftParagraphStyleWithFontSize(fontSize:CGFloat) -> NSParagraphStyle {
-        let paragraphStyle:NSMutableParagraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
+        guard let paragraphStyle:NSMutableParagraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as? NSMutableParagraphStyle
+            else { return NSParagraphStyle.defaultParagraphStyle() }
         paragraphStyle.lineBreakMode = .ByWordWrapping
         paragraphStyle.alignment = .Left
         paragraphStyle.maximumLineHeight = fontSize + 2

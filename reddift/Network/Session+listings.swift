@@ -106,7 +106,8 @@ extension Session {
 //          "sr_detail": "true",
             "t"        : timeFilterWithin.param
         ])
-        let path = (subreddit != nil) ? "\(subreddit!.path)\(privateSortType.path).json" : "\(privateSortType.path).json"
+        var path = "\(privateSortType.path).json"
+        if let subreddit = subreddit { path = "\(subreddit.path)\(privateSortType.path).json" }
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
@@ -168,7 +169,8 @@ extension Session {
             //            "sr_detail": "true",
             "show"     : "all",
             ])
-        let path = (subreddit != nil) ? "\(subreddit!.path)/\(type).json" : "\(type).json"
+        var path = "\(type).json"
+        if let subreddit = subreddit { path = "\(subreddit.path)/\(type).json" }
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
@@ -193,7 +195,8 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
     */
     public func getRandom(subreddit:Subreddit? = nil, completion:(Result<(Listing, Listing)>) -> Void) throws -> NSURLSessionDataTask {
-        let path:String = (subreddit == nil) ? "/random" : subreddit!.url + "/random"
+        var path = "/random"
+        if let subreddit = subreddit { path = subreddit.url + "/random" }
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in

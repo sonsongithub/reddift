@@ -15,7 +15,7 @@ struct Response {
     let data:NSData
     let statusCode:Int
     
-    init(data: NSData!, urlResponse: NSURLResponse!) {
+    init(data: NSData?, urlResponse: NSURLResponse?) {
         if let data = data {
             self.data = data
         }

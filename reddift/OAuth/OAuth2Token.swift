@@ -80,12 +80,18 @@ public struct OAuth2Token : Token {
     static func requestForOAuth(code:String) -> NSMutableURLRequest? {
         guard let URL = NSURL(string: OAuth2Token.baseURL + "/access_token") else { return nil }
         let request = NSMutableURLRequest(URL:URL)
-        request.setRedditBasicAuthentication()
-        let param = "grant_type=authorization_code&code=" + code + "&redirect_uri=" + Config.sharedInstance.redirectURI
-        let data = param.dataUsingEncoding(NSUTF8StringEncoding)
-        request.HTTPBody = data
-        request.HTTPMethod = "POST"
-        return request
+        do {
+            try request.setRedditBasicAuthentication()
+            let param = "grant_type=authorization_code&code=" + code + "&redirect_uri=" + Config.sharedInstance.redirectURI
+            let data = param.dataUsingEncoding(NSUTF8StringEncoding)
+            request.HTTPBody = data
+            request.HTTPMethod = "POST"
+            return request
+        }
+        catch {
+            print(error)
+            return nil
+        }
     }
     
     /**
@@ -96,12 +102,18 @@ public struct OAuth2Token : Token {
     func requestForRefreshing() -> NSMutableURLRequest? {
         guard let URL = NSURL(string: OAuth2Token.baseURL + "/access_token") else { return nil }
         let request = NSMutableURLRequest(URL:URL)
-        request.setRedditBasicAuthentication()
-        let param = "grant_type=refresh_token&refresh_token=" + refreshToken
-        let data = param.dataUsingEncoding(NSUTF8StringEncoding)
-        request.HTTPBody = data
-        request.HTTPMethod = "POST"
-        return request
+        do {
+            try request.setRedditBasicAuthentication()
+            let param = "grant_type=refresh_token&refresh_token=" + refreshToken
+            let data = param.dataUsingEncoding(NSUTF8StringEncoding)
+            request.HTTPBody = data
+            request.HTTPMethod = "POST"
+            return request
+        }
+        catch {
+            print(error)
+            return nil
+        }
     }
     
     /**
@@ -112,12 +124,18 @@ public struct OAuth2Token : Token {
     func requestForRevoking() -> NSMutableURLRequest? {
         guard let URL = NSURL(string: OAuth2Token.baseURL + "/revoke_token") else { return nil }
         let request = NSMutableURLRequest(URL:URL)
-        request.setRedditBasicAuthentication()
-        let param = "token=" + accessToken + "&token_type_hint=access_token"
-        let data = param.dataUsingEncoding(NSUTF8StringEncoding)
-        request.HTTPBody = data
-        request.HTTPMethod = "POST"
-        return request
+        do {
+            try request.setRedditBasicAuthentication()
+            let param = "token=" + accessToken + "&token_type_hint=access_token"
+            let data = param.dataUsingEncoding(NSUTF8StringEncoding)
+            request.HTTPBody = data
+            request.HTTPMethod = "POST"
+            return request
+        }
+        catch {
+            print(error)
+            return nil
+        }
     }
     
     /**
