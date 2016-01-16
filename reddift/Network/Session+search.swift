@@ -20,8 +20,8 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getSearch(subreddit:Subreddit?, query:String, paginator:Paginator?, sort:SearchSortBy, completion:(Result<Listing>) -> Void) throws -> NSURLSessionDataTask {
-        let parameter = paginator?.addParametersToDictionary(["q":query, "sort":sort.path])
+    public func getSearch(subreddit:Subreddit?, query:String, paginator:Paginator, sort:SearchSortBy, completion:(Result<Listing>) -> Void) throws -> NSURLSessionDataTask {
+        let parameter = paginator.addParametersToDictionary(["q":query, "sort":sort.path])
         var path = "/search"
         if let subreddit = subreddit { path = subreddit.url + "search" }
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
