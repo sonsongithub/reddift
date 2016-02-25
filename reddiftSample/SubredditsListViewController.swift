@@ -21,7 +21,7 @@ class SubredditsListViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
 		if self.subreddits.count == 0 {
             do {
-                try session?.getUserRelatedSubreddit(.Subscriber, paginator:paginator, completion: { (result) -> Void in
+                try session?.getUserRelatedSubreddit(.Subscriber, paginator:paginator!, completion: { (result) -> Void in
                     switch result {
                     case .Failure:
                         print(result.error)

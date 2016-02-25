@@ -31,7 +31,7 @@ class SearchSubredditsViewController: BaseSubredditsViewController {
         
         previousQuery = query
         do {
-            try session?.getSubredditSearch(query, paginator: paginator, completion: { (result) -> Void in
+            try session?.getSubredditSearch(query, paginator: paginator!, completion: { (result) -> Void in
                 self.loading = false
                 switch result {
                 case .Failure:
