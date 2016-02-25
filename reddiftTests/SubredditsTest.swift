@@ -154,6 +154,7 @@ class SubredditsTest : SessionTestSpec {
         }
         catch { XCTFail((error as NSError).description) }
         XCTAssert(subreddits.count > 0, msg)
+        subreddits.forEach {print($0.title)}
     }
     
     /**
@@ -187,7 +188,7 @@ class SubredditsTest : SessionTestSpec {
      */
     func testSearchSubredditsByQuery() {
         var subredditNames:[String] = []
-        let query = "sift"
+        let query = "apple"
         let msg = "Search subreddits by \(query)"
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
