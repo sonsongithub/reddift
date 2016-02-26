@@ -64,6 +64,30 @@ class Parser: NSObject {
     }
     
     /**
+     Parse more list
+     Parse json object to extract a list which is composed of Comment and More.
+    */
+    class func parseCommentAndMoreJSON(json:JSON) -> ([Thing], NSError?) {
+        if let json = json as? JSONDictionary {
+            if let root = json["json"] as? JSONDictionary {
+                if let data = root["data"] as? JSONDictionary {
+                    if let things = data["things"] as? [JSONDictionary] {
+                        let r = things
+                            .flatMap { Parser.parseThing($0) }
+                            .flatMap { $0 as? Thing }
+                        return (r, nil)
+                    }
+                }
+                if let _ = json["errors"] {
+                    // There is not any specifigations of error messages.
+                    // How do I handle it?av
+                }
+            }
+        }
+        return ([], ReddiftError.ParseMoreError.error)
+    }
+    
+    /**
     Parse User list
     */
     class func parseUserList(json:JSONDictionary) -> [User] {

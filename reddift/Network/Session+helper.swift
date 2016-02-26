@@ -72,9 +72,23 @@ func data2String(data: NSData) -> Result<String> {
 // MARK: JSON -> RedditAny
 
 /**
+Parse "more" response.
+Returns Result<Error> object when any error happned.
+- parameter json: JSON object is returned from reddit.
+- returns: Result object. Result object has a list of Thing object, otherwise error object.
+*/
+func json2CommentAndMore(json:JSON) -> Result<[Thing]> {
+    let (list, error) = Parser.parseCommentAndMoreJSON(json)
+    if let error = error {
+        return Result(error: error)
+    }
+    return Result(value: list)
+}
+
+/**
 Function to extract Account object from JSON object.
 Returns Result<Error> object when any error happned.
-- parameter data: JSON object is returned from reddit.
+- parameter json: JSON object is returned from reddit.
 - returns: Result object. Result object has Account object, otherwise error object.
 */
 func json2Account(json:JSON) -> Result<Account> {
@@ -148,6 +162,7 @@ func redditAny2Object<T>(redditAny:RedditAny) -> Result<T> {
     }
     return Result(error: ReddiftError.Malformed.error)
 }
+
 
 func redditAny2Object(redditAny:RedditAny) -> Result<[Multireddit]> {
     if let array = redditAny as? [Any] {

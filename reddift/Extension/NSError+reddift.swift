@@ -24,6 +24,7 @@ public enum ReddiftError:Int {
     case ParseThingT2           = 203
     case ParseCommentError      = 204
     case ReturnedCommentError   = 205
+    case ParseMoreError         = 206
     
     case GetCAPTCHA             = 300
     case CheckNeedsCAPTHCA      = 301
