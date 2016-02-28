@@ -39,8 +39,14 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getArticles(link:Link, sort:CommentSort, comments:[String]? = nil, depth:Int = 4, limit:Int = 100, completion:(Result<(Listing, Listing)>) -> Void) throws -> NSURLSessionDataTask {
-        var parameter:[String:String] = ["sort":sort.type, "depth":"\(depth)", "showmore":"True", "limit":"\(limit)"]
+    public func getArticles(link:Link, sort:CommentSort, comments:[String]? = nil, depth:Int? = nil, limit:Int? = nil, completion:(Result<(Listing, Listing)>) -> Void) throws -> NSURLSessionDataTask {
+        var parameter:[String:String] = ["sort":sort.type, "showmore":"True"]
+        if let depth = depth {
+            parameter["depth"] = "\(depth)"
+        }
+        if let limit = limit {
+            parameter["limit"] = "\(limit)"
+        }
         if let comments = comments {
             let commaSeparatedIDString = comments.joinWithSeparator(",")
             parameter["comment"] = commaSeparatedIDString
