@@ -33,9 +33,9 @@ extension Session {
     
     - parameter link: Link from which comment will be got.
     - parameter sort: The type of sorting.
-    - parameter comments: If supplied, comment is the ID36 of a comment in the comment tree for article.
-    - parameter depth: The maximum depth of subtrees in the thread. Default is 4.
-    - parameter limit: The maximum number of comments to return. Default is 100.
+    - parameter comments: If supplied, comment is the ID36 of a comment in the comment tree for article. Default is nil.
+    - parameter depth: The maximum depth of subtrees in the thread. Default is nil.
+    - parameter limit: The maximum number of comments to return. Default is nil.
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
