@@ -58,7 +58,7 @@ class UsersTest: SessionTestSpec {
      1. Get notifications.
      */
     func testGetNotifications() {
-        let msg = "Get notifications for me."
+        let msg = "Get notifications for me. Maybe, this test is always failed."
         var isSucceeded:Bool = false
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {

@@ -57,7 +57,7 @@ class ListingsTest: SessionTestSpec {
                         isSucceeded = isSucceeded && (obj is Comment)
                     }
                 }
-                XCTAssert(isSucceeded, "Check whether the random list includes two Listings.")
+                XCTAssert(isSucceeded, "Check whether the random list includes two Listings. Why this test is always failed...?")
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)

@@ -9,25 +9,22 @@
 import Foundation
 
 /**
-Expand child comments which are included in Comment objects, recursively.
-- parameter comment: Comment object will be expanded.
-- returns: Array contains Comment objects which are expaned from specified Comment object.
-*/
-public func extendAllReplies(comment:Thing) -> [Thing] {
+ Expand child comments which are included in Comment objects, recursively.
+ Returns comment list and their depth list.
+ - parameter comment: Comment object will be expanded.
+ - returns: Array contains Comment objects which are expaned from specified Comment object and depth list of them.
+ */
+public func extendAllRepliesAndDepth(comment:Thing, depth:Int) -> ([Thing], [Int]) {
     var comments:[Thing] = [comment]
+    var depths:[Int] = [depth]
     if let comment = comment as? Comment {
         for obj in comment.replies.children {
-            if var c = obj as? Comment {
-                c.updateDepth(comment.depth + 1)
-                comments.appendContentsOf(extendAllReplies(c))
-            }
-            else if var m = obj as? More {
-                m.updateDepth(comment.depth + 1)
-                comments.appendContentsOf(extendAllReplies(m))
-            }
+            let (c, d) = extendAllRepliesAndDepth(obj, depth:depth + 1)
+            comments.appendContentsOf(c)
+            depths.appendContentsOf(d)
         }
     }
-    return comments
+    return (comments, depths)
 }
 
 /**

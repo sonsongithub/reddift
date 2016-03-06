@@ -19,13 +19,14 @@ class MoreChildrenTest: SessionTestSpec {
     */
     func testGetMoreChildren() {
         
-        guard let link = getTheMostCommentedLink("machinelearning") else { XCTFail("Get the Link that has the most comment."); return}
-        
         var moreList:[More] = []
+        
+        // https://www.reddit.com/r/redditdev/comments/2ujhkr/important_api_licensing_terms_clarified/
+        let link = Link(id: "2ujhkr")
         
         do {
             let documentOpenExpectation = self.expectationWithDescription("")
-            try session?.getArticles(link, sort: .New, comments: nil, limit: 50, completion: { (result) -> Void in
+            try session?.getArticles(link, sort: .New, comments: nil, depth:1, limit: 10, completion: { (result) -> Void in
                 switch result {
                 case .Failure(let error):
                     print(error)
@@ -64,38 +65,5 @@ class MoreChildrenTest: SessionTestSpec {
             catch { XCTFail((error as NSError).description) }
         })
         XCTAssert(check, "Cannot expand More objects.")
-    }
-}
-
-extension MoreChildrenTest {
-    /**
-     Extract Link which has the most comment in the specified Subreddit.
-    */
-    func getTheMostCommentedLink(subredditName:String) -> Link? {
-        var mostCommentsLink:Link? = nil
-        do {
-            let documentOpenExpectation = self.expectationWithDescription("")
-            try session?.getList(Paginator(), subreddit: Subreddit(subreddit: subredditName), sort: .Top, timeFilterWithin: .Week) { (result) -> Void in
-                switch result {
-                case .Failure(let error):
-                    print(error)
-                case .Success(let listing):
-                    let links = listing.children.flatMap({$0 as? Link})
-                    mostCommentsLink = links.reduce(links[0], combine: {
-                        if $0.numComments < $1.numComments {
-                            return $1
-                        }
-                        else {
-                            return $0
-                        }
-                    })
-                }
-                documentOpenExpectation.fulfill()
-            }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-            
-        }
-        catch { XCTFail((error as NSError).description) }
-        return mostCommentsLink
     }
 }

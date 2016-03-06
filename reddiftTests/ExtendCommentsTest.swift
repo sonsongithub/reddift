@@ -9,6 +9,57 @@
 import XCTest
 
 class ExtendCommentsTest: XCTestCase {
+    
+    let gt_type:[(Any.Type, Int)] = [
+        (Comment.self,  1),
+        (Comment.self,  2),
+        (More.self,     3),
+        (Comment.self,  2),
+        (More.self,     3),
+        (Comment.self,  1),
+        (Comment.self,  2),
+        (More.self,     3),
+        (Comment.self,  1),
+        (Comment.self,  2),
+        (More.self,     3),
+        (Comment.self,  2),
+        (More.self,     3),
+        (Comment.self,  1),
+        (Comment.self,  2),
+        (More.self,     3),
+        (Comment.self,  2),
+        (More.self,     3),
+        (Comment.self,  2),
+        (More.self,     3),
+        (Comment.self,  2),
+        (More.self,     3)
+    ]
+    
+    /**
+     test data
+     comment
+        comment
+            more
+        comment
+            more
+     comment
+        comment
+            more
+     comment
+        comment
+            more
+        comment
+            more
+     comment
+        comment
+            more
+        comment
+            more
+        comment
+            more
+        comment
+            more
+    */
     func testListWhichHasSomeCommentsIncludingRepliesRecursively() {
         print("Test whether Parser can extend Comment objects that has some More objects as children.")
         print("consists of 1 Link, 13 Comments and 9 Mores.")
@@ -26,18 +77,20 @@ class ExtendCommentsTest: XCTestCase {
                     }
                     if let listing = array[1] as? Listing {
                         var comments:[Thing] = []
+                        var depths:[Int] = []
                         for thing in listing.children {
-                            comments += extendAllReplies(thing)
+                            let (c, d) = extendAllRepliesAndDepth(thing, depth:1)
+                            comments += c
+                            depths += d
                         }
-                        let numberOfComments = comments.reduce(0, combine: { (value:Int, comment:Thing) -> Int in
-                            return comment is Comment ? 1 + value : value
-                        })
-                        let numberOfMores = comments.reduce(0, combine: { (value:Int, comment:Thing) -> Int in
-                            return comment is More ? 1 + value : value
-                        })
-                        XCTAssert(numberOfComments == 13)
-                        XCTAssert(numberOfMores == 9)
-                        XCTAssert(comments.count == 22)
+                        XCTAssert(comments.count == depths.count, "list is mulformed.")
+                        XCTAssert(gt_type.count == comments.count, "list is mulformed.")
+                        
+                        for i in 0 ..< comments.count {
+                            let (c, d) = gt_type[i]
+                            XCTAssert(c == comments[i].dynamicType, "data type error.")
+                            XCTAssert(d == depths[i], "element's depth is wrong.")
+                        }
                     }
                     else {
                         XCTFail("Error")
