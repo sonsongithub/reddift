@@ -13,7 +13,7 @@ class AccountViewController: UITableViewController {
 	var names:[String] = []
 	
 	@IBAction func addAccount(sender:AnyObject) {
-		OAuth2Authorizer.sharedInstance.challengeWithAllScopes()
+		try! OAuth2Authorizer.sharedInstance.challengeWithAllScopes()
 	}
     
     func reload() {

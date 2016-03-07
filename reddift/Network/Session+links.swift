@@ -253,7 +253,7 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getMoreChildren(children:[String], link:Link, sort:CommentSort, completion:(Result<RedditAny>) -> Void) throws -> NSURLSessionDataTask {
+    public func getMoreChildren(children:[String], link:Link, sort:CommentSort, completion:(Result<[Thing]>) -> Void) throws -> NSURLSessionDataTask {
         let commaSeparatedChildren = children.joinWithSeparator(",")
         let parameter:[String:String] = [
             "children":commaSeparatedChildren,
@@ -263,6 +263,15 @@ extension Session {
         ]
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/morechildren", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        return handleAsJSONRequest(request, completion:completion)
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2CommentAndMore)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
 }

@@ -9,18 +9,22 @@
 import Foundation
 
 /**
-Expand child comments which are included in Comment objects, recursively.
-- parameter comment: Comment object will be expanded.
-- returns: Array contains Comment objects which are expaned from specified Comment object.
-*/
-public func extendAllReplies(comment:Thing) -> [Thing] {
+ Expand child comments which are included in Comment objects, recursively.
+ Returns comment list and their depth list.
+ - parameter comment: Comment object will be expanded.
+ - returns: Array contains Comment objects which are expaned from specified Comment object and depth list of them.
+ */
+public func extendAllRepliesAndDepth(comment:Thing, depth:Int) -> ([Thing], [Int]) {
     var comments:[Thing] = [comment]
+    var depths:[Int] = [depth]
     if let comment = comment as? Comment {
         for obj in comment.replies.children {
-            comments.appendContentsOf(extendAllReplies(obj))
+            let (c, d) = extendAllRepliesAndDepth(obj, depth:depth + 1)
+            comments.appendContentsOf(c)
+            depths.appendContentsOf(d)
         }
     }
-    return comments
+    return (comments, depths)
 }
 
 /**
@@ -33,6 +37,8 @@ public struct Comment : Thing {
     public let name:String
     /// type of Thing, like t3.
     static public let kind = "t1"
+    /// depth of comments
+    public var depth = 1;
     
     /**
     the id of the subreddit in which the thing is located
@@ -193,6 +199,10 @@ public struct Comment : Thing {
         modReports = []
         numReports = 0
         ups = 0
+    }
+    
+    mutating func updateDepth(depth:Int) {
+        self.depth = depth
     }
     
     /**

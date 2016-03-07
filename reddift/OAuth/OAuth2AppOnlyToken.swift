@@ -68,12 +68,18 @@ public struct OAuth2AppOnlyToken : Token {
     public static func requestForOAuth2AppOnly(username username:String, password:String, clientID:String, secret:String) -> NSMutableURLRequest? {
         guard let URL = NSURL(string: "https://ssl.reddit.com/api/v1/access_token") else { return nil }
         let request = NSMutableURLRequest(URL:URL)
-        request.setRedditBasicAuthentication(username:clientID, password:secret)
-        let param = "grant_type=password&username=" + username + "&password=" + password
-        let data = param.dataUsingEncoding(NSUTF8StringEncoding)
-        request.HTTPBody = data
-        request.HTTPMethod = "POST"
-        return request
+        do {
+            try request.setRedditBasicAuthentication(username:clientID, password:secret)
+            let param = "grant_type=password&username=" + username + "&password=" + password
+            let data = param.dataUsingEncoding(NSUTF8StringEncoding)
+            request.HTTPBody = data
+            request.HTTPMethod = "POST"
+            return request
+        }
+        catch {
+            print(error)
+            return nil
+        }
     }
     
     /**

@@ -24,6 +24,7 @@ public enum ReddiftError:Int {
     case ParseThingT2           = 203
     case ParseCommentError      = 204
     case ReturnedCommentError   = 205
+    case ParseMoreError         = 206
     
     case GetCAPTCHA             = 300
     case CheckNeedsCAPTHCA      = 301
@@ -33,6 +34,9 @@ public enum ReddiftError:Int {
     case OAuth2                 = 400
     case ParseAccessToken       = 401
     case TokenNotfound          = 402
+    case SetClientIDForBasicAuthentication = 403
+    case SetUserInfoForBasicAuthentication = 404
+    case ChallengeOAuth2Session = 405
     
     case Malformed              = 500
     
@@ -44,6 +48,7 @@ public enum ReddiftError:Int {
     case URLError               = 800
     
     case MultiredditDidFailToCreateJSON = 900
+    
     
     var error:NSError {
         return NSError.errorWithCode(self.rawValue, self.description)
@@ -75,6 +80,13 @@ public enum ReddiftError:Int {
             return "Failed to parse iden to get a CAPTCHA image unexpectedly."
         case .GetCAPTCHAImage:
             return "Failed to load a CAPTHCA image unexpectedly."
+            
+        case .SetClientIDForBasicAuthentication:
+            return "Failed to set client ID for Basic Authentication."
+        case .SetUserInfoForBasicAuthentication:
+            return "Failed to set user name/password for Basic Authentication."
+        case .ChallengeOAuth2Session:
+            return "Failed to create NSURL when challenging to shake OAuth2 session."
             
         case .OAuth2:
             return "Failed to get an access token unexpectedly."

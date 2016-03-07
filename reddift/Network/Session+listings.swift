@@ -33,14 +33,20 @@ extension Session {
     
     - parameter link: Link from which comment will be got.
     - parameter sort: The type of sorting.
-    - parameter comments: If supplied, comment is the ID36 of a comment in the comment tree for article.
-    - parameter depth: The maximum depth of subtrees in the thread. Default is 4.
-    - parameter limit: The maximum number of comments to return. Default is 100.
+    - parameter comments: If supplied, comment is the ID36 of a comment in the comment tree for article. Default is nil.
+    - parameter depth: The maximum depth of subtrees in the thread. Default is nil.
+    - parameter limit: The maximum number of comments to return. Default is nil.
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getArticles(link:Link, sort:CommentSort, comments:[String]? = nil, depth:Int = 4, limit:Int = 100, completion:(Result<(Listing, Listing)>) -> Void) throws -> NSURLSessionDataTask {
-        var parameter:[String:String] = ["sort":sort.type, "depth":"\(depth)", "showmore":"True", "limit":"\(limit)"]
+    public func getArticles(link:Link, sort:CommentSort, comments:[String]? = nil, depth:Int? = nil, limit:Int? = nil, completion:(Result<(Listing, Listing)>) -> Void) throws -> NSURLSessionDataTask {
+        var parameter:[String:String] = ["sort":sort.type, "showmore":"True"]
+        if let depth = depth {
+            parameter["depth"] = "\(depth)"
+        }
+        if let limit = limit {
+            parameter["limit"] = "\(limit)"
+        }
         if let comments = comments {
             let commaSeparatedIDString = comments.joinWithSeparator(",")
             parameter["comment"] = commaSeparatedIDString
@@ -106,7 +112,8 @@ extension Session {
 //          "sr_detail": "true",
             "t"        : timeFilterWithin.param
         ])
-        let path = (subreddit != nil) ? "\(subreddit!.path)\(privateSortType.path).json" : "\(privateSortType.path).json"
+        var path = "\(privateSortType.path).json"
+        if let subreddit = subreddit { path = "\(subreddit.path)\(privateSortType.path).json" }
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
@@ -168,7 +175,8 @@ extension Session {
             //            "sr_detail": "true",
             "show"     : "all",
             ])
-        let path = (subreddit != nil) ? "\(subreddit!.path)/\(type).json" : "\(type).json"
+        var path = "\(type).json"
+        if let subreddit = subreddit { path = "\(subreddit.path)/\(type).json" }
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
@@ -193,7 +201,8 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
     */
     public func getRandom(subreddit:Subreddit? = nil, completion:(Result<(Listing, Listing)>) -> Void) throws -> NSURLSessionDataTask {
-        let path:String = (subreddit == nil) ? "/random" : subreddit!.url + "/random"
+        var path = "/random"
+        if let subreddit = subreddit { path = subreddit.url + "/random" }
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in

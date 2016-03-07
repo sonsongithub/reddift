@@ -13,11 +13,10 @@ extension NSMutableURLRequest {
     func curl() -> String {
         var command = "curl"
         if let allHTTPHeaderFields = allHTTPHeaderFields {
-            allHTTPHeaderFields.keys.forEach({
-                let key = $0
-                let value = allHTTPHeaderFields[$0]!.stringByReplacingOccurrencesOfString("\"", withString: "\\\"")
+            for (key, value) in allHTTPHeaderFields {
+                let value = value.stringByReplacingOccurrencesOfString("\"", withString: "\\\"")
                 command += " --header \"\(key): \(value)\""
-            })
+            }
         }
         if let url = self.URL {
             command += " '\(url.absoluteString)'"
@@ -35,18 +34,26 @@ extension NSMutableURLRequest {
         return command
     }
     
-    func setRedditBasicAuthentication() {
+    func setRedditBasicAuthentication() throws {
         let basicAuthenticationChallenge = Config.sharedInstance.clientID + ":"
-        let data = basicAuthenticationChallenge.dataUsingEncoding(NSUTF8StringEncoding)!
-        let base64Str = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
-        setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
+        if let data = basicAuthenticationChallenge.dataUsingEncoding(NSUTF8StringEncoding) {
+            let base64Str = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
+            setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
+        }
+        else {
+            throw ReddiftError.SetClientIDForBasicAuthentication.error
+        }
     }
     
-    func setRedditBasicAuthentication(username username:String, password:String) {
+    func setRedditBasicAuthentication(username username:String, password:String) throws {
         let basicAuthenticationChallenge = username + ":" + password
-        let data = basicAuthenticationChallenge.dataUsingEncoding(NSUTF8StringEncoding)!
-        let base64Str = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
-        setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
+        if let data = basicAuthenticationChallenge.dataUsingEncoding(NSUTF8StringEncoding) {
+            let base64Str = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
+            setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
+        }
+        else {
+            throw ReddiftError.SetUserInfoForBasicAuthentication.error
+        }
     }
     
     func setOAuth2Token(token:Token?) {

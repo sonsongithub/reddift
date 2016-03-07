@@ -64,6 +64,34 @@ func getLinksBy(session:Session) {
     catch { print(error) }
 }
 
+func searchSubreddits(session:Session) {
+    do {
+        try session.getSubredditSearch("apple", paginator: Paginator(), completion: { (result) -> Void in
+            switch result {
+            case .Failure(let error):
+                print(error)
+            case .Success(let listing):
+                listing.children.flatMap { $0 as? Subreddit }.forEach { print($0.title) }
+            }
+        })
+    }
+    catch { print(error) }
+}
+
+func searchContents(session:Session) {
+    do {
+        try session.getSearch(nil, query: "apple", paginator: Paginator(), sort: .New, completion: { (result) -> Void in
+            switch result {
+            case .Failure(let error):
+                print(error)
+            case .Success(let listing):
+                listing.children.flatMap { $0 as? Link }.forEach { print($0.title) }
+            }
+        })
+    }
+    catch { print(error) }
+}
+
 func getAccountInfoFromJSON(json:[String:String]) -> (String, String, String, String)? {
     if let username = json["username"], password = json["password"], client_id = json["client_id"], secret = json["secret"] {
         return (username, password, client_id, secret)
@@ -85,7 +113,8 @@ if let (username, password, clientID, secret) = (NSBundle.mainBundle().URLForRes
                     getLinksBy(session)
                     getReleated(session)
                     getCAPTCHA(session)
-                    a(session)
+                    searchContents(session)
+                    searchSubreddits(session)
                 }
             }))
         }

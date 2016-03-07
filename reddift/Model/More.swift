@@ -20,6 +20,8 @@ public struct More : Thing {
     public let name:String
     /// type of Thing, like t3.
     public static let kind = "more"
+    /// depth of comments
+    public var depth = 1;
     
     public let parentId:String
     public let count:Int
@@ -31,6 +33,10 @@ public struct More : Thing {
         parentId = ""
         count = 0
         children = []
+    }
+    
+    mutating func updateDepth(depth:Int) {
+        self.depth = depth
     }
     
     /**

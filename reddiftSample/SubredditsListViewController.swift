@@ -12,7 +12,7 @@ import reddift
 class SubredditsListViewController: UITableViewController {
     var session:Session? = nil
     var subreddits:[Subreddit] = []
-    var paginator:Paginator? = nil
+    var paginator:Paginator = Paginator()
 
     override func viewDidLoad() {
         super.viewDidLoad()

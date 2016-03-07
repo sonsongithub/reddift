@@ -182,7 +182,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         super.viewWillAppear(animated)
         if let link = self.link {
             do {
-                try session?.getArticles(link, sort:CommentSort.New, comments:nil, completion: { (result) -> Void in
+                try session?.getArticles(link, sort:CommentSort.Top, comments:nil, completion: { (result) -> Void in
                     switch result {
                     case .Failure(let error):
                         print(error)
@@ -190,8 +190,11 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                         let listing = tuple.1
                         
                         var newComments:[Thing] = []
+                        var newDepths:[Int] = []
                         for comment in listing.children.flatMap({$0 as? Comment}) {
-                            newComments += extendAllReplies(comment)
+                            let (c, d) = extendAllRepliesAndDepth(comment, depth:1)
+                            newComments += c
+                            newDepths += d
                         }
                         self.comments += newComments
                         
@@ -256,8 +259,28 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                         switch result {
                         case .Failure(let error):
                             print(error)
-                        case .Success(let redditAny):
-                            print(redditAny)
+                        case .Success(let list):
+                            print(list)
+                            
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                
+                                
+                                var newComments:[Thing] = []
+                                var newDepths:[Int] = []
+                                for comment in list.flatMap({$0 as? Comment}) {
+                                    let (c, d) = extendAllRepliesAndDepth(comment, depth:1)
+                                    newComments += c
+                                    newDepths += d
+                                }
+                                
+                                self.comments.removeAtIndex(indexPath.row)
+                                self.contents.removeAtIndex(indexPath.row)
+                                
+                                self.comments.insertContentsOf(newComments, at: indexPath.row)
+                                self.contents.insertContentsOf(self.updateStrings(newComments), at: indexPath.row)
+                                self.tableView.reloadData()
+                            })
+                            
                         }
                     })
                 } catch { print(error) }

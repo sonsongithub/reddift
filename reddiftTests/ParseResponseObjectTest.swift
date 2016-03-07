@@ -152,4 +152,35 @@ class response2DataObjectTest: XCTestCase {
             else { XCTFail("can not parse JSON") }
         }
     }
+    
+    func testParsingMoreChildrenJson() {
+        if let json = self.jsonFromFileName("moreChildren.json") as? JSONDictionary {
+            let (list, error) = Parser.parseCommentAndMoreJSON(json)
+            if let error = error {
+                XCTFail(error.description)
+            }
+            else if list.count != 7 {
+                XCTFail("Failed to paser, result is vacant list.")
+            }
+            else {
+                /// Check dynamic type
+                XCTAssert(list[0] is Comment)
+                XCTAssert(list[1] is Comment)
+                XCTAssert(list[2] is Comment)
+                XCTAssert(list[3] is Comment)
+                XCTAssert(list[4] is Comment)
+                XCTAssert(list[5] is Comment)
+                XCTAssert(list[6] is More)
+                
+                /// Check ID
+                XCTAssert(list[0].name == "t1_c6b0qgj")
+                XCTAssert(list[1].name == "t1_c6b0scf")
+                XCTAssert(list[2].name == "t1_c6b0vo7")
+                XCTAssert(list[3].name == "t1_c6b0yyz")
+                XCTAssert(list[4].name == "t1_c6b1sc7")
+                XCTAssert(list[5].name == "t1_c6b1urd")
+                XCTAssert(list[6].name == "t1_c6b21ja")
+            }
+        }
+    }
 }

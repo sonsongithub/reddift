@@ -14,7 +14,7 @@ extension SubredditsTest {
         let msg = "Get own subscribing list."
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
-            try self.session?.getUserRelatedSubreddit(.Subscriber, paginator:nil, completion: { (result) -> Void in
+            try self.session?.getUserRelatedSubreddit(.Subscriber, paginator:Paginator(), completion: { (result) -> Void in
                 switch result {
                 case .Failure(let error):
                     print(error)
@@ -134,6 +134,31 @@ class SubredditsTest : SessionTestSpec {
     
     /**
      Test procedure
+    */
+    func testSearchSubreddit() {
+        var subreddits:[Subreddit] = []
+        let query = "apple"
+        let msg = "Search subreddit used of \(query)"
+        let documentOpenExpectation = self.expectationWithDescription(msg)
+        do {
+            try self.session?.getSubredditSearch(query, paginator:Paginator(), completion: { (result) -> Void in
+                switch result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let listing):
+                    subreddits.appendContentsOf(listing.children.flatMap({$0 as? Subreddit}))
+                }
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        }
+        catch { XCTFail((error as NSError).description) }
+        XCTAssert(subreddits.count > 0, msg)
+        subreddits.forEach {print($0.title)}
+    }
+    
+    /**
+     Test procedure
      1. Search subreddit names.
     */
     func testSearchSubredditNames() {
@@ -163,7 +188,7 @@ class SubredditsTest : SessionTestSpec {
      */
     func testSearchSubredditsByQuery() {
         var subredditNames:[String] = []
-        let query = "sift"
+        let query = "apple"
         let msg = "Search subreddits by \(query)"
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
