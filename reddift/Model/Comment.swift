@@ -37,8 +37,6 @@ public struct Comment : Thing {
     public let name:String
     /// type of Thing, like t3.
     static public let kind = "t1"
-    /// depth of comments
-    public var depth = 1;
     
     /**
     the id of the subreddit in which the thing is located
@@ -199,10 +197,6 @@ public struct Comment : Thing {
         modReports = []
         numReports = 0
         ups = 0
-    }
-    
-    mutating func updateDepth(depth:Int) {
-        self.depth = depth
     }
     
     /**

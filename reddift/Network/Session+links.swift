@@ -245,22 +245,26 @@ extension Session {
     }
     
     /**
-    Retrieve additional comments omitted from a base comment tree. When a comment tree is rendered, the most relevant comments are selected for display first. Remaining comments are stubbed out with "MoreComments" links. This API call is used to retrieve the additional comments represented by those stubs, up to 20 at a time. The two core parameters required are link and children. link is the fullname of the link whose comments are being fetched. children is a comma-delimited list of comment ID36s that need to be fetched. If id is passed, it should be the ID of the MoreComments object this call is replacing. This is needed only for the HTML UI's purposes and is optional otherwise. NOTE: you may only make one request at a time to this API endpoint. Higher concurrency will result in an error being returned.
-    
-    - parameter children: A comma-delimited list of comment ID36s.
-    - parameter link: Thing object from which you get more children.
-    - parameter sort: The type of sorting children.
-    - parameter completion: The completion handler to call when the load request is complete.
-    - returns: Data task which requests search to reddit.com.
-    */
-    public func getMoreChildren(children:[String], link:Link, sort:CommentSort, completion:(Result<[Thing]>) -> Void) throws -> NSURLSessionDataTask {
+     Retrieve additional comments omitted from a base comment tree. When a comment tree is rendered, the most relevant comments are selected for display first. Remaining comments are stubbed out with "MoreComments" links. This API call is used to retrieve the additional comments represented by those stubs, up to 20 at a time. The two core parameters required are link and children. link is the fullname of the link whose comments are being fetched. children is a comma-delimited list of comment ID36s that need to be fetched. If id is passed, it should be the ID of the MoreComments object this call is replacing. This is needed only for the HTML UI's purposes and is optional otherwise. NOTE: you may only make one request at a time to this API endpoint. Higher concurrency will result in an error being returned.
+     
+     - parameter children: A comma-delimited list of comment ID36s.
+     - parameter link: Thing object from which you get more children.
+     - parameter sort: The type of sorting children.
+     - parameter id: (optional) id of the associated MoreChildren object.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    public func getMoreChildren(children:[String], link:Link, sort:CommentSort, id:String? = nil, completion:(Result<[Thing]>) -> Void) throws -> NSURLSessionDataTask {
         let commaSeparatedChildren = children.joinWithSeparator(",")
-        let parameter:[String:String] = [
+        var parameter:[String:String] = [
             "children":commaSeparatedChildren,
             "link_id":link.name,
             "sort":sort.type,
             "api_type":"json"
         ]
+        if let id = id {
+            parameter["id"] = id
+        }
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/morechildren", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
