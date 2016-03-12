@@ -13,19 +13,19 @@ More object.
 "more" is included in Listing object(Maybe).
 If Listing object has "more" object, it has mure more children to be downloaded.
 */
-public struct More : Thing {
+public struct More: Thing {
     /// identifier of Thing like 15bfi0.
-    public let id:String
+    public let id: String
     /// name of Thing, that is fullname, like t3_15bfi0.
-    public let name:String
+    public let name: String
     /// type of Thing, like t3.
     public static let kind = "more"
     
-    public let parentId:String
-    public let count:Int
-	public let children:[String]
+    public let parentId: String
+    public let count: Int
+	public let children: [String]
 	
-    public init(id:String) {
+    public init(id: String) {
         self.id = id
         self.name = "\(More.kind)_\(self.id)"
         parentId = ""
@@ -39,7 +39,7 @@ public struct More : Thing {
     - parameter data: Dictionary, must be generated parsing "more".
     - returns: More object as Thing.
     */
-    public init(data:JSONDictionary) {
+    public init(data: JSONDictionary) {
         id = data["id"] as? String ?? ""
         name = data["name"] as? String ?? ""
         parentId = data["parent_id"] as? String ?? ""

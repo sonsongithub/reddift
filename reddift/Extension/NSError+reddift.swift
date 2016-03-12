@@ -9,12 +9,12 @@
 import Foundation
 
 extension NSError {
-    class func errorWithCode(code:Int, _ description:String) -> NSError {
+    class func errorWithCode(code: Int, _ description: String) -> NSError {
         return NSError(domain:Config.sharedInstance.bundleIdentifier, code:code, userInfo:["description":description])
     }
 }
 
-public enum ReddiftError:Int {
+public enum ReddiftError: Int {
     case Unknown                = 0
     case ParseJSON              = 100
 
@@ -50,11 +50,11 @@ public enum ReddiftError:Int {
     case MultiredditDidFailToCreateJSON = 900
     
     
-    var error:NSError {
+    var error: NSError {
         return NSError.errorWithCode(self.rawValue, self.description)
     }
     
-    var description:String {
+    var description: String {
         switch self {
         case .ParseJSON:
             return "Failed to parse JSON object unexpectedly."

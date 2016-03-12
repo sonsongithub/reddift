@@ -10,12 +10,12 @@ import Foundation
 import reddift
 
 class ProfileViewController: UITableViewController {
-    var session:Session?
-    @IBOutlet var cell1:UITableViewCell?
-    @IBOutlet var cell2:UITableViewCell?
-    @IBOutlet var cell3:UITableViewCell?
-    @IBOutlet var cell4:UITableViewCell?
-    @IBOutlet var cell5:UITableViewCell?
+    var session: Session?
+    @IBOutlet var cell1: UITableViewCell?
+    @IBOutlet var cell2: UITableViewCell?
+    @IBOutlet var cell3: UITableViewCell?
+    @IBOutlet var cell4: UITableViewCell?
+    @IBOutlet var cell5: UITableViewCell?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,6 @@ class ProfileViewController: UITableViewController {
                     })
                 }
             })
-        }
-        catch { print(error) }
+        } catch { print(error) }
     }
 }

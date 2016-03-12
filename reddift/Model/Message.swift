@@ -11,11 +11,11 @@ import Foundation
 /**
 Message object.
 */
-public struct Message : Thing {
+public struct Message: Thing {
     /// identifier of Thing like 15bfi0.
-    public let id:String
+    public let id: String
     /// name of Thing, that is fullname, like t3_15bfi0.
-    public let name:String
+    public let name: String
     /// type of Thing, like t3.
     public static let kind = "t4"
     
@@ -23,84 +23,84 @@ public struct Message : Thing {
     the message itself
     example: Hello! [Hola!](http....
     */
-    public let  body:String
+    public let  body: String
     /**
     
     example: false
     */
-    public let wasComment:Bool
+    public let wasComment: Bool
     /**
     
     example:
     */
-    public let firstMessage:String
+    public let firstMessage: String
     /**
     either null or the first message's fullname
     example:
     */
-    public let firstMessageName:String
+    public let firstMessageName: String
     /**
     
     example: 1427126074
     */
-    public let  created:Int
+    public let  created: Int
     /**
     
     example: sonson_twit
     */
-    public let  dest:String
+    public let  dest: String
     /**
     
     example: reddit
     */
-    public let  author:String
+    public let  author: String
     /**
     
     example: 1427122474
     */
-    public let createdUtc:Int
+    public let createdUtc: Int
     /**
     the message itself with HTML formatting
     example: &lt;!-- SC_OFF --&gt;&l....
     */
-    public let bodyHtml:String
+    public let bodyHtml: String
     /**
     null if not a comment.
     example:
     */
-    public let  subreddit:String
+    public let  subreddit: String
     /**
     null if no parent is attached
     example:
     */
-    public let parentId:String
+    public let parentId: String
     /**
     if the message is a comment, then the permalink to the comment with ?context=3 appended to the end, otherwise an empty string
     example:
     */
-    public let  context:String
+    public let  context: String
     /**
     Again, an empty string if there are no replies.
     example:
     */
-    public let  replies:String
+    public let  replies: String
     /**
     unread?  not sure
     example: false
     */
-    public let  new:Bool
+    public let  new: Bool
     /**
     
     example: admin
     */
-    public let  distinguished:String
+    public let  distinguished: String
     /**
     subject of message
     example: Hello, /u/sonson_twit! Welcome to reddit!
     */
-    public let  subject:String
+    public let  subject: String
     
-    public init(id:String) {
+    public init(id: String) {
         self.id = id
         self.name = "\(Message.kind)_\(self.id)"
         
@@ -128,7 +128,7 @@ public struct Message : Thing {
     - parameter data: Dictionary, must be generated parsing "t4".
     - returns: Message object as Thing.
     */
-    public init(data:JSONDictionary) {
+    public init(data: JSONDictionary) {
         id = data["id"] as? String ?? ""
         body = data["body"] as? String ?? ""
         wasComment = data["was_comment"] as? Bool ?? false
@@ -150,5 +150,3 @@ public struct Message : Thing {
         subject = data["subject"] as? String ?? ""
     }
 }
-
-

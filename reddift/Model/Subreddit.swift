@@ -10,17 +10,17 @@ import Foundation
 
 /// Protocol to integrate a code for subreddit and multireddit.
 public protocol SubredditURLPath {
-    var path:String {get}
+    var path: String {get}
 }
 
 /**
 Subreddit object.
 */
-public struct Subreddit : SubredditURLPath, Thing {
+public struct Subreddit: SubredditURLPath, Thing {
     /// identifier of Thing like 15bfi0.
-    public let id:String
+    public let id: String
     /// name of Thing, that is fullname, like t3_15bfi0.
-    public let name:String
+    public let name: String
     /// type of Thing, like t3.
     public static let kind = "t5"
     
@@ -28,12 +28,12 @@ public struct Subreddit : SubredditURLPath, Thing {
     
     example:
     */
-    public let bannerImg:String
+    public let bannerImg: String
     /**
     
     example: true
     */
-    public let userSrThemeEnabled:Bool
+    public let userSrThemeEnabled: Bool
     /**
     
     example: &lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;&lt;strong&gt;GIFs are banned.&lt;/strong&gt;
@@ -49,12 +49,12 @@ public struct Subreddit : SubredditURLPath, Thing {
     What is WoahDude-worthy content? &lt;a href="http://www.reddit.com/r/woahdude/wiki/index#wiki_what_is_.22woahdude_material.22.3F"&gt;(Read more)&lt;/a&gt;&lt;/p&gt;
     &lt;/div&gt;&lt;!-- SC_ON --&gt;
     */
-    public let submitTextHtml:String
+    public let submitTextHtml: String
     /**
     whether the logged-in user is banned from the subreddit
     example: false
     */
-    public let userIsBanned:Bool
+    public let userIsBanned: Bool
     /**
     
     example: **GIFs are banned.**
@@ -69,17 +69,17 @@ public struct Subreddit : SubredditURLPath, Thing {
     **Trippy or Mesmerizing content only!**
     What is WoahDude-worthy content? [(Read more)](http://www.reddit.com/r/woahdude/wiki/index#wiki_what_is_.22woahdude_material.22.3F)
     */
-    public let submitText:String
+    public let submitText: String
     /**
     human name of the subreddit
     example: woahdude
     */
-    public let displayName:String
+    public let displayName: String
     /**
     full URL to the header image, or null
     example: http://b.thumbs.redditmedia.com/fnO6IreM4s_Em4dTIU2HtmZ_NTw7dZdlCoaLvtKwbzM.png
     */
-    public let headerImg:String
+    public let headerImg: String
     /**
     sidebar text, escaped HTML format
     example: &lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;h5&gt;&lt;a href="https://www.reddit.com/r/woahdude/comments/2qi1jh/best_of_rwoahdude_2014_results/?"&gt;Best of WoahDude 2014 ⇦&lt;/a&gt;&lt;/h5&gt;
@@ -156,22 +156,22 @@ public struct Subreddit : SubredditURLPath, Thing {
     &lt;h5&gt;&lt;a href="http://emilydavis.bandcamp.com/track/sagans-song"&gt;http://emilydavis.bandcamp.com/track/sagans-song&lt;/a&gt;&lt;/h5&gt;
     &lt;/div&gt;&lt;!-- SC_ON --&gt;
     */
-    public let descriptionHtml:String
+    public let descriptionHtml: String
     /**
     title of the main page
     example: The BEST links to click while you're STONED
     */
-    public let  title:String
+    public let  title: String
     /**
     
     example: true
     */
-    public let collapseDeletedComments:Bool
+    public let collapseDeletedComments: Bool
     /**
     whether the subreddit is marked as NSFW
     example: false
     */
-    public let  over18:Bool
+    public let  over18: Bool
     /**
     
     example: &lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;The best links to click while you&amp;#39;re stoned!&lt;/p&gt;
@@ -181,22 +181,22 @@ public struct Subreddit : SubredditURLPath, Thing {
     &lt;p&gt;If you like to look at amazing stuff while smoking weed or doing other drugs, come inside for some Science, Philosophy, Mindfucks, Math, Engineering, Illusions and Cosmic weirdness.&lt;/p&gt;
     &lt;/div&gt;&lt;!-- SC_ON --&gt;
     */
-    public let publicDescriptionHtml:String
+    public let publicDescriptionHtml: String
     /**
     
     example:
     */
-    public let iconSize:[Int]
+    public let iconSize: [Int]
     /**
     
     example:
     */
-    public let iconImg:String
+    public let iconImg: String
     /**
     description of header image shown on hover, or null
     example: Turn on the stylesheet and click Carl Sagan's head
     */
-    public let headerTitle:String
+    public let headerTitle: String
     /**
     sidebar text
     example: #####[Best of WoahDude 2014 ⇦](https://www.reddit.com/r/woahdude/comments/2qi1jh/best_of_rwoahdude_2014_results/?)
@@ -265,72 +265,72 @@ public struct Subreddit : SubredditURLPath, Thing {
     
     #####http://emilydavis.bandcamp.com/track/sagans-song
     */
-    public let  description:String
+    public let  description: String
     /**
     the subreddit's custom label for the submit link button, if any
     example: SUBMIT LINK
     */
-    public let submitLinkLabel:String
+    public let submitLinkLabel: String
     /**
     number of users active in last 15 minutes
     example:
     */
-    public let accountsActive:Int
+    public let accountsActive: Int
     /**
     whether the subreddit's traffic page is publicly-accessible
     example: false
     */
-    public let publicTraffic:Bool
+    public let publicTraffic: Bool
     /**
     width and height of the header image, or null
     example: [145, 60]
     */
-    public let headerSize:[Int]
+    public let headerSize: [Int]
     /**
     the number of redditors subscribed to this subreddit
     example: 778611
     */
-    public let  subscribers:Int
+    public let  subscribers: Int
     /**
     the subreddit's custom label for the submit text button, if any
     example: SUBMIT TEXT
     */
-    public let submitTextLabel:String
+    public let submitTextLabel: String
     /**
     whether the logged-in user is a moderator of the subreddit
     example: false
     */
-    public let userIsModerator:Bool
+    public let userIsModerator: Bool
     /**
     
     example: 1254666760
     */
-    public let  created:Int
+    public let  created: Int
     /**
     The relative URL of the subreddit.  Ex: "/r/pics/"
     example: /r/woahdude/
     */
-    public let  url:String
+    public let  url: String
     /**
     
     example: false
     */
-    public let hideAds:Bool
+    public let hideAds: Bool
     /**
     
     example: 1254663160
     */
-    public let createdUtc:Int
+    public let createdUtc: Int
     /**
     
     example:
     */
-    public let bannerSize:[Int]
+    public let bannerSize: [Int]
     /**
     whether the logged-in user is an approved submitter in the subreddit
     example: false
     */
-    public let userIsContributor:Bool
+    public let userIsContributor: Bool
     /**
     Description shown in subreddit search results?
     example: The best links to click while you're stoned!
@@ -341,33 +341,33 @@ public struct Subreddit : SubredditURLPath, Thing {
     
     
     */
-    public let publicDescription:String
+    public let publicDescription: String
     /**
     number of minutes the subreddit initially hides comment scores
     example: 0
     */
-    public let commentScoreHideMins:Int
+    public let commentScoreHideMins: Int
     /**
     the subreddit's type - one of "public", "private", "restricted", or in very special cases "gold_restricted" or "archived"
     example: public
     */
-    public let subredditType:String
+    public let subredditType: String
     /**
     the type of submissions the subreddit allows - one of "any", "link" or "self"
     example: any
     */
-    public let submissionType:String
+    public let submissionType: String
     /**
     whether the logged-in user is subscribed to the subreddit
     example: true
     */
-    public let userIsSubscriber:Bool
+    public let userIsSubscriber: Bool
     
-    public var path:String {
+    public var path: String {
         return "/r/\(displayName)"
     }
     
-    public init(subreddit:String) {
+    public init(subreddit: String) {
         self.id = "dummy"
         self.name = "\(Subreddit.kind)_\(self.id)"
         
@@ -407,7 +407,7 @@ public struct Subreddit : SubredditURLPath, Thing {
         userIsSubscriber = false
     }
 
-    public init(id:String) {
+    public init(id: String) {
         self.id = id
         self.name = "\(Subreddit.kind)_\(self.id)"
         
@@ -453,7 +453,7 @@ public struct Subreddit : SubredditURLPath, Thing {
     - parameter data: Dictionary, must be generated parsing "t5".
     - returns: Subreddit object as Thing.
     */
-    public init(data:JSONDictionary) {
+    public init(data: JSONDictionary) {
         id = data["id"] as? String ?? ""
         bannerImg = data["banner_img"] as? String ?? ""
         userSrThemeEnabled = data["user_sr_theme_enabled"] as? Bool ?? false
@@ -497,5 +497,3 @@ public struct Subreddit : SubredditURLPath, Thing {
         userIsSubscriber = data["user_is_subscriber"] as? Bool ?? false
     }
 }
-
-

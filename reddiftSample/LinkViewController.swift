@@ -10,8 +10,8 @@ import Foundation
 import reddift
 
 class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISearchControllerDelegate, UIViewControllerPreviewingDelegate {
-    var searchController:UISearchController? = nil
-    var searchResultViewController:SearchResultViewController? = nil
+    var searchController: UISearchController? = nil
+    var searchResultViewController: SearchResultViewController? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,8 +34,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
         
         if let subreddit = self.subreddit {
             searchController?.searchBar.placeholder = subreddit.title
-        }
-        else {
+        } else {
             searchController?.searchBar.placeholder = "Search from all"
         }
         
@@ -108,12 +107,11 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
                         })
                     }
                 })
-            }
-            catch { print(error) }
+            } catch { print(error) }
         }
     }
     
-    func segmentChanged(sender:AnyObject) {
+    func segmentChanged(sender: AnyObject) {
         if let _ = sender as? UISegmentedControl {
             self.links.removeAll(keepCapacity: true)
             self.tableView.reloadData()
@@ -231,7 +229,7 @@ extension LinkViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var link:Link? = nil
+        var link: Link? = nil
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         if tableView == self.tableView {
             if contents.indices ~= indexPath.row {

@@ -9,13 +9,12 @@
 import XCTest
 
 extension XCTestCase {
-    func jsonFromFileName(name:String) -> AnyObject? {
+    func jsonFromFileName(name: String) -> AnyObject? {
         if let path = NSBundle(forClass: self.classForCoder).pathForResource(name, ofType:nil) {
             if let data = NSData(contentsOfFile: path) {
                 do {
                     return try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions())
-                }
-                catch {
+                } catch {
                     XCTFail((error as NSError).description)
                     return nil
                 }
@@ -171,8 +170,7 @@ class ParseThingObjectTest: XCTestCase {
                 XCTAssert(media.oembed.providerName == "Imgur")
                 XCTAssert(media.oembed.thumbnailUrl == "http://i.imgur.com/nN5D1BT.gif")
                 XCTAssert(media.oembed.type == "video")
-            }
-            else {
+            } else {
                 XCTFail("media has not been load correctly.")
             }
             
@@ -183,8 +181,7 @@ class ParseThingObjectTest: XCTestCase {
                 XCTAssert(media_embed.width == 320)
                 XCTAssert(media_embed.height == 568)
                 XCTAssert(media_embed.scrolling == false)
-            }
-            else {
+            } else {
                 XCTFail("media has not been load correctly.")
             }
         }

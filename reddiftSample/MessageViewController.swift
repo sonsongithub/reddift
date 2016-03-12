@@ -10,9 +10,9 @@ import Foundation
 import reddift
 
 class MessageViewController: UITableViewController {
-	var session:Session? = nil
+	var session: Session? = nil
     var messageWhere = MessageWhere.Inbox
-	var messages:[Thing] = []
+	var messages: [Thing] = []
 	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
@@ -29,8 +29,7 @@ class MessageViewController: UITableViewController {
                         })
                 }
             })
-        }
-        catch { print(error) }
+        } catch { print(error) }
 	}
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -48,11 +47,9 @@ class MessageViewController: UITableViewController {
 			let child = messages[indexPath.row]
 			if let message = child as? Message {
 				cell.textLabel?.text = message.subject
-			}
-			else if let link = child as? Link {
+			} else if let link = child as? Link {
 				cell.textLabel?.text = link.title
-			}
-			else if let comment = child as? Comment {
+			} else if let comment = child as? Comment {
 				cell.textLabel?.text = comment.body
 			}
 		}

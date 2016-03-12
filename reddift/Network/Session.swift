@@ -21,19 +21,19 @@ public typealias JSONArray = Array<AnyObject>
 public typealias RedditAny = Any
 
 /// Session class to communicate with reddit.com using OAuth.
-public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
+public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
     /// Token object to access via OAuth
-    public var token:Token? = nil
+    public var token: Token? = nil
     /// Base URL for OAuth API
-    let baseURL:String
+    let baseURL: String
     /// Session object to communicate a server
-    var URLSession:NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    var URLSession: NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
     /// Duration until rate limit of API usage as second.
-    var x_ratelimit_reset:Int = 0
+    var x_ratelimit_reset: Int = 0
     /// Count of use API after rete limit is reseted.
-    var x_ratelimit_used:Int = 0
+    var x_ratelimit_used: Int = 0
     /// Duration until rate limit of API usage as second.
-	var x_ratelimit_remaining:Int = 0
+	var x_ratelimit_remaining: Int = 0
     
     /// OAuth endpoint URL
     static let OAuthEndpointURL = "https://oauth.reddit.com/"
@@ -46,7 +46,7 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
     
     - parameter token: Token object, that is an instance of OAuth2Token or OAuth2AppOnlyToken.
     */
-    public init(token:Token) {
+    public init(token: Token) {
         self.token = token
         baseURL = Session.OAuthEndpointURL
     }
@@ -64,8 +64,8 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
 
 	- parameter response: NSURLResponse object is passed from NSURLSession.
 	*/
-    func updateRateLimitWithURLResponse(response:NSURLResponse?, verbose:Bool = false) {
-        if let response = response, let httpResponse:NSHTTPURLResponse = response as? NSHTTPURLResponse {
+    func updateRateLimitWithURLResponse(response: NSURLResponse?, verbose: Bool = false) {
+        if let response = response, let httpResponse: NSHTTPURLResponse = response as? NSHTTPURLResponse {
             if let temp = httpResponse.allHeaderFields["x-ratelimit-reset"] as? String {
                 x_ratelimit_reset = Int(temp) ?? 0
             }
@@ -91,8 +91,8 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    func handleRequest(request:NSMutableURLRequest, completion:(Result<RedditAny>) -> Void) -> NSURLSessionDataTask {
-		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+    func handleRequest(request: NSMutableURLRequest, completion: (Result<RedditAny>) -> Void) -> NSURLSessionDataTask {
+		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
@@ -111,8 +111,8 @@ public class Session : NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate 
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    func handleAsJSONRequest(request:NSMutableURLRequest, completion:(Result<JSON>) -> Void) -> NSURLSessionDataTask {
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+    func handleAsJSONRequest(request: NSMutableURLRequest, completion: (Result<JSON>) -> Void) -> NSURLSessionDataTask {
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)

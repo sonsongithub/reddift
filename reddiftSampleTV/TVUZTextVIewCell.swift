@@ -9,7 +9,7 @@
 import UIKit
 
 class TVUZTextVIewCell: UICollectionViewCell {
-    @IBOutlet var textView:UZTextView? = nil
+    @IBOutlet var textView: UZTextView? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -19,7 +19,7 @@ class TVUZTextVIewCell: UICollectionViewCell {
         layer.rasterizationScale = UIScreen.mainScreen().scale
         layer.shadowRadius = 6
         layer.shadowOpacity = 0.8
-        layer.shadowOffset = CGSizeMake(0, 1)
+        layer.shadowOffset = CGSize(width: 0, height: 1)
         layer.shouldRasterize = true
     }
     
@@ -32,8 +32,7 @@ class TVUZTextVIewCell: UICollectionViewCell {
         coordinator.addCoordinatedAnimations({ [unowned self] in
             if self.focused {
                 self.transform = CGAffineTransformMakeScale(1.2, 1.2)
-            }
-            else {
+            } else {
                 self.transform = CGAffineTransformIdentity
             }
             }, completion: nil)

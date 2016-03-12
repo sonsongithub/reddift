@@ -12,15 +12,14 @@ public enum Result<A> {
     case Success(A)
     case Failure(NSError)
     
-    public init(value:A) {
+    public init(value: A) {
         self = .Success(value)
     }
     
     public init(error: NSError?) {
         if let error = error {
             self = .Failure(error)
-        }
-        else {
+        } else {
             self = .Failure(NSError.errorWithCode(0, "Fatal error"))
         }
     }

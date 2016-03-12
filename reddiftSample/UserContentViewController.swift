@@ -10,29 +10,26 @@ import Foundation
 import reddift
 
 class UserContentViewController: UITableViewController {
-    var session:Session?
-    var userContent:UserContent = .Comments
-    var source:[Thing] = []
-    var contents:[CellContent] = []
+    var session: Session?
+    var userContent: UserContent = .Comments
+    var source: [Thing] = []
+    var contents: [CellContent] = []
     
     func updateStrings() {
         contents.removeAll(keepCapacity:true)
-        contents = source.map{(let obj) -> CellContent in
+        contents = source.map {(let obj) -> CellContent in
             if let comment = obj as? Comment {
                 let html = comment.bodyHtml.preprocessedHTMLStringBeforeNSAttributedStringParsing()
                 do {
                     let attr = try NSMutableAttributedString(data: html.dataUsingEncoding(NSUnicodeStringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
                     let attr2 = attr.reconstructAttributedString(UIFont.systemFontOfSize(12), color: UIColor.blackColor(), linkColor: UIColor.blueColor())
                     return CellContent(string:attr2, width:self.view.frame.size.width - 25, hasRelies:false)
-                }
-                catch {
+                } catch {
                     return CellContent(string:NSAttributedString(string: ""), width:self.view.frame.size.width - 25, hasRelies:false)
                 }
-            }
-            else if let link = obj as? Link {
+            } else if let link = obj as? Link {
                 return CellContent(string:link.title, width:self.view.frame.size.width)
-            }
-            else {
+            } else {
                 return CellContent(string:"Other?", width:self.view.frame.size.width)
             }
         }
@@ -40,10 +37,10 @@ class UserContentViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let nib:UINib = UINib(nibName: "UZTextViewCell", bundle: nil)
+        let nib: UINib = UINib(nibName: "UZTextViewCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: "Cell")
         
-        if let name:String = (session.flatMap { (session) -> Token? in
+        if let name: String = (session.flatMap { (session) -> Token? in
             return session.token
         }
         .flatMap { (token) -> String? in
@@ -62,8 +59,7 @@ class UserContentViewController: UITableViewController {
                         })
                     }
                 })
-            }
-            catch { print(error) }
+            } catch { print(error) }
         }
     }
     
@@ -92,7 +88,7 @@ class UserContentViewController: UITableViewController {
                         case .Success(let listing):
                             if listing.children.count == 1 {
                                 if let link = listing.children[0] as? Link {
-                                    if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{
+                                    if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController {
                                         vc.session = self.session
                                         vc.link = link
                                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -103,11 +99,9 @@ class UserContentViewController: UITableViewController {
                             }
                         }
                     })
-                }
-                catch { print(error) }
-            }
-            else if let link = obj as? Link {
-                if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController{
+                } catch { print(error) }
+            } else if let link = obj as? Link {
+                if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController {
                     vc.session = session
                     vc.link = link
                     self.navigationController?.pushViewController(vc, animated: true)

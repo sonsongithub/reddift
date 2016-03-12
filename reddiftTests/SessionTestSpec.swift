@@ -12,7 +12,7 @@ import XCTest
 /// following extension for test only
 extension Array {
     /// check whether argument includes elements in self.
-    func checkAllElementsIncludedIn<T : Equatable>(array:[T]) -> Bool {
+    func checkAllElementsIncludedIn<T: Equatable>(array: [T]) -> Bool {
         var result = true
         for obj in self {
             result = result && (array.indexOf(obj as! T) != nil)
@@ -21,7 +21,7 @@ extension Array {
     }
     
     /// check whether self is equal to argument.
-    func hasSameElements<T : Equatable>(array:[T]) -> Bool {
+    func hasSameElements<T: Equatable>(array: [T]) -> Bool {
         if self.count != array.count {
             return false
         }
@@ -29,18 +29,18 @@ extension Array {
     }
 }
 
-class SessionTestSpec : XCTestCase {
+class SessionTestSpec: XCTestCase {
     /// timeout duration for asynchronous test
-    let timeoutDuration:NSTimeInterval = 30
+    let timeoutDuration: NSTimeInterval = 30
     
     /// polling interval to check a value for asynchronous test
-    let pollingInterval:NSTimeInterval = 1
+    let pollingInterval: NSTimeInterval = 1
     
     /// interval between tests for prevent test code from using API over limit rate.
-    let testInterval:NSTimeInterval = 5
+    let testInterval: NSTimeInterval = 5
     
     /// shared session object
-    var session:Session? = nil
+    var session: Session? = nil
     
     override func setUp() {
         super.setUp()
@@ -61,12 +61,12 @@ class SessionTestSpec : XCTestCase {
                 let secret = json["secret"] {
                     let documentOpenExpectation = self.expectationWithDescription("Test : Getting OAuth2 access token")
                     do {
-                        try OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:( { (result) -> Void in
+                        try OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:({ (result) -> Void in
                             switch result {
                             case .Failure:
                                 XCTFail("Could not get access token from reddit.com.")
                             case .Success:
-                                if let token:Token = result.value {
+                                if let token: Token = result.value {
                                     self.session = Session(token: token)
                                 }
                                 XCTAssert((self.session != nil), "Could not establish session.")
@@ -74,8 +74,7 @@ class SessionTestSpec : XCTestCase {
                             documentOpenExpectation.fulfill()
                         }))
                         self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-                    }
-                    catch { print(error) }
+                    } catch { print(error) }
             }
         }
     }
@@ -84,9 +83,9 @@ class SessionTestSpec : XCTestCase {
 extension SessionTestSpec {
     /// Get friends
     func friends() -> [User] {
-        var list:[User] = []
+        var list: [User] = []
         let msg = "Get friends list."
-        var isSucceeded:Bool = false
+        var isSucceeded: Bool = false
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
             try self.session?.getFriends(completion: { (result) -> Void in
@@ -101,15 +100,14 @@ extension SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         return list
     }
     
     /// Friend specified user
-    func makeFriend(username:String, note:String) {
+    func makeFriend(username: String, note: String) {
         let msg = "Make \(username) friend."
-        var isSucceeded:Bool = false
+        var isSucceeded: Bool = false
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
             try self.session?.friend(username, note: note, completion: { (result) -> Void in
@@ -124,15 +122,14 @@ extension SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
     }
     
     /// Unfriend specified user
-    func makeUnfriend(username:String) {
+    func makeUnfriend(username: String) {
         do {
             let msg = "Make \(username) unfriend."
-            var isSucceeded:Bool = false
+            var isSucceeded: Bool = false
             let documentOpenExpectation = self.expectationWithDescription(msg)
             do {
                 try self.session?.unfriend(username, completion: { (result) -> Void in
@@ -147,8 +144,7 @@ extension SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
                 self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
         }
     }
 }

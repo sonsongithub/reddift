@@ -10,7 +10,7 @@ import XCTest
 
 class ExtendCommentsTest: XCTestCase {
     
-    let gt_type:[(Any.Type, Int)] = [
+    let gt_type: [(Any.Type, Int)] = [
         (Comment.self,  1),
         (Comment.self,  2),
         (More.self,     3),
@@ -63,21 +63,20 @@ class ExtendCommentsTest: XCTestCase {
     func testListWhichHasSomeCommentsIncludingRepliesRecursively() {
         print("Test whether Parser can extend Comment objects that has some More objects as children.")
         print("consists of 1 Link, 13 Comments and 9 Mores.")
-        if let json:JSON = self.jsonFromFileName("comments_extend.json") {
+        if let json: JSON = self.jsonFromFileName("comments_extend.json") {
             if let array = Parser.parseJSON(json) as? [Any] {
                 if array.count == 2 {
                     if let listing = array[0] as? Listing {
-                        let numberOfLinks = listing.children.reduce(0, combine: { (value:Int, link:Thing) -> Int in
+                        let numberOfLinks = listing.children.reduce(0, combine: { (value: Int, link: Thing) -> Int in
                             return link is Link ? 1 + value : value
                         })
                         XCTAssert(numberOfLinks == 1)
-                    }
-                    else {
+                    } else {
                         XCTFail("Error")
                     }
                     if let listing = array[1] as? Listing {
-                        var comments:[Thing] = []
-                        var depths:[Int] = []
+                        var comments: [Thing] = []
+                        var depths: [Int] = []
                         for thing in listing.children {
                             let (c, d) = extendAllRepliesAndDepth(thing, depth:1)
                             comments += c
@@ -91,16 +90,13 @@ class ExtendCommentsTest: XCTestCase {
                             XCTAssert(c == comments[i].dynamicType, "data type error.")
                             XCTAssert(d == depths[i], "element's depth is wrong.")
                         }
-                    }
-                    else {
+                    } else {
                         XCTFail("Error")
                     }
-                }
-                else {
+                } else {
                     XCTFail("Error")
                 }
-            }
-            else {
+            } else {
                 XCTFail("Error")
             }
         }

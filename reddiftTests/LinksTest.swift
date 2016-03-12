@@ -39,8 +39,7 @@ class LinksTest: SessionTestSpec {
                 }
                 documentOpenExpectation.fulfill()
             })
-        }
-        catch { print(error) }
+        } catch { print(error) }
         self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
     }
     
@@ -64,12 +63,11 @@ class LinksTest: SessionTestSpec {
                 }
                 documentOpenExpectation.fulfill()
             })
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
     }
     
-    func test_deleteCommentOrLink(thing:Thing) {
+    func test_deleteCommentOrLink(thing: Thing) {
         let documentOpenExpectation = self.expectationWithDescription("test_deleteCommentOrLink")
         var isSucceeded = false
         do {
@@ -83,15 +81,14 @@ class LinksTest: SessionTestSpec {
                 XCTAssert(isSucceeded, "Test to delete the last posted comment.")
                 documentOpenExpectation.fulfill()
             })
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
     }
     
     func testPostingCommentToExistingLink() {
         print("Test posting a comment to existing link")
         do {
-            var comment:Comment? = nil
+            var comment: Comment? = nil
             print ("Check whether the comment is posted as a child of the specified link")
             do {
                 do {
@@ -107,8 +104,7 @@ class LinksTest: SessionTestSpec {
                         XCTAssert(comment != nil, "Check whether the comment is posted as a child of the specified link")
                         documentOpenExpectation.fulfill()
                     })
-                }
-                catch { XCTFail((error as NSError).description) }
+                } catch { XCTFail((error as NSError).description) }
                 self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
             }
             print ("Test to delete the last posted comment.")
@@ -123,7 +119,7 @@ class LinksTest: SessionTestSpec {
     func testParsingErrorObjectWhenPostingCommentToTooOldComment() {
         print("Test whether Parse class can parse returned JSON object when posting a comment to the too old comment")
         do {
-            var commentError:NSError? = nil
+            var commentError: NSError? = nil
             do {
                 do {
                     let name = "t1_cw05r44" // old comment object ID
@@ -137,14 +133,12 @@ class LinksTest: SessionTestSpec {
                         }
                         if let error = commentError {
                             XCTAssert(error.code == ReddiftError.ReturnedCommentError.rawValue || error.code == ReddiftError.ParseCommentError.rawValue, "")
-                        }
-                        else {
+                        } else {
                             XCTFail("")
                         }
                         documentOpenExpectation.fulfill()
                     })
-                }
-                catch { XCTFail((error as NSError).description) }
+                } catch { XCTFail((error as NSError).description) }
                 self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
             }
         }
@@ -153,7 +147,7 @@ class LinksTest: SessionTestSpec {
     func testPostingCommentToExistingComment() {
         print("Test posting a comment to existing comment")
         do {
-            var comment:Comment? = nil
+            var comment: Comment? = nil
             print("the comment is posted as a child of the specified comment")
             do {
                 do {
@@ -169,8 +163,7 @@ class LinksTest: SessionTestSpec {
                         XCTAssert(comment != nil, "the comment is posted as a child of the specified comment")
                         documentOpenExpectation.fulfill()
                     })
-                }
-                catch { XCTFail((error as NSError).description) }
+                } catch { XCTFail((error as NSError).description) }
                 self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
             }
             
@@ -200,13 +193,12 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Test to make specified Link NSFW.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
         
         print("Check whether the specified Link is NSFW.")
-        do{
+        do {
             let link = Link(id: nsfwTestLinkId)
             let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Link is NSFW.")
             do {
@@ -217,24 +209,23 @@ class LinksTest: SessionTestSpec {
                         print(error.description)
                     case .Success(let listing):
                         isSucceeded = listing.children
-                            .flatMap({(thing:Thing) -> Link? in
+                            .flatMap({(thing: Thing) -> Link? in
                             if let obj = thing as? Link {if obj.name == link.name { return obj }}
                             return nil
                             })
-                        .reduce(true) {(a:Bool, link:Link) -> Bool in
+                        .reduce(true) {(a: Bool, link: Link) -> Bool in
                                 return (a && link.over18)
                             }
                     }
                     XCTAssert(isSucceeded, "Check whether the specified Link is NSFW.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
 
         print("Test to make specified Link NOT NSFW.")
-        do{
+        do {
             var isSucceeded = false
             let link = Link(id: nsfwTestLinkId)
             let documentOpenExpectation = self.expectationWithDescription("Test to make specified Link NOT NSFW.")
@@ -249,8 +240,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Test to make specified Link NOT NSFW.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
 
@@ -274,8 +264,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Test to make specified Link NOT NSFW.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
     }
@@ -298,8 +287,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Test to save specified Link.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
 
@@ -323,8 +311,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Check whether the specified Link is saved.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
 
@@ -344,8 +331,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Test to unsave specified Link.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
 
@@ -369,8 +355,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Check whether the specified Link is unsaved.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
     }
@@ -394,8 +379,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Test to save specified Comment.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
         
@@ -419,8 +403,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Check whether the specified Comment is saved.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
         
@@ -440,8 +423,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Test to unsave specified Comment.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
         
@@ -465,8 +447,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Check whether the specified Comment is unsaved.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
     }
@@ -489,8 +470,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Test to hide the specified Link.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
 
@@ -514,8 +494,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Check whether the specified Link is hidden.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
 
@@ -535,8 +514,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Test to show the specified Link.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
 
@@ -560,8 +538,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Check whether the specified Link is not hidden.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
     }
@@ -584,8 +561,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Test to upvote the specified Link.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
 
@@ -609,8 +585,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Check whether the specified Link is gave upvote.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
         
@@ -630,8 +605,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Test to give a downvote to the specified Link.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
 
@@ -655,8 +629,7 @@ class LinksTest: SessionTestSpec {
                         XCTAssert(isSucceeded, "Check whether the specified Link is gave downvote.")
                         documentOpenExpectation.fulfill()
                     })
-                }
-                catch { XCTFail((error as NSError).description) }
+                } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
 
@@ -676,8 +649,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Test to revoke voting to the specified Link.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
 
@@ -701,8 +673,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Check whether the downvote to the specified Link has been revoked.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
     }
@@ -725,8 +696,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Test to upvote the specified comment.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
         
@@ -750,8 +720,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Check whether the specified Comment is gave upvote.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
         
@@ -771,8 +740,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Test to give a downvote to the specified Link.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
         
@@ -796,8 +764,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Check whether the specified Link is gave downvote.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
         
@@ -817,8 +784,7 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Test to revoke voting to the specified Comment.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
         
@@ -842,10 +808,8 @@ class LinksTest: SessionTestSpec {
                     XCTAssert(isSucceeded, "Check whether the downvote to the specified Comment has been revoked.")
                     documentOpenExpectation.fulfill()
                 })
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         }
     }
 }
-

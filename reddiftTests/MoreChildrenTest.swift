@@ -19,7 +19,7 @@ class MoreChildrenTest: SessionTestSpec {
     */
     func testGetMoreChildren() {
         
-        var moreList:[More] = []
+        var moreList: [More] = []
         
         // https://www.reddit.com/r/redditdev/comments/2ujhkr/important_api_licensing_terms_clarified/
         let link = Link(id: "2ujhkr")
@@ -37,8 +37,7 @@ class MoreChildrenTest: SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         
         XCTAssert(moreList.count > 0, "Cannot get More objects.")
         
@@ -48,7 +47,7 @@ class MoreChildrenTest: SessionTestSpec {
             do {
                 let documentOpenExpectation = self.expectationWithDescription("")
                 try session?.getMoreChildren($0.children, link: link, sort: .New, completion: { (result) -> Void in
-                    switch(result){
+                    switch(result) {
                     case .Failure(let error):
                         print(error)
                         check = false
@@ -61,8 +60,7 @@ class MoreChildrenTest: SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
                 self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
         })
         XCTAssert(check, "Cannot expand More objects.")
     }

@@ -10,16 +10,16 @@ import XCTest
 
 class SessionNoAuthTestSpec: XCTestCase {
     /// timeout duration for asynchronous test
-    let timeoutDuration:NSTimeInterval = 30
+    let timeoutDuration: NSTimeInterval = 30
     
     /// polling interval to check a value for asynchronous test
-    let pollingInterval:NSTimeInterval = 1
+    let pollingInterval: NSTimeInterval = 1
     
     /// interval between tests for prevent test code from using API over limit rate.
-    let testInterval:NSTimeInterval = 1
+    let testInterval: NSTimeInterval = 1
     
     /// shared session object
-    var session:Session? = nil
+    var session: Session? = nil
     
     override func setUp() {
         super.setUp()
@@ -31,7 +31,7 @@ class SessionNoAuthTestSpec: XCTestCase {
     }
     
     func testDownloadFrontPageWithoutOAuth() {
-        var isSucceeded:Bool = false
+        var isSucceeded: Bool = false
         let documentOpenExpectation = self.expectationWithDescription("")
         do {
             try session?.getList(Paginator(), subreddit: nil, sort: .Controversial, timeFilterWithin: .Week) { (result) -> Void in
@@ -45,12 +45,11 @@ class SessionNoAuthTestSpec: XCTestCase {
             }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
             XCTAssert(isSucceeded, "Check whether front page without any authentication.")
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
     }
     
     func testDownloadSubredditListWithoutOAuth() {
-        var isSucceeded:Bool = false
+        var isSucceeded: Bool = false
         let documentOpenExpectation = self.expectationWithDescription("")
         do {
             try session?.getList(Paginator(), subreddit: Subreddit(subreddit: "swift"), sort: .Controversial, timeFilterWithin: .Week) { (result) -> Void in
@@ -64,12 +63,11 @@ class SessionNoAuthTestSpec: XCTestCase {
             }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
             XCTAssert(isSucceeded, "Check whether the link list of the subreddit without any authentication.")
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
     }
     
     func testDownloadListAndContentWithoutOAuth() {
-        var isSucceeded:Bool = true
+        var isSucceeded: Bool = true
         let documentOpenExpectation = self.expectationWithDescription("")
         do {
             try session?.getList(Paginator(), subreddit: Subreddit(subreddit: "swift"), sort: .Controversial, timeFilterWithin: .Week) { (result) -> Void in
@@ -97,14 +95,12 @@ class SessionNoAuthTestSpec: XCTestCase {
                                 }
                                 documentOpenExpectation.fulfill()
                             })
-                        }
-                        catch { XCTFail((error as NSError).description) }
+                        } catch { XCTFail((error as NSError).description) }
                     }
                 }
             }
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
             XCTAssert(isSucceeded, "Check whether comments can be downloaded from the link list of the subreddit without any authentication.")
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
     }
 }
