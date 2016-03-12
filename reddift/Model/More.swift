@@ -46,4 +46,18 @@ public struct More: Thing {
         count = data["count"] as? Int ?? 0
         children = data["children"] as? [String] ?? []
     }
+    
+    public init(id:String, name:String, parentId:String, count:Int = 0, child:String) {
+        self.id = id
+        self.name = name
+        self.parentId = parentId
+        self.count = count
+        self.children = [child]
+    }
+    
+    public var isEmpty:Bool {
+        get {
+            return id == "_"
+        }
+    }
 }
