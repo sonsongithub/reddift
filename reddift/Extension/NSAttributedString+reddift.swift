@@ -70,16 +70,38 @@ extension String {
 }
 
 /// Regular expression to check whether the file extension is image's one.
-private let regexForHasImageFileExtension = try! NSRegularExpression(pattern: "^/.+\\.(jpg|jpeg|gif|png)$", options: NSRegularExpressionOptions.CaseInsensitive)
+private var regexForHasImageFileExtension: NSRegularExpression? = nil
 
 /// Extension for NSAttributedString.includedImageURL
 extension NSURLComponents {
-    /// Returns true when URL's filename has image's file extension(such as gif, jpg, png).
-    private var hasImageFileExtension : Bool {
-        if let path = self.path {
-            if let r = regexForHasImageFileExtension.firstMatchInString(path, options: NSMatchingOptions(), range: NSMakeRange(0, path.characters.count)) {
-                return r.rangeAtIndex(1).length > 0
+    
+    /// Returns shared regular expression
+    private func sharedRegexForHasImageFileExtension() throws -> NSRegularExpression {
+        if let regexForHasImageFileExtension = regexForHasImageFileExtension {
+            return regexForHasImageFileExtension
+        } else {
+            do {
+                let exp = try NSRegularExpression(pattern: "^/.+\\.(jpg|jpeg|gif|png)$", options: NSRegularExpressionOptions.CaseInsensitive)
+                regexForHasImageFileExtension = exp
+                return exp
+            } catch {
+                throw(error)
             }
+        }
+    }
+    
+    /// Returns true when URL's filename has image's file extension(such as gif, jpg, png).
+    private var hasImageFileExtension: Bool {
+        do {
+            let regex = try sharedRegexForHasImageFileExtension()
+            if let path = self.path {
+                if let r = regex.firstMatchInString(path, options: NSMatchingOptions(), range: NSRange(location: 0, length: path.characters.count)) {
+                    return r.rangeAtIndex(1).length > 0
+                }
+            }
+        } catch {
+            print(error)
+            return false
         }
         return false
     }
