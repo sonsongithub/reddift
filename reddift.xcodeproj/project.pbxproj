@@ -1290,6 +1290,7 @@
 			buildConfigurationList = 14B5EBC41AF34D590065BC5E /* Build configuration list for PBXNativeTarget "reddift-iOS" */;
 			buildPhases = (
 				14B5EBAC1AF34D580065BC5E /* Sources */,
+				14E4D64C1C94473F00442A4A /* Swiftlint */,
 				14B5EBAD1AF34D580065BC5E /* Frameworks */,
 				14B5EBAE1AF34D580065BC5E /* Headers */,
 				14B5EBAF1AF34D580065BC5E /* Resources */,
@@ -1592,6 +1593,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		14E4D64C1C94473F00442A4A /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  echo \"SwiftLint\"\n  #swiftlint autocorrect\nelse\n  echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		14364C881BEDA09F00FECE58 /* Sources */ = {
