@@ -47,7 +47,7 @@ public struct More: Thing {
         children = data["children"] as? [String] ?? []
     }
     
-    public init(id:String, name:String, parentId:String, count:Int = 0, child:String) {
+    public init(id: String, name: String, parentId: String, count: Int = 0, child: String) {
         self.id = id
         self.name = name
         self.parentId = parentId
@@ -55,7 +55,7 @@ public struct More: Thing {
         self.children = [child]
     }
     
-    public var isEmpty:Bool {
+    public var isEmpty: Bool {
         get {
             return id == "_"
         }

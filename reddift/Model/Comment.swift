@@ -15,8 +15,8 @@ import Foundation
  - returns: Array contains Comment objects which are expaned from specified Comment object and depth list of them.
  */
 public func extendAllRepliesAndDepth(comment: Thing, depth: Int) -> ([Thing], [Int]) {
-    var comments:[Thing] = []
-    var depths:[Int] = []
+    var comments: [Thing] = []
+    var depths: [Int] = []
     if let comment = comment as? Comment {
         comments.append(comment)
         depths.append(depth)
@@ -25,8 +25,7 @@ public func extendAllRepliesAndDepth(comment: Thing, depth: Int) -> ([Thing], [I
             comments.appendContentsOf(c)
             depths.appendContentsOf(d)
         }
-    }
-    else if let more = comment as? More {
+    } else if let more = comment as? More {
         for id in more.children {
             let more = More(id: id, name: "t1_\(id)", parentId: more.parentId, child: id)
             comments.append(more)
@@ -173,7 +172,7 @@ public struct Comment: Thing {
     */
     public let ups: Int
     
-    public var isExpandable:Bool {
+    public var isExpandable: Bool {
         get {
             if replies.children.count == 1 {
                 if let more = replies.children[0] as? More {

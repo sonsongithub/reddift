@@ -28,12 +28,13 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
     let baseURL: String
     /// Session object to communicate a server
     var URLSession: NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    
     /// Duration until rate limit of API usage as second.
-    var x_ratelimit_reset: Int = 0
+    var rateLimitDurationToReset: Double = 0
     /// Count of use API after rete limit is reseted.
-    var x_ratelimit_used: Int = 0
-    /// Duration until rate limit of API usage as second.
-	var x_ratelimit_remaining: Int = 0
+    var rateLimitUsedCount: Double = 0
+    /// Remaining count of use API until rate limit will be reseted.
+    var rateLimitRemainingCount: Double = 0
     
     /// OAuth endpoint URL
     static let OAuthEndpointURL = "https://oauth.reddit.com/"
@@ -67,19 +68,19 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
     func updateRateLimitWithURLResponse(response: NSURLResponse?, verbose: Bool = false) {
         if let response = response, let httpResponse: NSHTTPURLResponse = response as? NSHTTPURLResponse {
             if let temp = httpResponse.allHeaderFields["x-ratelimit-reset"] as? String {
-                x_ratelimit_reset = Int(temp) ?? 0
+                rateLimitDurationToReset = Double(temp) ?? 0
             }
             if let temp = httpResponse.allHeaderFields["x-ratelimit-used"] as? String {
-                x_ratelimit_used = Int(temp) ?? 0
+                rateLimitUsedCount = Double(temp) ?? 0
             }
             if let temp = httpResponse.allHeaderFields["x-ratelimit-remaining"] as? String {
-                x_ratelimit_remaining = Int(temp) ?? 0
+                rateLimitRemainingCount = Double(temp) ?? 0
             }
         }
         if verbose {
-    		print("x_ratelimit_reset \(x_ratelimit_reset)")
-    		print("x_ratelimit_used \(x_ratelimit_used)")
-    		print("x_ratelimit_remaining \(x_ratelimit_remaining)")
+            print("x_ratelimit_reset \(rateLimitDurationToReset)")
+            print("x_ratelimit_used \(rateLimitUsedCount)")
+            print("x_ratelimit_remaining \(rateLimitRemainingCount)")
         }
     }
     

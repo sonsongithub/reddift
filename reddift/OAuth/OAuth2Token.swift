@@ -8,7 +8,6 @@
 
 import Foundation
 
-public let KeychainAccessErrorDomain2 = "com.kishikawakatsumi.KeychainAccess.error"
 public let OAuth2TokenDidUpdate = "oAuth2TokenDidUpdate"
 
 /**
