@@ -122,33 +122,33 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
             // voting status
             switch(link.likes) {
             case .Up:
-                items.append(UIBarButtonItem(image: UIImage(named: "thumbDown"), style:.Plain, target: self, action: "downVote:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbDown"), style:.Plain, target: self, action: #selector(CommentViewController.downVote(_:))))
                 items.append(space)
-                items.append(UIBarButtonItem(image: UIImage(named: "thumbUpFill"), style:.Plain, target: self, action: "cancelVote:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbUpFill"), style:.Plain, target: self, action: #selector(CommentViewController.cancelVote(_:))))
             case .Down:
-                items.append(UIBarButtonItem(image: UIImage(named: "thumbDownFill"), style:.Plain, target: self, action: "cancelVote:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbDownFill"), style:.Plain, target: self, action: #selector(CommentViewController.cancelVote(_:))))
                 items.append(space)
-                items.append(UIBarButtonItem(image: UIImage(named: "thumbUp"), style:.Plain, target: self, action: "upVote:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbUp"), style:.Plain, target: self, action: #selector(CommentViewController.upVote(_:))))
             case .None:
-                items.append(UIBarButtonItem(image: UIImage(named: "thumbDown"), style:.Plain, target: self, action: "downVote:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbDown"), style:.Plain, target: self, action: #selector(CommentViewController.downVote(_:))))
                 items.append(space)
-                items.append(UIBarButtonItem(image: UIImage(named: "thumbUp"), style:.Plain, target: self, action: "upVote:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbUp"), style:.Plain, target: self, action: #selector(CommentViewController.upVote(_:))))
             }
             items.append(space)
             
             // save
             if link.saved {
-                items.append(UIBarButtonItem(image: UIImage(named: "favoriteFill"), style:.Plain, target: self, action:"doUnsave:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "favoriteFill"), style:.Plain, target: self, action:#selector(CommentViewController.doUnsave(_:))))
             } else {
-                items.append(UIBarButtonItem(image: UIImage(named: "favorite"), style:.Plain, target: self, action:"doSave:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "favorite"), style:.Plain, target: self, action:#selector(CommentViewController.doSave(_:))))
             }
             items.append(space)
             
             // hide
             if link.hidden {
-                items.append(UIBarButtonItem(image: UIImage(named: "eyeFill"), style:.Plain, target: self, action: "doUnhide:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "eyeFill"), style:.Plain, target: self, action: #selector(CommentViewController.doUnhide(_:))))
             } else {
-                items.append(UIBarButtonItem(image: UIImage(named: "eye"), style:.Plain, target: self, action: "doHide:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "eye"), style:.Plain, target: self, action: #selector(CommentViewController.doHide(_:))))
             }
             items.append(space)
             
@@ -184,19 +184,18 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                         print(error)
                     case .Success(let tuple):
                         let listing = tuple.1
+                        let incomming = listing.children
+                            .flatMap({ $0 as? Comment })
+                            .reduce([], combine: {
+                                return $0 + extendAllRepliesAndDepth($1, depth: 1)
+                            })
+                            .map({$0.0})
                         
-                        var newComments: [Thing] = []
-                        var newDepths: [Int] = []
-                        for comment in listing.children.flatMap({$0 as? Comment}) {
-                            let (c, d) = extendAllRepliesAndDepth(comment, depth:1)
-                            newComments += c
-                            newDepths += d
-                        }
-                        self.comments += newComments
+                        self.comments += incomming
                         
                         var time: timeval = timeval(tv_sec: 0, tv_usec: 0)
                         gettimeofday(&time, nil)
-                        self.contents += self.updateStrings(newComments)
+                        self.contents += self.updateStrings(incomming)
                         var time2: timeval = timeval(tv_sec: 0, tv_usec: 0)
                         gettimeofday(&time2, nil)
                         let r = Double(time2.tv_sec) + Double(time2.tv_usec) / 1000000.0 - Double(time.tv_sec) - Double(time.tv_usec) / 1000000.0
@@ -257,21 +256,18 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                             print(list)
                             
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                
-                                
-                                var newComments: [Thing] = []
-                                var newDepths: [Int] = []
-                                for comment in list.flatMap({$0 as? Comment}) {
-                                    let (c, d) = extendAllRepliesAndDepth(comment, depth:1)
-                                    newComments += c
-                                    newDepths += d
-                                }
+                                let incomming = list
+                                    .flatMap({ $0 as? Comment })
+                                    .reduce([], combine: {
+                                        return $0 + extendAllRepliesAndDepth($1, depth: 1)
+                                    })
+                                    .map({$0.0})
                                 
                                 self.comments.removeAtIndex(indexPath.row)
                                 self.contents.removeAtIndex(indexPath.row)
                                 
-                                self.comments.insertContentsOf(newComments, at: indexPath.row)
-                                self.contents.insertContentsOf(self.updateStrings(newComments), at: indexPath.row)
+                                self.comments.insertContentsOf(incomming, at: indexPath.row)
+                                self.contents.insertContentsOf(self.updateStrings(incomming), at: indexPath.row)
                                 self.tableView.reloadData()
                             })
                             

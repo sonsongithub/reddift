@@ -14,25 +14,21 @@ import Foundation
  - parameter comment: Comment object will be expanded.
  - returns: Array contains Comment objects which are expaned from specified Comment object and depth list of them.
  */
-public func extendAllRepliesAndDepth(comment: Thing, depth: Int) -> ([Thing], [Int]) {
-    var comments: [Thing] = []
-    var depths: [Int] = []
+public func extendAllRepliesAndDepth(comment: Thing, depth: Int) -> ([(Thing, Int)]) {
+    var buf: [(Thing, Int)] = []
+    
     if let comment = comment as? Comment {
-        comments.append(comment)
-        depths.append(depth)
+        buf.append((comment, depth))
         for obj in comment.replies.children {
-            let (c, d) = extendAllRepliesAndDepth(obj, depth:depth + 1)
-            comments.appendContentsOf(c)
-            depths.appendContentsOf(d)
+            buf.appendContentsOf(extendAllRepliesAndDepth(obj, depth:depth + 1))
         }
     } else if let more = comment as? More {
         for id in more.children {
             let more = More(id: id, name: "t1_\(id)", parentId: more.parentId, child: id)
-            comments.append(more)
-            depths.append(depth)
+            buf.append((more, depth))
         }
     }
-    return (comments, depths)
+    return buf
 }
 
 /**

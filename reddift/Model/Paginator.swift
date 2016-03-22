@@ -54,13 +54,14 @@ public struct Paginator {
         }
     }
     
-    public func addParametersToDictionary(var dict: [String:String]) -> [String:String] {
+    public func addParametersToDictionary(dict: [String:String]) -> [String:String] {
+        var newDict: [String:String] = dict
         if after.characters.count > 0 {
-            dict["after"] = after
+            newDict["after"] = after
         }
         if before.characters.count > 0 {
-            dict["before"] = before
+            newDict["before"] = before
         }
-        return dict
+        return newDict
     }
 }
