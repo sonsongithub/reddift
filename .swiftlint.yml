@@ -24,7 +24,11 @@ disabled_rules:
 - function_parameter_count
 
 # 一行の文字列制限を100文字から300文字に変更
-line_length: 400
+line_length:
+- 800
+
+file_length:
+- 800
 
 excluded: # Lint対象から外すファイルのあるパスを記述
 - reddift/vendor
@@ -35,8 +39,8 @@ excluded: # Lint対象から外すファイルのあるパスを記述
 
 # クラスの行数
 type_body_length:
-- 200 # warning
-- 400 # error
+- 400 # warning
+- 800 # error
 
 # 変数名の最大文字数
 variable_name_max_length:
@@ -52,3 +56,6 @@ variable_name_min_length:
 function_body_length:
 - 100 # warning
 - 200 # error
+
+cyclomatic_complexity:
+- 100
