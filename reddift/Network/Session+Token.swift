@@ -14,7 +14,7 @@ extension Session {
     
     - parameter completion: The completion handler to call when the load request is complete.
     */
-    public func refreshToken(completion:(Result<Token>) -> Void) throws -> Void {
+    public func refreshToken(completion: (Result<Token>) -> Void) throws -> Void {
         guard let currentToken = token as? OAuth2Token
             else { throw ReddiftError.TokenNotfound.error }
         do {
@@ -28,13 +28,11 @@ extension Session {
                         do {
                             try OAuth2TokenRepository.saveIntoKeychainToken(newToken)
                             completion(Result(value: newToken))
-                        }
-                        catch { completion(Result(error:error as NSError)) }
+                        } catch { completion(Result(error:error as NSError)) }
                     })
                 }
             })
-        }
-        catch { throw error }
+        } catch { throw error }
     }
     
     /**
@@ -42,7 +40,7 @@ extension Session {
     
     - parameter completion: The completion handler to call when the load request is complete.
     */
-    public func revokeToken(completion:(Result<Token>) -> Void) throws -> Void {
+    public func revokeToken(completion: (Result<Token>) -> Void) throws -> Void {
         guard let currentToken = token as? OAuth2Token
             else { throw ReddiftError.TokenNotfound.error }
         do {
@@ -55,12 +53,10 @@ extension Session {
                         do {
                             try OAuth2TokenRepository.removeFromKeychainTokenWithName(currentToken.name)
                             completion(Result(value: currentToken))
-                        }
-                        catch { completion(Result(error:error as NSError)) }
+                        } catch { completion(Result(error:error as NSError)) }
                     })
                 }
             })
-        }
-        catch { throw error }
+        } catch { throw error }
     }
 }

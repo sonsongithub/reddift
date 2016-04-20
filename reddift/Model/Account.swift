@@ -11,11 +11,11 @@ import Foundation
 /**
 Account object.
 */
-public struct Account : Thing {
+public struct Account: Thing {
     /// identifier of Thing like 15bfi0.
-    public let id:String
+    public let id: String
     /// name of Thing, that is fullname, like t3_15bfi0.
-    public let name:String
+    public let name: String
     /// type of Thing, like t3.
     public static let kind = "t2"
     
@@ -23,74 +23,74 @@ public struct Account : Thing {
     user has unread mail? null if not your account
     example: false
     */
-    public let hasMail:Bool
+    public let hasMail: Bool
     /**
     
     example: 1427126074
     */
-    public let  created:Int
+    public let  created: Int
     /**
     
     example: false
     */
-    public let hideFromRobots:Bool
+    public let hideFromRobots: Bool
     /**
     
     example: 0
     */
-    public let goldCreddits:Int
+    public let goldCreddits: Int
     /**
     
     example: 1427122474
     */
-    public let createdUtc:Int
+    public let createdUtc: Int
     /**
     user has unread mod mail? null if not your account
     example: false
     */
-    public let hasModMail:Bool
+    public let hasModMail: Bool
     /**
     user's link karma
     example: 1
     */
-    public let linkKarma:Int
+    public let linkKarma: Int
     /**
     user's comment karma
     example: 1
     */
-    public let commentKarma:Int
+    public let commentKarma: Int
     /**
     whether this account is set to be over 18
     example: true
     */
-    public let over18:Bool
+    public let over18: Bool
     /**
     reddit gold status
     example: false
     */
-    public let isGold:Bool
+    public let isGold: Bool
     /**
     whether this account moderates any subreddits
     example: false
     */
-    public let isMod:Bool
+    public let isMod: Bool
     /**
     
     example:
     */
-    public let goldExpiration:Bool
+    public let goldExpiration: Bool
     /**
     user has provided an email address and got it verified?
     example: false
     */
-    public let hasVerifiedEmail:Bool
+    public let hasVerifiedEmail: Bool
     /**
     Number of unread messages in the inbox. Not present if not your account
     example: 0
     */
-    public let inboxCount:Int
+    public let inboxCount: Int
     
-    public init(id:String) {
+    public init(id: String) {
         self.id = id
         self.name = "\(Account.kind)_\(self.id)"
         
@@ -116,7 +116,7 @@ public struct Account : Thing {
     - parameter data: Dictionary, must be generated parsing "t2".
     - returns: Account object as Thing.
     */
-    public init(data:JSONDictionary) {
+    public init(data: JSONDictionary) {
         id = data["id"] as? String ?? ""
         hasMail = data["has_mail"] as? Bool ?? false
         name = data["name"] as? String ?? ""
@@ -136,10 +136,9 @@ public struct Account : Thing {
     }
 }
 
-func parseDataInJSON_t2(json:JSON) -> Result<Thing> {
+func parseDataInJSON_t2(json: JSON) -> Result<Thing> {
     if let object = json as? JSONDictionary {
         return resultFromOptional(Account(data:object), error: ReddiftError.ParseThingT2.error)
     }
     return resultFromOptional(nil, error: ReddiftError.ParseThingT2.error)
 }
-

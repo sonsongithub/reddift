@@ -18,7 +18,7 @@ class SearchSubredditsViewController: BaseSubredditsViewController {
         }
     }
     
-    func searchWithQuery(query:String) {
+    func searchWithQuery(query: String) {
         if loading {
             return
         }
@@ -48,8 +48,7 @@ class SearchSubredditsViewController: BaseSubredditsViewController {
                     })
                 }
             })
-        }
-        catch { print(error) }
+        } catch { print(error) }
     }
     
     func reload() {
@@ -85,4 +84,3 @@ extension SearchSubredditsViewController {
     }
     
 }
-

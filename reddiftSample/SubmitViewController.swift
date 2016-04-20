@@ -10,17 +10,17 @@ import UIKit
 import reddift
 
 class SubmitViewController: UIViewController {
-    var session:Session? = nil
-    var subreddit:Subreddit? = nil
-    var textView:UITextView? = nil
-    var bottom:NSLayoutConstraint? = nil
-    var captchaView:CAPTCHAView? = nil
+    var session: Session? = nil
+    var subreddit: Subreddit? = nil
+    var textView: UITextView? = nil
+    var bottom: NSLayoutConstraint? = nil
+    var captchaView: CAPTCHAView? = nil
     
-    @IBAction func close(sender:AnyObject) {
+    @IBAction func close(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    @IBAction func send(sender:AnyObject) {
+    @IBAction func send(sender: AnyObject) {
         if let subreddit = subreddit, let captcha = captchaView?.response, let iden = captchaView?.iden {
             do {
                 try session?.submitText(subreddit, title: "This is test", text: "テスト,test", captcha: captcha, captchaIden: iden, completion: { (result) -> Void in
@@ -38,7 +38,7 @@ class SubmitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let textView = UITextView(frame: CGRectZero)
+        let textView = UITextView(frame: CGRect.zero)
         self.view.addSubview(textView)
         
         textView.text = "DO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\nDO NOT SEND WITHOUT READING THE CODE.\n"
@@ -76,7 +76,7 @@ class SubmitViewController: UIViewController {
         super.viewWillAppear(animated)
     }
     
-    func keyboardWillChangeFrame(notification:NSNotification) {
+    func keyboardWillChangeFrame(notification: NSNotification) {
         let keyboardRect = notification.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue
         let r = self.view.convertRect(keyboardRect!, fromView: UIApplication.sharedApplication().keyWindow)
         let windowFrame = UIApplication.sharedApplication().keyWindow?.frame
@@ -84,8 +84,7 @@ class SubmitViewController: UIViewController {
         
         if intersect.size.height > 0 {
             self.bottom?.constant = -r.size.height
-        }
-        else {
+        } else {
             self.bottom?.constant = 0
         }
         

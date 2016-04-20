@@ -12,9 +12,9 @@ import Foundation
 Paginator object for paiging listing object.
 */
 public struct Paginator {
-	let after:String
-	let before:String
-    let modhash:String
+	let after: String
+	let before: String
+    let modhash: String
     
     public init() {
         self.after = ""
@@ -22,13 +22,13 @@ public struct Paginator {
         self.modhash = ""
     }
 	
-    public init(after:String, before:String, modhash:String) {
+    public init(after: String, before: String, modhash: String) {
 		self.after = after
 		self.before = before
         self.modhash = modhash
 	}
 	
-	public var isVacant : Bool {
+	public var isVacant: Bool {
 		if (!after.isEmpty) || (!before.isEmpty) {
 			return false
 		}
@@ -43,7 +43,7 @@ public struct Paginator {
     */
     public var parameterDictionary: [String:String] {
         get {
-            var dict:[String:String] = [:]
+            var dict: [String:String] = [:]
             if after.characters.count > 0 {
                 dict["after"] = after
             }
@@ -54,13 +54,14 @@ public struct Paginator {
         }
     }
     
-    public func addParametersToDictionary(var dict:[String:String]) -> [String:String] {
+    public func addParametersToDictionary(dict: [String:String]) -> [String:String] {
+        var newDict: [String:String] = dict
         if after.characters.count > 0 {
-            dict["after"] = after
+            newDict["after"] = after
         }
         if before.characters.count > 0 {
-            dict["before"] = before
+            newDict["before"] = before
         }
-        return dict
+        return newDict
     }
 }

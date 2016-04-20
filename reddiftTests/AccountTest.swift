@@ -27,8 +27,7 @@ class AccountTest: SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
     }
 
     /**
@@ -49,8 +48,7 @@ class AccountTest: SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
     }
     
     /**
@@ -136,7 +134,7 @@ class AccountTest: SessionTestSpec {
 extension AccountTest {
     /// Get own Preference
     func getPreference() -> Preference? {
-        var preference:Preference? = nil
+        var preference: Preference? = nil
         let msg = "Get own preference"
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
@@ -151,13 +149,12 @@ extension AccountTest {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         return preference
     }
     
     /// Update own Preference with specified Preference object.
-    func setPreference(preference:Preference) {
+    func setPreference(preference: Preference) {
         let msg = "Patch preference"
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
@@ -171,7 +168,6 @@ extension AccountTest {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
     }
 }

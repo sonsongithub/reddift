@@ -13,7 +13,7 @@ import Foundation
 /**
 The type of http response.
 */
-enum HttpStatus:Int {
+enum HttpStatus: Int {
     case Continue = 100
     case SwitchingProtocols = 101
     case Processing = 102
@@ -88,30 +88,29 @@ enum HttpStatus:Int {
     case NetworkConnectTimeoutError = 599
     case Unknown = -1
     
-    init(_ statusCode:Int) {
+    init(_ statusCode: Int) {
         let status = HttpStatus(rawValue:statusCode)
-        if let status:HttpStatus = status {
+        if let status: HttpStatus = status {
             self = status
-        }
-        else {
+        } else {
             self = .Unknown
         }
     }
     
-    func errorWithJSON(json:[String:AnyObject]) -> NSError {
+    func errorWithJSON(json: [String:AnyObject]) -> NSError {
         return NSError(domain:Config.sharedInstance.bundleIdentifier, code:self.rawValue, userInfo:json)
     }
     
-    func errorWithString(string:String) -> NSError {
+    func errorWithString(string: String) -> NSError {
         return NSError.errorWithCode(self.rawValue, string)
     }
 
-    var error:NSError {
+    var error: NSError {
         return NSError.errorWithCode(self.rawValue, self.description)
     }
 
-    var description:String {
-        switch self{
+    var description: String {
+        switch self {
         case .Continue:
             return "Continue"
         case .SwitchingProtocols:

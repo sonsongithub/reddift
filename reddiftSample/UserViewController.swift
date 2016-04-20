@@ -10,14 +10,14 @@ import Foundation
 import reddift
 
 class UserViewController: UITableViewController {
-    var session:Session?
-    @IBOutlet var expireCell:UITableViewCell!
+    var session: Session?
+    @IBOutlet var expireCell: UITableViewCell!
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    func updateExpireCell(sender:AnyObject?) {
+    func updateExpireCell(sender: AnyObject?) {
         print(NSThread.isMainThread())
         if let token = session?.token {
             expireCell.detailTextLabel?.text = NSDate(timeIntervalSinceReferenceDate:token.expiresDate).description
@@ -25,7 +25,7 @@ class UserViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true);
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         if indexPath.row == 2 && indexPath.section == 0 {
             do {
                 try self.session?.refreshToken({ (result) -> Void in
@@ -37,8 +37,7 @@ class UserViewController: UITableViewController {
                         self.updateExpireCell(nil)
                     }
                 })
-            }
-            catch { print(error) }
+            } catch { print(error) }
         }
         if indexPath.row == 3 && indexPath.section == 0 {
             do {
@@ -51,8 +50,7 @@ class UserViewController: UITableViewController {
                         self.navigationController?.popToRootViewControllerAnimated(true)
                     }
                 })
-            }
-            catch { print(error) }
+            } catch { print(error) }
         }
         
         if indexPath.section == 3 {
@@ -87,35 +85,29 @@ class UserViewController: UITableViewController {
             if let con = segue.destinationViewController as? ProfileViewController {
                 con.session = self.session
             }
-        }
-        else if segue.identifier == "ToFrontViewController" {
+        } else if segue.identifier == "ToFrontViewController" {
             if let con = segue.destinationViewController as? LinkViewController {
                 con.session = self.session
             }
-        }
-        else if segue.identifier == "ToSubredditsListViewController" {
+        } else if segue.identifier == "ToSubredditsListViewController" {
             if let con = segue.destinationViewController as? SubredditsListViewController {
                 con.session = self.session
             }
-        }
-        else if segue.identifier == "ToSubredditsViewController" {
+        } else if segue.identifier == "ToSubredditsViewController" {
             if let con = segue.destinationViewController as? SubredditsViewController {
                 con.session = self.session
             }
-        }
-		else if segue.identifier == "OpenInbox" {
+        } else if segue.identifier == "OpenInbox" {
 			if let con = segue.destinationViewController as? MessageViewController {
 				con.session = self.session
 				con.messageWhere = .Inbox
 			}
-		}
-		else if segue.identifier == "OpenSent" {
+		} else if segue.identifier == "OpenSent" {
 			if let con = segue.destinationViewController as? MessageViewController {
 				con.session = self.session
 				con.messageWhere = .Sent
 			}
-		}
-		else if segue.identifier == "OpenUnread" {
+		} else if segue.identifier == "OpenUnread" {
 			if let con = segue.destinationViewController as? MessageViewController {
 				con.session = self.session
 				con.messageWhere = .Unread

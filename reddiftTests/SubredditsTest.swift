@@ -10,7 +10,7 @@ import XCTest
 
 extension SubredditsTest {
     func subscribingList() -> [Subreddit] {
-        var list:[Subreddit] = []
+        var list: [Subreddit] = []
         let msg = "Get own subscribing list."
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
@@ -25,13 +25,12 @@ extension SubredditsTest {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         return list
     }
     
-    func userList(subreddit:Subreddit, aboutWhere:SubredditAbout) -> [User] {
-        var list:[User] = []
+    func userList(subreddit: Subreddit, aboutWhere: SubredditAbout) -> [User] {
+        var list: [User] = []
         let msg = "Get user list and count of it, \(subreddit.name), \(aboutWhere.rawValue)."
         var isSucceeded = false
         let documentOpenExpectation = self.expectationWithDescription(msg)
@@ -50,20 +49,19 @@ extension SubredditsTest {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         return list
     }
 }
 
-class SubredditsTest : SessionTestSpec {
+class SubredditsTest: SessionTestSpec {
     /**
      Test procedure
      1. Get recommended subreddits for apple and swift.
      */
     func testRecommendSubreddit() {
-        var names:[String] = []
-        let srnames:[String] = ["apple", "swift"]
+        var names: [String] = []
+        let srnames: [String] = ["apple", "swift"]
         let msg = "Get recommended subreddits for \(srnames.joinWithSeparator(","))"
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
@@ -77,8 +75,7 @@ class SubredditsTest : SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         XCTAssert(names.count > 0, msg)
     }
     
@@ -87,7 +84,7 @@ class SubredditsTest : SessionTestSpec {
      1. Get submit text of apple subreddit.
      */
     func testGetSubredditSubmitTxt() {
-        var submitText:String? = nil
+        var submitText: String? = nil
         let subredditName = "apple"
         let msg = "Get submit text of \(subredditName)"
         let documentOpenExpectation = self.expectationWithDescription(msg)
@@ -102,8 +99,7 @@ class SubredditsTest : SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         XCTAssert(submitText != nil, msg)
     }
     
@@ -113,7 +109,7 @@ class SubredditsTest : SessionTestSpec {
      */
     func testGetAbountOfSpecifiedSubreddit() {
         let subredditName = "apple"
-        var subreddit:Subreddit? = nil
+        var subreddit: Subreddit? = nil
         let msg = "Get informations of \(subredditName)"
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
@@ -127,8 +123,7 @@ class SubredditsTest : SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         XCTAssert(subreddit != nil, msg)
     }
     
@@ -136,7 +131,7 @@ class SubredditsTest : SessionTestSpec {
      Test procedure
     */
     func testSearchSubreddit() {
-        var subreddits:[Subreddit] = []
+        var subreddits: [Subreddit] = []
         let query = "apple"
         let msg = "Search subreddit used of \(query)"
         let documentOpenExpectation = self.expectationWithDescription(msg)
@@ -151,9 +146,9 @@ class SubredditsTest : SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         XCTAssert(subreddits.count > 0, msg)
+        subreddits.forEach {print($0.title)}
     }
     
     /**
@@ -161,7 +156,7 @@ class SubredditsTest : SessionTestSpec {
      1. Search subreddit names.
     */
     func testSearchSubredditNames() {
-        var names:[String] = []
+        var names: [String] = []
         let query = "apple"
         let msg = "Search subreddit name used of \(query)"
         let documentOpenExpectation = self.expectationWithDescription(msg)
@@ -176,8 +171,7 @@ class SubredditsTest : SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         XCTAssert(names.count > 0, msg)
     }
     
@@ -186,8 +180,8 @@ class SubredditsTest : SessionTestSpec {
      1. Search subreddit by swift
      */
     func testSearchSubredditsByQuery() {
-        var subredditNames:[String] = []
-        let query = "sift"
+        var subredditNames: [String] = []
+        let query = "apple"
         let msg = "Search subreddits by \(query)"
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
@@ -201,8 +195,7 @@ class SubredditsTest : SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         XCTAssert(subredditNames.count > 0, msg)
     }
     
@@ -211,7 +204,7 @@ class SubredditsTest : SessionTestSpec {
      1. Search subreddit by 日本
      */
     func testSearchSubredditsByJapaneseQuery() {
-        var subredditNames:[String] = []
+        var subredditNames: [String] = []
         let query = "日本"
         let msg = "Search subreddits by \(query)"
         let documentOpenExpectation = self.expectationWithDescription(msg)
@@ -226,8 +219,7 @@ class SubredditsTest : SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         XCTAssert(subredditNames.count > 0, msg)
     }
     
@@ -271,7 +263,7 @@ class SubredditsTest : SessionTestSpec {
         
         do {
             let msg = "Subscribe a new subreddit, \(targetSubreedit.id)"
-            var isSucceeded:Bool = false
+            var isSucceeded: Bool = false
             let documentOpenExpectation = self.expectationWithDescription(msg)
             do {
                 try self.session?.setSubscribeSubreddit(targetSubreedit, subscribe: true, completion: { (result) -> Void in
@@ -285,14 +277,13 @@ class SubredditsTest : SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
                 self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
         }
         let intermediateList = subscribingList()
         
         do {
             let msg = "Unsubscribe last subscribed subreddit, \(targetSubreedit.id)"
-            var isSucceeded:Bool = false
+            var isSucceeded: Bool = false
             let documentOpenExpectation = self.expectationWithDescription(msg)
             do {
                 try self.session?.setSubscribeSubreddit(targetSubreedit, subscribe: false, completion: { (result) -> Void in
@@ -306,8 +297,7 @@ class SubredditsTest : SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
                 self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
         }
         let finalList = subscribingList()
         

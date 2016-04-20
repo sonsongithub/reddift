@@ -31,7 +31,7 @@ public protocol Token {
     init()
     
     /// deserials Token from JSON data
-    init(_ json:[String:AnyObject])
+    init(_ json: [String:AnyObject])
 }
 
 extension Token {
@@ -41,7 +41,7 @@ extension Token {
     - returns: Dictinary object containing JSON data.
     */
     func JSONObject() -> [String:AnyObject] {
-        let dict:[String:AnyObject] = [
+        let dict: [String:AnyObject] = [
             "name":self.name,
             "access_token":self.accessToken,
             "token_type":self.tokenType,
@@ -53,4 +53,3 @@ extension Token {
         return dict
     }
 }
-

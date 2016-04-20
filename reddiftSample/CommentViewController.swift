@@ -10,21 +10,21 @@ import Foundation
 import reddift
 
 class CommentViewController: UITableViewController, UZTextViewCellDelegate {
-    var session:Session? = nil
-    var subreddit:Subreddit? = nil
-    var link:Link? = nil
-	var comments:[Thing] = []
-    var paginator:Paginator? = Paginator()
-    var contents:[CellContent] = []
+    var session: Session? = nil
+    var subreddit: Subreddit? = nil
+    var link: Link? = nil
+	var comments: [Thing] = []
+    var paginator: Paginator? = Paginator()
+    var contents: [CellContent] = []
 	
-	deinit{
+	deinit {
 		print("deinit")
 	}
     
-    func updateStrings(newComments:[Thing]) -> [CellContent] {
-        let width:CGFloat = self.view.frame.size.width
+    func updateStrings(newComments: [Thing]) -> [CellContent] {
+        let width: CGFloat = self.view.frame.size.width
         print(width)
-        return newComments.map { (thing:Thing) -> CellContent in
+        return newComments.map { (thing: Thing) -> CellContent in
             if let comment = thing as? Comment {
                 let html = comment.bodyHtml.preprocessedHTMLStringBeforeNSAttributedStringParsing()
                 do {
@@ -32,18 +32,16 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                     let font = UIFont(name: ".SFUIText-Light", size: 12) ?? UIFont.systemFontOfSize(12)
                     let attr2 = attr.reconstructAttributedString(font, color: UIColor.blackColor(), linkColor: UIColor.blueColor())
                     return CellContent(string:attr2, width:width - 25, hasRelies:false)
-                }
-                catch {
+                } catch {
                     return CellContent(string:NSAttributedString(string: ""), width:width - 25, hasRelies:false)
                 }
-            }
-            else {
+            } else {
                 return CellContent(string:"more", width:width - 25, hasRelies:false)
             }
         }
     }
     
-    func vote(direction:VoteDirection) {
+    func vote(direction: VoteDirection) {
         if let link = self.link {
             do {
                 try session?.setVote(direction, name: link.name, completion: { (result) -> Void in
@@ -58,7 +56,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         }
     }
     
-    func save(save:Bool) {
+    func save(save: Bool) {
         if let link = self.link {
             do {
                 try session?.setSave(save, name: link.name, completion: { (result) -> Void in
@@ -73,7 +71,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         }
     }
     
-    func hide(hide:Bool) {
+    func hide(hide: Bool) {
         if let link = self.link {
             do {
                 try session?.setHide(hide, name: link.name, completion: { (result) -> Void in
@@ -88,71 +86,69 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         }
     }
     
-    func downVote(sender:AnyObject?) {
+    func downVote(sender: AnyObject?) {
         vote(.Down)
     }
     
-    func upVote(sender:AnyObject?) {
+    func upVote(sender: AnyObject?) {
         vote(.Up)
     }
     
-    func cancelVote(sender:AnyObject?) {
+    func cancelVote(sender: AnyObject?) {
         vote(.None)
     }
     
-    func doSave(sender:AnyObject?) {
+    func doSave(sender: AnyObject?) {
         save(true)
     }
     
-    func doUnsave(sender:AnyObject?) {
+    func doUnsave(sender: AnyObject?) {
         save(false)
     }
     
-    func doHide(sender:AnyObject?) {
+    func doHide(sender: AnyObject?) {
         hide(true)
     }
     
-    func doUnhide(sender:AnyObject?) {
+    func doUnhide(sender: AnyObject?) {
         hide(false)
     }
     
     func updateToolbar() {
-        var items:[UIBarButtonItem] = []
+        var items: [UIBarButtonItem] = []
         let space = UIBarButtonItem(barButtonSystemItem:.FlexibleSpace, target: nil, action: nil)
         if let link = self.link {
             items.append(space)
             // voting status
             switch(link.likes) {
             case .Up:
-                items.append(UIBarButtonItem(image: UIImage(named: "thumbDown"), style:.Plain, target: self, action: "downVote:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbDown"), style:.Plain, target: self, action: #selector(CommentViewController.downVote(_:))))
                 items.append(space)
-                items.append(UIBarButtonItem(image: UIImage(named: "thumbUpFill"), style:.Plain, target: self, action: "cancelVote:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbUpFill"), style:.Plain, target: self, action: #selector(CommentViewController.cancelVote(_:))))
             case .Down:
-                items.append(UIBarButtonItem(image: UIImage(named: "thumbDownFill"), style:.Plain, target: self, action: "cancelVote:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbDownFill"), style:.Plain, target: self, action: #selector(CommentViewController.cancelVote(_:))))
                 items.append(space)
-                items.append(UIBarButtonItem(image: UIImage(named: "thumbUp"), style:.Plain, target: self, action: "upVote:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbUp"), style:.Plain, target: self, action: #selector(CommentViewController.upVote(_:))))
             case .None:
-                items.append(UIBarButtonItem(image: UIImage(named: "thumbDown"), style:.Plain, target: self, action: "downVote:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbDown"), style:.Plain, target: self, action: #selector(CommentViewController.downVote(_:))))
                 items.append(space)
-                items.append(UIBarButtonItem(image: UIImage(named: "thumbUp"), style:.Plain, target: self, action: "upVote:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "thumbUp"), style:.Plain, target: self, action: #selector(CommentViewController.upVote(_:))))
             }
             items.append(space)
             
             // save
             if link.saved {
-                items.append(UIBarButtonItem(image: UIImage(named: "favoriteFill"), style:.Plain, target: self, action:"doUnsave:"))
-            }
-            else {
-                items.append(UIBarButtonItem(image: UIImage(named: "favorite"), style:.Plain, target: self, action:"doSave:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "favoriteFill"), style:.Plain, target: self, action:#selector(CommentViewController.doUnsave(_:))))
+            } else {
+                items.append(UIBarButtonItem(image: UIImage(named: "favorite"), style:.Plain, target: self, action:#selector(CommentViewController.doSave(_:))))
             }
             items.append(space)
             
             // hide
             if link.hidden {
-                items.append(UIBarButtonItem(image: UIImage(named: "eyeFill"), style:.Plain, target: self, action: "doUnhide:"))
-            }
-            else {
-                items.append(UIBarButtonItem(image: UIImage(named: "eye"), style:.Plain, target: self, action: "doHide:"))
+                items.append(UIBarButtonItem(image: UIImage(named: "eyeFill"), style:.Plain, target: self, action: #selector(CommentViewController.doUnhide(_:))))
+            } else {
+                items.append(UIBarButtonItem(image: UIImage(named: "eye"), style:.Plain, target: self, action: #selector(CommentViewController.doHide(_:))))
             }
             items.append(space)
             
@@ -182,23 +178,25 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         super.viewWillAppear(animated)
         if let link = self.link {
             do {
-                try session?.getArticles(link, sort:CommentSort.New, comments:nil, completion: { (result) -> Void in
+                try session?.getArticles(link, sort:CommentSort.Top, comments:nil, completion: { (result) -> Void in
                     switch result {
                     case .Failure(let error):
                         print(error)
                     case .Success(let tuple):
                         let listing = tuple.1
+                        let incomming = listing.children
+                            .flatMap({ $0 as? Comment })
+                            .reduce([], combine: {
+                                return $0 + extendAllRepliesAndDepth($1, depth: 1)
+                            })
+                            .map({$0.0})
                         
-                        var newComments:[Thing] = []
-                        for comment in listing.children.flatMap({$0 as? Comment}) {
-                            newComments += extendAllReplies(comment)
-                        }
-                        self.comments += newComments
+                        self.comments += incomming
                         
-                        var time:timeval = timeval(tv_sec: 0, tv_usec: 0)
+                        var time: timeval = timeval(tv_sec: 0, tv_usec: 0)
                         gettimeofday(&time, nil)
-                        self.contents += self.updateStrings(newComments)
-                        var time2:timeval = timeval(tv_sec: 0, tv_usec: 0)
+                        self.contents += self.updateStrings(incomming)
+                        var time2: timeval = timeval(tv_sec: 0, tv_usec: 0)
                         gettimeofday(&time2, nil)
                         let r = Double(time2.tv_sec) + Double(time2.tv_usec) / 1000000.0 - Double(time.tv_sec) - Double(time.tv_usec) / 1000000.0
                         print("\(Int(r*1000))[msec]")
@@ -210,8 +208,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                         })
                     }
                 })
-            }
-            catch { print(error) }
+            } catch { print(error) }
         }
     }
 
@@ -231,7 +228,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell:UITableViewCell! = nil
+        var cell: UITableViewCell! = nil
         if contents.indices ~= indexPath.row {
             cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
             if let cell = cell as? UZTextViewCell {
@@ -240,8 +237,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                 cell.content = comments[indexPath.row]
             }
             return cell
-        }
-        else {
+        } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
             return cell
         }
@@ -252,12 +248,29 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
             if let more = comments[indexPath.row] as? More, link = self.link {
                 print(more)
                 do {
-                    try session?.getMoreChildren(more.children, link:link, sort:CommentSort.New, completion:{ (result) -> Void in
+                    try session?.getMoreChildren(more.children, link:link, sort:CommentSort.New, completion: { (result) -> Void in
                         switch result {
                         case .Failure(let error):
                             print(error)
-                        case .Success(let redditAny):
-                            print(redditAny)
+                        case .Success(let list):
+                            print(list)
+                            
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                let incomming = list
+                                    .flatMap({ $0 as? Comment })
+                                    .reduce([], combine: {
+                                        return $0 + extendAllRepliesAndDepth($1, depth: 1)
+                                    })
+                                    .map({$0.0})
+                                
+                                self.comments.removeAtIndex(indexPath.row)
+                                self.contents.removeAtIndex(indexPath.row)
+                                
+                                self.comments.insertContentsOf(incomming, at: indexPath.row)
+                                self.contents.insertContentsOf(self.updateStrings(incomming), at: indexPath.row)
+                                self.tableView.reloadData()
+                            })
+                            
                         }
                     })
                 } catch { print(error) }
@@ -265,6 +278,6 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         }
     }
     
-    func pushedMoreButton(cell:UZTextViewCell) {
+    func pushedMoreButton(cell: UZTextViewCell) {
     }
 }

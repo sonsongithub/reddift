@@ -10,7 +10,7 @@ import Foundation
 
 /**
  */
-public enum UserModPermission : String {
+public enum UserModPermission: String {
     case All     = "all"
     case Wiki    = "wiki"
     case Posts   = "posts"
@@ -18,8 +18,8 @@ public enum UserModPermission : String {
     case Flair   = "flair"
     case Unknown = "unknown"
     
-    public init(_ value:String) {
-        switch(value) {
+    public init(_ value: String) {
+        switch value {
         case "all":
             self = .All
         case "wiki":
@@ -40,17 +40,16 @@ public enum UserModPermission : String {
  User object
  */
 public struct User {
-    let date:NSTimeInterval
-    let modPermissions:[UserModPermission]
-    let name:String
-    let id:String
+    let date: NSTimeInterval
+    let modPermissions: [UserModPermission]
+    let name: String
+    let id: String
     
-    init(date:Double, permissions:[String]?, name:String, id:String) {
+    init(date: Double, permissions: [String]?, name: String, id: String) {
         self.date = date
         if let permissions = permissions {
             self.modPermissions = permissions.map({UserModPermission($0)})
-        }
-        else {
+        } else {
             self.modPermissions = []
         }
         self.name = name

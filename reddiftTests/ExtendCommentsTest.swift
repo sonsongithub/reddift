@@ -9,45 +9,105 @@
 import XCTest
 
 class ExtendCommentsTest: XCTestCase {
+    
+    let gt_type: [(Any.Type, Int)] = [
+        (Comment.self,  1),
+        (Comment.self,  2),
+        (More.self,     3),
+        (Comment.self,  2),
+        (More.self,     3),
+        (Comment.self,  1),
+        (Comment.self,  2),
+        (More.self,     3),
+        (More.self,     3),
+        (Comment.self,  1),
+        (Comment.self,  2),
+        (More.self,     3),
+        (Comment.self,  2),
+        (More.self,     3),
+        (Comment.self,  1),
+        (Comment.self,  2),
+        (More.self,     3),
+        (Comment.self,  2),
+        (More.self,     3),
+        (Comment.self,  2),
+        (More.self,     3),
+        (Comment.self,  2),
+        (More.self,     3)
+    ]
+    
+    
+    /**
+     test data
+     Comment - cohjrv4
+        Comment - cons4l2
+            More - consbf7
+        Comment - cohr3kv
+            More - cohx6zp
+     Comment - cogquu1
+        Comment - cogz3r1
+            More - coh2imm
+            More - coh1r93
+     Comment - co9197y
+        Comment - co91ryk
+            More - co9awll
+        Comment - co91cai
+            More - co92mv7
+     Comment - co958z3
+        Comment - co9memo
+            More - co9y5oi
+        Comment - co9805g
+            More - co9la4t
+        Comment - co95j0h
+            More - co95jvd
+        Comment - co95cz2
+            More - co95f5x
+    */
     func testListWhichHasSomeCommentsIncludingRepliesRecursively() {
         print("Test whether Parser can extend Comment objects that has some More objects as children.")
         print("consists of 1 Link, 13 Comments and 9 Mores.")
-        if let json:JSON = self.jsonFromFileName("comments_extend.json") {
+        if let json: JSON = self.jsonFromFileName("comments_extend.json") {
             if let array = Parser.parseJSON(json) as? [Any] {
                 if array.count == 2 {
                     if let listing = array[0] as? Listing {
-                        let numberOfLinks = listing.children.reduce(0, combine: { (value:Int, link:Thing) -> Int in
+                        let numberOfLinks = listing.children.reduce(0, combine: { (value: Int, link: Thing) -> Int in
                             return link is Link ? 1 + value : value
                         })
                         XCTAssert(numberOfLinks == 1)
-                    }
-                    else {
+                    } else {
                         XCTFail("Error")
                     }
                     if let listing = array[1] as? Listing {
-                        var comments:[Thing] = []
-                        for thing in listing.children {
-                            comments += extendAllReplies(thing)
+                        let incomming = listing.children
+                            .flatMap({ $0 as? Comment })
+                            .reduce([], combine: {
+                                return $0 + extendAllRepliesAndDepth($1, depth: 1)
+                            })
+                        
+                        incomming.forEach({
+                            var b = ""
+                            for _ in 0 ..< ($0.1 - 1) {
+                                b += "  "
+                            }
+                            print("\(b)\($0.0.dynamicType) - \($0.0.id)")
+                        })
+                        
+                        XCTAssert(gt_type.count == incomming.count, "list is mulformed.")
+                        print(incomming)
+                        print(gt_type)
+                        print(gt_type.count)
+                        for i in 0 ..< gt_type.count {
+                            let (c, d) = gt_type[i]
+                            XCTAssert(c == incomming[i].0.dynamicType, "data type error.")
+                            XCTAssert(d == incomming[i].1, "element's depth is wrong.")
                         }
-                        let numberOfComments = comments.reduce(0, combine: { (value:Int, comment:Thing) -> Int in
-                            return comment is Comment ? 1 + value : value
-                        })
-                        let numberOfMores = comments.reduce(0, combine: { (value:Int, comment:Thing) -> Int in
-                            return comment is More ? 1 + value : value
-                        })
-                        XCTAssert(numberOfComments == 13)
-                        XCTAssert(numberOfMores == 9)
-                        XCTAssert(comments.count == 22)
-                    }
-                    else {
+                    } else {
                         XCTFail("Error")
                     }
-                }
-                else {
+                } else {
                     XCTFail("Error")
                 }
-            }
-            else {
+            } else {
                 XCTFail("Error")
             }
         }

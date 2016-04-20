@@ -18,7 +18,7 @@ class CAPTCHATest: SessionTestSpec {
     func testCheckWhetherCAPTCHAIsNeededOrNot() {
         let msg = "is true or false as Bool"
         print(msg)
-        var check_result:Bool? = nil
+        var check_result: Bool? = nil
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
             try self.session?.checkNeedsCAPTCHA({(result) -> Void in
@@ -31,15 +31,14 @@ class CAPTCHATest: SessionTestSpec {
                 XCTAssert(check_result != nil, msg)
                 documentOpenExpectation.fulfill()
             })
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
     }
     
     func testGetIdenForNewCAPTCHA() {
         let msg = "is String"
         print(msg)
-        var iden:String? = nil
+        var iden: String? = nil
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
             try self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
@@ -52,8 +51,7 @@ class CAPTCHATest: SessionTestSpec {
                 XCTAssert(iden != nil, msg)
                 documentOpenExpectation.fulfill()
             })
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
     }
     
@@ -61,9 +59,9 @@ class CAPTCHATest: SessionTestSpec {
         let msg = "is 120x50"
         print(msg)
 #if os(iOS) || os(tvOS)
-        var size:CGSize? = nil
+        var size: CGSize? = nil
 #elseif os(OSX)
-        var size:NSSize? = nil
+        var size: NSSize? = nil
 #endif
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
@@ -83,8 +81,7 @@ class CAPTCHATest: SessionTestSpec {
                     })
                 }
             })
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
         
         if let size = size {
@@ -93,8 +90,7 @@ class CAPTCHATest: SessionTestSpec {
 #elseif os(OSX)
             XCTAssert(size == NSSize(width: 120, height: 50), msg)
 #endif
-        }
-        else {
+        } else {
             XCTFail(msg)
         }
     }

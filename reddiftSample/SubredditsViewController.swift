@@ -10,8 +10,8 @@ import Foundation
 import reddift
 
 class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpdating, UISearchControllerDelegate {
-    var searchController:UISearchController? = nil
-    var searchResultViewController:SearchSubredditsViewController? = nil
+    var searchController: UISearchController? = nil
+    var searchResultViewController: SearchSubredditsViewController? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,12 +78,11 @@ class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpd
                         })
                     }
                 })
-            }
-            catch { print(error) }
+            } catch { print(error) }
         }
     }
     
-    func segmentChanged(sender:AnyObject) {
+    func segmentChanged(sender: AnyObject) {
         if let _ = sender as? UISegmentedControl {
             self.subreddits.removeAll(keepCapacity: true)
             self.tableView.reloadData()
@@ -173,7 +172,7 @@ extension SubredditsViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var subreddit:Subreddit? = nil
+        var subreddit: Subreddit? = nil
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         if tableView == self.tableView {
             if subreddits.indices ~= indexPath.row {

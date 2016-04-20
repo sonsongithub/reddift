@@ -11,7 +11,7 @@ import reddift
 
 class SearchResultViewController: BaseLinkViewController {
     var previousQuery = ""
-    var originalViewController:LinkViewController? = nil
+    var originalViewController: LinkViewController? = nil
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         if let text = searchBar.text {
@@ -19,7 +19,7 @@ class SearchResultViewController: BaseLinkViewController {
         }
     }
     
-    func searchWithQuery(query:String) {
+    func searchWithQuery(query: String) {
         if loading {
             return
         }
@@ -47,8 +47,7 @@ class SearchResultViewController: BaseLinkViewController {
                     })
                 }
             })
-        }
-        catch { print(error) }
+        } catch { print(error) }
     }
     
     func reload() {
@@ -82,4 +81,3 @@ extension SearchResultViewController {
     }
     
 }
-

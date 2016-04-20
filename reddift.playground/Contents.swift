@@ -6,7 +6,7 @@ import reddift
 
 guard #available(iOS 9, OSX 10.10, *) else { abort() }
 
-func getCAPTCHA(session:Session) {
+func getCAPTCHA(session: Session) {
     do {
         try session.getCAPTCHA({ (result) -> Void in
             switch result {
@@ -16,11 +16,10 @@ func getCAPTCHA(session:Session) {
                 captchaImage
             }
         })
-    }
-    catch { print(error) }
+    } catch { print(error) }
 }
 
-func getReleated(session:Session) {
+func getReleated(session: Session) {
     do {
         try session.getDuplicatedArticles(Paginator(), thing: Link(id: "37lhsm")) { (result) -> Void in
             switch result {
@@ -31,11 +30,10 @@ func getReleated(session:Session) {
                 listing2.children.flatMap { $0 as? Link }.forEach { print($0.title) }
             }
         }
-    }
-    catch { print(error) }
+    } catch { print(error) }
 }
 
-func getProfile(session:Session) {
+func getProfile(session: Session) {
     do {
         try session.getUserProfile("sonson_twit", completion: { (result) -> Void in
             switch result {
@@ -45,13 +43,12 @@ func getProfile(session:Session) {
                 print(account.name)
             }
         })
-    }
-    catch { print(error) }
+    } catch { print(error) }
 }
 
-func getLinksBy(session:Session) {
+func getLinksBy(session: Session) {
     do {
-        let links:[Link] = [Link(id: "37ow7j"), Link(id: "37nvgu")]
+        let links: [Link] = [Link(id: "37ow7j"), Link(id: "37nvgu")]
         try session.getLinksById(links, completion: { (result) -> Void in
             switch result {
             case .Failure(let error):
@@ -60,11 +57,10 @@ func getLinksBy(session:Session) {
                 listing.children.flatMap { $0 as? Link }.forEach { print($0.title) }
             }
         })
-    }
-    catch { print(error) }
+    } catch { print(error) }
 }
 
-func searchSubreddits(session:Session) {
+func searchSubreddits(session: Session) {
     do {
         try session.getSubredditSearch("apple", paginator: Paginator(), completion: { (result) -> Void in
             switch result {
@@ -74,11 +70,10 @@ func searchSubreddits(session:Session) {
                 listing.children.flatMap { $0 as? Subreddit }.forEach { print($0.title) }
             }
         })
-    }
-    catch { print(error) }
+    } catch { print(error) }
 }
 
-func searchContents(session:Session) {
+func searchContents(session: Session) {
     do {
         try session.getSearch(nil, query: "apple", paginator: Paginator(), sort: .New, completion: { (result) -> Void in
             switch result {
@@ -88,11 +83,10 @@ func searchContents(session:Session) {
                 listing.children.flatMap { $0 as? Link }.forEach { print($0.title) }
             }
         })
-    }
-    catch { print(error) }
+    } catch { print(error) }
 }
 
-func getAccountInfoFromJSON(json:[String:String]) -> (String, String, String, String)? {
+func getAccountInfoFromJSON(json: [String:String]) -> (String, String, String, String)? {
     if let username = json["username"], password = json["password"], client_id = json["client_id"], secret = json["secret"] {
         return (username, password, client_id, secret)
     }
@@ -104,7 +98,7 @@ if let (username, password, clientID, secret) = (NSBundle.mainBundle().URLForRes
     .flatMap { try! NSJSONSerialization.JSONObjectWithData($0, options:NSJSONReadingOptions()) as? [String:String] }
     .flatMap { getAccountInfoFromJSON($0) }) {
         do {
-            try OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:( { (result) -> Void in
+            try OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:({ (result) -> Void in
                 switch result {
                 case .Failure(let error):
                     print(error)
@@ -117,8 +111,7 @@ if let (username, password, clientID, secret) = (NSBundle.mainBundle().URLForRes
                     searchSubreddits(session)
                 }
             }))
-        }
-        catch { print(error) }
+        } catch { print(error) }
 }
 
 let anonymouseSession = Session()
@@ -131,8 +124,7 @@ do {
             listing.children.flatMap { $0 as? Link }.forEach { print($0.title) }
         }
     }
-}
-catch { print(error) }
+} catch { print(error) }
 
 XCPlaygroundPage.currentPage.needsIndefiniteExecution = true
 
