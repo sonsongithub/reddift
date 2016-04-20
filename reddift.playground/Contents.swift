@@ -93,6 +93,19 @@ func getAccountInfoFromJSON(json: [String:String]) -> (String, String, String, S
     return nil
 }
 
+func getSubreddits(session: Session) {
+    do {
+        try session.getSubreddit(.New, paginator: nil, completion: { (result) in
+            switch result {
+            case .Failure(let error):
+                print(error)
+            case .Success(let listing):
+                let _ = listing.children.flatMap({ $0 as? Subreddit })
+            }
+        })
+    } catch { print(error) }
+}
+
 if let (username, password, clientID, secret) = (NSBundle.mainBundle().URLForResource("test_config.json", withExtension:nil)
     .flatMap { NSData(contentsOfURL: $0) }
     .flatMap { try! NSJSONSerialization.JSONObjectWithData($0, options:NSJSONReadingOptions()) as? [String:String] }
@@ -104,27 +117,20 @@ if let (username, password, clientID, secret) = (NSBundle.mainBundle().URLForRes
                     print(error)
                 case .Success(let token):
                     let session = Session(token: token)
-                    getLinksBy(session)
-                    getReleated(session)
-                    getCAPTCHA(session)
-                    searchContents(session)
-                    searchSubreddits(session)
+//                    getSubreddits(session)
+//                    getLinksBy(session)
+//                    getReleated(session)
+//                    getCAPTCHA(session)
+//                    searchContents(session)
+//                    searchSubreddits(session)
                 }
             }))
         } catch { print(error) }
 }
 
 let anonymouseSession = Session()
-do {
-    try anonymouseSession.getList(Paginator(), subreddit: nil, sort: .Controversial, timeFilterWithin: .Week) { (result) -> Void in
-        switch result {
-        case .Failure(let error):
-            print(error)
-        case .Success(let listing):
-            listing.children.flatMap { $0 as? Link }.forEach { print($0.title) }
-        }
-    }
-} catch { print(error) }
+getSubreddits(anonymouseSession)
+getLinksBy(anonymouseSession)
 
 XCPlaygroundPage.currentPage.needsIndefiniteExecution = true
 

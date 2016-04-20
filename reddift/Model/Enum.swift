@@ -241,15 +241,15 @@ public enum SubredditsWhere {
 	public var path: String {
 		switch self {
 		case .Popular:
-			return "/subreddits/popular"
+			return "/subreddits/popular.json"
 		case .New:
-			return "/subreddits/new"
+			return "/subreddits/new.json"
 		case .Employee:
-			return "/subreddits/employee"
+			return "/subreddits/employee.json"
 		case .Gold:
-            return "/subreddits/gold"
+            return "/subreddits/gold.json"
         case .Default:
-            return "/subreddits/default"
+            return "/subreddits/default.json"
 		}
 	}
 	

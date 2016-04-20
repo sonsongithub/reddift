@@ -223,11 +223,28 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getSubreddit(subredditWhere: SubredditsWhere, paginator: Paginator?, completion: (Result<RedditAny>) -> Void) throws -> NSURLSessionDataTask {
+    public func getSubreddit(subredditWhere: SubredditsWhere, paginator: Paginator?, completion: (Result<Listing>) -> Void) throws -> NSURLSessionDataTask {
         let parameter = paginator?.addParametersToDictionary([:])
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:subredditWhere.path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        return handleRequest(request, completion:completion)
+        
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
+            let result: Result<Listing> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2RedditAny)
+                .flatMap({
+                    (redditAny: RedditAny) -> Result<Listing> in
+                    if let listing = redditAny as? Listing {
+                        return Result(value: listing)
+                    }
+                    return Result(error: ReddiftError.Malformed.error)
+                })
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     /**
