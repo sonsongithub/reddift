@@ -24,7 +24,7 @@ public enum FriendType: String {
     case Friend             = "friend"
     case Enemy              = "enemy"
     case Moderator          = "moderator"
-    case ModeratorInvite   = "moderator_invite"
+    case ModeratorInvite    = "moderator_invite"
     case Contributor        = "contributor"
     case Banned             = "banned"
     case Muted              = "muted"

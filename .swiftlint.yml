@@ -1,61 +1,43 @@
-# 無効にするルール
 disabled_rules:
-- trailing_whitespace # 余分に改行がある方が視認性が上がる為、無効
+- trailing_whitespace
 - valid_docs
-- type_name # クラス名は長くして情報を詰めておく必要もある為、無効
+- type_name
 
-# ルール一覧を表示
-#- colon
-#- control_statement
-#- file_length
-#- force_cast
-#- function_body_length
-#- leading_whitespace
-#- line_length
-#- nesting
-#- operator_whitespace
-#- return_arrow_whitespace
-#- todo
-#- trailing_newline
-#- variable_name_max_length
-#- variable_name_min_length
-#- type_body_length
-- variable_name
-- function_parameter_count
-
-# 一行の文字列制限を100文字から300文字に変更
-line_length:
-- 800
-
-file_length:
-- 800
-
-excluded: # Lint対象から外すファイルのあるパスを記述
+excluded:
 - reddift/vendor
 - reddift.playground
 - reddiftTests
 - reddiftSample
 - reddiftSampleTV
 
-# クラスの行数
+file_length:
+  warning: 800
+  error: 1000
+
+line_length:
+  warning: 800
+  error: 1000
+
 type_body_length:
-- 400 # warning
-- 800 # error
+  warning: 400
+  error: 800
 
-# 変数名の最大文字数
-variable_name_max_length:
-- 60 # warning
-- 80 # error
+variable_name:
+  max_length:
+    warning: 50
+    error: 40
+  min_length:
+    warning: 1
+    error: 0
 
-# 変数名の最小文字数
-variable_name_min_length:
-- 1 # warning
-- 0 # error
+function_parameter_count:
+  warning: 10
+  error: 20
 
-# 関数の長さ
 function_body_length:
-- 100 # warning
-- 200 # error
+  warning: 100
+  error: 200
 
 cyclomatic_complexity:
-- 100
+  warning: 50
+  error: 100

@@ -1238,6 +1238,7 @@
 				14364C891BEDA09F00FECE58 /* Frameworks */,
 				14364C8A1BEDA09F00FECE58 /* Headers */,
 				14364C8B1BEDA09F00FECE58 /* Resources */,
+				146576321CC85E1D005ED404 /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -1289,8 +1290,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14B5EBC41AF34D590065BC5E /* Build configuration list for PBXNativeTarget "reddift-iOS" */;
 			buildPhases = (
-				14B5EBAC1AF34D580065BC5E /* Sources */,
 				14E4D64C1C94473F00442A4A /* Swiftlint */,
+				14B5EBAC1AF34D580065BC5E /* Sources */,
 				14B5EBAD1AF34D580065BC5E /* Frameworks */,
 				14B5EBAE1AF34D580065BC5E /* Headers */,
 				14B5EBAF1AF34D580065BC5E /* Resources */,
@@ -1349,6 +1350,7 @@
 				14F811FC1AF9EA9F008F6F3C /* Frameworks */,
 				14F811FD1AF9EA9F008F6F3C /* Headers */,
 				14F811FE1AF9EA9F008F6F3C /* Resources */,
+				146576331CC85E32005ED404 /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -1595,6 +1597,34 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		146576321CC85E1D005ED404 /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  echo \"SwiftLint\"\n  swiftlint\nelse\n  echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+		146576331CC85E32005ED404 /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  echo \"SwiftLint\"\n  swiftlint\nelse\n  echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
 		14E4D64C1C94473F00442A4A /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
