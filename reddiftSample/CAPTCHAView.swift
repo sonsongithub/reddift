@@ -9,24 +9,24 @@
 import UIKit
 import reddift
 
-class CAPTCHAView : UIView {
-    var session:Session? = nil
+class CAPTCHAView: UIView {
+    var session: Session? = nil
     private var currentIden = ""
     
-    var iden:String {
+    var iden: String {
         return currentIden
     }
     
-    var response:String {
+    var response: String {
         if let text = captchaTextField?.text {
             return text
         }
         return ""
     }
     
-    @IBOutlet private var captchaImageView:UIImageView? = nil
-    @IBOutlet private var captchaTextField:UITextField? = nil
-    @IBOutlet private var activity:UIActivityIndicatorView? = nil
+    @IBOutlet private var captchaImageView: UIImageView? = nil
+    @IBOutlet private var captchaTextField: UITextField? = nil
+    @IBOutlet private var activity: UIActivityIndicatorView? = nil
     
     class func loadFromIdiomNib() -> CAPTCHAView? {
         let nib = UINib(nibName: "CAPTCHAView", bundle: nil)
@@ -36,7 +36,7 @@ class CAPTCHAView : UIView {
         return nil
     }
     
-    @IBAction func reload(sender:AnyObject) {
+    @IBAction func reload(sender: AnyObject) {
         startLoading()
     }
     
@@ -69,11 +69,9 @@ class CAPTCHAView : UIView {
                                 })
                             }
                         })
-                    }
-                    catch { print(error) }
+                    } catch { print(error) }
                 }
             })
-        }
-        catch { print(error) }
+        } catch { print(error) }
     }
 }

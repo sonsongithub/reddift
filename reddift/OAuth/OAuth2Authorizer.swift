@@ -32,8 +32,7 @@ public class OAuth2Authorizer {
     public func challengeWithAllScopes() throws {
         do {
             try self.challengeWithScopes(["identity", "edit", "flair", "history", "modconfig", "modflair", "modlog", "modposts", "modwiki", "mysubreddits", "privatemessages", "read", "report", "save", "submit", "subscribe", "vote", "wikiedit", "wikiread"])
-        }
-        catch {
+        } catch {
             throw error
         }
     }
@@ -43,7 +42,7 @@ public class OAuth2Authorizer {
     
     - parameter scopes: Scope you want to get authorizing. You can check all scopes at https://www.reddit.com/dev/api/oauth.
     */
-    public func challengeWithScopes(scopes:[String]) throws {
+    public func challengeWithScopes(scopes: [String]) throws {
         let commaSeparatedScopeString = scopes.joinWithSeparator(",")
         
         let length = 64
@@ -58,8 +57,7 @@ public class OAuth2Authorizer {
 #elseif os(OSX)
                 NSWorkspace.sharedWorkspace().openURL(authorizationURL)
 #endif
-        }
-        else {
+        } else {
             throw ReddiftError.ChallengeOAuth2Session.error
         }
     }
@@ -71,11 +69,11 @@ public class OAuth2Authorizer {
     - parameter completion: Callback block is execeuted when the access token has been acquired using URL.
     - returns: Returns if the URL object is parsed correctly.
     */
-    public func receiveRedirect(url:NSURL, completion:(Result<OAuth2Token>)->Void) -> Bool{
-        var parameters:[String:String] = [:]
+    public func receiveRedirect(url: NSURL, completion: (Result<OAuth2Token>) -> Void) -> Bool {
+        var parameters: [String:String] = [:]
         let currentState = self.state
         self.state = ""
-        if (url.scheme == Config.sharedInstance.redirectURIScheme) {
+        if url.scheme == Config.sharedInstance.redirectURIScheme {
             if let temp = NSURLComponents(URL: url, resolvingAgainstBaseURL: true)?.dictionary() {
                 parameters = temp
             }
@@ -85,8 +83,7 @@ public class OAuth2Authorizer {
                 do {
                     try OAuth2Token.getOAuth2Token(code, completion:completion)
                     return true
-                }
-                catch {
+                } catch {
                     print(error)
                     return false
                 }

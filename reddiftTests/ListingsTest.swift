@@ -12,8 +12,8 @@ import XCTest
 class ListingsTest: SessionTestSpec {
 
     func testDownloadLinks() {
-        let sortTypes:[LinkSortType] = [.Controversial, .Top, .Hot, .New]
-        let timeFilterTypes:[TimeFilterWithin] = [.Hour, .Day, .Week, .Month, .Year, .All]
+        let sortTypes: [LinkSortType] = [.Controversial, .Top, .Hot, .New]
+        let timeFilterTypes: [TimeFilterWithin] = [.Hour, .Day, .Week, .Month, .Year, .All]
         let subreddit = Subreddit(subreddit: "sandboxtest")
         for sortType in sortTypes {
             for filter in timeFilterTypes {
@@ -35,8 +35,7 @@ class ListingsTest: SessionTestSpec {
                         documentOpenExpectation.fulfill()
                     })
                     self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-                }
-                catch { XCTFail((error as NSError).description) }
+                } catch { XCTFail((error as NSError).description) }
             }
         }
     }
@@ -61,8 +60,7 @@ class ListingsTest: SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
     }
     
     func testDownloadRandomLinksAmongSpecifiedSubreddit() {
@@ -87,14 +85,13 @@ class ListingsTest: SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
     }
     
     func testDownloadArticlesOfLinkWhichIsSelectedRandomlyFromTheSubreddit() {
-        let sortTypes:[CommentSort] = [.Confidence, .Top, .New, .Hot, .Controversial, .Old, .Random, .Qa]
+        let sortTypes: [CommentSort] = [.Confidence, .Top, .New, .Hot, .Controversial, .Old, .Random, .Qa]
         for sort in sortTypes {
-            var link:Link? = nil
+            var link: Link? = nil
             do {
                 print("Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
                 let documentOpenExpectation = self.expectationWithDescription("Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
@@ -115,8 +112,7 @@ class ListingsTest: SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
                 self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
             
             do {
                 let documentOpenExpectation = self.expectationWithDescription("Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
@@ -137,8 +133,7 @@ class ListingsTest: SessionTestSpec {
                     })
                     self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
                 }
-            }
-            catch { XCTFail((error as NSError).description) }
+            } catch { XCTFail((error as NSError).description) }
         }
     }
 }

@@ -10,9 +10,9 @@ import Foundation
 import reddift
 
 class SubredditsListViewController: UITableViewController {
-    var session:Session? = nil
-    var subreddits:[Subreddit] = []
-    var paginator:Paginator = Paginator()
+    var session: Session? = nil
+    var subreddits: [Subreddit] = []
+    var paginator: Paginator = Paginator()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +33,7 @@ class SubredditsListViewController: UITableViewController {
                         })
                     }
                 })
-            }
-            catch { print(error) }
+            } catch { print(error) }
 		}
     }
 

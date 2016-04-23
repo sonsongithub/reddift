@@ -15,11 +15,11 @@ extension Session {
      - parameter fullname: fullname of a thing
      - returns: Data task which requests search to reddit.com.
      */
-    public func gild(fullname:String, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
-        let parameter:[String:String] = ["fullname":fullname]
-        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/gold/gild/", parameter:parameter, method:"POST", token:token)
+    public func gild(fullname: String, completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+        let parameter: [String:String] = ["fullname":fullname]
+        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/gold/gild/", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
@@ -37,11 +37,11 @@ extension Session {
      - parameter months: an integer between 1 and 36
      - returns: Data task which requests search to reddit.com.
      */
-    public func giveGold(username:String, months:Int, completion:(Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
-        let parameter:[String:String] = ["fullname":username, "months":String(months)]
-        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/gold/give/", parameter:parameter, method:"POST", token:token)
+    public func giveGold(username: String, months: Int, completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+        let parameter: [String:String] = ["fullname":username, "months":String(months)]
+        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/gold/give/", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
+        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)

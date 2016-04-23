@@ -37,11 +37,12 @@ private enum Attribute {
 /// Extension for NSParagraphStyle
 extension NSParagraphStyle {
     /**
-     Returns default paragraph style for reddift framework.
-     - returns: Paragraphyt style, which is created.
-     */
-    static func defaultReddiftParagraphStyleWithFontSize(fontSize:CGFloat) -> NSParagraphStyle {
-        guard let paragraphStyle:NSMutableParagraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as? NSMutableParagraphStyle
+    Returns default paragraph style for reddift framework.
+    - parameter fontSize: Font size
+    - returns: Paragraphyt style, which is created.
+    */
+    static func defaultReddiftParagraphStyleWithFontSize(fontSize: CGFloat) -> NSParagraphStyle {
+        guard let paragraphStyle: NSMutableParagraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as? NSMutableParagraphStyle
             else { return NSParagraphStyle.defaultParagraphStyle() }
         paragraphStyle.lineBreakMode = .ByWordWrapping
         paragraphStyle.alignment = .Left
@@ -59,6 +60,7 @@ extension NSParagraphStyle {
 extension String {
     /**
     Returns HTML string whose del and blockquote tag is replaced with font size tag in order to extract these tags using NSAttribtedString class method.
+    
     - returns: String, which is processed.
     */
     public func preprocessedHTMLStringBeforeNSAttributedStringParsing() -> String {
@@ -70,16 +72,38 @@ extension String {
 }
 
 /// Regular expression to check whether the file extension is image's one.
-private let regexForHasImageFileExtension = try! NSRegularExpression(pattern: "^/.+\\.(jpg|jpeg|gif|png)$", options: NSRegularExpressionOptions.CaseInsensitive)
+private var regexForHasImageFileExtension: NSRegularExpression? = nil
 
 /// Extension for NSAttributedString.includedImageURL
 extension NSURLComponents {
-    /// Returns true when URL's filename has image's file extension(such as gif, jpg, png).
-    private var hasImageFileExtension : Bool {
-        if let path = self.path {
-            if let r = regexForHasImageFileExtension.firstMatchInString(path, options: NSMatchingOptions(), range: NSMakeRange(0, path.characters.count)) {
-                return r.rangeAtIndex(1).length > 0
+    
+    /// Returns shared regular expression
+    private func sharedRegexForHasImageFileExtension() throws -> NSRegularExpression {
+        if let regexForHasImageFileExtension = regexForHasImageFileExtension {
+            return regexForHasImageFileExtension
+        } else {
+            do {
+                let exp = try NSRegularExpression(pattern: "^/.+\\.(jpg|jpeg|gif|png)$", options: NSRegularExpressionOptions.CaseInsensitive)
+                regexForHasImageFileExtension = exp
+                return exp
+            } catch {
+                throw(error)
             }
+        }
+    }
+    
+    /// Returns true when URL's filename has image's file extension(such as gif, jpg, png).
+    private var hasImageFileExtension: Bool {
+        do {
+            let regex = try sharedRegexForHasImageFileExtension()
+            if let path = self.path {
+                if let r = regex.firstMatchInString(path, options: NSMatchingOptions(), range: NSRange(location: 0, length: path.characters.count)) {
+                    return r.rangeAtIndex(1).length > 0
+                }
+            }
+        } catch {
+            print(error)
+            return false
         }
         return false
     }
@@ -88,10 +112,14 @@ extension NSURLComponents {
 /// Extension for NSAttributedString
 extension NSAttributedString {
     /// Returns list of URLs that were included in NSAttributedString as NSLinkAttributeName's array.
-    public var includedURL : [NSURL] {
+    public var includedURL: [NSURL] {
         get {
-            var values:[AnyObject] = []
-            self.enumerateAttribute(NSLinkAttributeName, inRange: NSMakeRange(0, self.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
+            var values: [AnyObject] = []
+            self.enumerateAttribute(
+                NSLinkAttributeName,
+                inRange: NSRange(location:0, length:self.length),
+                options: NSAttributedStringEnumerationOptions(),
+                usingBlock: { (value: AnyObject?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
                 if let value = value {
                     values.append(value)
                 }
@@ -101,7 +129,7 @@ extension NSAttributedString {
     }
     
     /// Returns list of image URLs(like gif, jpg, png) that were included in NSAttributedString as NSLinkAttributeName's array.
-    public var includedImageURL : [NSURL] {
+    public var includedImageURL: [NSURL] {
         get {
             return self
                 .includedURL
@@ -119,7 +147,7 @@ extension NSAttributedString {
     - parameter codeBackgroundColor : Specified UIColor of background of strings that are included in <code>.
     - returns : NSAttributedString object to render using UZTextView or UITextView.
     */
-    public func reconstructAttributedString(normalFont:UIFont, color:UIColor, linkColor:UIColor, codeBackgroundColor:UIColor = UIColor.lightGrayColor()) -> NSAttributedString {
+    public func reconstructAttributedString(normalFont: UIFont, color: UIColor, linkColor: UIColor, codeBackgroundColor: UIColor = UIColor.lightGrayColor()) -> NSAttributedString {
         return __reconstructAttributedString(normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
     }
 #elseif os(OSX)
@@ -131,7 +159,7 @@ extension NSAttributedString {
     - parameter codeBackgroundColor : Specified NSColor of background of strings that are included in <code>.
     - returns : NSAttributedString object.
     */
-    public func reconstructAttributedString(normalFont:NSFont, color:NSColor, linkColor:NSColor, codeBackgroundColor:NSColor = NSColor.lightGrayColor()) -> NSAttributedString {
+    public func reconstructAttributedString(normalFont: NSFont, color: NSColor, linkColor: NSColor, codeBackgroundColor: NSColor = NSColor.lightGrayColor()) -> NSAttributedString {
         return __reconstructAttributedString(normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
     }
 #endif
@@ -147,32 +175,32 @@ extension NSAttributedString {
     - parameter codeBackgroundColor : Specified NSColor/UIColor of background of strings that are included in <code>.
     - returns : NSAttributedString object.
     */
-    private func __reconstructAttributedString(normalFont:_Font, color:_Color, linkColor:_Color, codeBackgroundColor:_Color) -> NSAttributedString {
-        let attributes:[Attribute] = self.attributesForReddift()
+    private func __reconstructAttributedString(normalFont: _Font, color: _Color, linkColor: _Color, codeBackgroundColor: _Color) -> NSAttributedString {
+        let attributes: [Attribute] = self.attributesForReddift()
         let (italicFont, boldFont, codeFont, superscriptFont, _) = createDerivativeFonts(normalFont)
         
         let output = NSMutableAttributedString(string: string)
         
         // You can set default paragraph style, here.
-        // output.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, output.length))
-        output.addAttribute(NSFontAttributeName, value: normalFont, range: NSMakeRange(0, output.length))
-        output.addAttribute(NSForegroundColorAttributeName, value: color, range: NSMakeRange(0, output.length))
+        // output.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSRange(0, output.length))
+        output.addAttribute(NSFontAttributeName, value: normalFont, range: NSRange(location: 0, length: output.length))
+        output.addAttribute(NSForegroundColorAttributeName, value: color, range: NSRange(location: 0, length: output.length))
         attributes.forEach {
             switch $0 {
             case .Link(let URL, let loc, let len):
-                output.addAttribute(NSLinkAttributeName, value:URL, range: NSMakeRange(loc, len))
-                output.addAttribute(NSForegroundColorAttributeName, value: linkColor, range: NSMakeRange(loc, len))
+                output.addAttribute(NSLinkAttributeName, value:URL, range: NSRange(location: loc, length: len))
+                output.addAttribute(NSForegroundColorAttributeName, value: linkColor, range: NSRange(location: loc, length: len))
             case .Bold(let loc, let len):
-                output.addAttribute(NSFontAttributeName, value:boldFont, range: NSMakeRange(loc, len))
+                output.addAttribute(NSFontAttributeName, value:boldFont, range: NSRange(location: loc, length: len))
             case .Italic(let loc, let len):
-                output.addAttribute(NSFontAttributeName, value:italicFont, range: NSMakeRange(loc, len))
+                output.addAttribute(NSFontAttributeName, value:italicFont, range: NSRange(location: loc, length: len))
             case .Superscript(let loc, let len):
-                output.addAttribute(NSFontAttributeName, value:superscriptFont, range: NSMakeRange(loc, len))
+                output.addAttribute(NSFontAttributeName, value:superscriptFont, range: NSRange(location: loc, length: len))
             case .Strike(let loc, let len):
-                output.addAttribute(NSStrikethroughStyleAttributeName, value:NSNumber(int:1), range: NSMakeRange(loc, len))
+                output.addAttribute(NSStrikethroughStyleAttributeName, value:NSNumber(int:1), range: NSRange(location: loc, length: len))
             case .Code(let loc, let len):
-                output.addAttribute(NSFontAttributeName, value:codeFont, range: NSMakeRange(loc, len))
-                output.addAttribute(NSBackgroundColorAttributeName, value: codeBackgroundColor, range: NSMakeRange(loc, len))
+                output.addAttribute(NSFontAttributeName, value:codeFont, range: NSRange(location: loc, length: len))
+                output.addAttribute(NSBackgroundColorAttributeName, value: codeBackgroundColor, range: NSRange(location: loc, length: len))
             }
         }
         return output
@@ -183,7 +211,7 @@ extension NSAttributedString {
     - parameter normalFont : Source font from which new font objects are generated. The new font objects' size are as same as source one.
     - returns : Four font objects as a tuple, that are italic, bold, code, superscript and pargraph style.
     */
-    private func createDerivativeFonts(normalFont:_Font) -> (_Font, _Font, _Font, _Font, NSParagraphStyle) {
+    private func createDerivativeFonts(normalFont: _Font) -> (_Font, _Font, _Font, _Font, NSParagraphStyle) {
 #if os(iOS) || os(tvOS)
         let traits = normalFont.fontDescriptor().symbolicTraits
         let italicFontDescriptor = normalFont.fontDescriptor().fontDescriptorWithSymbolicTraits([traits, .TraitItalic])
@@ -194,7 +222,7 @@ extension NSAttributedString {
         let superscriptFont = _Font(descriptor: normalFont.fontDescriptor(), size: normalFont.fontDescriptor().pointSize/2)
         let paragraphStyle = NSParagraphStyle.defaultReddiftParagraphStyleWithFontSize(normalFont.fontDescriptor().pointSize)
 #elseif os(OSX)
-        let traits:NSFontSymbolicTraits = normalFont.fontDescriptor.symbolicTraits
+        let traits: NSFontSymbolicTraits = normalFont.fontDescriptor.symbolicTraits
         let italicFontDescriptor = normalFont.fontDescriptor.fontDescriptorWithSymbolicTraits(traits & NSFontSymbolicTraits(NSFontItalicTrait))
         let boldFontDescriptor = normalFont.fontDescriptor.fontDescriptorWithSymbolicTraits(traits & NSFontSymbolicTraits(NSFontBoldTrait))
         let italicFont = _Font(descriptor: italicFontDescriptor, size: normalFont.fontDescriptor.pointSize) ?? normalFont
@@ -211,15 +239,15 @@ extension NSAttributedString {
     - returns : Attribute's array to set a new NSAttributedString.
     */
     private func attributesForReddift() -> [Attribute] {
-        var attributes:[Attribute] = []
+        var attributes: [Attribute] = []
         
-        self.enumerateAttribute(NSLinkAttributeName, inRange: NSMakeRange(0, self.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
+        self.enumerateAttribute(NSLinkAttributeName, inRange: NSRange(location:0, length:self.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value: AnyObject?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
             if let URL = value as? NSURL {
                 attributes.append(Attribute.Link(URL, range.location, range.length))
             }
         })
         
-        self.enumerateAttribute(NSFontAttributeName, inRange: NSMakeRange(0, self.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value:AnyObject?, range:NSRange, stop:UnsafeMutablePointer<ObjCBool>) -> Void in
+        self.enumerateAttribute(NSFontAttributeName, inRange: NSRange(location:0, length:self.length), options: NSAttributedStringEnumerationOptions(), usingBlock: { (value: AnyObject?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
             if let font = value as? _Font {
                 switch font.fontName {
                 case "TimesNewRomanPS-BoldItalicMT":
@@ -236,13 +264,11 @@ extension NSAttributedString {
                 }
                 if font.pointSize < 12 {
                     attributes.append(Attribute.Superscript(range.location, range.length))
-                }
-                else if font.pointSize > 12 {
+                } else if font.pointSize > 12 {
                     attributes.append(Attribute.Strike(range.location, range.length))
                 }
             }
         })
-        
         return attributes
     }
 }

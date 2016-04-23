@@ -13,5 +13,5 @@ public protocol Thing {
     var name: String {get}
     static var kind: String {get}
 
-    init(id:String)
+    init(id: String)
 }

@@ -12,11 +12,11 @@ import Foundation
  Subreddit karma object
  */
 public struct SubredditKarma {
-    let commentKarma:Int
-    let linkKarma:Int
-    let subreddit:String
+    let commentKarma: Int
+    let linkKarma: Int
+    let subreddit: String
     
-    init(subreddit:String, commentKarma:Int, linkKarma:Int) {
+    init(subreddit: String, commentKarma: Int, linkKarma: Int) {
         self.subreddit = subreddit
         self.commentKarma = commentKarma
         self.linkKarma = linkKarma

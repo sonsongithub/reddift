@@ -34,7 +34,7 @@ class UsersTest: SessionTestSpec {
     func testGetUserProfile() {
         let username = "reddift_test_1"
         let msg = "Get \(username)'s user profile."
-        var isSucceeded:Bool = false
+        var isSucceeded: Bool = false
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
             try self.session?.getUserProfile(username, completion: { (result) -> Void in
@@ -49,8 +49,7 @@ class UsersTest: SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
     }
     
     /**
@@ -59,7 +58,7 @@ class UsersTest: SessionTestSpec {
      */
     func testGetNotifications() {
         let msg = "Get notifications for me. Maybe, this test is always failed."
-        var isSucceeded:Bool = false
+        var isSucceeded: Bool = false
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
             try self.session?.getNotifications(.New, completion: { (result) -> Void in
@@ -74,8 +73,7 @@ class UsersTest: SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
     }
     
     /**
@@ -135,7 +133,7 @@ class UsersTest: SessionTestSpec {
      */
     func testGetTrophies() {
         let msg = "Get reddift_test_1's trophy."
-        var isSucceeded:Bool = false
+        var isSucceeded: Bool = false
         let documentOpenExpectation = self.expectationWithDescription(msg)
         do {
             try self.session?.getTrophies("reddift_test_1", completion: { (result) -> Void in
@@ -150,15 +148,14 @@ class UsersTest: SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
     }
 }
 
 extension UsersTest {
     /// Get user contents with username, a type of content, sort and time filter.
-    func userContentsWith(username:String, content:UserContent, sort:UserContentSortBy, timeFilterWithin:TimeFilterWithin) -> Listing? {
-        var listing:Listing? = nil
+    func userContentsWith(username: String, content: UserContent, sort: UserContentSortBy, timeFilterWithin: TimeFilterWithin) -> Listing? {
+        var listing: Listing? = nil
         let msg = "Get \(username)'s user contents."
         let documentOpenExpectation = self.expectationWithDescription(msg)
         var isSucceeded = false
@@ -175,8 +172,7 @@ extension UsersTest {
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
-        }
-        catch { XCTFail((error as NSError).description) }
+        } catch { XCTFail((error as NSError).description) }
         XCTAssert(isSucceeded, msg)
         return listing
     }

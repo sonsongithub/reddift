@@ -10,9 +10,9 @@ import Foundation
 import reddift
 
 class AccountViewController: UITableViewController {
-	var names:[String] = []
+	var names: [String] = []
 	
-	@IBAction func addAccount(sender:AnyObject) {
+	@IBAction func addAccount(sender: AnyObject) {
 		try! OAuth2Authorizer.sharedInstance.challengeWithAllScopes()
 	}
     
@@ -43,13 +43,13 @@ class AccountViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
         if names.indices ~= indexPath.row {
-            let name:String = names[indexPath.row]
+            let name: String = names[indexPath.row]
             cell.textLabel?.text = name
         }
         return cell
     }
 	
-    func didSaveToken(notification:NSNotification) {
+    func didSaveToken(notification: NSNotification) {
         reload()
     }
 
@@ -61,14 +61,13 @@ class AccountViewController: UITableViewController {
         if editingStyle == .Delete {
             if names.indices ~= indexPath.row {
                 do {
-                    let name:String = names[indexPath.row]
+                    let name: String = names[indexPath.row]
                     try OAuth2TokenRepository.removeFromKeychainTokenWithName(name)
                     names.removeAtIndex(indexPath.row)
                     tableView.beginUpdates()
                     tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
                     tableView.endUpdates()
-                }
-                catch { print(error) }
+                } catch { print(error) }
             }
         }
     }
@@ -78,12 +77,11 @@ class AccountViewController: UITableViewController {
             if let con = segue.destinationViewController as? UserViewController {
                 if let selectedIndexPath = tableView.indexPathForSelectedRow {
                     if names.indices ~= selectedIndexPath.row {
-                        let name:String = names[selectedIndexPath.row]
+                        let name: String = names[selectedIndexPath.row]
                         do {
-                            let token:OAuth2Token = try OAuth2TokenRepository.restoreFromKeychainWithName(name)
+                            let token: OAuth2Token = try OAuth2TokenRepository.restoreFromKeychainWithName(name)
                             con.session = Session(token: token)
-                        }
-                        catch { print(error) }
+                        } catch { print(error) }
                     }
                 }
             }

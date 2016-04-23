@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion:{(result) -> Void in
+        return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion: {(result) -> Void in
             switch result {
             case .Failure(let error):
                 print(error)
@@ -29,8 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     do {
                         try OAuth2TokenRepository.saveIntoKeychainToken(token, name:token.name)
                         NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil, userInfo: nil)
-                    }
-                    catch {
+                    } catch {
                         NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidFailToSaveToken, object: nil, userInfo: nil)
                         print(error)
                     }
@@ -39,4 +38,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
     }
 }
-
