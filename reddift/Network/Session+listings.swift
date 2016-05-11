@@ -115,17 +115,18 @@ extension Session {
         if let subreddit = subreddit { path = "\(subreddit.path)\(privateSortType.path).json" }
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+        
+        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
             self.updateRateLimitWithURLResponse(response)
             let result: Result<Listing> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
                 .flatMap(redditAny2Object)
-            completion(result)
-        })
-        task.resume()
-        return task
+            return result
+        }
+        
+        return executeTask(request, closure: closure, completion: completion)
     }
     
     /**

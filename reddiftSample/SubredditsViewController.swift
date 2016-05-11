@@ -62,16 +62,14 @@ class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpd
                     switch result {
                     case .Failure:
                         print(result.error)
-                    case .Success:
+                    case .Success(let listing):
                         print(result.value)
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let subreddit = obj as? Subreddit {
-                                    self.subreddits.append(subreddit)
-                                }
+                        for obj in listing.children {
+                            if let subreddit = obj as? Subreddit {
+                                self.subreddits.append(subreddit)
                             }
-                            self.paginator = listing.paginator
                         }
+                        self.paginator = listing.paginator
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             self.tableView.reloadData()
                             self.loading = false

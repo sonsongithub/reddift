@@ -9,6 +9,7 @@ func doit(session: Session) {
         try session.getSubredditSearchWithErrorHandling("apple", paginator: Paginator(), completion: { (result) -> Void in
             switch result {
             case .Failure(let error):
+                print(error.code)
                 print(error)
             case .Success(let listing):
                 listing.children.flatMap { $0 as? Subreddit }.forEach { print($0.title) }

@@ -43,3 +43,7 @@ test_config.json
 
 # jazzy
 /docs
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace

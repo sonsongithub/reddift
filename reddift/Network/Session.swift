@@ -144,6 +144,7 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
                 case .Failure(let error):
                     completion(Result(error: error as NSError))
                 case .Success:
+                    print("--token has been upddated--")
                     let task = self.URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
                         let result = closure(data:data, response: response, error: error)
                         completion(result)
@@ -163,16 +164,18 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
      - parameter forceRefreshBeforeExecution: Default is false. If it is true, this method must refresh the current token bofore executing the task.
      - returns: Data task which requests search to reddit.com.
      */
-    func executeTask<T>(request: NSMutableURLRequest, closure: ((data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<T>), completion: ((Result<T>) -> Void), forceRefreshBeforeExecution: Bool = false) -> NSURLSessionDataTask? {
+    func executeTask<T>(request: NSMutableURLRequest, closure: ((data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<T>), completion: ((Result<T>) -> Void), forceRefreshBeforeExecution: Bool = true) -> NSURLSessionDataTask {
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
             let result = closure(data:data, response: response, error: error)
             
             if forceRefreshBeforeExecution {
                 switch result {
                 case .Failure(let error):
+                    print("---")
                     print(error)
                     completion(result)
                 case .Success:
+                    print("--force the current session to update unexpired token--")
                     self.executeTaskAgainAfterRefresh(request, closure: closure, completion: completion)
                 }
             } else {

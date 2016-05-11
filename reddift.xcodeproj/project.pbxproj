@@ -667,6 +667,8 @@
 		14624D001B3D184400A5D8F5 /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseThingObjectTest.swift; sourceTree = "<group>"; };
 		1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseResponseObjectTest.swift; sourceTree = "<group>"; };
+		146959FD1CE37CE2004035CA /* auto-refresh.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = "auto-refresh.playground"; path = "playground/auto-refresh.playground"; sourceTree = "<group>"; };
+		146959FE1CE37CE2004035CA /* reddift.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = reddift.playground; path = playground/reddift.playground; sourceTree = "<group>"; };
 		1471A6EF1AE5DD4C00816FE7 /* More.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = More.swift; sourceTree = "<group>"; };
 		147868B11BF41DFE00D493B5 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		147868C21BF4600300D493B5 /* UserList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = UserList.json; path = ../thing/UserList.json; sourceTree = "<group>"; };
@@ -682,7 +684,6 @@
 		14A352011B1BA392003239F8 /* ListingsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsTest.swift; sourceTree = "<group>"; };
 		14A352041B1BA618003239F8 /* SearchTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTest.swift; sourceTree = "<group>"; };
 		14A352071B1BA62F003239F8 /* UsersTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersTest.swift; sourceTree = "<group>"; };
-		14A3556D1B1705D8001D1FEA /* reddift.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = reddift.playground; sourceTree = "<group>"; };
 		14A94CF71B1000B800EDB844 /* MultiredditDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiredditDescription.swift; sourceTree = "<group>"; };
 		14A94CFC1B10727500EDB844 /* multidesc.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = multidesc.json; sourceTree = "<group>"; };
 		14B1216E1BAA56D800238059 /* Dictionary+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+reddift.swift"; sourceTree = "<group>"; };
@@ -738,7 +739,6 @@
 		14BCBCBF1BCE225100A1FFEB /* objc-header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "objc-header.h"; sourceTree = "<group>"; };
 		14BEDDFD1AE44FC5004F7860 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		14C40CC31AFB26F500F0ECFB /* reddiftSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = reddiftSample.entitlements; sourceTree = "<group>"; };
-		14CE04181CE2A093004547AF /* auto-refresh.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "auto-refresh.playground"; sourceTree = "<group>"; };
 		14D2E21F1B14C8BF00253AC0 /* Thing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Thing.swift; sourceTree = "<group>"; };
 		14E72CAD1B75F20300D4229D /* SessionNoAuthTestSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionNoAuthTestSpec.swift; sourceTree = "<group>"; };
 		14E816CD1BF1785300AAAEFA /* Preference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
@@ -1190,8 +1190,8 @@
 		14E3BAA61BBA4DA800BDDF29 /* playground */ = {
 			isa = PBXGroup;
 			children = (
-				14A3556D1B1705D8001D1FEA /* reddift.playground */,
-				14CE04181CE2A093004547AF /* auto-refresh.playground */,
+				146959FE1CE37CE2004035CA /* reddift.playground */,
+				146959FD1CE37CE2004035CA /* auto-refresh.playground */,
 			);
 			name = playground;
 			sourceTree = "<group>";
