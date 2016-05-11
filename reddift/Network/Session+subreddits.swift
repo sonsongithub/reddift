@@ -299,6 +299,32 @@ extension Session {
         task.resume()
         return task
     }
+        
+    /**
+     Search subreddits by title and description.
+     
+     - parameter query: The search keywords, must be less than 512 characters.
+     - parameter paginator: Paginator object for paging.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    public func getSubredditSearchWithErrorHandling(query: String, paginator: Paginator, completion: (Result<Listing>) -> Void) throws -> NSURLSessionDataTask? {
+        let parameter = paginator.addParametersToDictionary(["q":query])
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/subreddits/search", parameter:parameter, method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
+        
+        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
+            self.updateRateLimitWithURLResponse(response)
+            let result: Result<Listing> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2RedditAny)
+                .flatMap(redditAny2Object)
+            return result
+        }
+    
+        return executeTask(request, closure: closure, completion: completion)
+    }
     
     /**
     DOES NOT WORK... WHY?

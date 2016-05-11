@@ -4,7 +4,18 @@ import Foundation
 import XCPlayground
 import reddift
 
-print("a")
+func doit(session: Session) {
+    do {
+        try session.getSubredditSearchWithErrorHandling("apple", paginator: Paginator(), completion: { (result) -> Void in
+            switch result {
+            case .Failure(let error):
+                print(error)
+            case .Success(let listing):
+                listing.children.flatMap { $0 as? Subreddit }.forEach { print($0.title) }
+            }
+        })
+    } catch { print(error) }
+}
 
 func getAccountInfoFromJSON(json: [String:String]) -> (String, String, String, String)? {
     if let username = json["username"], password = json["password"], client_id = json["client_id"], secret = json["secret"] {
@@ -24,17 +35,7 @@ if let (username, password, clientID, secret) = (NSBundle.mainBundle().URLForRes
                 print(error)
             case .Success(let token):
                 let session = Session(token: token)
-                print(session)
-//                do {
-//                    try session.getSubredditSearch("apple", paginator: Paginator(), completion: { (result) -> Void in
-//                        switch result {
-//                        case .Failure(let error):
-//                            print(error)
-//                        case .Success(let listing):
-//                            listing.children.flatMap { $0 as? Subreddit }.forEach { print($0.title) }
-//                        }
-//                    })
-//                } catch { print(error) }
+                doit(session)
             }
         }))
     } catch { print(error) }
