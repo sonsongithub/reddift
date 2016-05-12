@@ -143,8 +143,9 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
                 switch result {
                 case .Failure(let error):
                     completion(Result(error: error as NSError))
-                case .Success:
-                    print("--token has been upddated--")
+                case .Success(let token):
+                    // http header must be updated with new OAuth token.
+                    request.setOAuth2Token(token)
                     let task = self.URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
                         let result = closure(data:data, response: response, error: error)
                         completion(result)
@@ -164,7 +165,7 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
      - parameter forceRefreshBeforeExecution: Default is false. If it is true, this method must refresh the current token bofore executing the task.
      - returns: Data task which requests search to reddit.com.
      */
-    func executeTask<T>(request: NSMutableURLRequest, closure: ((data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<T>), completion: ((Result<T>) -> Void), forceRefreshBeforeExecution: Bool = true) -> NSURLSessionDataTask {
+    func executeTask<T>(request: NSMutableURLRequest, closure: ((data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<T>), completion: ((Result<T>) -> Void), forceRefreshBeforeExecution: Bool = false) -> NSURLSessionDataTask {
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
             let result = closure(data:data, response: response, error: error)
             
@@ -182,6 +183,14 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
                 switch result {
                 case .Failure(let error):
                     if error.code == 401 {
+                        if let dict = self.token?.JSONObject() {
+                            do {
+                                let data = try NSJSONSerialization.dataWithJSONObject(dict, options: [])
+                                if let str: String = NSString(data:data, encoding:NSUTF8StringEncoding) as? String {
+                                    print(str)
+                                }
+                            } catch { print(error) }
+                        }
                         self.executeTaskAgainAfterRefresh(request, closure: closure, completion: completion)
                     } else {
                         completion(result)

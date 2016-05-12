@@ -118,6 +118,7 @@ extension Session {
         
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
             self.updateRateLimitWithURLResponse(response)
+            print(self.token?.accessToken)
             let result: Result<Listing> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)

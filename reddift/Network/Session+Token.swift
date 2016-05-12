@@ -26,7 +26,7 @@ extension Session {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.token = newToken
                         do {
-                            try OAuth2TokenRepository.saveIntoKeychainToken(newToken)
+//                            try OAuth2TokenRepository.saveIntoKeychainToken(newToken)
                             completion(Result(value: newToken))
                         } catch { completion(Result(error:error as NSError)) }
                     })
