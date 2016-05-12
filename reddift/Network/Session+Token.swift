@@ -26,7 +26,7 @@ extension Session {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.token = newToken
                         do {
-//                            try OAuth2TokenRepository.saveIntoKeychainToken(newToken)
+                            try OAuth2TokenRepository.saveIntoKeychainToken(newToken)
                             completion(Result(value: newToken))
                         } catch { completion(Result(error:error as NSError)) }
                     })
@@ -58,5 +58,20 @@ extension Session {
                 }
             })
         } catch { throw error }
+    }
+    
+    /**
+     Set an expired token to self.
+     This method is implemented in order to test codes to automatiaclly refresh an expired token.
+    */
+    public func setDummyExpiredToken() {
+        if let path = NSBundle.mainBundle().pathForResource("expired_token.json", ofType: nil), let data = NSData(contentsOfFile: path) {
+            do {
+                if let json = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject] {
+                    let token = OAuth2Token(json)
+                    self.token = token
+                }
+            } catch { print(error) }
+        }
     }
 }

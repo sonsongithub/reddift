@@ -47,3 +47,5 @@ test_config.json
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace
+
+expired_token.json
