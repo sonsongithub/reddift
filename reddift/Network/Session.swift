@@ -134,10 +134,10 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
      Executes the passed task after refreshing the current OAuth token.
      
      - parameter request: To be written.
-     - parameter closure: To be written.
+     - parameter handleResponse: To be written.
      - parameter completion: To be written.
      */
-    func executeTaskAgainAfterRefresh<T>(request: NSMutableURLRequest, closure: (data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<T>, completion: (Result<T>) -> Void) -> Void {
+    func executeTaskAgainAfterRefresh<T>(request: NSMutableURLRequest, handleResponse: (data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<T>, completion: (Result<T>) -> Void) -> Void {
         do {
             try self.refreshToken({ (result) -> Void in
                 switch result {
@@ -147,8 +147,7 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
                     // http header must be updated with new OAuth token.
                     request.setOAuth2Token(token)
                     let task = self.URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-                        let result = closure(data:data, response: response, error: error)
-                        completion(result)
+                        completion(handleResponse(data:data, response: response, error: error))
                     })
                     task.resume()
                 }
@@ -162,42 +161,21 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
      - parameter request: To be written.
      - parameter closure: To be written.
      - parameter completion: To be written.
-     - parameter forceRefreshBeforeExecution: Default is false. If it is true, this method must refresh the current token bofore executing the task.
      - returns: Data task which requests search to reddit.com.
      */
-    func executeTask<T>(request: NSMutableURLRequest, closure: ((data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<T>), completion: ((Result<T>) -> Void), forceRefreshBeforeExecution: Bool = false) -> NSURLSessionDataTask {
+    func executeTask<T>(request: NSMutableURLRequest, handleResponse: ((data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<T>), completion: ((Result<T>) -> Void)) -> NSURLSessionDataTask {
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-            let result = closure(data:data, response: response, error: error)
-            
-            if forceRefreshBeforeExecution {
-                switch result {
-                case .Failure(let error):
-                    print("---")
-                    print(error)
-                    completion(result)
-                case .Success:
-                    print("--force the current session to update unexpired token--")
-                    self.executeTaskAgainAfterRefresh(request, closure: closure, completion: completion)
-                }
-            } else {
-                switch result {
-                case .Failure(let error):
-                    if error.code == 401 {
-                        if let dict = self.token?.JSONObject() {
-                            do {
-                                let data = try NSJSONSerialization.dataWithJSONObject(dict, options: [])
-                                if let str: String = NSString(data:data, encoding:NSUTF8StringEncoding) as? String {
-                                    print(str)
-                                }
-                            } catch { print(error) }
-                        }
-                        self.executeTaskAgainAfterRefresh(request, closure: closure, completion: completion)
-                    } else {
-                        completion(result)
-                    }
-                case .Success:
+            let result = handleResponse(data:data, response: response, error: error)
+            switch result {
+            case .Failure(let error):
+                guard let token = self.token else { completion(result); return; }
+                if !token.refreshToken.isEmpty && error.code == 401 {
+                    self.executeTaskAgainAfterRefresh(request, handleResponse: handleResponse, completion: completion)
+                } else {
                     completion(result)
                 }
+            case .Success:
+                completion(result)
             }
         })
         task.resume()
