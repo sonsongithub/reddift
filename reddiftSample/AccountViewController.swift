@@ -81,7 +81,7 @@ class AccountViewController: UITableViewController {
                         do {
                             let token: OAuth2Token = try OAuth2TokenRepository.restoreFromKeychainWithName(name)
                             con.session = Session(token: token)
-//                            con.session?.setDummyExpiredToken()
+                            con.session?.setDummyExpiredToken()
                         } catch { print(error) }
                     }
                 }

@@ -323,7 +323,7 @@ extension Session {
             return result
         }
     
-        return executeTask(request, closure: closure, completion: completion)
+        return executeTask(request, handleResponse: closure, completion: completion)
     }
     
     /**

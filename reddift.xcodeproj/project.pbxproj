@@ -1242,11 +1242,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14364CA21BEDA09F00FECE58 /* Build configuration list for PBXNativeTarget "reddift-tvOS" */;
 			buildPhases = (
+				146576321CC85E1D005ED404 /* Swiftlint */,
 				14364C881BEDA09F00FECE58 /* Sources */,
 				14364C891BEDA09F00FECE58 /* Frameworks */,
 				14364C8A1BEDA09F00FECE58 /* Headers */,
 				14364C8B1BEDA09F00FECE58 /* Resources */,
-				146576321CC85E1D005ED404 /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -1279,6 +1279,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14364D531BEDA9E300FECE58 /* Build configuration list for PBXNativeTarget "reddiftSampleTV" */;
 			buildPhases = (
+				14EBFC0E1CE630F50038C3ED /* Swiftlint */,
 				14364D431BEDA9E200FECE58 /* Sources */,
 				14364D441BEDA9E200FECE58 /* Frameworks */,
 				14364D451BEDA9E200FECE58 /* Resources */,
@@ -1335,6 +1336,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14B5EBEA1AF34E920065BC5E /* Build configuration list for PBXNativeTarget "reddiftSample" */;
 			buildPhases = (
+				14EBFC0D1CE630CF0038C3ED /* Swiftlint */,
 				14B5EBCA1AF34E920065BC5E /* Sources */,
 				14B5EBCB1AF34E920065BC5E /* Frameworks */,
 				14B5EBCC1AF34E920065BC5E /* Resources */,
@@ -1354,11 +1356,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14F812131AF9EA9F008F6F3C /* Build configuration list for PBXNativeTarget "reddift-OSX" */;
 			buildPhases = (
+				146576331CC85E32005ED404 /* Swiftlint */,
 				14F811FB1AF9EA9F008F6F3C /* Sources */,
 				14F811FC1AF9EA9F008F6F3C /* Frameworks */,
 				14F811FD1AF9EA9F008F6F3C /* Headers */,
 				14F811FE1AF9EA9F008F6F3C /* Resources */,
-				146576331CC85E32005ED404 /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -1648,6 +1650,34 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  echo \"SwiftLint\"\n  swiftlint\nelse\n  echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+		14EBFC0D1CE630CF0038C3ED /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+		14EBFC0E1CE630F50038C3ED /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 

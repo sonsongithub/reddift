@@ -133,9 +133,9 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
     /**
      Executes the passed task after refreshing the current OAuth token.
      
-     - parameter request: To be written.
-     - parameter handleResponse: To be written.
-     - parameter completion: To be written.
+     - parameter request: Request object is used for creating NSURLSessionDataTask. OAuth token of thie reqeust can be replaced new token when it is expired.
+     - parameter handleResponse: Closure returns Result<T> object by handling response, data and error that is returned from NSURLSession.
+     - parameter completion: The completion handler to call when the load request is complete.
      */
     func executeTaskAgainAfterRefresh<T>(request: NSMutableURLRequest, handleResponse: (data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<T>, completion: (Result<T>) -> Void) -> Void {
         do {
@@ -146,7 +146,9 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
                 case .Success(let token):
                     // http header must be updated with new OAuth token.
                     request.setOAuth2Token(token)
+                    print("new token - \(token.accessToken) - automatically refreshed.")
                     let task = self.URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+                        self.updateRateLimitWithURLResponse(response)
                         completion(handleResponse(data:data, response: response, error: error))
                     })
                     task.resume()
@@ -158,13 +160,14 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
     /**
      Executes the passed task. It's executed after refreshing the current OAuth token if the current OAuth token is expired.
      
-     - parameter request: To be written.
-     - parameter closure: To be written.
-     - parameter completion: To be written.
+     - parameter request: Request object is used for creating NSURLSessionDataTask. OAuth token of thie reqeust can be replaced new token when it is expired.
+     - parameter handleResponse: Closure returns Result<T> object by handling response, data and error that is returned from NSURLSession.
+     - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
     func executeTask<T>(request: NSMutableURLRequest, handleResponse: ((data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<T>), completion: ((Result<T>) -> Void)) -> NSURLSessionDataTask {
         let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response)
             let result = handleResponse(data:data, response: response, error: error)
             switch result {
             case .Failure(let error):
