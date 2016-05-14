@@ -24,7 +24,7 @@ class AccountViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didSaveToken:", name: OAuth2TokenRepositoryDidSaveToken, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AccountViewController.didSaveToken(_:)), name: OAuth2TokenRepositoryDidSaveToken, object: nil)
         reload()
     }
 
