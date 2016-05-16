@@ -38,7 +38,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/recommend/sr/srnames", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[String]> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -71,7 +70,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/search_reddit_names", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[String]> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -95,7 +93,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/r/\(subredditName)/about", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Subreddit> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -117,7 +114,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/subreddits_by_topic", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[String]> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -144,7 +140,6 @@ extension Session {
             else { throw ReddiftError.URLError.error }
         
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<String> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -177,7 +172,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[User]> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -217,7 +211,6 @@ extension Session {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:subredditWhere.path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -249,7 +242,6 @@ extension Session {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:mine.path, parameter:paginator.parameterDictionary, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -272,7 +264,6 @@ extension Session {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/subreddits/search", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -295,7 +286,6 @@ extension Session {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/subreddits/search", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
-            self.updateRateLimitWithURLResponse(response)
             let result: Result<Listing> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)

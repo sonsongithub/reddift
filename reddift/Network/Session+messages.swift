@@ -24,7 +24,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/unread_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -44,7 +43,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/read_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -63,7 +61,7 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/read_all_messages", parameter:nil, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
-            self.updateRateLimitWithURLResponse(response)
+            
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -83,7 +81,7 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/collapse_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
-            self.updateRateLimitWithURLResponse(response)
+            
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -103,7 +101,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/uncollapse_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -122,7 +119,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/block", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -141,7 +137,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/unblock_subreddit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -162,7 +157,6 @@ extension Session {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -198,7 +192,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)

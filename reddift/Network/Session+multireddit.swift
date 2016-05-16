@@ -75,7 +75,6 @@ extension Session {
             guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multipath, parameter:parameter, method:"POST", token:token)
                 else { throw ReddiftError.URLError.error }
             let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Multireddit> in
-                self.updateRateLimitWithURLResponse(response)
                 return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
@@ -98,7 +97,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multi.path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[Multireddit]> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -119,7 +117,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multi.path, method:"DELETE", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<String> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2String)
@@ -153,7 +150,6 @@ extension Session {
                 guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multipath, parameter:parameter, method:"PUT", token:token)
                     else { throw ReddiftError.URLError.error }
                 let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Multireddit> in
-                    self.updateRateLimitWithURLResponse(response)
                     return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                         .flatMap(response2Data)
                         .flatMap(data2Json)
@@ -176,7 +172,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/user/" + username, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[Multireddit]> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -218,7 +213,6 @@ extension Session {
             guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/copy", parameter:parameter, method:"POST", token:token)
                 else { throw ReddiftError.URLError.error }
             let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Multireddit> in
-                self.updateRateLimitWithURLResponse(response)
                 return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
@@ -245,7 +239,6 @@ extension Session {
             guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/rename", parameter:parameter, method:"POST", token:token)
                 else { throw ReddiftError.URLError.error }
             let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Multireddit> in
-                self.updateRateLimitWithURLResponse(response)
                 return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
@@ -272,7 +265,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multireddit.path + "/r/" + srname, parameter:parameter, method:"PUT", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<String> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -304,7 +296,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multireddit.path + "/r/" + srname, parameter:parameter, method:"DELETE", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -322,7 +313,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/mine", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[Multireddit]> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -343,7 +333,6 @@ extension Session {
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multireddit.path + "/description", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<MultiredditDescription> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -373,7 +362,6 @@ extension Session {
             guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multireddit.path + "/description/", parameter:parameter, method:"PUT", token:token)
                 else { throw ReddiftError.URLError.error }
             let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<MultiredditDescription> in
-                self.updateRateLimitWithURLResponse(response)
                 return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)

@@ -54,7 +54,7 @@ extension Session {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/comments/" + link.id + ".json", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<(Listing, Listing)> in
-            self.updateRateLimitWithURLResponse(response)
+            
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -113,7 +113,6 @@ extension Session {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -172,7 +171,6 @@ extension Session {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -196,7 +194,6 @@ extension Session {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<(Listing, Listing)> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -226,7 +223,6 @@ extension Session {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/related/" + thing.id, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<(Listing, Listing)> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -254,7 +250,6 @@ extension Session {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/duplicates/" + thing.id, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<(Listing, Listing)> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -276,7 +271,6 @@ extension Session {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/by_id/" + fullnameList.joinWithSeparator(","), method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
-            self.updateRateLimitWithURLResponse(response)
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
