@@ -6,7 +6,7 @@ disabled_rules:
 
 excluded:
 - reddift/vendor
-- reddift.playground
+- playground
 - reddiftTests
 - reddiftSample
 - reddiftSampleTV

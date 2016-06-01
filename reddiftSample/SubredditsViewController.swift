@@ -38,7 +38,7 @@ class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpd
         self.definesPresentationContext = true
         
         segmentedControl = UISegmentedControl(items:sortTitles)
-        segmentedControl?.addTarget(self, action: "segmentChanged:", forControlEvents: UIControlEvents.ValueChanged)
+        segmentedControl?.addTarget(self, action: #selector(SubredditsViewController.segmentChanged(_:)), forControlEvents: UIControlEvents.ValueChanged)
         segmentedControl?.frame = CGRect(x: 0, y: 0, width: 300, height: 28)
         segmentedControl?.selectedSegmentIndex = 0
         
@@ -62,16 +62,14 @@ class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpd
                     switch result {
                     case .Failure:
                         print(result.error)
-                    case .Success:
+                    case .Success(let listing):
                         print(result.value)
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let subreddit = obj as? Subreddit {
-                                    self.subreddits.append(subreddit)
-                                }
+                        for obj in listing.children {
+                            if let subreddit = obj as? Subreddit {
+                                self.subreddits.append(subreddit)
                             }
-                            self.paginator = listing.paginator
                         }
+                        self.paginator = listing.paginator
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             self.tableView.reloadData()
                             self.loading = false

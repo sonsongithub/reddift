@@ -81,15 +81,12 @@ extension Session {
     public func checkNeedsCAPTCHA(completion: (Result<Bool>) -> Void) throws -> NSURLSessionDataTask {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/needs_captcha", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Bool> in
+            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Bool)
-            completion(result)
-        })
-        task.resume()
-        return task
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
     }
     
     /**
@@ -104,16 +101,13 @@ extension Session {
         let parameter: [String:String] = ["api_type":"json"]
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/new_captcha", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<String> in
+            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(idenJSON2String)
-            completion(result)
-        })
-        task.resume()
-        return task
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
     }
     
     /**
@@ -130,15 +124,12 @@ extension Session {
     public func getCAPTCHA(iden: String, completion: (Result<CAPTCHAImage>) -> Void) throws -> NSURLSessionDataTask {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/captcha/" + iden, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<CAPTCHAImage> in
+            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Image)
-            completion(result)
-        })
-        task.resume()
-        return task
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
     }
     
     /**

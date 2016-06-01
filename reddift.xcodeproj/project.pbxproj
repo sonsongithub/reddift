@@ -284,6 +284,8 @@
 		14624D021B3D184400A5D8F5 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14624D001B3D184400A5D8F5 /* Response.swift */; };
 		14624D031B3D184400A5D8F5 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14624D001B3D184400A5D8F5 /* Response.swift */; };
 		14624D041B3D184400A5D8F5 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14624D001B3D184400A5D8F5 /* Response.swift */; };
+		14695A011CE4E8E7004035CA /* expired_token.json in Resources */ = {isa = PBXBuildFile; fileRef = 146959FF1CE4E8E7004035CA /* expired_token.json */; };
+		14695A021CE4E8E7004035CA /* expired_token.json.sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 14695A001CE4E8E7004035CA /* expired_token.json.sample.json */; };
 		147868B21BF41DFE00D493B5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147868B11BF41DFE00D493B5 /* User.swift */; };
 		147868B31BF41DFE00D493B5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147868B11BF41DFE00D493B5 /* User.swift */; };
 		147868B41BF41DFE00D493B5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147868B11BF41DFE00D493B5 /* User.swift */; };
@@ -667,6 +669,10 @@
 		14624D001B3D184400A5D8F5 /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseThingObjectTest.swift; sourceTree = "<group>"; };
 		1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseResponseObjectTest.swift; sourceTree = "<group>"; };
+		146959FD1CE37CE2004035CA /* auto-refresh.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = "auto-refresh.playground"; path = "playground/auto-refresh.playground"; sourceTree = "<group>"; };
+		146959FE1CE37CE2004035CA /* reddift.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = reddift.playground; path = playground/reddift.playground; sourceTree = "<group>"; };
+		146959FF1CE4E8E7004035CA /* expired_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = expired_token.json; sourceTree = "<group>"; };
+		14695A001CE4E8E7004035CA /* expired_token.json.sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = expired_token.json.sample.json; sourceTree = "<group>"; };
 		1471A6EF1AE5DD4C00816FE7 /* More.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = More.swift; sourceTree = "<group>"; };
 		147868B11BF41DFE00D493B5 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		147868C21BF4600300D493B5 /* UserList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = UserList.json; path = ../thing/UserList.json; sourceTree = "<group>"; };
@@ -682,7 +688,6 @@
 		14A352011B1BA392003239F8 /* ListingsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsTest.swift; sourceTree = "<group>"; };
 		14A352041B1BA618003239F8 /* SearchTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTest.swift; sourceTree = "<group>"; };
 		14A352071B1BA62F003239F8 /* UsersTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersTest.swift; sourceTree = "<group>"; };
-		14A3556D1B1705D8001D1FEA /* reddift.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = reddift.playground; sourceTree = "<group>"; };
 		14A94CF71B1000B800EDB844 /* MultiredditDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiredditDescription.swift; sourceTree = "<group>"; };
 		14A94CFC1B10727500EDB844 /* multidesc.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = multidesc.json; sourceTree = "<group>"; };
 		14B1216E1BAA56D800238059 /* Dictionary+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+reddift.swift"; sourceTree = "<group>"; };
@@ -1018,6 +1023,8 @@
 		14B5EBD01AF34E920065BC5E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				146959FF1CE4E8E7004035CA /* expired_token.json */,
+				14695A001CE4E8E7004035CA /* expired_token.json.sample.json */,
 				14B5EBF41AF35B620065BC5E /* objc-header.h */,
 				14B5EC341AF35C220065BC5E /* reddift_config.json */,
 				14B5EC351AF35C220065BC5E /* reddift_config.json.sample */,
@@ -1189,7 +1196,8 @@
 		14E3BAA61BBA4DA800BDDF29 /* playground */ = {
 			isa = PBXGroup;
 			children = (
-				14A3556D1B1705D8001D1FEA /* reddift.playground */,
+				146959FE1CE37CE2004035CA /* reddift.playground */,
+				146959FD1CE37CE2004035CA /* auto-refresh.playground */,
 			);
 			name = playground;
 			sourceTree = "<group>";
@@ -1234,11 +1242,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14364CA21BEDA09F00FECE58 /* Build configuration list for PBXNativeTarget "reddift-tvOS" */;
 			buildPhases = (
+				146576321CC85E1D005ED404 /* Swiftlint */,
 				14364C881BEDA09F00FECE58 /* Sources */,
 				14364C891BEDA09F00FECE58 /* Frameworks */,
 				14364C8A1BEDA09F00FECE58 /* Headers */,
 				14364C8B1BEDA09F00FECE58 /* Resources */,
-				146576321CC85E1D005ED404 /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -1271,6 +1279,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14364D531BEDA9E300FECE58 /* Build configuration list for PBXNativeTarget "reddiftSampleTV" */;
 			buildPhases = (
+				14EBFC0E1CE630F50038C3ED /* Swiftlint */,
 				14364D431BEDA9E200FECE58 /* Sources */,
 				14364D441BEDA9E200FECE58 /* Frameworks */,
 				14364D451BEDA9E200FECE58 /* Resources */,
@@ -1327,6 +1336,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14B5EBEA1AF34E920065BC5E /* Build configuration list for PBXNativeTarget "reddiftSample" */;
 			buildPhases = (
+				14EBFC0D1CE630CF0038C3ED /* Swiftlint */,
 				14B5EBCA1AF34E920065BC5E /* Sources */,
 				14B5EBCB1AF34E920065BC5E /* Frameworks */,
 				14B5EBCC1AF34E920065BC5E /* Resources */,
@@ -1346,11 +1356,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14F812131AF9EA9F008F6F3C /* Build configuration list for PBXNativeTarget "reddift-OSX" */;
 			buildPhases = (
+				146576331CC85E32005ED404 /* Swiftlint */,
 				14F811FB1AF9EA9F008F6F3C /* Sources */,
 				14F811FC1AF9EA9F008F6F3C /* Frameworks */,
 				14F811FD1AF9EA9F008F6F3C /* Headers */,
 				14F811FE1AF9EA9F008F6F3C /* Resources */,
-				146576331CC85E32005ED404 /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -1543,6 +1553,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14695A011CE4E8E7004035CA /* expired_token.json in Resources */,
 				14B5EC371AF35C220065BC5E /* reddift_config.json.sample in Resources */,
 				14B5EBD81AF34E920065BC5E /* Main.storyboard in Resources */,
 				14B5EBDD1AF34E920065BC5E /* LaunchScreen.xib in Resources */,
@@ -1551,6 +1562,7 @@
 				14B5EC051AF35B620065BC5E /* UZTextViewCell.xib in Resources */,
 				14B5EC361AF35C220065BC5E /* reddift_config.json in Resources */,
 				14B5EBDA1AF34E920065BC5E /* Images.xcassets in Resources */,
+				14695A021CE4E8E7004035CA /* expired_token.json.sample.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1638,6 +1650,34 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  echo \"SwiftLint\"\n  swiftlint\nelse\n  echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+		14EBFC0D1CE630CF0038C3ED /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+		14EBFC0E1CE630F50038C3ED /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 

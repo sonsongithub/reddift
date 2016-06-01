@@ -28,16 +28,13 @@ extension Session {
         let parameter: [String:String] = ["thing_id":parentName, "api_type":"json", "text":text]
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/comment", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Comment> in
+            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2Comment)
-            completion(result)
-        })
-        task.resume()
-        return task
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
     }
     
     /**
@@ -47,11 +44,11 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func deleteCommentOrLink(name: String, completion: (Result<RedditAny>) -> Void) throws -> NSURLSessionDataTask {
+    public func deleteCommentOrLink(name: String, completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
         let parameter: [String:String] = ["id":name]
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/del", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        return handleAsJSONRequest(request, completion:completion)
+        return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
     
     /**
@@ -66,7 +63,7 @@ extension Session {
         let parameter: [String:String] = ["dir":String(direction.rawValue), "id":name]
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/vote", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        return handleAsJSONRequest(request, completion:completion)
+        return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
     
     /**
@@ -86,7 +83,7 @@ extension Session {
         let path = save ? "/api/save" : "/api/unsave"
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        return handleAsJSONRequest(request, completion:completion)
+        return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
     
     /**
@@ -102,7 +99,7 @@ extension Session {
         let path = hide ? "/api/hide" : "/api/unhide"
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        return handleAsJSONRequest(request, completion:completion)
+        return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
     
     /**
@@ -117,9 +114,9 @@ extension Session {
         let commaSeparatedNameString = names.joinWithSeparator(",")
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+        
+        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
+            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -130,10 +127,8 @@ extension Session {
                     }
                     return Result(error: ReddiftError.Malformed.error)
                 })
-            completion(result)
-        })
-        task.resume()
-        return task
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
     }
     
     /**
@@ -143,11 +138,11 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func setNSFW(mark: Bool, thing: Thing, completion: (Result<RedditAny>) -> Void) throws -> NSURLSessionDataTask {
+    public func setNSFW(mark: Bool, thing: Thing, completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
         let path = mark ? "/api/marknsfw" : "/api/unmarknsfw"
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:["id":thing.name], method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        return handleAsJSONRequest(request, completion:completion)
+        return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
     
     // MARK: BDT does not cover following methods.
@@ -161,7 +156,7 @@ extension Session {
     public func getSavedCategories(completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/saved_categories", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        return handleAsJSONRequest(request, completion:completion)
+        return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
     
     /**
@@ -184,7 +179,7 @@ extension Session {
         ]
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/report", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        return handleRequest(request, completion:completion)
+        return executeTask(request, handleResponse: handleResponse2RedditAny, completion: completion)
     }
     
     /**
@@ -212,7 +207,7 @@ extension Session {
         ]
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        return handleAsJSONRequest(request, completion:completion)
+        return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
     
     /**
@@ -241,7 +236,7 @@ extension Session {
         ]
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        return handleAsJSONRequest(request, completion:completion)
+        return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
     
     /**
@@ -271,15 +266,12 @@ extension Session {
         }
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/morechildren", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[Thing]> in
+            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2CommentAndMore)
-            completion(result)
-        })
-        task.resume()
-        return task
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
     }
 }
