@@ -17,20 +17,17 @@ extension Session {
     public func getPreference(completion: (Result<Preference>) -> Void) throws -> NSURLSessionDataTask {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/v1/me/prefs", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Preference> in
+            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2Preference)
-            completion(result)
-        })
-        task.resume()
-        return task
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
     }
     
     /**
-     DOES NOT WORK, I CAN NOT UNDERSTAND ABOUT REASON.
+     DOES NOT WORK, I CAN NOT UNDERSTAND WHY IT DOES NOT.
      Patch preference with Preference object.
      - parameter preference: Preference object.
      - parameter completion: The completion handler to call when the load request is complete.
@@ -42,16 +39,13 @@ extension Session {
             let data: NSData = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
             guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/v1/me/prefs", data:data, method:"PATCH", token:token)
                 else { throw ReddiftError.URLError.error }
-            let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-                self.updateRateLimitWithURLResponse(response)
-                let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Preference> in
+                return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
                     .flatMap(json2Preference)
-                completion(result)
-            })
-            task.resume()
-            return task
+            }
+            return executeTask(request, handleResponse: closure, completion: completion)
         } catch { throw error }
     }
     
@@ -73,16 +67,13 @@ extension Session {
                 ])
             guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/prefs/friends", parameter:parameter, method:"GET", token:token)
                 else { throw ReddiftError.URLError.error }
-            let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-                self.updateRateLimitWithURLResponse(response)
-                let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<RedditAny> in
+                return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
                     .flatMap(json2RedditAny)
-                completion(result)
-            })
-            task.resume()
-            return task
+            }
+            return executeTask(request, handleResponse: closure, completion: completion)
         } catch { throw error }
     }
     
@@ -104,17 +95,14 @@ extension Session {
                 ])
             guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/prefs/blocked", parameter:parameter, method:"GET", token:token)
                 else { throw ReddiftError.URLError.error }
-            let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-                self.updateRateLimitWithURLResponse(response)
-                let result: Result<[User]> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[User]> in
+                return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
                     .flatMap(json2RedditAny)
                     .flatMap(redditAny2Object)
-                completion(result)
-            })
-            task.resume()
-            return task
+            }
+            return executeTask(request, handleResponse: closure, completion: completion)
         } catch { throw error }
     }
     
@@ -126,17 +114,14 @@ extension Session {
     public func getKarma(completion: (Result<[SubredditKarma]>) -> Void) throws -> NSURLSessionDataTask {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/karma", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result: Result<[SubredditKarma]> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[SubredditKarma]> in
+            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
                 .flatMap(redditAny2Object)
-            completion(result)
-        })
-        task.resume()
-        return task
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
     }
     
     /**
@@ -147,17 +132,14 @@ extension Session {
     public func getTrophies(completion: (Result<[Trophy]>) -> Void) throws -> NSURLSessionDataTask {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/trophies", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result: Result<[Trophy]> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[Trophy]> in
+            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
                 .flatMap(redditAny2Object)
-            completion(result)
-        })
-        task.resume()
-        return task
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
     }
     
     /**
@@ -168,15 +150,12 @@ extension Session {
     public func getProfile(completion: (Result<Account>) -> Void) throws -> NSURLSessionDataTask {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Account> in
+            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2Account)
-            completion(result)
-        })
-        task.resume()
-        return task
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
     }
 }

@@ -45,7 +45,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
         self.definesPresentationContext = true
 		
 		segmentedControl = UISegmentedControl(items:sortTitles)
-		segmentedControl?.addTarget(self, action: "segmentChanged:", forControlEvents: UIControlEvents.ValueChanged)
+		segmentedControl?.addTarget(self, action: #selector(LinkViewController.segmentChanged(_:)), forControlEvents: UIControlEvents.ValueChanged)
 		segmentedControl?.frame = CGRect(x: 0, y: 0, width: 300, height: 28)
 		segmentedControl?.selectedSegmentIndex = 0
 		
