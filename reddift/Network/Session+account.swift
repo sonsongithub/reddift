@@ -142,6 +142,12 @@ extension Session {
         return executeTask(request, handleResponse: closure, completion: completion)
     }
     
+    public func requestForGettingProfile() throws -> NSMutableURLRequest {
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me", method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
+        return request
+    }
+    
     /**
     Gets the identity of the user currently authenticated via OAuth.
     - parameter completion: The completion handler to call when the load request is complete.

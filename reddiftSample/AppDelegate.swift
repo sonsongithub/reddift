@@ -16,8 +16,27 @@ public let OAuth2TokenRepositoryDidFailToSaveToken      = "OAuth2TokenRepository
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    var backgroundInboxChecker: BackgroundInboxChecker? = nil
+    var session: Session? = nil
     var window: UIWindow?
+    
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+        application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+        if let name = NSUserDefaults.standardUserDefaults().stringForKey("name") {
+            do {
+                let token: OAuth2Token = try OAuth2TokenRepository.restoreFromKeychainWithName(name)
+                session = Session(token: token)
+            } catch { print(error) }
+        }
+        return true
+    }
+    
+    func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        if let session = session {
+            backgroundInboxChecker = BackgroundInboxChecker(session)
+            backgroundInboxChecker?.check()
+        }
+    }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion: {(result) -> Void in

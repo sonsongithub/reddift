@@ -98,7 +98,7 @@ public struct OAuth2Token: Token {
     
     - returns: NSMutableURLRequest object to request refreshing your access token.
     */
-    func requestForRefreshing() -> NSMutableURLRequest? {
+    public func requestForRefreshing() -> NSMutableURLRequest? {
         guard let URL = NSURL(string: OAuth2Token.baseURL + "/access_token") else { return nil }
         let request = NSMutableURLRequest(URL:URL)
         do {

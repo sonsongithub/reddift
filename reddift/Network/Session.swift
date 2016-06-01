@@ -100,37 +100,6 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
     }
     
     /**
-    Returns object which is generated from JSON object from reddit.com.
-    This method automatically parses JSON and generates data.
-    
-    - parameter response: NSURLResponse object is passed from NSURLSession.
-    - parameter completion: The completion handler to call when the load request is complete.
-    - returns: Data task which requests search to reddit.com.
-    */
-    func handleRequest(request: NSMutableURLRequest, completion: (Result<RedditAny>) -> Void) -> NSURLSessionDataTask {
-		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-            completion(self.handleResponse2RedditAny(data, response: response, error: error))
-        })
-        task.resume()
-        return task
-    }
-        
-    /**
-    Returns JSON object which is obtained from reddit.com.
-    
-    - parameter response: NSURLResponse object is passed from NSURLSession.
-    - parameter completion: The completion handler to call when the load request is complete.
-    - returns: Data task which requests search to reddit.com.
-    */
-    func handleAsJSONRequest(request: NSMutableURLRequest, completion: (Result<JSON>) -> Void) -> NSURLSessionDataTask {
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-            completion(self.handleResponse2JSON(data, response: response, error: error))
-        })
-        task.resume()
-        return task
-    }
-
-    /**
      Executes the passed task after refreshing the current OAuth token.
      
      - parameter request: Request object is used for creating NSURLSessionDataTask. OAuth token of thie reqeust can be replaced new token when it is expired.
