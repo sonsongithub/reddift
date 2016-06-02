@@ -28,12 +28,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 session = Session(token: token)
             } catch { print(error) }
         }
+        
+        let settings = UIUserNotificationSettings(
+            forTypes: [.Badge, .Sound, .Alert],
+            categories: nil)
+        application.registerUserNotificationSettings(settings);
+        
         return true
     }
     
     func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
         if let session = session {
-            backgroundInboxChecker = BackgroundInboxChecker(session)
+            backgroundInboxChecker = BackgroundInboxChecker(session, completionHandler:completionHandler)
             backgroundInboxChecker?.check()
         }
     }

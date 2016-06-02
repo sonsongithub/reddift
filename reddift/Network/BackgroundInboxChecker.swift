@@ -14,9 +14,11 @@ public class BackgroundInboxChecker: NSObject, NSURLSessionDelegate {
     var profileURLSession: NSURLSession? = nil
     var tokenURLSession: NSURLSession? = nil
     var again: Bool = false
+    let handler: ((UIBackgroundFetchResult) -> Void)
     
-    public init(_ currentSession: Session) {
+    public init(_ currentSession: Session, completionHandler: (UIBackgroundFetchResult) -> Void) {
         session = currentSession
+        handler = completionHandler
         super.init()
         profileURLSession = NSURLSession(configuration: NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("com.sonson.reddift.profile"), delegate: self, delegateQueue: nil)
         tokenURLSession = NSURLSession(configuration: NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("com.sonson.reddift.token"), delegate: self, delegateQueue: nil)
@@ -46,7 +48,7 @@ public class BackgroundInboxChecker: NSObject, NSURLSessionDelegate {
                             task.resume()
                         }
                     } else {
-                        
+                        handler(.Failed)
                     }
                 } else if response.statusCode == 200 {
                     let data = NSData(contentsOfURL: didFinishDownloadingToURL)
@@ -57,8 +59,11 @@ public class BackgroundInboxChecker: NSObject, NSURLSessionDelegate {
                     switch result {
                     case .Success(let account):
                         print(account)
+                        UIApplication.sharedApplication().applicationIconBadgeNumber = account.inboxCount
+                        handler(.NewData)
                     case .Failure(let error):
                         print(error)
+                        handler(.Failed)
                     }
                 }
             }
@@ -91,27 +96,26 @@ public class BackgroundInboxChecker: NSObject, NSURLSessionDelegate {
                                 task.resume()
                             } catch {
                                 print(error)
+                                handler(.Failed)
                             }
 
                         case .Failure(let error):
                             print(error)
+                            handler(.Failed)
                         }
                     case .Failure(let error):
                         print(error)
+                        handler(.Failed)
                     }
+                } else {
+                    handler(.Failed)
                 }
             }
         }
-        
-//        // all error
-//        
-//        print(downloadTask)
-//        print(downloadTask.response)
-//        print(didFinishDownloadingToURL)
     }
     
     func URLSession(session: NSURLSession, error: NSError?) {
-        print(error)
+        handler(.Failed)
     }
     
     public func URLSessionDidFinishEventsForBackgroundURLSession(session: NSURLSession) {
