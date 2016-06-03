@@ -16,7 +16,7 @@ public let OAuth2TokenRepositoryDidFailToSaveToken      = "OAuth2TokenRepository
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    var backgroundInboxChecker: BackgroundInboxChecker? = nil
+    var fetcher: BackgroundFetch? = nil
     var session: Session? = nil
     var window: UIWindow?
     
@@ -39,8 +39,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
         if let session = session {
-            backgroundInboxChecker = BackgroundInboxChecker(session, completionHandler:completionHandler)
-            backgroundInboxChecker?.check()
+            let request = try! session.requestForGettingProfile()
+            let fetcher = BackgroundFetch(session,
+                                      request: request,
+                                      taskHandler: { (response, dataURL, error) -> Void in
+                                        if let response = response, dataURL = dataURL, data = NSData(contentsOfURL: dataURL) {
+                                            if response.statusCode == 200 {
+                                                let result = parseAccount(data, response: response)
+                                                switch result {
+                                                case .Success(let account):
+                                                    print(account)
+                                                    UIApplication.sharedApplication().applicationIconBadgeNumber = account.inboxCount
+                                                    completionHandler(.NewData)
+                                                    return
+                                                case .Failure(let error):
+                                                    print(error)
+                                                    completionHandler(.Failed)
+                                                }
+                                            }
+                                        } else {
+                                            completionHandler(.Failed)
+                                        }
+            })
+            fetcher.resume()
+            self.fetcher = fetcher
         }
     }
     

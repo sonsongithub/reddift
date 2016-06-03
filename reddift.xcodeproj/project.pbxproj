@@ -427,6 +427,8 @@
 		14D2E2211B14C8BF00253AC0 /* Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D2E21F1B14C8BF00253AC0 /* Thing.swift */; };
 		14D2E2221B14C8BF00253AC0 /* Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D2E21F1B14C8BF00253AC0 /* Thing.swift */; };
 		14D2E2231B14C8BF00253AC0 /* Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D2E21F1B14C8BF00253AC0 /* Thing.swift */; };
+		14E447E31D0118D500AC3E6B /* BackgroundTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E447E21D0118D500AC3E6B /* BackgroundTask.swift */; };
+		14E447E51D013D2C00AC3E6B /* BackgroundFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E447E41D013D2C00AC3E6B /* BackgroundFetch.swift */; };
 		14E72CAE1B75F20300D4229D /* SessionNoAuthTestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E72CAD1B75F20300D4229D /* SessionNoAuthTestSpec.swift */; };
 		14E72CAF1B75F20300D4229D /* SessionNoAuthTestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E72CAD1B75F20300D4229D /* SessionNoAuthTestSpec.swift */; };
 		14E816CE1BF1785300AAAEFA /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E816CD1BF1785300AAAEFA /* Preference.swift */; };
@@ -746,6 +748,8 @@
 		14BEDDFD1AE44FC5004F7860 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		14C40CC31AFB26F500F0ECFB /* reddiftSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = reddiftSample.entitlements; sourceTree = "<group>"; };
 		14D2E21F1B14C8BF00253AC0 /* Thing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Thing.swift; sourceTree = "<group>"; };
+		14E447E21D0118D500AC3E6B /* BackgroundTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundTask.swift; sourceTree = "<group>"; };
+		14E447E41D013D2C00AC3E6B /* BackgroundFetch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundFetch.swift; sourceTree = "<group>"; };
 		14E72CAD1B75F20300D4229D /* SessionNoAuthTestSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionNoAuthTestSpec.swift; sourceTree = "<group>"; };
 		14E816CD1BF1785300AAAEFA /* Preference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
 		14EBEE981C7FF090001A9F35 /* MoreChildrenTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreChildrenTest.swift; sourceTree = "<group>"; };
@@ -1147,6 +1151,8 @@
 				141B91D01B0A502C00A9E6A6 /* Session+wiki.swift */,
 				14F76FF41AECE01800A70AA5 /* Session+helper.swift */,
 				143427D51AF98F13005D0E31 /* HttpStatus.swift */,
+				14E447E41D013D2C00AC3E6B /* BackgroundFetch.swift */,
+				14E447E21D0118D500AC3E6B /* BackgroundTask.swift */,
 				142A508F1CFF2DA000415777 /* BackgroundInboxChecker.swift */,
 			);
 			path = Network;
@@ -1863,6 +1869,7 @@
 				14B5EC471AF35C560065BC5E /* OAuth2TokenRepository.swift in Sources */,
 				14B5EC501AF40ECF0065BC5E /* Keychain.swift in Sources */,
 				14B5EC201AF35BFF0065BC5E /* Account.swift in Sources */,
+				14E447E31D0118D500AC3E6B /* BackgroundTask.swift in Sources */,
 				14B5EC1B1AF35BFF0065BC5E /* MediaEmbed.swift in Sources */,
 				141B91C21B0A4FCB00A9E6A6 /* Session+messages.swift in Sources */,
 				14F0163B1BD3D190003CF077 /* NSAttributedString+reddift.swift in Sources */,
@@ -1887,6 +1894,7 @@
 				14B5EC3A1AF35C4B0065BC5E /* NSMutableURLRequest+reddift.swift in Sources */,
 				14B5EC161AF35BFF0065BC5E /* Config.swift in Sources */,
 				14F14EFF1BF934B600F22A4C /* SubredditKarma.swift in Sources */,
+				14E447E51D013D2C00AC3E6B /* BackgroundFetch.swift in Sources */,
 				14B5EC411AF35C500065BC5E /* Session+helper.swift in Sources */,
 				143427D01AF96A64005D0E31 /* Result.swift in Sources */,
 				14F6A4341BF500F100736040 /* Trophy.swift in Sources */,
