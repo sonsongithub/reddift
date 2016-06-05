@@ -56,7 +56,7 @@ extension Session {
         
         let multipath = "/user/\(token.name)/m/\(displayName)"
         let names: [[String:String]] = []
-        let json: [String:AnyObject] = [
+        let json: JSONDictionary = [
             "description_md" : descriptionMd,
             "display_name" : displayName,
             "icon_name" : "",
@@ -134,7 +134,7 @@ extension Session {
     public func updateMultireddit(multi: Multireddit, completion: (Result<Multireddit>) -> Void) throws -> NSURLSessionDataTask {
         let multipath = multi.path
         let names: [[String:String]] = []
-        let json: [String:AnyObject] = [
+        let json: JSONDictionary = [
             "description_md" : multi.descriptionMd,
             "display_name" : multi.name,
             "icon_name" : multi.iconName.rawValue,
@@ -352,7 +352,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     public func putMultiredditDescription(multireddit: Multireddit, description: String, modhash: String = "", completion: (Result<MultiredditDescription>) -> ()) throws -> NSURLSessionDataTask {
-        let json: [String:AnyObject] = ["body_md":description]
+        let json: JSONDictionary = ["body_md":description]
         do {
             let data: NSData = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
             guard let jsonString = NSString(data: data, encoding: NSUTF8StringEncoding) as String?

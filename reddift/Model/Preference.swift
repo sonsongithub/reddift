@@ -110,8 +110,8 @@ public struct Preference {
     let threadedMessages: Bool?
     let threadedModmail: Bool?
     let useGlobalDefaults: Bool?
-    public func json() -> [String:AnyObject] {
-        var json: [String:AnyObject] = [:]
+    public func json() -> JSONDictionary {
+        var json: JSONDictionary = [:]
         if let temp = beta { json["beta"] = temp }
         if let temp = clickgadget { json["clickgadget"] = temp }
         if let temp = collapseReadMessages { json["collapse_read_messages"] = temp }
@@ -160,7 +160,7 @@ public struct Preference {
         if let temp = useGlobalDefaults { json["use_global_defaults"] = temp }
         return json
     }
-    public init(json: [String:AnyObject]) {
+    public init(json: JSONDictionary) {
         self.beta = json["beta"] as? Bool
         self.clickgadget = json["clickgadget"] as? Bool
         self.collapseReadMessages = json["collapse_read_messages"] as? Bool

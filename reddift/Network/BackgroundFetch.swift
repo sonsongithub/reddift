@@ -9,13 +9,6 @@
 
 import UIKit
 
-public func parseAccount(data: NSData, response: NSURLResponse) -> Result<Account> {
-    return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:nil)
-        .flatMap(response2Data)
-        .flatMap(data2Json)
-        .flatMap(json2Account)
-}
-
 /// Session class to communicate with reddit.com using OAuth.
 public class BackgroundFetch: NSObject, NSURLSessionDelegate {
     let session: Session
@@ -57,15 +50,10 @@ public class BackgroundFetch: NSObject, NSURLSessionDelegate {
     func handleTokenRefreshResponse(response: NSHTTPURLResponse, didFinishDownloadingToURL: NSURL, token: OAuth2Token) {
         if response.statusCode == 200 {
             let data = NSData(contentsOfURL: didFinishDownloadingToURL)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:nil)
+            let result: Result<JSONDictionary> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:nil)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
-                .flatMap({(json: JSONAny) -> Result<[String:AnyObject]> in
-                    if let json = json as? [String:AnyObject] {
-                        return Result(value: json)
-                    }
-                    return Result(error: ReddiftError.Malformed.error)
-                })
+                .flatMap(redditAny2Object)
             let result2 = refreshTokenWithJSON(result, token: token)
             switch result2 {
             case .Success(let token):

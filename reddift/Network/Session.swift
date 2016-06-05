@@ -8,10 +8,10 @@
 
 import Foundation
 
-/// For JSON object, typically this alias means [AnyObject] or [String:AnyObject], and so on.
+/// For JSON object, typically this alias means [AnyObject] or JSONDictionary, and so on.
 public typealias JSONAny = Any
 
-/// For JSON object, typically this alias means [String:AnyObject]
+/// For JSON object, typically this alias means JSONDictionary
 public typealias JSONDictionary = Dictionary<String, AnyObject>
 
 /// For JSON object, typically this alias means [AnyObject]

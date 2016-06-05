@@ -100,7 +100,7 @@ class Parser: NSObject {
     */
     class func parseUserList(json: JSONDictionary) -> [User] {
         var result: [User] = []
-        if let children = json["children"] as? [[String:AnyObject]] {
+        if let children = json["children"] as? [JSONDictionary] {
             children.forEach({
                 if let date = $0["date"] as? Double,
                     let name = $0["name"] as? String,
@@ -117,7 +117,7 @@ class Parser: NSObject {
      */
     class func parseSubredditKarmaList(array: JSONArray) -> [SubredditKarma] {
         var result: [SubredditKarma] = []
-        if let children = array as? [[String:AnyObject]] {
+        if let children = array as? [JSONDictionary] {
             children.forEach({
                 if let sr = $0["sr"] as? String,
                     let comment_karma = $0["comment_karma"] as? Int,
@@ -134,7 +134,7 @@ class Parser: NSObject {
      */
     class func parseTrophyList(json: JSONDictionary) -> [Trophy] {
         var result: [Trophy] = []
-        if let children = json["trophies"] as? [[String:AnyObject]] {
+        if let children = json["trophies"] as? [JSONDictionary] {
             result.appendContentsOf(children.flatMap({ parseThing($0) as? Trophy }))
         }
         return result

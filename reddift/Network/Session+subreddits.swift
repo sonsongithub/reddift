@@ -74,7 +74,7 @@ extension Session {
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap({
-                    if let dict = $0 as? [String:AnyObject], let array = dict["names"] as? [String] {
+                    if let dict = $0 as? JSONDictionary, let array = dict["names"] as? [String] {
                         return Result(value: array.flatMap({$0}))
                     }
                     return Result(error:ReddiftError.ParseCommentError.error)

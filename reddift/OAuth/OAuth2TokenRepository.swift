@@ -22,7 +22,7 @@ public class OAuth2TokenRepository {
     public class func restoreFromKeychainWithName(name: String) throws -> OAuth2Token {
         let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
         do {
-            if let data = try keychain.getData(name), let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? [String:AnyObject] {
+            if let data = try keychain.getData(name), let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? JSONDictionary {
                 return OAuth2Token(json)
             }
             throw ReddiftError.TokenNotfound.error

@@ -8,7 +8,7 @@
 
 import Foundation
 
-func refreshTokenWithJSON(result: Result<[String:AnyObject]>, token: OAuth2Token) -> Result<OAuth2Token> {
+func refreshTokenWithJSON(result: Result<JSONDictionary>, token: OAuth2Token) -> Result<OAuth2Token> {
     switch result {
     case .Success(let json):
         var newJSON = json

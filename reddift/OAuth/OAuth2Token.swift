@@ -39,9 +39,9 @@ public struct OAuth2Token: Token {
     /**
     Initialize OAuth2AppOnlyToken with JSON.
     
-    - parameter json: JSON as [String:AnyObject] should include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token".
+    - parameter json: JSON as JSONDictionary should include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token".
     */
-    public init(_ json: [String:AnyObject]) {
+    public init(_ json: JSONDictionary) {
         self.name = json["name"] as? String ?? ""
         self.accessToken = json["access_token"] as? String ?? ""
         self.tokenType = json["token_type"] as? String ?? ""
@@ -55,7 +55,7 @@ public struct OAuth2Token: Token {
     /**
     Create OAuth2Token object from JSON.
     
-    - parameter json: JSON object as [String:AnyObject] must include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token". If it does not, returns Result<NSError>.
+    - parameter json: JSON object as JSONDictionary must include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token". If it does not, returns Result<NSError>.
     - returns: OAuth2Token object includes a new access token.
     */
     static func tokenWithJSON(json: JSONAny) -> Result<OAuth2Token> {
@@ -149,8 +149,8 @@ public struct OAuth2Token: Token {
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
-                .flatMap({(json: JSONAny) -> Result<[String:AnyObject]> in
-                    if let json = json as? [String:AnyObject] {
+                .flatMap({(json: JSONAny) -> Result<JSONDictionary> in
+                    if let json = json as? JSONDictionary {
                         return Result(value: json)
                     }
                     return Result(error: ReddiftError.Malformed.error)
@@ -243,7 +243,7 @@ public struct OAuth2Token: Token {
                 })
             switch result {
             case .Success(let profile):
-                let json: [String:AnyObject] = ["name":profile.name, "access_token":self.accessToken, "token_type":self.tokenType, "expires_in":self.expiresIn, "expires_date":self.expiresDate, "scope":self.scope, "refresh_token":self.refreshToken]
+                let json: JSONDictionary = ["name":profile.name, "access_token":self.accessToken, "token_type":self.tokenType, "expires_in":self.expiresIn, "expires_date":self.expiresDate, "scope":self.scope, "refresh_token":self.refreshToken]
                 completion(OAuth2Token.tokenWithJSON(json))
             case .Failure(let error):
                 completion(Result(error: error))

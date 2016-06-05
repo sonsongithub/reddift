@@ -22,7 +22,7 @@ func response2Data(response: Response) -> Result<NSData> {
     if !(200..<300 ~= response.statusCode) {
         do {
             let json = try NSJSONSerialization.JSONObjectWithData(response.data, options: NSJSONReadingOptions())
-            if let json = json as? [String:AnyObject] { return .Failure(HttpStatus(response.statusCode).errorWithJSON(json)) }
+            if let json = json as? JSONDictionary { return .Failure(HttpStatus(response.statusCode).errorWithJSON(json)) }
         } catch { print(error) }
         if let bodyAsString = String(data: response.data, encoding: NSUTF8StringEncoding) { return .Failure(HttpStatus(response.statusCode).errorWithString(bodyAsString)) }
         return .Failure(HttpStatus(response.statusCode).error)
@@ -36,7 +36,7 @@ func response2Data(response: Response) -> Result<NSData> {
 Parse binary data to JSON object.
 Returns Result<Error> object when any error happned.
 - parameter data: Binary data is returned from reddit.
-- returns: Result object. Result object has JSON as [String:AnyObject] or [AnyObject], otherwise error object.
+- returns: Result object. Result object has JSON as JSONDictionary or [AnyObject], otherwise error object.
 */
 func data2Json(data: NSData) -> Result<JSONAny> {
     do {
@@ -160,14 +160,12 @@ func redditAny2Object<T>(redditAny: RedditAny) -> Result<T> {
     return Result(error: ReddiftError.Malformed.error)
 }
 
-
 func redditAny2Object(redditAny: RedditAny) -> Result<[Multireddit]> {
     if let array = redditAny as? [Any] {
         return Result(value:array.flatMap({$0 as? Multireddit}))
     }
     return Result(error: ReddiftError.Malformed.error)
 }
-
 
 func redditAny2Object(redditAny: RedditAny) -> Result<(Listing, Listing)> {
     if let array = redditAny as? [RedditAny] {
@@ -178,4 +176,12 @@ func redditAny2Object(redditAny: RedditAny) -> Result<(Listing, Listing)> {
         }
     }
     return Result(error: ReddiftError.Malformed.error)
+}
+
+// MARK: Convert from data and response
+public func parseAccount(data: NSData?, response: NSURLResponse?, error: NSError? = nil) -> Result<Account> {
+    return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:nil)
+        .flatMap(response2Data)
+        .flatMap(data2Json)
+        .flatMap(json2Account)
 }
