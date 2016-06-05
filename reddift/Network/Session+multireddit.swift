@@ -23,7 +23,7 @@ Parse JSON dictionary object to the list of Multireddit.
 
 - returns: Result object. Result object has any Thing or Listing object, otherwise error object.
 */
-func json2Multireddit(json: JSON) -> Result<Multireddit> {
+func json2Multireddit(json: JSONAny) -> Result<Multireddit> {
     if let json = json as? JSONDictionary {
         if let kind = json["kind"] as? String {
             if kind == "LabeledMulti" {
@@ -268,7 +268,7 @@ extension Session {
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
-                .flatMap({(json: JSON) -> Result<String> in
+                .flatMap({(json: JSONAny) -> Result<String> in
                     if let json = json as? JSONDictionary {
                         if let subreddit = json["name"] as? String {
                             return Result(value: subreddit)
@@ -288,14 +288,14 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func removeSubredditFromMultireddit(multireddit: Multireddit, subredditDisplayName: String, completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+    public func removeSubredditFromMultireddit(multireddit: Multireddit, subredditDisplayName: String, completion: (Result<JSONAny>) -> Void) throws -> NSURLSessionDataTask {
         let jsonString = "{\"name\":\"\(subredditDisplayName)\"}"
         let srname = subredditDisplayName
         let parameter = ["model":jsonString, "srname":srname]
         
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multireddit.path + "/r/" + srname, parameter:parameter, method:"DELETE", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
+        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSONAny> in
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)

@@ -38,7 +38,7 @@ Returns Result<Error> object when any error happned.
 - parameter data: Binary data is returned from reddit.
 - returns: Result object. Result object has JSON as [String:AnyObject] or [AnyObject], otherwise error object.
 */
-func data2Json(data: NSData) -> Result<JSON> {
+func data2Json(data: NSData) -> Result<JSONAny> {
     do {
         if data.length == 0 { return Result(value:[:]) } else {
             let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))
@@ -75,7 +75,7 @@ Returns Result<Error> object when any error happned.
 - parameter json: JSON object is returned from reddit.
 - returns: Result object. Result object has a list of Thing object, otherwise error object.
 */
-func json2CommentAndMore(json: JSON) -> Result<[Thing]> {
+func json2CommentAndMore(json: JSONAny) -> Result<[Thing]> {
     let (list, error) = Parser.parseCommentAndMoreJSON(json)
     if let error = error {
         return Result(error: error)
@@ -89,7 +89,7 @@ Returns Result<Error> object when any error happned.
 - parameter json: JSON object is returned from reddit.
 - returns: Result object. Result object has Account object, otherwise error object.
 */
-func json2Account(json: JSON) -> Result<Account> {
+func json2Account(json: JSONAny) -> Result<Account> {
     if let object = json as? JSONDictionary {
         return resultFromOptional(Account(data:object), error: ReddiftError.ParseThingT2.error)
     }
@@ -102,7 +102,7 @@ func json2Account(json: JSON) -> Result<Account> {
  - parameter data: JSON object is returned from reddit.
  - returns: Result object. Result object has Preference object, otherwise error object.
  */
-func json2Preference(json: JSON) -> Result<Preference> {
+func json2Preference(json: JSONAny) -> Result<Preference> {
     if let object = json as? JSONDictionary {
         return Result(value: Preference(json: object))
     }
@@ -115,7 +115,7 @@ func json2Preference(json: JSON) -> Result<Preference> {
  - parameter data: Binary data is returned from reddit.
  - returns: Result object. Result object has any Thing or Listing object, otherwise error object.
  */
-func json2RedditAny(json: JSON) -> Result<RedditAny> {
+func json2RedditAny(json: JSONAny) -> Result<RedditAny> {
     let object: Any? = Parser.parseJSON(json)
     return resultFromOptional(object, error: ReddiftError.ParseThing.error)
 }
@@ -127,7 +127,7 @@ func json2RedditAny(json: JSON) -> Result<RedditAny> {
  - parameter json: JSON object, like above sample.
  - returns: Result object. When parsing is succeeded, object contains list which consists of Thing.
  */
-func json2Comment(json: JSON) -> Result<Comment> {
+func json2Comment(json: JSONAny) -> Result<Comment> {
     if let json = json as? JSONDictionary, let j = json["json"] as? JSONDictionary, let data = j["data"] as? JSONDictionary, let things = data["things"] as? JSONArray {
         // No error?
         if things.count == 1 {

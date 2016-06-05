@@ -9,7 +9,7 @@
 import Foundation
 
 /// For JSON object, typically this alias means [AnyObject] or [String:AnyObject], and so on.
-public typealias JSON = Any
+public typealias JSONAny = Any
 
 /// For JSON object, typically this alias means [String:AnyObject]
 public typealias JSONDictionary = Dictionary<String, AnyObject>
@@ -92,7 +92,7 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
             .flatMap(json2RedditAny)
     }
     
-    func handleResponse2JSON(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> {
+    func handleResponse2JSON(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSONAny> {
         self.updateRateLimitWithURLResponse(response)
         return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
             .flatMap(response2Data)

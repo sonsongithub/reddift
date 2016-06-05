@@ -96,7 +96,7 @@ public struct OAuth2AppOnlyToken: Token {
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
-                .flatMap({(json: JSON) -> Result<[String:AnyObject]> in
+                .flatMap({(json: JSONAny) -> Result<[String:AnyObject]> in
                     if let json = json as? [String:AnyObject] {
                         return Result(value: json)
                     }

@@ -58,7 +58,7 @@ Parse JSON contains "iden" for CAPTHA.
 - parameter json: JSON object, like above sample.
 - returns: Result object. When parsing is succeeded, object contains iden as String.
 */
-func idenJSON2String(json: JSON) -> Result<String> {
+func idenJSON2String(json: JSONAny) -> Result<String> {
     if let json = json as? JSONDictionary {
         if let j = json["json"] as? JSONDictionary {
             if let data = j["data"] as? JSONDictionary {

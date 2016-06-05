@@ -60,7 +60,7 @@ public class BackgroundFetch: NSObject, NSURLSessionDelegate {
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:nil)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
-                .flatMap({(json: JSON) -> Result<[String:AnyObject]> in
+                .flatMap({(json: JSONAny) -> Result<[String:AnyObject]> in
                     if let json = json as? [String:AnyObject] {
                         return Result(value: json)
                     }

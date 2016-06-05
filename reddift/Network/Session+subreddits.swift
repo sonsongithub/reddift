@@ -188,7 +188,7 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func setSubscribeSubreddit(subreddit: Subreddit, subscribe: Bool, completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+    public func setSubscribeSubreddit(subreddit: Subreddit, subscribe: Bool, completion: (Result<JSONAny>) -> Void) throws -> NSURLSessionDataTask {
         var parameter: [String:String] = ["sr":subreddit.name]
         parameter["action"] = (subscribe) ? "sub" : "unsub"
         guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/subscribe", parameter:parameter, method:"POST", token:token)

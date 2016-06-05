@@ -58,7 +58,7 @@ public struct OAuth2Token: Token {
     - parameter json: JSON object as [String:AnyObject] must include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token". If it does not, returns Result<NSError>.
     - returns: OAuth2Token object includes a new access token.
     */
-    static func tokenWithJSON(json: JSON) -> Result<OAuth2Token> {
+    static func tokenWithJSON(json: JSONAny) -> Result<OAuth2Token> {
         if let json = json as? JSONDictionary {
             if let _ = json["access_token"] as? String,
                 _ = json["token_type"] as? String,
@@ -149,7 +149,7 @@ public struct OAuth2Token: Token {
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
-                .flatMap({(json: JSON) -> Result<[String:AnyObject]> in
+                .flatMap({(json: JSONAny) -> Result<[String:AnyObject]> in
                     if let json = json as? [String:AnyObject] {
                         return Result(value: json)
                     }
@@ -175,7 +175,7 @@ public struct OAuth2Token: Token {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func revoke(completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+    public func revoke(completion: (Result<JSONAny>) -> Void) throws -> NSURLSessionDataTask {
         let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         guard let request = requestForRevoking()
             else { throw ReddiftError.URLError.error }
@@ -235,7 +235,7 @@ public struct OAuth2Token: Token {
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
-                .flatMap({ (json: JSON) -> Result<Account> in
+                .flatMap({ (json: JSONAny) -> Result<Account> in
                     if let object = json as? JSONDictionary {
                         return resultFromOptional(Account(data:object), error: ReddiftError.ParseThingT2.error)
                     }

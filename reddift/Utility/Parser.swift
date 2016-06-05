@@ -75,7 +75,7 @@ class Parser: NSObject {
      Parse more list
      Parse json object to extract a list which is composed of Comment and More.
     */
-    class func parseCommentAndMoreJSON(json: JSON) -> ([Thing], NSError?) {
+    class func parseCommentAndMoreJSON(json: JSONAny) -> ([Thing], NSError?) {
         if let json = json as? JSONDictionary {
             if let root = json["json"] as? JSONDictionary {
                 if let data = root["data"] as? JSONDictionary {
@@ -174,7 +174,7 @@ class Parser: NSObject {
 	/**
 	Parse JSON of the style which is Thing.
 	*/
-    class func parseJSON(json: JSON) -> RedditAny? {
+    class func parseJSON(json: JSONAny) -> RedditAny? {
         // array
         // json->[AnyObject]
         if let array = json as? JSONArray {
