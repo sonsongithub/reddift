@@ -8,6 +8,18 @@
 
 import Foundation
 
+func refreshTokenWithJSON(result: Result<[String:AnyObject]>, token: OAuth2Token) -> Result<OAuth2Token> {
+    switch result {
+    case .Success(let json):
+        var newJSON = json
+        newJSON["name"] = token.name
+        newJSON["refresh_token"] = token.refreshToken
+        return OAuth2Token.tokenWithJSON(newJSON)
+    case .Failure(let error):
+        return Result(error: error)
+    }
+}
+
 extension Session {
     /**
     Refresh own token.

@@ -54,20 +54,6 @@ public class BackgroundFetch: NSObject, NSURLSessionDelegate {
         }
     }
     
-    func resumeAgain(json: JSON) {
-        switch OAuth2Token.tokenWithJSON(json) {
-        case .Success(let token):
-            session.token = token
-            if let tempRequest = request.mutableCopy() as? NSMutableURLRequest {
-                tempRequest.setOAuth2Token(token)
-                request = tempRequest
-            }
-            resume()
-        case .Failure(let error):
-            taskHandler(response: nil, dataURL: nil, error: error)
-        }
-    }
-    
     func handleTokenRefreshResponse(response: NSHTTPURLResponse, didFinishDownloadingToURL: NSURL, token: OAuth2Token) {
         if response.statusCode == 200 {
             let data = NSData(contentsOfURL: didFinishDownloadingToURL)
@@ -80,12 +66,12 @@ public class BackgroundFetch: NSObject, NSURLSessionDelegate {
                     }
                     return Result(error: ReddiftError.Malformed.error)
                 })
-            switch result {
-            case .Success(let json):
-                var newJSON = json
-                newJSON["name"] = token.name
-                newJSON["refresh_token"] = token.refreshToken
-                resumeAgain(newJSON)
+            let result2 = refreshTokenWithJSON(result, token: token)
+            switch result2 {
+            case .Success(let token):
+                session.token = token
+                request = request.updateWithOAuth2Token(token)
+                resume()
             case .Failure(let error):
                 taskHandler(response: nil, dataURL: nil, error: error)
             }
