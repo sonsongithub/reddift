@@ -101,7 +101,7 @@ extension Session {
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
-                .flatMap(redditAny2Object)
+                .flatMap(redditAny2MultiredditArray)
         }
         return executeTask(request, handleResponse: closure, completion: completion)
     }
@@ -176,7 +176,7 @@ extension Session {
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
-                .flatMap(redditAny2Object)
+                .flatMap(redditAny2MultiredditArray)
         }
         return executeTask(request, handleResponse: closure, completion: completion)
     }
@@ -317,7 +317,7 @@ extension Session {
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
-                .flatMap(redditAny2Object)
+                .flatMap(redditAny2MultiredditArray)
         }
         return executeTask(request, handleResponse: closure, completion: completion)
     }

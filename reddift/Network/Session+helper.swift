@@ -160,14 +160,14 @@ func redditAny2Object<T>(redditAny: RedditAny) -> Result<T> {
     return Result(error: ReddiftError.Malformed.error)
 }
 
-func redditAny2Object(redditAny: RedditAny) -> Result<[Multireddit]> {
+func redditAny2MultiredditArray(redditAny: RedditAny) -> Result<[Multireddit]> {
     if let array = redditAny as? [Any] {
         return Result(value:array.flatMap({$0 as? Multireddit}))
     }
     return Result(error: ReddiftError.Malformed.error)
 }
 
-func redditAny2Object(redditAny: RedditAny) -> Result<(Listing, Listing)> {
+func redditAny2ListingTuple(redditAny: RedditAny) -> Result<(Listing, Listing)> {
     if let array = redditAny as? [RedditAny] {
         if array.count == 2 {
             if let listing0 = array[0] as? Listing, let listing1 = array[1] as? Listing {
