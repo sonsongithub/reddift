@@ -179,7 +179,7 @@ func redditAny2ListingTuple(redditAny: RedditAny) -> Result<(Listing, Listing)> 
 }
 
 // MARK: Convert from data and response
-public func parseAccount(data: NSData?, response: NSURLResponse?, error: NSError? = nil) -> Result<Account> {
+public func accountByParsingData(data: NSData?, response: NSURLResponse?, error: NSError? = nil) -> Result<Account> {
     return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:nil)
         .flatMap(response2Data)
         .flatMap(data2Json)

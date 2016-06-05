@@ -156,12 +156,7 @@ extension Session {
     public func getProfile(completion: (Result<Account>) -> Void) throws -> NSURLSessionDataTask {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Account> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-                .flatMap(json2Account)
-        }
+        let closure: (data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Account> = accountByParsingData
         return executeTask(request, handleResponse: closure, completion: completion)
     }
 }

@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                       taskHandler: { (response, dataURL, error) -> Void in
                                         if let response = response, dataURL = dataURL, data = NSData(contentsOfURL: dataURL) {
                                             if response.statusCode == 200 {
-                                                let result = parseAccount(data, response: response)
+                                                let result = accountByParsingData(data, response: response)
                                                 switch result {
                                                 case .Success(let account):
                                                     print(account)
