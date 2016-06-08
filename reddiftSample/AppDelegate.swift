@@ -39,31 +39,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
         if let session = session {
-            let request = try! session.requestForGettingProfile()
-            let fetcher = BackgroundFetch(session,
-                                      request: request,
-                                      taskHandler: { (response, dataURL, error) -> Void in
-                                        if let response = response, dataURL = dataURL, data = NSData(contentsOfURL: dataURL) {
-                                            if response.statusCode == 200 {
-                                                let result = accountByParsingData(data, response: response)
-                                                switch result {
-                                                case .Success(let account):
-                                                    print(account)
-                                                    UIApplication.sharedApplication().applicationIconBadgeNumber = account.inboxCount
-                                                    completionHandler(.NewData)
-                                                    return
-                                                case .Failure(let error):
-                                                    print(error)
+            do {
+                let request = try session.requestForGettingProfile()
+                let fetcher = BackgroundFetch(session,
+                                              request: request,
+                                              taskHandler: { (response, dataURL, error) -> Void in
+                                                if let response = response, dataURL = dataURL, data = NSData(contentsOfURL: dataURL) {
+                                                    if response.statusCode == 200 {
+                                                        let result = accountByParsingData(data, response: response)
+                                                        switch result {
+                                                        case .Success(let account):
+                                                            print(account)
+                                                            UIApplication.sharedApplication().applicationIconBadgeNumber = account.inboxCount
+                                                            self.postLocalNotification("You got \(account.inboxCount) messages.")
+                                                            completionHandler(.NewData)
+                                                            return
+                                                        case .Failure(let error):
+                                                            print(error)
+                                                            self.postLocalNotification("\(error)")
+                                                            completionHandler(.Failed)
+                                                        }
+                                                    }
+                                                    else {
+                                                        self.postLocalNotification("response code \(response.statusCode)")
+                                                        completionHandler(.Failed)
+                                                    }
+                                                } else {
+                                                    self.postLocalNotification("Error can not parse response and data.")
                                                     completionHandler(.Failed)
                                                 }
-                                            }
-                                        } else {
-                                            completionHandler(.Failed)
-                                        }
-            })
-            fetcher.resume()
-            self.fetcher = fetcher
+                })
+                fetcher.resume()
+                self.fetcher = fetcher
+            } catch {
+                postLocalNotification("\(error)")
+                completionHandler(.Failed)
+            }
+        } else {
+            postLocalNotification("session is not available.")
+            completionHandler(.Failed)
         }
+    }
+    
+    func postLocalNotification(message: String) {
+        let notification = UILocalNotification()
+        notification.timeZone = NSTimeZone.defaultTimeZone()
+        notification.alertBody = message
+        notification.alertAction = "OK"
+        notification.soundName = UILocalNotificationDefaultSoundName
+        UIApplication.sharedApplication().scheduleLocalNotification(notification);
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
