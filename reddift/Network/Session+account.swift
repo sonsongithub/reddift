@@ -142,6 +142,12 @@ extension Session {
         return executeTask(request, handleResponse: closure, completion: completion)
     }
     
+    public func requestForGettingProfile() throws -> NSMutableURLRequest {
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me", method:"GET", token:token)
+            else { throw ReddiftError.URLError.error }
+        return request
+    }
+    
     /**
     Gets the identity of the user currently authenticated via OAuth.
     - parameter completion: The completion handler to call when the load request is complete.
@@ -150,12 +156,7 @@ extension Session {
     public func getProfile(completion: (Result<Account>) -> Void) throws -> NSURLSessionDataTask {
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Account> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-                .flatMap(json2Account)
-        }
+        let closure: (data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Account> = accountByParsingData
         return executeTask(request, handleResponse: closure, completion: completion)
     }
 }

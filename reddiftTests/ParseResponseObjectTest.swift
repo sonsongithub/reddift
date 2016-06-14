@@ -27,7 +27,7 @@ class response2DataObjectTest: XCTestCase {
     func testCommentsJsonFile() {
         print("has 1 Link and 26 Comments")
         if let json: AnyObject = self.jsonFromFileName("comments.json") {
-            if let objects = Parser.parseJSON(json) as? [JSON] {
+            if let objects = Parser.parseJSON(json) as? [JSONAny] {
                 XCTAssert(objects.count == 2)
                 if let links = objects[0] as? Listing {
                     XCTAssert(links.children.count == 1)

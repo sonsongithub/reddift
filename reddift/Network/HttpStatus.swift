@@ -97,7 +97,7 @@ enum HttpStatus: Int {
         }
     }
     
-    func errorWithJSON(json: [String:AnyObject]) -> NSError {
+    func errorWithJSON(json: JSONDictionary) -> NSError {
         return NSError(domain:Config.sharedInstance.bundleIdentifier, code:self.rawValue, userInfo:json)
     }
     

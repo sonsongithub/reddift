@@ -46,9 +46,9 @@ public struct OAuth2AppOnlyToken: Token {
     /**
     Initialize OAuth2AppOnlyToken with JSON.
     
-    - parameter json: JSON as [String:AnyObject] should include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token".
+    - parameter json: JSON as JSONDictionary should include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token".
     */
-    public init(_ json: [String:AnyObject]) {
+    public init(_ json: JSONDictionary) {
         self.name = json["name"] as? String ?? ""
         self.accessToken = json["access_token"] as? String ?? ""
         self.tokenType = json["token_type"] as? String ?? ""
@@ -96,8 +96,8 @@ public struct OAuth2AppOnlyToken: Token {
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
-                .flatMap({(json: JSON) -> Result<[String:AnyObject]> in
-                    if let json = json as? [String:AnyObject] {
+                .flatMap({(json: JSONAny) -> Result<JSONDictionary> in
+                    if let json = json as? JSONDictionary {
                         return Result(value: json)
                     }
                     return Result(error: ReddiftError.Malformed.error)

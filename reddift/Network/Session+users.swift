@@ -41,14 +41,14 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func friend(username: String, note: String = "", completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+    public func friend(username: String, note: String = "", completion: (Result<JSONAny>) -> Void) throws -> NSURLSessionDataTask {
         var json: [String:String] = [:]
         if !note.isEmpty { json["note"] = note }
         do {
             let data: NSData = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
             guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"api/v1/me/friends/" + username, data:data, method:"PUT", token:token)
                 else { throw ReddiftError.URLError.error }
-            let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
+            let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSONAny> in
                 return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
@@ -65,13 +65,13 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func unfriend(username: String, completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+    public func unfriend(username: String, completion: (Result<JSONAny>) -> Void) throws -> NSURLSessionDataTask {
         let parameters: [String:String] = [
             "id":username
         ]
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"api/v1/me/friends/" + username, parameter:parameters, method:"DELETE", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
+        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSONAny> in
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -139,7 +139,7 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func friend(name: String, note: String, banMessageMd: String, container: String, duration: Int, type: FriendType, completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+    public func friend(name: String, note: String, banMessageMd: String, container: String, duration: Int, type: FriendType, completion: (Result<JSONAny>) -> Void) throws -> NSURLSessionDataTask {
         let parameters: [String:String] = [
             "container":container,
             "name":name,
@@ -148,7 +148,7 @@ extension Session {
         ]
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/friend", parameter:parameters, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
+        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSONAny> in
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -176,7 +176,7 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func unfriend(name: String = "", id: String = "", type: FriendType, completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+    public func unfriend(name: String = "", id: String = "", type: FriendType, completion: (Result<JSONAny>) -> Void) throws -> NSURLSessionDataTask {
         var parameters: [String:String] = [
             "type":type.rawValue
 //            "uh":modhash
@@ -187,7 +187,7 @@ extension Session {
         
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/unfriend", parameter:parameters, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
+        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSONAny> in
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -201,7 +201,7 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func getNotifications(sort: NotificationSort, completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+    public func getNotifications(sort: NotificationSort, completion: (Result<JSONAny>) -> Void) throws -> NSURLSessionDataTask {
         let parameters: [String:String] = [
             "count":"30",
 //            "start_date":"",
@@ -210,7 +210,7 @@ extension Session {
         ]
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/v1/me/notifications", parameter:parameters, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
+        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSONAny> in
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -225,7 +225,7 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func setNotifications(id: Int, read: Bool, completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+    public func setNotifications(id: Int, read: Bool, completion: (Result<JSONAny>) -> Void) throws -> NSURLSessionDataTask {
         let json: [String:String] = [
             "read": read ? "true" : "false"
         ]
@@ -234,7 +234,7 @@ extension Session {
             
             guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/v1/me/notifications/\(id)", data:data, method:"PATCH", token:token)
                 else { throw ReddiftError.URLError.error }
-            let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
+            let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSONAny> in
                 return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)

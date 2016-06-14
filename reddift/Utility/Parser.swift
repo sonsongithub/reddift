@@ -75,7 +75,7 @@ class Parser: NSObject {
      Parse more list
      Parse json object to extract a list which is composed of Comment and More.
     */
-    class func parseCommentAndMoreJSON(json: JSON) -> ([Thing], NSError?) {
+    class func parseCommentAndMoreJSON(json: JSONAny) -> ([Thing], NSError?) {
         if let json = json as? JSONDictionary {
             if let root = json["json"] as? JSONDictionary {
                 if let data = root["data"] as? JSONDictionary {
@@ -100,7 +100,7 @@ class Parser: NSObject {
     */
     class func parseUserList(json: JSONDictionary) -> [User] {
         var result: [User] = []
-        if let children = json["children"] as? [[String:AnyObject]] {
+        if let children = json["children"] as? [JSONDictionary] {
             children.forEach({
                 if let date = $0["date"] as? Double,
                     let name = $0["name"] as? String,
@@ -117,7 +117,7 @@ class Parser: NSObject {
      */
     class func parseSubredditKarmaList(array: JSONArray) -> [SubredditKarma] {
         var result: [SubredditKarma] = []
-        if let children = array as? [[String:AnyObject]] {
+        if let children = array as? [JSONDictionary] {
             children.forEach({
                 if let sr = $0["sr"] as? String,
                     let comment_karma = $0["comment_karma"] as? Int,
@@ -134,7 +134,7 @@ class Parser: NSObject {
      */
     class func parseTrophyList(json: JSONDictionary) -> [Trophy] {
         var result: [Trophy] = []
-        if let children = json["trophies"] as? [[String:AnyObject]] {
+        if let children = json["trophies"] as? [JSONDictionary] {
             result.appendContentsOf(children.flatMap({ parseThing($0) as? Trophy }))
         }
         return result
@@ -174,7 +174,7 @@ class Parser: NSObject {
 	/**
 	Parse JSON of the style which is Thing.
 	*/
-    class func parseJSON(json: JSON) -> RedditAny? {
+    class func parseJSON(json: JSONAny) -> RedditAny? {
         // array
         // json->[AnyObject]
         if let array = json as? JSONArray {
