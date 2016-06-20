@@ -11,7 +11,7 @@ import Foundation
 /**
 Type of Multireddit icon.
 */
-public enum MultiredditIconName: String {
+public enum MultiredditIconName : String {
     case ArtAndDesign = "art and design"
     case Ask = "ask"
     case Books = "books"
@@ -43,11 +43,12 @@ public enum MultiredditIconName: String {
     case Video = "video"
     case None = "None"
     
-    init(_ name: String) {
+    init(_ name:String) {
         let iconName = MultiredditIconName(rawValue:name)
-        if let iconName: MultiredditIconName = iconName {
+        if let iconName:MultiredditIconName = iconName {
             self = iconName
-        } else {
+        }
+        else {
             self = .None
         }
     }
@@ -56,16 +57,17 @@ public enum MultiredditIconName: String {
 /**
 Type of Multireddit visibility.
 */
-public enum MultiredditVisibility: String {
+public enum MultiredditVisibility : String {
     case Private = "private"
     case Public = "public"
     case Hidden = "hidden"
     
-    init(_ type: String) {
+    init(_ type:String) {
         let visibilityType = MultiredditVisibility(rawValue:type)
-        if let visibilityType: MultiredditVisibility = visibilityType {
+        if let visibilityType:MultiredditVisibility = visibilityType {
             self = visibilityType
-        } else {
+        }
+        else {
             self = .Private
         }
     }
@@ -74,15 +76,16 @@ public enum MultiredditVisibility: String {
 /**
 Type of Multireddit weighting scheme.
 */
-public enum MultiredditWeightingScheme: String {
+public enum MultiredditWeightingScheme : String {
     case Classic = "classic"
     case Fresh = "fresh"
     
-    init(_ type: String) {
+    init(_ type:String) {
         let weightingScheme = MultiredditWeightingScheme(rawValue:type)
-        if let weightingScheme: MultiredditWeightingScheme = weightingScheme {
+        if let weightingScheme:MultiredditWeightingScheme = weightingScheme {
             self = weightingScheme
-        } else {
+        }
+        else {
             self = .Classic
         }
     }
@@ -91,26 +94,26 @@ public enum MultiredditWeightingScheme: String {
 /**
 Multireddit class.
 */
-public struct Multireddit: SubredditURLPath {
-    public var descriptionMd: String
-    public var displayName: String
-    public var iconName: MultiredditIconName
-    public var keyColor: String
-    public var subreddits: [String]
-    public var visibility: MultiredditVisibility
-    public var weightingScheme: MultiredditWeightingScheme
+public struct Multireddit : SubredditURLPath {
+    public var descriptionMd:String
+    public var displayName:String
+    public var iconName:MultiredditIconName
+    public var keyColor:String
+    public var subreddits:[String]
+    public var visibility:MultiredditVisibility
+    public var weightingScheme:MultiredditWeightingScheme
     
     // can not update following attritubes
-    public let descriptionHtml: String
-    public let path: String
-    public let name: String
-    public let iconUrl: String
-    public let canEdit: Bool
-    public let copiedFrom: String
-    public let created: NSTimeInterval
-    public let createdUtc: NSTimeInterval
+    public let descriptionHtml:String
+    public let path:String
+    public let name:String
+    public let iconUrl:String
+    public let canEdit:Bool
+    public let copiedFrom:String
+    public let created:TimeInterval
+    public let createdUtc:TimeInterval
     
-    public init(name: String) {
+    public init(name:String) {
         self.descriptionMd = ""
         self.displayName = name
         self.iconName = MultiredditIconName("")
@@ -128,7 +131,7 @@ public struct Multireddit: SubredditURLPath {
         self.createdUtc = 0
     }
     
-    public init(json: JSONDictionary) {
+    public init(json:JSONDictionary) {
         descriptionMd = json["description_md"] as? String ?? ""
         displayName = json["display_name"] as? String ?? ""
         
@@ -137,11 +140,11 @@ public struct Multireddit: SubredditURLPath {
         
         keyColor = json["key_color"] as? String ?? ""
         
-        var buf: [String] = []
+        var buf:[String] = []
         if let temp = json["subreddits"] as? [JSONDictionary] {
             for element in temp {
                 if let element = element as? [String:String] {
-                    if let name: String = element["name"] {
+                    if let name:String = element["name"] {
                         buf.append(name)
                     }
                 }
@@ -157,7 +160,7 @@ public struct Multireddit: SubredditURLPath {
         iconUrl = json["icon_url"] as? String ?? ""
         canEdit = json["can_edit"] as? Bool ?? false
         copiedFrom = json["copied_from"] as? String ?? ""
-        created = json["created"] as? NSTimeInterval ?? 0
-        createdUtc = json["created_utc"] as? NSTimeInterval ?? 0
+        created = json["created"] as? TimeInterval ?? 0
+        createdUtc = json["created_utc"] as? TimeInterval ?? 0
     }
 }

@@ -11,24 +11,27 @@ import Foundation
 extension Session {
     
     // MARK: Update message status
-    
+	
     /**
     Mark messages as "unread"
     - parameter id: A comma-separated list of thing fullnames
     - parameter modhash: A modhash, default is blank string not nil.
     - returns: Data task which requests search to reddit.com.
     */
-    public func markMessagesAsUnread(fullnames: [String], modhash: String = "", completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
-        let commaSeparatedFullameString = fullnames.joinWithSeparator(",")
+    public func markMessagesAsUnread(fullnames:[String], modhash:String = "", completion:(Result<JSON>) -> Void) throws -> URLSessionDataTask {
+        let commaSeparatedFullameString = fullnames.joined(separator: ",")
         let parameter = ["id":commaSeparatedFullameString]
-        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/unread_message", parameter:parameter, method:"POST", token:token)
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:"/api/unread_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+        let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response: response)
+            let result = resultFromOptionalError(value: Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(transform: response2Data)
+                .flatMap(transform: data2Json)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -37,17 +40,20 @@ extension Session {
     - parameter modhash: A modhash, default is blank string not nil.
     - returns: Data task which requests search to reddit.com.
     */
-    public func markMessagesAsRead(fullnames: [String], modhash: String = "", completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
-        let commaSeparatedFullameString = fullnames.joinWithSeparator(",")
+    public func markMessagesAsRead(fullnames:[String], modhash:String = "", completion:(Result<JSON>) -> Void) throws -> URLSessionDataTask {
+        let commaSeparatedFullameString = fullnames.joined(separator: ",")
         let parameter = ["id":commaSeparatedFullameString]
-        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/read_message", parameter:parameter, method:"POST", token:token)
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:"/api/read_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+        let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response: response)
+            let result = resultFromOptionalError(value: Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(transform: response2Data)
+                .flatMap(transform: data2Json)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -57,16 +63,18 @@ extension Session {
      - parameter modhash: A modhash, default is blank string not nil.
      - returns: Data task which requests search to reddit.com.
      */
-    public func markAllMessagesAsRead(modhash: String = "", completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/read_all_messages", parameter:nil, method:"POST", token:token)
+    public func markAllMessagesAsRead(modhash:String = "", completion:(Result<JSON>) -> Void) throws -> URLSessionDataTask {
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:"/api/read_all_messages", parameter:nil, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
-            
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+        let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response: response)
+            let result = resultFromOptionalError(value: Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(transform: response2Data)
+                .flatMap(transform: data2Json)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -75,18 +83,20 @@ extension Session {
      - parameter modhash: A modhash, default is blank string not nil.
      - returns: Data task which requests search to reddit.com.
      */
-    public func collapseMessages(fullnames: [String], modhash: String = "", completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
-        let commaSeparatedFullameString = fullnames.joinWithSeparator(",")
+    public func collapseMessages(fullnames:[String], modhash:String = "", completion:(Result<JSON>) -> Void) throws -> URLSessionDataTask {
+        let commaSeparatedFullameString = fullnames.joined(separator: ",")
         let parameter = ["id":commaSeparatedFullameString]
-        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/collapse_message", parameter:parameter, method:"POST", token:token)
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:"/api/collapse_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
-            
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+        let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response: response)
+            let result = resultFromOptionalError(value: Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(transform: response2Data)
+                .flatMap(transform: data2Json)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -95,17 +105,20 @@ extension Session {
      - parameter modhash: A modhash, default is blank string not nil.
      - returns: Data task which requests search to reddit.com.
      */
-    public func uncollapseMessages(fullnames: [String], modhash: String = "", completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
-        let commaSeparatedFullameString = fullnames.joinWithSeparator(",")
+    public func uncollapseMessages(fullnames:[String], modhash:String = "", completion:(Result<JSON>) -> Void) throws -> URLSessionDataTask {
+        let commaSeparatedFullameString = fullnames.joined(separator: ",")
         let parameter = ["id":commaSeparatedFullameString]
-        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/uncollapse_message", parameter:parameter, method:"POST", token:token)
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:"/api/uncollapse_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+        let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response: response)
+            let result = resultFromOptionalError(value: Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(transform: response2Data)
+                .flatMap(transform: data2Json)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -114,16 +127,19 @@ extension Session {
      - parameter modhash: A modhash, default is blank string not nil.
      - returns: Data task which requests search to reddit.com.
      */
-    public func blockViaInbox(fullname: String, modhash: String = "", completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+    public func blockViaInbox(fullname:String, modhash:String = "", completion:(Result<JSON>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["id":fullname]
-        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/block", parameter:parameter, method:"POST", token:token)
+		guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: Session.OAuthEndpointURL, path:"/api/block", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+        let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response: response)
+            let result = resultFromOptionalError(value: Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(transform: response2Data)
+                .flatMap(transform: data2Json)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -132,16 +148,19 @@ extension Session {
      - parameter modhash: A modhash, default is blank string not nil.
      - returns: Data task which requests search to reddit.com.
      */
-    public func unblockViaInbox(fullname: String, modhash: String = "", completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
+    public func unblockViaInbox(fullname:String, modhash:String = "", completion:(Result<JSON>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["id":fullname]
-        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/unblock_subreddit", parameter:parameter, method:"POST", token:token)
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:"/api/unblock_subreddit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+        let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response: response)
+            let result = resultFromOptionalError(value: Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(transform: response2Data)
+                .flatMap(transform: data2Json)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     // MARK: Get messages
@@ -153,17 +172,20 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getMessage(messageWhere: MessageWhere, limit: Int = 100, completion: (Result<Listing>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
+    public func getMessage(messageWhere:MessageWhere, limit:Int = 100, completion:(Result<Listing>) -> Void) throws -> URLSessionDataTask {
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-                .flatMap(json2RedditAny)
-                .flatMap(redditAny2Object)
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+        let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response: response)
+            let result:Result<Listing> = resultFromOptionalError(value: Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(transform: response2Data)
+                .flatMap(transform: data2Json)
+                .flatMap(transform: json2RedditAny)
+                .flatMap(transform: redditAny2Object)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     // MARK: Compose a message
@@ -179,8 +201,8 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func composeMessage(to: Account, subject: String, text: String, fromSubreddit: Subreddit, captcha: String, captchaIden: String, completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
-        let parameter: [String:String] = [
+    public func composeMessage(to:Account, subject:String, text:String, fromSubreddit:Subreddit, captcha:String, captchaIden:String, completion:(Result<JSON>) -> Void) throws -> URLSessionDataTask {
+        let parameter:[String:String] = [
             "api_type" : "json",
             "captcha" : captcha,
             "iden" : captchaIden,
@@ -189,15 +211,8 @@ extension Session {
             "subject" : subject,
             "to" : to.id
         ]
-        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSON> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-                .flatMap(json2RedditAny)
-                .flatMap(redditAny2Object)
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+        return handleAsJSONRequest(request: request, completion:completion)
     }
 }

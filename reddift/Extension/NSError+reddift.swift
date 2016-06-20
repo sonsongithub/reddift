@@ -9,52 +9,47 @@
 import Foundation
 
 extension NSError {
-    class func errorWithCode(code: Int, _ description: String) -> NSError {
+    class func errorWithCode(code:Int, _ description:String) -> NSError {
         return NSError(domain:Config.sharedInstance.bundleIdentifier, code:code, userInfo:["description":description])
     }
 }
 
-public enum ReddiftError: Int {
-    case Unknown                = 1000
-    case ParseJSON              = 1100
+public enum ReddiftError:Int {
+    case Unknown                = 0
+    case ParseJSON              = 100
 
-    case ParseThing             = 1200
-    case ParseListing           = 1201
-    case ParseListingArticles   = 1202
-    case ParseThingT2           = 1203
-    case ParseCommentError      = 1204
-    case ReturnedCommentError   = 1205
-    case ParseMoreError         = 1206
+    case ParseThing             = 200
+    case ParseListing           = 201
+    case ParseListingArticles   = 202
+    case ParseThingT2           = 203
+    case ParseCommentError      = 204
+    case ReturnedCommentError   = 205
     
-    case GetCAPTCHA             = 1300
-    case CheckNeedsCAPTHCA      = 1301
-    case GetCAPTCHAIden         = 1302
-    case GetCAPTCHAImage        = 1303
+    case GetCAPTCHA             = 300
+    case CheckNeedsCAPTHCA      = 301
+    case GetCAPTCHAIden         = 302
+    case GetCAPTCHAImage        = 303
     
-    case OAuth2                 = 1400
-    case ParseAccessToken       = 1401
-    case TokenNotfound          = 1402
-    case SetClientIDForBasicAuthentication = 1403
-    case SetUserInfoForBasicAuthentication = 1404
-    case ChallengeOAuth2Session = 1405
+    case OAuth2                 = 400
+    case ParseAccessToken       = 401
+    case TokenNotfound          = 402
     
-    case Malformed              = 1500
+    case Malformed              = 500
     
-    case OAuth2Error            = 1600
+    case OAuth2Error            = 600
     
-    case KeychainTargetNameIsEmpty          = 1700
-    case KeychainDidFailToSerializeToken    = 1701
+    case KeychainTargetNameIsEmpty          = 700
+    case KeychainDidFailToSerializeToken    = 701
     
-    case URLError               = 1800
+    case URLError               = 800
     
-    case MultiredditDidFailToCreateJSON = 1900
+    case MultiredditDidFailToCreateJSON = 900
     
-    
-    var error: NSError {
-        return NSError.errorWithCode(self.rawValue, self.description)
+    var error:NSError {
+        return NSError.errorWithCode(code: self.rawValue, self.description)
     }
     
-    var description: String {
+    var description:String {
         switch self {
         case .ParseJSON:
             return "Failed to parse JSON object unexpectedly."
@@ -80,13 +75,6 @@ public enum ReddiftError: Int {
             return "Failed to parse iden to get a CAPTCHA image unexpectedly."
         case .GetCAPTCHAImage:
             return "Failed to load a CAPTHCA image unexpectedly."
-            
-        case .SetClientIDForBasicAuthentication:
-            return "Failed to set client ID for Basic Authentication."
-        case .SetUserInfoForBasicAuthentication:
-            return "Failed to set user name/password for Basic Authentication."
-        case .ChallengeOAuth2Session:
-            return "Failed to create NSURL when challenging to shake OAuth2 session."
             
         case .OAuth2:
             return "Failed to get an access token unexpectedly."

@@ -14,16 +14,16 @@ This class has children, paginator and more.
 */
 public struct Listing {
 	/// elements of the list
-	public let children: [Thing]
+	public let children:[Thing]
 	/// paginator of the list
-    public let paginator: Paginator
+    public let paginator:Paginator
     
     public init() {
         self.children = []
         self.paginator = Paginator()
     }
     
-    public init(children: [Thing], paginator: Paginator) {
+    public init(children:[Thing], paginator:Paginator) {
         self.children = children
         self.paginator = paginator
     }

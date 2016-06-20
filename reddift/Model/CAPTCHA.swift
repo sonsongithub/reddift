@@ -12,10 +12,10 @@ import Foundation
 CAPTCHA data class.
 */
 public struct CAPTCHA {
-    public let iden: String
-    public let image: CAPTCHAImage
+    public let iden:String
+    public let image:CAPTCHAImage
     
-    init(iden: String, image: CAPTCHAImage) {
+    init(iden:String, image:CAPTCHAImage) {
         self.iden = iden
         self.image = image
     }

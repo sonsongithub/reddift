@@ -15,17 +15,17 @@ public struct Media {
     /**
     example "i.imgur.com"
     */
-    public let type: String
+    public let type:String
     /**
     oembed object
     */
-    public let oembed: Oembed
+    public let oembed:Oembed
     /**
     Update each property with JSON object.
     
     - parameter json: JSON object which is included "t2" JSON.
     */
-    public init(json: JSONDictionary) {
+    public init(json:JSONDictionary) {
 		type = json["type"] as? String ?? ""
         oembed = Oembed(json:(json["oembed"] as? JSONDictionary ?? [:]))
     }

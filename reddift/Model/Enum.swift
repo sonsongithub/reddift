@@ -24,8 +24,8 @@ public enum CommentSort {
 	/**
 	Returns string to create a path of URL.
 	*/
-	public var path: String {
-		switch self {
+	public var path:String {
+		switch self{
 		case .Confidence:
 			return "/confidence"
 		case .Top:
@@ -48,8 +48,8 @@ public enum CommentSort {
 	/**
 	Returns string to show titles.
 	*/
-	public var type: String {
-		switch self {
+	public var type:String {
+		switch self{
 		case .Confidence:
 			return "confidence"
 		case .Top:
@@ -69,8 +69,8 @@ public enum CommentSort {
 		}
 	}
     
-    public var description: String {
-        switch self {
+    public var description:String {
+        switch self{
         case .Confidence:
             return "Sort by Confidence"
         case .Top:
@@ -108,11 +108,11 @@ public enum TimeFilterWithin {
 	/// All contents
 	case All
     
-    static let cases: [TimeFilterWithin] = [.Hour, .Day, .Week, .Month, .Year, .All]
+    static let cases:[TimeFilterWithin] = [.Hour, .Day, .Week, .Month, .Year, .All]
 	
 	/// String for URL parameter
-	public var param: String {
-		switch self {
+	public var param:String {
+		switch self{
 		case .Hour:
 			return "hour"
 		case .Day:
@@ -128,8 +128,8 @@ public enum TimeFilterWithin {
 		}
     }
     
-    public var description: String {
-        switch self {
+    public var description:String {
+        switch self{
         case .Hour:
             return "Within an hour"
         case .Day:
@@ -155,8 +155,8 @@ public enum LinkSortType {
     case Hot
     case New
     
-    public var path: String {
-        switch self {
+    public var path:String {
+        switch self{
         case .Controversial:
             return "/controversial"
         case .Top:
@@ -168,8 +168,8 @@ public enum LinkSortType {
         }
     }
     
-    public var description: String {
-        switch self {
+    public var description:String {
+        switch self{
         case .Controversial:
             return "Sort by Controversial"
         case .Top:
@@ -192,8 +192,8 @@ public enum SearchSortBy {
 	case Top
 	case Comments
 	
-	var path: String {
-		switch self {
+	var path:String {
+		switch self{
 		case .Relevance:
 			return "relevance"
 		case .New:
@@ -216,8 +216,8 @@ public enum SubredditsMineWhere {
 	case Moderator
 	case Subscriber
 	
-	public var path: String {
-		switch self {
+	public var path:String {
+		switch self{
 		case .Contributor:
 			return "/subreddits/mine/contributor"
 		case .Moderator:
@@ -238,8 +238,8 @@ public enum SubredditsWhere {
 	case Gold
     case Default
 	
-	public var path: String {
-		switch self {
+	public var path:String {
+		switch self{
 		case .Popular:
 			return "/subreddits/popular.json"
 		case .New:
@@ -253,8 +253,8 @@ public enum SubredditsWhere {
 		}
 	}
 	
-	public var title: String {
-		switch self {
+	public var title:String {
+		switch self{
 		case .Popular:
 			return "Popular"
 		case .New:
@@ -277,8 +277,8 @@ public enum MessageWhere {
 	case Unread
 	case Sent
 	
-	public var  path: String {
-		switch self {
+	public var  path:String {
+		switch self{
 		case .Inbox:
 			return "/inbox"
 		case .Unread:
@@ -288,8 +288,8 @@ public enum MessageWhere {
 		}
 	}
 	
-	public var  description: String {
-		switch self {
+	public var  description:String {
+		switch self{
 		case .Inbox:
 			return "inbox"
 		case .Unread:
@@ -313,10 +313,10 @@ public enum UserContent {
 	case Saved
 	case Gilded
     
-    static let cases: [UserContent] = [.Overview, .Submitted, .Comments, .Liked, .Disliked, .Hidden, .Saved, .Gilded]
+    static let cases:[UserContent] = [.Overview, .Submitted, .Comments, .Liked, .Disliked, .Hidden, .Saved, .Gilded]
 	
-	var path: String {
-		switch self {
+	var path:String {
+		switch self{
 		case .Overview:
 			return "/overview"
 		case .Submitted:
@@ -346,10 +346,10 @@ public enum UserContentSortBy {
 	case Top
 	case Controversial
     
-    static let cases: [UserContentSortBy] = [.Hot, .New, .Top, .Controversial]
+    static let cases:[UserContentSortBy] = [.Hot, .New, .Top, .Controversial]
     
-	var param: String {
-		switch self {
+	var param:String {
+		switch self{
 		case .Hot:
 			return "hot"
 		case .New:
@@ -365,7 +365,7 @@ public enum UserContentSortBy {
 /**
 The type of voting direction.
 */
-public enum VoteDirection: Int {
+public enum VoteDirection : Int {
 	case Up     =  1
 	case None   =  0
 	case Down   = -1

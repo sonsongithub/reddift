@@ -20,20 +20,23 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getSearch(subreddit: Subreddit?, query: String, paginator: Paginator, sort: SearchSortBy, completion: (Result<Listing>) -> Void) throws -> NSURLSessionDataTask {
-        let parameter = paginator.addParametersToDictionary(["q":query, "sort":sort.path])
-        var path = "/search"
-        if let subreddit = subreddit { path = subreddit.url + "search" }
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
+    public func getSearch(subreddit:Subreddit?, query:String, paginator:Paginator?, sort:SearchSortBy, completion:(Result<Listing>) -> Void) throws -> URLSessionDataTask {
+        let parameter = paginator?.addParametersToDictionary(dict: ["q":query, "sort":sort.path])
+        let path = (subreddit != nil) ? subreddit!.url + "search" : "/search"
+		guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-                .flatMap(json2RedditAny)
-                .flatMap(redditAny2Object)
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+        
+        let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response: response)
+            let result:Result<Listing> = resultFromOptionalError(value: Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(transform: response2Data)
+                .flatMap(transform: data2Json)
+                .flatMap(transform: json2RedditAny)
+                .flatMap(transform: redditAny2Object)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
 }

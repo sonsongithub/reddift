@@ -12,18 +12,20 @@ import Foundation
 Object to eliminate codes to parse http response object.
 */
 struct Response {
-    let data: NSData
-    let statusCode: Int
+    let data:NSData
+    let statusCode:Int
     
-    init(data: NSData?, urlResponse: NSURLResponse?) {
+    init(data: NSData!, urlResponse: URLResponse!) {
         if let data = data {
             self.data = data
-        } else {
+        }
+        else {
             self.data = NSData()
         }
-        if let httpResponse = urlResponse as? NSHTTPURLResponse {
+        if let httpResponse = urlResponse as? HTTPURLResponse {
             statusCode = httpResponse.statusCode
-        } else {
+        }
+        else {
             statusCode = 500
         }
     }

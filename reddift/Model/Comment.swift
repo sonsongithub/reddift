@@ -9,36 +9,28 @@
 import Foundation
 
 /**
- Expand child comments which are included in Comment objects, recursively.
- Returns comment list and their depth list.
- - parameter comment: Comment object will be expanded.
- - returns: Array contains Comment objects which are expaned from specified Comment object and depth list of them.
- */
-public func extendAllRepliesAndDepth(comment: Thing, depth: Int) -> ([(Thing, Int)]) {
-    var buf: [(Thing, Int)] = []
-    
+Expand child comments which are included in Comment objects, recursively.
+- parameter comment: Comment object will be expanded.
+- returns: Array contains Comment objects which are expaned from specified Comment object.
+*/
+public func extendAllReplies(comment:Thing) -> [Thing] {
+    var comments:[Thing] = [comment]
     if let comment = comment as? Comment {
-        buf.append((comment, depth))
         for obj in comment.replies.children {
-            buf.appendContentsOf(extendAllRepliesAndDepth(obj, depth:depth + 1))
-        }
-    } else if let more = comment as? More {
-        for id in more.children {
-            let more = More(id: id, name: "t1_\(id)", parentId: more.parentId, child: id)
-            buf.append((more, depth))
+            comments.append(contentsOf: extendAllReplies(comment: obj))
         }
     }
-    return buf
+    return comments
 }
 
 /**
 Comment object.
 */
-public struct Comment: Thing {
+public struct Comment : Thing {
     /// identifier of Thing like 15bfi0.
-    public let id: String
+    public let id:String
     /// name of Thing, that is fullname, like t3_15bfi0.
-    public let name: String
+    public let name:String
     /// type of Thing, like t3.
     static public let kind = "t1"
     
@@ -46,142 +38,135 @@ public struct Comment: Thing {
     the id of the subreddit in which the thing is located
     example: t5_2qizd
     */
-    public let subredditId: String
+    public let subredditId:String
     /**
     example:
     */
-    public let bannedBy: String
+    public let bannedBy:String
     /**
     example: t3_32wnhw
     */
-    public let linkId: String
+    public let linkId:String
     /**
     how the logged-in user has voted on the link - True = upvoted, False = downvoted, null = no vote
     example:
     */
-    public let likes: VoteDirection
+    public let likes:VoteDirection
     /**
     example: {"kind"=>"Listing", "data"=>{"modhash"=>nil, "children"=>[{"kind"=>"more", "data"=>{"count"=>0, "parent_id"=>"t1_cqfhkcb", "children"=>["cqfmmpp"], "name"=>"t1_cqfmmpp", "id"=>"cqfmmpp"}}], "after"=>nil, "before"=>nil}}
     */
-    public let replies: Listing
+    public let replies:Listing
     /**
     example: []
     */
-    public let userReports: [AnyObject]
+    public let userReports:[AnyObject]
     /**
     true if this post is saved by the logged in user
     example: false
     */
-    public let saved: Bool
+    public let saved:Bool
     /**
     example: 0
     */
-    public let gilded: Int
+    public let gilded:Int
     /**
     example: false
     */
-    public let archived: Bool
+    public let archived:Bool
     /**
     example:
     */
-    public let reportReasons: [AnyObject]
+    public let reportReasons:[AnyObject]
     /**
     the account name of the poster. null if this is a promotional link
     example: Icnoyotl
     */
-    public let author: String
+    public let author:String
     /**
     example: t1_cqfh5kz
     */
-    public let parentId: String
+    public let parentId:String
     /**
     the net-score of the link.  note: A submission's score is simply the number of upvotes minus the number of downvotes. If five users like the submission and three users don't it will have a score of 2. Please note that the vote numbers are not "real" numbers, they have been "fuzzed" to prevent spam bots etc. So taking the above example, if five users upvoted the submission, and three users downvote it, the upvote/downvote numbers may say 23 upvotes and 21 downvotes, or 12 upvotes, and 10 downvotes. The points score is correct, but the vote totals are "fuzzed".
     example: 1
     */
-    public let score: Int
+    public let score:Int
     /**
     example:
     */
-    public let approvedBy: String
+    public let approvedBy:String
     /**
     example: 0
     */
-    public let controversiality: Int
+    public let controversiality:Int
     /**
     example: The bot has been having this problem for awhile, there have been thousands of new comments since it last worked properly, so it seems like this must be something recurring? Could it have something to do with our AutoModerator?
     */
-    public let body: String
+    public let body:String
     /**
     example: false
     */
-    public let edited: Bool
+    public let edited:Bool
     /**
     the CSS class of the author's flair.  subreddit specific
     example:
     */
-    public let authorFlairCssClass: String
+    public let authorFlairCssClass:String
     /**
     example: 0
     */
-    public let downs: Int
+    public let downs:Int
     /**
     example: &lt;div class="md"&gt;&lt;p&gt;The bot has been having this problem for awhile, there have been thousands of new comments since it last worked properly, so it seems like this must be something recurring? Could it have something to do with our AutoModerator?&lt;/p&gt;
     &lt;/div&gt;
     */
-    public let bodyHtml: String
+    public let bodyHtml:String
     /**
     subreddit of thing excluding the /r/ prefix. "pics"
     example: redditdev
     */
-    public let subreddit: String
+    public let subreddit:String
     /**
     example: false
     */
-    public let scoreHidden: Bool
+    public let scoreHidden:Bool
     /**
     example: 1429284845
     */
-    public let created: Int
+    public let created:Int
     /**
     the text of the author's flair.  subreddit specific
     example:
     */
-    public let authorFlairText: String
+    public let authorFlairText:String
     /**
     example: 1429281245
     */
-    public let createdUtc: Int
+    public let createdUtc:Int
     /**
     example:
     */
-    public let distinguished: Bool
+    public let distinguished:Bool
     /**
     example: []
     */
-    public let modReports: [AnyObject]
+    public let modReports:[AnyObject]
     /**
     example:
     */
-    public let numReports: Int
+    public let numReports:Int
     /**
     example: 1
     */
-    public let ups: Int
-    
-    public var isExpandable: Bool {
-        get {
-            if replies.children.count == 1 {
-                if let more = replies.children[0] as? More {
-                    if more.isEmpty {
-                        return true
-                    }
-                }
-            }
-            return false
-        }
-    }
-    
-    public init(id: String) {
+    public let ups:Int
+	/**
+	if the message is a comment, then the permalink to the comment with ?context=3 appended to the end, otherwise an empty string
+	example:
+	*/
+	public let  context:String
+
+	
+    public init(id:String) {
         self.id = id
         self.name = "\(Comment.kind)_\(self.id)"
         
@@ -214,6 +199,7 @@ public struct Comment: Thing {
         modReports = []
         numReports = 0
         ups = 0
+		context = ""
     }
     
     /**
@@ -222,14 +208,15 @@ public struct Comment: Thing {
     - parameter data: Dictionary, must be generated parsing t1 Thing.
     - returns: Comment object as Thing.
     */
-    public init(data: JSONDictionary) {
+    public init(data:JSONDictionary) {
         id = data["id"] as? String ?? ""
         subredditId = data["subreddit_id"] as? String ?? ""
         bannedBy = data["banned_by"] as? String ?? ""
         linkId = data["link_id"] as? String ?? ""
         if let temp = data["likes"] as? Bool {
             likes = temp ? .Up : .Down
-        } else {
+        }
+        else {
             likes = .None
         }
         userReports = []
@@ -258,14 +245,19 @@ public struct Comment: Thing {
         modReports = []
         numReports = data["num_reports"] as? Int ?? 0
         ups = data["ups"] as? Int ?? 0
-        if let temp = data["replies"] as? JSONDictionary {
-            if let obj = Parser.parseJSON(temp) as? Listing {
+		 context = data["context"] as? String ?? ""
+		if let temp = data["replies"] as? JSONDictionary {
+            if let obj = Parser.parseJSON(json: temp) as? Listing {
                 replies = obj
-            } else {
+            }
+            else {
                 replies = Listing()
             }
-        } else {
+        }
+        else {
             replies = Listing()
         }
     }
 }
+
+

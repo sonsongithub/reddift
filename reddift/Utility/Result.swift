@@ -12,19 +12,20 @@ public enum Result<A> {
     case Success(A)
     case Failure(NSError)
     
-    public init(value: A) {
+    public init(value:A) {
         self = .Success(value)
     }
     
     public init(error: NSError?) {
         if let error = error {
             self = .Failure(error)
-        } else {
-            self = .Failure(NSError.errorWithCode(0, "Fatal error"))
+        }
+        else {
+            self = .Failure(NSError.errorWithCode(code: 0, "Fatal error"))
         }
     }
     
-    func package<B>(@noescape ifSuccess ifSuccess: A -> B, @noescape ifFailure: NSError -> B) -> B {
+    func package<B>(@noescape ifSuccess: (A) -> B, @noescape ifFailure: (NSError) -> B) -> B {
         switch self {
         case .Success(let value):
             return ifSuccess(value)
@@ -33,11 +34,11 @@ public enum Result<A> {
         }
     }
     
-    func map<B>(@noescape transform: A -> B) -> Result<B> {
+    func map<B>(@noescape transform: (A) -> B) -> Result<B> {
         return flatMap { .Success(transform($0)) }
     }
     
-    public func flatMap<B>(@noescape transform: A -> Result<B>) -> Result<B> {
+    public func flatMap<B>(@noescape transform: (A) -> Result<B>) -> Result<B> {
         return package(
             ifSuccess: transform,
             ifFailure: Result<B>.Failure)

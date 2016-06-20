@@ -12,7 +12,7 @@ import Foundation
 Protocol to generate URL query string from Dictionary[String:String].
 */
 protocol QueryEscapableString {
-    var stringByAddingPercentEncoding: String { get }
+    var stringByAddingPercentEncoding:String { get }
 }
 
 extension String: QueryEscapableString {
@@ -20,10 +20,9 @@ extension String: QueryEscapableString {
     Returns string by adding percent encoding in UTF-8
     Protocol to generate URL query string from Dictionary[String:String].
     */
-    var stringByAddingPercentEncoding: String {
+    var stringByAddingPercentEncoding:String {
         get {
-            let set = NSCharacterSet.alphanumericCharacterSet()
-            return self.stringByAddingPercentEncodingWithAllowedCharacters(set) ?? self
+			return self.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.alphanumerics()) ?? self
         }
     }
 }
@@ -37,10 +36,10 @@ extension Dictionary where Key: QueryEscapableString, Value: QueryEscapableStrin
     - returns: Returns string by adding percent encoding in UTF-8
     */
     func URLQueryString() -> String {
-        var components: [String] = []
+        var components:[String] = []
         for (key, value) in self {
             components.append("\(key.stringByAddingPercentEncoding)=\(value.stringByAddingPercentEncoding)")
         }
-        return components.joinWithSeparator("&")
+        return components.joined(separator: "&")
     }
 }

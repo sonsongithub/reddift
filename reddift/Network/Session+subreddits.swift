@@ -11,7 +11,7 @@ import Foundation
 /**
  The type of subreddit user
  */
-public enum SubredditAbout: String {
+public enum SubredditAbout : String {
     case Banned             = "banned"
     case Muted              = "muted"
     case Wikibanned         = "wikibanned"
@@ -25,30 +25,33 @@ extension Session {
      Return subreddits recommended for the given subreddit(s).
      Gets a list of subreddits recommended for srnames, filtering out any that appear in the optional omit param.
     */
-    public func recommendedSubreddits(omit: [String], srnames: [String], completion: (Result<[String]>) -> Void) throws -> NSURLSessionDataTask {
-        var parameter: [String:String] = [:]
+    public func recommendedSubreddits(omit:[String], srnames:[String], completion:(Result<[String]>) -> Void) throws -> URLSessionDataTask {
+        var parameter:[String:String] = [:]
         
         if omit.count > 0 {
-            parameter["omit"] = omit.joinWithSeparator(",")
+            parameter["omit"] = omit.joined(separator: ",")
         }
         if srnames.count > 0 {
-            parameter["srnames"] = srnames.joinWithSeparator(",")
+            parameter["srnames"] = srnames.joined(separator: ",")
         }
         
-        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/recommend/sr/srnames", parameter:parameter, method:"GET", token:token)
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:"/api/recommend/sr/srnames", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[String]> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-                .flatMap({
+        let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response: response)
+            let result:Result<[String]> = resultFromOptionalError(value: Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(transform: response2Data)
+                .flatMap(transform: data2Json)
+                .flatMap(transform: {
                     if let array = $0 as? [[String:String]] {
                         return Result(value: array.flatMap({$0["sr_name"]}))
                     }
                     return Result(error:ReddiftError.ParseCommentError.error)
                 })
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -61,26 +64,29 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func searchRedditNames(query: String, exact: Bool = false, includeOver18: Bool = false, completion: (Result<[String]>) -> Void) throws -> NSURLSessionDataTask {
+    public func searchRedditNames(query:String, exact:Bool = false, includeOver18:Bool = false, completion:(Result<[String]>) -> Void) throws -> URLSessionDataTask {
         let parameter = [
             "query":query,
             "exact":exact.string,
             "include_over_18":includeOver18.string
         ]
-        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/search_reddit_names", parameter:parameter, method:"POST", token:token)
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:"/api/search_reddit_names", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[String]> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-                .flatMap({
+        let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response: response)
+            let result:Result<[String]> = resultFromOptionalError(value: Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(transform: response2Data)
+                .flatMap(transform: data2Json)
+                .flatMap(transform: {
                     if let dict = $0 as? [String:AnyObject], let array = dict["names"] as? [String] {
                         return Result(value: array.flatMap({$0}))
                     }
                     return Result(error:ReddiftError.ParseCommentError.error)
                 })
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
      
     /**
@@ -89,17 +95,20 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
     */
-    public func about(subredditName: String, completion: (Result<Subreddit>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/r/\(subredditName)/about", method:"GET", token:token)
+    public func about(subredditName:String, completion:(Result<Subreddit>) -> Void) throws -> URLSessionDataTask {
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:"/r/\(subredditName)/about", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Subreddit> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-                .flatMap(json2RedditAny)
-                .flatMap(redditAny2Object)
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+        let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response: response)
+            let result:Result<Subreddit> = resultFromOptionalError(value: Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(transform: response2Data)
+                .flatMap(transform: data2Json)
+                .flatMap(transform: json2RedditAny)
+                .flatMap(transform: redditAny2Object)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -109,22 +118,25 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func searchSubredditsByTopic(query: String, completion: (Result<[String]>) -> Void) throws -> NSURLSessionDataTask {
+    public func searchSubredditsByTopic(query:String, completion:(Result<[String]>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["query":query]
-        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/subreddits_by_topic", parameter:parameter, method:"GET", token:token)
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:"/api/subreddits_by_topic", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[String]> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-                .flatMap({
+        let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response: response)
+            let result:Result<[String]> = resultFromOptionalError(value: Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(transform: response2Data)
+                .flatMap(transform: data2Json)
+                .flatMap(transform: {
                     if let array = $0 as? [[String:String]] {
                         return Result(value: array.flatMap({$0["name"]}))
                     }
                     return Result(error:ReddiftError.ParseCommentError.error)
                 })
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -135,22 +147,24 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func getSubmitText(subredditName: String, completion: (Result<String>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/r/\(subredditName)/api/submit_text", method:"GET", token:token)
+    public func getSubmitText(subredditName:String, completion:(Result<String>) -> Void) throws -> URLSessionDataTask {
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:"/r/\(subredditName)/api/submit_text", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<String> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-                .flatMap({
+        let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response: response)
+            let result:Result<String> = resultFromOptionalError(value: Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(transform: response2Data)
+                .flatMap(transform: data2Json)
+                .flatMap(transform: {
                     if let dict = $0 as? [String:String], let submitText = dict["submit_text"] {
                         return Result(value: submitText)
                     }
                     return Result(error:ReddiftError.ParseCommentError.error)
                 })
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -160,7 +174,7 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
     */
-    public func about(subreddit: Subreddit, aboutWhere: SubredditAbout, user: String = "", count: Int = 0, limit: Int = 25, completion: (Result<[User]>) -> Void) throws -> NSURLSessionDataTask {
+    public func about(subreddit:Subreddit, aboutWhere:SubredditAbout, user:String = "", count:Int = 0, limit:Int = 25, completion:(Result<[User]>) -> Void) throws -> URLSessionDataTask {
         let parameter = [
             "count"    : "\(count)",
             "limit"    : "\(limit)",
@@ -169,16 +183,19 @@ extension Session {
 //          "user"     :"username"
             ]
         let path = "/r/\(subreddit.displayName)/about/\(aboutWhere.rawValue)"
-        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[User]> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-                .flatMap(json2RedditAny)
-                .flatMap(redditAny2Object)
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+        let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response: response)
+            let result:Result<[User]> = resultFromOptionalError(value: Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(transform: response2Data)
+                .flatMap(transform: data2Json)
+                .flatMap(transform: json2RedditAny)
+                .flatMap(transform: redditAny2Object)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -188,12 +205,12 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func setSubscribeSubreddit(subreddit: Subreddit, subscribe: Bool, completion: (Result<JSON>) -> Void) throws -> NSURLSessionDataTask {
-        var parameter: [String:String] = ["sr":subreddit.name]
+    public func setSubscribeSubreddit(subreddit:Subreddit, subscribe:Bool, completion:(Result<JSON>) -> Void) throws -> URLSessionDataTask {
+        var parameter:[String:String] = ["sr":subreddit.name]
         parameter["action"] = (subscribe) ? "sub" : "unsub"
-        guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/subscribe", parameter:parameter, method:"POST", token:token)
+        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:"/api/subscribe", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.URLError.error }
-        return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
+        return handleAsJSONRequest(request: request, completion:completion)
     }
     
     /**
@@ -206,24 +223,11 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getSubreddit(subredditWhere: SubredditsWhere, paginator: Paginator?, completion: (Result<Listing>) -> Void) throws -> NSURLSessionDataTask {
-        let parameter = paginator?.addParametersToDictionary([:])
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:subredditWhere.path, parameter:parameter, method:"GET", token:token)
+    public func getSubreddit(subredditWhere:SubredditsWhere, paginator:Paginator?, completion:(Result<RedditAny>) -> Void) throws -> URLSessionDataTask {
+        let parameter = paginator?.addParametersToDictionary(dict: [:])
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:subredditWhere.path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-                .flatMap(json2RedditAny)
-                .flatMap({
-                    (redditAny: RedditAny) -> Result<Listing> in
-                    if let listing = redditAny as? Listing {
-                        return Result(value: listing)
-                    }
-                    return Result(error: ReddiftError.Malformed.error)
-                })
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+        return handleRequest(request: request, completion:completion)
     }
     
     /**
@@ -238,17 +242,20 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getUserRelatedSubreddit(mine: SubredditsMineWhere, paginator: Paginator, completion: (Result<Listing>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:mine.path, parameter:paginator.parameterDictionary, method:"GET", token:token)
+    public func getUserRelatedSubreddit(mine:SubredditsMineWhere, paginator:Paginator?, completion:(Result<Listing>) -> Void) throws -> URLSessionDataTask {
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:mine.path, parameter:paginator?.parameterDictionary, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-                .flatMap(json2RedditAny)
-                .flatMap(redditAny2Object)
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+        let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response: response)
+            let result:Result<Listing> = resultFromOptionalError(value: Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(transform: response2Data)
+                .flatMap(transform: data2Json)
+                .flatMap(transform: json2RedditAny)
+                .flatMap(transform: redditAny2Object)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     /**
@@ -259,49 +266,29 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getSubredditSearch(query: String, paginator: Paginator, completion: (Result<Listing>) -> Void) throws -> NSURLSessionDataTask? {
-        let parameter = paginator.addParametersToDictionary(["q":query])
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/subreddits/search", parameter:parameter, method:"GET", token:token)
+    public func getSubredditSearch(query:String, paginator:Paginator?, completion:(Result<Listing>) -> Void) throws -> URLSessionDataTask? {
+        let parameter = paginator?.addParametersToDictionary(dict: ["q":query])
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:"/subreddits/search", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-                .flatMap(json2RedditAny)
-                .flatMap(redditAny2Object)
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
-    }
-        
-    /**
-     Search subreddits by title and description.
-     
-     - parameter query: The search keywords, must be less than 512 characters.
-     - parameter paginator: Paginator object for paging.
-     - parameter completion: The completion handler to call when the load request is complete.
-     - returns: Data task which requests search to reddit.com.
-     */
-    public func getSubredditSearchWithErrorHandling(query: String, paginator: Paginator, completion: (Result<Listing>) -> Void) throws -> NSURLSessionDataTask? {
-        let parameter = paginator.addParametersToDictionary(["q":query])
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/subreddits/search", parameter:parameter, method:"GET", token:token)
-            else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
-            let result: Result<Listing> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-                .flatMap(json2RedditAny)
-                .flatMap(redditAny2Object)
-            return result
-        }
-        return executeTask(request, handleResponse: closure, completion: completion)
+        let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
+            self.updateRateLimitWithURLResponse(response: response)
+            let result:Result<Listing> = resultFromOptionalError(value: Response(data: data, urlResponse: response), optionalError:error)
+                .flatMap(transform: response2Data)
+                .flatMap(transform: data2Json)
+                .flatMap(transform: json2RedditAny)
+                .flatMap(transform: redditAny2Object)
+            completion(result)
+        })
+        task.resume()
+        return task
     }
     
     /**
     DOES NOT WORK... WHY?
     */
-    public func getSticky(subreddit: Subreddit, completion: (Result<RedditAny>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/r/" + subreddit.displayName + "/sticky", method:"GET", token:token)
+    public func getSticky(subreddit:Subreddit, completion:(Result<RedditAny>) -> Void) throws -> URLSessionDataTask {
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:"/r/" + subreddit.displayName + "/sticky", method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
-        return executeTask(request, handleResponse: handleResponse2RedditAny, completion: completion)
+        return handleRequest(request: request, completion:completion)
     }
 }

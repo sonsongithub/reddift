@@ -29,12 +29,8 @@ public class OAuth2Authorizer {
     /**
     Open OAuth2 page to try to authorize with all scopes in Safari.app.
     */
-    public func challengeWithAllScopes() throws {
-        do {
-            try self.challengeWithScopes(["identity", "edit", "flair", "history", "modconfig", "modflair", "modlog", "modposts", "modwiki", "mysubreddits", "privatemessages", "read", "report", "save", "submit", "subscribe", "vote", "wikiedit", "wikiread"])
-        } catch {
-            throw error
-        }
+    public func challengeWithAllScopes() {
+        self.challengeWithScopes(scopes: ["identity", "edit", "flair", "history", "modconfig", "modflair", "modlog", "modposts", "modwiki", "mysubreddits", "privatemessages", "read", "report", "save", "submit", "subscribe", "vote", "wikiedit", "wikiread"])
     }
     
     /**
@@ -42,23 +38,20 @@ public class OAuth2Authorizer {
     
     - parameter scopes: Scope you want to get authorizing. You can check all scopes at https://www.reddit.com/dev/api/oauth.
     */
-    public func challengeWithScopes(scopes: [String]) throws {
-        let commaSeparatedScopeString = scopes.joinWithSeparator(",")
+    public func challengeWithScopes(scopes:[String]) {
+        let commaSeparatedScopeString = scopes.joined(separator: ",")
         
         let length = 64
         let mutableData = NSMutableData(length: Int(length))
         if let data = mutableData {
             let _ = SecRandomCopyBytes(kSecRandomDefault, length, UnsafeMutablePointer<UInt8>(data.mutableBytes))
-            self.state = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.EncodingEndLineWithLineFeed)
-            guard let authorizationURL = NSURL(string:"https://www.reddit.com/api/v1/authorize.compact?client_id=" + Config.sharedInstance.clientID + "&response_type=code&state=" + self.state + "&redirect_uri=" + Config.sharedInstance.redirectURI + "&duration=permanent&scope=" + commaSeparatedScopeString)
-                else { throw ReddiftError.ChallengeOAuth2Session.error }
+            self.state = data.base64EncodedString(NSData.Base64EncodingOptions.encodingEndLineWithLineFeed)
+            let authorizationURL = NSURL(string:"https://www.reddit.com/api/v1/authorize.compact?client_id=" + Config.sharedInstance.clientID + "&response_type=code&state=" + self.state + "&redirect_uri=" + Config.sharedInstance.redirectURI + "&duration=permanent&scope=" + commaSeparatedScopeString)!
 #if os(iOS)
-                UIApplication.sharedApplication().openURL(authorizationURL)
+                UIApplication.shared().openURL(authorizationURL as URL)
 #elseif os(OSX)
                 NSWorkspace.sharedWorkspace().openURL(authorizationURL)
 #endif
-        } else {
-            throw ReddiftError.ChallengeOAuth2Session.error
         }
     }
     
@@ -69,21 +62,23 @@ public class OAuth2Authorizer {
     - parameter completion: Callback block is execeuted when the access token has been acquired using URL.
     - returns: Returns if the URL object is parsed correctly.
     */
-    public func receiveRedirect(url: NSURL, completion: (Result<OAuth2Token>) -> Void) -> Bool {
-        var parameters: [String:String] = [:]
+    public func receiveRedirect(incomingURL:NSURL, completion:(Result<OAuth2Token>)->Void) -> Bool{
+        var parameters:[String:String] = [:]
         let currentState = self.state
         self.state = ""
-        if url.scheme == Config.sharedInstance.redirectURIScheme {
-            if let temp = NSURLComponents(URL: url, resolvingAgainstBaseURL: true)?.dictionary() {
+        if (incomingURL.scheme == Config.sharedInstance.redirectURIScheme) {
+			//We can't use the new URLComponents here because it's a struct not a dictionary. WATCH OUT AT AUTOCOMPLETE!
+            if let temp = NSURLComponents(url: incomingURL as URL, resolvingAgainstBaseURL: true)?.dictionary() {
                 parameters = temp
             }
         }
         if let code = parameters["code"], state = parameters["state"] {
             if code.characters.count > 0 && state == currentState {
                 do {
-                    try OAuth2Token.getOAuth2Token(code, completion:completion)
+                    try OAuth2Token.getOAuth2Token(code: code, completion:completion)
                     return true
-                } catch {
+                }
+                catch {
                     print(error)
                     return false
                 }
