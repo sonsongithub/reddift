@@ -7,11 +7,11 @@ Pod::Spec.new do |s|
                        - Supports OAuth2(and DOES NOT support Cookie-authentication).
                        - Supports multi-accounts using KeyChain.
                        DESC
-  s.homepage         = "https://github.com/sonsongithub/reddift"
+  s.homepage         = "https://github.com/shusain93/reddift"
   s.license          = 'MIT'
   s.author           = { "sonson" => "yoshida.yuichi@gmail.com" }
   s.source           = {
-    :git => "https://github.com/sonsongithub/reddift.git",
+    :git => "https://github.com/shusain93/reddift.git",
     :tag => "v#{s.version}",
     :submodules => true
   }
