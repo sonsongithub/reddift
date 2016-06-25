@@ -86,9 +86,9 @@ class response2DataObjectTest: XCTestCase {
         if let json: AnyObject = self.jsonFromFileName("api_comment_response.json") {
             let result = json2Comment(json)
             switch result {
-            case .Success:
+            case .success:
                 isSucceeded = true
-            case .Failure:
+            case .failure:
                 break
             }
         }
@@ -137,9 +137,9 @@ class response2DataObjectTest: XCTestCase {
                 
                 XCTAssert(trophylist[0].id == "10wnxy")
                 XCTAssert(trophylist[0].description == "")
-                XCTAssert(trophylist[0].url == NSURL(string: "")!)
-                XCTAssert(trophylist[0].icon40 == NSURL(string: "https://s3.amazonaws.com/redditstatic/award/n00b-40.png")!)
-                XCTAssert(trophylist[0].icon70 == NSURL(string: "https://s3.amazonaws.com/redditstatic/award/n00b-70.png")!)
+                XCTAssert(trophylist[0].url == URL(string: "")!)
+                XCTAssert(trophylist[0].icon40 == URL(string: "https://s3.amazonaws.com/redditstatic/award/n00b-40.png")!)
+                XCTAssert(trophylist[0].icon70 == URL(string: "https://s3.amazonaws.com/redditstatic/award/n00b-70.png")!)
                 XCTAssert(trophylist[0].awardID == "j")
                 XCTAssert(trophylist[0].title == "New User")
             } else { XCTFail("can not parse JSON") }

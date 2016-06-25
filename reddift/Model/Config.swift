@@ -40,7 +40,7 @@ struct Config {
     Returns scheme of redirect URI.
     */
     var redirectURIScheme: String {
-        if let scheme = NSURL(string:redirectURI)?.scheme {
+        if let scheme = URL(string:redirectURI)?.scheme {
             return scheme
         } else {
             return ""
@@ -48,16 +48,16 @@ struct Config {
     }
 	
     init() {
-        version =  NSBundle.infoValueFromMainBundleForKey("CFBundleShortVersionString") as? String ?? "1.0"
-		bundleIdentifier = NSBundle.infoValueFromMainBundleForKey("CFBundleIdentifier") as? String ?? ""
+        version =  Bundle.infoValueFromMainBundleForKey("CFBundleShortVersionString") as? String ?? "1.0"
+		bundleIdentifier = Bundle.infoValueFromMainBundleForKey("CFBundleIdentifier") as? String ?? ""
         
         var _developerName: String? = nil
         var _redirectURI: String? = nil
         var _clientID: String? = nil
-		if let path = NSBundle.mainBundle().pathForResource("reddift_config", ofType: "json") {
-			if let data = NSData(contentsOfFile: path) {
+		if let path = Bundle.main().pathForResource("reddift_config", ofType: "json") {
+			if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
                 do {
-                    if let json: JSONDictionary = try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions()) as? JSONDictionary {
+                    if let json: JSONDictionary = try JSONSerialization.jsonObject(with: data, options:JSONSerialization.ReadingOptions()) as? JSONDictionary {
                         _developerName = json["DeveloperName"] as? String
                         _redirectURI = json["redirect_uri"] as? String
                         _clientID = json["client_id"] as? String

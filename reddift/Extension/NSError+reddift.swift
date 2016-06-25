@@ -9,45 +9,45 @@
 import Foundation
 
 extension NSError {
-    class func errorWithCode(code: Int, _ description: String) -> NSError {
+    class func errorWithCode(_ code: Int, _ description: String) -> NSError {
         return NSError(domain:Config.sharedInstance.bundleIdentifier, code:code, userInfo:["description":description])
     }
 }
 
 public enum ReddiftError: Int {
-    case Unknown                = 1000
-    case ParseJSON              = 1100
+    case unknown                = 1000
+    case parseJSON              = 1100
 
-    case ParseThing             = 1200
-    case ParseListing           = 1201
-    case ParseListingArticles   = 1202
-    case ParseThingT2           = 1203
-    case ParseCommentError      = 1204
-    case ReturnedCommentError   = 1205
-    case ParseMoreError         = 1206
+    case parseThing             = 1200
+    case parseListing           = 1201
+    case parseListingArticles   = 1202
+    case parseThingT2           = 1203
+    case parseCommentError      = 1204
+    case returnedCommentError   = 1205
+    case parseMoreError         = 1206
     
-    case GetCAPTCHA             = 1300
-    case CheckNeedsCAPTHCA      = 1301
-    case GetCAPTCHAIden         = 1302
-    case GetCAPTCHAImage        = 1303
+    case getCAPTCHA             = 1300
+    case checkNeedsCAPTHCA      = 1301
+    case getCAPTCHAIden         = 1302
+    case getCAPTCHAImage        = 1303
     
-    case OAuth2                 = 1400
-    case ParseAccessToken       = 1401
-    case TokenNotfound          = 1402
-    case SetClientIDForBasicAuthentication = 1403
-    case SetUserInfoForBasicAuthentication = 1404
-    case ChallengeOAuth2Session = 1405
+    case oAuth2                 = 1400
+    case parseAccessToken       = 1401
+    case tokenNotfound          = 1402
+    case setClientIDForBasicAuthentication = 1403
+    case setUserInfoForBasicAuthentication = 1404
+    case challengeOAuth2Session = 1405
     
-    case Malformed              = 1500
+    case malformed              = 1500
     
-    case OAuth2Error            = 1600
+    case oAuth2Error            = 1600
     
-    case KeychainTargetNameIsEmpty          = 1700
-    case KeychainDidFailToSerializeToken    = 1701
+    case keychainTargetNameIsEmpty          = 1700
+    case keychainDidFailToSerializeToken    = 1701
     
-    case URLError               = 1800
+    case urlError               = 1800
     
-    case MultiredditDidFailToCreateJSON = 1900
+    case multiredditDidFailToCreateJSON = 1900
     
     
     var error: NSError {
@@ -56,53 +56,53 @@ public enum ReddiftError: Int {
     
     var description: String {
         switch self {
-        case .ParseJSON:
+        case .parseJSON:
             return "Failed to parse JSON object unexpectedly."
             
-        case .ParseThing:
+        case .parseThing:
             return "Failed to parse Thing content unexpectedly."
-        case .ParseListing:
+        case .parseListing:
             return "Failed to parse Listing contents unexpectedly."
-        case .ParseListingArticles:
+        case .parseListingArticles:
             return "Failed to parse artcles unexpectedly."
-        case .ParseThingT2:
+        case .parseThingT2:
             return "Failed to parse t2 content unexpectedly."
-        case .ParseCommentError:
+        case .parseCommentError:
             return "Returned error JSON object instead of Comment objects, and could not parse it."
-        case .ReturnedCommentError:
+        case .returnedCommentError:
             return "Returned error JSON object instead of Comment objects."
             
-        case .GetCAPTCHA:
+        case .getCAPTCHA:
             return "Failed to dosomething for CAPTCHA unexpectedly."
-        case .CheckNeedsCAPTHCA:
+        case .checkNeedsCAPTHCA:
             return "Failed to check whether you have to handle CAPTCHA unexpectedly because response is unexepcted data or, it's neither true nor false."
-        case .GetCAPTCHAIden:
+        case .getCAPTCHAIden:
             return "Failed to parse iden to get a CAPTCHA image unexpectedly."
-        case .GetCAPTCHAImage:
+        case .getCAPTCHAImage:
             return "Failed to load a CAPTHCA image unexpectedly."
             
-        case .SetClientIDForBasicAuthentication:
+        case .setClientIDForBasicAuthentication:
             return "Failed to set client ID for Basic Authentication."
-        case .SetUserInfoForBasicAuthentication:
+        case .setUserInfoForBasicAuthentication:
             return "Failed to set user name/password for Basic Authentication."
-        case .ChallengeOAuth2Session:
+        case .challengeOAuth2Session:
             return "Failed to create NSURL when challenging to shake OAuth2 session."
             
-        case .OAuth2:
+        case .oAuth2:
             return "Failed to get an access token unexpectedly."
-        case .ParseAccessToken:
+        case .parseAccessToken:
             return "Failed to extract access token from response unexpectedly."
-        case .TokenNotfound:
+        case .tokenNotfound:
             return "Token which has the name you specified was not found."
-        case .Malformed:
+        case .malformed:
             return "Data is malformed."
-        case .KeychainTargetNameIsEmpty:
+        case .keychainTargetNameIsEmpty:
             return "Target name is empty, reddift can not do anything."
-        case .KeychainDidFailToSerializeToken:
+        case .keychainDidFailToSerializeToken:
             return "Failed to serialize token object in order to save into Keychain."
-        case .URLError:
+        case .urlError:
             return "Failed to parse URL and create a request object."
-        case .MultiredditDidFailToCreateJSON:
+        case .multiredditDidFailToCreateJSON:
             return "Failed to create JSON object to post a new multireddit."
         default:
             return "Unknown error."

@@ -19,14 +19,15 @@ extension Session {
     - parameter sort: Sort type, specified by SearchSortBy.
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
-    */
-    public func getSearch(subreddit: Subreddit?, query: String, paginator: Paginator, sort: SearchSortBy, completion: (Result<Listing>) -> Void) throws -> NSURLSessionDataTask {
+     */
+    @discardableResult
+    public func getSearch(_ subreddit: Subreddit?, query: String, paginator: Paginator, sort: SearchSortBy, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let parameter = paginator.addParametersToDictionary(["q":query, "sort":sort.path])
         var path = "/search"
         if let subreddit = subreddit { path = subreddit.url + "search" }
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
-            else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Listing> in
+        guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
+            else { throw ReddiftError.urlError.error }
+        let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)

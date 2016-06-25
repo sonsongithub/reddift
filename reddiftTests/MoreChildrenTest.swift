@@ -25,18 +25,18 @@ class MoreChildrenTest: SessionTestSpec {
         let link = Link(id: "2ujhkr")
         
         do {
-            let documentOpenExpectation = self.expectationWithDescription("")
-            try session?.getArticles(link, sort: .New, comments: nil, depth:1, limit: 10, completion: { (result) -> Void in
+            let documentOpenExpectation = self.expectation(withDescription: "")
+            try session?.getArticles(link, sort: .new, comments: nil, depth:1, limit: 10, completion: { (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
-                case .Success(_, let listing):
+                case .success(_, let listing):
                     let incomming = listing.children.flatMap({ $0 as? More})
-                    moreList.appendContentsOf(incomming)
+                    moreList.append(contentsOf: incomming)
                 }
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         
         XCTAssert(moreList.count > 0, "Cannot get More objects.")
@@ -45,13 +45,13 @@ class MoreChildrenTest: SessionTestSpec {
         
         moreList.forEach({
             do {
-                let documentOpenExpectation = self.expectationWithDescription("")
-                try session?.getMoreChildren($0.children, link: link, sort: .New, completion: { (result) -> Void in
+                let documentOpenExpectation = self.expectation(withDescription: "")
+                try session?.getMoreChildren($0.children, link: link, sort: .new, completion: { (result) -> Void in
                     switch(result) {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error)
                         check = false
-                    case .Success(let list):
+                    case .success(let list):
                         print(list)
                         if list.count == 0 {
                             check = false
@@ -59,7 +59,7 @@ class MoreChildrenTest: SessionTestSpec {
                     }
                     documentOpenExpectation.fulfill()
                 })
-                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+                self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
             } catch { XCTFail((error as NSError).description) }
         })
         XCTAssert(check, "Cannot expand More objects.")

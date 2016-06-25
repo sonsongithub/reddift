@@ -10,34 +10,34 @@
 import UIKit
 
 /// Session class to communicate with reddit.com using OAuth.
-public class BackgroundFetch: NSObject, NSURLSessionDelegate {
+public class BackgroundFetch: NSObject, URLSessionDelegate {
     let session: Session
-    var taskURLSession: NSURLSession? = nil
-    var tokenURLSession: NSURLSession? = nil
+    var taskURLSession: Foundation.URLSession? = nil
+    var tokenURLSession: Foundation.URLSession? = nil
     var firstTry: Bool = true
-    let taskHandler: ((response: NSHTTPURLResponse?, dataURL: NSURL?, error: NSError?) -> Void)
-    var request: NSURLRequest
+    let taskHandler: ((response: HTTPURLResponse?, dataURL: URL?, error: NSError?) -> Void)
+    var request: URLRequest
     
-    public init(_ currentSession: Session, request aRequest: NSURLRequest, taskHandler aTaskHandler: (response: NSHTTPURLResponse?, dataURL: NSURL?, error: NSError?) -> Void) {
+    public init(_ currentSession: Session, request aRequest: URLRequest, taskHandler aTaskHandler: (response: HTTPURLResponse?, dataURL: URL?, error: NSError?) -> Void) {
         session = currentSession
         taskHandler = aTaskHandler
         request = aRequest
         super.init()
-        taskURLSession = NSURLSession(configuration: NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("com.sonson.reddift.profile"), delegate: self, delegateQueue: nil)
-        tokenURLSession = NSURLSession(configuration: NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("com.sonson.reddift.token"), delegate: self, delegateQueue: nil)
+        taskURLSession = Foundation.URLSession(configuration: URLSessionConfiguration.background(withIdentifier: "com.sonson.reddift.profile"), delegate: self, delegateQueue: nil)
+        tokenURLSession = Foundation.URLSession(configuration: URLSessionConfiguration.background(withIdentifier: "com.sonson.reddift.token"), delegate: self, delegateQueue: nil)
     }
     
     public func resume() {
         guard let taskURLSession = self.taskURLSession else { return }
-        taskURLSession.downloadTaskWithRequest(request).resume()
+        taskURLSession.downloadTask(with: request).resume()
     }
     
-    func handleTaskResponse(response: NSHTTPURLResponse, didFinishDownloadingToURL: NSURL, requestForRefreshToken: NSURLRequest) {
+    func handleTaskResponse(_ response: HTTPURLResponse, didFinishDownloadingToURL: URL, requestForRefreshToken: URLRequest) {
         if response.statusCode == 401 {
             if firstTry {
                 if let tokenURLSession = self.tokenURLSession {
                     firstTry = false
-                    tokenURLSession.downloadTaskWithRequest(requestForRefreshToken).resume()
+                    tokenURLSession.downloadTask(with: requestForRefreshToken).resume()
                 }
             } else {
                 taskHandler(response: nil, dataURL: nil, error: NSError(domain: "", code: 0, userInfo: nil))
@@ -47,20 +47,20 @@ public class BackgroundFetch: NSObject, NSURLSessionDelegate {
         }
     }
     
-    func handleTokenRefreshResponse(response: NSHTTPURLResponse, didFinishDownloadingToURL: NSURL, token: OAuth2Token) {
+    func handleTokenRefreshResponse(_ response: HTTPURLResponse, didFinishDownloadingToURL: URL, token: OAuth2Token) {
         if response.statusCode == 200 {
-            let data = NSData(contentsOfURL: didFinishDownloadingToURL)
+            let data = try? Data(contentsOf: didFinishDownloadingToURL)
             let result: Result<JSONDictionary> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:nil)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(redditAny2Object)
             let result2 = refreshTokenWithJSON(result, token: token)
             switch result2 {
-            case .Success(let token):
+            case .success(let token):
                 session.token = token
                 request = request.updateWithOAuth2Token(token)
                 resume()
-            case .Failure(let error):
+            case .failure(let error):
                 taskHandler(response: nil, dataURL: nil, error: error)
             }
         } else {
@@ -68,8 +68,8 @@ public class BackgroundFetch: NSObject, NSURLSessionDelegate {
         }
     }
     
-    func URLSession(URLSession: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL: NSURL) {
-        guard let response = downloadTask.response as? NSHTTPURLResponse
+    func URLSession(_ URLSession: Foundation.URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingToURL: URL) {
+        guard let response = downloadTask.response as? HTTPURLResponse
             else { return }
         guard let token = session.token as? OAuth2Token
             else { return }
@@ -79,13 +79,13 @@ public class BackgroundFetch: NSObject, NSURLSessionDelegate {
         if URLSession == tokenURLSession {
             handleTokenRefreshResponse(response, didFinishDownloadingToURL: didFinishDownloadingToURL, token: token)
         } else if URLSession == taskURLSession {
-            handleTaskResponse(response, didFinishDownloadingToURL: didFinishDownloadingToURL, requestForRefreshToken:  requestForRefreshToken)
+            handleTaskResponse(response, didFinishDownloadingToURL: didFinishDownloadingToURL, requestForRefreshToken:  requestForRefreshToken as URLRequest)
         } else {
             taskHandler(response: nil, dataURL: nil, error: NSError(domain: "", code: 0, userInfo: nil))
         }
     }
     
-    func URLSession(session: NSURLSession, error: NSError?) {
+    func URLSession(_ session: Foundation.URLSession, error: NSError?) {
         taskHandler(response: nil, dataURL: nil, error: error)
     }
 }

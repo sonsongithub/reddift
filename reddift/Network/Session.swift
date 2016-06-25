@@ -21,13 +21,13 @@ public typealias JSONArray = Array<AnyObject>
 public typealias RedditAny = Any
 
 /// Session class to communicate with reddit.com using OAuth.
-public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
+public class Session: NSObject, URLSessionDelegate, URLSessionDataDelegate {
     /// Token object to access via OAuth
     public var token: Token? = nil
     /// Base URL for OAuth API
     let baseURL: String
     /// Session object to communicate a server
-    var URLSession: NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    var URLSession: Foundation.URLSession = Foundation.URLSession(configuration: URLSessionConfiguration.default())
     
     /// Duration until rate limit of API usage as second.
     var rateLimitDurationToReset: Double = 0
@@ -65,8 +65,8 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
 
 	- parameter response: NSURLResponse object is passed from NSURLSession.
 	*/
-    func updateRateLimitWithURLResponse(response: NSURLResponse?, verbose: Bool = false) {
-        if let response = response, let httpResponse: NSHTTPURLResponse = response as? NSHTTPURLResponse {
+    func updateRateLimitWithURLResponse(_ response: URLResponse?, verbose: Bool = false) {
+        if let response = response, let httpResponse: HTTPURLResponse = response as? HTTPURLResponse {
             if let temp = httpResponse.allHeaderFields["x-ratelimit-reset"] as? String {
                 rateLimitDurationToReset = Double(temp) ?? 0
             }
@@ -84,7 +84,7 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
         }
     }
     
-    func handleResponse2RedditAny(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<RedditAny> {
+    func handleResponse2RedditAny(_ data: Data?, response: URLResponse?, error: NSError?) -> Result<RedditAny> {
         self.updateRateLimitWithURLResponse(response)
         return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
             .flatMap(response2Data)
@@ -92,7 +92,7 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
             .flatMap(json2RedditAny)
     }
     
-    func handleResponse2JSON(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<JSONAny> {
+    func handleResponse2JSON(_ data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> {
         self.updateRateLimitWithURLResponse(response)
         return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
             .flatMap(response2Data)
@@ -106,17 +106,18 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
      - parameter handleResponse: Closure returns Result<T> object by handling response, data and error that is returned from NSURLSession.
      - parameter completion: The completion handler to call when the load request is complete.
      */
-    func executeTaskAgainAfterRefresh<T>(request: NSMutableURLRequest, handleResponse: (data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<T>, completion: (Result<T>) -> Void) -> Void {
+    func executeTaskAgainAfterRefresh<T>(_ request: URLRequest, handleResponse: (data: Data?, response: URLResponse?, error: NSError?) -> Result<T>, completion: (Result<T>) -> Void) -> Void {
         do {
             try self.refreshToken({ (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     completion(Result(error: error as NSError))
-                case .Success(let token):
+                case .success(let token):
                     // http header must be updated with new OAuth token.
+                    var request = request
                     request.setOAuth2Token(token)
                     print("new token - \(token.accessToken) - automatically refreshed.")
-                    let task = self.URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+                    let task = self.URLSession.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
                         self.updateRateLimitWithURLResponse(response)
                         completion(handleResponse(data:data, response: response, error: error))
                     })
@@ -134,19 +135,19 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    func executeTask<T>(request: NSMutableURLRequest, handleResponse: ((data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<T>), completion: ((Result<T>) -> Void)) -> NSURLSessionDataTask {
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+    func executeTask<T>(_ request: URLRequest, handleResponse: ((data: Data?, response: URLResponse?, error: NSError?) -> Result<T>), completion: ((Result<T>) -> Void)) -> URLSessionDataTask {
+        let task = URLSession.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response)
             let result = handleResponse(data:data, response: response, error: error)
             switch result {
-            case .Failure(let error):
+            case .failure(let error):
                 guard let token = self.token else { completion(result); return; }
                 if !token.refreshToken.isEmpty && error.code == 401 {
                     self.executeTaskAgainAfterRefresh(request, handleResponse: handleResponse, completion: completion)
                 } else {
                     completion(result)
                 }
-            case .Success:
+            case .success:
                 completion(result)
             }
         })

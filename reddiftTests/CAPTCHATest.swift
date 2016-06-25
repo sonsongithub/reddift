@@ -19,40 +19,40 @@ class CAPTCHATest: SessionTestSpec {
         let msg = "is true or false as Bool"
         print(msg)
         var check_result: Bool? = nil
-        let documentOpenExpectation = self.expectationWithDescription(msg)
+        let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
             try self.session?.checkNeedsCAPTCHA({(result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
-                case .Success(let check):
+                case .success(let check):
                     check_result = check
                 }
                 XCTAssert(check_result != nil, msg)
                 documentOpenExpectation.fulfill()
             })
         } catch { XCTFail((error as NSError).description) }
-        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
     }
     
     func testGetIdenForNewCAPTCHA() {
         let msg = "is String"
         print(msg)
         var iden: String? = nil
-        let documentOpenExpectation = self.expectationWithDescription(msg)
+        let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
             try self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error.description)
-                case .Success(let identifier):
+                case .success(let identifier):
                     iden = identifier
                 }
                 XCTAssert(iden != nil, msg)
                 documentOpenExpectation.fulfill()
             })
         } catch { XCTFail((error as NSError).description) }
-        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
     }
     
     func testSizeOfNewImageGeneratedUsingIden() {
@@ -63,18 +63,18 @@ class CAPTCHATest: SessionTestSpec {
 #elseif os(OSX)
         var size: NSSize? = nil
 #endif
-        let documentOpenExpectation = self.expectationWithDescription(msg)
+        let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
             try self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error.description)
-                case .Success(let string):
+                case .success(let string):
                     try! self.session?.getCAPTCHA(string, completion: { (result) -> Void in
                         switch result {
-                        case .Failure(let error):
+                        case .failure(let error):
                             print(error.description)
-                        case .Success(let image):
+                        case .success(let image):
                             size = image.size
                         }
                         documentOpenExpectation.fulfill()
@@ -82,7 +82,7 @@ class CAPTCHATest: SessionTestSpec {
                 }
             })
         } catch { XCTFail((error as NSError).description) }
-        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         
         if let size = size {
 #if os(iOS)

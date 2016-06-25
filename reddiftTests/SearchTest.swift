@@ -17,20 +17,20 @@ class SearchTest: SessionTestSpec {
         var links: [Link] = []
         let query = "apple"
         let msg = "Search subreddit name used of \(query)"
-        let documentOpenExpectation = self.expectationWithDescription(msg)
+        let documentOpenExpectation = self.expectation(withDescription: msg)
         let subreddit = Subreddit(subreddit: "apple")
         
         do {
-            try self.session?.getSearch(subreddit, query: query, paginator: Paginator(), sort: .New, completion: { (result) -> Void in
+            try self.session?.getSearch(subreddit, query: query, paginator: Paginator(), sort: .new, completion: { (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
-                case .Success(let listing):
-                    links.appendContentsOf(listing.children.flatMap { $0 as? Link })
+                case .success(let listing):
+                    links.append(contentsOf: listing.children.flatMap { $0 as? Link })
                 }
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         XCTAssert(links.count > 0, msg)
     }

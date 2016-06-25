@@ -9,11 +9,11 @@
 import XCTest
 
 extension XCTestCase {
-    func jsonFromFileName(name: String) -> AnyObject? {
-        if let path = NSBundle(forClass: self.classForCoder).pathForResource(name, ofType:nil) {
-            if let data = NSData(contentsOfFile: path) {
+    func jsonFromFileName(_ name: String) -> AnyObject? {
+        if let path = Bundle(for: self.classForCoder).pathForResource(name, ofType:nil) {
+            if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
                 do {
-                    return try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions())
+                    return try JSONSerialization.jsonObject(with: data, options:JSONSerialization.ReadingOptions())
                 } catch {
                     XCTFail((error as NSError).description)
                     return nil
@@ -38,7 +38,7 @@ class ParseThingObjectTest: XCTestCase {
             XCTAssert(object.subredditId == "t5_2qizd")
             XCTAssert(object.bannedBy == "")
             XCTAssert(object.linkId == "t3_32wnhw")
-            XCTAssert(object.likes == .Up)
+            XCTAssert(object.likes == .up)
             XCTAssert(object.userReports.count == 0)
             XCTAssert(object.saved == false)
             XCTAssert(object.id == "cqfhkcb")
@@ -114,7 +114,7 @@ class ParseThingObjectTest: XCTestCase {
             XCTAssert(object.subreddit == "redditdev")
             XCTAssert(object.selftextHtml == "<!-- SC_OFF --><div class=\"md\"><p>So this is the code I ran:</p>\n\n<pre><code>r = praw.Reddit(&quot;/u/habnpam sflkajsfowifjsdlkfj test test test&quot;)\n\n\nfor c in praw.helpers.comment_stream(reddit_session=r, subreddit=&quot;helpmefind&quot;, limit=500, verbosity=1):\n    print(c.author)\n</code></pre>\n\n<hr/>\n\n<p>From what I understand, comment_stream() gets the most recent comments. So if we specify the limit to be 100, it will initially get the 100 newest comment, and then constantly update to get new comments.  It seems to works appropriately for every subreddit except <a href=\"/r/helpmefind\">/r/helpmefind</a>. For <a href=\"/r/helpmefind\">/r/helpmefind</a>, it fetches around 30 comments, regardless of the limit.</p>\n</div><!-- SC_ON -->")
             XCTAssert(object.selftext == "So this is the code I ran:\n\n    r = praw.Reddit(\"/u/habnpam sflkajsfowifjsdlkfj test test test\")\n    \n\n    for c in praw.helpers.comment_stream(reddit_session=r, subreddit=\"helpmefind\", limit=500, verbosity=1):\n        print(c.author)\n\n\n---\n\nFrom what I understand, comment_stream() gets the most recent comments. So if we specify the limit to be 100, it will initially get the 100 newest comment, and then constantly update to get new comments.  It seems to works appropriately for every subreddit except /r/helpmefind. For /r/helpmefind, it fetches around 30 comments, regardless of the limit.")
-            XCTAssertTrue((object.likes == .None), "check likes's value.")
+            XCTAssertTrue((object.likes == .none), "check likes's value.")
             XCTAssert(object.userReports.count == 0)
             XCTAssertTrue((object.secureMedia == nil), "check secure_media's value.")
             XCTAssert(object.linkFlairText == "")
@@ -301,13 +301,13 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingNeedsCAPTHCAResponseStringTest() {
         print("is true or false")
         var isSucceeded = false
-        if let path = NSBundle(forClass: self.classForCoder).pathForResource("api_needs_captcha.json", ofType:nil) {
-            if let data = NSData(contentsOfFile: path) {
+        if let path = Bundle(for: self.classForCoder).pathForResource("api_needs_captcha.json", ofType:nil) {
+            if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
                 let result = data2Bool(data)
                 switch result {
-                case .Failure:
+                case .failure:
                     print(result.error!.description)
-                case .Success:
+                case .success:
                     isSucceeded = true
                 }
             }
@@ -321,9 +321,9 @@ class ParseThingObjectTest: XCTestCase {
         if let thing = self.jsonFromFileName("api_new_captcha.json") as? JSONDictionary {
             let result = idenJSON2String(thing)
             switch result {
-            case .Failure(let error):
+            case .failure(let error):
                 print(error.description)
-            case .Success:
+            case .success:
                 isSucceeded = true
             }
         }

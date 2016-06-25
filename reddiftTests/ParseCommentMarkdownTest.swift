@@ -26,7 +26,7 @@ class ParseCommentMarkdownTest: XCTestCase {
         print("test data : comment_parse_data.json")
         
         /// Start to test
-        self.measureBlock {
+        self.measure {
         }
     }
     

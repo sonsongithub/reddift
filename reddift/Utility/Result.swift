@@ -9,43 +9,43 @@
 import Foundation
 
 public enum Result<A> {
-    case Success(A)
-    case Failure(NSError)
+    case success(A)
+    case failure(NSError)
     
     public init(value: A) {
-        self = .Success(value)
+        self = .success(value)
     }
     
     public init(error: NSError?) {
         if let error = error {
-            self = .Failure(error)
+            self = .failure(error)
         } else {
-            self = .Failure(NSError.errorWithCode(0, "Fatal error"))
+            self = .failure(NSError.errorWithCode(0, "Fatal error"))
         }
     }
     
-    func package<B>(@noescape ifSuccess ifSuccess: A -> B, @noescape ifFailure: NSError -> B) -> B {
+    func package<B>(ifSuccess: (A) -> B, ifFailure: (NSError) -> B) -> B {
         switch self {
-        case .Success(let value):
+        case .success(let value):
             return ifSuccess(value)
-        case .Failure(let value):
+        case .failure(let value):
             return ifFailure(value)
         }
     }
     
-    func map<B>(@noescape transform: A -> B) -> Result<B> {
-        return flatMap { .Success(transform($0)) }
+    func map<B>(_ transform: (A) -> B) -> Result<B> {
+        return flatMap { .success(transform($0)) }
     }
     
-    public func flatMap<B>(@noescape transform: A -> Result<B>) -> Result<B> {
+    public func flatMap<B>(_ transform: (A) -> Result<B>) -> Result<B> {
         return package(
             ifSuccess: transform,
-            ifFailure: Result<B>.Failure)
+            ifFailure: Result<B>.failure)
     }
     
     public var error: NSError? {
         switch self {
-        case .Failure(let error):
+        case .failure(let error):
             return error
         default:
             return nil
@@ -54,7 +54,7 @@ public enum Result<A> {
     
     public var value: A? {
         switch self {
-        case .Success(let success):
+        case .success(let success):
             return success
         default:
             return nil
@@ -62,18 +62,18 @@ public enum Result<A> {
     }
 }
 
-public func resultFromOptional<A>(optional: A?, error: NSError) -> Result<A> {
+public func resultFromOptional<A>(_ optional: A?, error: NSError) -> Result<A> {
     if let a = optional {
-        return .Success(a)
+        return .success(a)
     } else {
-        return .Failure(error)
+        return .failure(error)
     }
 }
 
-public func resultFromOptionalError<A>(value: A, optionalError: NSError?) -> Result<A> {
+public func resultFromOptionalError<A>(_ value: A, optionalError: NSError?) -> Result<A> {
     if let error = optionalError {
-        return .Failure(error)
+        return .failure(error)
     } else {
-        return .Success(value)
+        return .success(value)
     }
 }

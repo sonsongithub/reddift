@@ -8,23 +8,23 @@
 
 import Foundation
 
-extension NSMutableURLRequest {
+extension URLRequest {
     
     func curl() -> String {
         var command = "curl"
         if let allHTTPHeaderFields = allHTTPHeaderFields {
             for (key, value) in allHTTPHeaderFields {
-                let value = value.stringByReplacingOccurrencesOfString("\"", withString: "\\\"")
+                let value = value.replacingOccurrences(of: "\"", with: "\\\"")
                 command += " --header \"\(key): \(value)\""
             }
         }
-        if let url = self.URL {
+        if let url = self.url {
             command += " '\(url.absoluteString)'"
         }
-        command += " -X \(self.HTTPMethod)"
-        if let data = self.HTTPBody {
-            if var str = String(data: data, encoding: NSUTF8StringEncoding) {
-                str = str.stringByReplacingOccurrencesOfString("\"", withString: "\\\"")
+        command += " -X \(self.httpMethod)"
+        if let data = self.httpBody {
+            if var str = String(data: data, encoding: String.Encoding.utf8) {
+                str = str.replacingOccurrences(of: "\"", with: "\\\"")
                 command += " -d \"\(str)\""
             } else {
                 command += " -d <CANNOT PARSE AS STRING DATA>"
@@ -33,64 +33,64 @@ extension NSMutableURLRequest {
         return command
     }
     
-    func setRedditBasicAuthentication() throws {
+    mutating func setRedditBasicAuthentication() throws {
         let basicAuthenticationChallenge = Config.sharedInstance.clientID + ":"
-        if let data = basicAuthenticationChallenge.dataUsingEncoding(NSUTF8StringEncoding) {
-            let base64Str = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
+        if let data = basicAuthenticationChallenge.data(using: String.Encoding.utf8) {
+            let base64Str = data.base64EncodedString(NSData.Base64EncodingOptions.encoding64CharacterLineLength)
             setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
         } else {
-            throw ReddiftError.SetClientIDForBasicAuthentication.error
+            throw ReddiftError.setClientIDForBasicAuthentication.error
         }
     }
     
-    func setRedditBasicAuthentication(username username: String, password: String) throws {
+    mutating func setRedditBasicAuthentication(username: String, password: String) throws {
         let basicAuthenticationChallenge = username + ":" + password
-        if let data = basicAuthenticationChallenge.dataUsingEncoding(NSUTF8StringEncoding) {
-            let base64Str = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
+        if let data = basicAuthenticationChallenge.data(using: String.Encoding.utf8) {
+            let base64Str = data.base64EncodedString(NSData.Base64EncodingOptions.encoding64CharacterLineLength)
             setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
         } else {
-            throw ReddiftError.SetUserInfoForBasicAuthentication.error
+            throw ReddiftError.setUserInfoForBasicAuthentication.error
         }
     }
     
-    func setOAuth2Token(token: Token?) {
+    mutating func setOAuth2Token(_ token: Token?) {
         if let token = token {
             setValue("bearer " + token.accessToken, forHTTPHeaderField:"Authorization")
         }
     }
     
-    func setUserAgentForReddit() {
+    mutating func setUserAgentForReddit() {
         self.setValue(Config.sharedInstance.userAgent, forHTTPHeaderField: "User-Agent")
     }
     
-    class func mutableOAuthRequestWithBaseURL(baseURL: String, path: String, method: String, token: Token?) -> NSMutableURLRequest? {
-        guard let URL = NSURL(string:baseURL + path) else { return nil }
-        let URLRequest = NSMutableURLRequest(URL: URL)
-        URLRequest.setOAuth2Token(token)
-        URLRequest.HTTPMethod = method
-        URLRequest.setUserAgentForReddit()
+    static func mutableOAuthRequestWithBaseURL(_ baseURL: String, path: String, method: String, token: Token?) -> URLRequest? {
+        guard let URL = URL(string:baseURL + path) else { return nil }
+        var request = URLRequest(url: URL)
+        request.setOAuth2Token(token)
+        request.httpMethod = method
+        request.setUserAgentForReddit()
 #if _TEST
-        print("curl command:\n\(URLRequest.curl())")
+        print("curl command:\n\(request.curl())")
 #endif
-        return URLRequest
+        return request
     }
     
-    class func mutableOAuthRequestWithBaseURL(baseURL: String, path: String, data: NSData, method: String, token: Token?) -> NSMutableURLRequest? {
+    static func mutableOAuthRequestWithBaseURL(_ baseURL: String, path: String, data: Data, method: String, token: Token?) -> URLRequest? {
         if method == "POST" || method == "PATCH" || method == "PUT" {
-            guard let URL = NSURL(string:baseURL + path) else { return nil }
-            let URLRequest = NSMutableURLRequest(URL: URL)
-            URLRequest.setOAuth2Token(token)
-            URLRequest.HTTPMethod = method
-            URLRequest.HTTPBody = data
-            URLRequest.setUserAgentForReddit()
+            guard let URL = URL(string:baseURL + path) else { return nil }
+            var request = URLRequest(url: URL)
+            request.setOAuth2Token(token)
+            request.httpMethod = method
+            request.httpBody = data
+            request.setUserAgentForReddit()
 #if _TEST
-            print("curl command:\n\(URLRequest.curl())")
+            print("curl command:\n\(request.curl())")
 #endif
-            return URLRequest
+            return request
         } else { return nil }
     }
     
-    class func mutableOAuthRequestWithBaseURL(baseURL: String, path: String, parameter: [String:String]?, method: String, token: Token?) -> NSMutableURLRequest? {
+    static func mutableOAuthRequestWithBaseURL(_ baseURL: String, path: String, parameter: [String:String]?, method: String, token: Token?) -> URLRequest? {
         if method == "POST" {
             return mutableOAuthPostRequestWithBaseURL(baseURL, path:path, parameter:parameter ?? [:], method:method, token:token)
         } else {
@@ -98,30 +98,30 @@ extension NSMutableURLRequest {
         }
     }
     
-    class func mutableOAuthGetRequestWithBaseURL(baseURL: String, path: String, parameter: [String:String], method: String, token: Token?) -> NSMutableURLRequest? {
+    static func mutableOAuthGetRequestWithBaseURL(_ baseURL: String, path: String, parameter: [String:String], method: String, token: Token?) -> URLRequest? {
         let param = parameter.URLQueryString()
-        guard let URL = param.characters.isEmpty ? NSURL(string:baseURL + path) : NSURL(string:baseURL + path + "?" + param) else { return nil }
-        let URLRequest = NSMutableURLRequest(URL: URL)
-        URLRequest.setOAuth2Token(token)
-        URLRequest.HTTPMethod = method
-        URLRequest.setUserAgentForReddit()
+        guard let URL = param.characters.isEmpty ? URL(string:baseURL + path) : URL(string:baseURL + path + "?" + param) else { return nil }
+        var request = URLRequest(url: URL)
+        request.setOAuth2Token(token)
+        request.httpMethod = method
+        request.setUserAgentForReddit()
 #if _TEST
-        print("curl command:\n\(URLRequest.curl())")
+        print("curl command:\n\(request.curl())")
 #endif
-        return URLRequest
+        return request
     }
     
-    class func mutableOAuthPostRequestWithBaseURL(baseURL: String, path: String, parameter: [String:String], method: String, token: Token?) -> NSMutableURLRequest? {
-        guard let URL = NSURL(string:baseURL + path) else { return nil }
-        let URLRequest = NSMutableURLRequest(URL: URL)
-        URLRequest.setOAuth2Token(token)
-        URLRequest.HTTPMethod = method
-        let data = parameter.URLQueryString().dataUsingEncoding(NSUTF8StringEncoding)
-        URLRequest.HTTPBody = data
-        URLRequest.setUserAgentForReddit()
+    static func mutableOAuthPostRequestWithBaseURL(_ baseURL: String, path: String, parameter: [String:String], method: String, token: Token?) -> URLRequest? {
+        guard let URL = URL(string:baseURL + path) else { return nil }
+        var request = URLRequest(url: URL)
+        request.setOAuth2Token(token)
+        request.httpMethod = method
+        let data = parameter.URLQueryString().data(using: String.Encoding.utf8)
+        request.httpBody = data
+        request.setUserAgentForReddit()
 #if _TEST
-        print(URLRequest.curl())
+        print(request.curl())
 #endif
-        return URLRequest
+        return request
     }
 }

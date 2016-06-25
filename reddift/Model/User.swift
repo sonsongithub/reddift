@@ -40,7 +40,7 @@ public enum UserModPermission: String {
  User object
  */
 public struct User {
-    let date: NSTimeInterval
+    let date: TimeInterval
     let modPermissions: [UserModPermission]
     let name: String
     let id: String

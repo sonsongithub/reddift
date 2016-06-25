@@ -136,9 +136,9 @@ public struct Account: Thing {
     }
 }
 
-func parseDataInJSON_t2(json: JSONAny) -> Result<Thing> {
+func parseDataInJSON_t2(_ json: JSONAny) -> Result<Thing> {
     if let object = json as? JSONDictionary {
-        return resultFromOptional(Account(data:object), error: ReddiftError.ParseThingT2.error)
+        return resultFromOptional(Account(data:object), error: ReddiftError.parseThingT2.error)
     }
-    return resultFromOptional(nil, error: ReddiftError.ParseThingT2.error)
+    return resultFromOptional(nil, error: ReddiftError.parseThingT2.error)
 }

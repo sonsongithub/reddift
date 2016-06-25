@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension NSURLComponents {
+extension URLComponents {
     func dictionary() -> [String:String] {
         var parameters: [String:String] = [:]
         if #available(OSX 10.10, *) {

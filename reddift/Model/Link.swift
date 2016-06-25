@@ -8,14 +8,14 @@
 
 import Foundation
 
-private let allowedCharacterSet = NSCharacterSet(charactersInString: "!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~")
+private let allowedCharacterSet = CharacterSet(charactersIn: "!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~")
 
 extension String {
     /**
     Returns string by replacing NOT ASCII characters with a percent escaped string using UTF8.
     */
     private func stringByAddingPercentEscapesUsingUTF8() -> String {
-        return (self as NSString).stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacterSet) ?? self
+        return (self as NSString).addingPercentEncoding(withAllowedCharacters: allowedCharacterSet) ?? self
     }
 }
 
@@ -23,7 +23,7 @@ extension String {
 Returns string by replacing NOT ASCII characters with a percent escaped string using UTF8.
 If an argument is nil, returns vacant string.
 */
-private func convertObjectToEscapedURLString(object: AnyObject?) -> String {
+private func convertObjectToEscapedURLString(_ object: AnyObject?) -> String {
     if let urlstring = object as? String {
         return urlstring.stringByAddingPercentEscapesUsingUTF8()
     } else {
@@ -260,7 +260,7 @@ public struct Link: Thing {
         subreddit = ""
         selftextHtml = ""
         selftext = ""
-        likes = .None
+        likes = .none
         linkFlairText = ""
         gilded = 0
         archived = false
@@ -317,9 +317,9 @@ public struct Link: Thing {
         let tempSelftext = data["selftext"] as? String ?? ""
         selftext = tempSelftext.gtm_stringByUnescapingFromHTML()
         if let temp = data["likes"] as? Bool {
-            likes = temp ? .Up : .Down
+            likes = temp ? .up : .down
         } else {
-            likes = .None
+            likes = .none
         }
         linkFlairText = data["link_flair_text"] as? String ?? ""
         gilded = data["gilded"] as? Int ?? 0

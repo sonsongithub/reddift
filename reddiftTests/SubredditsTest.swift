@@ -12,43 +12,44 @@ extension SubredditsTest {
     func subscribingList() -> [Subreddit] {
         var list: [Subreddit] = []
         let msg = "Get own subscribing list."
-        let documentOpenExpectation = self.expectationWithDescription(msg)
+        let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
-            try self.session?.getUserRelatedSubreddit(.Subscriber, paginator:Paginator(), completion: { (result) -> Void in
+            try self.session?.getUserRelatedSubreddit(.subscriber, paginator:Paginator(), completion: { (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
-                case .Success(let listing):
+                case .success(let listing):
                     list = listing.children.flatMap({$0 as? Subreddit})
                 }
                 XCTAssert(list.count > 0, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         return list
     }
     
-    func userList(subreddit: Subreddit, aboutWhere: SubredditAbout) -> [User] {
+    @discardableResult
+    func userList(_ subreddit: Subreddit, aboutWhere: SubredditAbout) -> [User] {
         var list: [User] = []
         let msg = "Get user list and count of it, \(subreddit.name), \(aboutWhere.rawValue)."
         var isSucceeded = false
-        let documentOpenExpectation = self.expectationWithDescription(msg)
+        let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
             try self.session?.about(subreddit, aboutWhere:aboutWhere, completion: { (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     if error.code != 403 { print(error) }
                     // if list is vancat, return error code 400.
                     isSucceeded = (error.code == 403)
-                case .Success(let users):
-                    list.appendContentsOf(users)
+                case .success(let users):
+                    list.append(contentsOf: users)
                     isSucceeded = (list.count > 0)
                 }
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         return list
     }
@@ -62,19 +63,19 @@ class SubredditsTest: SessionTestSpec {
     func testRecommendSubreddit() {
         var names: [String] = []
         let srnames: [String] = ["apple", "swift"]
-        let msg = "Get recommended subreddits for \(srnames.joinWithSeparator(","))"
-        let documentOpenExpectation = self.expectationWithDescription(msg)
+        let msg = "Get recommended subreddits for \(srnames.joined(separator: ","))"
+        let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
             try self.session?.recommendedSubreddits([], srnames: srnames, completion: { (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
-                case .Success(let obj):
-                    names.appendContentsOf(obj)
+                case .success(let obj):
+                    names.append(contentsOf: obj)
                 }
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         XCTAssert(names.count > 0, msg)
     }
@@ -87,18 +88,18 @@ class SubredditsTest: SessionTestSpec {
         var submitText: String? = nil
         let subredditName = "apple"
         let msg = "Get submit text of \(subredditName)"
-        let documentOpenExpectation = self.expectationWithDescription(msg)
+        let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
             try self.session?.getSubmitText(subredditName, completion: { (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
-                case .Success(let obj):
+                case .success(let obj):
                     submitText = obj
                 }
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         XCTAssert(submitText != nil, msg)
     }
@@ -111,18 +112,18 @@ class SubredditsTest: SessionTestSpec {
         let subredditName = "apple"
         var subreddit: Subreddit? = nil
         let msg = "Get informations of \(subredditName)"
-        let documentOpenExpectation = self.expectationWithDescription(msg)
+        let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
             try self.session?.about(subredditName, completion: { (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
-                case .Success(let obj):
+                case .success(let obj):
                     subreddit = obj
                 }
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         XCTAssert(subreddit != nil, msg)
     }
@@ -134,18 +135,18 @@ class SubredditsTest: SessionTestSpec {
         var subreddits: [Subreddit] = []
         let query = "apple"
         let msg = "Search subreddit used of \(query)"
-        let documentOpenExpectation = self.expectationWithDescription(msg)
+        let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
-            try self.session?.getSubredditSearch(query, paginator:Paginator(), completion: { (result) -> Void in
+            let _ = try self.session?.getSubredditSearch(query, paginator:Paginator(), completion: { (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
-                case .Success(let listing):
-                    subreddits.appendContentsOf(listing.children.flatMap({$0 as? Subreddit}))
+                case .success(let listing):
+                    subreddits.append(contentsOf: listing.children.flatMap({$0 as? Subreddit}))
                 }
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         XCTAssert(subreddits.count > 0, msg)
         subreddits.forEach {print($0.title)}
@@ -159,18 +160,18 @@ class SubredditsTest: SessionTestSpec {
         var names: [String] = []
         let query = "apple"
         let msg = "Search subreddit name used of \(query)"
-        let documentOpenExpectation = self.expectationWithDescription(msg)
+        let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
             try self.session?.searchRedditNames(query, completion: { (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
-                case .Success(let obj):
-                    names.appendContentsOf(obj)
+                case .success(let obj):
+                    names.append(contentsOf: obj)
                 }
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         XCTAssert(names.count > 0, msg)
     }
@@ -183,18 +184,18 @@ class SubredditsTest: SessionTestSpec {
         var subredditNames: [String] = []
         let query = "apple"
         let msg = "Search subreddits by \(query)"
-        let documentOpenExpectation = self.expectationWithDescription(msg)
+        let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
             try self.session?.searchSubredditsByTopic(query, completion: { (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
-                case .Success(let names):
-                    subredditNames.appendContentsOf(names)
+                case .success(let names):
+                    subredditNames.append(contentsOf: names)
                 }
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         XCTAssert(subredditNames.count > 0, msg)
     }
@@ -207,18 +208,18 @@ class SubredditsTest: SessionTestSpec {
         var subredditNames: [String] = []
         let query = "日本"
         let msg = "Search subreddits by \(query)"
-        let documentOpenExpectation = self.expectationWithDescription(msg)
+        let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
             try self.session?.searchSubredditsByTopic(query, completion: { (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
-                case .Success(let names):
-                    subredditNames.appendContentsOf(names)
+                case .success(let names):
+                    subredditNames.append(contentsOf: names)
                 }
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         XCTAssert(subredditNames.count > 0, msg)
     }
@@ -264,19 +265,19 @@ class SubredditsTest: SessionTestSpec {
         do {
             let msg = "Subscribe a new subreddit, \(targetSubreedit.id)"
             var isSucceeded: Bool = false
-            let documentOpenExpectation = self.expectationWithDescription(msg)
+            let documentOpenExpectation = self.expectation(withDescription: msg)
             do {
                 try self.session?.setSubscribeSubreddit(targetSubreedit, subscribe: true, completion: { (result) -> Void in
                     switch result {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error)
-                    case .Success:
+                    case .success:
                         isSucceeded = true
                     }
                     XCTAssert(isSucceeded, msg)
                     documentOpenExpectation.fulfill()
                 })
-                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+                self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
             } catch { XCTFail((error as NSError).description) }
         }
         let intermediateList = subscribingList()
@@ -284,19 +285,19 @@ class SubredditsTest: SessionTestSpec {
         do {
             let msg = "Unsubscribe last subscribed subreddit, \(targetSubreedit.id)"
             var isSucceeded: Bool = false
-            let documentOpenExpectation = self.expectationWithDescription(msg)
+            let documentOpenExpectation = self.expectation(withDescription: msg)
             do {
                 try self.session?.setSubscribeSubreddit(targetSubreedit, subscribe: false, completion: { (result) -> Void in
                     switch result {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error)
-                    case .Success:
+                    case .success:
                         isSucceeded = true
                     }
                     XCTAssert(isSucceeded, msg)
                     documentOpenExpectation.fulfill()
                 })
-                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+                self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
             } catch { XCTFail((error as NSError).description) }
         }
         let finalList = subscribingList()

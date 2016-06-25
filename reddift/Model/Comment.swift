@@ -14,13 +14,13 @@ import Foundation
  - parameter comment: Comment object will be expanded.
  - returns: Array contains Comment objects which are expaned from specified Comment object and depth list of them.
  */
-public func extendAllRepliesAndDepth(comment: Thing, depth: Int) -> ([(Thing, Int)]) {
+public func extendAllRepliesAndDepth(_ comment: Thing, depth: Int) -> ([(Thing, Int)]) {
     var buf: [(Thing, Int)] = []
     
     if let comment = comment as? Comment {
         buf.append((comment, depth))
         for obj in comment.replies.children {
-            buf.appendContentsOf(extendAllRepliesAndDepth(obj, depth:depth + 1))
+            buf.append(contentsOf: extendAllRepliesAndDepth(obj, depth:depth + 1))
         }
     } else if let more = comment as? More {
         for id in more.children {
@@ -188,7 +188,7 @@ public struct Comment: Thing {
         subredditId = ""
         bannedBy = ""
         linkId = ""
-        likes = .None
+        likes = .none
         replies = Listing()
         userReports = []
         saved = false
@@ -228,9 +228,9 @@ public struct Comment: Thing {
         bannedBy = data["banned_by"] as? String ?? ""
         linkId = data["link_id"] as? String ?? ""
         if let temp = data["likes"] as? Bool {
-            likes = temp ? .Up : .Down
+            likes = temp ? .up : .down
         } else {
-            likes = .None
+            likes = .none
         }
         userReports = []
         saved = data["saved"] as? Bool ?? false

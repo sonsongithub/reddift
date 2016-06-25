@@ -107,8 +107,8 @@ public struct Multireddit: SubredditURLPath {
     public let iconUrl: String
     public let canEdit: Bool
     public let copiedFrom: String
-    public let created: NSTimeInterval
-    public let createdUtc: NSTimeInterval
+    public let created: TimeInterval
+    public let createdUtc: TimeInterval
     
     public init(name: String) {
         self.descriptionMd = ""
@@ -157,7 +157,7 @@ public struct Multireddit: SubredditURLPath {
         iconUrl = json["icon_url"] as? String ?? ""
         canEdit = json["can_edit"] as? Bool ?? false
         copiedFrom = json["copied_from"] as? String ?? ""
-        created = json["created"] as? NSTimeInterval ?? 0
-        createdUtc = json["created_utc"] as? NSTimeInterval ?? 0
+        created = json["created"] as? TimeInterval ?? 0
+        createdUtc = json["created_utc"] as? TimeInterval ?? 0
     }
 }

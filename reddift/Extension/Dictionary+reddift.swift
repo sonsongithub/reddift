@@ -22,8 +22,8 @@ extension String: QueryEscapableString {
     */
     var stringByAddingPercentEncoding: String {
         get {
-            let set = NSCharacterSet.alphanumericCharacterSet()
-            return self.stringByAddingPercentEncodingWithAllowedCharacters(set) ?? self
+            let set = CharacterSet.alphanumerics
+            return self.addingPercentEncoding(withAllowedCharacters: set) ?? self
         }
     }
 }
@@ -41,6 +41,6 @@ extension Dictionary where Key: QueryEscapableString, Value: QueryEscapableStrin
         for (key, value) in self {
             components.append("\(key.stringByAddingPercentEncoding)=\(value.stringByAddingPercentEncoding)")
         }
-        return components.joinWithSeparator("&")
+        return components.joined(separator: "&")
     }
 }

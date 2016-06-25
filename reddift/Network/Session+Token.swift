@@ -8,14 +8,14 @@
 
 import Foundation
 
-func refreshTokenWithJSON(result: Result<JSONDictionary>, token: OAuth2Token) -> Result<OAuth2Token> {
+func refreshTokenWithJSON(_ result: Result<JSONDictionary>, token: OAuth2Token) -> Result<OAuth2Token> {
     switch result {
-    case .Success(let json):
+    case .success(let json):
         var newJSON = json
         newJSON["name"] = token.name
         newJSON["refresh_token"] = token.refreshToken
         return OAuth2Token.tokenWithJSON(newJSON)
-    case .Failure(let error):
+    case .failure(let error):
         return Result(error: error)
     }
 }
@@ -26,16 +26,16 @@ extension Session {
     
     - parameter completion: The completion handler to call when the load request is complete.
     */
-    public func refreshToken(completion: (Result<Token>) -> Void) throws -> Void {
+    public func refreshToken(_ completion: (Result<Token>) -> Void) throws -> Void {
         guard let currentToken = token as? OAuth2Token
-            else { throw ReddiftError.TokenNotfound.error }
+            else { throw ReddiftError.tokenNotfound.error }
         do {
             try currentToken.refresh({ (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     completion(Result(error:error as NSError))
-                case .Success(let newToken):
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                case .success(let newToken):
+                    DispatchQueue.main.async(execute: { () -> Void in
                         self.token = newToken
                         do {
                             try OAuth2TokenRepository.saveIntoKeychainToken(newToken)
@@ -52,16 +52,16 @@ extension Session {
     
     - parameter completion: The completion handler to call when the load request is complete.
     */
-    public func revokeToken(completion: (Result<Token>) -> Void) throws -> Void {
+    public func revokeToken(_ completion: (Result<Token>) -> Void) throws -> Void {
         guard let currentToken = token as? OAuth2Token
-            else { throw ReddiftError.TokenNotfound.error }
+            else { throw ReddiftError.tokenNotfound.error }
         do {
             try currentToken.revoke({ (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     completion(Result(error:error as NSError))
-                case .Success:
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                case .success:
+                    DispatchQueue.main.async(execute: { () -> Void in
                         do {
                             try OAuth2TokenRepository.removeFromKeychainTokenWithName(currentToken.name)
                             completion(Result(value: currentToken))
@@ -77,9 +77,9 @@ extension Session {
      This method is implemented in order to test codes to automatiaclly refresh an expired token.
     */
     public func setDummyExpiredToken() {
-        if let path = NSBundle.mainBundle().pathForResource("expired_token.json", ofType: nil), let data = NSData(contentsOfFile: path) {
+        if let path = Bundle.main().pathForResource("expired_token.json", ofType: nil), let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
             do {
-                if let json = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject] {
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject] {
                     let token = OAuth2Token(json)
                     self.token = token
                 }

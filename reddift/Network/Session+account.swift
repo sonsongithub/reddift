@@ -14,10 +14,11 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func getPreference(completion: (Result<Preference>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/v1/me/prefs", method:"GET", token:token)
-            else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Preference> in
+    @discardableResult
+    public func getPreference(_ completion: (Result<Preference>) -> Void) throws -> URLSessionDataTask {
+        guard let request = URLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/v1/me/prefs", method:"GET", token:token)
+            else { throw ReddiftError.urlError.error }
+        let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Preference> in
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -33,13 +34,14 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func patchPreference(preference: Preference, completion: (Result<Preference>) -> Void) throws -> NSURLSessionDataTask {
+    @discardableResult
+    public func patchPreference(_ preference: Preference, completion: (Result<Preference>) -> Void) throws -> URLSessionDataTask {
         let json = preference.json()
         do {
-            let data: NSData = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
-            guard let request: NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/v1/me/prefs", data:data, method:"PATCH", token:token)
-                else { throw ReddiftError.URLError.error }
-            let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Preference> in
+            let data: Data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions())
+            guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/v1/me/prefs", data:data, method:"PATCH", token:token)
+                else { throw ReddiftError.urlError.error }
+            let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Preference> in
                 return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
@@ -57,7 +59,8 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func getFriends(paginator: Paginator, count: Int = 0, limit: Int = 1, completion: (Result<RedditAny>) -> Void) throws -> NSURLSessionDataTask {
+    @discardableResult
+    public func getFriends(_ paginator: Paginator, count: Int = 0, limit: Int = 1, completion: (Result<RedditAny>) -> Void) throws -> URLSessionDataTask {
         do {
             let parameter = paginator.addParametersToDictionary([
                 "limit"    : "\(limit)",
@@ -65,9 +68,9 @@ extension Session {
                 "count"    : "\(count)"
                 //          "sr_detail": "true",
                 ])
-            guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/prefs/friends", parameter:parameter, method:"GET", token:token)
-                else { throw ReddiftError.URLError.error }
-            let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<RedditAny> in
+            guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/prefs/friends", parameter:parameter, method:"GET", token:token)
+                else { throw ReddiftError.urlError.error }
+            let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<RedditAny> in
                 return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
@@ -85,7 +88,8 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func getBlocked(paginator: Paginator, count: Int = 0, limit: Int = 25, completion: (Result<[User]>) -> Void) throws -> NSURLSessionDataTask {
+    @discardableResult
+    public func getBlocked(_ paginator: Paginator, count: Int = 0, limit: Int = 25, completion: (Result<[User]>) -> Void) throws -> URLSessionDataTask {
         do {
             let parameter = paginator.addParametersToDictionary([
                 "limit"    : "\(limit)",
@@ -93,9 +97,9 @@ extension Session {
                 "count"    : "\(count)"
                 //          "sr_detail": "true",
                 ])
-            guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/prefs/blocked", parameter:parameter, method:"GET", token:token)
-                else { throw ReddiftError.URLError.error }
-            let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[User]> in
+            guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/prefs/blocked", parameter:parameter, method:"GET", token:token)
+                else { throw ReddiftError.urlError.error }
+            let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[User]> in
                 return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
@@ -111,10 +115,11 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func getKarma(completion: (Result<[SubredditKarma]>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/karma", method:"GET", token:token)
-            else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[SubredditKarma]> in
+    @discardableResult
+    public func getKarma(_ completion: (Result<[SubredditKarma]>) -> Void) throws -> URLSessionDataTask {
+        guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/karma", method:"GET", token:token)
+            else { throw ReddiftError.urlError.error }
+        let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[SubredditKarma]> in
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -129,10 +134,11 @@ extension Session {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    public func getTrophies(completion: (Result<[Trophy]>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/trophies", method:"GET", token:token)
-            else { throw ReddiftError.URLError.error }
-        let closure = {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<[Trophy]> in
+    @discardableResult
+    public func getTrophies(_ completion: (Result<[Trophy]>) -> Void) throws -> URLSessionDataTask {
+        guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/trophies", method:"GET", token:token)
+            else { throw ReddiftError.urlError.error }
+        let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[Trophy]> in
             return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -142,9 +148,9 @@ extension Session {
         return executeTask(request, handleResponse: closure, completion: completion)
     }
     
-    public func requestForGettingProfile() throws -> NSMutableURLRequest {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me", method:"GET", token:token)
-            else { throw ReddiftError.URLError.error }
+    public func requestForGettingProfile() throws -> URLRequest {
+        guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me", method:"GET", token:token)
+            else { throw ReddiftError.urlError.error }
         return request
     }
     
@@ -152,11 +158,12 @@ extension Session {
     Gets the identity of the user currently authenticated via OAuth.
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
-    */
-    public func getProfile(completion: (Result<Account>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me", method:"GET", token:token)
-            else { throw ReddiftError.URLError.error }
-        let closure: (data: NSData?, response: NSURLResponse?, error: NSError?) -> Result<Account> = accountByParsingData
+     */
+    @discardableResult
+    public func getProfile(_ completion: (Result<Account>) -> Void) throws -> URLSessionDataTask {
+        guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me", method:"GET", token:token)
+            else { throw ReddiftError.urlError.error }
+        let closure: (data: Data?, response: URLResponse?, error: NSError?) -> Result<Account> = accountByParsingData
         return executeTask(request, handleResponse: closure, completion: completion)
     }
 }

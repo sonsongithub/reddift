@@ -21,7 +21,7 @@ public struct OAuth2Token: Token {
     public let scope: String
     public let refreshToken: String
     public let name: String
-    public let expiresDate: NSTimeInterval
+    public let expiresDate: TimeInterval
     
     /**
     Initialize vacant OAuth2AppOnlyToken with JSON.
@@ -33,7 +33,7 @@ public struct OAuth2Token: Token {
         self.expiresIn = 0
         self.scope = ""
         self.refreshToken = ""
-        self.expiresDate = NSDate.timeIntervalSinceReferenceDate() + 0
+        self.expiresDate = Date.timeIntervalSinceReferenceDate + 0
     }
     
     /**
@@ -47,7 +47,7 @@ public struct OAuth2Token: Token {
         self.tokenType = json["token_type"] as? String ?? ""
         let expiresIn = json["expires_in"] as? Int ?? 0
         self.expiresIn = expiresIn
-        self.expiresDate = json["expires_date"] as? NSTimeInterval ?? NSDate.timeIntervalSinceReferenceDate() + Double(expiresIn)
+        self.expiresDate = json["expires_date"] as? TimeInterval ?? Date.timeIntervalSinceReferenceDate + Double(expiresIn)
         self.scope = json["scope"] as? String ?? ""
         self.refreshToken = json["refresh_token"] as? String ?? ""
     }
@@ -58,7 +58,7 @@ public struct OAuth2Token: Token {
     - parameter json: JSON object as JSONDictionary must include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token". If it does not, returns Result<NSError>.
     - returns: OAuth2Token object includes a new access token.
     */
-    static func tokenWithJSON(json: JSONAny) -> Result<OAuth2Token> {
+    static func tokenWithJSON(_ json: JSONAny) -> Result<OAuth2Token> {
         if let json = json as? JSONDictionary {
             if let _ = json["access_token"] as? String,
                 _ = json["token_type"] as? String,
@@ -68,24 +68,24 @@ public struct OAuth2Token: Token {
                     return Result(value: OAuth2Token(json))
             }
         }
-        return Result(error:ReddiftError.ParseAccessToken.error)
+        return Result(error:ReddiftError.parseAccessToken.error)
     }
     
     /**
-    Create NSMutableURLRequest object to request getting an access token.
+    Create URLRequest object to request getting an access token.
     
     - parameter code: The code which is obtained from OAuth2 redict URL at reddit.com.
-    - returns: NSMutableURLRequest object to request your access token.
+    - returns: URLRequest object to request your access token.
     */
-    static func requestForOAuth(code: String) -> NSMutableURLRequest? {
-        guard let URL = NSURL(string: OAuth2Token.baseURL + "/access_token") else { return nil }
-        let request = NSMutableURLRequest(URL:URL)
+    static func requestForOAuth(_ code: String) -> URLRequest? {
+        guard let URL = URL(string: OAuth2Token.baseURL + "/access_token") else { return nil }
+        var request = URLRequest(url:URL)
         do {
             try request.setRedditBasicAuthentication()
             let param = "grant_type=authorization_code&code=" + code + "&redirect_uri=" + Config.sharedInstance.redirectURI
-            let data = param.dataUsingEncoding(NSUTF8StringEncoding)
-            request.HTTPBody = data
-            request.HTTPMethod = "POST"
+            let data = param.data(using: String.Encoding.utf8)
+            request.httpBody = data
+            request.httpMethod = "POST"
             return request
         } catch {
             print(error)
@@ -96,17 +96,17 @@ public struct OAuth2Token: Token {
     /**
     Create request object for refreshing access token.
     
-    - returns: NSMutableURLRequest object to request refreshing your access token.
+    - returns: URLRequest object to request refreshing your access token.
     */
-    public func requestForRefreshing() -> NSMutableURLRequest? {
-        guard let URL = NSURL(string: OAuth2Token.baseURL + "/access_token") else { return nil }
-        let request = NSMutableURLRequest(URL:URL)
+    public func requestForRefreshing() -> URLRequest? {
+        guard let URL = URL(string: OAuth2Token.baseURL + "/access_token") else { return nil }
+        var request = URLRequest(url:URL)
         do {
             try request.setRedditBasicAuthentication()
             let param = "grant_type=refresh_token&refresh_token=" + refreshToken
-            let data = param.dataUsingEncoding(NSUTF8StringEncoding)
-            request.HTTPBody = data
-            request.HTTPMethod = "POST"
+            let data = param.data(using: String.Encoding.utf8)
+            request.httpBody = data
+            request.httpMethod = "POST"
             return request
         } catch {
             print(error)
@@ -117,17 +117,17 @@ public struct OAuth2Token: Token {
     /**
     Create request object for revoking access token.
     
-    - returns: NSMutableURLRequest object to request revoking your access token.
+    - returns: URLRequest object to request revoking your access token.
     */
-    func requestForRevoking() -> NSMutableURLRequest? {
-        guard let URL = NSURL(string: OAuth2Token.baseURL + "/revoke_token") else { return nil }
-        let request = NSMutableURLRequest(URL:URL)
+    func requestForRevoking() -> URLRequest? {
+        guard let URL = URL(string: OAuth2Token.baseURL + "/revoke_token") else { return nil }
+        var request = URLRequest(url:URL)
         do {
             try request.setRedditBasicAuthentication()
             let param = "token=" + accessToken + "&token_type_hint=access_token"
-            let data = param.dataUsingEncoding(NSUTF8StringEncoding)
-            request.HTTPBody = data
-            request.HTTPMethod = "POST"
+            let data = param.data(using: String.Encoding.utf8)
+            request.httpBody = data
+            request.httpMethod = "POST"
             return request
         } catch {
             print(error)
@@ -141,11 +141,12 @@ public struct OAuth2Token: Token {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func refresh(completion: (Result<OAuth2Token>) -> Void) throws -> NSURLSessionDataTask {
-        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    @discardableResult
+    public func refresh(_ completion: (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
+        let session = URLSession(configuration: URLSessionConfiguration.default())
         guard let request = requestForRefreshing()
-            else { throw ReddiftError.URLError.error }
-        let task = session.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+            else { throw ReddiftError.urlError.error }
+        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -153,15 +154,15 @@ public struct OAuth2Token: Token {
                     if let json = json as? JSONDictionary {
                         return Result(value: json)
                     }
-                    return Result(error: ReddiftError.Malformed.error)
+                    return Result(error: ReddiftError.malformed.error)
                 })
             switch result {
-            case .Success(let json):
+            case .success(let json):
                 var newJSON = json
                 newJSON["name"] = self.name
                 newJSON["refresh_token"] = self.refreshToken
                 completion(OAuth2Token.tokenWithJSON(newJSON))
-            case .Failure(let error):
+            case .failure(let error):
                 completion(Result(error: error))
             }
         })
@@ -175,11 +176,12 @@ public struct OAuth2Token: Token {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func revoke(completion: (Result<JSONAny>) -> Void) throws -> NSURLSessionDataTask {
-        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    @discardableResult
+    public func revoke(_ completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+        let session = URLSession(configuration: URLSessionConfiguration.default())
         guard let request = requestForRevoking()
-            else { throw ReddiftError.URLError.error }
-        let task = session.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+            else { throw ReddiftError.urlError.error }
+        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -196,23 +198,24 @@ public struct OAuth2Token: Token {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public static func getOAuth2Token(code: String, completion: (Result<OAuth2Token>) -> Void) throws -> NSURLSessionDataTask {
-        let session: NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    @discardableResult
+    public static func getOAuth2Token(_ code: String, completion: (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
+        let session: URLSession = URLSession(configuration: URLSessionConfiguration.default())
         guard let request = requestForOAuth(code)
-            else { throw ReddiftError.URLError.error }
-        let task = session.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+            else { throw ReddiftError.urlError.error }
+        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(OAuth2Token.tokenWithJSON)
             switch result {
-            case .Success(let token):
+            case .success(let token):
                 do {
                     try token.getProfile({ (result) -> Void in
                         completion(result)
                     })
                 } catch { completion(Result(error: error as NSError)) }
-            case .Failure:
+            case .failure:
                 completion(result)
             }
         })
@@ -226,26 +229,27 @@ public struct OAuth2Token: Token {
     
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
-    */
-    func getProfile(completion: (Result<OAuth2Token>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/v1/me", method:"GET", token:self)
-            else { throw ReddiftError.URLError.error }
-        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        let task = session.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+     */
+    @discardableResult
+    func getProfile(_ completion: (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
+        guard let request = URLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/v1/me", method:"GET", token:self)
+            else { throw ReddiftError.urlError.error }
+        let session = URLSession(configuration: URLSessionConfiguration.default())
+        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
             let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap({ (json: JSONAny) -> Result<Account> in
                     if let object = json as? JSONDictionary {
-                        return resultFromOptional(Account(data:object), error: ReddiftError.ParseThingT2.error)
+                        return resultFromOptional(Account(data:object), error: ReddiftError.parseThingT2.error)
                     }
-                    return Result(error: ReddiftError.Malformed.error)
+                    return Result(error: ReddiftError.malformed.error)
                 })
             switch result {
-            case .Success(let profile):
+            case .success(let profile):
                 let json: JSONDictionary = ["name":profile.name, "access_token":self.accessToken, "token_type":self.tokenType, "expires_in":self.expiresIn, "expires_date":self.expiresDate, "scope":self.scope, "refresh_token":self.refreshToken]
                 completion(OAuth2Token.tokenWithJSON(json))
-            case .Failure(let error):
+            case .failure(let error):
                 completion(Result(error: error))
             }
         })

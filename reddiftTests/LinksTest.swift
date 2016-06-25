@@ -22,14 +22,14 @@ class LinksTest: SessionTestSpec {
     }
     
     func getTestCommentID() {
-        let documentOpenExpectation = self.expectationWithDescription("getTestCommentID")
+        let documentOpenExpectation = self.expectation(withDescription: "getTestCommentID")
         let link = Link(id: self.testLinkId)
         do {
-            try self.session?.getArticles(link, sort:.New, comments:nil, completion: { (result) -> Void in
+            try self.session?.getArticles(link, sort:.new, comments:nil, completion: { (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
-                case .Success(let (_, listing1)):
+                case .success(let (_, listing1)):
                     for obj in listing1.children {
                         if let comment = obj as? Comment {
                             self.testCommentId = comment.id
@@ -40,18 +40,18 @@ class LinksTest: SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
         } catch { print(error) }
-        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
     }
     
     func getTestLinkID() {
         let subreddit = Subreddit(subreddit: "sandboxtest")
-        let documentOpenExpectation = self.expectationWithDescription("getTestLinkID")
+        let documentOpenExpectation = self.expectation(withDescription: "getTestLinkID")
         do {
-            try self.session?.getList(Paginator(), subreddit:subreddit, sort:.New, timeFilterWithin:.Week, completion: { (result) in
+            try self.session?.getList(Paginator(), subreddit:subreddit, sort:.new, timeFilterWithin:.week, completion: { (result) in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
-                case .Success(let listing):
+                case .success(let listing):
                     for obj in listing.children {
                         if let link = obj as? Link {
                             if link.numComments > 0 {
@@ -64,25 +64,25 @@ class LinksTest: SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
         } catch { XCTFail((error as NSError).description) }
-        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
     }
     
-    func test_deleteCommentOrLink(thing: Thing) {
-        let documentOpenExpectation = self.expectationWithDescription("test_deleteCommentOrLink")
+    func test_deleteCommentOrLink(_ thing: Thing) {
+        let documentOpenExpectation = self.expectation(withDescription: "test_deleteCommentOrLink")
         var isSucceeded = false
         do {
             try self.session?.deleteCommentOrLink(thing.name, completion: { (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error.description)
-                case .Success:
+                case .success:
                     isSucceeded = true
                 }
                 XCTAssert(isSucceeded, "Test to delete the last posted comment.")
                 documentOpenExpectation.fulfill()
             })
         } catch { XCTFail((error as NSError).description) }
-        self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+        self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
     }
     
     func testPostingCommentToExistingLink() {
@@ -93,19 +93,19 @@ class LinksTest: SessionTestSpec {
             do {
                 do {
                     let name = "t3_" + self.testLinkId
-                    let documentOpenExpectation = self.expectationWithDescription("Check whether the comment is posted as a child of the specified link")
+                    let documentOpenExpectation = self.expectation(withDescription: "Check whether the comment is posted as a child of the specified link")
                     try self.session?.postComment("test comment2", parentName:name, completion: { (result) -> Void in
                         switch result {
-                        case .Failure(let error):
+                        case .failure(let error):
                             print(error.description)
-                        case .Success(let postedComment):
+                        case .success(let postedComment):
                             comment = postedComment
                         }
                         XCTAssert(comment != nil, "Check whether the comment is posted as a child of the specified link")
                         documentOpenExpectation.fulfill()
                     })
                 } catch { XCTFail((error as NSError).description) }
-                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+                self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
             }
             print ("Test to delete the last posted comment.")
             do {
@@ -123,23 +123,23 @@ class LinksTest: SessionTestSpec {
             do {
                 do {
                     let name = "t1_cw05r44" // old comment object ID
-                    let documentOpenExpectation = self.expectationWithDescription("Test whether Parse class can parse returned JSON object when posting a comment to the too old comment")
+                    let documentOpenExpectation = self.expectation(withDescription: "Test whether Parse class can parse returned JSON object when posting a comment to the too old comment")
                     try self.session?.postComment("test comment3", parentName:name, completion: { (result) -> Void in
                         switch result {
-                        case .Failure(let error):
+                        case .failure(let error):
                             commentError = error
-                        case .Success(let postedComment):
+                        case .success(let postedComment):
                             print(postedComment)
                         }
                         if let error = commentError {
-                            XCTAssert(error.code == ReddiftError.ReturnedCommentError.rawValue || error.code == ReddiftError.ParseCommentError.rawValue, "")
+                            XCTAssert(error.code == ReddiftError.returnedCommentError.rawValue || error.code == ReddiftError.parseCommentError.rawValue, "")
                         } else {
                             XCTFail("")
                         }
                         documentOpenExpectation.fulfill()
                     })
                 } catch { XCTFail((error as NSError).description) }
-                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+                self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
             }
         }
     }
@@ -152,19 +152,19 @@ class LinksTest: SessionTestSpec {
             do {
                 do {
                     let name = "t1_" + self.testCommentId
-                    let documentOpenExpectation = self.expectationWithDescription("the comment is posted as a child of the specified comment")
+                    let documentOpenExpectation = self.expectation(withDescription: "the comment is posted as a child of the specified comment")
                     try self.session?.postComment("test comment3", parentName:name, completion: { (result) -> Void in
                         switch result {
-                        case .Failure(let error):
+                        case .failure(let error):
                             print(error.description)
-                        case .Success(let postedComment):
+                        case .success(let postedComment):
                             comment = postedComment
                         }
                         XCTAssert(comment != nil, "the comment is posted as a child of the specified comment")
                         documentOpenExpectation.fulfill()
                     })
                 } catch { XCTFail((error as NSError).description) }
-                self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+                self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
             }
             
             print("Test to delete the last posted comment.")
@@ -176,38 +176,38 @@ class LinksTest: SessionTestSpec {
         }
     }
     
-    func testSetNSFW() {nsfwTestLinkId
+    func testSetNSFW() {
         print("Test to make specified Link NSFW.")
         do {
             var isSucceeded = false
             let link = Link(id: nsfwTestLinkId)
-            let documentOpenExpectation = self.expectationWithDescription("Test to make specified Link NSFW.")
+            let documentOpenExpectation = self.expectation(withDescription: "Test to make specified Link NSFW.")
             do {
                 try self.session?.setNSFW(true, thing: link, completion: { (result) -> Void in
                     switch result {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error.description)
-                    case .Success:
+                    case .success:
                         isSucceeded = true
                     }
                     XCTAssert(isSucceeded, "Test to make specified Link NSFW.")
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
         
         print("Check whether the specified Link is NSFW.")
         do {
             let link = Link(id: nsfwTestLinkId)
-            let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Link is NSFW.")
+            let documentOpenExpectation = self.expectation(withDescription: "Check whether the specified Link is NSFW.")
             do {
                 try self.session?.getInfo([link.name], completion: { (result) -> Void in
                     var isSucceeded = false
                     switch result {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error.description)
-                    case .Success(let listing):
+                    case .success(let listing):
                         isSucceeded = listing.children
                             .flatMap({(thing: Thing) -> Link? in
                             if let obj = thing as? Link {if obj.name == link.name { return obj }}
@@ -221,40 +221,40 @@ class LinksTest: SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
 
         print("Test to make specified Link NOT NSFW.")
         do {
             var isSucceeded = false
             let link = Link(id: nsfwTestLinkId)
-            let documentOpenExpectation = self.expectationWithDescription("Test to make specified Link NOT NSFW.")
+            let documentOpenExpectation = self.expectation(withDescription: "Test to make specified Link NOT NSFW.")
             do {
                 try self.session?.setNSFW(false, thing: link, completion: { (result) -> Void in
                     switch result {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error.description)
-                    case .Success:
+                    case .success:
                         isSucceeded = true
                     }
                     XCTAssert(isSucceeded, "Test to make specified Link NOT NSFW.")
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
 
         print("Check whether the specified Link is NOT NSFW.")
         do {
             var isSucceeded = false
-            let documentOpenExpectation = self.expectationWithDescription("Test to make specified Link NOT NSFW.")
+            let documentOpenExpectation = self.expectation(withDescription: "Test to make specified Link NOT NSFW.")
             let link = Link(id: nsfwTestLinkId)
             do {
                 try self.session?.getInfo([link.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error.description)
-                    case .Success(let listing):
+                    case .success(let listing):
                         for obj in listing.children {
                             if let incommingLink = obj as? Link {
                                 isSucceeded = (incommingLink.name == link.name && !incommingLink.over18)
@@ -265,7 +265,7 @@ class LinksTest: SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
     }
     
@@ -274,34 +274,34 @@ class LinksTest: SessionTestSpec {
         print("Test to save specified Link.")
         do {
             var isSucceeded = false
-            let documentOpenExpectation = self.expectationWithDescription("Test to save specified Link.")
+            let documentOpenExpectation = self.expectation(withDescription: "Test to save specified Link.")
             let link = Link(id: self.testLinkId)
             do {
                 try self.session?.setSave(true, name: link.name, category: "", completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
+                    case .failure:
                         print(result.error!.description)
-                    case .Success:
+                    case .success:
                         isSucceeded = true
                     }
                     XCTAssert(isSucceeded, "Test to save specified Link.")
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
 
         print("Check whether the specified Link is saved.")
         do {
             var isSucceeded = false
-            let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Link is saved.")
+            let documentOpenExpectation = self.expectation(withDescription: "Check whether the specified Link is saved.")
             let link = Link(id: self.testLinkId)
             do {
                 try self.session?.getInfo([link.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error.description)
-                    case .Success(let listing):
+                    case .success(let listing):
                         for obj in listing.children {
                             if let incommingLink = obj as? Link {
                                 isSucceeded = (incommingLink.name == link.name && incommingLink.saved)
@@ -312,40 +312,40 @@ class LinksTest: SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
 
         print("Test to unsave specified Link.")
         do {
             var isSucceeded = false
-            let documentOpenExpectation = self.expectationWithDescription("Test to unsave specified Link.")
+            let documentOpenExpectation = self.expectation(withDescription: "Test to unsave specified Link.")
             let link = Link(id: self.testLinkId)
             do {
                 try self.session?.setSave(false, name: link.name, category: "", completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
+                    case .failure:
                         print(result.error!.description)
-                    case .Success:
+                    case .success:
                         isSucceeded = true
                     }
                     XCTAssert(isSucceeded, "Test to unsave specified Link.")
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
 
         print("Check whether the specified Link is unsaved.")
         do {
             var isSucceeded = false
-            let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Link is unsaved.")
+            let documentOpenExpectation = self.expectation(withDescription: "Check whether the specified Link is unsaved.")
             let link = Link(id: self.testLinkId)
             do {
                 try self.session?.getInfo([link.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error.description)
-                    case .Success(let listing):
+                    case .success(let listing):
                         for obj in listing.children {
                             if let incommingLink = obj as? Link {
                                 isSucceeded = (incommingLink.name == link.name && !incommingLink.saved)
@@ -356,7 +356,7 @@ class LinksTest: SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
     }
     
@@ -366,34 +366,34 @@ class LinksTest: SessionTestSpec {
         print("Test to save specified Comment.")
         do {
             var isSucceeded = false
-            let documentOpenExpectation = self.expectationWithDescription("Test to save specified Comment.")
+            let documentOpenExpectation = self.expectation(withDescription: "Test to save specified Comment.")
             let comment = Comment(id: self.testCommentId)
             do {
                 try self.session?.setSave(true, name: comment.name, category: "", completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
+                    case .failure:
                         print(result.error!.description)
-                    case .Success:
+                    case .success:
                         isSucceeded = true
                     }
                     XCTAssert(isSucceeded, "Test to save specified Comment.")
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
         
         print("Check whether the specified Comment is saved.")
         do {
             var isSucceeded = false
-            let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Comment is saved.")
+            let documentOpenExpectation = self.expectation(withDescription: "Check whether the specified Comment is saved.")
             let comment = Comment(id: self.testCommentId)
             do {
                 try self.session?.getInfo([comment.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error.description)
-                    case .Success(let listing):
+                    case .success(let listing):
                         for obj in listing.children {
                             if let incommingComment = obj as? Comment {
                                 isSucceeded = (incommingComment.name == comment.name && incommingComment.saved)
@@ -404,40 +404,40 @@ class LinksTest: SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
         
         print("Test to unsave specified Comment.")
         do {
             var isSucceeded = false
-            let documentOpenExpectation = self.expectationWithDescription("Test to unsave specified Comment.")
+            let documentOpenExpectation = self.expectation(withDescription: "Test to unsave specified Comment.")
             let comment = Comment(id: self.testCommentId)
             do {
                 try self.session?.setSave(false, name: comment.name, category: "", completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
+                    case .failure:
                         print(result.error!.description)
-                    case .Success:
+                    case .success:
                         isSucceeded = true
                     }
                     XCTAssert(isSucceeded, "Test to unsave specified Comment.")
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
         
         print("Check whether the specified Comment is unsaved.")
         do {
             var isSucceeded = false
-            let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Comment is unsaved.")
+            let documentOpenExpectation = self.expectation(withDescription: "Check whether the specified Comment is unsaved.")
             let comment = Comment(id: self.testCommentId)
             do {
                 try self.session?.getInfo([comment.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error.description)
-                    case .Success(let listing):
+                    case .success(let listing):
                         for obj in listing.children {
                             if let incommingComment = obj as? Comment {
                                 isSucceeded = (incommingComment.name == comment.name && !incommingComment.saved)
@@ -448,7 +448,7 @@ class LinksTest: SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
     }
 
@@ -457,34 +457,34 @@ class LinksTest: SessionTestSpec {
         print("Test to hide the specified Link.")
         do {
             var isSucceeded = false
-            let documentOpenExpectation = self.expectationWithDescription("Test to hide the specified Link.")
+            let documentOpenExpectation = self.expectation(withDescription: "Test to hide the specified Link.")
             let link = Link(id: self.testLinkId)
             do {
                 try self.session?.setHide(true, name: link.name, completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
+                    case .failure:
                         print(result.error!.description)
-                    case .Success:
+                    case .success:
                         isSucceeded = true
                     }
                     XCTAssert(isSucceeded, "Test to hide the specified Link.")
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
 
         print("Check whether the specified Link is hidden.")
         do {
             var isSucceeded = false
-            let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Link is hidden.")
+            let documentOpenExpectation = self.expectation(withDescription: "Check whether the specified Link is hidden.")
             let link = Link(id: self.testLinkId)
             do {
                 try self.session?.getInfo([link.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error.description)
-                    case .Success(let listing):
+                    case .success(let listing):
                         for obj in listing.children {
                             if let incommingLink = obj as? Link {
                                 isSucceeded = (incommingLink.name == link.name && incommingLink.hidden)
@@ -495,40 +495,40 @@ class LinksTest: SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
 
         print("Test to show the specified Link.")
         do {
             var isSucceeded = false
-            let documentOpenExpectation = self.expectationWithDescription("Test to show the specified Link.")
+            let documentOpenExpectation = self.expectation(withDescription: "Test to show the specified Link.")
             let link = Link(id: self.testLinkId)
             do {
                 try self.session?.setHide(false, name: link.name, completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
+                    case .failure:
                         print(result.error!.description)
-                    case .Success:
+                    case .success:
                         isSucceeded = true
                     }
                     XCTAssert(isSucceeded, "Test to show the specified Link.")
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
 
         print("Check whether the specified Link is not hidden.")
         do {
             var isSucceeded = false
-            let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Link is not hidden.")
+            let documentOpenExpectation = self.expectation(withDescription: "Check whether the specified Link is not hidden.")
             let link = Link(id: self.testLinkId)
             do {
                 try self.session?.getInfo([link.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error.description)
-                    case .Success(let listing):
+                    case .success(let listing):
                         for obj in listing.children {
                             if let incommingLink = obj as? Link {
                                 isSucceeded = (incommingLink.name == link.name && !incommingLink.hidden)
@@ -539,7 +539,7 @@ class LinksTest: SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
     }
     
@@ -549,36 +549,36 @@ class LinksTest: SessionTestSpec {
         do {
             var isSucceeded = false
             let link = Link(id: self.testLinkId)
-            let documentOpenExpectation = self.expectationWithDescription("Test to upvote the specified Link.")
+            let documentOpenExpectation = self.expectation(withDescription: "Test to upvote the specified Link.")
             do {
-                try self.session?.setVote(.Up, name: link.name, completion: { (result) -> Void in
+                try self.session?.setVote(.up, name: link.name, completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
+                    case .failure:
                         print(result.error!.description)
-                    case .Success:
+                    case .success:
                         isSucceeded = true
                     }
                     XCTAssert(isSucceeded, "Test to upvote the specified Link.")
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
 
         print("Check whether the specified Link is gave upvote.")
         do {
             var isSucceeded = false
             let link = Link(id: self.testLinkId)
-            let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Link is gave upvote.")
+            let documentOpenExpectation = self.expectation(withDescription: "Check whether the specified Link is gave upvote.")
             do {
                 try self.session?.getInfo([link.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error.description)
-                    case .Success(let listing):
+                    case .success(let listing):
                         for obj in listing.children {
                             if let incommingLink = obj as? Link {
-                                isSucceeded = (incommingLink.name == link.name && incommingLink.likes == .Up)
+                                isSucceeded = (incommingLink.name == link.name && incommingLink.likes == .up)
                             }
                         }
                     }
@@ -586,43 +586,43 @@ class LinksTest: SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
         
         print("Test to give a downvote to the specified Link.")
         do {
             var isSucceeded = false
             let link = Link(id: self.testLinkId)
-            let documentOpenExpectation = self.expectationWithDescription("Test to give a downvote to the specified Link.")
+            let documentOpenExpectation = self.expectation(withDescription: "Test to give a downvote to the specified Link.")
             do {
-                try self.session?.setVote(.Down, name: link.name, completion: { (result) -> Void in
+                try self.session?.setVote(.down, name: link.name, completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
+                    case .failure:
                         print(result.error!.description)
-                    case .Success:
+                    case .success:
                         isSucceeded = true
                     }
                     XCTAssert(isSucceeded, "Test to give a downvote to the specified Link.")
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
 
         print("Check whether the specified Link is gave downvote.")
         do {
             var isSucceeded = false
                 let link = Link(id: self.testLinkId)
-                let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Link is gave downvote.")
+                let documentOpenExpectation = self.expectation(withDescription: "Check whether the specified Link is gave downvote.")
                 do {
                     try self.session?.getInfo([link.name], completion: { (result) -> Void in
                         switch result {
-                        case .Failure(let error):
+                        case .failure(let error):
                             print(error.description)
-                        case .Success(let listing):
+                        case .success(let listing):
                             for obj in listing.children {
                                 if let incommingLink = obj as? Link {
-                                    isSucceeded = (incommingLink.name == link.name && incommingLink.likes == .Down)
+                                    isSucceeded = (incommingLink.name == link.name && incommingLink.likes == .down)
                                 }
                             }
                         }
@@ -630,43 +630,43 @@ class LinksTest: SessionTestSpec {
                         documentOpenExpectation.fulfill()
                     })
                 } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
 
         print("Test to revoke voting to the specified Link.")
         do {
             var isSucceeded = false
             let link = Link(id: self.testLinkId)
-            let documentOpenExpectation = self.expectationWithDescription("Test to revoke voting to the specified Link.")
+            let documentOpenExpectation = self.expectation(withDescription: "Test to revoke voting to the specified Link.")
             do {
-                try self.session?.setVote(.None, name: link.name, completion: { (result) -> Void in
+                try self.session?.setVote(.none, name: link.name, completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
+                    case .failure:
                         print(result.error!.description)
-                    case .Success:
+                    case .success:
                         isSucceeded = true
                     }
                     XCTAssert(isSucceeded, "Test to revoke voting to the specified Link.")
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
 
         print("Check whether the downvote to the specified Link has been revoked.")
         do {
             var isSucceeded = false
             let link = Link(id: self.testLinkId)
-            let documentOpenExpectation = self.expectationWithDescription("Check whether the downvote to the specified Link has been revoked.")
+            let documentOpenExpectation = self.expectation(withDescription: "Check whether the downvote to the specified Link has been revoked.")
             do {
                 try self.session?.getInfo([link.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error.description)
-                    case .Success(let listing):
+                    case .success(let listing):
                         for obj in listing.children {
                             if let incommingLink = obj as? Link {
-                                isSucceeded = (incommingLink.name == link.name && (incommingLink.likes == .None))
+                                isSucceeded = (incommingLink.name == link.name && (incommingLink.likes == .none))
                             }
                         }
                     }
@@ -674,7 +674,7 @@ class LinksTest: SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
     }
     
@@ -684,36 +684,36 @@ class LinksTest: SessionTestSpec {
         do {
             var isSucceeded = false
             let comment = Comment(id: self.testCommentId)
-            let documentOpenExpectation = self.expectationWithDescription("Test to upvote the specified Comment.")
+            let documentOpenExpectation = self.expectation(withDescription: "Test to upvote the specified Comment.")
             do {
-                try self.session?.setVote(VoteDirection.Up, name: comment.name, completion: { (result) -> Void in
+                try self.session?.setVote(VoteDirection.up, name: comment.name, completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
+                    case .failure:
                         print(result.error!.description)
-                    case .Success:
+                    case .success:
                         isSucceeded = true
                     }
                     XCTAssert(isSucceeded, "Test to upvote the specified comment.")
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
         
         print("Check whether the specified Comment is gave upvote.")
         do {
             var isSucceeded = false
             let comment = Comment(id: self.testCommentId)
-            let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Comment is gave upvote.")
+            let documentOpenExpectation = self.expectation(withDescription: "Check whether the specified Comment is gave upvote.")
             do {
                 try self.session?.getInfo([comment.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error.description)
-                    case .Success(let listing):
+                    case .success(let listing):
                         for obj in listing.children {
                             if let incommingComment = obj as? Comment {
-                                isSucceeded = (incommingComment.name == comment.name && (incommingComment.likes == .Up))
+                                isSucceeded = (incommingComment.name == comment.name && (incommingComment.likes == .up))
                             }
                         }
                     }
@@ -721,43 +721,43 @@ class LinksTest: SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
         
         print("Test to give a downvote to the specified Comment.")
         do {
             var isSucceeded = false
             let comment = Comment(id: self.testCommentId)
-            let documentOpenExpectation = self.expectationWithDescription("Test to give a downvote to the specified Link.")
+            let documentOpenExpectation = self.expectation(withDescription: "Test to give a downvote to the specified Link.")
             do {
-                try self.session?.setVote(VoteDirection.Down, name: comment.name, completion: { (result) -> Void in
+                try self.session?.setVote(VoteDirection.down, name: comment.name, completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
+                    case .failure:
                         print(result.error!.description)
-                    case .Success:
+                    case .success:
                         isSucceeded = true
                     }
                     XCTAssert(isSucceeded, "Test to give a downvote to the specified Link.")
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
         
         print("Check whether the specified Comment is gave downvote.")
         do {
             var isSucceeded = false
             let comment = Comment(id: self.testCommentId)
-            let documentOpenExpectation = self.expectationWithDescription("Check whether the specified Comment is gave downvote.")
+            let documentOpenExpectation = self.expectation(withDescription: "Check whether the specified Comment is gave downvote.")
             do {
                 try self.session?.getInfo([comment.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error.description)
-                    case .Success(let listing):
+                    case .success(let listing):
                         for obj in listing.children {
                             if let incommingComment = obj as? Comment {
-                                isSucceeded = (incommingComment.name == comment.name && (incommingComment.likes == .Down))
+                                isSucceeded = (incommingComment.name == comment.name && (incommingComment.likes == .down))
                             }
                         }
                     }
@@ -765,43 +765,43 @@ class LinksTest: SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
         
         print("Test to revoke voting to the specified Comment.")
         do {
             var isSucceeded = false
             let comment = Comment(id: self.testCommentId)
-            let documentOpenExpectation = self.expectationWithDescription("Test to revoke voting to the specified Comment.")
+            let documentOpenExpectation = self.expectation(withDescription: "Test to revoke voting to the specified Comment.")
             do {
-                try self.session?.setVote(.None, name: comment.name, completion: { (result) -> Void in
+                try self.session?.setVote(.none, name: comment.name, completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
+                    case .failure:
                         print(result.error!.description)
-                    case .Success:
+                    case .success:
                         isSucceeded = true
                     }
                     XCTAssert(isSucceeded, "Test to revoke voting to the specified Comment.")
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
         
         print("Check whether the downvote to the specified Comment has been revoked.")
         do {
             var isSucceeded = false
             let comment = Comment(id: self.testCommentId)
-            let documentOpenExpectation = self.expectationWithDescription("Check whether the downvote to the specified Comment has been revoked.")
+            let documentOpenExpectation = self.expectation(withDescription: "Check whether the downvote to the specified Comment has been revoked.")
             do {
                 try self.session?.getInfo([comment.name], completion: { (result) -> Void in
                     switch result {
-                    case .Failure(let error):
+                    case .failure(let error):
                         print(error.description)
-                    case .Success(let listing):
+                    case .success(let listing):
                         for obj in listing.children {
                             if let incommingComment = obj as? Comment {
-                                isSucceeded = (incommingComment.name == comment.name && (incommingComment.likes == .None))
+                                isSucceeded = (incommingComment.name == comment.name && (incommingComment.likes == .none))
                             }
                         }
                     }
@@ -809,7 +809,7 @@ class LinksTest: SessionTestSpec {
                     documentOpenExpectation.fulfill()
                 })
             } catch { XCTFail((error as NSError).description) }
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
         }
     }
 }
