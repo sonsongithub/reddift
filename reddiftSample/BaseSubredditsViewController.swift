@@ -13,7 +13,7 @@ class BaseSubredditsViewController: UITableViewController, UISearchBarDelegate {
     var session: Session? = nil
     var paginator: Paginator? = Paginator()
     var loading = false
-    var task: NSURLSessionDataTask? = nil
+    var task: URLSessionDataTask? = nil
     var segmentedControl: UISegmentedControl? = nil
     
     var sortTitles: [String] = []
@@ -23,6 +23,6 @@ class BaseSubredditsViewController: UITableViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
     }
 }

@@ -20,9 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var session: Session? = nil
     var window: UIWindow?
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
-        if let name = NSUserDefaults.standardUserDefaults().stringForKey("name") {
+        if let name = UserDefaults.standard().string(forKey: "name") {
             do {
                 let token: OAuth2Token = try OAuth2TokenRepository.restoreFromKeychainWithName(name)
                 session = Session(token: token)
@@ -30,78 +30,85 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         let settings = UIUserNotificationSettings(
-            forTypes: [.Badge, .Sound, .Alert],
+            types: [.badge, .sound, .alert],
             categories: nil)
         application.registerUserNotificationSettings(settings);
         
         return true
     }
     
-    func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
         if let session = session {
             do {
                 let request = try session.requestForGettingProfile()
                 let fetcher = BackgroundFetch(session,
                                               request: request,
                                               taskHandler: { (response, dataURL, error) -> Void in
-                                                if let response = response, dataURL = dataURL, data = NSData(contentsOfURL: dataURL) {
+                                                if let response = response, dataURL = dataURL {
                                                     if response.statusCode == 200 {
-                                                        let result = accountByParsingData(data, response: response)
-                                                        switch result {
-                                                        case .Success(let account):
-                                                            print(account)
-                                                            UIApplication.sharedApplication().applicationIconBadgeNumber = account.inboxCount
-                                                            self.postLocalNotification("You got \(account.inboxCount) messages.")
-                                                            completionHandler(.NewData)
-                                                            return
-                                                        case .Failure(let error):
-                                                            print(error)
-                                                            self.postLocalNotification("\(error)")
-                                                            completionHandler(.Failed)
+                                                        
+                                                        do {
+                                                            let data = try Data(contentsOf: dataURL)
+                                                            let result = accountByParsingData(data, response: response)
+                                                            switch result {
+                                                            case .success(let account):
+                                                                print(account)
+                                                                UIApplication.shared().applicationIconBadgeNumber = account.inboxCount
+                                                                self.postLocalNotification("You got \(account.inboxCount) messages.")
+                                                                completionHandler(.newData)
+                                                                return
+                                                            case .failure(let error):
+                                                                print(error)
+                                                                self.postLocalNotification("\(error)")
+                                                                completionHandler(.failed)
+                                                            }
+                                                        }
+                                                        catch {
+                                                            
                                                         }
                                                     }
                                                     else {
                                                         self.postLocalNotification("response code \(response.statusCode)")
-                                                        completionHandler(.Failed)
+                                                        completionHandler(.failed)
                                                     }
                                                 } else {
                                                     self.postLocalNotification("Error can not parse response and data.")
-                                                    completionHandler(.Failed)
+                                                    completionHandler(.failed)
                                                 }
                 })
                 fetcher.resume()
                 self.fetcher = fetcher
             } catch {
                 postLocalNotification("\(error)")
-                completionHandler(.Failed)
+                completionHandler(.failed)
             }
         } else {
             postLocalNotification("session is not available.")
-            completionHandler(.Failed)
+            completionHandler(.failed)
         }
     }
     
-    func postLocalNotification(message: String) {
+    func postLocalNotification(_ message: String) {
         let notification = UILocalNotification()
-        notification.timeZone = NSTimeZone.defaultTimeZone()
+        notification.timeZone = TimeZone.default()
         notification.alertBody = message
         notification.alertAction = "OK"
         notification.soundName = UILocalNotificationDefaultSoundName
-        UIApplication.sharedApplication().scheduleLocalNotification(notification);
+        UIApplication.shared().scheduleLocalNotification(notification);
     }
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion: {(result) -> Void in
             switch result {
-            case .Failure(let error):
+            case .failure(let error):
                 print(error)
-            case .Success(let token):
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            case .success(let token):
+                DispatchQueue.main.async(execute: { () -> Void in
                     do {
                         try OAuth2TokenRepository.saveIntoKeychainToken(token, name:token.name)
-                        NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidSaveToken, object: nil, userInfo: nil)
+                        NotificationCenter.default().post(name: NSNotification.Name(rawValue: OAuth2TokenRepositoryDidSaveToken), object: nil, userInfo: nil)
                     } catch {
-                        NSNotificationCenter.defaultCenter().postNotificationName(OAuth2TokenRepositoryDidFailToSaveToken, object: nil, userInfo: nil)
+                        NotificationCenter.default().post(name: NSNotification.Name(rawValue: OAuth2TokenRepositoryDidFailToSaveToken), object: nil, userInfo: nil)
                         print(error)
                     }
                 })

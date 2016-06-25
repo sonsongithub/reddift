@@ -16,18 +16,18 @@ class SubmitViewController: UIViewController {
     var bottom: NSLayoutConstraint? = nil
     var captchaView: CAPTCHAView? = nil
     
-    @IBAction func close(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func close(_ sender: AnyObject) {
+        self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func send(sender: AnyObject) {
+    @IBAction func send(_ sender: AnyObject) {
         if let subreddit = subreddit, let captcha = captchaView?.response, let iden = captchaView?.iden {
             do {
                 try session?.submitText(subreddit, title: "This is test", text: "テスト,test", captcha: captcha, captchaIden: iden, completion: { (result) -> Void in
                     switch result {
-                    case .Failure:
+                    case .failure:
                         print(result.error!.description)
-                    case .Success:
+                    case .success:
                         print(result.value!)
                     }
                 })
@@ -47,10 +47,10 @@ class SubmitViewController: UIViewController {
         
         textView.translatesAutoresizingMaskIntoConstraints = false
 
-        self.view.addConstraint(NSLayoutConstraint(item: textView, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1, constant: 0))
-        self.view.addConstraint(NSLayoutConstraint(item: textView, attribute: .Leading, relatedBy: .Equal, toItem: self.view, attribute: .Leading, multiplier: 1, constant: 0))
-        self.view.addConstraint(NSLayoutConstraint(item: textView, attribute: .Trailing, relatedBy: .Equal, toItem: self.view, attribute: .Trailing, multiplier: 1, constant: 0))
-        let bottom = NSLayoutConstraint(item: textView, attribute: .Bottom, relatedBy: .Equal, toItem: self.view, attribute: .Bottom, multiplier: 1, constant: 0)
+        self.view.addConstraint(NSLayoutConstraint(item: textView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: textView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: textView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0))
+        let bottom = NSLayoutConstraint(item: textView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
         self.view.addConstraint(bottom)
         self.bottom = bottom
         
@@ -69,18 +69,18 @@ class SubmitViewController: UIViewController {
         
         self.textView?.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SubmitViewController.keyboardWillChangeFrame(_:)), name: UIKeyboardWillChangeFrameNotification, object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(SubmitViewController.keyboardWillChangeFrame(_:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
     
-    func keyboardWillChangeFrame(notification: NSNotification) {
-        let keyboardRect = notification.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue
-        let r = self.view.convertRect(keyboardRect!, fromView: UIApplication.sharedApplication().keyWindow)
-        let windowFrame = UIApplication.sharedApplication().keyWindow?.frame
-        let intersect = CGRectIntersection(keyboardRect!, windowFrame!)
+    func keyboardWillChangeFrame(_ notification: Notification) {
+        let keyboardRect = (notification as NSNotification).userInfo![UIKeyboardFrameEndUserInfoKey]?.cgRectValue
+        let r = self.view.convert(keyboardRect!, from: UIApplication.shared().keyWindow)
+        let windowFrame = UIApplication.shared().keyWindow?.frame
+        let intersect = keyboardRect!.intersection(windowFrame!)
         
         if intersect.size.height > 0 {
             self.bottom?.constant = -r.size.height

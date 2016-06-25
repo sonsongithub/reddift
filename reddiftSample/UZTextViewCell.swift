@@ -10,7 +10,7 @@ import Foundation
 import reddift
 
 protocol UZTextViewCellDelegate: class {
-    func pushedMoreButton(cell: UZTextViewCell)
+    func pushedMoreButton(_ cell: UZTextViewCell)
 }
 
 class UZTextViewCell: UITableViewCell {
@@ -21,14 +21,14 @@ class UZTextViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        textView?.userInteractionEnabled = false
+        textView?.isUserInteractionEnabled = false
         
         if let button = moreButton {
-            button.addTarget(self, action: #selector(UZTextViewCell.pushedMoreButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            button.addTarget(self, action: #selector(UZTextViewCell.pushedMoreButton(_:)), for: UIControlEvents.touchUpInside)
         }
     }
     
-    func pushedMoreButton(sender: AnyObject?) {
+    func pushedMoreButton(_ sender: AnyObject?) {
         if let delegate = self.delegate {
             delegate.pushedMoreButton(self)
         }

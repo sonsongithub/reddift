@@ -269,7 +269,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getSubredditSearch(_ query: String, paginator: Paginator, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask? {
+    public func getSubredditSearch(_ query: String, paginator: Paginator, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let parameter = paginator.addParametersToDictionary(["q":query])
         guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/subreddits/search", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
@@ -292,7 +292,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getSubredditSearchWithErrorHandling(_ query: String, paginator: Paginator, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask? {
+    public func getSubredditSearchWithErrorHandling(_ query: String, paginator: Paginator, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let parameter = paginator.addParametersToDictionary(["q":query])
         guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/subreddits/search", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }

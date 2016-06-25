@@ -137,7 +137,7 @@ class SubredditsTest: SessionTestSpec {
         let msg = "Search subreddit used of \(query)"
         let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
-            let _ = try self.session?.getSubredditSearch(query, paginator:Paginator(), completion: { (result) -> Void in
+            try self.session?.getSubredditSearch(query, paginator:Paginator(), completion: { (result) -> Void in
                 switch result {
                 case .failure(let error):
                     print(error)
