@@ -9,7 +9,7 @@
 import Foundation
 
 extension URLComponents {
-    func dictionary() -> [String:String] {
+    var dictionary: [String:String] {
         var parameters: [String:String] = [:]
         if #available(OSX 10.10, *) {
             if let queryItems = self.queryItems {

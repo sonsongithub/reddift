@@ -27,7 +27,7 @@ extension Session {
     @discardableResult
     public func postComment(_ text: String, parentName: String, completion: (Result<Comment>) -> Void) throws -> URLSessionDataTask {
         let parameter: [String:String] = ["thing_id":parentName, "api_type":"json", "text":text]
-        guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/comment", parameter:parameter, method:"POST", token:token)
+        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/comment", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Comment> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -48,7 +48,7 @@ extension Session {
     @discardableResult
     public func deleteCommentOrLink(_ name: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter: [String:String] = ["id":name]
-        guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/del", parameter:parameter, method:"POST", token:token)
+        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/del", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
@@ -64,7 +64,7 @@ extension Session {
     @discardableResult
     public func setVote(_ direction: VoteDirection, name: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter: [String:String] = ["dir":String(direction.rawValue), "id":name]
-        guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/vote", parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/vote", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
@@ -85,7 +85,7 @@ extension Session {
             parameter["category"] = category
         }
         let path = save ? "/api/save" : "/api/unsave"
-        guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:path, parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
@@ -102,7 +102,7 @@ extension Session {
     public func setHide(_ hide: Bool, name: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter: [String:String] = ["id":name]
         let path = hide ? "/api/hide" : "/api/unhide"
-        guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:path, parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
@@ -118,7 +118,7 @@ extension Session {
     @discardableResult
     public func getInfo(_ names: [String], completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedNameString = names.joined(separator: ",")
-        guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
@@ -147,7 +147,7 @@ extension Session {
     @discardableResult
     public func setNSFW(_ mark: Bool, thing: Thing, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let path = mark ? "/api/marknsfw" : "/api/unmarknsfw"
-        guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:["id":thing.name], method:"POST", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:path, parameter:["id":thing.name], method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
@@ -162,7 +162,7 @@ extension Session {
      */
     @discardableResult
     public func getSavedCategories(_ completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/saved_categories", method:"GET", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/saved_categories", method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
@@ -186,7 +186,7 @@ extension Session {
             "other_reason":otherReason,
             "thing_id"    :thing.name
         ]
-        guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/report", parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/report", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         return executeTask(request, handleResponse: handleResponse2RedditAny, completion: completion)
     }
@@ -215,7 +215,7 @@ extension Session {
             "title" : title,
             "url" : URL
         ]
-        guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
+        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
@@ -245,7 +245,7 @@ extension Session {
             "text" : text,
             "title" : title
         ]
-        guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
+        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
@@ -276,7 +276,7 @@ extension Session {
         if let id = id {
             parameter["id"] = id
         }
-        guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/morechildren", parameter:parameter, method:"GET", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/morechildren", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[Thing]> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)

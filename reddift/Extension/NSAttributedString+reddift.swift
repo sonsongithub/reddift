@@ -41,7 +41,7 @@ extension NSParagraphStyle {
     - parameter fontSize: Font size
     - returns: Paragraphyt style, which is created.
     */
-    static func defaultReddiftParagraphStyleWithFontSize(_ fontSize: CGFloat) -> NSParagraphStyle {
+    static func defaultReddiftParagraphStyle(with fontSize: CGFloat) -> NSParagraphStyle {
         guard let paragraphStyle: NSMutableParagraphStyle = NSParagraphStyle.default().mutableCopy() as? NSMutableParagraphStyle
             else { return NSParagraphStyle.default() }
         paragraphStyle.lineBreakMode = .byWordWrapping
@@ -63,11 +63,13 @@ extension String {
     
     - returns: String, which is processed.
     */
-    public func preprocessedHTMLStringBeforeNSAttributedStringParsing() -> String {
-        var temp = self.replacingOccurrences(of: "<del>", with: "<font size=\"5\">")
-        temp = temp.replacingOccurrences(of: "<blockquote>", with: "<cite>")
-        temp = temp.replacingOccurrences(of: "</blockquote>", with: "</cite>")
-        return temp.replacingOccurrences(of: "</del>", with: "</font>")
+    public var preprocessedHTMLStringBeforeNSAttributedStringParsing: String {
+        get {
+            var temp = self.replacingOccurrences(of: "<del>", with: "<font size=\"5\">")
+            temp = temp.replacingOccurrences(of: "<blockquote>", with: "<cite>")
+            temp = temp.replacingOccurrences(of: "</blockquote>", with: "</cite>")
+            return temp.replacingOccurrences(of: "</del>", with: "</font>")
+        }
     }
 }
 
@@ -147,8 +149,8 @@ extension AttributedString {
     - parameter codeBackgroundColor : Specified UIColor of background of strings that are included in <code>.
     - returns : NSAttributedString object to render using UZTextView or UITextView.
     */
-    public func reconstructAttributedString(_ normalFont: UIFont, color: UIColor, linkColor: UIColor, codeBackgroundColor: UIColor = UIColor.lightGray()) -> AttributedString {
-        return __reconstructAttributedString(normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
+    public func reconstruct(with normalFont: UIFont, color: UIColor, linkColor: UIColor, codeBackgroundColor: UIColor = UIColor.lightGray()) -> AttributedString {
+        return __reconstruct(with: normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
     }
 #elseif os(OSX)
     /**
@@ -159,8 +161,8 @@ extension AttributedString {
     - parameter codeBackgroundColor : Specified NSColor of background of strings that are included in <code>.
     - returns : NSAttributedString object.
     */
-    public func reconstructAttributedString(normalFont: NSFont, color: NSColor, linkColor: NSColor, codeBackgroundColor: NSColor = NSColor.lightGrayColor()) -> NSAttributedString {
-        return __reconstructAttributedString(normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
+    public func reconstruct(with normalFont: NSFont, color: NSColor, linkColor: NSColor, codeBackgroundColor: NSColor = NSColor.lightGrayColor()) -> NSAttributedString {
+        return __reconstruct(with: normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
     }
 #endif
 }
@@ -175,8 +177,8 @@ extension AttributedString {
     - parameter codeBackgroundColor : Specified NSColor/UIColor of background of strings that are included in <code>.
     - returns : NSAttributedString object.
     */
-    private func __reconstructAttributedString(_ normalFont: _Font, color: _Color, linkColor: _Color, codeBackgroundColor: _Color) -> AttributedString {
-        let attributes: [Attribute] = self.attributesForReddift()
+    private func __reconstruct(with normalFont: _Font, color: _Color, linkColor: _Color, codeBackgroundColor: _Color) -> AttributedString {
+        let attributes: [Attribute] = self.attributesForReddift
         let (italicFont, boldFont, codeFont, superscriptFont, _) = createDerivativeFonts(normalFont)
         
         let output = NSMutableAttributedString(string: string)
@@ -220,7 +222,7 @@ extension AttributedString {
         let boldFont = _Font(descriptor: boldFontDescriptor!, size: normalFont.fontDescriptor().pointSize)
         let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor().pointSize) ?? normalFont
         let superscriptFont = _Font(descriptor: normalFont.fontDescriptor(), size: normalFont.fontDescriptor().pointSize/2)
-        let paragraphStyle = NSParagraphStyle.defaultReddiftParagraphStyleWithFontSize(normalFont.fontDescriptor().pointSize)
+        let paragraphStyle = NSParagraphStyle.defaultReddiftParagraphStyle(with: normalFont.fontDescriptor().pointSize)
 #elseif os(OSX)
         let traits: NSFontSymbolicTraits = normalFont.fontDescriptor.symbolicTraits
         let italicFontDescriptor = normalFont.fontDescriptor.fontDescriptorWithSymbolicTraits(traits & NSFontSymbolicTraits(NSFontItalicTrait))
@@ -229,7 +231,7 @@ extension AttributedString {
         let boldFont = _Font(descriptor: boldFontDescriptor, size: normalFont.fontDescriptor.pointSize) ?? normalFont
         let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor.pointSize) ?? normalFont
         let superscriptFont = _Font(descriptor: normalFont.fontDescriptor, size: normalFont.fontDescriptor.pointSize/2) ?? normalFont
-        let paragraphStyle = NSParagraphStyle.defaultReddiftParagraphStyleWithFontSize(normalFont.fontDescriptor.pointSize)
+        let paragraphStyle = NSParagraphStyle.defaultReddiftParagraphStyle(with: normalFont.fontDescriptor.pointSize)
 #endif
         return (italicFont, boldFont, codeFont, superscriptFont, paragraphStyle)
     }
@@ -238,7 +240,7 @@ extension AttributedString {
     Extract attributes from NSAttributedString in order to set attributes and values again to new NSAttributedString for rendering.
     - returns : Attribute's array to set a new NSAttributedString.
     */
-    private func attributesForReddift() -> [Attribute] {
+    private var attributesForReddift: [Attribute] {
         var attributes: [Attribute] = []
         
         self.enumerateAttribute(NSLinkAttributeName, in: NSRange(location:0, length:self.length), options: AttributedString.EnumerationOptions(), using: { (value: AnyObject?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in

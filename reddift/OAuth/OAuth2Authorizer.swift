@@ -74,7 +74,7 @@ public class OAuth2Authorizer {
         let currentState = self.state
         self.state = ""
         if url.scheme == Config.sharedInstance.redirectURIScheme {
-            if let temp = URLComponents(url: url, resolvingAgainstBaseURL: true)?.dictionary() {
+            if let temp = URLComponents(url: url, resolvingAgainstBaseURL: true)?.dictionary {
                 parameters = temp
             }
         }

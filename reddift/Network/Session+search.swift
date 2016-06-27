@@ -25,7 +25,7 @@ extension Session {
         let parameter = paginator.dictionaryByAdding(parameters: ["q":query, "sort":sort.path])
         var path = "/search"
         if let subreddit = subreddit { path = subreddit.url + "search" }
-        guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
