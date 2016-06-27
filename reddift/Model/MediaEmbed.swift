@@ -33,8 +33,10 @@ public struct MediaEmbed {
         content = tempContent.gtm_stringByUnescapingFromHTML()
 		scrolling = json["scrolling"] as? Bool ?? false
     }
-	
-	func toString() -> String {
-		return "{content=\(content)\nsize=\(width)x\(height)}\n"
-	}
+    
+    var string: String {
+        get {
+            return "{content=\(content)\nsize=\(width)x\(height)}\n"
+        }
+    }
 }

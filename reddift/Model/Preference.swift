@@ -11,29 +11,29 @@ import Foundation
 /**
  */
 public enum PreferenceDefaultCommentSortType: String {
-    case Confidence     = "confidence"
-    case Old            = "old"
-    case Top            = "top"
-    case Qa             = "qa"
-    case Controversial  = "controversial"
-    case New            = "new"
+    case confidence     = "confidence"
+    case old            = "old"
+    case top            = "top"
+    case qa             = "qa"
+    case controversial  = "controversial"
+    case new            = "new"
     
     public init(_ value: String) {
         switch value {
         case "confidence":
-            self = .Confidence
+            self = .confidence
         case "old":
-            self = .Old
+            self = .old
         case "top":
-            self = .Top
+            self = .top
         case "qa":
-            self = .Qa
+            self = .qa
         case "controversial":
-            self = .Controversial
+            self = .controversial
         case "new":
-            self = .New
+            self = .new
         default:
-            self = .Confidence
+            self = .confidence
         }
     }
 }

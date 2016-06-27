@@ -15,7 +15,7 @@ extension Bundle {
     - parameter key: key for value
     - returns: Value
     */
-    class func infoValueFromMainBundleForKey(_ key: String) -> AnyObject? {
+    class func infoValueInMainBundle(for key: String) -> AnyObject? {
         if let obj: AnyObject = self.main().localizedInfoDictionary?[key] {
             return obj
         }

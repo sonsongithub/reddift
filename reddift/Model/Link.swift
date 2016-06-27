@@ -8,24 +8,13 @@
 
 import Foundation
 
-private let allowedCharacterSet = CharacterSet(charactersIn: "!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~")
-
-extension String {
-    /**
-    Returns string by replacing NOT ASCII characters with a percent escaped string using UTF8.
-    */
-    private func stringByAddingPercentEscapesUsingUTF8() -> String {
-        return (self as NSString).addingPercentEncoding(withAllowedCharacters: allowedCharacterSet) ?? self
-    }
-}
-
 /**
 Returns string by replacing NOT ASCII characters with a percent escaped string using UTF8.
 If an argument is nil, returns vacant string.
 */
 private func convertObjectToEscapedURLString(_ object: AnyObject?) -> String {
     if let urlstring = object as? String {
-        return urlstring.stringByAddingPercentEscapesUsingUTF8()
+        return urlstring.addPercentEncoding
     } else {
         return ""
     }
@@ -291,8 +280,8 @@ public struct Link: Thing {
         visited = false
         numReports = 0
         distinguished = false
-        media = Media(json:([:]))
-        mediaEmbed = MediaEmbed(json:([:]))
+        media = Media(json: [:])
+        mediaEmbed = MediaEmbed(json: [:])
         
         userReports = []
         secureMedia = nil
@@ -354,8 +343,8 @@ public struct Link: Thing {
         visited = data["visited"] as? Bool ?? false
         numReports = data["num_reports"] as? Int ?? 0
         distinguished = data["distinguished"] as? Bool ?? false
-        media = Media(json:(data["media"] as? JSONDictionary ?? [:]))
-        mediaEmbed = MediaEmbed(json:(data["media_embed"] as? JSONDictionary ?? [:]))
+        media = Media(json: data["media"] as? JSONDictionary ?? [:])
+        mediaEmbed = MediaEmbed(json: data["media_embed"] as? JSONDictionary ?? [:])
         
         userReports = []
         secureMedia = nil

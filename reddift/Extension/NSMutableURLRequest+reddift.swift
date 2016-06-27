@@ -99,7 +99,7 @@ extension URLRequest {
     }
     
     static func mutableOAuthGetRequestWithBaseURL(_ baseURL: String, path: String, parameter: [String:String], method: String, token: Token?) -> URLRequest? {
-        let param = parameter.URLQueryString()
+        let param = parameter.URLQuery
         guard let URL = param.characters.isEmpty ? URL(string:baseURL + path) : URL(string:baseURL + path + "?" + param) else { return nil }
         var request = URLRequest(url: URL)
         request.setOAuth2Token(token)
@@ -116,7 +116,7 @@ extension URLRequest {
         var request = URLRequest(url: URL)
         request.setOAuth2Token(token)
         request.httpMethod = method
-        let data = parameter.URLQueryString().data(using: String.Encoding.utf8)
+        let data = parameter.URLQuery.data(using: String.Encoding.utf8)
         request.httpBody = data
         request.setUserAgentForReddit()
 #if _TEST

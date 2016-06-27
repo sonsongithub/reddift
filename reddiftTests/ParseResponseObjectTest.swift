@@ -118,12 +118,12 @@ class response2DataObjectTest: XCTestCase {
                 XCTAssert(userlist[0].id == "t2_5onsi")
                 
                 XCTAssert(userlist[1].date == 1415392097)
-                XCTAssert(userlist[1].modPermissions.hasSameElements([UserModPermission.All]))
+                XCTAssert(userlist[1].modPermissions.hasSameElements([UserModPermission.all]))
                 XCTAssert(userlist[1].name == "cwenham")
                 XCTAssert(userlist[1].id == "t2_2fpn")
                 
                 XCTAssert(userlist[2].date == 1445810001)
-                XCTAssert(userlist[2].modPermissions.hasSameElements([UserModPermission.Wiki, UserModPermission.Posts, UserModPermission.Mail, UserModPermission.Flair]))
+                XCTAssert(userlist[2].modPermissions.hasSameElements([UserModPermission.wiki, UserModPermission.posts, UserModPermission.mail, UserModPermission.flair]))
                 XCTAssert(userlist[2].name == "adeadhead")
                 XCTAssert(userlist[2].id == "t2_5tt1l")
             } else { XCTFail("can not parse JSON") }

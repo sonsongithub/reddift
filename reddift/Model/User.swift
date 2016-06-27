@@ -11,27 +11,27 @@ import Foundation
 /**
  */
 public enum UserModPermission: String {
-    case All     = "all"
-    case Wiki    = "wiki"
-    case Posts   = "posts"
-    case Mail    = "mail"
-    case Flair   = "flair"
-    case Unknown = "unknown"
+    case all     = "all"
+    case wiki    = "wiki"
+    case posts   = "posts"
+    case mail    = "mail"
+    case flair   = "flair"
+    case unknown = "unknown"
     
     public init(_ value: String) {
         switch value {
         case "all":
-            self = .All
+            self = .all
         case "wiki":
-            self = .Wiki
+            self = .wiki
         case "posts":
-            self = .Posts
+            self = .posts
         case "mail":
-            self = .Mail
+            self = .mail
         case "flair":
-            self = .Flair
+            self = .flair
         default:
-            self = .Unknown
+            self = .unknown
         }
     }
 }

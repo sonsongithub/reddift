@@ -48,8 +48,8 @@ struct Config {
     }
 	
     init() {
-        version =  Bundle.infoValueFromMainBundleForKey("CFBundleShortVersionString") as? String ?? "1.0"
-		bundleIdentifier = Bundle.infoValueFromMainBundleForKey("CFBundleIdentifier") as? String ?? ""
+        version =  Bundle.infoValueInMainBundle(for: "CFBundleShortVersionString") as? String ?? "1.0"
+        bundleIdentifier = Bundle.infoValueInMainBundle(for: "CFBundleIdentifier") as? String ?? ""
         
         var _developerName: String? = nil
         var _redirectURI: String? = nil

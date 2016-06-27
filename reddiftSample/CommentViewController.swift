@@ -183,11 +183,12 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                     case .failure(let error):
                         print(error)
                     case .success(let tuple):
+                        let startDepth = 1
                         let listing = tuple.1
                         let incomming = listing.children
                             .flatMap({ $0 as? Comment })
                             .reduce([], combine: {
-                                return $0 + extendAllRepliesAndDepth($1, depth: 1)
+                                return $0 + extendAllReplies(in: $1, current: startDepth)
                             })
                             .map({$0.0})
                         
@@ -256,10 +257,11 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                             print(list)
                             
                             DispatchQueue.main.async(execute: { () -> Void in
+                                let startDepth = 1
                                 let incomming = list
                                     .flatMap({ $0 as? Comment })
                                     .reduce([], combine: {
-                                        return $0 + extendAllRepliesAndDepth($1, depth: 1)
+                                        return $0 + extendAllReplies(in: $1, current: startDepth)
                                     })
                                     .map({$0.0})
                                 
