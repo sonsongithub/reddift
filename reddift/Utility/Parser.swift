@@ -18,27 +18,27 @@ class Parser: NSObject {
     class func parseJSONDictionary(_ kind: String, data: JSONDictionary) -> Any? {
         switch kind {
         case "t1":
-            return Comment(data:data)
+            return Comment(json: data)
         case "t2":
-            return Account(data:data)
+            return Account(json: data)
         case "t3":
-            return Link(data:data)
+            return Link(json: data)
         case "t4":
-            return Message(data:data)
+            return Message(json: data)
         case "t5":
-            return Subreddit(data:data)
+            return Subreddit(json:data)
         case "t6":
-            return Trophy(data:data)
+            return Trophy(json: data)
         case "more":
-            return More(data:data)
+            return More(json: data)
         case "LabeledMulti":
             return Multireddit(json: data) as Multireddit
         case "LabeledMultiDescription":
             return MultiredditDescription(json: data)
         case "UserList":
-            return parseUserList(data)
+            return parseUserList(json: data)
         case "TrophyList":
-            return parseTrophyList(data)
+            return parseTrophyList(json: data)
         default:
             return nil
         }
@@ -49,7 +49,7 @@ class Parser: NSObject {
     class func parseJSONArray(_ kind: String, data: JSONArray) -> Any? {
         switch kind {
         case "KarmaList":
-            return parseSubredditKarmaList(data)
+            return parseSubredditKarmaList(array: data)
         default:
             return nil
         }
@@ -98,7 +98,7 @@ class Parser: NSObject {
     /**
     Parse User list
     */
-    class func parseUserList(_ json: JSONDictionary) -> [User] {
+    class func parseUserList(json: JSONDictionary) -> [User] {
         var result: [User] = []
         if let children = json["children"] as? [JSONDictionary] {
             children.forEach({
@@ -115,7 +115,7 @@ class Parser: NSObject {
     /**
      Parse SubredditKarma list
      */
-    class func parseSubredditKarmaList(_ array: JSONArray) -> [SubredditKarma] {
+    class func parseSubredditKarmaList(array: JSONArray) -> [SubredditKarma] {
         var result: [SubredditKarma] = []
         if let children = array as? [JSONDictionary] {
             children.forEach({
@@ -132,7 +132,7 @@ class Parser: NSObject {
     /**
      Parse Trophy list
      */
-    class func parseTrophyList(_ json: JSONDictionary) -> [Trophy] {
+    class func parseTrophyList(json: JSONDictionary) -> [Trophy] {
         var result: [Trophy] = []
         if let children = json["trophies"] as? [JSONDictionary] {
             result.append(contentsOf: children.flatMap({ parseThing($0) as? Trophy }))
@@ -143,7 +143,7 @@ class Parser: NSObject {
 	/**
 	Parse list object in JSON
 	*/
-    class func parseListing(_ json: JSONDictionary) -> Listing {
+    class func parseListing(json: JSONDictionary) -> Listing {
         var list: [Thing] = []
         var paginator: Paginator? = Paginator()
         
@@ -194,7 +194,7 @@ class Parser: NSObject {
         else if let json = json as? JSONDictionary {
             if let kind = json["kind"] as? String {
                 if kind == "Listing" {
-                    let listing = parseListing(json)
+                    let listing = parseListing(json: json)
                     return listing
                 } else {
                     return parseThing(json)

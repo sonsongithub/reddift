@@ -30,7 +30,7 @@ extension Session {
         guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/comment", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Comment> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2Comment)
@@ -122,7 +122,7 @@ extension Session {
             else { throw ReddiftError.urlError.error }
         
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -279,7 +279,7 @@ extension Session {
         guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/morechildren", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[Thing]> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2CommentAndMore)

@@ -147,7 +147,7 @@ public struct OAuth2Token: Token {
         guard let request = requestForRefreshing()
             else { throw ReddiftError.urlError.error }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            let result = Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap({(json: JSONAny) -> Result<JSONDictionary> in
@@ -182,7 +182,7 @@ public struct OAuth2Token: Token {
         guard let request = requestForRevoking()
             else { throw ReddiftError.urlError.error }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            let result = Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
             completion(result)
@@ -204,7 +204,7 @@ public struct OAuth2Token: Token {
         guard let request = requestForOAuth(code)
             else { throw ReddiftError.urlError.error }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            let result = Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(OAuth2Token.tokenWithJSON)
@@ -236,12 +236,12 @@ public struct OAuth2Token: Token {
             else { throw ReddiftError.urlError.error }
         let session = URLSession(configuration: URLSessionConfiguration.default())
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            let result = Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap({ (json: JSONAny) -> Result<Account> in
                     if let object = json as? JSONDictionary {
-                        return resultFromOptional(Account(data:object), error: ReddiftError.parseThingT2.error)
+                        return Result(fromOptional: Account(json: object), error: ReddiftError.parseThingT2.error)
                     }
                     return Result(error: ReddiftError.malformed.error)
                 })

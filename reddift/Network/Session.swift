@@ -86,7 +86,7 @@ public class Session: NSObject, URLSessionDelegate, URLSessionDataDelegate {
     
     func handleResponse2RedditAny(_ data: Data?, response: URLResponse?, error: NSError?) -> Result<RedditAny> {
         self.updateRateLimitWithURLResponse(response)
-        return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+        return Result(from: Response(data: data, urlResponse: response), optional:error)
             .flatMap(response2Data)
             .flatMap(data2Json)
             .flatMap(json2RedditAny)
@@ -94,7 +94,7 @@ public class Session: NSObject, URLSessionDelegate, URLSessionDataDelegate {
     
     func handleResponse2JSON(_ data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> {
         self.updateRateLimitWithURLResponse(response)
-        return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+        return Result(from: Response(data: data, urlResponse: response), optional:error)
             .flatMap(response2Data)
             .flatMap(data2Json)
     }

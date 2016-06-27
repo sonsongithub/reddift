@@ -222,7 +222,7 @@ public struct Comment: Thing {
     - parameter data: Dictionary, must be generated parsing t1 Thing.
     - returns: Comment object as Thing.
     */
-    public init(data: JSONDictionary) {
+    public init(json data: JSONDictionary) {
         id = data["id"] as? String ?? ""
         subredditId = data["subreddit_id"] as? String ?? ""
         bannedBy = data["banned_by"] as? String ?? ""

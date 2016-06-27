@@ -7,14 +7,3 @@
 //
 
 import Foundation
-
-extension URLRequest {
-    func updateWithOAuth2Token(_ token: OAuth2Token) -> URLRequest {
-        if var tempRequest = (self as NSURLRequest).mutableCopy() as? URLRequest {
-            tempRequest.setOAuth2Token(token)
-            return tempRequest as URLRequest
-        } else {
-            return self
-        }
-    }
-}

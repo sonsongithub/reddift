@@ -76,7 +76,7 @@ extension Session {
             guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multipath, parameter:parameter, method:"POST", token:token)
                 else { throw ReddiftError.urlError.error }
             let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Multireddit> in
-                return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                return Result(from: Response(data: data, urlResponse: response), optional:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
                     .flatMap(json2Multireddit)
@@ -99,7 +99,7 @@ extension Session {
         guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multi.path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[Multireddit]> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -120,7 +120,7 @@ extension Session {
         guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multi.path, method:"DELETE", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<String> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2String)
         }
@@ -154,7 +154,7 @@ extension Session {
                 guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multipath, parameter:parameter, method:"PUT", token:token)
                     else { throw ReddiftError.urlError.error }
                 let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Multireddit> in
-                    return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                    return Result(from: Response(data: data, urlResponse: response), optional:error)
                         .flatMap(response2Data)
                         .flatMap(data2Json)
                         .flatMap(json2Multireddit)
@@ -177,7 +177,7 @@ extension Session {
         guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/user/" + username, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[Multireddit]> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -219,7 +219,7 @@ extension Session {
             guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/copy", parameter:parameter, method:"POST", token:token)
                 else { throw ReddiftError.urlError.error }
             let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Multireddit> in
-                return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                return Result(from: Response(data: data, urlResponse: response), optional:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
                     .flatMap(json2Multireddit)
@@ -246,7 +246,7 @@ extension Session {
             guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/rename", parameter:parameter, method:"POST", token:token)
                 else { throw ReddiftError.urlError.error }
             let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Multireddit> in
-                return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                return Result(from: Response(data: data, urlResponse: response), optional:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
                     .flatMap(json2Multireddit)
@@ -273,7 +273,7 @@ extension Session {
         guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multireddit.path + "/r/" + srname, parameter:parameter, method:"PUT", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<String> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap({(json: JSONAny) -> Result<String> in
@@ -305,7 +305,7 @@ extension Session {
         guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multireddit.path + "/r/" + srname, parameter:parameter, method:"DELETE", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
         }
@@ -323,7 +323,7 @@ extension Session {
         guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/mine", method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[Multireddit]> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -344,7 +344,7 @@ extension Session {
         guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multireddit.path + "/description", method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<MultiredditDescription> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -374,7 +374,7 @@ extension Session {
             guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multireddit.path + "/description/", parameter:parameter, method:"PUT", token:token)
                 else { throw ReddiftError.urlError.error }
             let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<MultiredditDescription> in
-                return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                return Result(from: Response(data: data, urlResponse: response), optional:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
                     .flatMap(json2RedditAny)

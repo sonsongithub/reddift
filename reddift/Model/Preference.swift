@@ -41,20 +41,20 @@ public enum PreferenceDefaultCommentSortType: String {
 /**
  */
 public enum PreferenceMediaType: String {
-    case On         = "on"
-    case Off        = "off"
-    case Subreddit  = "subreddit"
+    case on         = "on"
+    case off        = "off"
+    case subreddit  = "subreddit"
     
     public init(_ value: String) {
         switch value {
         case "on":
-            self = .On
+            self = .on
         case "off":
-            self = .Off
+            self = .off
         case "subreddit":
-            self = .Subreddit
+            self = .subreddit
         default:
-            self = .On
+            self = .on
         }
     }
 }

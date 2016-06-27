@@ -50,7 +50,7 @@ public class BackgroundFetch: NSObject, URLSessionDelegate {
     func handleTokenRefreshResponse(_ response: HTTPURLResponse, didFinishDownloadingToURL: URL, token: OAuth2Token) {
         if response.statusCode == 200 {
             let data = try? Data(contentsOf: didFinishDownloadingToURL)
-            let result: Result<JSONDictionary> = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:nil)
+            let result: Result<JSONDictionary> = Result(from: Response(data: data, urlResponse: response), optional:nil)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(redditAny2Object)
@@ -58,7 +58,7 @@ public class BackgroundFetch: NSObject, URLSessionDelegate {
             switch result2 {
             case .success(let token):
                 session.token = token
-                request = request.updateWithOAuth2Token(token)
+                request.setOAuth2Token(token)
                 resume()
             case .failure(let error):
                 taskHandler(response: nil, dataURL: nil, error: error)

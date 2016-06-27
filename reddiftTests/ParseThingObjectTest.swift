@@ -33,7 +33,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingT1JsonFile() {
         print("Each property of t1 has been loaded correctly")
         if let json = self.jsonFromFileName("t1.json") as? JSONDictionary {
-            let object = Comment(data:json)
+            let object = Comment(json:json)
             
             XCTAssert(object.subredditId == "t5_2qizd")
             XCTAssert(object.bannedBy == "")
@@ -85,7 +85,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingT2JsonFile() {
         print("Each property of t2 has been loaded correctly")
         if let json = self.jsonFromFileName("t2.json") as? JSONDictionary {
-            let object = Account(data:json)
+            let object = Account(json: json)
             XCTAssert(object.hasMail == false)
             XCTAssert(object.name == "sonson_twit")
             XCTAssert(object.created == 1427126074)
@@ -108,7 +108,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingT3JsonFile() {
         print("Each property of t3 has been loaded correctly")
         if let json = self.jsonFromFileName("t3.json") as? JSONDictionary {
-            let object = Link(data:json)
+            let object = Link(json:json)
             XCTAssert(object.domain == "self.redditdev")
             XCTAssert(object.bannedBy == "")
             XCTAssert(object.subreddit == "redditdev")
@@ -190,7 +190,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingT4JsonFile() {
         print("Each property of t4 has been loaded correctly")
         if let json = self.jsonFromFileName("t4.json") as? JSONDictionary {
-            let object = Message(data:json)
+            let object = Message(json: json)
             XCTAssert(object.body == "Hello! [Hola!](https://www.reddit.com/r/reddit.com/wiki/templat.....")
             XCTAssert(object.wasComment == false)
             XCTAssert(object.firstMessage == "")
@@ -215,7 +215,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingT5JsonFile() {
         print("Each property of t5 has been loaded correctly")
         if let json = self.jsonFromFileName("t5.json") as? JSONDictionary {
-            let object = Subreddit(data:json)
+            let object = Subreddit(json:json)
             XCTAssert(object.bannerImg == "")
             XCTAssert(object.userSrThemeEnabled == true)
             XCTAssert(object.submitTextHtml == "<!-- SC_OFF --><div class=\"md\"><p><strong>GIFs are banned.</strong>\nIf you want to post a GIF, please <a href=\"http://imgur.com\">rehost it as a GIFV</a> instead. <a href=\"http://www.reddit.com/r/woahdude/wiki/html5\">(Read more)</a></p>\n\n<p><strong>Link flair is mandatory.</strong>\nClick &quot;Add flair&quot; button after you submit. The button will be located under your post title. <a href=\"http://www.reddit.com/r/woahdude/wiki/index#wiki_flair_is_mandatory\">(read more)</a></p>\n\n<p><strong>XPOST labels are banned.</strong>\nCrossposts are fine, just don&#39;t label them as such. <a href=\"http://www.reddit.com/r/woahdude/wiki/index#wiki_.5Bxpost.5D_tags.2Flabels_are_banned\">(read more)</a></p>\n\n<p><strong>Trippy or Mesmerizing content only!</strong>\nWhat is WoahDude-worthy content? <a href=\"http://www.reddit.com/r/woahdude/wiki/index#wiki_what_is_.22woahdude_material.22.3F\">(Read more)</a></p>\n</div><!-- SC_ON -->")
@@ -258,7 +258,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingMoreJsonFile() {
         print("Each property of more has been loaded correctly")
         if let json = self.jsonFromFileName("more.json") as? JSONDictionary {
-            let object = More(data:json)
+            let object = More(json:json)
             XCTAssert(object.count == 0)
             XCTAssert(object.parentId == "t1_cp88kh5")
             XCTAssert(object.children == ["cpddp7v", "cp8jvj8", "cp8cv4b"])

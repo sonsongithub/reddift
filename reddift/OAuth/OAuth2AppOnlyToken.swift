@@ -94,7 +94,7 @@ public struct OAuth2AppOnlyToken: Token {
         guard let request = requestForOAuth2AppOnly(username:username, password:password, clientID:clientID, secret:secret)
             else { throw ReddiftError.urlError.error }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            let result = Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap({(json: JSONAny) -> Result<JSONDictionary> in
@@ -112,7 +112,7 @@ public struct OAuth2AppOnlyToken: Token {
             default:
                 break
             }
-            completion(resultFromOptional(token, error:NSError.errorWithCode(0, "")))
+            completion(Result(fromOptional: token, error:NSError.errorWithCode(0, "")))
         })
         task.resume()
         return task

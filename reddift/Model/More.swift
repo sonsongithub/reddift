@@ -39,7 +39,7 @@ public struct More: Thing {
     - parameter data: Dictionary, must be generated parsing "more".
     - returns: More object as Thing.
     */
-    public init(data: JSONDictionary) {
+    public init(json data: JSONDictionary) {
         id = data["id"] as? String ?? ""
         name = data["name"] as? String ?? ""
         parentId = data["parent_id"] as? String ?? ""

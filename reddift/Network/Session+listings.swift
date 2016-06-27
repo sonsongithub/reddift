@@ -56,7 +56,7 @@ extension Session {
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<(Listing, Listing)> in
             
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -105,7 +105,7 @@ extension Session {
      */
     @discardableResult
     func getList(_ paginator: Paginator, subreddit: SubredditURLPath?, privateSortType: PrivateLinkSortBy, timeFilterWithin: TimeFilterWithin, limit: Int = 25, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
-        let parameter = paginator.addParametersToDictionary([
+        let parameter = paginator.dictionaryByAdding(parameters: [
             "limit"    : "\(limit)",
             "show"     : "all",
 //          "sr_detail": "true",
@@ -116,7 +116,7 @@ extension Session {
         guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -167,7 +167,7 @@ extension Session {
      */
     @discardableResult
     func getNewOrHotList(_ paginator: Paginator, subreddit: SubredditURLPath?, type: String, limit: Int = 25, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
-        let parameter = paginator.addParametersToDictionary([
+        let parameter = paginator.dictionaryByAdding(parameters: [
             "limit"    : "\(limit)",
             //            "sr_detail": "true",
             "show"     : "all",
@@ -177,7 +177,7 @@ extension Session {
         guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -201,7 +201,7 @@ extension Session {
         guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:path, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<(Listing, Listing)> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -223,7 +223,7 @@ extension Session {
      */
     @discardableResult
     public func getRelatedArticles(_ paginator: Paginator, thing: Thing, limit: Int = 25, completion: (Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
-        let parameter = paginator.addParametersToDictionary([
+        let parameter = paginator.dictionaryByAdding(parameters: [
             "limit"    : "\(limit)",
             //            "sr_detail": "true",
             "show"     : "all",
@@ -231,7 +231,7 @@ extension Session {
         guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/related/" + thing.id, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<(Listing, Listing)> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -251,7 +251,7 @@ extension Session {
      */
     @discardableResult
     public func getDuplicatedArticles(_ paginator: Paginator, thing: Thing, limit: Int = 25, completion: (Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
-        let parameter = paginator.addParametersToDictionary([
+        let parameter = paginator.dictionaryByAdding(parameters: [
             "limit"    : "\(limit)",
 //            "sr_detail": "true",
             "show"     : "all"
@@ -259,7 +259,7 @@ extension Session {
         guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/duplicates/" + thing.id, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<(Listing, Listing)> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -281,7 +281,7 @@ extension Session {
         guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/by_id/" + fullnameList.joined(separator: ","), method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)

@@ -91,9 +91,9 @@ Returns Result<Error> object when any error happned.
 */
 func json2Account(_ json: JSONAny) -> Result<Account> {
     if let object = json as? JSONDictionary {
-        return resultFromOptional(Account(data:object), error: ReddiftError.parseThingT2.error)
+        return Result(fromOptional: Account(json:object), error: ReddiftError.parseThingT2.error)
     }
-    return resultFromOptional(nil, error: ReddiftError.malformed.error)
+    return Result(fromOptional: nil, error: ReddiftError.malformed.error)
 }
 
 /**
@@ -106,7 +106,7 @@ func json2Preference(_ json: JSONAny) -> Result<Preference> {
     if let object = json as? JSONDictionary {
         return Result(value: Preference(json: object))
     }
-    return resultFromOptional(nil, error: ReddiftError.malformed.error)
+    return Result(fromOptional: nil, error: ReddiftError.malformed.error)
 }
 
 /**
@@ -117,7 +117,7 @@ func json2Preference(_ json: JSONAny) -> Result<Preference> {
  */
 func json2RedditAny(_ json: JSONAny) -> Result<RedditAny> {
     let object: Any? = Parser.parseJSON(json)
-    return resultFromOptional(object, error: ReddiftError.parseThing.error)
+    return Result(fromOptional: object, error: ReddiftError.parseThing.error)
 }
 
 /**
@@ -180,7 +180,7 @@ func redditAny2ListingTuple(_ redditAny: RedditAny) -> Result<(Listing, Listing)
 
 // MARK: Convert from data and response
 public func accountByParsingData(_ data: Data?, response: URLResponse?, error: NSError? = nil) -> Result<Account> {
-    return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:nil)
+    return Result(from: Response(data: data, urlResponse: response), optional:nil)
         .flatMap(response2Data)
         .flatMap(data2Json)
         .flatMap(json2Account)

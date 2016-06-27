@@ -296,7 +296,7 @@ public struct Link: Thing {
     - parameter data: Dictionary, must be generated parsing "t3".
     - returns: Link object as Thing.
     */
-    public init(data: JSONDictionary) {
+    public init(json data: JSONDictionary) {
         id = data["id"] as? String ?? ""
         domain = data["domain"] as? String ?? ""
         bannedBy = data["banned_by"] as? String ?? ""

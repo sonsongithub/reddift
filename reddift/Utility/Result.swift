@@ -16,6 +16,22 @@ public enum Result<A> {
         self = .success(value)
     }
     
+    public init(fromOptional: A?, error: NSError) {
+        if let value = fromOptional {
+            self = .success(value)
+        } else {
+            self = .failure(error)
+        }
+    }
+    
+    public init(from: A, optional error: NSError?) {
+        if let error = error {
+            self = .failure(error)
+        } else {
+            self = .success(from )
+        }
+    }
+    
     public init(error: NSError?) {
         if let error = error {
             self = .failure(error)
@@ -59,21 +75,5 @@ public enum Result<A> {
         default:
             return nil
         }
-    }
-}
-
-public func resultFromOptional<A>(_ optional: A?, error: NSError) -> Result<A> {
-    if let a = optional {
-        return .success(a)
-    } else {
-        return .failure(error)
-    }
-}
-
-public func resultFromOptionalError<A>(_ value: A, optionalError: NSError?) -> Result<A> {
-    if let error = optionalError {
-        return .failure(error)
-    } else {
-        return .success(value)
     }
 }

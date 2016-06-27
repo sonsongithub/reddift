@@ -19,7 +19,7 @@ extension Session {
         guard let request = URLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/v1/me/prefs", method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Preference> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2Preference)
@@ -42,7 +42,7 @@ extension Session {
             guard let request: URLRequest = URLRequest.mutableOAuthRequestWithBaseURL(Session.OAuthEndpointURL, path:"/api/v1/me/prefs", data:data, method:"PATCH", token:token)
                 else { throw ReddiftError.urlError.error }
             let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Preference> in
-                return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                return Result(from: Response(data: data, urlResponse: response), optional:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
                     .flatMap(json2Preference)
@@ -62,7 +62,7 @@ extension Session {
     @discardableResult
     public func getFriends(_ paginator: Paginator, count: Int = 0, limit: Int = 1, completion: (Result<RedditAny>) -> Void) throws -> URLSessionDataTask {
         do {
-            let parameter = paginator.addParametersToDictionary([
+            let parameter = paginator.dictionaryByAdding(parameters: [
                 "limit"    : "\(limit)",
                 "show"     : "all",
                 "count"    : "\(count)"
@@ -71,7 +71,7 @@ extension Session {
             guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/prefs/friends", parameter:parameter, method:"GET", token:token)
                 else { throw ReddiftError.urlError.error }
             let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<RedditAny> in
-                return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                return Result(from: Response(data: data, urlResponse: response), optional:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
                     .flatMap(json2RedditAny)
@@ -91,7 +91,7 @@ extension Session {
     @discardableResult
     public func getBlocked(_ paginator: Paginator, count: Int = 0, limit: Int = 25, completion: (Result<[User]>) -> Void) throws -> URLSessionDataTask {
         do {
-            let parameter = paginator.addParametersToDictionary([
+            let parameter = paginator.dictionaryByAdding(parameters: [
                 "limit"    : "\(limit)",
                 "show"     : "all",
                 "count"    : "\(count)"
@@ -100,7 +100,7 @@ extension Session {
             guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/prefs/blocked", parameter:parameter, method:"GET", token:token)
                 else { throw ReddiftError.urlError.error }
             let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[User]> in
-                return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+                return Result(from: Response(data: data, urlResponse: response), optional:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
                     .flatMap(json2RedditAny)
@@ -120,7 +120,7 @@ extension Session {
         guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/karma", method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[SubredditKarma]> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -139,7 +139,7 @@ extension Session {
         guard let request = URLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/v1/me/trophies", method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[Trophy]> in
-            return resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)

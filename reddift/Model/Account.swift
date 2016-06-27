@@ -116,7 +116,7 @@ public struct Account: Thing {
     - parameter data: Dictionary, must be generated parsing "t2".
     - returns: Account object as Thing.
     */
-    public init(data: JSONDictionary) {
+    public init(json data: JSONDictionary) {
         id = data["id"] as? String ?? ""
         hasMail = data["has_mail"] as? Bool ?? false
         name = data["name"] as? String ?? ""
@@ -138,7 +138,7 @@ public struct Account: Thing {
 
 func parseDataInJSON_t2(_ json: JSONAny) -> Result<Thing> {
     if let object = json as? JSONDictionary {
-        return resultFromOptional(Account(data:object), error: ReddiftError.parseThingT2.error)
+        return Result(fromOptional: Account(json: object), error: ReddiftError.parseThingT2.error)
     }
-    return resultFromOptional(nil, error: ReddiftError.parseThingT2.error)
+    return Result(fromOptional: nil, error: ReddiftError.parseThingT2.error)
 }
