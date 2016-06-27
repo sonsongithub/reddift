@@ -76,7 +76,7 @@ Returns Result<Error> object when any error happned.
 - returns: Result object. Result object has a list of Thing object, otherwise error object.
 */
 func json2CommentAndMore(from json: JSONAny) -> Result<[Thing]> {
-    let (list, error) = Parser.parseCommentAndMoreJSON(json)
+    let (list, error) = Parser.commentAndMore(from: json)
     if let error = error {
         return Result(error: error)
     }
@@ -116,7 +116,7 @@ func json2Preference(from json: JSONAny) -> Result<Preference> {
  - returns: Result object. Result object has any Thing or Listing object, otherwise error object.
  */
 func json2RedditAny(from json: JSONAny) -> Result<RedditAny> {
-    let object: Any? = Parser.parseJSON(json)
+    let object: Any? = Parser.redditAny(from: json)
     return Result(fromOptional: object, error: ReddiftError.parseThing.error)
 }
 
@@ -133,7 +133,7 @@ func json2Comment(from json: JSONAny) -> Result<Comment> {
         if things.count == 1 {
             for thing in things {
                 if let thing = thing as? JSONDictionary {
-                    let obj: Any? = Parser.parseJSON(thing)
+                    let obj: Any? = Parser.redditAny(from: thing)
                     if let comment = obj as? Comment {
                         return Result(value: comment)
                     }

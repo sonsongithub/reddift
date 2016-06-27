@@ -259,7 +259,7 @@ public struct Comment: Thing {
         numReports = data["num_reports"] as? Int ?? 0
         ups = data["ups"] as? Int ?? 0
         if let temp = data["replies"] as? JSONDictionary {
-            if let obj = Parser.parseJSON(temp) as? Listing {
+            if let obj = Parser.redditAny(from: temp) as? Listing {
                 replies = obj
             } else {
                 replies = Listing()

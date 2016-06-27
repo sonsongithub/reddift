@@ -67,7 +67,7 @@ class ExtendCommentsTest: XCTestCase {
         print("Test whether Parser can extend Comment objects that has some More objects as children.")
         print("consists of 1 Link, 13 Comments and 9 Mores.")
         if let json: JSONAny = self.jsonFromFileName("comments_extend.json") {
-            if let array = Parser.parseJSON(json) as? [Any] {
+            if let array = Parser.redditAny(from: json) as? [Any] {
                 if array.count == 2 {
                     if let listing = array[0] as? Listing {
                         let numberOfLinks = listing.children.reduce(0, combine: { (value: Int, link: Thing) -> Int in
