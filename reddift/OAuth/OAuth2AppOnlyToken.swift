@@ -112,7 +112,7 @@ public struct OAuth2AppOnlyToken: Token {
             default:
                 break
             }
-            completion(Result(fromOptional: token, error:NSError.errorWithCode(0, "")))
+            completion(Result(fromOptional: token, error:NSError.error(with: 0)))
         })
         task.resume()
         return task

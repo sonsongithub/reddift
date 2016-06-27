@@ -9,7 +9,7 @@
 import Foundation
 
 extension NSError {
-    class func errorWithCode(_ code: Int, _ description: String) -> NSError {
+    class func error(with code: Int, description: String = "") -> NSError {
         return NSError(domain:Config.sharedInstance.bundleIdentifier, code:code, userInfo:["description":description])
     }
 }
@@ -51,7 +51,7 @@ public enum ReddiftError: Int {
     
     
     var error: NSError {
-        return NSError.errorWithCode(self.rawValue, self.description)
+        return NSError.error(with: self.rawValue, description: self.description)
     }
     
     var description: String {

@@ -26,11 +26,11 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
         print(width)
         return newComments.map { (thing: Thing) -> CellContent in
             if let comment = thing as? Comment {
-                let html = comment.bodyHtml.preprocessedHTMLStringBeforeNSAttributedStringParsing()
+                let html = comment.bodyHtml.preprocessedHTMLStringBeforeNSAttributedStringParsing
                 do {
                     let attr = try NSMutableAttributedString(data: html.data(using: String.Encoding.unicode)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
                     let font = UIFont(name: ".SFUIText-Light", size: 12) ?? UIFont.systemFont(ofSize: 12)
-                    let attr2 = attr.reconstructAttributedString(font, color: UIColor.black(), linkColor: UIColor.blue())
+                    let attr2 = attr.reconstruct(with: font, color: UIColor.black(), linkColor: UIColor.blue())
                     return CellContent(string:attr2, width:width - 25, hasRelies:false)
                 } catch {
                     return CellContent(string:AttributedString(string: ""), width:width - 25, hasRelies:false)

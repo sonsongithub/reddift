@@ -97,16 +97,16 @@ enum HttpStatus: Int {
         }
     }
     
-    func errorWithJSON(_ json: JSONDictionary) -> NSError {
+    func error(with json: JSONDictionary) -> NSError {
         return NSError(domain:Config.sharedInstance.bundleIdentifier, code:self.rawValue, userInfo:json)
     }
     
-    func errorWithString(_ string: String) -> NSError {
-        return NSError.errorWithCode(self.rawValue, string)
+    func error(with string: String) -> NSError {
+        return NSError.error(with: self.rawValue, description: string)
     }
 
     var error: NSError {
-        return NSError.errorWithCode(self.rawValue, self.description)
+        return NSError.error(with: self.rawValue, description: self.description)
     }
 
     var description: String {

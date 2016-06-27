@@ -84,7 +84,7 @@ class response2DataObjectTest: XCTestCase {
         print("To t1 object as Comment")
         var isSucceeded = false
         if let json: AnyObject = self.jsonFromFileName("api_comment_response.json") {
-            let result = json2Comment(json)
+            let result = json2Comment(from: json)
             switch result {
             case .success:
                 isSucceeded = true

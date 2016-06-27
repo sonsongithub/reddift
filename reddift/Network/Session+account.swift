@@ -163,7 +163,7 @@ extension Session {
     public func getProfile(_ completion: (Result<Account>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/v1/me", method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
-        let closure: (data: Data?, response: URLResponse?, error: NSError?) -> Result<Account> = accountByParsingData
+        let closure: (data: Data?, response: URLResponse?, error: NSError?) -> Result<Account> = accountInResult
         return executeTask(request, handleResponse: closure, completion: completion)
     }
 }

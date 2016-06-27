@@ -8,18 +8,6 @@
 
 import Foundation
 
-extension Dictionary {
-    /**
-    Update value with key.
-    */
-	mutating func update(_ other: Dictionary) {
-		for (key, value) in other {
-			self.updateValue(value, forKey:key)
-		}
-	}
-}
-
-
 extension Bool {
     var string: String {
         return self ? "true" : "false"

@@ -19,10 +19,10 @@ class UserContentViewController: UITableViewController {
         contents.removeAll(keepingCapacity:true)
         contents = source.map {(obj) -> CellContent in
             if let comment = obj as? Comment {
-                let html = comment.bodyHtml.preprocessedHTMLStringBeforeNSAttributedStringParsing()
+                let html = comment.bodyHtml.preprocessedHTMLStringBeforeNSAttributedStringParsing
                 do {
                     let attr = try AttributedString(data: html.data(using: String.Encoding.unicode)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
-                    let attr2 = attr.reconstructAttributedString(UIFont.systemFont(ofSize: 12), color: UIColor.black(), linkColor: UIColor.blue())
+                    let attr2 = attr.reconstruct(with: UIFont.systemFont(ofSize: 12), color: UIColor.black(), linkColor: UIColor.blue())
                     return CellContent(string:attr2, width:self.view.frame.size.width - 25, hasRelies:false)
                 } catch {
                     return CellContent(string:AttributedString(string: ""), width:self.view.frame.size.width - 25, hasRelies:false)

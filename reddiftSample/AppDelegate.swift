@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let session = session {
             do {
                 let request = try session.requestForGettingProfile()
-                let fetcher = BackgroundFetch(session,
+                let fetcher = BackgroundFetch(current: session,
                                               request: request,
                                               taskHandler: { (response, dataURL, error) -> Void in
                                                 if let response = response, dataURL = dataURL {
@@ -49,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                         
                                                         do {
                                                             let data = try Data(contentsOf: dataURL)
-                                                            let result = accountByParsingData(data, response: response)
+                                                            let result = accountInResult(from: data, response: response)
                                                             switch result {
                                                             case .success(let account):
                                                                 print(account)
