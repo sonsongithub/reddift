@@ -676,8 +676,6 @@
 		14624D001B3D184400A5D8F5 /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseThingObjectTest.swift; sourceTree = "<group>"; };
 		1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseResponseObjectTest.swift; sourceTree = "<group>"; };
-		146959FD1CE37CE2004035CA /* auto-refresh.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = "auto-refresh.playground"; path = "playground/auto-refresh.playground"; sourceTree = "<group>"; };
-		146959FE1CE37CE2004035CA /* reddift.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = reddift.playground; path = playground/reddift.playground; sourceTree = "<group>"; };
 		146959FF1CE4E8E7004035CA /* expired_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = expired_token.json; sourceTree = "<group>"; };
 		14695A001CE4E8E7004035CA /* expired_token.json.sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = expired_token.json.sample.json; sourceTree = "<group>"; };
 		1471A6EF1AE5DD4C00816FE7 /* More.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = More.swift; sourceTree = "<group>"; };
@@ -1207,8 +1205,6 @@
 		14E3BAA61BBA4DA800BDDF29 /* playground */ = {
 			isa = PBXGroup;
 			children = (
-				146959FE1CE37CE2004035CA /* reddift.playground */,
-				146959FD1CE37CE2004035CA /* auto-refresh.playground */,
 			);
 			name = playground;
 			sourceTree = "<group>";
