@@ -281,9 +281,9 @@ class ParseThingObjectTest: XCTestCase {
             XCTAssert(object.subreddits == ["redditdev", "swift"])
             XCTAssert(object.createdUtc == 1431999881)
             XCTAssert(object.keyColor == "#cee3f8")
-            XCTAssert(object.visibility == MultiredditVisibility.Private)
-            XCTAssert(object.iconName == MultiredditIconName.None)
-            XCTAssert(object.weightingScheme == MultiredditWeightingScheme.Classic)
+            XCTAssert(object.visibility == .private)
+            XCTAssert(object.iconName == .none)
+            XCTAssert(object.weightingScheme == .classic)
             XCTAssert(object.path == "/user/sonson_twit/m/english")
             XCTAssert(object.descriptionMd == "")
         }

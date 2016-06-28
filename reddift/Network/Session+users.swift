@@ -46,7 +46,7 @@ extension Session {
         var json: [String:String] = [:]
         if !note.isEmpty { json["note"] = note }
         do {
-            let data: Data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions())
+            let data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions())
             guard let request = URLRequest.mutableOAuthRequest(with: Session.OAuthEndpointURL, path:"api/v1/me/friends/" + username, data:data, method:"PUT", token:token)
                 else { throw ReddiftError.urlError.error }
             let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
@@ -68,7 +68,7 @@ extension Session {
      */
     @discardableResult
     public func unfriend(_ username: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let parameters: [String:String] = [
+        let parameters = [
             "id":username
         ]
         guard let request = URLRequest.mutableOAuthRequest(with: Session.OAuthEndpointURL, path:"api/v1/me/friends/" + username, parameter:parameters, method:"DELETE", token:token)
@@ -145,7 +145,7 @@ extension Session {
      */
     @discardableResult
     public func friend(_ name: String, note: String, banMessageMd: String, container: String, duration: Int, type: FriendType, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let parameters: [String:String] = [
+        let parameters = [
             "container":container,
             "name":name,
             "type":"friend"
@@ -183,7 +183,7 @@ extension Session {
      */
     @discardableResult
     public func unfriend(_ name: String = "", id: String = "", type: FriendType, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        var parameters: [String:String] = [
+        var parameters = [
             "type":type.rawValue
 //            "uh":modhash
         ]
@@ -209,7 +209,7 @@ extension Session {
      */
     @discardableResult
     public func getNotifications(_ sort: NotificationSort, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let parameters: [String:String] = [
+        let parameters = [
             "count":"30",
 //            "start_date":"",
 //            "end_date":"",
@@ -234,13 +234,13 @@ extension Session {
      */
     @discardableResult
     public func setNotifications(_ id: Int, read: Bool, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let json: [String:String] = [
+        let json = [
             "read": read ? "true" : "false"
         ]
         do {
-            let data: Data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions())
+            let data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions())
             
-            guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: Session.OAuthEndpointURL, path:"/api/v1/me/notifications/\(id)", data:data, method:"PATCH", token:token)
+            guard let request = URLRequest.mutableOAuthRequest(with: Session.OAuthEndpointURL, path:"/api/v1/me/notifications/\(id)", data:data, method:"PATCH", token:token)
                 else { throw ReddiftError.urlError.error }
             let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
                 return Result(from: Response(data: data, urlResponse: response), optional:error)

@@ -57,7 +57,7 @@ struct Config {
 		if let path = Bundle.main().pathForResource("reddift_config", ofType: "json") {
 			if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
                 do {
-                    if let json: JSONDictionary = try JSONSerialization.jsonObject(with: data, options:JSONSerialization.ReadingOptions()) as? JSONDictionary {
+                    if let json = try JSONSerialization.jsonObject(with: data, options:JSONSerialization.ReadingOptions()) as? JSONDictionary {
                         _developerName = json["DeveloperName"] as? String
                         _redirectURI = json["redirect_uri"] as? String
                         _clientID = json["client_id"] as? String

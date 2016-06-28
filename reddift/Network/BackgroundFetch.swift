@@ -15,7 +15,7 @@ public class BackgroundFetch: NSObject, URLSessionDelegate {
     let session: Session
     var taskURLSession: URLSession? = nil
     var tokenURLSession: URLSession? = nil
-    var firstTry: Bool = true
+    var firstTry = true
     let taskHandler: ((response: HTTPURLResponse?, dataURL: URL?, error: NSError?) -> Void)
     var request: URLRequest
     

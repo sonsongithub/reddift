@@ -11,12 +11,12 @@ import Foundation
 /**
  */
 public enum UserModPermission: String {
-    case all     = "all"
-    case wiki    = "wiki"
-    case posts   = "posts"
-    case mail    = "mail"
-    case flair   = "flair"
-    case unknown = "unknown"
+    case all
+    case wiki
+    case posts
+    case mail
+    case flair
+    case unknown
     
     public init(_ value: String) {
         switch value {

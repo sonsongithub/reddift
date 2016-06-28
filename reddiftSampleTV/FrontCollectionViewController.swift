@@ -12,8 +12,8 @@ import reddift
 private let reuseIdentifier = "Cell"
 
 class FrontCollectionViewController: UICollectionViewController {
-    let horizontalMargin: CGFloat = 400
-    let textViewMargin: CGFloat = 10
+    let horizontalMargin = CGFloat(400)
+    let textViewMargin = CGFloat(10)
     var link: [Link] = []
     var contents: [CellContent] = []
     

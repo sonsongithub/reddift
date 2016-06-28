@@ -22,7 +22,7 @@ extension Session {
     public func markMessagesAsUnread(_ fullnames: [String], modhash: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedFullameString = fullnames.joined(separator: ",")
         let parameter = ["id":commaSeparatedFullameString]
-        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/unread_message", parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/unread_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -42,7 +42,7 @@ extension Session {
     public func markMessagesAsRead(_ fullnames: [String], modhash: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedFullameString = fullnames.joined(separator: ",")
         let parameter = ["id":commaSeparatedFullameString]
-        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/read_message", parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/read_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -61,7 +61,7 @@ extension Session {
      */
     @discardableResult
     public func markAllMessagesAsRead(_ modhash: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/read_all_messages", parameter:nil, method:"POST", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/read_all_messages", parameter:nil, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             
@@ -82,7 +82,7 @@ extension Session {
     public func collapseMessages(_ fullnames: [String], modhash: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedFullameString = fullnames.joined(separator: ",")
         let parameter = ["id":commaSeparatedFullameString]
-        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/collapse_message", parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/collapse_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             
@@ -103,7 +103,7 @@ extension Session {
     public func uncollapseMessages(_ fullnames: [String], modhash: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedFullameString = fullnames.joined(separator: ",")
         let parameter = ["id":commaSeparatedFullameString]
-        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/uncollapse_message", parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/uncollapse_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -122,7 +122,7 @@ extension Session {
     @discardableResult
     public func blockViaInbox(_ fullname: String, modhash: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["id":fullname]
-        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: Session.OAuthEndpointURL, path:"/api/block", parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: Session.OAuthEndpointURL, path:"/api/block", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -141,7 +141,7 @@ extension Session {
     @discardableResult
     public func unblockViaInbox(_ fullname: String, modhash: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["id":fullname]
-        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/unblock_subreddit", parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/unblock_subreddit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -189,7 +189,7 @@ extension Session {
      */
     @discardableResult
     public func composeMessage(_ to: Account, subject: String, text: String, fromSubreddit: Subreddit, captcha: String, captchaIden: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let parameter: [String:String] = [
+        let parameter = [
             "api_type" : "json",
             "captcha" : captcha,
             "iden" : captchaIden,
@@ -198,7 +198,7 @@ extension Session {
             "subject" : subject,
             "to" : to.id
         ]
-        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)

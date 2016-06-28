@@ -74,7 +74,7 @@ extension MultiredditTest {
     /// Add a subreddit to the specified multireddit.
     func addSubredditToMultireddit(_ subredditDisplayName: String, multireddit: Multireddit) {
         let msg = "Add subreddit, \(subredditDisplayName) to multireddit whose name is \(multireddit.name)."
-        var isSucceeded: Bool = false
+        var isSucceeded = false
         let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
             try self.session?.addSubredditToMultireddit(multireddit, subredditDisplayName: subredditDisplayName, completion: { (result) -> Void in
@@ -295,7 +295,7 @@ class MultiredditTest: SessionTestSpec {
         guard var multireddit = self.createdMultireddit else { XCTFail("Error"); return }
         let msg = "Test updating a new description to the multireddit, using 'updateMultireddit'."
         var isSucceeded = false
-        multireddit.iconName = .Science
+        multireddit.iconName = .science
         multireddit.descriptionMd = updatedDescription
         let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
@@ -305,7 +305,7 @@ class MultiredditTest: SessionTestSpec {
                     print(error.description)
                 case .success(let updatedMultireddit):
                     XCTAssert(updatedMultireddit.descriptionMd == updatedDescription, msg)
-                    XCTAssert(updatedMultireddit.iconName.rawValue == MultiredditIconName.Science.rawValue, msg)
+                    XCTAssert(updatedMultireddit.iconName == .science, msg)
                     isSucceeded = true
                 }
                 XCTAssert(isSucceeded, msg)
@@ -323,7 +323,7 @@ class MultiredditTest: SessionTestSpec {
     func testGetAndConfirmPublicMultiredditList() {
         do {
             let msg = "Test getting redditch_dev public multireddit list and check whether the list includes specified subreddits."
-            var isSucceeded: Bool = false
+            var isSucceeded = false
             let documentOpenExpectation = self.expectation(withDescription: msg)
             do {
                 try self.session?.getPublicMultiredditOfUsername("redditch_dev", completion: { (result) -> Void in
@@ -376,7 +376,7 @@ class MultiredditTest: SessionTestSpec {
         addSubredditToMultireddit(targetSubreddits[0], multireddit: multireddit)
         
         let msg = "Test adding an inavaialbe subreddit to the multireddit."
-        var isSucceeded: Bool = false
+        var isSucceeded = false
         let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
             try self.session?.addSubredditToMultireddit(multireddit, subredditDisplayName: "ahfuhaofhaeiufaheihihfiuawe", completion: { (result) -> Void in
@@ -416,7 +416,7 @@ class MultiredditTest: SessionTestSpec {
         do {
             let msg = "Test adding and deleting an subreddit for the multireddit."
             print(msg)
-            var isSucceeded: Bool = false
+            var isSucceeded = false
             let documentOpenExpectation = self.expectation(withDescription: msg)
             do {
                 try self.session?.removeSubredditFromMultireddit(multireddit, subredditDisplayName: targetSubreddits[1], completion: { (result) -> Void in
@@ -458,7 +458,7 @@ class MultiredditTest: SessionTestSpec {
         do {
             let msg = "Test adding and deleting an subreddit for the multireddit."
             print(msg)
-            var isSucceeded: Bool = false
+            var isSucceeded = false
             let documentOpenExpectation = self.expectation(withDescription: msg)
             do {
                 try self.session?.removeSubredditFromMultireddit(multireddit, subredditDisplayName: "ahfuhaofhaeiufaheihihfiuawe", completion: { (result) -> Void in

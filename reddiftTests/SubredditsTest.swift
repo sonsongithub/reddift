@@ -62,7 +62,7 @@ class SubredditsTest: SessionTestSpec {
      */
     func testRecommendSubreddit() {
         var names: [String] = []
-        let srnames: [String] = ["apple", "swift"]
+        let srnames = ["apple", "swift"]
         let msg = "Get recommended subreddits for \(srnames.joined(separator: ","))"
         let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
@@ -264,7 +264,7 @@ class SubredditsTest: SessionTestSpec {
         
         do {
             let msg = "Subscribe a new subreddit, \(targetSubreedit.id)"
-            var isSucceeded: Bool = false
+            var isSucceeded = false
             let documentOpenExpectation = self.expectation(withDescription: msg)
             do {
                 try self.session?.setSubscribeSubreddit(targetSubreedit, subscribe: true, completion: { (result) -> Void in
@@ -284,7 +284,7 @@ class SubredditsTest: SessionTestSpec {
         
         do {
             let msg = "Unsubscribe last subscribed subreddit, \(targetSubreedit.id)"
-            var isSucceeded: Bool = false
+            var isSucceeded = false
             let documentOpenExpectation = self.expectation(withDescription: msg)
             do {
                 try self.session?.setSubscribeSubreddit(targetSubreedit, subscribe: false, completion: { (result) -> Void in

@@ -48,7 +48,7 @@ func getProfile(session: Session) {
 
 func getLinksBy(session: Session) {
     do {
-        let links: [Link] = [Link(id: "37ow7j"), Link(id: "37nvgu")]
+        let links = [Link(id: "37ow7j"), Link(id: "37nvgu")]
         try session.getLinksById(links, completion: { (result) -> Void in
             switch result {
             case .Failure(let error):

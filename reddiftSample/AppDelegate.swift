@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         if let name = UserDefaults.standard().string(forKey: "name") {
             do {
-                let token: OAuth2Token = try OAuth2TokenRepository.restoreFromKeychainWithName(name)
+                let token = try OAuth2TokenRepository.restoreFromKeychainWithName(name)
                 session = Session(token: token)
             } catch { print(error) }
         }

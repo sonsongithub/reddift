@@ -43,7 +43,7 @@ class AccountViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as UITableViewCell
         if names.indices ~= (indexPath as NSIndexPath).row {
-            let name: String = names[(indexPath as NSIndexPath).row]
+            let name = names[(indexPath as NSIndexPath).row]
             cell.textLabel?.text = name
         }
         return cell
@@ -61,7 +61,7 @@ class AccountViewController: UITableViewController {
         if editingStyle == .delete {
             if names.indices ~= (indexPath as NSIndexPath).row {
                 do {
-                    let name: String = names[(indexPath as NSIndexPath).row]
+                    let name = names[(indexPath as NSIndexPath).row]
                     try OAuth2TokenRepository.removeFromKeychainTokenWithName(name)
                     names.remove(at: (indexPath as NSIndexPath).row)
                     tableView.beginUpdates()
@@ -77,9 +77,9 @@ class AccountViewController: UITableViewController {
             if let con = segue.destinationViewController as? UserViewController {
                 if let selectedIndexPath = tableView.indexPathForSelectedRow {
                     if names.indices ~= (selectedIndexPath as NSIndexPath).row {
-                        let name: String = names[(selectedIndexPath as NSIndexPath).row]
+                        let name = names[(selectedIndexPath as NSIndexPath).row]
                         do {
-                            let token: OAuth2Token = try OAuth2TokenRepository.restoreFromKeychainWithName(name)
+                            let token = try OAuth2TokenRepository.restoreFromKeychainWithName(name)
                             con.session = Session(token: token)
 //                            con.session?.setDummyExpiredToken()
                             UserDefaults.standard().set(name, forKey: "name")

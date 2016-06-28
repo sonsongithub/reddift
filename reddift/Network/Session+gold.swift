@@ -17,8 +17,8 @@ extension Session {
      */
     @discardableResult
     public func gild(_ fullname: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let parameter: [String:String] = ["fullname":fullname]
-        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/v1/gold/gild/", parameter:parameter, method:"POST", token:token)
+        let parameter = ["fullname":fullname]
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/v1/gold/gild/", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -36,8 +36,8 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     public func giveGold(_ username: String, months: Int, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let parameter: [String:String] = ["fullname":username, "months":String(months)]
-        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/v1/gold/give/", parameter:parameter, method:"POST", token:token)
+        let parameter = ["fullname":username, "months":String(months)]
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/v1/gold/give/", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)

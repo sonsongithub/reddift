@@ -100,7 +100,7 @@ extension Session {
      */
     @discardableResult
     public func getIdenForNewCAPTCHA(_ completion: (Result<String>) -> Void) throws -> URLSessionDataTask {
-        let parameter: [String:String] = ["api_type":"json"]
+        let parameter = ["api_type":"json"]
         guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/new_captcha", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<String> in

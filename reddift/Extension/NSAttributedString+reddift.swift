@@ -42,7 +42,7 @@ extension NSParagraphStyle {
     - returns: Paragraphyt style, which is created.
     */
     static func defaultReddiftParagraphStyle(with fontSize: CGFloat) -> NSParagraphStyle {
-        guard let paragraphStyle: NSMutableParagraphStyle = NSParagraphStyle.default().mutableCopy() as? NSMutableParagraphStyle
+        guard let paragraphStyle = NSParagraphStyle.default().mutableCopy() as? NSMutableParagraphStyle
             else { return NSParagraphStyle.default() }
         paragraphStyle.lineBreakMode = .byWordWrapping
         paragraphStyle.alignment = .left
@@ -85,7 +85,7 @@ extension URLComponents {
             return regexForHasImageFileExtension
         } else {
             do {
-                let exp = try RegularExpression(pattern: "^/.+\\.(jpg|jpeg|gif|png)$", options: RegularExpression.Options.caseInsensitive)
+                let exp = try RegularExpression(pattern: "^/.+\\.(jpg|jpeg|gif|png)$", options: .caseInsensitive)
                 regexForHasImageFileExtension = exp
                 return exp
             } catch {
@@ -99,7 +99,7 @@ extension URLComponents {
         do {
             let regex = try sharedRegexForHasImageFileExtension()
             if let path = self.path {
-                if let r = regex.firstMatch(in: path, options: RegularExpression.MatchingOptions(), range: NSRange(location: 0, length: path.characters.count)) {
+                if let r = regex.firstMatch(in: path, options: [], range: NSRange(location: 0, length: path.characters.count)) {
                     return r.range(at: 1).length > 0
                 }
             }
@@ -120,7 +120,7 @@ extension AttributedString {
             self.enumerateAttribute(
                 NSLinkAttributeName,
                 in: NSRange(location:0, length:self.length),
-                options: AttributedString.EnumerationOptions(),
+                options: [],
                 using: { (value: AnyObject?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
                 if let value = value {
                     values.append(value)
@@ -161,7 +161,7 @@ extension AttributedString {
     - parameter codeBackgroundColor : Specified NSColor of background of strings that are included in <code>.
     - returns : NSAttributedString object.
     */
-    public func reconstruct(with normalFont: NSFont, color: NSColor, linkColor: NSColor, codeBackgroundColor: NSColor = NSColor.lightGrayColor()) -> NSAttributedString {
+    public func reconstruct(with normalFont: NSFont, color: NSColor, linkColor: NSColor, codeBackgroundColor: NSColor = NSColor.lightGray()) -> AttributedString {
         return __reconstruct(with: normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
     }
 #endif
@@ -178,7 +178,7 @@ extension AttributedString {
     - returns : NSAttributedString object.
     */
     private func __reconstruct(with normalFont: _Font, color: _Color, linkColor: _Color, codeBackgroundColor: _Color) -> AttributedString {
-        let attributes: [Attribute] = self.attributesForReddift
+        let attributes = self.attributesForReddift
         let (italicFont, boldFont, codeFont, superscriptFont, _) = createDerivativeFonts(normalFont)
         
         let output = NSMutableAttributedString(string: string)
@@ -224,9 +224,9 @@ extension AttributedString {
         let superscriptFont = _Font(descriptor: normalFont.fontDescriptor(), size: normalFont.fontDescriptor().pointSize/2)
         let paragraphStyle = NSParagraphStyle.defaultReddiftParagraphStyle(with: normalFont.fontDescriptor().pointSize)
 #elseif os(OSX)
-        let traits: NSFontSymbolicTraits = normalFont.fontDescriptor.symbolicTraits
-        let italicFontDescriptor = normalFont.fontDescriptor.fontDescriptorWithSymbolicTraits(traits & NSFontSymbolicTraits(NSFontItalicTrait))
-        let boldFontDescriptor = normalFont.fontDescriptor.fontDescriptorWithSymbolicTraits(traits & NSFontSymbolicTraits(NSFontBoldTrait))
+        let traits = normalFont.fontDescriptor.symbolicTraits
+        let italicFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits(traits & NSFontSymbolicTraits(NSFontItalicTrait))
+        let boldFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits(traits & NSFontSymbolicTraits(NSFontBoldTrait))
         let italicFont = _Font(descriptor: italicFontDescriptor, size: normalFont.fontDescriptor.pointSize) ?? normalFont
         let boldFont = _Font(descriptor: boldFontDescriptor, size: normalFont.fontDescriptor.pointSize) ?? normalFont
         let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor.pointSize) ?? normalFont
@@ -243,13 +243,13 @@ extension AttributedString {
     private var attributesForReddift: [Attribute] {
         var attributes: [Attribute] = []
         
-        self.enumerateAttribute(NSLinkAttributeName, in: NSRange(location:0, length:self.length), options: AttributedString.EnumerationOptions(), using: { (value: AnyObject?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
+        self.enumerateAttribute(NSLinkAttributeName, in: NSRange(location:0, length:self.length), options: [], using: { (value: AnyObject?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
             if let URL = value as? URL {
                 attributes.append(Attribute.link(URL, range.location, range.length))
             }
         })
         
-        self.enumerateAttribute(NSFontAttributeName, in: NSRange(location:0, length:self.length), options: AttributedString.EnumerationOptions(), using: { (value: AnyObject?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
+        self.enumerateAttribute(NSFontAttributeName, in: NSRange(location:0, length:self.length), options: [], using: { (value: AnyObject?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
             if let font = value as? _Font {
                 switch font.fontName {
                 case "TimesNewRomanPS-BoldItalicMT":

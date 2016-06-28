@@ -26,8 +26,8 @@ extension Session {
      */
     @discardableResult
     public func postComment(_ text: String, parentName: String, completion: (Result<Comment>) -> Void) throws -> URLSessionDataTask {
-        let parameter: [String:String] = ["thing_id":parentName, "api_type":"json", "text":text]
-        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/comment", parameter:parameter, method:"POST", token:token)
+        let parameter = ["thing_id":parentName, "api_type":"json", "text":text]
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/comment", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Comment> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -47,8 +47,8 @@ extension Session {
      */
     @discardableResult
     public func deleteCommentOrLink(_ name: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let parameter: [String:String] = ["id":name]
-        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/del", parameter:parameter, method:"POST", token:token)
+        let parameter = ["id":name]
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/del", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
@@ -63,7 +63,7 @@ extension Session {
      */
     @discardableResult
     public func setVote(_ direction: VoteDirection, name: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let parameter: [String:String] = ["dir":String(direction.rawValue), "id":name]
+        let parameter = ["dir":String(direction.rawValue), "id":name]
         guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/vote", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
@@ -80,7 +80,7 @@ extension Session {
      */
     @discardableResult
     public func setSave(_ save: Bool, name: String, category: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        var parameter: [String:String] = ["id":name]
+        var parameter = ["id":name]
         if !category.isEmpty {
             parameter["category"] = category
         }
@@ -100,7 +100,7 @@ extension Session {
      */
     @discardableResult
     public func setHide(_ hide: Bool, name: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let parameter: [String:String] = ["id":name]
+        let parameter = ["id":name]
         let path = hide ? "/api/hide" : "/api/unhide"
         guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:path, parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
@@ -180,7 +180,7 @@ extension Session {
      */
     @discardableResult
     public func report(_ thing: Thing, reason: String, otherReason: String, completion: (Result<RedditAny>) -> Void) throws -> URLSessionDataTask {
-        let parameter: [String:String] = [
+        let parameter = [
             "api_type"    :"json",
             "reason"      :reason,
             "other_reason":otherReason,
@@ -204,7 +204,7 @@ extension Session {
      */
     @discardableResult
     public func submitLink(_ subreddit: Subreddit, title: String, URL: String, captcha: String, captchaIden: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let parameter: [String:String] = [
+        let parameter = [
             "api_type" : "json",
             "captcha" : captcha,
             "iden" : captchaIden,
@@ -215,7 +215,7 @@ extension Session {
             "title" : title,
             "url" : URL
         ]
-        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
@@ -234,7 +234,7 @@ extension Session {
      */
     @discardableResult
     public func submitText(_ subreddit: Subreddit, title: String, text: String, captcha: String, captchaIden: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let parameter: [String:String] = [
+        let parameter = [
             "api_type" : "json",
             "captcha" : captcha,
             "iden" : captchaIden,
@@ -245,7 +245,7 @@ extension Session {
             "text" : text,
             "title" : title
         ]
-        guard let request: URLRequest = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
@@ -267,7 +267,7 @@ extension Session {
     @discardableResult
     public func getMoreChildren(_ children: [String], link: Link, sort: CommentSort, id: String? = nil, completion: (Result<[Thing]>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedChildren = children.joined(separator: ",")
-        var parameter: [String:String] = [
+        var parameter = [
             "children":commaSeparatedChildren,
             "link_id":link.name,
             "sort":sort.type,

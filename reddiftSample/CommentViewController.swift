@@ -22,7 +22,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
 	}
     
     func updateStrings(_ newComments: [Thing]) -> [CellContent] {
-        let width: CGFloat = self.view.frame.size.width
+        let width = self.view.frame.size.width
         print(width)
         return newComments.map { (thing: Thing) -> CellContent in
             if let comment = thing as? Comment {
@@ -194,10 +194,10 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                         
                         self.comments += incomming
                         
-                        var time: timeval = timeval(tv_sec: 0, tv_usec: 0)
+                        var time = timeval(tv_sec: 0, tv_usec: 0)
                         gettimeofday(&time, nil)
                         self.contents += self.updateStrings(incomming)
-                        var time2: timeval = timeval(tv_sec: 0, tv_usec: 0)
+                        var time2 = timeval(tv_sec: 0, tv_usec: 0)
                         gettimeofday(&time2, nil)
                         let r = Double(time2.tv_sec) + Double(time2.tv_usec) / 1000000.0 - Double(time.tv_sec) - Double(time.tv_usec) / 1000000.0
                         print("\(Int(r*1000))[msec]")

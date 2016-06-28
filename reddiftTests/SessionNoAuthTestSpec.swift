@@ -31,7 +31,7 @@ class SessionNoAuthTestSpec: XCTestCase {
     }
     
     func testDownloadFrontPageWithoutOAuth() {
-        var isSucceeded: Bool = false
+        var isSucceeded = false
         let documentOpenExpectation = self.expectation(withDescription: "")
         do {
             try session?.getList(Paginator(), subreddit: nil, sort: .controversial, timeFilterWithin: .week) { (result) -> Void in
@@ -49,7 +49,7 @@ class SessionNoAuthTestSpec: XCTestCase {
     }
     
     func testDownloadSubredditListWithoutOAuth() {
-        var isSucceeded: Bool = false
+        var isSucceeded = false
         let documentOpenExpectation = self.expectation(withDescription: "")
         do {
             try session?.getList(Paginator(), subreddit: Subreddit(subreddit: "swift"), sort: .controversial, timeFilterWithin: .week) { (result) -> Void in
@@ -67,7 +67,7 @@ class SessionNoAuthTestSpec: XCTestCase {
     }
     
     func testDownloadListAndContentWithoutOAuth() {
-        var isSucceeded: Bool = true
+        var isSucceeded = true
         let documentOpenExpectation = self.expectation(withDescription: "")
         do {
             try session?.getList(Paginator(), subreddit: Subreddit(subreddit: "swift"), sort: .controversial, timeFilterWithin: .week) { (result) -> Void in

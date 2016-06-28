@@ -89,12 +89,7 @@ enum HttpStatus: Int {
     case unknown = -1
     
     init(_ statusCode: Int) {
-        let status = HttpStatus(rawValue:statusCode)
-        if let status: HttpStatus = status {
-            self = status
-        } else {
-            self = .unknown
-        }
+        self = HttpStatus(rawValue:statusCode) ?? .unknown
     }
     
     func error(with json: JSONDictionary) -> NSError {

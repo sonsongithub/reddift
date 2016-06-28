@@ -55,7 +55,7 @@ public class OAuth2Authorizer {
 #if os(iOS)
                 UIApplication.shared().openURL(authorizationURL)
 #elseif os(OSX)
-                NSWorkspace.sharedWorkspace().openURL(authorizationURL)
+                NSWorkspace.shared().open(authorizationURL)
 #endif
         } else {
             throw ReddiftError.challengeOAuth2Session.error

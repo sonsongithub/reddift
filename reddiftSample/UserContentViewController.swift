@@ -37,10 +37,10 @@ class UserContentViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let nib: UINib = UINib(nibName: "UZTextViewCell", bundle: nil)
+        let nib = UINib(nibName: "UZTextViewCell", bundle: nil)
         self.tableView.register(nib, forCellReuseIdentifier: "Cell")
         
-        if let name: String = (session.flatMap { (session) -> Token? in
+        if let name = (session.flatMap { (session) -> Token? in
             return session.token
         }
         .flatMap { (token) -> String? in

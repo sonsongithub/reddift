@@ -200,7 +200,7 @@ public struct OAuth2Token: Token {
     */
     @discardableResult
     public static func getOAuth2Token(_ code: String, completion: (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
-        let session: URLSession = URLSession(configuration: URLSessionConfiguration.default())
+        let session = URLSession(configuration: URLSessionConfiguration.default())
         guard let request = requestForOAuth(code)
             else { throw ReddiftError.urlError.error }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
@@ -247,7 +247,7 @@ public struct OAuth2Token: Token {
                 })
             switch result {
             case .success(let profile):
-                let json: JSONDictionary = ["name":profile.name, "access_token":self.accessToken, "token_type":self.tokenType, "expires_in":self.expiresIn, "expires_date":self.expiresDate, "scope":self.scope, "refresh_token":self.refreshToken]
+                let json = ["name":profile.name, "access_token":self.accessToken, "token_type":self.tokenType, "expires_in":self.expiresIn, "expires_date":self.expiresDate, "scope":self.scope, "refresh_token":self.refreshToken]
                 completion(OAuth2Token.tokenWithJSON(json))
             case .failure(let error):
                 completion(Result(error: error))

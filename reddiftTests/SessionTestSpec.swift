@@ -66,7 +66,7 @@ class SessionTestSpec: XCTestCase {
                             case .failure:
                                 XCTFail("Could not get access token from reddit.com.")
                             case .success:
-                                if let token: Token = result.value {
+                                if let token = result.value {
                                     self.session = Session(token: token)
                                 }
                                 XCTAssert((self.session != nil), "Could not establish session.")
@@ -85,7 +85,7 @@ extension SessionTestSpec {
     func friends() -> [User] {
         var list: [User] = []
         let msg = "Get friends list."
-        var isSucceeded: Bool = false
+        var isSucceeded = false
         let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
             try self.session?.getFriends(completion: { (result) -> Void in
@@ -107,7 +107,7 @@ extension SessionTestSpec {
     /// Friend specified user
     func makeFriend(_ username: String, note: String) {
         let msg = "Make \(username) friend."
-        var isSucceeded: Bool = false
+        var isSucceeded = false
         let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
             try self.session?.friend(username, note: note, completion: { (result) -> Void in
@@ -129,7 +129,7 @@ extension SessionTestSpec {
     func makeUnfriend(_ username: String) {
         do {
             let msg = "Make \(username) unfriend."
-            var isSucceeded: Bool = false
+            var isSucceeded = false
             let documentOpenExpectation = self.expectation(withDescription: msg)
             do {
                 try self.session?.unfriend(username, completion: { (result) -> Void in

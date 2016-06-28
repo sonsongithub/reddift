@@ -160,8 +160,8 @@ class Parser: NSObject {
             }
             
             if data["after"] != nil || data["before"] != nil {
-                let a: String = data["after"] as? String ?? ""
-                let b: String = data["before"] as? String ?? ""
+                let a = data["after"] as? String ?? ""
+                let b = data["before"] as? String ?? ""
                 
                 if !a.isEmpty || !b.isEmpty {
                     paginator = Paginator(after: a, before: b, modhash: data["modhash"] as? String ?? "")
@@ -180,11 +180,8 @@ class Parser: NSObject {
         if let array = json as? JSONArray {
             var output: [Any] = []
             for element in array {
-                if let element = element as? JSONDictionary {
-                    let obj: Any? = redditAny(from: element)
-                    if let obj: Any = obj {
-                        output.append(obj)
-                    }
+                if let element = element as? JSONDictionary, obj = redditAny(from: element) {
+                    output.append(obj)
                 }
             }
             return output

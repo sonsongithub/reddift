@@ -15,7 +15,7 @@ class response2DataObjectTest: XCTestCase {
         print("output is nil")
         for fileName in ["error.json", "t1.json", "t2.json", "t3.json", "t4.json", "t5.json"] {
             var isSucceeded = false
-            if let json: AnyObject = self.jsonFromFileName(fileName) {
+            if let json = self.jsonFromFileName(fileName) {
                 let object: Any? = Parser.redditAny(from: json)
                 XCTAssert(object == nil)
                 isSucceeded = true
@@ -26,7 +26,7 @@ class response2DataObjectTest: XCTestCase {
     
     func testCommentsJsonFile() {
         print("has 1 Link and 26 Comments")
-        if let json: AnyObject = self.jsonFromFileName("comments.json") {
+        if let json = self.jsonFromFileName("comments.json") {
             if let objects = Parser.redditAny(from: json) as? [JSONAny] {
                 XCTAssert(objects.count == 2)
                 if let links = objects[0] as? Listing {
@@ -45,7 +45,7 @@ class response2DataObjectTest: XCTestCase {
     
     func testLinksJsonFile() {
         print("has 26 Links")
-        if let json: AnyObject = self.jsonFromFileName("links.json") {
+        if let json = self.jsonFromFileName("links.json") {
             if let listing = Parser.redditAny(from: json) as? Listing {
                 XCTAssert(listing.children.count == 26)
                 for child in listing.children {
@@ -57,7 +57,7 @@ class response2DataObjectTest: XCTestCase {
     
     func testMessageJsonFile() {
         print("has 4 entries, Comment, Comment, Comment, Message.")
-        if let json: AnyObject = self.jsonFromFileName("message.json") {
+        if let json = self.jsonFromFileName("message.json") {
             if let listing = Parser.redditAny(from: json) as? Listing {
                 XCTAssert(listing.children.count == 4)
                 XCTAssert(listing.children[0] is Comment == true)
@@ -70,7 +70,7 @@ class response2DataObjectTest: XCTestCase {
             
     func testSubredditJsonFile() {
         print("has 5 Subreddits.")
-        if let json: AnyObject = self.jsonFromFileName("subreddit.json") {
+        if let json = self.jsonFromFileName("subreddit.json") {
             if let listing = Parser.redditAny(from: json) as? Listing {
                 XCTAssert(listing.children.count == 5)
                 for child in listing.children {
@@ -83,7 +83,7 @@ class response2DataObjectTest: XCTestCase {
     func testParseJSONIsResponseToPostingComment() {
         print("To t1 object as Comment")
         var isSucceeded = false
-        if let json: AnyObject = self.jsonFromFileName("api_comment_response.json") {
+        if let json = self.jsonFromFileName("api_comment_response.json") {
             let result = json2Comment(from: json)
             switch result {
             case .success:
@@ -97,7 +97,7 @@ class response2DataObjectTest: XCTestCase {
     
     func testParseJSONWhichContainsMulti() {
         print("Must have 2 Multi objects")
-        if let json: AnyObject = self.jsonFromFileName("multi.json") {
+        if let json = self.jsonFromFileName("multi.json") {
             if let array = Parser.redditAny(from: json) as? [Any] {
                 if array.count == 0 { XCTFail("can not parse JSON") }
                 for obj in array {

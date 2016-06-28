@@ -41,7 +41,7 @@ extension Session {
      */
     @discardableResult
     public func getArticles(_ link: Link, sort: CommentSort, comments: [String]? = nil, depth: Int? = nil, limit: Int? = nil, completion: (Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
-        var parameter: [String:String] = ["sort":sort.type, "showmore":"True"]
+        var parameter = ["sort":sort.type, "showmore":"True"]
         if let depth = depth {
             parameter["depth"] = "\(depth)"
         }
@@ -277,7 +277,7 @@ extension Session {
      */
     @discardableResult
     public func getLinksById(_ links: [Link], completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
-        let fullnameList: [String] = links.map({ (link: Link) -> String in link.name })
+        let fullnameList = links.map({ (link: Link) -> String in link.name })
         guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/by_id/" + fullnameList.joined(separator: ","), method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
