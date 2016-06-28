@@ -232,7 +232,7 @@ public struct OAuth2Token: Token {
      */
     @discardableResult
     func getProfile(_ completion: (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
-        guard let request = URLRequest.mutableOAuthRequest(with: Session.OAuthEndpointURL, path:"/api/v1/me", method:"GET", token:self)
+        guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"/api/v1/me", method:"GET", token:self)
             else { throw ReddiftError.urlError.error }
         let session = URLSession(configuration: URLSessionConfiguration.default())
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in

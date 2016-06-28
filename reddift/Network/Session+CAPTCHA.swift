@@ -80,7 +80,7 @@ extension Session {
      */
     @discardableResult
     public func checkNeedsCAPTCHA(_ completion: (Result<Bool>) -> Void) throws -> URLSessionDataTask {
-        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/needs_captcha", method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/needs_captcha", method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Bool> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -101,7 +101,7 @@ extension Session {
     @discardableResult
     public func getIdenForNewCAPTCHA(_ completion: (Result<String>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["api_type":"json"]
-        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/new_captcha", parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/new_captcha", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<String> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -125,7 +125,7 @@ extension Session {
      */
     @discardableResult
     public func getCAPTCHA(_ iden: String, completion: (Result<CAPTCHAImage>) -> Void) throws -> URLSessionDataTask {
-        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/captcha/" + iden, method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/captcha/" + iden, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<CAPTCHAImage> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)

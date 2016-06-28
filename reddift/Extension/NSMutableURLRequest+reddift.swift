@@ -65,7 +65,7 @@ extension URLRequest {
         self.setValue(Config.sharedInstance.userAgent, forHTTPHeaderField: "User-Agent")
     }
     
-    static func mutableOAuthRequest(with baseURL: String, path: String, method: String, token: Token?) -> URLRequest? {
+    static func requestForOAuth(with baseURL: String, path: String, method: String, token: Token?) -> URLRequest? {
         guard let URL = URL(string:baseURL + path) else { return nil }
         var request = URLRequest(url: URL)
         request.setOAuth2Token(token)
@@ -77,7 +77,7 @@ extension URLRequest {
         return request
     }
     
-    static func mutableOAuthRequest(with baseURL: String, path: String, data: Data, method: String, token: Token?) -> URLRequest? {
+    static func requestForOAuth(with baseURL: String, path: String, data: Data, method: String, token: Token?) -> URLRequest? {
         if method == "POST" || method == "PATCH" || method == "PUT" {
             guard let URL = URL(string:baseURL + path) else { return nil }
             var request = URLRequest(url: URL)
@@ -92,15 +92,15 @@ extension URLRequest {
         } else { return nil }
     }
     
-    static func mutableOAuthRequest(with baseURL: String, path: String, parameter: [String:String]?, method: String, token: Token?) -> URLRequest? {
+    static func requestForOAuth(with baseURL: String, path: String, parameter: [String:String]?, method: String, token: Token?) -> URLRequest? {
         if method == "POST" {
-            return mutableOAuthPostRequest(with: baseURL, path:path, parameter:parameter ?? [:], method:method, token:token)
+            return requestForOAuthPostMethod(with: baseURL, path:path, parameter:parameter ?? [:], method:method, token:token)
         } else {
-            return mutableOAuthGetRequest(with: baseURL, path:path, parameter:parameter ?? [:], method:method, token:token)
+            return requestForOAuthGetMethod(with: baseURL, path:path, parameter:parameter ?? [:], method:method, token:token)
         }
     }
     
-    static func mutableOAuthGetRequest(with baseURL: String, path: String, parameter: [String:String], method: String, token: Token?) -> URLRequest? {
+    static func requestForOAuthGetMethod(with baseURL: String, path: String, parameter: [String:String], method: String, token: Token?) -> URLRequest? {
         let param = parameter.URLQuery
         guard let URL = param.characters.isEmpty ? URL(string:baseURL + path) : URL(string:baseURL + path + "?" + param) else { return nil }
         var request = URLRequest(url: URL)
@@ -113,7 +113,7 @@ extension URLRequest {
         return request
     }
     
-    static func mutableOAuthPostRequest(with baseURL: String, path: String, parameter: [String:String], method: String, token: Token?) -> URLRequest? {
+    static func requestForOAuthPostMethod(with baseURL: String, path: String, parameter: [String:String], method: String, token: Token?) -> URLRequest? {
         guard let URL = URL(string:baseURL + path) else { return nil }
         var request = URLRequest(url: URL)
         request.setOAuth2Token(token)

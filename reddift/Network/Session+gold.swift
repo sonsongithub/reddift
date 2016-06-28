@@ -18,7 +18,7 @@ extension Session {
     @discardableResult
     public func gild(_ fullname: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["fullname":fullname]
-        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/v1/gold/gild/", parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/v1/gold/gild/", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -37,7 +37,7 @@ extension Session {
      */
     public func giveGold(_ username: String, months: Int, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["fullname":username, "months":String(months)]
-        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/api/v1/gold/give/", parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/v1/gold/give/", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)

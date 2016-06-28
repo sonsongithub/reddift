@@ -52,7 +52,7 @@ extension Session {
             let commaSeparatedIDString = comments.joined(separator: ",")
             parameter["comment"] = commaSeparatedIDString
         }
-        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/comments/" + link.id + ".json", parameter:parameter, method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/comments/" + link.id + ".json", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<(Listing, Listing)> in
             
@@ -113,7 +113,7 @@ extension Session {
         ])
         var path = "\(privateSortType.path).json"
         if let subreddit = subreddit { path = "\(subreddit.path)\(privateSortType.path).json" }
-        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:path, parameter:parameter, method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -174,7 +174,7 @@ extension Session {
             ])
         var path = "\(type).json"
         if let subreddit = subreddit { path = "\(subreddit.path)/\(type).json" }
-        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:path, parameter:parameter, method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -198,7 +198,7 @@ extension Session {
     public func getRandom(_ subreddit: Subreddit? = nil, completion: (Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
         var path = "/random"
         if let subreddit = subreddit { path = subreddit.url + "/random" }
-        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:path, method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:path, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<(Listing, Listing)> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -228,7 +228,7 @@ extension Session {
             //            "sr_detail": "true",
             "show"     : "all",
         ])
-        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/related/" + thing.id, parameter:parameter, method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/related/" + thing.id, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<(Listing, Listing)> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -256,7 +256,7 @@ extension Session {
 //            "sr_detail": "true",
             "show"     : "all"
         ])
-        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/duplicates/" + thing.id, parameter:parameter, method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/duplicates/" + thing.id, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<(Listing, Listing)> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -278,7 +278,7 @@ extension Session {
     @discardableResult
     public func getLinksById(_ links: [Link], completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let fullnameList = links.map({ (link: Link) -> String in link.name })
-        guard let request = URLRequest.mutableOAuthRequest(with: baseURL, path:"/by_id/" + fullnameList.joined(separator: ","), method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/by_id/" + fullnameList.joined(separator: ","), method:"GET", token:token)
             else { throw ReddiftError.urlError.error }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
