@@ -21,10 +21,10 @@ func response2Data(from response: Response) -> Result<Data> {
 #endif
     if !(200..<300 ~= response.statusCode) {
         do {
-            let json = try JSONSerialization.jsonObject(with: response.data as Data, options: JSONSerialization.ReadingOptions())
+            let json = try JSONSerialization.jsonObject(with: response.data as Data, options: [])
             if let json = json as? JSONDictionary { return .failure(HttpStatus(response.statusCode).error(with: json)) }
         } catch { print(error) }
-        if let bodyAsString = String(data: response.data as Data, encoding: String.Encoding.utf8) { return .failure(HttpStatus(response.statusCode).error(with: bodyAsString)) }
+        if let bodyAsString = String(data: response.data as Data, encoding: .utf8) { return .failure(HttpStatus(response.statusCode).error(with: bodyAsString)) }
         return .failure(HttpStatus(response.statusCode).error)
     }
     return .success(response.data)
@@ -41,7 +41,7 @@ Returns Result<Error> object when any error happned.
 func data2Json(from data: Data) -> Result<JSONAny> {
     do {
         if data.count == 0 { return Result(value:[:]) } else {
-            let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue: 0))
+            let json = try JSONSerialization.jsonObject(with: data, options: [])
             return Result(value:json)
         }
     } catch {
@@ -60,8 +60,7 @@ func data2String(from data: Data) -> Result<String> {
     if data.count == 0 {
         return Result(value: "")
     }
-    let decoded = NSString(data:data, encoding:String.Encoding.utf8.rawValue)
-    if let decoded = decoded as? String {
+    if let decoded = String(data:data, encoding:.utf8) {
         return Result(value: decoded)
     }
     return Result(error:ReddiftError.parseJSON.error)

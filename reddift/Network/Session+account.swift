@@ -38,7 +38,7 @@ extension Session {
     public func patchPreference(_ preference: Preference, completion: (Result<Preference>) -> Void) throws -> URLSessionDataTask {
         let json = preference.json()
         do {
-            let data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions())
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
             guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"/api/v1/me/prefs", data:data, method:"PATCH", token:token)
                 else { throw ReddiftError.urlError.error }
             let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Preference> in

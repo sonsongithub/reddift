@@ -19,10 +19,10 @@ public class OAuth2TokenRepository {
     - parameter name: Specifies user name of token you want to restore from Keychain.
     - returns: OAuth2Token object.
     */
-    public class func restoreFromKeychainWithName(_ name: String) throws -> OAuth2Token {
+    public class func token(of name: String) throws -> OAuth2Token {
         let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
         do {
-            if let data = try keychain.getData(name), let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions()) as? JSONDictionary {
+            if let data = try keychain.getData(name), let json = try JSONSerialization.jsonObject(with: data, options: []) as? JSONDictionary {
                 return OAuth2Token(json)
             }
             throw ReddiftError.tokenNotfound.error
@@ -36,11 +36,9 @@ public class OAuth2TokenRepository {
 
     - returns: List contains user names that was used to save tokens.
     */
-    public class func savedNamesInKeychain() -> [String] {
-        var keys: [String] = []
+    public class var savedNames: [String] {
         let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-        keys += keychain.allKeys()
-        return keys
+        return keychain.allKeys()
     }
 
     /**
@@ -48,12 +46,12 @@ public class OAuth2TokenRepository {
 
     - parameter token: OAuth2Token object, that must have valid user name which is used to save it into Keychain.
     */
-    public class func saveIntoKeychainToken(_ token: OAuth2Token) throws {
+    public class func save(token: OAuth2Token) throws {
         if token.name.isEmpty {
             throw ReddiftError.keychainTargetNameIsEmpty.error
         }
         do {
-            let data = try JSONSerialization.data(withJSONObject: token.JSONObject(), options: JSONSerialization.WritingOptions())
+            let data = try JSONSerialization.data(withJSONObject: token.JSONObject, options: [])
             let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
             try keychain.set(data, key:token.name)
         } catch {
@@ -67,12 +65,12 @@ public class OAuth2TokenRepository {
     - parameter token: OAuth2Token object.
     - parameter name: Valid user name which is used to save it into Keychain.
     */
-    public class func saveIntoKeychainToken(_ token: OAuth2Token, name: String) throws {
+    public class func save(token: OAuth2Token, of name: String) throws {
         if name.isEmpty {
             throw ReddiftError.keychainTargetNameIsEmpty.error
         }
         do {
-            let data = try JSONSerialization.data(withJSONObject: token.JSONObject(), options: JSONSerialization.WritingOptions())
+            let data = try JSONSerialization.data(withJSONObject: token.JSONObject, options: [])
             let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
             try keychain.set(data, key:name)
         } catch {
@@ -85,7 +83,7 @@ public class OAuth2TokenRepository {
 
     - parameter name: Valid user name which is used to save it into Keychain.
     */
-    public class func removeFromKeychainTokenWithName(_ name: String) throws {
+    public class func removeToken(of name: String) throws {
         if name.isEmpty {
             throw ReddiftError.keychainTargetNameIsEmpty.error
         }

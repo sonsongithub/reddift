@@ -38,7 +38,7 @@ extension Session {
                     DispatchQueue.main.async(execute: { () -> Void in
                         self.token = newToken
                         do {
-                            try OAuth2TokenRepository.saveIntoKeychainToken(newToken)
+                            try OAuth2TokenRepository.save(token: newToken)
                             completion(Result(value: newToken))
                         } catch { completion(Result(error:error as NSError)) }
                     })
@@ -63,7 +63,7 @@ extension Session {
                 case .success:
                     DispatchQueue.main.async(execute: { () -> Void in
                         do {
-                            try OAuth2TokenRepository.removeFromKeychainTokenWithName(currentToken.name)
+                            try OAuth2TokenRepository.removeToken(of: currentToken.name)
                             completion(Result(value: currentToken))
                         } catch { completion(Result(error:error as NSError)) }
                     })

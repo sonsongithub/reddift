@@ -40,7 +40,7 @@ extension Token {
     
     - returns: Dictinary object containing JSON data.
     */
-    func JSONObject() -> JSONDictionary {
+    var JSONObject: JSONDictionary {
         let dict: JSONDictionary = [
             "name":self.name,
             "access_token":self.accessToken,

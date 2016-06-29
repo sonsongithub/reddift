@@ -18,7 +18,7 @@ class AccountViewController: UITableViewController {
     
     func reload() {
         names.removeAll(keepingCapacity: false)
-        names += OAuth2TokenRepository.savedNamesInKeychain()
+        names += OAuth2TokenRepository.savedNames
         tableView.reloadData()
     }
 
@@ -62,7 +62,7 @@ class AccountViewController: UITableViewController {
             if names.indices ~= (indexPath as NSIndexPath).row {
                 do {
                     let name = names[(indexPath as NSIndexPath).row]
-                    try OAuth2TokenRepository.removeFromKeychainTokenWithName(name)
+                    try OAuth2TokenRepository.removeToken(of: name)
                     names.remove(at: (indexPath as NSIndexPath).row)
                     tableView.beginUpdates()
                     tableView.deleteRows(at: [indexPath], with: .fade)
@@ -79,7 +79,7 @@ class AccountViewController: UITableViewController {
                     if names.indices ~= (selectedIndexPath as NSIndexPath).row {
                         let name = names[(selectedIndexPath as NSIndexPath).row]
                         do {
-                            let token = try OAuth2TokenRepository.restoreFromKeychainWithName(name)
+                            let token = try OAuth2TokenRepository.token(of: name)
                             con.session = Session(token: token)
 //                            con.session?.setDummyExpiredToken()
                             UserDefaults.standard().set(name, forKey: "name")

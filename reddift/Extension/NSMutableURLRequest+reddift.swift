@@ -24,7 +24,7 @@ extension URLRequest {
             }
             command += " -X \(self.httpMethod)"
             if let data = self.httpBody {
-                if var str = String(data: data, encoding: String.Encoding.utf8) {
+                if var str = String(data: data, encoding: .utf8) {
                     str = str.replacingOccurrences(of: "\"", with: "\\\"")
                     command += " -d \"\(str)\""
                 } else {
@@ -37,8 +37,8 @@ extension URLRequest {
     
     mutating func setRedditBasicAuthentication() throws {
         let basicAuthenticationChallenge = Config.sharedInstance.clientID + ":"
-        if let data = basicAuthenticationChallenge.data(using: String.Encoding.utf8) {
-            let base64Str = data.base64EncodedString(NSData.Base64EncodingOptions.encoding64CharacterLineLength)
+        if let data = basicAuthenticationChallenge.data(using: .utf8) {
+            let base64Str = data.base64EncodedString(.encoding64CharacterLineLength)
             setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
         } else {
             throw ReddiftError.setClientIDForBasicAuthentication.error
@@ -47,8 +47,8 @@ extension URLRequest {
     
     mutating func setRedditBasicAuthentication(username: String, password: String) throws {
         let basicAuthenticationChallenge = username + ":" + password
-        if let data = basicAuthenticationChallenge.data(using: String.Encoding.utf8) {
-            let base64Str = data.base64EncodedString(NSData.Base64EncodingOptions.encoding64CharacterLineLength)
+        if let data = basicAuthenticationChallenge.data(using: .utf8) {
+            let base64Str = data.base64EncodedString(.encoding64CharacterLineLength)
             setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
         } else {
             throw ReddiftError.setUserInfoForBasicAuthentication.error
@@ -118,7 +118,7 @@ extension URLRequest {
         var request = URLRequest(url: URL)
         request.setOAuth2Token(token)
         request.httpMethod = method
-        let data = parameter.URLQuery.data(using: String.Encoding.utf8)
+        let data = parameter.URLQuery.data(using: .utf8)
         request.httpBody = data
         request.setUserAgentForReddit()
 #if _TEST

@@ -68,8 +68,8 @@ extension Session {
         ]
         
         do {
-            let data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions())
-            guard let jsonString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as String?
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
+            guard let jsonString = String(data:data, encoding:.utf8)
                 else { throw ReddiftError.multiredditDidFailToCreateJSON.error }
         
             let parameter = ["model":jsonString]
@@ -148,8 +148,8 @@ extension Session {
             "weighting_scheme" : "classic"
         ]
         do {
-            let data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions())
-            if let jsonString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) {
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
+            if let jsonString = String(data:data, encoding:.utf8) {
                 let parameter = ["model":jsonString as String]
                 guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/" + multipath, parameter:parameter, method:"PUT", token:token)
                     else { throw ReddiftError.urlError.error }
@@ -366,8 +366,8 @@ extension Session {
     public func putMultiredditDescription(_ multireddit: Multireddit, description: String, modhash: String = "", completion: (Result<MultiredditDescription>) -> ()) throws -> URLSessionDataTask {
         let json = ["body_md":description]
         do {
-            let data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions())
-            guard let jsonString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as String?
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
+            guard let jsonString = String(data:data, encoding:.utf8)
                 else { throw ReddiftError.multiredditDidFailToCreateJSON.error }
             
             let parameter = ["model":jsonString]

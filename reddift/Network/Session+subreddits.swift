@@ -12,12 +12,12 @@ import Foundation
  The type of subreddit user
  */
 public enum SubredditAbout: String {
-    case Banned             = "banned"
-    case Muted              = "muted"
-    case Wikibanned         = "wikibanned"
-    case Contributors       = "contributors"
-    case Wikicontributors   = "wikicontributors"
-    case Moderators         = "moderators"
+    case banned
+    case muted
+    case wikibanned
+    case contributors
+    case wikicontributors
+    case moderators
 }
 
 extension Session {

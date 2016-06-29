@@ -61,7 +61,7 @@ class UsersTest: SessionTestSpec {
         var isSucceeded = false
         let documentOpenExpectation = self.expectation(withDescription: msg)
         do {
-            try self.session?.getNotifications(.New, completion: { (result) -> Void in
+            try self.session?.getNotifications(.new, completion: { (result) -> Void in
                 switch result {
                 case .failure(let error):
                     print(error)

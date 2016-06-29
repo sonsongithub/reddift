@@ -49,7 +49,7 @@ public class OAuth2Authorizer {
         let mutableData = NSMutableData(length: Int(length))
         if let data = mutableData {
             let _ = SecRandomCopyBytes(kSecRandomDefault, length, UnsafeMutablePointer<UInt8>(data.mutableBytes))
-            self.state = data.base64EncodedString(NSData.Base64EncodingOptions.encodingEndLineWithLineFeed)
+            self.state = data.base64EncodedString(.encodingEndLineWithLineFeed)
             guard let authorizationURL = URL(string:"https://www.reddit.com/api/v1/authorize.compact?client_id=" + Config.sharedInstance.clientID + "&response_type=code&state=" + self.state + "&redirect_uri=" + Config.sharedInstance.redirectURI + "&duration=permanent&scope=" + commaSeparatedScopeString)
                 else { throw ReddiftError.challengeOAuth2Session.error }
 #if os(iOS)

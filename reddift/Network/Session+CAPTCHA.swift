@@ -24,8 +24,7 @@ Parse simple string response for "/api/needs_captcha"
 - returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
 */
 func data2Bool(_ data: Data) -> Result<Bool> {
-    let decoded = NSString(data:data, encoding:String.Encoding.utf8.rawValue)
-    if let decoded = decoded {
+    if let decoded = String(data:data, encoding:.utf8) {
         if decoded == "true" {
             return Result(value:true)
         } else if decoded == "false" {

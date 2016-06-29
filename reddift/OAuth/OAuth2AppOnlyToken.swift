@@ -71,7 +71,7 @@ public struct OAuth2AppOnlyToken: Token {
         do {
             try request.setRedditBasicAuthentication(username:clientID, password:secret)
             let param = "grant_type=password&username=" + username + "&password=" + password
-            let data = param.data(using: String.Encoding.utf8)
+            let data = param.data(using: .utf8)
             request.httpBody = data
             request.httpMethod = "POST"
             return request

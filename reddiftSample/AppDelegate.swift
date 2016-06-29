@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         if let name = UserDefaults.standard().string(forKey: "name") {
             do {
-                let token = try OAuth2TokenRepository.restoreFromKeychainWithName(name)
+                let token = try OAuth2TokenRepository.token(of: name)
                 session = Session(token: token)
             } catch { print(error) }
         }
@@ -105,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             case .success(let token):
                 DispatchQueue.main.async(execute: { () -> Void in
                     do {
-                        try OAuth2TokenRepository.saveIntoKeychainToken(token, name:token.name)
+                        try OAuth2TokenRepository.save(token: token, of: token.name)
                         NotificationCenter.default().post(name: NSNotification.Name(rawValue: OAuth2TokenRepositoryDidSaveToken), object: nil, userInfo: nil)
                     } catch {
                         NotificationCenter.default().post(name: NSNotification.Name(rawValue: OAuth2TokenRepositoryDidFailToSaveToken), object: nil, userInfo: nil)

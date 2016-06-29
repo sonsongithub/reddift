@@ -21,7 +21,7 @@ class UserContentViewController: UITableViewController {
             if let comment = obj as? Comment {
                 let html = comment.bodyHtml.preprocessedHTMLStringBeforeNSAttributedStringParsing
                 do {
-                    let attr = try AttributedString(data: html.data(using: String.Encoding.unicode)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
+                    let attr = try AttributedString(data: html.data(using: .unicode)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
                     let attr2 = attr.reconstruct(with: UIFont.systemFont(ofSize: 12), color: UIColor.black(), linkColor: UIColor.blue())
                     return CellContent(string:attr2, width:self.view.frame.size.width - 25, hasRelies:false)
                 } catch {

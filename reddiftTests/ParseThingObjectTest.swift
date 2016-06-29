@@ -13,7 +13,7 @@ extension XCTestCase {
         if let path = Bundle(for: self.classForCoder).pathForResource(name, ofType:nil) {
             if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
                 do {
-                    return try JSONSerialization.jsonObject(with: data, options:JSONSerialization.ReadingOptions())
+                    return try JSONSerialization.jsonObject(with: data, options: [])
                 } catch {
                     XCTFail((error as NSError).description)
                     return nil

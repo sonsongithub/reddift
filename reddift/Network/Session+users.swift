@@ -12,24 +12,24 @@ import Foundation
  The sort method for listing user's subreddit object, "/subreddits/[where]".
  */
 public enum NotificationSort: String {
-    case New  = "new"
-    case Old  = "old"
-    case None = "none"
+    case new
+    case old
+    case none
 }
 
 /**
  The friend type
  */
 public enum FriendType: String {
-    case Friend             = "friend"
-    case Enemy              = "enemy"
-    case Moderator          = "moderator"
-    case ModeratorInvite    = "moderator_invite"
-    case Contributor        = "contributor"
-    case Banned             = "banned"
-    case Muted              = "muted"
-    case Wikibanned         = "wikibanned"
-    case Wikicontributor    = "wikicontributor"
+    case friend
+    case enemy
+    case moderator
+    case moderatorInvite
+    case contributor
+    case banned
+    case muted
+    case wikibanned
+    case wikicontributor
 }
 
 extension Session {
@@ -46,7 +46,7 @@ extension Session {
         var json: [String:String] = [:]
         if !note.isEmpty { json["note"] = note }
         do {
-            let data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions())
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
             guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"api/v1/me/friends/" + username, data:data, method:"PUT", token:token)
                 else { throw ReddiftError.urlError.error }
             let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
@@ -238,8 +238,7 @@ extension Session {
             "read": read ? "true" : "false"
         ]
         do {
-            let data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions())
-            
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
             guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"/api/v1/me/notifications/\(id)", data:data, method:"PATCH", token:token)
                 else { throw ReddiftError.urlError.error }
             let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in

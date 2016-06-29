@@ -237,12 +237,12 @@ class SubredditsTest: SessionTestSpec {
     func testGettingUserListAboutSubreddit() {
         ["pics", "youtube", "swift", "newsokur", "funny"].forEach({
             let subreddit = Subreddit(subreddit: $0)
-            userList(subreddit, aboutWhere: .Banned)
-            userList(subreddit, aboutWhere: .Muted)
-            userList(subreddit, aboutWhere: .Contributors)
-            userList(subreddit, aboutWhere: .Moderators)
-            userList(subreddit, aboutWhere: .Wikibanned)
-            userList(subreddit, aboutWhere: .Wikicontributors)
+            userList(subreddit, aboutWhere: .banned)
+            userList(subreddit, aboutWhere: .muted)
+            userList(subreddit, aboutWhere: .contributors)
+            userList(subreddit, aboutWhere: .moderators)
+            userList(subreddit, aboutWhere: .wikibanned)
+            userList(subreddit, aboutWhere: .wikicontributors)
         })
     }
     
