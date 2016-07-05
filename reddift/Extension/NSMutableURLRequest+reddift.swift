@@ -38,7 +38,7 @@ extension URLRequest {
     mutating func setRedditBasicAuthentication() throws {
         let basicAuthenticationChallenge = Config.sharedInstance.clientID + ":"
         if let data = basicAuthenticationChallenge.data(using: .utf8) {
-            let base64Str = data.base64EncodedString(.encoding64CharacterLineLength)
+            let base64Str = data.base64EncodedString(options: .lineLength64Characters)
             setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
         } else {
             throw ReddiftError.setClientIDForBasicAuthentication.error
@@ -48,7 +48,7 @@ extension URLRequest {
     mutating func setRedditBasicAuthentication(username: String, password: String) throws {
         let basicAuthenticationChallenge = username + ":" + password
         if let data = basicAuthenticationChallenge.data(using: .utf8) {
-            let base64Str = data.base64EncodedString(.encoding64CharacterLineLength)
+            let base64Str = data.base64EncodedString(options: .lineLength64Characters)
             setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
         } else {
             throw ReddiftError.setUserInfoForBasicAuthentication.error

@@ -27,7 +27,7 @@ public class Session: NSObject, URLSessionDelegate, URLSessionDataDelegate {
     /// Base URL for OAuth API
     let baseURL: String
     /// Session object to communicate a server
-    var session = URLSession(configuration: URLSessionConfiguration.default())
+    var session = URLSession(configuration: URLSessionConfiguration.default)
     
     /// Duration until rate limit of API usage as second.
     var rateLimitDurationToReset: Double = 0

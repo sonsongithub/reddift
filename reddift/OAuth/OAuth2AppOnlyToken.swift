@@ -90,7 +90,7 @@ public struct OAuth2AppOnlyToken: Token {
      */
     @discardableResult
     public static func getOAuth2AppOnlyToken(username: String, password: String, clientID: String, secret: String, completion: (Result<Token>) -> Void) throws -> URLSessionDataTask {
-        let session = URLSession(configuration: URLSessionConfiguration.default())
+        let session = URLSession(configuration: URLSessionConfiguration.default)
         guard let request = requestForOAuth2AppOnly(username:username, password:password, clientID:clientID, secret:secret)
             else { throw ReddiftError.urlError.error }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in

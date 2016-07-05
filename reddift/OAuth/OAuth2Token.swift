@@ -143,7 +143,7 @@ public struct OAuth2Token: Token {
     */
     @discardableResult
     public func refresh(_ completion: (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
-        let session = URLSession(configuration: URLSessionConfiguration.default())
+        let session = URLSession(configuration: URLSessionConfiguration.default)
         guard let request = requestForRefreshing()
             else { throw ReddiftError.urlError.error }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
@@ -178,7 +178,7 @@ public struct OAuth2Token: Token {
     */
     @discardableResult
     public func revoke(_ completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let session = URLSession(configuration: URLSessionConfiguration.default())
+        let session = URLSession(configuration: URLSessionConfiguration.default)
         guard let request = requestForRevoking()
             else { throw ReddiftError.urlError.error }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
@@ -200,7 +200,7 @@ public struct OAuth2Token: Token {
     */
     @discardableResult
     public static func getOAuth2Token(_ code: String, completion: (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
-        let session = URLSession(configuration: URLSessionConfiguration.default())
+        let session = URLSession(configuration: URLSessionConfiguration.default)
         guard let request = requestForOAuth(code)
             else { throw ReddiftError.urlError.error }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
@@ -234,7 +234,7 @@ public struct OAuth2Token: Token {
     func getProfile(_ completion: (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"/api/v1/me", method:"GET", token:self)
             else { throw ReddiftError.urlError.error }
-        let session = URLSession(configuration: URLSessionConfiguration.default())
+        let session = URLSession(configuration: URLSessionConfiguration.default)
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
             let result = Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)

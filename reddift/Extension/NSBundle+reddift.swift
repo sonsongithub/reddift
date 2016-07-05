@@ -16,10 +16,10 @@ extension Bundle {
     - returns: Value
     */
     class func infoValueInMainBundle(for key: String) -> AnyObject? {
-        if let obj = self.main().localizedInfoDictionary?[key] {
+        if let obj = self.main.localizedInfoDictionary?[key] {
             return obj
         }
-        if let obj = self.main().infoDictionary?[key] {
+        if let obj = self.main.infoDictionary?[key] {
             return obj
         }
         return nil
