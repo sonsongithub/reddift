@@ -18,7 +18,7 @@ class UserViewController: UITableViewController {
     }
     
     func updateExpireCell(_ sender: AnyObject?) {
-        print(Thread.isMainThread())
+        print(Thread.isMainThread)
         if let token = session?.token {
             expireCell.detailTextLabel?.text = Date(timeIntervalSinceReferenceDate:token.expiresDate).description
         }

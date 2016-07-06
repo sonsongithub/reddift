@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
-        if let name = UserDefaults.standard().string(forKey: "name") {
+        if let name = UserDefaults.standard.string(forKey: "name") {
             do {
                 let token = try OAuth2TokenRepository.token(of: name)
                 session = Session(token: token)
@@ -90,7 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func postLocalNotification(_ message: String) {
         let notification = UILocalNotification()
-        notification.timeZone = TimeZone.default()
+        notification.timeZone = TimeZone.default
         notification.alertBody = message
         notification.alertAction = "OK"
         notification.soundName = UILocalNotificationDefaultSoundName
@@ -106,9 +106,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 DispatchQueue.main.async(execute: { () -> Void in
                     do {
                         try OAuth2TokenRepository.save(token: token, of: token.name)
-                        NotificationCenter.default().post(name: NSNotification.Name(rawValue: OAuth2TokenRepositoryDidSaveToken), object: nil, userInfo: nil)
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: OAuth2TokenRepositoryDidSaveToken), object: nil, userInfo: nil)
                     } catch {
-                        NotificationCenter.default().post(name: NSNotification.Name(rawValue: OAuth2TokenRepositoryDidFailToSaveToken), object: nil, userInfo: nil)
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: OAuth2TokenRepositoryDidFailToSaveToken), object: nil, userInfo: nil)
                         print(error)
                     }
                 })

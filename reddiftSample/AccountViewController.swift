@@ -24,7 +24,7 @@ class AccountViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default().addObserver(self, selector: #selector(AccountViewController.didSaveToken(_:)), name: OAuth2TokenRepositoryDidSaveToken, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AccountViewController.didSaveToken(_:)), name: NSNotification.Name(rawValue: OAuth2TokenRepositoryDidSaveToken), object: nil)
         reload()
     }
 
@@ -82,8 +82,8 @@ class AccountViewController: UITableViewController {
                             let token = try OAuth2TokenRepository.token(of: name)
                             con.session = Session(token: token)
 //                            con.session?.setDummyExpiredToken()
-                            UserDefaults.standard().set(name, forKey: "name")
-                            UserDefaults.standard().synchronize()
+                            UserDefaults.standard.set(name, forKey: "name")
+                            UserDefaults.standard.synchronize()
                         } catch { print(error) }
                     }
                 }
