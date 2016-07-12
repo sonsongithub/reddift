@@ -51,7 +51,7 @@ public struct Comment : Thing {
     how the logged-in user has voted on the link - True = upvoted, False = downvoted, null = no vote
     example:
     */
-    public let likes:VoteDirection
+    public var likes:VoteDirection
     /**
     example: {"kind"=>"Listing", "data"=>{"modhash"=>nil, "children"=>[{"kind"=>"more", "data"=>{"count"=>0, "parent_id"=>"t1_cqfhkcb", "children"=>["cqfmmpp"], "name"=>"t1_cqfmmpp", "id"=>"cqfmmpp"}}], "after"=>nil, "before"=>nil}}
     */
@@ -64,7 +64,7 @@ public struct Comment : Thing {
     true if this post is saved by the logged in user
     example: false
     */
-    public let saved:Bool
+    public var saved:Bool
     /**
     example: 0
     */
@@ -90,7 +90,7 @@ public struct Comment : Thing {
     the net-score of the link.  note: A submission's score is simply the number of upvotes minus the number of downvotes. If five users like the submission and three users don't it will have a score of 2. Please note that the vote numbers are not "real" numbers, they have been "fuzzed" to prevent spam bots etc. So taking the above example, if five users upvoted the submission, and three users downvote it, the upvote/downvote numbers may say 23 upvotes and 21 downvotes, or 12 upvotes, and 10 downvotes. The points score is correct, but the vote totals are "fuzzed".
     example: 1
     */
-    public let score:Int
+    public var score:Int
     /**
     example:
     */
@@ -106,7 +106,7 @@ public struct Comment : Thing {
     /**
     example: false
     */
-    public let edited:Bool
+    public var edited:Bool
     /**
     the CSS class of the author's flair.  subreddit specific
     example:
@@ -115,7 +115,7 @@ public struct Comment : Thing {
     /**
     example: 0
     */
-    public let downs:Int
+    public var downs:Int
     /**
     example: &lt;div class="md"&gt;&lt;p&gt;The bot has been having this problem for awhile, there have been thousands of new comments since it last worked properly, so it seems like this must be something recurring? Could it have something to do with our AutoModerator?&lt;/p&gt;
     &lt;/div&gt;
@@ -158,7 +158,7 @@ public struct Comment : Thing {
     /**
     example: 1
     */
-    public let ups:Int
+    public var ups:Int
 	/**
 	if the message is a comment, then the permalink to the comment with ?context=3 appended to the end, otherwise an empty string
 	example:
