@@ -164,6 +164,11 @@ public struct Comment : Thing {
 	example:
 	*/
 	public let  context:String
+	
+	/**
+	if the comment is stickied
+	*/
+	public let  stickied:Bool
 
 	
     public init(id:String) {
@@ -200,6 +205,7 @@ public struct Comment : Thing {
         numReports = 0
         ups = 0
 		context = ""
+		stickied = false
     }
     
     /**
@@ -245,7 +251,8 @@ public struct Comment : Thing {
         modReports = []
         numReports = data["num_reports"] as? Int ?? 0
         ups = data["ups"] as? Int ?? 0
-		 context = data["context"] as? String ?? ""
+		stickied = data["stickied"] as? Bool ?? false
+		context = data["context"] as? String ?? ""
 		if let temp = data["replies"] as? JSONDictionary {
             if let obj = Parser.parseJSON(json: temp) as? Listing {
                 replies = obj
