@@ -224,7 +224,9 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
     */
     public func getSubreddit(subredditWhere:SubredditsWhere, paginator:Paginator?, completion:(Result<RedditAny>) -> Void) throws -> URLSessionDataTask {
-        let parameter = paginator?.addParametersToDictionary(dict: [:])
+        var parameter = paginator?.addParametersToDictionary(dict: [:])
+		//Get the max number of subreddits possible
+		parameter?["limit"] = "1000"
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:subredditWhere.path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         return handleRequest(request: request, completion:completion)
@@ -243,7 +245,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
     */
     public func getUserRelatedSubreddit(mine:SubredditsMineWhere, paginator:Paginator?, completion:(Result<Listing>) -> Void) throws -> URLSessionDataTask {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:mine.path, parameter:paginator?.parameterDictionary, method:"GET", token:token)
+        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:mine.path, parameter:["limit":"1000"], method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
             self.updateRateLimitWithURLResponse(response: response)
