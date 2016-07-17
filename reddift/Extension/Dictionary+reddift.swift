@@ -13,7 +13,7 @@ private let allowedCharacterSet = CharacterSet(charactersIn: "!$&'()*+,-./012345
 /**
 Protocol to generate URL query string from Dictionary[String:String].
 */
-protocol QueryEscapableString {
+public protocol QueryEscapableString {
     var addPercentEncoding: String { get }
 }
 
@@ -22,7 +22,7 @@ extension String: QueryEscapableString {
     Returns string by adding percent encoding in UTF-8
     Protocol to generate URL query string from Dictionary[String:String].
     */
-    var addPercentEncoding: String {
+    public var addPercentEncoding: String {
         get {
             return (self as NSString).addingPercentEncoding(withAllowedCharacters: allowedCharacterSet) ?? self
         }
