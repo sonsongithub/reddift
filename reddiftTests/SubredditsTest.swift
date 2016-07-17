@@ -310,4 +310,28 @@ class SubredditsTest: SessionTestSpec {
         XCTAssert((initialIDList + [targetSubreeditID]).hasSameElements(intermediateIDList))
         XCTAssert(initialIDList.hasSameElements(finalIDList))
     }
+    
+//    func testToGetSticky() {
+//        print("Test to get the stickied content of the specified Subreddit")
+//        let targetSubreedit = Subreddit(subreddit: "idolgazou")
+//        
+//        do {
+//            let msg = ""
+//            var isSucceeded = false
+//            let documentOpenExpectation = self.expectation(withDescription: msg)
+//            do {
+//                try self.session?.getSticky(targetSubreedit, completion: { (result) in
+//                    switch result {
+//                    case .failure(let error):
+//                        print(error)
+//                    case .success(let obj):
+//                        print(obj)
+//                    }
+//                    XCTAssert(isSucceeded, msg)
+//                    documentOpenExpectation.fulfill()
+//                })
+//                self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+//            } catch { XCTFail((error as NSError).description) }
+//        }
+//    }
 }
