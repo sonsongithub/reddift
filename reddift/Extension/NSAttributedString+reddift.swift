@@ -56,6 +56,16 @@ extension NSParagraphStyle {
     }
 }
 
+/// shared regular expression
+private let regexForHasImageFileExtension: RegularExpression! = {
+    do {
+        return try RegularExpression(pattern: "^/.+\\.(jpg|jpeg|gif|png)$", options: .caseInsensitive)
+    } catch {
+        assert(false, "Fatal error: \(#file) \(#line) - \(error)")
+        return nil
+    }
+}()
+
 /// Extension for NSAttributedString
 extension String {
     /**
@@ -73,39 +83,15 @@ extension String {
     }
 }
 
-/// Regular expression to check whether the file extension is image's one.
-private var regexForHasImageFileExtension: RegularExpression? = nil
-
 /// Extension for NSAttributedString.includedImageURL
 extension URLComponents {
     
-    /// Returns shared regular expression
-    private func sharedRegexForHasImageFileExtension() throws -> RegularExpression {
-        if let regexForHasImageFileExtension = regexForHasImageFileExtension {
-            return regexForHasImageFileExtension
-        } else {
-            do {
-                let exp = try RegularExpression(pattern: "^/.+\\.(jpg|jpeg|gif|png)$", options: .caseInsensitive)
-                regexForHasImageFileExtension = exp
-                return exp
-            } catch {
-                throw(error)
-            }
-        }
-    }
-    
     /// Returns true when URL's filename has image's file extension(such as gif, jpg, png).
     private var hasImageFileExtension: Bool {
-        do {
-            let regex = try sharedRegexForHasImageFileExtension()
-            if let path = self.path {
-                if let r = regex.firstMatch(in: path, options: [], range: NSRange(location: 0, length: path.characters.count)) {
-                    return r.range(at: 1).length > 0
-                }
+        if let path = self.path {
+            if let r = regexForHasImageFileExtension.firstMatch(in: path, options: [], range: NSRange(location: 0, length: path.characters.count)) {
+                return r.range(at: 1).length > 0
             }
-        } catch {
-            print(error)
-            return false
         }
         return false
     }
