@@ -59,7 +59,7 @@ class SessionTestSpec: XCTestCase {
                 let password = json["password"],
                 let clientID = json["client_id"],
                 let secret = json["secret"] {
-                    let documentOpenExpectation = self.expectation(withDescription: "Test : Getting OAuth2 access token")
+                    let documentOpenExpectation = self.expectation(description: "Test : Getting OAuth2 access token")
                     do {
                         try OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:({ (result) -> Void in
                             switch result {
@@ -73,7 +73,7 @@ class SessionTestSpec: XCTestCase {
                             }
                             documentOpenExpectation.fulfill()
                         }))
-                        self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+                        self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
                     } catch { print(error) }
             }
         }
@@ -86,7 +86,7 @@ extension SessionTestSpec {
         var list: [User] = []
         let msg = "Get friends list."
         var isSucceeded = false
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.getFriends(completion: { (result) -> Void in
                 switch result {
@@ -99,7 +99,7 @@ extension SessionTestSpec {
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         return list
     }
@@ -108,7 +108,7 @@ extension SessionTestSpec {
     func makeFriend(_ username: String, note: String) {
         let msg = "Make \(username) friend."
         var isSucceeded = false
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.friend(username, note: note, completion: { (result) -> Void in
                 switch result {
@@ -121,7 +121,7 @@ extension SessionTestSpec {
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
     }
     
@@ -130,7 +130,7 @@ extension SessionTestSpec {
         do {
             let msg = "Make \(username) unfriend."
             var isSucceeded = false
-            let documentOpenExpectation = self.expectation(withDescription: msg)
+            let documentOpenExpectation = self.expectation(description: msg)
             do {
                 try self.session?.unfriend(username, completion: { (result) -> Void in
                     switch result {
@@ -143,7 +143,7 @@ extension SessionTestSpec {
                     XCTAssert(isSucceeded, msg)
                     documentOpenExpectation.fulfill()
                 })
-                self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+                self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
             } catch { XCTFail((error as NSError).description) }
         }
     }

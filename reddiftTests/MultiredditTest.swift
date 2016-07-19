@@ -13,7 +13,7 @@ extension MultiredditTest {
     func getOwnMultireddit() -> [Multireddit] {
         let msg = "Get own multireddit list."
         var list: [Multireddit] = []
-        let documentOpenExpectation = self.expectation(withDescription: "getMineMultireddit")
+        let documentOpenExpectation = self.expectation(description: "getMineMultireddit")
         do {
             try self.session?.getMineMultireddit({ (result) -> Void in
                 switch result {
@@ -25,7 +25,7 @@ extension MultiredditTest {
                 XCTAssert(list.count > 0, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         return list
     }
@@ -34,7 +34,7 @@ extension MultiredditTest {
     func createMultireddit(_ name: String) -> Multireddit? {
         var createdMultireddit: Multireddit? = nil
         let msg = "Create a new multireddit whose name is \(name)."
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.createMultireddit(name, descriptionMd: "", completion: { (result) -> Void in
                 switch result {
@@ -46,7 +46,7 @@ extension MultiredditTest {
                 XCTAssert(createdMultireddit != nil, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         return createdMultireddit
     }
@@ -55,7 +55,7 @@ extension MultiredditTest {
     func deleteMultireddit(_ multireddit: Multireddit) {
         let msg = "Delete multireddit whose name is \(multireddit.name)."
         var isSucceeded = false
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.deleteMultireddit(multireddit, completion: { (result) -> Void in
                 switch result {
@@ -67,7 +67,7 @@ extension MultiredditTest {
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
     }
 
@@ -75,7 +75,7 @@ extension MultiredditTest {
     func addSubredditToMultireddit(_ subredditDisplayName: String, multireddit: Multireddit) {
         let msg = "Add subreddit, \(subredditDisplayName) to multireddit whose name is \(multireddit.name)."
         var isSucceeded = false
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.addSubredditToMultireddit(multireddit, subredditDisplayName: subredditDisplayName, completion: { (result) -> Void in
                 switch result {
@@ -87,7 +87,7 @@ extension MultiredditTest {
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
     }
 }
@@ -147,7 +147,7 @@ class MultiredditTest: SessionTestSpec {
         var isSucceeded = false
         guard let multireddit = self.createdMultireddit else { XCTFail("Error"); return }
         
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.renameMultireddit(multireddit, newDisplayName: nameForRename, completion: { (result) -> Void in
                 switch result {
@@ -161,7 +161,7 @@ class MultiredditTest: SessionTestSpec {
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
 
         let currentMultiredditNameList = getOwnMultireddit().map({$0.displayName})
@@ -179,7 +179,7 @@ class MultiredditTest: SessionTestSpec {
         guard let multireddit = self.createdMultireddit else { XCTFail("Error"); return }
         let msg = "Test copying a multireddit."
         var isSucceeded = false
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.copyMultireddit(multireddit, newDisplayName: nameForCopy, completion: { (result) -> Void in
                 switch result {
@@ -192,7 +192,7 @@ class MultiredditTest: SessionTestSpec {
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
 
         let expected = defaultMultiredditNameList + [createdMultiredditName, nameForCopy]
@@ -212,7 +212,7 @@ class MultiredditTest: SessionTestSpec {
         guard let multireddit = self.createdMultireddit else { XCTFail("Error"); return }
         let msg = "Test copying a multireddit with the existing name, as \(nameForCopy)."
         var isSucceeded = false
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.copyMultireddit(multireddit, newDisplayName: nameForCopy, completion: { (result) -> Void in
                 switch result {
@@ -225,7 +225,7 @@ class MultiredditTest: SessionTestSpec {
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         
         let expected = defaultMultiredditNameList + [createdMultiredditName, nameForCopy]
@@ -234,7 +234,7 @@ class MultiredditTest: SessionTestSpec {
         do {
             let msg = "Test renaming the multireddit, as \(multireddit.name), with the existing name which is \(failedName)."
             var isSucceeded = false
-            let documentOpenExpectation = self.expectation(withDescription: msg)
+            let documentOpenExpectation = self.expectation(description: msg)
             do {
                 try self.session?.renameMultireddit(multireddit, newDisplayName: failedName, completion: { (result) -> Void in
                     switch result {
@@ -247,7 +247,7 @@ class MultiredditTest: SessionTestSpec {
                     XCTAssert(isSucceeded, msg)
                     documentOpenExpectation.fulfill()
                 })
-                self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+                self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
             } catch { XCTFail((error as NSError).description) }
         }
         
@@ -266,7 +266,7 @@ class MultiredditTest: SessionTestSpec {
         guard let multireddit = self.createdMultireddit else { XCTFail("Error"); return }
         let msg = "Test putting a new description to the multireddit, using 'putMultiredditDescription'."
         var isSucceeded = false
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.putMultiredditDescription(multireddit, description: updatedDescription, completion: { (result) -> Void in
                 switch result {
@@ -280,7 +280,7 @@ class MultiredditTest: SessionTestSpec {
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
     }
     
@@ -297,7 +297,7 @@ class MultiredditTest: SessionTestSpec {
         var isSucceeded = false
         multireddit.iconName = .science
         multireddit.descriptionMd = updatedDescription
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.updateMultireddit(multireddit, completion: { (result) -> Void in
                 switch result {
@@ -311,7 +311,7 @@ class MultiredditTest: SessionTestSpec {
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
     }
     
@@ -324,7 +324,7 @@ class MultiredditTest: SessionTestSpec {
         do {
             let msg = "Test getting redditch_dev public multireddit list and check whether the list includes specified subreddits."
             var isSucceeded = false
-            let documentOpenExpectation = self.expectation(withDescription: msg)
+            let documentOpenExpectation = self.expectation(description: msg)
             do {
                 try self.session?.getPublicMultiredditOfUsername("redditch_dev", completion: { (result) -> Void in
                     switch result {
@@ -336,7 +336,7 @@ class MultiredditTest: SessionTestSpec {
                     XCTAssert(isSucceeded, msg)
                     documentOpenExpectation.fulfill()
                 })
-                self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+                self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
             } catch { XCTFail((error as NSError).description) }
         }
     }
@@ -377,7 +377,7 @@ class MultiredditTest: SessionTestSpec {
         
         let msg = "Test adding an inavaialbe subreddit to the multireddit."
         var isSucceeded = false
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.addSubredditToMultireddit(multireddit, subredditDisplayName: "ahfuhaofhaeiufaheihihfiuawe", completion: { (result) -> Void in
                 switch result {
@@ -389,7 +389,7 @@ class MultiredditTest: SessionTestSpec {
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         
         var candidates = getOwnMultireddit().filter({$0.name == multireddit.name})
@@ -417,7 +417,7 @@ class MultiredditTest: SessionTestSpec {
             let msg = "Test adding and deleting an subreddit for the multireddit."
             print(msg)
             var isSucceeded = false
-            let documentOpenExpectation = self.expectation(withDescription: msg)
+            let documentOpenExpectation = self.expectation(description: msg)
             do {
                 try self.session?.removeSubredditFromMultireddit(multireddit, subredditDisplayName: targetSubreddits[1], completion: { (result) -> Void in
                     switch result {
@@ -429,7 +429,7 @@ class MultiredditTest: SessionTestSpec {
                     XCTAssert(isSucceeded, msg)
                     documentOpenExpectation.fulfill()
                 })
-                self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+                self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
             } catch { XCTFail((error as NSError).description) }
         }
         
@@ -459,7 +459,7 @@ class MultiredditTest: SessionTestSpec {
             let msg = "Test adding and deleting an subreddit for the multireddit."
             print(msg)
             var isSucceeded = false
-            let documentOpenExpectation = self.expectation(withDescription: msg)
+            let documentOpenExpectation = self.expectation(description: msg)
             do {
                 try self.session?.removeSubredditFromMultireddit(multireddit, subredditDisplayName: "ahfuhaofhaeiufaheihihfiuawe", completion: { (result) -> Void in
                     switch result {
@@ -471,7 +471,7 @@ class MultiredditTest: SessionTestSpec {
                     XCTAssert(isSucceeded, msg)
                     documentOpenExpectation.fulfill()
                 })
-                self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+                self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
             } catch { XCTFail((error as NSError).description) }
         }
         

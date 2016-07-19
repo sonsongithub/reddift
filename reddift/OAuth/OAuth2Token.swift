@@ -61,10 +61,10 @@ public struct OAuth2Token: Token {
     static func tokenWithJSON(_ json: JSONAny) -> Result<OAuth2Token> {
         if let json = json as? JSONDictionary {
             if let _ = json["access_token"] as? String,
-                _ = json["token_type"] as? String,
-                _ = json["expires_in"] as? Int,
-                _ = json["scope"] as? String,
-                _ = json["refresh_token"] as? String {
+                let _ = json["token_type"] as? String,
+                let _ = json["expires_in"] as? Int,
+                let _ = json["scope"] as? String,
+                let _ = json["refresh_token"] as? String {
                     return Result(value: OAuth2Token(json))
             }
         }

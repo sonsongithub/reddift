@@ -18,7 +18,7 @@ class ListingsTest: SessionTestSpec {
         for sortType in sortTypes {
             for filter in timeFilterTypes {
                 print("Check whether the list which is obtained with \(sortType.description), \(filter.description) includes only Link object.")
-                let documentOpenExpectation = self.expectation(withDescription: "Check whether the list which is obtained with \(sortType.description), \(filter.description) includes only Link object.")
+                let documentOpenExpectation = self.expectation(description: "Check whether the list which is obtained with \(sortType.description), \(filter.description) includes only Link object.")
                 var isSucceeded = false
                 do {
                     try self.session?.getList(Paginator(), subreddit:subreddit, sort:sortType, timeFilterWithin:filter, completion: { (result) in
@@ -34,14 +34,14 @@ class ListingsTest: SessionTestSpec {
                         XCTAssert(isSucceeded, "Check whether the list which is obtained with \(sortType.description), \(filter.description) includes only Link object.")
                         documentOpenExpectation.fulfill()
                     })
-                    self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+                    self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
                 } catch { XCTFail((error as NSError).description) }
             }
         }
     }
     
     func testDownloadRandomLinks() {
-        let documentOpenExpectation = self.expectation(withDescription: "Check whether the random list includes two Listings.")
+        let documentOpenExpectation = self.expectation(description: "Check whether the random list includes two Listings.")
         do {
             try self.session?.getRandom(completion: { (result) in
                 var isSucceeded = false
@@ -59,12 +59,12 @@ class ListingsTest: SessionTestSpec {
                 XCTAssert(isSucceeded, "Check whether the random list includes two Listings. Why this test is always failed...?")
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
     }
     
     func testDownloadRandomLinksAmongSpecifiedSubreddit() {
-        let documentOpenExpectation = self.expectation(withDescription: "Check whether the random list among the specified subreddit includes two Listings when using withoutLink = false.")
+        let documentOpenExpectation = self.expectation(description: "Check whether the random list among the specified subreddit includes two Listings when using withoutLink = false.")
 
         var isSucceeded = false
         let subreddit = Subreddit(subreddit: "sandboxtest")
@@ -84,7 +84,7 @@ class ListingsTest: SessionTestSpec {
                 XCTAssert(isSucceeded, "Check whether the random list among the specified subreddit includes two Listings when using withoutLink = false.")
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
     }
     
@@ -94,7 +94,7 @@ class ListingsTest: SessionTestSpec {
             var link: Link? = nil
             do {
                 print("Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
-                let documentOpenExpectation = self.expectation(withDescription: "Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
+                let documentOpenExpectation = self.expectation(description: "Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
                 let subreddit = Subreddit(subreddit: "redditdev")
                 try self.session?.getList(Paginator(), subreddit:subreddit, sort:.new, timeFilterWithin:.week, completion: { (result) in
                     switch result {
@@ -111,11 +111,11 @@ class ListingsTest: SessionTestSpec {
                     XCTAssert(link != nil, "Check whether the aritcles include one Listing when using withoutLink = true.")
                     documentOpenExpectation.fulfill()
                 })
-                self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+                self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
             } catch { XCTFail((error as NSError).description) }
             
             do {
-                let documentOpenExpectation = self.expectation(withDescription: "Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
+                let documentOpenExpectation = self.expectation(description: "Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
                 if let link = link {
                     try self.session?.getArticles(link, sort:sort, completion: { (result) -> Void in
                         var isSucceeded = false
@@ -131,7 +131,7 @@ class ListingsTest: SessionTestSpec {
                         XCTAssert(isSucceeded, "Check whether the aritcles include one Listing when using withoutLink = true.")
                         documentOpenExpectation.fulfill()
                     })
-                    self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+                    self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
                 }
             } catch { XCTFail((error as NSError).description) }
         }
