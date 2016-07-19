@@ -53,7 +53,11 @@ public class OAuth2Authorizer {
             guard let authorizationURL = URL(string:"https://www.reddit.com/api/v1/authorize.compact?client_id=" + Config.sharedInstance.clientID + "&response_type=code&state=" + self.state + "&redirect_uri=" + Config.sharedInstance.redirectURI + "&duration=permanent&scope=" + commaSeparatedScopeString)
                 else { throw ReddiftError.challengeOAuth2Session.error }
 #if os(iOS)
-                UIApplication.shared().openURL(authorizationURL)
+                if #available (iOS 10.0, *) {
+                    UIApplication.shared().open(authorizationURL, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared().openURL(authorizationURL)
+                }
 #elseif os(OSX)
                 NSWorkspace.shared().open(authorizationURL)
 #endif
