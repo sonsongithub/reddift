@@ -25,7 +25,7 @@ class MoreChildrenTest: SessionTestSpec {
         let link = Link(id: "2ujhkr")
         
         do {
-            let documentOpenExpectation = self.expectation(withDescription: "")
+            let documentOpenExpectation = self.expectation(description: "")
             try session?.getArticles(link, sort: .new, comments: nil, depth:1, limit: 10, completion: { (result) -> Void in
                 switch result {
                 case .failure(let error):
@@ -36,7 +36,7 @@ class MoreChildrenTest: SessionTestSpec {
                 }
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         
         XCTAssert(moreList.count > 0, "Cannot get More objects.")
@@ -45,7 +45,7 @@ class MoreChildrenTest: SessionTestSpec {
         
         moreList.forEach({
             do {
-                let documentOpenExpectation = self.expectation(withDescription: "")
+                let documentOpenExpectation = self.expectation(description: "")
                 try session?.getMoreChildren($0.children, link: link, sort: .new, completion: { (result) -> Void in
                     switch(result) {
                     case .failure(let error):
@@ -59,7 +59,7 @@ class MoreChildrenTest: SessionTestSpec {
                     }
                     documentOpenExpectation.fulfill()
                 })
-                self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+                self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
             } catch { XCTFail((error as NSError).description) }
         })
         XCTAssert(check, "Cannot expand More objects.")

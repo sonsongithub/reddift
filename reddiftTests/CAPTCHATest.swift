@@ -19,7 +19,7 @@ class CAPTCHATest: SessionTestSpec {
         let msg = "is true or false as Bool"
         print(msg)
         var check_result: Bool? = nil
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.checkNeedsCAPTCHA({(result) -> Void in
                 switch result {
@@ -32,14 +32,14 @@ class CAPTCHATest: SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
         } catch { XCTFail((error as NSError).description) }
-        self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+        self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
     }
     
     func testGetIdenForNewCAPTCHA() {
         let msg = "is String"
         print(msg)
         var iden: String? = nil
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
                 switch result {
@@ -52,7 +52,7 @@ class CAPTCHATest: SessionTestSpec {
                 documentOpenExpectation.fulfill()
             })
         } catch { XCTFail((error as NSError).description) }
-        self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+        self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
     }
     
     func testSizeOfNewImageGeneratedUsingIden() {
@@ -63,7 +63,7 @@ class CAPTCHATest: SessionTestSpec {
 #elseif os(OSX)
         var size: NSSize? = nil
 #endif
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
                 switch result {
@@ -82,7 +82,7 @@ class CAPTCHATest: SessionTestSpec {
                 }
             })
         } catch { XCTFail((error as NSError).description) }
-        self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+        self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         
         if let size = size {
 #if os(iOS)

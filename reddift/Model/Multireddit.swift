@@ -125,7 +125,7 @@ public struct Multireddit: SubredditURLPath {
         var buf: [String] = []
         if let temp = json["subreddits"] as? [JSONDictionary] {
             for element in temp {
-                if let element = element as? [String:String], name = element["name"] {
+                if let element = element as? [String:String], let name = element["name"] {
                     buf.append(name)
                 }
             }
