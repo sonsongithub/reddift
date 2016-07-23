@@ -16,7 +16,7 @@ class AccountTest: SessionTestSpec {
     func testGettingBreakdownKarma() {
         do {
             let msg = "Get own karma."
-            let documentOpenExpectation = self.expectation(withDescription: msg)
+            let documentOpenExpectation = self.expectation(description: msg)
             try self.session?.getKarma({ (result) -> Void in
                 switch result {
                 case .failure(let error):
@@ -26,7 +26,7 @@ class AccountTest: SessionTestSpec {
                 }
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
     }
 
@@ -37,7 +37,7 @@ class AccountTest: SessionTestSpec {
     func testGettingOwnTrophies() {
         do {
             let msg = "Get own trophies."
-            let documentOpenExpectation = self.expectation(withDescription: msg)
+            let documentOpenExpectation = self.expectation(description: msg)
             try self.session?.getTrophies({ (result) -> Void in
                 switch result {
                 case .failure(let error):
@@ -47,7 +47,7 @@ class AccountTest: SessionTestSpec {
                 }
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
     }
     
@@ -136,7 +136,7 @@ extension AccountTest {
     func getPreference() -> Preference? {
         var preference: Preference? = nil
         let msg = "Get own preference"
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.getPreference({ (result) -> Void in
                 switch result {
@@ -148,7 +148,7 @@ extension AccountTest {
                 XCTAssert(preference != nil, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         return preference
     }
@@ -156,7 +156,7 @@ extension AccountTest {
     /// Update own Preference with specified Preference object.
     func setPreference(_ preference: Preference) {
         let msg = "Patch preference"
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.patchPreference(preference, completion: { (result) -> Void in
                 switch result {
@@ -167,7 +167,7 @@ extension AccountTest {
                 }
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
     }
 }

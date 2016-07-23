@@ -35,7 +35,7 @@ class UsersTest: SessionTestSpec {
         let username = "reddift_test_1"
         let msg = "Get \(username)'s user profile."
         var isSucceeded = false
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.getUserProfile(username, completion: { (result) -> Void in
                 switch result {
@@ -48,7 +48,7 @@ class UsersTest: SessionTestSpec {
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
     }
     
@@ -59,7 +59,7 @@ class UsersTest: SessionTestSpec {
     func testGetNotifications() {
         let msg = "Get notifications for me. Maybe, this test is always failed."
         var isSucceeded = false
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.getNotifications(.new, completion: { (result) -> Void in
                 switch result {
@@ -72,7 +72,7 @@ class UsersTest: SessionTestSpec {
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
     }
     
@@ -134,7 +134,7 @@ class UsersTest: SessionTestSpec {
     func testGetTrophies() {
         let msg = "Get reddift_test_1's trophy."
         var isSucceeded = false
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.getTrophies("reddift_test_1", completion: { (result) -> Void in
                 switch result {
@@ -147,7 +147,7 @@ class UsersTest: SessionTestSpec {
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
     }
 }
@@ -157,7 +157,7 @@ extension UsersTest {
     func userContentsWith(_ username: String, content: UserContent, sort: UserContentSortBy, timeFilterWithin: TimeFilterWithin) -> Listing? {
         var listing: Listing? = nil
         let msg = "Get \(username)'s user contents."
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         var isSucceeded = false
         do {
             try self.session?.getUserContent(username, content: content, sort: sort, timeFilterWithin: timeFilterWithin, paginator: Paginator(), completion: { (result) -> Void in
@@ -171,7 +171,7 @@ extension UsersTest {
                 }
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         XCTAssert(isSucceeded, msg)
         return listing

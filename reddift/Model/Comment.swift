@@ -216,6 +216,41 @@ public struct Comment: Thing {
         ups = 0
     }
     
+    public init(link: Link) {
+        self.id = link.id
+        self.name = "\(Comment.kind)_\(self.id)"
+        
+        subredditId = link.subredditId
+        bannedBy = link.bannedBy
+        linkId = link.id
+        likes = link.likes
+        replies = Listing()
+        userReports = link.userReports
+        saved = link.saved
+        gilded = link.gilded
+        archived = link.archived
+        reportReasons = link.reportReasons
+        author = link.author
+        parentId = ""
+        score = link.score
+        approvedBy = link.approvedBy
+        controversiality = 0
+        body = link.selftext
+        edited = link.edited
+        authorFlairCssClass = link.authorFlairCssClass
+        downs = link.downs
+        bodyHtml = link.selftextHtml
+        subreddit = link.subreddit
+        scoreHidden = false
+        created = link.created
+        authorFlairText = link.authorFlairText
+        createdUtc = link.createdUtc
+        distinguished = link.distinguished
+        modReports = link.modReports
+        numReports = link.numReports
+        ups = link.ups
+    }
+    
     /**
     Parse t1 Thing.
     

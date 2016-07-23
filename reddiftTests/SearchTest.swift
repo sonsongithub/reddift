@@ -17,7 +17,7 @@ class SearchTest: SessionTestSpec {
         var links: [Link] = []
         let query = "apple"
         let msg = "Search subreddit name used of \(query)"
-        let documentOpenExpectation = self.expectation(withDescription: msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         let subreddit = Subreddit(subreddit: "apple")
         
         do {
@@ -30,7 +30,7 @@ class SearchTest: SessionTestSpec {
                 }
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectations(withTimeout: self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         XCTAssert(links.count > 0, msg)
     }

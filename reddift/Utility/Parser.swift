@@ -180,7 +180,7 @@ class Parser: NSObject {
         if let array = json as? JSONArray {
             var output: [Any] = []
             for element in array {
-                if let element = element as? JSONDictionary, obj = redditAny(from: element) {
+                if let element = element as? JSONDictionary, let obj = redditAny(from: element) {
                     output.append(obj)
                 }
             }
