@@ -25,7 +25,7 @@ public class OAuth2TokenRepository {
             if let data = try keychain.getData(name), let json = try JSONSerialization.jsonObject(with: data, options: []) as? JSONDictionary {
                 return OAuth2Token(json)
             }
-            throw ReddiftError.tokenNotfound.error
+            throw ReddiftError.specifiedNameTokenNotFoundInKeychain as NSError
         } catch {
             throw error
         }
@@ -48,7 +48,7 @@ public class OAuth2TokenRepository {
     */
     public class func save(token: OAuth2Token) throws {
         if token.name.isEmpty {
-            throw ReddiftError.keychainTargetNameIsEmpty.error
+            throw ReddiftError.tokenNameIsInvalid as NSError
         }
         do {
             let data = try JSONSerialization.data(withJSONObject: token.JSONObject, options: [])
@@ -67,7 +67,7 @@ public class OAuth2TokenRepository {
     */
     public class func save(token: OAuth2Token, of name: String) throws {
         if name.isEmpty {
-            throw ReddiftError.keychainTargetNameIsEmpty.error
+            throw ReddiftError.tokenNameIsInvalid as NSError
         }
         do {
             let data = try JSONSerialization.data(withJSONObject: token.JSONObject, options: [])
@@ -85,7 +85,7 @@ public class OAuth2TokenRepository {
     */
     public class func removeToken(of name: String) throws {
         if name.isEmpty {
-            throw ReddiftError.keychainTargetNameIsEmpty.error
+            throw ReddiftError.tokenNameIsInvalid as NSError
         }
         do {
             let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)

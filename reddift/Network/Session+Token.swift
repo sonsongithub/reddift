@@ -28,7 +28,7 @@ extension Session {
     */
     public func refreshToken(_ completion: (Result<Token>) -> Void) throws -> Void {
         guard let currentToken = token as? OAuth2Token
-            else { throw ReddiftError.tokenNotfound.error }
+            else { throw ReddiftError.tokenIsNotAvailable as NSError }
         do {
             try currentToken.refresh({ (result) -> Void in
                 switch result {
@@ -54,7 +54,7 @@ extension Session {
     */
     public func revokeToken(_ completion: (Result<Token>) -> Void) throws -> Void {
         guard let currentToken = token as? OAuth2Token
-            else { throw ReddiftError.tokenNotfound.error }
+            else { throw ReddiftError.tokenIsNotAvailable as NSError }
         do {
             try currentToken.revoke({ (result) -> Void in
                 switch result {

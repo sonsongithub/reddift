@@ -48,7 +48,7 @@ extension Session {
         do {
             let data = try JSONSerialization.data(withJSONObject: json, options: [])
             guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"api/v1/me/friends/" + username, data:data, method:"PUT", token:token)
-                else { throw ReddiftError.urlError.error }
+                else { throw ReddiftError.canNotCreateURLRequest as NSError }
             let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
                 return Result(from: Response(data: data, urlResponse: response), optional:error)
                     .flatMap(response2Data)
@@ -72,7 +72,7 @@ extension Session {
             "id":username
         ]
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"api/v1/me/friends/" + username, parameter:parameters, method:"DELETE", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -92,7 +92,7 @@ extension Session {
         var path = "/api/v1/me/friends"
         if let username = username { path = "/api/v1/me/friends/" + username }
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:path, parameter:[:], method:"GET", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[User]> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -112,7 +112,7 @@ extension Session {
     public func getBlocked(_ completion: (Result<[User]>) -> Void) throws -> URLSessionDataTask {
         let path = "/api/v1/me/blocked"
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:path, parameter:[:], method:"GET", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[User]> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -152,7 +152,7 @@ extension Session {
 //            "uh":modhash
         ]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/friend", parameter:parameters, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -192,7 +192,7 @@ extension Session {
         if !id.isEmpty { parameters["id"] = id }
         
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/unfriend", parameter:parameters, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -216,7 +216,7 @@ extension Session {
             "sort":sort.rawValue
         ]
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"/api/v1/me/notifications", parameter:parameters, method:"GET", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -240,7 +240,7 @@ extension Session {
         do {
             let data = try JSONSerialization.data(withJSONObject: json, options: [])
             guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"/api/v1/me/notifications/\(id)", data:data, method:"PATCH", token:token)
-                else { throw ReddiftError.urlError.error }
+                else { throw ReddiftError.canNotCreateURLRequest as NSError }
             let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
                 return Result(from: Response(data: data, urlResponse: response), optional:error)
                     .flatMap(response2Data)
@@ -260,7 +260,7 @@ extension Session {
     public func getTrophies(_ username: String, completion: (Result<[Trophy]>) -> Void) throws -> URLSessionDataTask {
         let path = "/api/v1/user/\(username)/trophies"
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:path, method:"GET", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[Trophy]> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -289,7 +289,7 @@ extension Session {
             "show"     : "given"
             ])
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/user/" + username + content.path, parameter:parameter, method:"GET", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -309,7 +309,7 @@ extension Session {
     @discardableResult
     public func getUserProfile(_ username: String, completion: (Result<Account>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/user/\(username)/about", method:"GET", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Account> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)

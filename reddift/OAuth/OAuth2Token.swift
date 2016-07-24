@@ -68,7 +68,7 @@ public struct OAuth2Token: Token {
                     return Result(value: OAuth2Token(json))
             }
         }
-        return Result(error:ReddiftError.parseAccessToken.error)
+        return Result(error:ReddiftError.tokenJsonObjectIsNotDictionary as NSError)
     }
     
     /**
@@ -145,7 +145,7 @@ public struct OAuth2Token: Token {
     public func refresh(_ completion: (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
         let session = URLSession(configuration: URLSessionConfiguration.default)
         guard let request = requestForRefreshing()
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
             let result = Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -154,7 +154,7 @@ public struct OAuth2Token: Token {
                     if let json = json as? JSONDictionary {
                         return Result(value: json)
                     }
-                    return Result(error: ReddiftError.malformed.error)
+                    return Result(error: ReddiftError.tokenJsonObjectIsNotDictionary as NSError)
                 })
             switch result {
             case .success(let json):
@@ -180,7 +180,7 @@ public struct OAuth2Token: Token {
     public func revoke(_ completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let session = URLSession(configuration: URLSessionConfiguration.default)
         guard let request = requestForRevoking()
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
             let result = Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -202,7 +202,7 @@ public struct OAuth2Token: Token {
     public static func getOAuth2Token(_ code: String, completion: (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
         let session = URLSession(configuration: URLSessionConfiguration.default)
         guard let request = requestForOAuth(code)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
             let result = Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -233,7 +233,7 @@ public struct OAuth2Token: Token {
     @discardableResult
     func getProfile(_ completion: (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"/api/v1/me", method:"GET", token:self)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let session = URLSession(configuration: URLSessionConfiguration.default)
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
             let result = Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -241,9 +241,9 @@ public struct OAuth2Token: Token {
                 .flatMap(data2Json)
                 .flatMap({ (json: JSONAny) -> Result<Account> in
                     if let object = json as? JSONDictionary {
-                        return Result(fromOptional: Account(json: object), error: ReddiftError.parseThingT2.error)
+                        return Result(fromOptional: Account(json: object), error: ReddiftError.accountJsonObjectIsMalformed as NSError)
                     }
-                    return Result(error: ReddiftError.malformed.error)
+                    return Result(error: ReddiftError.accountJsonObjectIsNotDictionary as NSError)
                 })
             switch result {
             case .success(let profile):

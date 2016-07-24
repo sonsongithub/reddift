@@ -51,7 +51,7 @@ public class OAuth2Authorizer {
             let _ = SecRandomCopyBytes(kSecRandomDefault, length, UnsafeMutablePointer<UInt8>(data.mutableBytes))
             self.state = data.base64EncodedString(options: .endLineWithLineFeed)
             guard let authorizationURL = URL(string:"https://www.reddit.com/api/v1/authorize.compact?client_id=" + Config.sharedInstance.clientID + "&response_type=code&state=" + self.state + "&redirect_uri=" + Config.sharedInstance.redirectURI + "&duration=permanent&scope=" + commaSeparatedScopeString)
-                else { throw ReddiftError.challengeOAuth2Session.error }
+                else { throw ReddiftError.canNotCreateURLRequestForOAuth2Page as NSError }
 #if os(iOS)
                 if #available (iOS 10.0, *) {
                     UIApplication.shared().open(authorizationURL, options: [:], completionHandler: nil)
@@ -62,7 +62,7 @@ public class OAuth2Authorizer {
                 NSWorkspace.shared().open(authorizationURL)
 #endif
         } else {
-            throw ReddiftError.challengeOAuth2Session.error
+            throw ReddiftError.canNotAllocateDataToCreateURLForOAuth2 as NSError
         }
     }
     

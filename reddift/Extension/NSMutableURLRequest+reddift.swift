@@ -41,7 +41,7 @@ extension URLRequest {
             let base64Str = data.base64EncodedString(options: .lineLength64Characters)
             setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
         } else {
-            throw ReddiftError.setClientIDForBasicAuthentication.error
+            throw ReddiftError.canNotCreateDataObjectForClientIDForBasicAuthentication as NSError
         }
     }
     
@@ -51,7 +51,7 @@ extension URLRequest {
             let base64Str = data.base64EncodedString(options: .lineLength64Characters)
             setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
         } else {
-            throw ReddiftError.setUserInfoForBasicAuthentication.error
+            throw ReddiftError.canNotCreateDataObjectForUserInfoForBasicAuthentication as NSError
         }
     }
     

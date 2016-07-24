@@ -89,10 +89,11 @@ class Parser: NSObject {
                 if let _ = json["errors"] {
                     // There is not any specifigations of error messages.
                     // How should I handle it?
+                    return ([], ReddiftError.canNotGetMoreCommentForAnyReason as NSError)
                 }
             }
         }
-        return ([], ReddiftError.parseMoreError.error)
+        return ([], ReddiftError.moreCommentJsonObjectIsNotDictionary as NSError)
     }
     
     /**

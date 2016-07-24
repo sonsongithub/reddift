@@ -92,7 +92,7 @@ public struct OAuth2AppOnlyToken: Token {
     public static func getOAuth2AppOnlyToken(username: String, password: String, clientID: String, secret: String, completion: (Result<Token>) -> Void) throws -> URLSessionDataTask {
         let session = URLSession(configuration: URLSessionConfiguration.default)
         guard let request = requestForOAuth2AppOnly(username:username, password:password, clientID:clientID, secret:secret)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
             let result = Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -101,7 +101,7 @@ public struct OAuth2AppOnlyToken: Token {
                     if let json = json as? JSONDictionary {
                         return Result(value: json)
                     }
-                    return Result(error: ReddiftError.malformed.error)
+                    return Result(error: ReddiftError.tokenJsonObjectIsNotDictionary as NSError)
                 })
             var token: OAuth2AppOnlyToken? = nil
             switch result {

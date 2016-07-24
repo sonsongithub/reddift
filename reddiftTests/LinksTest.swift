@@ -131,9 +131,7 @@ class LinksTest: SessionTestSpec {
                         case .success(let postedComment):
                             print(postedComment)
                         }
-                        if let error = commentError {
-                            XCTAssert(error.code == ReddiftError.returnedCommentError.rawValue || error.code == ReddiftError.parseCommentError.rawValue, "")
-                        } else {
+                        if commentError == nil {
                             XCTFail("")
                         }
                         documentOpenExpectation.fulfill()

@@ -28,7 +28,7 @@ extension Session {
     public func postComment(_ text: String, parentName: String, completion: (Result<Comment>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["thing_id":parentName, "api_type":"json", "text":text]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/comment", parameter:parameter, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Comment> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -49,7 +49,7 @@ extension Session {
     public func deleteCommentOrLink(_ name: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["id":name]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/del", parameter:parameter, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
     
@@ -65,7 +65,7 @@ extension Session {
     public func setVote(_ direction: VoteDirection, name: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["dir":String(direction.rawValue), "id":name]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/vote", parameter:parameter, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
     
@@ -86,7 +86,7 @@ extension Session {
         }
         let path = save ? "/api/save" : "/api/unsave"
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:path, parameter:parameter, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
     
@@ -103,7 +103,7 @@ extension Session {
         let parameter = ["id":name]
         let path = hide ? "/api/hide" : "/api/unhide"
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:path, parameter:parameter, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
     
@@ -119,7 +119,7 @@ extension Session {
     public func getInfo(_ names: [String], completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedNameString = names.joined(separator: ",")
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -131,7 +131,7 @@ extension Session {
                     if let listing = redditAny as? Listing {
                         return Result(value: listing)
                     }
-                    return Result(error: ReddiftError.malformed.error)
+                    return Result(error: ReddiftError.jsonObjectIsNotListingThing as NSError)
                 })
         }
         return executeTask(request, handleResponse: closure, completion: completion)
@@ -148,7 +148,7 @@ extension Session {
     public func setNSFW(_ mark: Bool, thing: Thing, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let path = mark ? "/api/marknsfw" : "/api/unmarknsfw"
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:path, parameter:["id":thing.name], method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
     
@@ -163,7 +163,7 @@ extension Session {
     @discardableResult
     public func getSavedCategories(_ completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/saved_categories", method:"GET", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
     
@@ -187,7 +187,7 @@ extension Session {
             "thing_id"    :thing.name
         ]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/report", parameter:parameter, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         return executeTask(request, handleResponse: handleResponse2RedditAny, completion: completion)
     }
     
@@ -216,7 +216,7 @@ extension Session {
             "url" : URL
         ]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
     
@@ -246,7 +246,7 @@ extension Session {
             "title" : title
         ]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
     
@@ -277,7 +277,7 @@ extension Session {
             parameter["id"] = id
         }
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/morechildren", parameter:parameter, method:"GET", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[Thing]> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
