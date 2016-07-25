@@ -163,7 +163,8 @@ extension UsersTest {
             try self.session?.getUserContent(username, content: content, sort: sort, timeFilterWithin: timeFilterWithin, paginator: Paginator(), completion: { (result) -> Void in
                 switch result {
                 case .failure(let error):
-                    isSucceeded = (error.code == 404)   // Return 404 code when there are not any data.
+                    // Return 404 code when there are not any data.
+                    isSucceeded = (error.code == HttpStatus.notFound.rawValue)
                     print(error)
                 case .success(let list):
                     listing = list

@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                               request: request,
                                               taskHandler: { (response, dataURL, error) -> Void in
                                                 if let response = response, dataURL = dataURL {
-                                                    if response.statusCode == 200 {
+                                                    if response.statusCode == HttpStatus.ok.rawValue {
                                                         
                                                         do {
                                                             let data = try Data(contentsOf: dataURL)

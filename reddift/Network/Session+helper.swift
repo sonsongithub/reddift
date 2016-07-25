@@ -22,10 +22,14 @@ func response2Data(from response: Response) -> Result<Data> {
     if !(200..<300 ~= response.statusCode) {
         do {
             let json = try JSONSerialization.jsonObject(with: response.data as Data, options: [])
-            if let json = json as? JSONDictionary { return .failure(HttpStatus(response.statusCode).error(with: json)) }
+            if let json = json as? JSONDictionary {
+                return .failure(HttpStatusWithBody(response.statusCode, object: json) as NSError)
+            }
         } catch { print(error) }
-        if let bodyAsString = String(data: response.data as Data, encoding: .utf8) { return .failure(HttpStatus(response.statusCode).error(with: bodyAsString)) }
-        return .failure(HttpStatus(response.statusCode).error)
+        if let bodyAsString = String(data: response.data as Data, encoding: .utf8) {
+            return .failure(HttpStatusWithBody(response.statusCode, object: bodyAsString) as NSError)
+        }
+        return .failure(HttpStatus(response.statusCode) as NSError)
     }
     return .success(response.data)
 }

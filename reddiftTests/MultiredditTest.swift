@@ -239,7 +239,7 @@ class MultiredditTest: SessionTestSpec {
                 try self.session?.renameMultireddit(multireddit, newDisplayName: failedName, completion: { (result) -> Void in
                     switch result {
                     case .failure(let error):
-                        isSucceeded = (error.code == 409)
+                        isSucceeded = (error.code == HttpStatus.conflict.rawValue)
                     case .success(let multireddit):
                         print(multireddit)
                         self.renamedMultireddit = multireddit
@@ -382,7 +382,7 @@ class MultiredditTest: SessionTestSpec {
             try self.session?.addSubredditToMultireddit(multireddit, subredditDisplayName: "ahfuhaofhaeiufaheihihfiuawe", completion: { (result) -> Void in
                 switch result {
                 case .failure(let error):
-                    isSucceeded = (error.code == 400)
+                    isSucceeded = (error.code == HttpStatus.badRequest.rawValue)
                 case .success:
                     print("OK...?")
                 }
@@ -464,7 +464,7 @@ class MultiredditTest: SessionTestSpec {
                 try self.session?.removeSubredditFromMultireddit(multireddit, subredditDisplayName: "ahfuhaofhaeiufaheihihfiuawe", completion: { (result) -> Void in
                     switch result {
                     case .failure(let error):
-                        isSucceeded = (error.code == 400)
+                        isSucceeded = (error.code == HttpStatus.badRequest.rawValue)
                     case .success:
                         print("OK...?")
                     }
