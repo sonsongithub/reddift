@@ -22,10 +22,14 @@ func response2Data(from response: Response) -> Result<Data> {
     if !(200..<300 ~= response.statusCode) {
         do {
             let json = try JSONSerialization.jsonObject(with: response.data as Data, options: [])
-            if let json = json as? JSONDictionary { return .failure(HttpStatus(response.statusCode).error(with: json)) }
+            if let json = json as? JSONDictionary {
+                return .failure(HttpStatusWithBody(response.statusCode, object: json) as NSError)
+            }
         } catch { print(error) }
-        if let bodyAsString = String(data: response.data as Data, encoding: .utf8) { return .failure(HttpStatus(response.statusCode).error(with: bodyAsString)) }
-        return .failure(HttpStatus(response.statusCode).error)
+        if let bodyAsString = String(data: response.data as Data, encoding: .utf8) {
+            return .failure(HttpStatusWithBody(response.statusCode, object: bodyAsString) as NSError)
+        }
+        return .failure(HttpStatus(response.statusCode) as NSError)
     }
     return .success(response.data)
 }
@@ -63,7 +67,7 @@ func data2String(from data: Data) -> Result<String> {
     if let decoded = String(data:data, encoding:.utf8) {
         return Result(value: decoded)
     }
-    return Result(error:ReddiftError.parseJSON.error)
+    return Result(error:ReddiftError.dataIsNotUTF8String as NSError)
 }
 
 // MARK: JSON -> RedditAny
@@ -90,9 +94,9 @@ Returns Result<Error> object when any error happned.
 */
 func json2Account(from json: JSONAny) -> Result<Account> {
     if let object = json as? JSONDictionary {
-        return Result(fromOptional: Account(json:object), error: ReddiftError.parseThingT2.error)
+        return Result(fromOptional: Account(json:object), error: ReddiftError.accountJsonObjectIsMalformed as NSError)
     }
-    return Result(fromOptional: nil, error: ReddiftError.malformed.error)
+    return Result(fromOptional: nil, error: ReddiftError.accountJsonObjectIsNotDictionary as NSError)
 }
 
 /**
@@ -105,7 +109,7 @@ func json2Preference(from json: JSONAny) -> Result<Preference> {
     if let object = json as? JSONDictionary {
         return Result(value: Preference(json: object))
     }
-    return Result(fromOptional: nil, error: ReddiftError.malformed.error)
+    return Result(fromOptional: nil, error: ReddiftError.preferenceJsonObjectIsNotDictionary as NSError)
 }
 
 /**
@@ -116,7 +120,7 @@ func json2Preference(from json: JSONAny) -> Result<Preference> {
  */
 func json2RedditAny(from json: JSONAny) -> Result<RedditAny> {
     let object: Any? = Parser.redditAny(from: json)
-    return Result(fromOptional: object, error: ReddiftError.parseThing.error)
+    return Result(fromOptional: object, error: ReddiftError.failedToParseThingFromJsonObject as NSError)
 }
 
 /**
@@ -143,11 +147,12 @@ func json2Comment(from json: JSONAny) -> Result<Comment> {
         // Error happened.
         for obj in errors {
             if let errorStrings = obj as? [String] {
-                return Result(error:NSError.error(with: ReddiftError.returnedCommentError.rawValue, description: errorStrings.joined(separator: ",")))
+                print(errorStrings)
+                return Result(error: ReddiftError.commentJsonObjectIsMalformed as NSError)
             }
         }
     }
-    return Result(error:ReddiftError.parseCommentError.error)
+    return Result(error: ReddiftError.commentJsonObjectIsMalformed as NSError)
 }
 
 // MARK: RedditAny -> Objects
@@ -156,14 +161,14 @@ func redditAny2Object<T>(from redditAny: RedditAny) -> Result<T> {
     if let obj = redditAny as? T {
         return Result(value: obj)
     }
-    return Result(error: ReddiftError.malformed.error)
+    return Result(error: ReddiftError.failedToParseThingFromRedditAny as NSError)
 }
 
 func redditAny2MultiredditArray(from redditAny: RedditAny) -> Result<[Multireddit]> {
     if let array = redditAny as? [Any] {
         return Result(value:array.flatMap({$0 as? Multireddit}))
     }
-    return Result(error: ReddiftError.malformed.error)
+    return Result(error: ReddiftError.failedToParseMultiredditArrayFromRedditAny as NSError)
 }
 
 func redditAny2ListingTuple(from redditAny: RedditAny) -> Result<(Listing, Listing)> {
@@ -174,7 +179,7 @@ func redditAny2ListingTuple(from redditAny: RedditAny) -> Result<(Listing, Listi
             }
         }
     }
-    return Result(error: ReddiftError.malformed.error)
+    return Result(error: ReddiftError.failedToParseListingPairFromRedditAny as NSError)
 }
 
 // MARK: Convert from data and response

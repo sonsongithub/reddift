@@ -119,7 +119,6 @@ class LinksTest: SessionTestSpec {
     func testParsingErrorObjectWhenPostingCommentToTooOldComment() {
         print("Test whether Parse class can parse returned JSON object when posting a comment to the too old comment")
         do {
-            var commentError: NSError? = nil
             do {
                 do {
                     let name = "t1_cw05r44" // old comment object ID
@@ -127,13 +126,9 @@ class LinksTest: SessionTestSpec {
                     try self.session?.postComment("test comment3", parentName:name, completion: { (result) -> Void in
                         switch result {
                         case .failure(let error):
-                            commentError = error
+                            XCTAssert(error.code == ReddiftError.commentJsonObjectIsMalformed.rawValue)
                         case .success(let postedComment):
                             print(postedComment)
-                        }
-                        if let error = commentError {
-                            XCTAssert(error.code == ReddiftError.returnedCommentError.rawValue || error.code == ReddiftError.parseCommentError.rawValue, "")
-                        } else {
                             XCTFail("")
                         }
                         documentOpenExpectation.fulfill()

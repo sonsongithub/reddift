@@ -34,14 +34,14 @@ public class BackgroundFetch: NSObject, URLSessionDelegate {
     }
     
     func handleTask(with response: HTTPURLResponse, didFinishDownloadingToURL: URL, requestForRefreshToken: URLRequest) {
-        if response.statusCode == 401 {
+        if response.statusCode == HttpStatus.unauthorized.rawValue {
             if firstTry {
                 if let tokenURLSession = self.tokenURLSession {
                     firstTry = false
                     tokenURLSession.downloadTask(with: requestForRefreshToken).resume()
                 }
             } else {
-                taskHandler(response: nil, dataURL: nil, error: NSError(domain: "", code: 0, userInfo: nil))
+                taskHandler(response: nil, dataURL: nil, error: HttpStatus(response.statusCode) as NSError)
             }
         } else {
             taskHandler(response: response, dataURL: didFinishDownloadingToURL, error: nil)
@@ -49,7 +49,7 @@ public class BackgroundFetch: NSObject, URLSessionDelegate {
     }
     
     func handleTokenRefresh(with response: HTTPURLResponse, didFinishDownloadingToURL: URL, token: OAuth2Token) {
-        if response.statusCode == 200 {
+        if response.statusCode == HttpStatus.ok.rawValue {
             let data = try? Data(contentsOf: didFinishDownloadingToURL)
             let result: Result<JSONDictionary> = Result(from: Response(data: data, urlResponse: response), optional:nil)
                 .flatMap(response2Data)
@@ -65,7 +65,7 @@ public class BackgroundFetch: NSObject, URLSessionDelegate {
                 taskHandler(response: nil, dataURL: nil, error: error)
             }
         } else {
-            taskHandler(response: nil, dataURL: nil, error: NSError(domain: "", code: 0, userInfo: nil))
+            taskHandler(response: nil, dataURL: nil, error: HttpStatus(response.statusCode) as NSError)
         }
     }
     
@@ -82,7 +82,7 @@ public class BackgroundFetch: NSObject, URLSessionDelegate {
         } else if session == taskURLSession {
             handleTask(with: response, didFinishDownloadingToURL: location, requestForRefreshToken: requestForRefreshToken)
         } else {
-            taskHandler(response: nil, dataURL: nil, error: NSError(domain: "", code: 0, userInfo: nil))
+            taskHandler(response: nil, dataURL: nil, error: ReddiftError.unknown as NSError)
         }
     }
     

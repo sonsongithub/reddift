@@ -142,7 +142,8 @@ public class Session: NSObject, URLSessionDelegate, URLSessionDataDelegate {
             switch result {
             case .failure(let error):
                 guard let token = self.token else { completion(result); return; }
-                if !token.refreshToken.isEmpty && error.code == 401 {
+                if token.refreshToken.isEmpty { completion(result); return; }
+                if error.code == HttpStatus.unauthorized.rawValue {
                     self.executeTaskAgainAfterRefresh(request, handleResponse: handleResponse, completion: completion)
                 } else {
                     completion(result)

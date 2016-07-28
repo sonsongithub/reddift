@@ -36,7 +36,7 @@ public enum Result<A> {
         if let error = error {
             self = .failure(error)
         } else {
-            self = .failure(NSError.error(with: 0, description: "Fatal error"))
+            self = .failure(ReddiftError.unknown as NSError)
         }
     }
     

@@ -138,7 +138,7 @@ public struct Account: Thing {
 
 func parseDataInJSON_t2(_ json: JSONAny) -> Result<Thing> {
     if let object = json as? JSONDictionary {
-        return Result(fromOptional: Account(json: object), error: ReddiftError.parseThingT2.error)
+        return Result(fromOptional: Account(json: object), error: ReddiftError.accountJsonObjectIsMalformed as NSError)
     }
-    return Result(fromOptional: nil, error: ReddiftError.parseThingT2.error)
+    return Result(fromOptional: nil, error: ReddiftError.accountJsonObjectIsNotDictionary as NSError)
 }

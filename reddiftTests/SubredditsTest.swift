@@ -39,9 +39,9 @@ extension SubredditsTest {
             try self.session?.about(subreddit, aboutWhere:aboutWhere, completion: { (result) -> Void in
                 switch result {
                 case .failure(let error):
-                    if error.code != 403 { print(error) }
+                    if error.code != HttpStatus.forbidden.rawValue { print(error) }
                     // if list is vancat, return error code 400.
-                    isSucceeded = (error.code == 403)
+                    isSucceeded = (error.code == HttpStatus.forbidden.rawValue)
                 case .success(let users):
                     list.append(contentsOf: users)
                     isSucceeded = (list.count > 0)

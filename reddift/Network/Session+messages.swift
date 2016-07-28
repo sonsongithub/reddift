@@ -23,7 +23,7 @@ extension Session {
         let commaSeparatedFullameString = fullnames.joined(separator: ",")
         let parameter = ["id":commaSeparatedFullameString]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/unread_message", parameter:parameter, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -43,7 +43,7 @@ extension Session {
         let commaSeparatedFullameString = fullnames.joined(separator: ",")
         let parameter = ["id":commaSeparatedFullameString]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/read_message", parameter:parameter, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -62,7 +62,7 @@ extension Session {
     @discardableResult
     public func markAllMessagesAsRead(_ modhash: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/read_all_messages", parameter:nil, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -83,7 +83,7 @@ extension Session {
         let commaSeparatedFullameString = fullnames.joined(separator: ",")
         let parameter = ["id":commaSeparatedFullameString]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/collapse_message", parameter:parameter, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             
             return Result(from: Response(data: data, urlResponse: response), optional:error)
@@ -104,7 +104,7 @@ extension Session {
         let commaSeparatedFullameString = fullnames.joined(separator: ",")
         let parameter = ["id":commaSeparatedFullameString]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/uncollapse_message", parameter:parameter, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -123,7 +123,7 @@ extension Session {
     public func blockViaInbox(_ fullname: String, modhash: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["id":fullname]
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"/api/block", parameter:parameter, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -142,7 +142,7 @@ extension Session {
     public func unblockViaInbox(_ fullname: String, modhash: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["id":fullname]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/unblock_subreddit", parameter:parameter, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -163,7 +163,7 @@ extension Session {
     @discardableResult
     public func getMessage(_ messageWhere: MessageWhere, limit: Int = 100, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
@@ -199,7 +199,7 @@ extension Session {
             "to" : to.id
         ]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
-            else { throw ReddiftError.urlError.error }
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
