@@ -127,7 +127,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
     
     override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ToCommentViewController" {
-            if let con = segue.destinationViewController as? CommentViewController {
+            if let con = segue.destination as? CommentViewController {
                 if let selectedIndexPath = tableView.indexPathForSelectedRow {
                     if links.indices ~= selectedIndexPath.row {
                         let link = links[selectedIndexPath.row]
@@ -139,7 +139,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
             }
         }
         if segue.identifier == "ToSubmitViewController" {
-            if let nav = segue.destinationViewController as? UINavigationController {
+            if let nav = segue.destination as? UINavigationController {
                 if let con = nav.visibleViewController as? SubmitViewController {
                     con.session = session
                     con.subreddit = subreddit

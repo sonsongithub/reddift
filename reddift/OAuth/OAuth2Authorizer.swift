@@ -54,9 +54,9 @@ public class OAuth2Authorizer {
                 else { throw ReddiftError.canNotCreateURLRequestForOAuth2Page as NSError }
 #if os(iOS)
                 if #available (iOS 10.0, *) {
-                    UIApplication.shared().open(authorizationURL, options: [:], completionHandler: nil)
+                    UIApplication.shared.open(authorizationURL, options: [:], completionHandler: nil)
                 } else {
-                    UIApplication.shared().openURL(authorizationURL)
+                    UIApplication.shared.openURL(authorizationURL)
                 }
 #elseif os(OSX)
                 NSWorkspace.shared().open(authorizationURL)

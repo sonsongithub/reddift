@@ -42,8 +42,8 @@ extension NSParagraphStyle {
     - returns: Paragraphyt style, which is created.
     */
     static func defaultReddiftParagraphStyle(with fontSize: CGFloat) -> NSParagraphStyle {
-        guard let paragraphStyle = NSParagraphStyle.default().mutableCopy() as? NSMutableParagraphStyle
-            else { return NSParagraphStyle.default() }
+        guard let paragraphStyle = NSParagraphStyle.default.mutableCopy() as? NSMutableParagraphStyle
+            else { return NSParagraphStyle.default }
         paragraphStyle.lineBreakMode = .byWordWrapping
         paragraphStyle.alignment = .left
         paragraphStyle.maximumLineHeight = fontSize + 2
@@ -57,9 +57,9 @@ extension NSParagraphStyle {
 }
 
 /// shared regular expression
-private let regexForHasImageFileExtension: RegularExpression! = {
+private let regexForHasImageFileExtension: NSRegularExpression! = {
     do {
-        return try RegularExpression(pattern: "^/.+\\.(jpg|jpeg|gif|png)$", options: .caseInsensitive)
+        return try NSRegularExpression(pattern: "^/.+\\.(jpg|jpeg|gif|png)$", options: .caseInsensitive)
     } catch {
         assert(false, "Fatal error: \(#file) \(#line) - \(error)")
         return nil
@@ -88,17 +88,16 @@ extension URLComponents {
     
     /// Returns true when URL's filename has image's file extension(such as gif, jpg, png).
     private var hasImageFileExtension: Bool {
-        if let path = self.path {
+        let path = self.path
             if let r = regexForHasImageFileExtension.firstMatch(in: path, options: [], range: NSRange(location: 0, length: path.characters.count)) {
-                return r.range(at: 1).length > 0
+                return r.rangeAt(1).length > 0
             }
-        }
         return false
     }
 }
 
 /// Extension for NSAttributedString
-extension AttributedString {
+extension NSAttributedString {
     /// Returns list of URLs that were included in NSAttributedString as NSLinkAttributeName's array.
     public var includedURL: [URL] {
         get {
@@ -135,7 +134,7 @@ extension AttributedString {
     - parameter codeBackgroundColor : Specified UIColor of background of strings that are included in <code>.
     - returns : NSAttributedString object to render using UZTextView or UITextView.
     */
-    public func reconstruct(with normalFont: UIFont, color: UIColor, linkColor: UIColor, codeBackgroundColor: UIColor = UIColor.lightGray()) -> AttributedString {
+    public func reconstruct(with normalFont: UIFont, color: UIColor, linkColor: UIColor, codeBackgroundColor: UIColor = UIColor.lightGray) -> NSAttributedString {
         return __reconstruct(with: normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
     }
 #elseif os(OSX)
@@ -147,14 +146,14 @@ extension AttributedString {
     - parameter codeBackgroundColor : Specified NSColor of background of strings that are included in <code>.
     - returns : NSAttributedString object.
     */
-    public func reconstruct(with normalFont: NSFont, color: NSColor, linkColor: NSColor, codeBackgroundColor: NSColor = NSColor.lightGray()) -> AttributedString {
+    public func reconstruct(with normalFont: NSFont, color: NSColor, linkColor: NSColor, codeBackgroundColor: NSColor = NSColor.lightGray()) -> NSAttributedString {
         return __reconstruct(with: normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
     }
 #endif
 }
 
-/// Private extension for AttributedString
-extension AttributedString {
+/// Private extension for NSAttributedString
+extension NSAttributedString {
     /**
     Reconstruct attributed string, intrinsic function. This function is for encapsulating difference of font and color class.
     - parameter normalFont : Specified NSFont/UIFont you want to use when the object is rendered.
@@ -163,7 +162,7 @@ extension AttributedString {
     - parameter codeBackgroundColor : Specified NSColor/UIColor of background of strings that are included in <code>.
     - returns : NSAttributedString object.
     */
-    private func __reconstruct(with normalFont: _Font, color: _Color, linkColor: _Color, codeBackgroundColor: _Color) -> AttributedString {
+    private func __reconstruct(with normalFont: _Font, color: _Color, linkColor: _Color, codeBackgroundColor: _Color) -> NSAttributedString {
         let attributes = self.attributesForReddift
         let (italicFont, boldFont, codeFont, superscriptFont, _) = createDerivativeFonts(normalFont)
         
@@ -201,14 +200,14 @@ extension AttributedString {
     */
     private func createDerivativeFonts(_ normalFont: _Font) -> (_Font, _Font, _Font, _Font, NSParagraphStyle) {
 #if os(iOS) || os(tvOS)
-        let traits = normalFont.fontDescriptor().symbolicTraits
-        let italicFontDescriptor = normalFont.fontDescriptor().withSymbolicTraits([traits, .traitItalic])
-        let boldFontDescriptor = normalFont.fontDescriptor().withSymbolicTraits([traits, .traitBold])
-        let italicFont = _Font(descriptor: italicFontDescriptor!, size: normalFont.fontDescriptor().pointSize)
-        let boldFont = _Font(descriptor: boldFontDescriptor!, size: normalFont.fontDescriptor().pointSize)
-        let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor().pointSize) ?? normalFont
-        let superscriptFont = _Font(descriptor: normalFont.fontDescriptor(), size: normalFont.fontDescriptor().pointSize/2)
-        let paragraphStyle = NSParagraphStyle.defaultReddiftParagraphStyle(with: normalFont.fontDescriptor().pointSize)
+        let traits = normalFont.fontDescriptor.symbolicTraits
+        let italicFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits([traits, .traitItalic])
+        let boldFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits([traits, .traitBold])
+        let italicFont = _Font(descriptor: italicFontDescriptor!, size: normalFont.fontDescriptor.pointSize)
+        let boldFont = _Font(descriptor: boldFontDescriptor!, size: normalFont.fontDescriptor.pointSize)
+        let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor.pointSize) ?? normalFont
+        let superscriptFont = _Font(descriptor: normalFont.fontDescriptor, size: normalFont.fontDescriptor.pointSize/2)
+        let paragraphStyle = NSParagraphStyle.defaultReddiftParagraphStyle(with: normalFont.fontDescriptor.pointSize)
 #elseif os(OSX)
         let traits = normalFont.fontDescriptor.symbolicTraits
         let italicFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits(traits & NSFontSymbolicTraits(NSFontItalicTrait))

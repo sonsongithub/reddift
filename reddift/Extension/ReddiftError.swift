@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum ReddiftError: Int, ErrorProtocol {
+public enum ReddiftError: Int, Error {
     case unknown
     case tokenIsNotAvailable
     case canNotCreateURLRequest

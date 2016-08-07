@@ -74,7 +74,7 @@ class AccountViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ToUserViewController" {
-            if let con = segue.destinationViewController as? UserViewController {
+            if let con = segue.destination as? UserViewController {
                 if let selectedIndexPath = tableView.indexPathForSelectedRow {
                     if names.indices ~= (selectedIndexPath as NSIndexPath).row {
                         let name = names[(selectedIndexPath as NSIndexPath).row]

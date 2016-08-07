@@ -10,7 +10,7 @@ import XCTest
 
 extension XCTestCase {
     func jsonFromFileName(_ name: String) -> AnyObject? {
-        if let path = Bundle(for: self.classForCoder).pathForResource(name, ofType:nil) {
+        if let path = Bundle(for: self.classForCoder).path(forResource: name, ofType:nil) {
             if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
                 do {
                     return try JSONSerialization.jsonObject(with: data, options: [])
@@ -301,7 +301,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingNeedsCAPTHCAResponseStringTest() {
         print("is true or false")
         var isSucceeded = false
-        if let path = Bundle(for: self.classForCoder).pathForResource("api_needs_captcha.json", ofType:nil) {
+        if let path = Bundle(for: self.classForCoder).path(forResource: "api_needs_captcha.json", ofType:nil) {
             if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
                 let result = data2Bool(data)
                 switch result {

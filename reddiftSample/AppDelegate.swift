@@ -53,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                             switch result {
                                                             case .success(let account):
                                                                 print(account)
-                                                                UIApplication.shared().applicationIconBadgeNumber = account.inboxCount
+                                                                UIApplication.shared.applicationIconBadgeNumber = account.inboxCount
                                                                 self.postLocalNotification("You got \(account.inboxCount) messages.")
                                                                 completionHandler(.newData)
                                                                 return
@@ -90,11 +90,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func postLocalNotification(_ message: String) {
         let notification = UILocalNotification()
-        notification.timeZone = TimeZone.default
+        notification.timeZone = NSTimeZone.default
         notification.alertBody = message
         notification.alertAction = "OK"
         notification.soundName = UILocalNotificationDefaultSoundName
-        UIApplication.shared().scheduleLocalNotification(notification);
+        UIApplication.shared.scheduleLocalNotification(notification);
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: AnyObject) -> Bool {

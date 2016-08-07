@@ -77,7 +77,7 @@ extension Session {
      This method is implemented in order to test codes to automatiaclly refresh an expired token.
     */
     public func setDummyExpiredToken() {
-        if let path = Bundle.main.pathForResource("expired_token.json", ofType: nil), let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
+        if let path = Bundle.main.path(forResource: "expired_token.json", ofType: nil), let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
             do {
                 if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject] {
                     let token = OAuth2Token(json)

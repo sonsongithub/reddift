@@ -146,7 +146,7 @@ public struct OAuth2Token: Token {
         let session = URLSession(configuration: URLSessionConfiguration.default)
         guard let request = requestForRefreshing()
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
-        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
+        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
             let result = Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -181,7 +181,7 @@ public struct OAuth2Token: Token {
         let session = URLSession(configuration: URLSessionConfiguration.default)
         guard let request = requestForRevoking()
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
-        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
+        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
             let result = Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -203,7 +203,7 @@ public struct OAuth2Token: Token {
         let session = URLSession(configuration: URLSessionConfiguration.default)
         guard let request = requestForOAuth(code)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
-        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
+        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
             let result = Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
@@ -235,7 +235,7 @@ public struct OAuth2Token: Token {
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"/api/v1/me", method:"GET", token:self)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let session = URLSession(configuration: URLSessionConfiguration.default)
-        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
+        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
             let result = Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)

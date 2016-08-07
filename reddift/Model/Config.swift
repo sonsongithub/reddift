@@ -54,7 +54,7 @@ struct Config {
         var _developerName: String? = nil
         var _redirectURI: String? = nil
         var _clientID: String? = nil
-		if let path = Bundle.main.pathForResource("reddift_config", ofType: "json") {
+		if let path = Bundle.main.path(forResource: "reddift_config", ofType: "json") {
 			if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
                 do {
                     if let json = try JSONSerialization.jsonObject(with: data, options: []) as? JSONDictionary {

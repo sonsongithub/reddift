@@ -21,11 +21,11 @@ class UserContentViewController: UITableViewController {
             if let comment = obj as? Comment {
                 let html = comment.bodyHtml.preprocessedHTMLStringBeforeNSAttributedStringParsing
                 do {
-                    let attr = try AttributedString(data: html.data(using: .unicode)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
-                    let attr2 = attr.reconstruct(with: UIFont.systemFont(ofSize: 12), color: UIColor.black(), linkColor: UIColor.blue())
+                    let attr = try NSAttributedString(data: html.data(using: .unicode)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
+                    let attr2 = attr.reconstruct(with: UIFont.systemFont(ofSize: 12), color: UIColor.black, linkColor: UIColor.blue)
                     return CellContent(string:attr2, width:self.view.frame.size.width - 25, hasRelies:false)
                 } catch {
-                    return CellContent(string:AttributedString(string: ""), width:self.view.frame.size.width - 25, hasRelies:false)
+                    return CellContent(string:NSAttributedString(string: ""), width:self.view.frame.size.width - 25, hasRelies:false)
                 }
             } else if let link = obj as? Link {
                 return CellContent(string:link.title, width:self.view.frame.size.width)

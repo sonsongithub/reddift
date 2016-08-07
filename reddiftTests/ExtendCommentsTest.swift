@@ -70,7 +70,7 @@ class ExtendCommentsTest: XCTestCase {
             if let array = Parser.redditAny(from: json) as? [Any] {
                 if array.count == 2 {
                     if let listing = array[0] as? Listing {
-                        let numberOfLinks = listing.children.reduce(0, combine: { (value: Int, link: Thing) -> Int in
+                        let numberOfLinks = listing.children.reduce(0, { (value: Int, link: Thing) -> Int in
                             return link is Link ? 1 + value : value
                         })
                         XCTAssert(numberOfLinks == 1)
@@ -80,7 +80,7 @@ class ExtendCommentsTest: XCTestCase {
                     if let listing = array[1] as? Listing {
                         let incomming = listing.children
                             .flatMap({ $0 as? Comment })
-                            .reduce([], combine: {
+                            .reduce([], {
                                 return $0 + extendAllReplies(in: $1, current: 1)
                             })
                         

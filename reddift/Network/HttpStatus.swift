@@ -10,7 +10,7 @@
 
 import Foundation
 
-public enum HttpStatus: Int, ErrorProtocol {
+public enum HttpStatus: Int, Error {
     case `continue`                         = 100
     case switchingProtocols                 = 101
     case processing                         = 102
@@ -87,6 +87,10 @@ public enum HttpStatus: Int, ErrorProtocol {
     
     init(_ statusCode: Int) {
         self = HttpStatus(rawValue:statusCode) ?? .unknown
+    }
+    
+    public var _code: Int {
+        return self.rawValue
     }
     
     var description: String {

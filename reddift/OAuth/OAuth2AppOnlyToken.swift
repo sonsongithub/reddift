@@ -93,7 +93,7 @@ public struct OAuth2AppOnlyToken: Token {
         let session = URLSession(configuration: URLSessionConfiguration.default)
         guard let request = requestForOAuth2AppOnly(username:username, password:password, clientID:clientID, secret:secret)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
-        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
+        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
             let result = Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)

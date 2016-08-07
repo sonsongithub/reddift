@@ -30,10 +30,10 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                 do {
                     let attr = try NSMutableAttributedString(data: html.data(using: .unicode)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
                     let font = UIFont(name: ".SFUIText-Light", size: 12) ?? UIFont.systemFont(ofSize: 12)
-                    let attr2 = attr.reconstruct(with: font, color: UIColor.black(), linkColor: UIColor.blue())
+                    let attr2 = attr.reconstruct(with: font, color: UIColor.black, linkColor: UIColor.blue)
                     return CellContent(string:attr2, width:width - 25, hasRelies:false)
                 } catch {
-                    return CellContent(string:AttributedString(string: ""), width:width - 25, hasRelies:false)
+                    return CellContent(string:NSAttributedString(string: ""), width:width - 25, hasRelies:false)
                 }
             } else {
                 return CellContent(string:"more", width:width - 25, hasRelies:false)
@@ -171,7 +171,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.isToolbarHidden = false
-        print(UIApplication.shared().keyWindow?.frame)
+        print(UIApplication.shared.keyWindow?.frame)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -187,7 +187,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                         let listing = tuple.1
                         let incomming = listing.children
                             .flatMap({ $0 as? Comment })
-                            .reduce([], combine: {
+                            .reduce([], {
                                 return $0 + extendAllReplies(in: $1, current: startDepth)
                             })
                             .map({$0.0})
@@ -260,7 +260,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
                                 let startDepth = 1
                                 let incomming = list
                                     .flatMap({ $0 as? Comment })
-                                    .reduce([], combine: {
+                                    .reduce([], {
                                         return $0 + extendAllReplies(in: $1, current: startDepth)
                                     })
                                     .map({$0.0})

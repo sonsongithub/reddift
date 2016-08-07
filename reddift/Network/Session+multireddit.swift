@@ -52,7 +52,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func createMultireddit(_ displayName: String, descriptionMd: String, iconName: MultiredditIconName = .none, keyColor: RedditColor = RedditColor.white(), visibility: MultiredditVisibility = .private, weightingScheme: String = "classic", completion: (Result<Multireddit>) -> Void) throws -> URLSessionDataTask {
+    public func createMultireddit(_ displayName: String, descriptionMd: String, iconName: MultiredditIconName = .none, keyColor: RedditColor = RedditColor.white, visibility: MultiredditVisibility = .private, weightingScheme: String = "classic", completion: (Result<Multireddit>) -> Void) throws -> URLSessionDataTask {
         guard let token = self.token else { throw ReddiftError.tokenIsNotAvailable as NSError }
         
         let multipath = "/user/\(token.name)/m/\(displayName)"
@@ -195,7 +195,7 @@ extension Session {
     */
     public func createNewPath(_ currentPath: String, newName: String) throws -> String {
         do {
-            let regex = try RegularExpression(pattern:"/[^/]+?$", options: .caseInsensitive)
+            let regex = try NSRegularExpression(pattern:"/[^/]+?$", options: .caseInsensitive)
             return regex.stringByReplacingMatches(in: currentPath, options: [], range: NSRange(location:0, length:currentPath.characters.count), withTemplate: "/" + newName)
         } catch { throw error }
     }

@@ -137,7 +137,7 @@ class response2DataObjectTest: XCTestCase {
                 
                 XCTAssert(trophylist[0].id == "10wnxy")
                 XCTAssert(trophylist[0].description == "")
-                XCTAssert(trophylist[0].url == URL(string: "")!)
+                XCTAssert(trophylist[0].url == nil)
                 XCTAssert(trophylist[0].icon40 == URL(string: "https://s3.amazonaws.com/redditstatic/award/n00b-40.png")!)
                 XCTAssert(trophylist[0].icon70 == URL(string: "https://s3.amazonaws.com/redditstatic/award/n00b-70.png")!)
                 XCTAssert(trophylist[0].awardID == "j")

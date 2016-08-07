@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum HttpStatusWithBody<T>: ErrorProtocol {
+public enum HttpStatusWithBody<T>: Error {
     case `continue`(T)
     case switchingProtocols(T)
     case processing(T)
@@ -232,6 +232,10 @@ public enum HttpStatusWithBody<T>: ErrorProtocol {
         default:
             self = .unknown(object)
         }
+    }
+    
+    public var _code: Int {
+        return self.errorCode
     }
     
     public var errorCode: Int {

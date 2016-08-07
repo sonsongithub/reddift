@@ -86,7 +86,7 @@ public class BackgroundFetch: NSObject, URLSessionDelegate {
         }
     }
     
-    public func urlSession(_ session: URLSession, didBecomeInvalidWithError error: NSError?) {
+    public func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
         taskHandler(response: nil, dataURL: nil, error: error)
     }
 }

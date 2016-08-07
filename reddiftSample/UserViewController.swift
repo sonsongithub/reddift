@@ -82,33 +82,33 @@ class UserViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ToProfileViewController" {
-            if let con = segue.destinationViewController as? ProfileViewController {
+            if let con = segue.destination as? ProfileViewController {
                 con.session = self.session
             }
         } else if segue.identifier == "ToFrontViewController" {
-            if let con = segue.destinationViewController as? LinkViewController {
+            if let con = segue.destination as? LinkViewController {
                 con.session = self.session
             }
         } else if segue.identifier == "ToSubredditsListViewController" {
-            if let con = segue.destinationViewController as? SubredditsListViewController {
+            if let con = segue.destination as? SubredditsListViewController {
                 con.session = self.session
             }
         } else if segue.identifier == "ToSubredditsViewController" {
-            if let con = segue.destinationViewController as? SubredditsViewController {
+            if let con = segue.destination as? SubredditsViewController {
                 con.session = self.session
             }
         } else if segue.identifier == "OpenInbox" {
-			if let con = segue.destinationViewController as? MessageViewController {
+			if let con = segue.destination as? MessageViewController {
 				con.session = self.session
 				con.messageWhere = .inbox
 			}
 		} else if segue.identifier == "OpenSent" {
-			if let con = segue.destinationViewController as? MessageViewController {
+			if let con = segue.destination as? MessageViewController {
 				con.session = self.session
 				con.messageWhere = .sent
 			}
 		} else if segue.identifier == "OpenUnread" {
-			if let con = segue.destinationViewController as? MessageViewController {
+			if let con = segue.destination as? MessageViewController {
 				con.session = self.session
 				con.messageWhere = .unread
 			}

@@ -117,7 +117,7 @@ public class Session: NSObject, URLSessionDelegate, URLSessionDataDelegate {
                     var request = request
                     request.setOAuth2Token(token)
                     print("new token - \(token.accessToken) - automatically refreshed.")
-                    let task = self.session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
+                    let task = self.session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
                         self.updateRateLimit(with: response)
                         completion(handleResponse(data:data, response: response, error: error))
                     })
@@ -136,7 +136,7 @@ public class Session: NSObject, URLSessionDelegate, URLSessionDataDelegate {
      - returns: Data task which requests search to reddit.com.
      */
     func executeTask<T>(_ request: URLRequest, handleResponse: ((data: Data?, response: URLResponse?, error: NSError?) -> Result<T>), completion: ((Result<T>) -> Void)) -> URLSessionDataTask {
-        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: NSError?) -> Void in
+        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
             self.updateRateLimit(with: response)
             let result = handleResponse(data:data, response: response, error: error)
             switch result {
