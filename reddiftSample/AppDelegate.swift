@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let fetcher = BackgroundFetch(current: session,
                                               request: request,
                                               taskHandler: { (response, dataURL, error) -> Void in
-                                                if let response = response, dataURL = dataURL {
+                                                if let response = response, let dataURL = dataURL {
                                                     if response.statusCode == HttpStatus.ok.rawValue {
                                                         
                                                         do {

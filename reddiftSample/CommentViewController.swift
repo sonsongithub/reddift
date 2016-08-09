@@ -246,7 +246,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if comments.indices ~= indexPath.row {
-            if let more = comments[indexPath.row] as? More, link = self.link {
+            if let more = comments[indexPath.row] as? More, let link = self.link {
                 print(more)
                 do {
                     try session?.getMoreChildren(more.children, link:link, sort:.new, completion: { (result) -> Void in
