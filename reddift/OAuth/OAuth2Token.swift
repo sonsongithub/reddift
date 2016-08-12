@@ -8,8 +8,6 @@
 
 import Foundation
 
-public let OAuth2TokenDidUpdate = "oAuth2TokenDidUpdate"
-
 /**
 OAuth2 token for access reddit.com API.
 */

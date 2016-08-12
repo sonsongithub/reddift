@@ -69,7 +69,7 @@ class SubmitViewController: UIViewController {
         
         self.textView?.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(SubmitViewController.keyboardWillChangeFrame(_:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SubmitViewController.keyboardWillChangeFrame(_:)), name: .UIKeyboardWillChangeFrame, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
