@@ -28,12 +28,17 @@ enum PrivateLinkSortBy {
 extension Session {
 
     /**
-    Get the comment tree for a given Link article.
-    If supplied, comment is the ID36 of a comment in the comment tree for article. This comment will be the (highlighted) focal point of the returned view and context will be the number of parents shown.
+     Get the comment tree for a given Link article.
+     If supplied, comment is the ID36 of a comment in the comment tree for article.
+     This comment will be the (highlighted) focal point of the returned view and context will be the number of parents shown.
+     A comment tree often includes "More" objects and vacant comment objects.
+     "More" objects have children comment objects.
+     This API is used for expand of them.
+     And vacant comment objects must be re-downloaded again using this API.
     
     - parameter link: Link from which comment will be got.
     - parameter sort: The type of sorting.
-    - parameter comments: If supplied, comment is the ID36 of a comment in the comment tree for article. Default is nil.
+    - parameter comments: If supplied, comment is the ID36 of a comment in the comment tree for article. When you want to expand "more" object or vacant comment objects, you have to specify it. Default is nil.
     - parameter depth: The maximum depth of subtrees in the thread. Default is nil.
     - parameter limit: The maximum number of comments to return. Default is nil.
     - parameter completion: The completion handler to call when the load request is complete.
