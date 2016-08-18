@@ -20,9 +20,10 @@ public class OAuth2TokenRepository {
     - returns: OAuth2Token object.
     */
     public class func token(of name: String) throws -> OAuth2Token {
-        let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
+        let keychain = MiniKeychain(service:Config.sharedInstance.bundleIdentifier)
         do {
-            if let data = try keychain.getData(name), let json = try JSONSerialization.jsonObject(with: data, options: []) as? JSONDictionary {
+            let data = try keychain.data(of: name)
+            if let json = try JSONSerialization.jsonObject(with: data, options: []) as? JSONDictionary {
                 return OAuth2Token(json)
             }
             throw ReddiftError.specifiedNameTokenNotFoundInKeychain as NSError
@@ -37,8 +38,13 @@ public class OAuth2TokenRepository {
     - returns: List contains user names that was used to save tokens.
     */
     public class var savedNames: [String] {
-        let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-        return keychain.allKeys()
+        let keychain = MiniKeychain(service: Config.sharedInstance.bundleIdentifier)
+        do {
+            return try keychain.keys()
+        } catch {
+            print(error)
+            return []
+        }
     }
 
     /**
@@ -52,8 +58,8 @@ public class OAuth2TokenRepository {
         }
         do {
             let data = try JSONSerialization.data(withJSONObject: token.JSONObject, options: [])
-            let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-            try keychain.set(data, key:token.name)
+            let keychain = MiniKeychain(service:Config.sharedInstance.bundleIdentifier)
+            try keychain.save(key: token.name, data: data)
         } catch {
             throw error
         }
@@ -71,8 +77,8 @@ public class OAuth2TokenRepository {
         }
         do {
             let data = try JSONSerialization.data(withJSONObject: token.JSONObject, options: [])
-            let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-            try keychain.set(data, key:name)
+            let keychain = MiniKeychain(service:Config.sharedInstance.bundleIdentifier)
+            try keychain.save(key: name, data: data)
         } catch {
             throw error
         }
@@ -88,8 +94,8 @@ public class OAuth2TokenRepository {
             throw ReddiftError.tokenNameIsInvalid as NSError
         }
         do {
-            let keychain = Keychain(service:Config.sharedInstance.bundleIdentifier)
-            try keychain.remove(name)
+            let keychain = MiniKeychain(service:Config.sharedInstance.bundleIdentifier)
+            keychain.delete(key: name)
         } catch {
             throw error
         }

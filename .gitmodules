@@ -5,3 +5,6 @@
 	path = reddiftSample/vendor/UZTextView
 	url = https://github.com/sonsongithub/UZTextView.git
 
+[submodule "reddift/vendor/MiniKeychain"]
+	path = reddift/vendor/MiniKeychain
+	url = https://github.com/sonsongithub/MiniKeychain
