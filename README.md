@@ -38,7 +38,7 @@ And then, check your app's ```cliend_id``` and fill out ```redirect uri``` for O
 
 This JSON file saves application information to use OAuth.
 Rename ```reddift_config.json.sample``` to ```reddift_config.json```.
-And fill out ```DeveloperName```, ```redirect_uri``` and ```client_id```. 
+And fill out ```DeveloperName```, ```redirect_uri``` and ```client_id```.
 ```redirect_uri``` must be same one you registered at reddit.com.
 You can check ```client_id``` at application tab.
 reddift generates http's user-agent property using this JSON and application's info.plist.
@@ -65,7 +65,7 @@ reddift returns ```Result<T>``` object as a result.
 Get the value or error from ```Result<T>``` object.
 Concretely, you can access either value evaluating enum state like a following code.
 
-    
+
     // do not use "!" in your code
     switch(result) {
     case .Failure(let error):
@@ -73,7 +73,7 @@ Concretely, you can access either value evaluating enum state like a following c
     case .Success(let listing):
         // do something to listing
     }
-    
+
 In more detail about this coding style, see "[Efficient JSON in Swift with Functional Concepts and Generics](https://robots.thoughtbot.com/efficient-json-in-swift-with-functional-concepts-and-generics)".
 
 #### Create session
@@ -105,7 +105,7 @@ See following section about getting response or error handling.
 	case .Success(let token):
 	    con.session = Session(token: token)
 	}
-    
+
 You can get contents from reddit via ```Session``` object like following codes.
 
     session?.getList(paginator, subreddit:subreddit, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.All, completion: { (result) in
@@ -161,7 +161,7 @@ Fill each following value using above preference pain of reddit.com.
       "client_id": "test app client ID(must be script type app)",
       "secret": "test app secret"
     }
-    
+
 #### 3. Start test
 
 Cmd + U.
@@ -176,7 +176,7 @@ Before using, you have to copy ```test_config.json``` into ```./reddift.playgrou
 
 ## Dependency
 
-* reddift depends on [KeychainAccess](https://github.com/kishikawakatsumi/KeychainAccess) for saving access tokens.
+* reddift depends on [MiniKeychain](https://github.com/sonsongithub/MiniKeychain) for saving access tokens.
 * Sample application depends on [UZTextView](https://github.com/sonsongithub/UZTextView.git).
 
 ## License

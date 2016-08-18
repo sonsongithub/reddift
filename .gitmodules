@@ -1,6 +1,3 @@
-[submodule "reddift/vendor/KeychainAccess"]
-	path = reddift/vendor/KeychainAccess
-	url = https://github.com/sonsongithub/KeychainAccess.git
 [submodule "reddiftSample/vendor/UZTextView"]
 	path = reddiftSample/vendor/UZTextView
 	url = https://github.com/sonsongithub/UZTextView.git

@@ -727,7 +727,6 @@
 		14B5EC321AF35C170065BC5E /* CellContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellContent.swift; sourceTree = "<group>"; };
 		14B5EC341AF35C220065BC5E /* reddift_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reddift_config.json; sourceTree = "<group>"; };
 		14B5EC351AF35C220065BC5E /* reddift_config.json.sample */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reddift_config.json.sample; sourceTree = "<group>"; };
-		14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = Keychain.swift; path = vendor/KeychainAccess/Lib/KeychainAccess/Keychain.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		14B5EC541AF410740065BC5E /* UZCursorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UZCursorView.h; path = vendor/UZTextView/UZTextView/UZCursorView.h; sourceTree = "<group>"; };
 		14B5EC551AF410740065BC5E /* UZCursorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UZCursorView.m; path = vendor/UZTextView/UZTextView/UZCursorView.m; sourceTree = "<group>"; };
 		14B5EC561AF410740065BC5E /* UZLoupeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UZLoupeView.h; path = vendor/UZTextView/UZTextView/UZLoupeView.h; sourceTree = "<group>"; };
@@ -1061,17 +1060,8 @@
 			children = (
 				14437BB11D657D1500DAAAA8 /* MiniKeychain */,
 				14BCBCB31BCE1E7500A1FFEB /* Google */,
-				14B5EC521AF40ED80065BC5E /* Keychain */,
 			);
 			name = vendor;
-			sourceTree = "<group>";
-		};
-		14B5EC521AF40ED80065BC5E /* Keychain */ = {
-			isa = PBXGroup;
-			children = (
-				14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */,
-			);
-			name = Keychain;
 			sourceTree = "<group>";
 		};
 		14B5EC531AF410560065BC5E /* Resources */ = {
