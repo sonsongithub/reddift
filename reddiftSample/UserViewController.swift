@@ -80,7 +80,7 @@ class UserViewController: UITableViewController {
         print(session)
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToProfileViewController" {
             if let con = segue.destination as? ProfileViewController {
                 con.session = self.session

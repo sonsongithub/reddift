@@ -72,7 +72,7 @@ class AccountViewController: UITableViewController {
         }
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToUserViewController" {
             if let con = segue.destination as? UserViewController {
                 if let selectedIndexPath = tableView.indexPathForSelectedRow {

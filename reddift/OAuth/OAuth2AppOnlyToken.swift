@@ -89,12 +89,12 @@ public struct OAuth2AppOnlyToken: Token {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public static func getOAuth2AppOnlyToken(username: String, password: String, clientID: String, secret: String, completion: (Result<Token>) -> Void) throws -> URLSessionDataTask {
+    public static func getOAuth2AppOnlyToken(username: String, password: String, clientID: String, secret: String, completion: @escaping (Result<Token>) -> Void) throws -> URLSessionDataTask {
         let session = URLSession(configuration: URLSessionConfiguration.default)
         guard let request = requestForOAuth2AppOnly(username:username, password:password, clientID:clientID, secret:secret)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
-            let result = Result(from: Response(data: data, urlResponse: response), optional:error)
+            let result = Result(from: Response(data: data, urlResponse: response), optional:error as NSError?)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap({(json: JSONAny) -> Result<JSONDictionary> in
@@ -107,7 +107,7 @@ public struct OAuth2AppOnlyToken: Token {
             switch result {
             case .success(let json):
                 var newJSON = json
-                newJSON["name"] = username
+                newJSON["name"] = username as AnyObject
                 token = OAuth2AppOnlyToken(newJSON)
             default:
                 break

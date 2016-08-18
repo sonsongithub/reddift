@@ -17,10 +17,10 @@ extension Bundle {
     */
     class func infoValueInMainBundle(for key: String) -> AnyObject? {
         if let obj = self.main.localizedInfoDictionary?[key] {
-            return obj
+            return obj as AnyObject
         }
         if let obj = self.main.infoDictionary?[key] {
-            return obj
+            return obj as AnyObject
         }
         return nil
     }

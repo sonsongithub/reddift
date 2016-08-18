@@ -52,7 +52,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func createMultireddit(_ displayName: String, descriptionMd: String, iconName: MultiredditIconName = .none, keyColor: RedditColor = RedditColor.white, visibility: MultiredditVisibility = .private, weightingScheme: String = "classic", completion: (Result<Multireddit>) -> Void) throws -> URLSessionDataTask {
+    public func createMultireddit(_ displayName: String, descriptionMd: String, iconName: MultiredditIconName = .none, keyColor: RedditColor = RedditColor.white, visibility: MultiredditVisibility = .private, weightingScheme: String = "classic", completion: @escaping (Result<Multireddit>) -> Void) throws -> URLSessionDataTask {
         guard let token = self.token else { throw ReddiftError.tokenIsNotAvailable as NSError }
         
         let multipath = "/user/\(token.name)/m/\(displayName)"
@@ -65,7 +65,7 @@ extension Session {
             "subreddits" : names,
             "visibility" : "private",
             "weighting_scheme" : "classic"
-        ]
+        ] as [String : Any]
         
         do {
             let data = try JSONSerialization.data(withJSONObject: json, options: [])
@@ -94,7 +94,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getMultireddit(_ multi: Multireddit, completion: (Result<[Multireddit]>) -> Void) throws -> URLSessionDataTask {
+    public func getMultireddit(_ multi: Multireddit, completion: @escaping (Result<[Multireddit]>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["multipath":multi.path, "expand_srs":"true"]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/" + multi.path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -116,7 +116,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func deleteMultireddit(_ multi: Multireddit, completion: (Result<String>) -> Void) throws -> URLSessionDataTask {
+    public func deleteMultireddit(_ multi: Multireddit, completion: @escaping (Result<String>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/" + multi.path, method:"DELETE", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<String> in
@@ -135,7 +135,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func updateMultireddit(_ multi: Multireddit, completion: (Result<Multireddit>) -> Void) throws -> URLSessionDataTask {
+    public func updateMultireddit(_ multi: Multireddit, completion: @escaping (Result<Multireddit>) -> Void) throws -> URLSessionDataTask {
         let multipath = multi.path
         let names: [[String:String]] = []
         let json = [
@@ -146,7 +146,7 @@ extension Session {
             "subreddits" : names,
             "visibility" : multi.visibility.rawValue,
             "weighting_scheme" : "classic"
-        ]
+        ] as [String : Any]
         do {
             let data = try JSONSerialization.data(withJSONObject: json, options: [])
             if let jsonString = String(data:data, encoding:.utf8) {
@@ -172,7 +172,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getPublicMultiredditOfUsername(_ username: String, expandSrs: Bool = false, completion: (Result<[Multireddit]>) -> Void) throws -> URLSessionDataTask {
+    public func getPublicMultiredditOfUsername(_ username: String, expandSrs: Bool = false, completion: @escaping (Result<[Multireddit]>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["expand_srs":expandSrs ? "true" : "false", "username":username]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/user/" + username, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -209,7 +209,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func copyMultireddit(_ multi: Multireddit, newDisplayName: String, completion: (Result<Multireddit>) -> Void) throws -> URLSessionDataTask {
+    public func copyMultireddit(_ multi: Multireddit, newDisplayName: String, completion: @escaping (Result<Multireddit>) -> Void) throws -> URLSessionDataTask {
         do {
             let parameter = [
                 "display_name" : newDisplayName,
@@ -236,7 +236,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func renameMultireddit(_ multi: Multireddit, newDisplayName: String, completion: (Result<Multireddit>) -> Void) throws -> URLSessionDataTask {
+    public func renameMultireddit(_ multi: Multireddit, newDisplayName: String, completion: @escaping (Result<Multireddit>) -> Void) throws -> URLSessionDataTask {
         do {
             let parameter = [
                 "display_name" : newDisplayName,
@@ -265,7 +265,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func addSubredditToMultireddit(_ multireddit: Multireddit, subredditDisplayName: String, completion: (Result<String>) -> Void) throws -> URLSessionDataTask {
+    public func addSubredditToMultireddit(_ multireddit: Multireddit, subredditDisplayName: String, completion: @escaping (Result<String>) -> Void) throws -> URLSessionDataTask {
         let jsonString = "{\"name\":\"\(subredditDisplayName)\"}"
         let srname = subredditDisplayName
         let parameter = ["model":jsonString, "srname":srname]
@@ -298,7 +298,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func removeSubredditFromMultireddit(_ multireddit: Multireddit, subredditDisplayName: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func removeSubredditFromMultireddit(_ multireddit: Multireddit, subredditDisplayName: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let jsonString = "{\"name\":\"\(subredditDisplayName)\"}"
         let srname = subredditDisplayName
         let parameter = ["model":jsonString, "srname":srname]
@@ -320,7 +320,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getMineMultireddit(_ completion: (Result<[Multireddit]>) -> Void) throws -> URLSessionDataTask {
+    public func getMineMultireddit(_ completion: @escaping (Result<[Multireddit]>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/mine", method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[Multireddit]> in
@@ -341,7 +341,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getMultiredditDescription(_ multireddit: Multireddit, completion: (Result<MultiredditDescription>) -> Void) throws -> URLSessionDataTask {
+    public func getMultiredditDescription(_ multireddit: Multireddit, completion: @escaping (Result<MultiredditDescription>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/" + multireddit.path + "/description", method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<MultiredditDescription> in
@@ -364,7 +364,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func putMultiredditDescription(_ multireddit: Multireddit, description: String, modhash: String = "", completion: (Result<MultiredditDescription>) -> ()) throws -> URLSessionDataTask {
+    public func putMultiredditDescription(_ multireddit: Multireddit, description: String, modhash: String = "", completion: @escaping (Result<MultiredditDescription>) -> ()) throws -> URLSessionDataTask {
         let json = ["body_md":description]
         do {
             let data = try JSONSerialization.data(withJSONObject: json, options: [])

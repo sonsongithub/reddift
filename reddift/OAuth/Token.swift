@@ -42,13 +42,13 @@ extension Token {
     */
     var JSONObject: JSONDictionary {
         let dict: JSONDictionary = [
-            "name":self.name,
-            "access_token":self.accessToken,
-            "token_type":self.tokenType,
-            "expires_in":self.expiresIn,
-            "expires_date":self.expiresDate,
-            "scope":self.scope,
-            "refresh_token":self.refreshToken
+            "name":self.name as AnyObject,
+            "access_token":self.accessToken as AnyObject,
+            "token_type":self.tokenType as AnyObject,
+            "expires_in":self.expiresIn as AnyObject,
+            "expires_date":self.expiresDate as AnyObject,
+            "scope":self.scope as AnyObject,
+            "refresh_token":self.refreshToken as AnyObject
         ]
         return dict
     }

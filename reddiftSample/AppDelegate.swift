@@ -10,10 +10,10 @@ import Foundation
 import reddift
 
 /// Posted when the OAuth2TokenRepository object succeed in saving a token successfully into Keychain.
-public let OAuth2TokenRepositoryDidSaveTokenName        = "OAuth2TokenRepositoryDidSaveToken" as NSNotification.Name
+public let OAuth2TokenRepositoryDidSaveTokenName = Notification.Name(rawValue: "OAuth2TokenRepositoryDidSaveToken")
 
 /// Posted when the OAuth2TokenRepository object failed to save a token successfully into Keychain.
-public let OAuth2TokenRepositoryDidFailToSaveTokenName  = "OAuth2TokenRepositoryDidFailToSaveToken" as NSNotification.Name
+public let OAuth2TokenRepositoryDidFailToSaveTokenName = Notification.Name(rawValue: "OAuth2TokenRepositoryDidFailToSaveToken")
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var session: Session? = nil
     var window: UIWindow?
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+    private func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : Any]?) -> Bool {
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         if let name = UserDefaults.standard.string(forKey: "name") {
             do {
@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         if let session = session {
             do {
                 let request = try session.requestForGettingProfile()
@@ -98,7 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.shared.scheduleLocalNotification(notification);
     }
     
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion: {(result) -> Void in
             switch result {
             case .failure(let error):

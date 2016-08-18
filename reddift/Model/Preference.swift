@@ -112,52 +112,52 @@ public struct Preference {
     let useGlobalDefaults: Bool?
     public func json() -> JSONDictionary {
         var json: JSONDictionary = [:]
-        if let temp = beta { json["beta"] = temp }
-        if let temp = clickgadget { json["clickgadget"] = temp }
-        if let temp = collapseReadMessages { json["collapse_read_messages"] = temp }
-        if let temp = compress { json["compress"] = temp }
-        if let temp = credditAutorenew { json["creddit_autorenew"] = temp }
-        if let temp = defaultCommentSort { json["default_comment_sort"] = temp.rawValue }
-        if let temp = domainDetails { json["domain_details"] = temp }
-        if let temp = emailMessages { json["email_messages"] = temp }
-        if let temp = enableDefaultThemes { json["enable_default_themes"] = temp }
-        if let temp = hideAds { json["hide_ads"] = temp }
-        if let temp = hideDowns { json["hide_downs"] = temp }
-        if let temp = hideFromRobots { json["hide_from_robots"] = temp }
-        if let temp = hideLocationbar { json["hide_locationbar"] = temp }
-        if let temp = hideUps { json["hide_ups"] = temp }
-        if let temp = highlightControversial { json["highlight_controversial"] = temp }
-        if let temp = highlightNewComments { json["highlight_new_comments"] = temp }
-        if let temp = ignoreSuggestedSort { json["ignore_suggested_sort"] = temp }
-        if let temp = labelNsfw { json["label_nsfw"] = temp }
-        if let temp = lang { json["lang"] = temp }
-        if let temp = legacySearch { json["legacy_search"] = temp }
-        if let temp = markMessagesRead { json["mark_messages_read"] = temp }
-        if let temp = media { json["media"] = temp.rawValue }
-        if let temp = minCommentScore { json["min_comment_score"] = temp }
-        if let temp = minLinkScore { json["min_link_score"] = temp }
-        if let temp = monitorMentions { json["monitor_mentions"] = temp }
-        if let temp = newwindow { json["newwindow"] = temp }
-        if let temp = noProfanity { json["no_profanity"] = temp }
-        if let temp = numComments { json["num_comments"] = temp }
-        if let temp = numsites { json["numsites"] = temp }
-        if let temp = organic { json["organic"] = temp }
-        if let temp = otherTheme { json["other_theme"] = temp }
-        if let temp = over18 { json["over_18"] = temp }
-        if let temp = privateFeeds { json["private_feeds"] = temp }
-        if let temp = publicVotes { json["public_votes"] = temp }
-        if let temp = research { json["research"] = temp }
-        if let temp = showFlair { json["show_flair"] = temp }
-        if let temp = showGoldExpiration { json["show_gold_expiration"] = temp }
-        if let temp = showLinkFlair { json["show_link_flair"] = temp }
-        if let temp = showPromote { json["show_promote"] = temp }
-        if let temp = showStylesheets { json["show_stylesheets"] = temp }
-        if let temp = showTrending { json["show_trending"] = temp }
-        if let temp = storeVisits { json["store_visits"] = temp }
-        if let temp = themeSelector { json["theme_selector"] = temp }
-        if let temp = threadedMessages { json["threaded_messages"] = temp }
-        if let temp = threadedModmail { json["threaded_modmail"] = temp }
-        if let temp = useGlobalDefaults { json["use_global_defaults"] = temp }
+        if let temp = beta { json["beta"] = temp as AnyObject }
+        if let temp = clickgadget { json["clickgadget"] = temp as AnyObject }
+        if let temp = collapseReadMessages { json["collapse_read_messages"] = temp as AnyObject }
+        if let temp = compress { json["compress"] = temp as AnyObject }
+        if let temp = credditAutorenew { json["creddit_autorenew"] = temp as AnyObject }
+        if let temp = defaultCommentSort { json["default_comment_sort"] = temp.rawValue as AnyObject }
+        if let temp = domainDetails { json["domain_details"] = temp as AnyObject }
+        if let temp = emailMessages { json["email_messages"] = temp as AnyObject }
+        if let temp = enableDefaultThemes { json["enable_default_themes"] = temp as AnyObject }
+        if let temp = hideAds { json["hide_ads"] = temp as AnyObject }
+        if let temp = hideDowns { json["hide_downs"] = temp as AnyObject }
+        if let temp = hideFromRobots { json["hide_from_robots"] = temp as AnyObject }
+        if let temp = hideLocationbar { json["hide_locationbar"] = temp as AnyObject }
+        if let temp = hideUps { json["hide_ups"] = temp as AnyObject }
+        if let temp = highlightControversial { json["highlight_controversial"] = temp as AnyObject }
+        if let temp = highlightNewComments { json["highlight_new_comments"] = temp as AnyObject }
+        if let temp = ignoreSuggestedSort { json["ignore_suggested_sort"] = temp as AnyObject }
+        if let temp = labelNsfw { json["label_nsfw"] = temp as AnyObject }
+        if let temp = lang { json["lang"] = temp as AnyObject }
+        if let temp = legacySearch { json["legacy_search"] = temp as AnyObject }
+        if let temp = markMessagesRead { json["mark_messages_read"] = temp as AnyObject }
+        if let temp = media { json["media"] = temp.rawValue as AnyObject }
+        if let temp = minCommentScore { json["min_comment_score"] = temp as AnyObject }
+        if let temp = minLinkScore { json["min_link_score"] = temp as AnyObject }
+        if let temp = monitorMentions { json["monitor_mentions"] = temp as AnyObject }
+        if let temp = newwindow { json["newwindow"] = temp as AnyObject }
+        if let temp = noProfanity { json["no_profanity"] = temp as AnyObject }
+        if let temp = numComments { json["num_comments"] = temp as AnyObject }
+        if let temp = numsites { json["numsites"] = temp as AnyObject }
+        if let temp = organic { json["organic"] = temp as AnyObject }
+        if let temp = otherTheme { json["other_theme"] = temp as AnyObject }
+        if let temp = over18 { json["over_18"] = temp as AnyObject }
+        if let temp = privateFeeds { json["private_feeds"] = temp as AnyObject }
+        if let temp = publicVotes { json["public_votes"] = temp as AnyObject }
+        if let temp = research { json["research"] = temp as AnyObject }
+        if let temp = showFlair { json["show_flair"] = temp as AnyObject }
+        if let temp = showGoldExpiration { json["show_gold_expiration"] = temp as AnyObject }
+        if let temp = showLinkFlair { json["show_link_flair"] = temp as AnyObject }
+        if let temp = showPromote { json["show_promote"] = temp as AnyObject }
+        if let temp = showStylesheets { json["show_stylesheets"] = temp as AnyObject }
+        if let temp = showTrending { json["show_trending"] = temp as AnyObject }
+        if let temp = storeVisits { json["store_visits"] = temp as AnyObject }
+        if let temp = themeSelector { json["theme_selector"] = temp as AnyObject }
+        if let temp = threadedMessages { json["threaded_messages"] = temp as AnyObject }
+        if let temp = threadedModmail { json["threaded_modmail"] = temp as AnyObject }
+        if let temp = useGlobalDefaults { json["use_global_defaults"] = temp as AnyObject }
         return json
     }
     public init(json: JSONDictionary) {

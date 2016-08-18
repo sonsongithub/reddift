@@ -16,10 +16,10 @@ public class BackgroundFetch: NSObject, URLSessionDelegate {
     var taskURLSession: URLSession? = nil
     var tokenURLSession: URLSession? = nil
     var firstTry = true
-    let taskHandler: ((response: HTTPURLResponse?, dataURL: URL?, error: NSError?) -> Void)
+    let taskHandler: ((_ response: HTTPURLResponse?, _ dataURL: URL?, _ error: NSError?) -> Void)
     var request: URLRequest
     
-    public init(current currentSession: Session, request aRequest: URLRequest, taskHandler aTaskHandler: (response: HTTPURLResponse?, dataURL: URL?, error: NSError?) -> Void) {
+    public init(current currentSession: Session, request aRequest: URLRequest, taskHandler aTaskHandler: @escaping (_ response: HTTPURLResponse?, _ dataURL: URL?, _ error: NSError?) -> Void) {
         session = currentSession
         taskHandler = aTaskHandler
         request = aRequest
@@ -41,10 +41,10 @@ public class BackgroundFetch: NSObject, URLSessionDelegate {
                     tokenURLSession.downloadTask(with: requestForRefreshToken).resume()
                 }
             } else {
-                taskHandler(response: nil, dataURL: nil, error: HttpStatus(response.statusCode) as NSError)
+                taskHandler(nil, nil, HttpStatus(response.statusCode) as NSError)
             }
         } else {
-            taskHandler(response: response, dataURL: didFinishDownloadingToURL, error: nil)
+            taskHandler(response, didFinishDownloadingToURL, nil)
         }
     }
     
@@ -62,10 +62,10 @@ public class BackgroundFetch: NSObject, URLSessionDelegate {
                 request.setOAuth2Token(token)
                 resume()
             case .failure(let error):
-                taskHandler(response: nil, dataURL: nil, error: error)
+                taskHandler(nil, nil, error)
             }
         } else {
-            taskHandler(response: nil, dataURL: nil, error: HttpStatus(response.statusCode) as NSError)
+            taskHandler(nil, nil, HttpStatus(response.statusCode) as NSError)
         }
     }
     
@@ -82,11 +82,11 @@ public class BackgroundFetch: NSObject, URLSessionDelegate {
         } else if session == taskURLSession {
             handleTask(with: response, didFinishDownloadingToURL: location, requestForRefreshToken: requestForRefreshToken)
         } else {
-            taskHandler(response: nil, dataURL: nil, error: ReddiftError.unknown as NSError)
+            taskHandler(nil, nil, ReddiftError.unknown as NSError)
         }
     }
     
     public func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-        taskHandler(response: nil, dataURL: nil, error: error)
+        taskHandler(nil, nil, error as NSError?)
     }
 }

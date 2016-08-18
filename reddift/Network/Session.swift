@@ -106,7 +106,7 @@ public class Session: NSObject, URLSessionDelegate, URLSessionDataDelegate {
      - parameter handleResponse: Closure returns Result<T> object by handling response, data and error that is returned from NSURLSession.
      - parameter completion: The completion handler to call when the load request is complete.
      */
-    func executeTaskAgainAfterRefresh<T>(_ request: URLRequest, handleResponse: (data: Data?, response: URLResponse?, error: NSError?) -> Result<T>, completion: (Result<T>) -> Void) -> Void {
+    func executeTaskAgainAfterRefresh<T>(_ request: URLRequest, handleResponse: @escaping (_ data: Data?, _ response: URLResponse?, _ error: NSError?) -> Result<T>, completion: @escaping (Result<T>) -> Void) -> Void {
         do {
             try self.refreshToken({ (result) -> Void in
                 switch result {
@@ -119,7 +119,7 @@ public class Session: NSObject, URLSessionDelegate, URLSessionDataDelegate {
                     print("new token - \(token.accessToken) - automatically refreshed.")
                     let task = self.session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
                         self.updateRateLimit(with: response)
-                        completion(handleResponse(data:data, response: response, error: error))
+                        completion(handleResponse(data, response, error as NSError?))
                     })
                     task.resume()
                 }
@@ -135,10 +135,10 @@ public class Session: NSObject, URLSessionDelegate, URLSessionDataDelegate {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    func executeTask<T>(_ request: URLRequest, handleResponse: ((data: Data?, response: URLResponse?, error: NSError?) -> Result<T>), completion: ((Result<T>) -> Void)) -> URLSessionDataTask {
+    func executeTask<T>(_ request: URLRequest, handleResponse: ((_ data: Data?, _ response: URLResponse?, _ error: NSError?) -> Result<T>), completion: ((Result<T>) -> Void)) -> URLSessionDataTask {
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
             self.updateRateLimit(with: response)
-            let result = handleResponse(data:data, response: response, error: error)
+            let result = handleResponse(data, response, error as NSError?)
             switch result {
             case .failure(let error):
                 guard let token = self.token else { completion(result); return; }

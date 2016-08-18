@@ -16,7 +16,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func gild(_ fullname: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func gild(_ fullname: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["fullname":fullname]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/v1/gold/gild/", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -35,7 +35,7 @@ extension Session {
      - parameter months: an integer between 1 and 36
      - returns: Data task which requests search to reddit.com.
      */
-    public func giveGold(_ username: String, months: Int, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func giveGold(_ username: String, months: Int, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["fullname":username, "months":String(months)]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/v1/gold/give/", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }

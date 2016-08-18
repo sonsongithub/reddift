@@ -25,7 +25,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func postComment(_ text: String, parentName: String, completion: (Result<Comment>) -> Void) throws -> URLSessionDataTask {
+    public func postComment(_ text: String, parentName: String, completion: @escaping (Result<Comment>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["thing_id":parentName, "api_type":"json", "text":text]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/comment", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -46,7 +46,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func deleteCommentOrLink(_ name: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func deleteCommentOrLink(_ name: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["id":name]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/del", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -62,7 +62,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func setVote(_ direction: VoteDirection, name: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func setVote(_ direction: VoteDirection, name: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["dir":String(direction.rawValue), "id":name]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/vote", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -79,7 +79,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func setSave(_ save: Bool, name: String, category: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func setSave(_ save: Bool, name: String, category: String = "", completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         var parameter = ["id":name]
         if !category.isEmpty {
             parameter["category"] = category
@@ -99,7 +99,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func setHide(_ hide: Bool, name: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func setHide(_ hide: Bool, name: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["id":name]
         let path = hide ? "/api/hide" : "/api/unhide"
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:path, parameter:parameter, method:"POST", token:token)
@@ -116,7 +116,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getInfo(_ names: [String], completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
+    public func getInfo(_ names: [String], completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedNameString = names.joined(separator: ",")
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -145,7 +145,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func setNSFW(_ mark: Bool, thing: Thing, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func setNSFW(_ mark: Bool, thing: Thing, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let path = mark ? "/api/marknsfw" : "/api/unmarknsfw"
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:path, parameter:["id":thing.name], method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -161,7 +161,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getSavedCategories(_ completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func getSavedCategories(_ completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/saved_categories", method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
@@ -179,7 +179,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func report(_ thing: Thing, reason: String, otherReason: String, completion: (Result<RedditAny>) -> Void) throws -> URLSessionDataTask {
+    public func report(_ thing: Thing, reason: String, otherReason: String, completion: @escaping (Result<RedditAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = [
             "api_type"    :"json",
             "reason"      :reason,
@@ -203,7 +203,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func submitLink(_ subreddit: Subreddit, title: String, URL: String, captcha: String, captchaIden: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func submitLink(_ subreddit: Subreddit, title: String, URL: String, captcha: String, captchaIden: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = [
             "api_type" : "json",
             "captcha" : captcha,
@@ -233,7 +233,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func submitText(_ subreddit: Subreddit, title: String, text: String, captcha: String, captchaIden: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func submitText(_ subreddit: Subreddit, title: String, text: String, captcha: String, captchaIden: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = [
             "api_type" : "json",
             "captcha" : captcha,
@@ -265,7 +265,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getMoreChildren(_ children: [String], link: Link, sort: CommentSort, id: String? = nil, completion: (Result<[Thing]>) -> Void) throws -> URLSessionDataTask {
+    public func getMoreChildren(_ children: [String], link: Link, sort: CommentSort, id: String? = nil, completion: @escaping (Result<[Thing]>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedChildren = children.joined(separator: ",")
         var parameter = [
             "children":commaSeparatedChildren,

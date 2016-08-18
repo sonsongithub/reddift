@@ -19,7 +19,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func markMessagesAsUnread(_ fullnames: [String], modhash: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func markMessagesAsUnread(_ fullnames: [String], modhash: String = "", completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedFullameString = fullnames.joined(separator: ",")
         let parameter = ["id":commaSeparatedFullameString]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/unread_message", parameter:parameter, method:"POST", token:token)
@@ -39,7 +39,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func markMessagesAsRead(_ fullnames: [String], modhash: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func markMessagesAsRead(_ fullnames: [String], modhash: String = "", completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedFullameString = fullnames.joined(separator: ",")
         let parameter = ["id":commaSeparatedFullameString]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/read_message", parameter:parameter, method:"POST", token:token)
@@ -60,7 +60,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func markAllMessagesAsRead(_ modhash: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func markAllMessagesAsRead(_ modhash: String = "", completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/read_all_messages", parameter:nil, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
@@ -79,7 +79,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func collapseMessages(_ fullnames: [String], modhash: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func collapseMessages(_ fullnames: [String], modhash: String = "", completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedFullameString = fullnames.joined(separator: ",")
         let parameter = ["id":commaSeparatedFullameString]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/collapse_message", parameter:parameter, method:"POST", token:token)
@@ -100,7 +100,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func uncollapseMessages(_ fullnames: [String], modhash: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func uncollapseMessages(_ fullnames: [String], modhash: String = "", completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedFullameString = fullnames.joined(separator: ",")
         let parameter = ["id":commaSeparatedFullameString]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/uncollapse_message", parameter:parameter, method:"POST", token:token)
@@ -120,7 +120,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func blockViaInbox(_ fullname: String, modhash: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func blockViaInbox(_ fullname: String, modhash: String = "", completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["id":fullname]
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"/api/block", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -139,7 +139,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func unblockViaInbox(_ fullname: String, modhash: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func unblockViaInbox(_ fullname: String, modhash: String = "", completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["id":fullname]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/unblock_subreddit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -161,7 +161,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getMessage(_ messageWhere: MessageWhere, limit: Int = 100, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
+    public func getMessage(_ messageWhere: MessageWhere, limit: Int = 100, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/message" + messageWhere.path, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
@@ -188,7 +188,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func composeMessage(_ to: Account, subject: String, text: String, fromSubreddit: Subreddit, captcha: String, captchaIden: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func composeMessage(_ to: Account, subject: String, text: String, fromSubreddit: Subreddit, captcha: String, captchaIden: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = [
             "api_type" : "json",
             "captcha" : captcha,

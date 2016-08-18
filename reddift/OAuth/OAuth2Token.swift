@@ -140,12 +140,12 @@ public struct OAuth2Token: Token {
     - returns: Data task which requests search to reddit.com.
     */
     @discardableResult
-    public func refresh(_ completion: (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
+    public func refresh(_ completion: @escaping (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
         let session = URLSession(configuration: URLSessionConfiguration.default)
         guard let request = requestForRefreshing()
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
-            let result = Result(from: Response(data: data, urlResponse: response), optional:error)
+            let result = Result(from: Response(data: data, urlResponse: response), optional:error as NSError?)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap({(json: JSONAny) -> Result<JSONDictionary> in
@@ -157,8 +157,8 @@ public struct OAuth2Token: Token {
             switch result {
             case .success(let json):
                 var newJSON = json
-                newJSON["name"] = self.name
-                newJSON["refresh_token"] = self.refreshToken
+                newJSON["name"] = self.name as AnyObject
+                newJSON["refresh_token"] = self.refreshToken as AnyObject
                 completion(OAuth2Token.tokenWithJSON(newJSON))
             case .failure(let error):
                 completion(Result(error: error))
@@ -175,12 +175,12 @@ public struct OAuth2Token: Token {
     - returns: Data task which requests search to reddit.com.
     */
     @discardableResult
-    public func revoke(_ completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func revoke(_ completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let session = URLSession(configuration: URLSessionConfiguration.default)
         guard let request = requestForRevoking()
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
-            let result = Result(from: Response(data: data, urlResponse: response), optional:error)
+            let result = Result(from: Response(data: data, urlResponse: response), optional:error as NSError?)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
             completion(result)
@@ -197,12 +197,12 @@ public struct OAuth2Token: Token {
     - returns: Data task which requests search to reddit.com.
     */
     @discardableResult
-    public static func getOAuth2Token(_ code: String, completion: (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
+    public static func getOAuth2Token(_ code: String, completion: @escaping (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
         let session = URLSession(configuration: URLSessionConfiguration.default)
         guard let request = requestForOAuth(code)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
-            let result = Result(from: Response(data: data, urlResponse: response), optional:error)
+            let result = Result(from: Response(data: data, urlResponse: response), optional:error as NSError?)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(OAuth2Token.tokenWithJSON)
@@ -229,12 +229,12 @@ public struct OAuth2Token: Token {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    func getProfile(_ completion: (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
+    func getProfile(_ completion: @escaping (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"/api/v1/me", method:"GET", token:self)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let session = URLSession(configuration: URLSessionConfiguration.default)
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
-            let result = Result(from: Response(data: data, urlResponse: response), optional:error)
+            let result = Result(from: Response(data: data, urlResponse: response), optional:error as NSError?)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap({ (json: JSONAny) -> Result<Account> in
@@ -245,7 +245,7 @@ public struct OAuth2Token: Token {
                 })
             switch result {
             case .success(let profile):
-                let json = ["name":profile.name, "access_token":self.accessToken, "token_type":self.tokenType, "expires_in":self.expiresIn, "expires_date":self.expiresDate, "scope":self.scope, "refresh_token":self.refreshToken]
+                let json = ["name":profile.name, "access_token":self.accessToken, "token_type":self.tokenType, "expires_in":self.expiresIn, "expires_date":self.expiresDate, "scope":self.scope, "refresh_token":self.refreshToken] as [String : Any]
                 completion(OAuth2Token.tokenWithJSON(json))
             case .failure(let error):
                 completion(Result(error: error))

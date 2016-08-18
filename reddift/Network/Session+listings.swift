@@ -45,7 +45,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getArticles(_ link: Link, sort: CommentSort, comments: [String]? = nil, depth: Int? = nil, limit: Int? = nil, completion: (Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
+    public func getArticles(_ link: Link, sort: CommentSort, comments: [String]? = nil, depth: Int? = nil, limit: Int? = nil, completion: @escaping (Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
         var parameter = ["sort":sort.type, "showmore":"True"]
         if let depth = depth {
             parameter["depth"] = "\(depth)"
@@ -82,7 +82,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getList(_ paginator: Paginator, subreddit: SubredditURLPath?, sort: LinkSortType, timeFilterWithin: TimeFilterWithin, limit: Int = 25, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
+    public func getList(_ paginator: Paginator, subreddit: SubredditURLPath?, sort: LinkSortType, timeFilterWithin: TimeFilterWithin, limit: Int = 25, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         do {
             switch sort {
             case .controversial:
@@ -109,7 +109,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    func getList(_ paginator: Paginator, subreddit: SubredditURLPath?, privateSortType: PrivateLinkSortBy, timeFilterWithin: TimeFilterWithin, limit: Int = 25, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
+    func getList(_ paginator: Paginator, subreddit: SubredditURLPath?, privateSortType: PrivateLinkSortBy, timeFilterWithin: TimeFilterWithin, limit: Int = 25, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let parameter = paginator.dictionaryByAdding(parameters: [
             "limit"    : "\(limit)",
             "show"     : "all",
@@ -139,7 +139,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    func getHotList(_ paginator: Paginator, subreddit: SubredditURLPath?, limit: Int = 25, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
+    func getHotList(_ paginator: Paginator, subreddit: SubredditURLPath?, limit: Int = 25, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         do {
             return try getNewOrHotList(paginator, subreddit: subreddit, type: "hot", limit:limit, completion: completion)
         } catch { throw error }
@@ -154,7 +154,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    func getNewList(_ paginator: Paginator, subreddit: SubredditURLPath?, limit: Int = 25, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
+    func getNewList(_ paginator: Paginator, subreddit: SubredditURLPath?, limit: Int = 25, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         do {
             return try getNewOrHotList(paginator, subreddit: subreddit, type: "new", limit:limit, completion: completion)
         } catch { throw error }
@@ -171,7 +171,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    func getNewOrHotList(_ paginator: Paginator, subreddit: SubredditURLPath?, type: String, limit: Int = 25, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
+    func getNewOrHotList(_ paginator: Paginator, subreddit: SubredditURLPath?, type: String, limit: Int = 25, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let parameter = paginator.dictionaryByAdding(parameters: [
             "limit"    : "\(limit)",
             //            "sr_detail": "true",
@@ -200,7 +200,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getRandom(_ subreddit: Subreddit? = nil, completion: (Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
+    public func getRandom(_ subreddit: Subreddit? = nil, completion: @escaping (Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
         var path = "/random"
         if let subreddit = subreddit { path = subreddit.url + "/random" }
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:path, method:"GET", token:token)
@@ -227,7 +227,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getRelatedArticles(_ paginator: Paginator, thing: Thing, limit: Int = 25, completion: (Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
+    public func getRelatedArticles(_ paginator: Paginator, thing: Thing, limit: Int = 25, completion: @escaping (Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
         let parameter = paginator.dictionaryByAdding(parameters: [
             "limit"    : "\(limit)",
             //            "sr_detail": "true",
@@ -255,7 +255,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getDuplicatedArticles(_ paginator: Paginator, thing: Thing, limit: Int = 25, completion: (Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
+    public func getDuplicatedArticles(_ paginator: Paginator, thing: Thing, limit: Int = 25, completion: @escaping  (Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
         let parameter = paginator.dictionaryByAdding(parameters: [
             "limit"    : "\(limit)",
 //            "sr_detail": "true",
@@ -281,7 +281,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getLinksById(_ links: [Link], completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
+    public func getLinksById(_ links: [Link], completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let fullnameList = links.map({ (link: Link) -> String in link.name })
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/by_id/" + fullnameList.joined(separator: ","), method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }

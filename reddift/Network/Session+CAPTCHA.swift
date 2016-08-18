@@ -78,7 +78,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func checkNeedsCAPTCHA(_ completion: (Result<Bool>) -> Void) throws -> URLSessionDataTask {
+    public func checkNeedsCAPTCHA(_ completion: @escaping (Result<Bool>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/needs_captcha", method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Bool> in
@@ -98,7 +98,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getIdenForNewCAPTCHA(_ completion: (Result<String>) -> Void) throws -> URLSessionDataTask {
+    public func getIdenForNewCAPTCHA(_ completion: @escaping (Result<String>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["api_type":"json"]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/new_captcha", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -123,7 +123,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getCAPTCHA(_ iden: String, completion: (Result<CAPTCHAImage>) -> Void) throws -> URLSessionDataTask {
+    public func getCAPTCHA(_ iden: String, completion: @escaping (Result<CAPTCHAImage>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/captcha/" + iden, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<CAPTCHAImage> in
@@ -142,7 +142,7 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getCAPTCHA(_ completion: (Result<CAPTCHAImage>) -> Void) throws -> Void {
+    public func getCAPTCHA(_ completion: @escaping (Result<CAPTCHAImage>) -> Void) throws -> Void {
         do {
             try getIdenForNewCAPTCHA { (result) -> Void in
                 switch result {

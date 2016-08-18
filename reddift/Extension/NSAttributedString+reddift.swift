@@ -87,7 +87,7 @@ extension String {
 extension URLComponents {
     
     /// Returns true when URL's filename has image's file extension(such as gif, jpg, png).
-    private var hasImageFileExtension: Bool {
+    public var hasImageFileExtension: Bool {
         let path = self.path
             if let r = regexForHasImageFileExtension.firstMatch(in: path, options: [], range: NSRange(location: 0, length: path.characters.count)) {
                 return r.rangeAt(1).length > 0
@@ -110,7 +110,7 @@ extension NSAttributedString {
                 if let value = value {
                     values.append(value)
                 }
-            })
+            } as! (Any?, NSRange, UnsafeMutablePointer<ObjCBool>) -> Void)
             return values.flatMap { $0 as? URL }
         }
     }
@@ -150,18 +150,16 @@ extension NSAttributedString {
         return __reconstruct(with: normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
     }
 #endif
-}
-
-/// Private extension for NSAttributedString
-extension NSAttributedString {
+    
+    
     /**
-    Reconstruct attributed string, intrinsic function. This function is for encapsulating difference of font and color class.
-    - parameter normalFont : Specified NSFont/UIFont you want to use when the object is rendered.
-    - parameter color : Specified NSColor/UIColor of strings.
-    - parameter linkColor : Specified NSColor/UIColor of strings have NSLinkAttributeName as an attribute.
-    - parameter codeBackgroundColor : Specified NSColor/UIColor of background of strings that are included in <code>.
-    - returns : NSAttributedString object.
-    */
+     Reconstruct attributed string, intrinsic function. This function is for encapsulating difference of font and color class.
+     - parameter normalFont : Specified NSFont/UIFont you want to use when the object is rendered.
+     - parameter color : Specified NSColor/UIColor of strings.
+     - parameter linkColor : Specified NSColor/UIColor of strings have NSLinkAttributeName as an attribute.
+     - parameter codeBackgroundColor : Specified NSColor/UIColor of background of strings that are included in <code>.
+     - returns : NSAttributedString object.
+     */
     private func __reconstruct(with normalFont: _Font, color: _Color, linkColor: _Color, codeBackgroundColor: _Color) -> NSAttributedString {
         let attributes = self.attributesForReddift
         let (italicFont, boldFont, codeFont, superscriptFont, _) = createDerivativeFonts(normalFont)
@@ -192,39 +190,39 @@ extension NSAttributedString {
         }
         return output
     }
-
+    
     /**
-    Create fonts which is derivative of specified font object.
-    - parameter normalFont : Source font from which new font objects are generated. The new font objects' size are as same as source one.
-    - returns : Four font objects as a tuple, that are italic, bold, code, superscript and pargraph style.
-    */
+     Create fonts which is derivative of specified font object.
+     - parameter normalFont : Source font from which new font objects are generated. The new font objects' size are as same as source one.
+     - returns : Four font objects as a tuple, that are italic, bold, code, superscript and pargraph style.
+     */
     private func createDerivativeFonts(_ normalFont: _Font) -> (_Font, _Font, _Font, _Font, NSParagraphStyle) {
-#if os(iOS) || os(tvOS)
-        let traits = normalFont.fontDescriptor.symbolicTraits
-        let italicFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits([traits, .traitItalic])
-        let boldFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits([traits, .traitBold])
-        let italicFont = _Font(descriptor: italicFontDescriptor!, size: normalFont.fontDescriptor.pointSize)
-        let boldFont = _Font(descriptor: boldFontDescriptor!, size: normalFont.fontDescriptor.pointSize)
-        let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor.pointSize) ?? normalFont
-        let superscriptFont = _Font(descriptor: normalFont.fontDescriptor, size: normalFont.fontDescriptor.pointSize/2)
-        let paragraphStyle = NSParagraphStyle.defaultReddiftParagraphStyle(with: normalFont.fontDescriptor.pointSize)
-#elseif os(OSX)
-        let traits = normalFont.fontDescriptor.symbolicTraits
-        let italicFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits(traits & NSFontSymbolicTraits(NSFontItalicTrait))
-        let boldFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits(traits & NSFontSymbolicTraits(NSFontBoldTrait))
-        let italicFont = _Font(descriptor: italicFontDescriptor, size: normalFont.fontDescriptor.pointSize) ?? normalFont
-        let boldFont = _Font(descriptor: boldFontDescriptor, size: normalFont.fontDescriptor.pointSize) ?? normalFont
-        let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor.pointSize) ?? normalFont
-        let superscriptFont = _Font(descriptor: normalFont.fontDescriptor, size: normalFont.fontDescriptor.pointSize/2) ?? normalFont
-        let paragraphStyle = NSParagraphStyle.defaultReddiftParagraphStyle(with: normalFont.fontDescriptor.pointSize)
-#endif
+        #if os(iOS) || os(tvOS)
+            let traits = normalFont.fontDescriptor.symbolicTraits
+            let italicFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits([traits, .traitItalic])
+            let boldFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits([traits, .traitBold])
+            let italicFont = _Font(descriptor: italicFontDescriptor!, size: normalFont.fontDescriptor.pointSize)
+            let boldFont = _Font(descriptor: boldFontDescriptor!, size: normalFont.fontDescriptor.pointSize)
+            let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor.pointSize) ?? normalFont
+            let superscriptFont = _Font(descriptor: normalFont.fontDescriptor, size: normalFont.fontDescriptor.pointSize/2)
+            let paragraphStyle = NSParagraphStyle.defaultReddiftParagraphStyle(with: normalFont.fontDescriptor.pointSize)
+        #elseif os(OSX)
+            let traits = normalFont.fontDescriptor.symbolicTraits
+            let italicFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits(traits & NSFontSymbolicTraits(NSFontItalicTrait))
+            let boldFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits(traits & NSFontSymbolicTraits(NSFontBoldTrait))
+            let italicFont = _Font(descriptor: italicFontDescriptor, size: normalFont.fontDescriptor.pointSize) ?? normalFont
+            let boldFont = _Font(descriptor: boldFontDescriptor, size: normalFont.fontDescriptor.pointSize) ?? normalFont
+            let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor.pointSize) ?? normalFont
+            let superscriptFont = _Font(descriptor: normalFont.fontDescriptor, size: normalFont.fontDescriptor.pointSize/2) ?? normalFont
+            let paragraphStyle = NSParagraphStyle.defaultReddiftParagraphStyle(with: normalFont.fontDescriptor.pointSize)
+        #endif
         return (italicFont, boldFont, codeFont, superscriptFont, paragraphStyle)
     }
     
     /**
-    Extract attributes from NSAttributedString in order to set attributes and values again to new NSAttributedString for rendering.
-    - returns : Attribute's array to set a new NSAttributedString.
-    */
+     Extract attributes from NSAttributedString in order to set attributes and values again to new NSAttributedString for rendering.
+     - returns : Attribute's array to set a new NSAttributedString.
+     */
     private var attributesForReddift: [Attribute] {
         var attributes: [Attribute] = []
         
@@ -232,7 +230,7 @@ extension NSAttributedString {
             if let URL = value as? URL {
                 attributes.append(Attribute.link(URL, range.location, range.length))
             }
-        })
+            } as! (Any?, NSRange, UnsafeMutablePointer<ObjCBool>) -> Void)
         
         self.enumerateAttribute(NSFontAttributeName, in: NSRange(location:0, length:self.length), options: [], using: { (value: AnyObject?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
             if let font = value as? _Font {
@@ -255,7 +253,7 @@ extension NSAttributedString {
                     attributes.append(Attribute.strike(range.location, range.length))
                 }
             }
-        })
+            } as! (Any?, NSRange, UnsafeMutablePointer<ObjCBool>) -> Void)
         return attributes
     }
 }

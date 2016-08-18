@@ -26,7 +26,7 @@ extension Session {
      Gets a list of subreddits recommended for srnames, filtering out any that appear in the optional omit param.
      */
     @discardableResult
-    public func recommendedSubreddits(_ omit: [String], srnames: [String], completion: (Result<[String]>) -> Void) throws -> URLSessionDataTask {
+    public func recommendedSubreddits(_ omit: [String], srnames: [String], completion: @escaping (Result<[String]>) -> Void) throws -> URLSessionDataTask {
         var parameter: [String:String] = [:]
         
         if omit.count > 0 {
@@ -63,7 +63,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func searchRedditNames(_ query: String, exact: Bool = false, includeOver18: Bool = false, completion: (Result<[String]>) -> Void) throws -> URLSessionDataTask {
+    public func searchRedditNames(_ query: String, exact: Bool = false, includeOver18: Bool = false, completion: @escaping (Result<[String]>) -> Void) throws -> URLSessionDataTask {
         let parameter = [
             "query":query,
             "exact":exact.string,
@@ -92,7 +92,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func about(_ subredditName: String, completion: (Result<Subreddit>) -> Void) throws -> URLSessionDataTask {
+    public func about(_ subredditName: String, completion: @escaping (Result<Subreddit>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/r/\(subredditName)/about", method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Subreddit> in
@@ -113,7 +113,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func searchSubredditsByTopic(_ query: String, completion: (Result<[String]>) -> Void) throws -> URLSessionDataTask {
+    public func searchSubredditsByTopic(_ query: String, completion: @escaping (Result<[String]>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["query":query]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/subreddits_by_topic", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -140,7 +140,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getSubmitText(_ subredditName: String, completion: (Result<String>) -> Void) throws -> URLSessionDataTask {
+    public func getSubmitText(_ subredditName: String, completion: @escaping (Result<String>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/r/\(subredditName)/api/submit_text", method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         
@@ -166,7 +166,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func about(_ subreddit: Subreddit, aboutWhere: SubredditAbout, user: String = "", count: Int = 0, limit: Int = 25, completion: (Result<[User]>) -> Void) throws -> URLSessionDataTask {
+    public func about(_ subreddit: Subreddit, aboutWhere: SubredditAbout, user: String = "", count: Int = 0, limit: Int = 25, completion: @escaping (Result<[User]>) -> Void) throws -> URLSessionDataTask {
         let parameter = [
             "count"    : "\(count)",
             "limit"    : "\(limit)",
@@ -195,7 +195,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func setSubscribeSubreddit(_ subreddit: Subreddit, subscribe: Bool, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func setSubscribeSubreddit(_ subreddit: Subreddit, subscribe: Bool, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         var parameter = ["sr":subreddit.name]
         parameter["action"] = (subscribe) ? "sub" : "unsub"
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/subscribe", parameter:parameter, method:"POST", token:token)
@@ -214,7 +214,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getSubreddit(_ subredditWhere: SubredditsWhere, paginator: Paginator?, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
+    public func getSubreddit(_ subredditWhere: SubredditsWhere, paginator: Paginator?, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let parameter = paginator?.dictionaryByAdding(parameters: [:])
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:subredditWhere.path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -247,7 +247,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getUserRelatedSubreddit(_ mine: SubredditsMineWhere, paginator: Paginator, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
+    public func getUserRelatedSubreddit(_ mine: SubredditsMineWhere, paginator: Paginator, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:mine.path, parameter:paginator.parameterDictionary, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
@@ -269,7 +269,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getSubredditSearch(_ query: String, paginator: Paginator, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
+    public func getSubredditSearch(_ query: String, paginator: Paginator, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let parameter = paginator.dictionaryByAdding(parameters: ["q":query])
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/subreddits/search", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -292,7 +292,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getSubredditSearchWithErrorHandling(_ query: String, paginator: Paginator, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
+    public func getSubredditSearchWithErrorHandling(_ query: String, paginator: Paginator, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let parameter = paginator.dictionaryByAdding(parameters: ["q":query])
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/subreddits/search", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -311,7 +311,7 @@ extension Session {
     DOES NOT WORK... WHY?
      */
     @discardableResult
-    public func getSticky(_ subreddit: Subreddit, completion: (Result<RedditAny>) -> Void) throws -> URLSessionDataTask {
+    public func getSticky(_ subreddit: Subreddit, completion: @escaping (Result<RedditAny>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/r/" + subreddit.displayName + "/sticky", method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         return executeTask(request, handleResponse: handleResponse2RedditAny, completion: completion)

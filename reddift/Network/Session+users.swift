@@ -42,7 +42,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func friend(_ username: String, note: String = "", completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func friend(_ username: String, note: String = "", completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         var json: [String:String] = [:]
         if !note.isEmpty { json["note"] = note }
         do {
@@ -67,7 +67,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func unfriend(_ username: String, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func unfriend(_ username: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameters = [
             "id":username
         ]
@@ -88,7 +88,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getFriends(_ username: String? = nil, completion: (Result<[User]>) -> Void) throws -> URLSessionDataTask {
+    public func getFriends(_ username: String? = nil, completion: @escaping (Result<[User]>) -> Void) throws -> URLSessionDataTask {
         var path = "/api/v1/me/friends"
         if let username = username { path = "/api/v1/me/friends/" + username }
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:path, parameter:[:], method:"GET", token:token)
@@ -109,7 +109,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getBlocked(_ completion: (Result<[User]>) -> Void) throws -> URLSessionDataTask {
+    public func getBlocked(_ completion: @escaping (Result<[User]>) -> Void) throws -> URLSessionDataTask {
         let path = "/api/v1/me/blocked"
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:path, parameter:[:], method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -144,7 +144,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func friend(_ name: String, note: String, banMessageMd: String, container: String, duration: Int, type: FriendType, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func friend(_ name: String, note: String, banMessageMd: String, container: String, duration: Int, type: FriendType, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameters = [
             "container":container,
             "name":name,
@@ -182,7 +182,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func unfriend(_ name: String = "", id: String = "", type: FriendType, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func unfriend(_ name: String = "", id: String = "", type: FriendType, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         var parameters = [
             "type":type.rawValue
 //            "uh":modhash
@@ -208,7 +208,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getNotifications(_ sort: NotificationSort, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func getNotifications(_ sort: NotificationSort, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameters = [
             "count":"30",
 //            "start_date":"",
@@ -233,7 +233,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func setNotifications(_ id: Int, read: Bool, completion: (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+    public func setNotifications(_ id: Int, read: Bool, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let json = [
             "read": read ? "true" : "false"
         ]
@@ -257,7 +257,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getTrophies(_ username: String, completion: (Result<[Trophy]>) -> Void) throws -> URLSessionDataTask {
+    public func getTrophies(_ username: String, completion: @escaping (Result<[Trophy]>) -> Void) throws -> URLSessionDataTask {
         let path = "/api/v1/user/\(username)/trophies"
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:path, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -281,7 +281,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getUserContent(_ username: String, content: UserContent, sort: UserContentSortBy, timeFilterWithin: TimeFilterWithin, paginator: Paginator, limit: Int = 25, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
+    public func getUserContent(_ username: String, content: UserContent, sort: UserContentSortBy, timeFilterWithin: TimeFilterWithin, paginator: Paginator, limit: Int = 25, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let parameter = paginator.dictionaryByAdding(parameters: [
             "limit"    : "\(limit)",
 //          "sr_detail": "true",
@@ -307,7 +307,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getUserProfile(_ username: String, completion: (Result<Account>) -> Void) throws -> URLSessionDataTask {
+    public func getUserProfile(_ username: String, completion: @escaping (Result<Account>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/user/\(username)/about", method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Account> in

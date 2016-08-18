@@ -11,7 +11,7 @@ import reddift
 
 class CAPTCHAView: UIView {
     var session: Session? = nil
-    private var currentIden = ""
+    fileprivate var currentIden = ""
     
     var iden: String {
         return currentIden
@@ -24,9 +24,9 @@ class CAPTCHAView: UIView {
         return ""
     }
     
-    @IBOutlet private var captchaImageView: UIImageView? = nil
-    @IBOutlet private var captchaTextField: UITextField? = nil
-    @IBOutlet private var activity: UIActivityIndicatorView? = nil
+    @IBOutlet fileprivate var captchaImageView: UIImageView? = nil
+    @IBOutlet fileprivate var captchaTextField: UITextField? = nil
+    @IBOutlet fileprivate var activity: UIActivityIndicatorView? = nil
     
     class func loadFromIdiomNib() -> CAPTCHAView? {
         let nib = UINib(nibName: "CAPTCHAView", bundle: nil)

@@ -55,8 +55,8 @@ class SubredditsListViewController: UITableViewController {
 
         return cell
     }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToSubredditsViewController" {
             if let con = segue.destination as? LinkViewController {
                 con.session = self.session

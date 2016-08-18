@@ -48,7 +48,9 @@ public class OAuth2Authorizer {
         let length = 64
         let mutableData = NSMutableData(length: Int(length))
         if let data = mutableData {
-            let _ = SecRandomCopyBytes(kSecRandomDefault, length, UnsafeMutablePointer<UInt8>(data.mutableBytes))
+            let a = OpaquePointer(data.mutableBytes)
+            let ptr = UnsafeMutablePointer<UInt8>(a)
+            let _ = SecRandomCopyBytes(kSecRandomDefault, length, ptr)
             self.state = data.base64EncodedString(options: .endLineWithLineFeed)
             guard let authorizationURL = URL(string:"https://www.reddit.com/api/v1/authorize.compact?client_id=" + Config.sharedInstance.clientID + "&response_type=code&state=" + self.state + "&redirect_uri=" + Config.sharedInstance.redirectURI + "&duration=permanent&scope=" + commaSeparatedScopeString)
                 else { throw ReddiftError.canNotCreateURLRequestForOAuth2Page as NSError }
@@ -73,7 +75,7 @@ public class OAuth2Authorizer {
     - parameter completion: Callback block is execeuted when the access token has been acquired using URL.
     - returns: Returns if the URL object is parsed correctly.
     */
-    public func receiveRedirect(_ url: URL, completion: (Result<OAuth2Token>) -> Void) -> Bool {
+    public func receiveRedirect(_ url: URL, completion: @escaping (Result<OAuth2Token>) -> Void) -> Bool {
         var parameters: [String:String] = [:]
         let currentState = self.state
         self.state = ""
@@ -85,7 +87,7 @@ public class OAuth2Authorizer {
         if let code = parameters["code"], let state = parameters["state"] {
             if code.characters.count > 0 && state == currentState {
                 do {
-                    try OAuth2Token.getOAuth2Token(code, completion:completion)
+                    try OAuth2Token.getOAuth2Token(code, completion: completion)
                     return true
                 } catch {
                     print(error)

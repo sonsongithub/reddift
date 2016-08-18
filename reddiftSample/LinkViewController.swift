@@ -125,7 +125,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
         self.navigationController?.isToolbarHidden = false
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToCommentViewController" {
             if let con = segue.destination as? CommentViewController {
                 if let selectedIndexPath = tableView.indexPathForSelectedRow {

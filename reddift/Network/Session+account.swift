@@ -15,7 +15,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getPreference(_ completion: (Result<Preference>) -> Void) throws -> URLSessionDataTask {
+    public func getPreference(_ completion: @escaping (Result<Preference>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"/api/v1/me/prefs", method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Preference> in
@@ -35,7 +35,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func patchPreference(_ preference: Preference, completion: (Result<Preference>) -> Void) throws -> URLSessionDataTask {
+    public func patchPreference(_ preference: Preference, completion: @escaping (Result<Preference>) -> Void) throws -> URLSessionDataTask {
         let json = preference.json()
         do {
             let data = try JSONSerialization.data(withJSONObject: json, options: [])
@@ -60,7 +60,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getFriends(_ paginator: Paginator, count: Int = 0, limit: Int = 1, completion: (Result<RedditAny>) -> Void) throws -> URLSessionDataTask {
+    public func getFriends(_ paginator: Paginator, count: Int = 0, limit: Int = 1, completion: @escaping (Result<RedditAny>) -> Void) throws -> URLSessionDataTask {
         do {
             let parameter = paginator.dictionaryByAdding(parameters: [
                 "limit"    : "\(limit)",
@@ -89,7 +89,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getBlocked(_ paginator: Paginator, count: Int = 0, limit: Int = 25, completion: (Result<[User]>) -> Void) throws -> URLSessionDataTask {
+    public func getBlocked(_ paginator: Paginator, count: Int = 0, limit: Int = 25, completion: @escaping (Result<[User]>) -> Void) throws -> URLSessionDataTask {
         do {
             let parameter = paginator.dictionaryByAdding(parameters: [
                 "limit"    : "\(limit)",
@@ -116,7 +116,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getKarma(_ completion: (Result<[SubredditKarma]>) -> Void) throws -> URLSessionDataTask {
+    public func getKarma(_ completion: @escaping (Result<[SubredditKarma]>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/v1/me/karma", method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[SubredditKarma]> in
@@ -135,7 +135,7 @@ extension Session {
      - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getTrophies(_ completion: (Result<[Trophy]>) -> Void) throws -> URLSessionDataTask {
+    public func getTrophies(_ completion: @escaping (Result<[Trophy]>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/v1/me/trophies", method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[Trophy]> in
@@ -160,10 +160,10 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getProfile(_ completion: (Result<Account>) -> Void) throws -> URLSessionDataTask {
+    public func getProfile(_ completion: @escaping (Result<Account>) -> Void) throws -> URLSessionDataTask {
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/v1/me", method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
-        let closure: (data: Data?, response: URLResponse?, error: NSError?) -> Result<Account> = accountInResult
+        let closure: (_ data: Data?, _ response: URLResponse?, _ error: NSError?) -> Result<Account> = accountInResult
         return executeTask(request, handleResponse: closure, completion: completion)
     }
 }

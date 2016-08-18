@@ -12,8 +12,8 @@ func refreshTokenWithJSON(_ result: Result<JSONDictionary>, token: OAuth2Token) 
     switch result {
     case .success(let json):
         var newJSON = json
-        newJSON["name"] = token.name
-        newJSON["refresh_token"] = token.refreshToken
+        newJSON["name"] = token.name as AnyObject
+        newJSON["refresh_token"] = token.refreshToken as AnyObject
         return OAuth2Token.tokenWithJSON(newJSON)
     case .failure(let error):
         return Result(error: error)
@@ -26,7 +26,7 @@ extension Session {
     
     - parameter completion: The completion handler to call when the load request is complete.
     */
-    public func refreshToken(_ completion: (Result<Token>) -> Void) throws -> Void {
+    public func refreshToken(_ completion: @escaping (Result<Token>) -> Void) throws -> Void {
         guard let currentToken = token as? OAuth2Token
             else { throw ReddiftError.tokenIsNotAvailable as NSError }
         do {
@@ -52,7 +52,7 @@ extension Session {
     
     - parameter completion: The completion handler to call when the load request is complete.
     */
-    public func revokeToken(_ completion: (Result<Token>) -> Void) throws -> Void {
+    public func revokeToken(_ completion: @escaping (Result<Token>) -> Void) throws -> Void {
         guard let currentToken = token as? OAuth2Token
             else { throw ReddiftError.tokenIsNotAvailable as NSError }
         do {

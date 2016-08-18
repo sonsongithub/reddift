@@ -87,10 +87,10 @@ class SessionNoAuthTestSpec: XCTestCase {
                                     print(listing1)
                                     print(listing2)
                                     for child in listing1.children {
-                                        print(child.dynamicType)
+                                        print(type(of: child))
                                     }
                                     for child in listing2.children {
-                                        print(child.dynamicType)
+                                        print(type(of: child))
                                     }
                                 }
                                 documentOpenExpectation.fulfill()

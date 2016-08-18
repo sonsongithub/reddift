@@ -77,19 +77,21 @@ class SubmitViewController: UIViewController {
     }
     
     func keyboardWillChangeFrame(_ notification: Notification) {
-        let keyboardRect = (notification as NSNotification).userInfo![UIKeyboardFrameEndUserInfoKey]?.cgRectValue
-        let r = self.view.convert(keyboardRect!, from: UIApplication.shared.keyWindow)
-        let windowFrame = UIApplication.shared.keyWindow?.frame
-        let intersect = keyboardRect!.intersection(windowFrame!)
-        
-        if intersect.size.height > 0 {
-            self.bottom?.constant = -r.size.height
-        } else {
-            self.bottom?.constant = 0
+        if let userInfo = notification.userInfo, let value = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRect = value.cgRectValue
+            let r = self.view.convert(keyboardRect, from: UIApplication.shared.keyWindow)
+            let windowFrame = UIApplication.shared.keyWindow?.frame
+            let intersect = keyboardRect.intersection(windowFrame!)
+            
+            if intersect.size.height > 0 {
+                self.bottom?.constant = -r.size.height
+            } else {
+                self.bottom?.constant = 0
+            }
+            
+            self.view.setNeedsUpdateConstraints()
+            self.view.layoutIfNeeded()
         }
-        
-        self.view.setNeedsUpdateConstraints()
-        self.view.layoutIfNeeded()
     }
     
 }

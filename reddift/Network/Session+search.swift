@@ -21,7 +21,7 @@ extension Session {
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getSearch(_ subreddit: Subreddit?, query: String, paginator: Paginator, sort: SearchSortBy, completion: (Result<Listing>) -> Void) throws -> URLSessionDataTask {
+    public func getSearch(_ subreddit: Subreddit?, query: String, paginator: Paginator, sort: SearchSortBy, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let parameter = paginator.dictionaryByAdding(parameters: ["q":query, "sort":sort.path])
         var path = "/search"
         if let subreddit = subreddit { path = subreddit.url + "search" }

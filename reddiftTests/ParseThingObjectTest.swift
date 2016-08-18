@@ -9,7 +9,7 @@
 import XCTest
 
 extension XCTestCase {
-    func jsonFromFileName(_ name: String) -> AnyObject? {
+    func jsonFromFileName(_ name: String) -> Any? {
         if let path = Bundle(for: self.classForCoder).path(forResource: name, ofType:nil) {
             if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
                 do {
