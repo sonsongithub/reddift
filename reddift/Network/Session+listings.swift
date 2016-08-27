@@ -39,12 +39,15 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getArticles(link:Link, sort:CommentSort, comments:[String]? = nil, depth:Int = 4, limit:Int = 100, completion:(Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
+	public func getArticles(link:Link, sort:CommentSort, comments:[String]? = nil, depth:Int = 4, limit:Int = 100, context:Int? = nil, completion:(Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
         var parameter:[String:String] = ["sort":sort.type, "depth":"\(depth)", "showmore":"True", "limit":"\(limit)"]
         if let comments = comments {
             let commaSeparatedIDString = comments.joined(separator: ",")
             parameter["comment"] = commaSeparatedIDString
         }
+		if let context = context {
+			parameter["context"] = String(context)
+		}
         guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL: baseURL, path:"/comments/" + link.id + ".json", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.URLError.error }
         let task = URLSession.shared().dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:NSError?) -> Void in
