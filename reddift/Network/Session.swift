@@ -135,7 +135,7 @@ public class Session: NSObject, URLSessionDelegate, URLSessionDataDelegate {
      - parameter completion: The completion handler to call when the load request is complete.
      - returns: Data task which requests search to reddit.com.
      */
-    func executeTask<T>(_ request: URLRequest, handleResponse: ((_ data: Data?, _ response: URLResponse?, _ error: NSError?) -> Result<T>), completion: ((Result<T>) -> Void)) -> URLSessionDataTask {
+    func executeTask<T>(_ request: URLRequest, handleResponse: @escaping ((_ data: Data?, _ response: URLResponse?, _ error: NSError?) -> Result<T>), completion: @escaping ((Result<T>) -> Void)) -> URLSessionDataTask {
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
             self.updateRateLimit(with: response)
             let result = handleResponse(data, response, error as NSError?)

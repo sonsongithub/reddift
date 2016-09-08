@@ -106,11 +106,11 @@ extension NSAttributedString {
                 NSLinkAttributeName,
                 in: NSRange(location:0, length:self.length),
                 options: [],
-                using: { (value: AnyObject?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
+                using: { (value: Any?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
                 if let value = value {
-                    values.append(value)
+                    values.append(value as AnyObject)
                 }
-            } as! (Any?, NSRange, UnsafeMutablePointer<ObjCBool>) -> Void)
+            })
             return values.flatMap { $0 as? URL }
         }
     }
