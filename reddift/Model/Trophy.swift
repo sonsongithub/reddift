@@ -23,9 +23,9 @@ public struct Trophy: Thing {
     public let title: String
     public let description: String
     public let awardID: String
-    public let icon40: NSURL?
-    public let icon70: NSURL?
-    public let url: NSURL?
+    public let icon40: URL?
+    public let icon70: URL?
+    public let url: URL?
     
     public init(id: String) {
         self.id = id
@@ -38,14 +38,14 @@ public struct Trophy: Thing {
         self.url = nil
     }
     
-    public init(data: JSONDictionary) {
-        id = data["id"] as? String ?? ""
+    public init(json: JSONDictionary) {
+        id = json["id"] as? String ?? ""
         name = "\(Trophy.kind)_\(id)"
-        awardID = data["award_id"] as? String ?? ""
-        description = data["description"] as? String ?? ""
-        icon40 = NSURL(string: (data["icon_40"] as? String ?? ""))
-        icon70 = NSURL(string: (data["icon_70"] as? String ?? ""))
-        url = NSURL(string: (data["url"] as? String ?? ""))
-        title = data["name"] as? String ?? ""
+        awardID = json["award_id"] as? String ?? ""
+        description = json["description"] as? String ?? ""
+        icon40 = URL(string: (json["icon_40"] as? String ?? ""))
+        icon70 = URL(string: (json["icon_70"] as? String ?? ""))
+        url = URL(string: (json["url"] as? String ?? ""))
+        title = json["name"] as? String ?? ""
     }
 }

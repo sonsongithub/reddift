@@ -20,7 +20,7 @@ public struct OAuth2AppOnlyToken: Token {
     public let scope: String
     public let refreshToken: String
     public let name: String
-    public let expiresDate: NSTimeInterval
+    public let expiresDate: TimeInterval
     
     /**
     Time inteval the access token expires from being authorized.
@@ -40,40 +40,40 @@ public struct OAuth2AppOnlyToken: Token {
         self.expiresIn = 0
         self.scope = ""
         self.refreshToken = ""
-        self.expiresDate = NSDate.timeIntervalSinceReferenceDate() + 0
+        self.expiresDate = Date.timeIntervalSinceReferenceDate + 0
     }
     
     /**
     Initialize OAuth2AppOnlyToken with JSON.
     
-    - parameter json: JSON as [String:AnyObject] should include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token".
+    - parameter json: JSON as JSONDictionary should include "name", "access_token", "token_type", "expires_in", "scope" and "refresh_token".
     */
-    public init(_ json: [String:AnyObject]) {
+    public init(_ json: JSONDictionary) {
         self.name = json["name"] as? String ?? ""
         self.accessToken = json["access_token"] as? String ?? ""
         self.tokenType = json["token_type"] as? String ?? ""
         let expiresIn = json["expires_in"] as? Int ?? 0
         self.expiresIn = expiresIn
-        self.expiresDate = json["expires_date"] as? NSTimeInterval ?? NSDate.timeIntervalSinceReferenceDate() + Double(expiresIn)
+        self.expiresDate = json["expires_date"] as? TimeInterval ?? Date.timeIntervalSinceReferenceDate + Double(expiresIn)
         self.scope = json["scope"] as? String ?? ""
         self.refreshToken = json["refresh_token"] as? String ?? ""
     }
     
     /**
-    Create NSMutableURLRequest object to request getting an access token.
+    Create URLRequest object to request getting an access token.
     
     - parameter code: The code which is obtained from OAuth2 redict URL at reddit.com.
-    - returns: NSMutableURLRequest object to request your access token.
+    - returns: URLRequest object to request your access token.
     */
-    public static func requestForOAuth2AppOnly(username username: String, password: String, clientID: String, secret: String) -> NSMutableURLRequest? {
-        guard let URL = NSURL(string: "https://ssl.reddit.com/api/v1/access_token") else { return nil }
-        let request = NSMutableURLRequest(URL:URL)
+    public static func requestForOAuth2AppOnly(username: String, password: String, clientID: String, secret: String) -> URLRequest? {
+        guard let URL = URL(string: "https://ssl.reddit.com/api/v1/access_token") else { return nil }
+        var request = URLRequest(url:URL)
         do {
             try request.setRedditBasicAuthentication(username:clientID, password:secret)
             let param = "grant_type=password&username=" + username + "&password=" + password
-            let data = param.dataUsingEncoding(NSUTF8StringEncoding)
-            request.HTTPBody = data
-            request.HTTPMethod = "POST"
+            let data = param.data(using: .utf8)
+            request.httpBody = data
+            request.httpMethod = "POST"
             return request
         } catch {
             print(error)
@@ -87,31 +87,32 @@ public struct OAuth2AppOnlyToken: Token {
     - parameter code: Code to be confirmed your identity by reddit.
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
-    */
-    public static func getOAuth2AppOnlyToken(username username: String, password: String, clientID: String, secret: String, completion: (Result<Token>) -> Void) throws -> NSURLSessionDataTask {
-        let session: NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+     */
+    @discardableResult
+    public static func getOAuth2AppOnlyToken(username: String, password: String, clientID: String, secret: String, completion: @escaping (Result<Token>) -> Void) throws -> URLSessionDataTask {
+        let session = URLSession(configuration: URLSessionConfiguration.default)
         guard let request = requestForOAuth2AppOnly(username:username, password:password, clientID:clientID, secret:secret)
-            else { throw ReddiftError.URLError.error }
-        let task = session.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
+        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
+            let result = Result(from: Response(data: data, urlResponse: response), optional:error as NSError?)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
-                .flatMap({(json: JSON) -> Result<[String:AnyObject]> in
-                    if let json = json as? [String:AnyObject] {
+                .flatMap({(json: JSONAny) -> Result<JSONDictionary> in
+                    if let json = json as? JSONDictionary {
                         return Result(value: json)
                     }
-                    return Result(error: ReddiftError.Malformed.error)
+                    return Result(error: ReddiftError.tokenJsonObjectIsNotDictionary as NSError)
                 })
             var token: OAuth2AppOnlyToken? = nil
             switch result {
-            case .Success(let json):
+            case .success(let json):
                 var newJSON = json
-                newJSON["name"] = username
+                newJSON["name"] = username as AnyObject
                 token = OAuth2AppOnlyToken(newJSON)
             default:
                 break
             }
-            completion(resultFromOptional(token, error:NSError.errorWithCode(0, "")))
+            completion(Result(fromOptional: token, error: ReddiftError.unknown as NSError))
         })
         task.resume()
         return task

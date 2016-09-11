@@ -14,13 +14,13 @@ import Foundation
  - parameter comment: Comment object will be expanded.
  - returns: Array contains Comment objects which are expaned from specified Comment object and depth list of them.
  */
-public func extendAllRepliesAndDepth(comment: Thing, depth: Int) -> ([(Thing, Int)]) {
+public func extendAllReplies(in comment: Thing, current depth: Int) -> ([(Thing, Int)]) {
     var buf: [(Thing, Int)] = []
     
     if let comment = comment as? Comment {
         buf.append((comment, depth))
         for obj in comment.replies.children {
-            buf.appendContentsOf(extendAllRepliesAndDepth(obj, depth:depth + 1))
+            buf.append(contentsOf: extendAllReplies(in: obj, current:depth + 1))
         }
     } else if let more = comment as? More {
         for id in more.children {
@@ -188,7 +188,7 @@ public struct Comment: Thing {
         subredditId = ""
         bannedBy = ""
         linkId = ""
-        likes = .None
+        likes = .none
         replies = Listing()
         userReports = []
         saved = false
@@ -216,21 +216,56 @@ public struct Comment: Thing {
         ups = 0
     }
     
+    public init(link: Link) {
+        self.id = link.id
+        self.name = "\(Comment.kind)_\(self.id)"
+        
+        subredditId = link.subredditId
+        bannedBy = link.bannedBy
+        linkId = link.id
+        likes = link.likes
+        replies = Listing()
+        userReports = link.userReports
+        saved = link.saved
+        gilded = link.gilded
+        archived = link.archived
+        reportReasons = link.reportReasons
+        author = link.author
+        parentId = ""
+        score = link.score
+        approvedBy = link.approvedBy
+        controversiality = 0
+        body = link.selftext
+        edited = link.edited
+        authorFlairCssClass = link.authorFlairCssClass
+        downs = link.downs
+        bodyHtml = link.selftextHtml
+        subreddit = link.subreddit
+        scoreHidden = false
+        created = link.created
+        authorFlairText = link.authorFlairText
+        createdUtc = link.createdUtc
+        distinguished = link.distinguished
+        modReports = link.modReports
+        numReports = link.numReports
+        ups = link.ups
+    }
+    
     /**
     Parse t1 Thing.
     
     - parameter data: Dictionary, must be generated parsing t1 Thing.
     - returns: Comment object as Thing.
     */
-    public init(data: JSONDictionary) {
+    public init(json data: JSONDictionary) {
         id = data["id"] as? String ?? ""
         subredditId = data["subreddit_id"] as? String ?? ""
         bannedBy = data["banned_by"] as? String ?? ""
         linkId = data["link_id"] as? String ?? ""
         if let temp = data["likes"] as? Bool {
-            likes = temp ? .Up : .Down
+            likes = temp ? .up : .down
         } else {
-            likes = .None
+            likes = .none
         }
         userReports = []
         saved = data["saved"] as? Bool ?? false
@@ -259,7 +294,7 @@ public struct Comment: Thing {
         numReports = data["num_reports"] as? Int ?? 0
         ups = data["ups"] as? Int ?? 0
         if let temp = data["replies"] as? JSONDictionary {
-            if let obj = Parser.parseJSON(temp) as? Listing {
+            if let obj = Parser.redditAny(from: temp) as? Listing {
                 replies = obj
             } else {
                 replies = Listing()

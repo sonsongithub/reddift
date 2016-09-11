@@ -8,11 +8,13 @@
 
 import Foundation
 
+private let allowedCharacterSet = CharacterSet(charactersIn: "!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~")
+
 /**
 Protocol to generate URL query string from Dictionary[String:String].
 */
-protocol QueryEscapableString {
-    var stringByAddingPercentEncoding: String { get }
+public protocol QueryEscapableString {
+    var addPercentEncoding: String { get }
 }
 
 extension String: QueryEscapableString {
@@ -20,10 +22,9 @@ extension String: QueryEscapableString {
     Returns string by adding percent encoding in UTF-8
     Protocol to generate URL query string from Dictionary[String:String].
     */
-    var stringByAddingPercentEncoding: String {
+    public var addPercentEncoding: String {
         get {
-            let set = NSCharacterSet.alphanumericCharacterSet()
-            return self.stringByAddingPercentEncodingWithAllowedCharacters(set) ?? self
+            return (self as NSString).addingPercentEncoding(withAllowedCharacters: allowedCharacterSet) ?? self
         }
     }
 }
@@ -36,11 +37,9 @@ extension Dictionary where Key: QueryEscapableString, Value: QueryEscapableStrin
     Gets escped string.
     - returns: Returns string by adding percent encoding in UTF-8
     */
-    func URLQueryString() -> String {
-        var components: [String] = []
-        for (key, value) in self {
-            components.append("\(key.stringByAddingPercentEncoding)=\(value.stringByAddingPercentEncoding)")
+    var URLQuery: String {
+        get {
+            return self.map({"\($0.addPercentEncoding)=\($1.addPercentEncoding)"}).joined(separator: "&")
         }
-        return components.joinWithSeparator("&")
     }
 }

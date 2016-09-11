@@ -43,3 +43,9 @@ test_config.json
 
 # jazzy
 /docs
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+expired_token.json

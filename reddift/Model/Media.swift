@@ -27,10 +27,12 @@ public struct Media {
     */
     public init(json: JSONDictionary) {
 		type = json["type"] as? String ?? ""
-        oembed = Oembed(json:(json["oembed"] as? JSONDictionary ?? [:]))
+        oembed = Oembed(json: json["oembed"] as? JSONDictionary ?? [:])
     }
-	
-	public func toString() -> String {
-		return "{type=\(type)}\n"
-	}
+    
+    public var string: String {
+        get {
+            return "{type=\(type)}\n"
+        }
+    }
 }

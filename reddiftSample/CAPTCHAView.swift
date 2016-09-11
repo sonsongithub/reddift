@@ -11,7 +11,7 @@ import reddift
 
 class CAPTCHAView: UIView {
     var session: Session? = nil
-    private var currentIden = ""
+    fileprivate var currentIden = ""
     
     var iden: String {
         return currentIden
@@ -24,47 +24,47 @@ class CAPTCHAView: UIView {
         return ""
     }
     
-    @IBOutlet private var captchaImageView: UIImageView? = nil
-    @IBOutlet private var captchaTextField: UITextField? = nil
-    @IBOutlet private var activity: UIActivityIndicatorView? = nil
+    @IBOutlet fileprivate var captchaImageView: UIImageView? = nil
+    @IBOutlet fileprivate var captchaTextField: UITextField? = nil
+    @IBOutlet fileprivate var activity: UIActivityIndicatorView? = nil
     
     class func loadFromIdiomNib() -> CAPTCHAView? {
         let nib = UINib(nibName: "CAPTCHAView", bundle: nil)
-        if let view = nib.instantiateWithOwner(nil, options: nil)[0] as? CAPTCHAView {
+        if let view = nib.instantiate(withOwner: nil, options: nil)[0] as? CAPTCHAView {
             return view
         }
         return nil
     }
     
-    @IBAction func reload(sender: AnyObject) {
+    @IBAction func reload(_ sender: AnyObject) {
         startLoading()
     }
     
     func startLoading() {
         captchaImageView?.image = nil
         activity?.startAnimating()
-        activity?.hidden = false
+        activity?.isHidden = false
         
         do {
             try self.session?.getIdenForNewCAPTCHA({ (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error.description)
-                case .Success(let identifier):
+                case .success(let identifier):
                     do {
                         try self.session?.getCAPTCHA(identifier, completion: { (result) -> Void in
                             switch result {
-                            case .Failure(let error):
+                            case .failure(let error):
                                 print(error.description)
-                            case .Success(let image):
-                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            case .success(let image):
+                                DispatchQueue.main.async(execute: { () -> Void in
                                     self.currentIden = identifier
                                     if let imageView = self.captchaImageView {
                                         imageView.image = image
                                     }
                                     if let activity = self.activity {
                                         activity.stopAnimating()
-                                        activity.hidden = true
+                                        activity.isHidden = true
                                     }
                                 })
                             }

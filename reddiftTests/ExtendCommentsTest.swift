@@ -66,11 +66,11 @@ class ExtendCommentsTest: XCTestCase {
     func testListWhichHasSomeCommentsIncludingRepliesRecursively() {
         print("Test whether Parser can extend Comment objects that has some More objects as children.")
         print("consists of 1 Link, 13 Comments and 9 Mores.")
-        if let json: JSON = self.jsonFromFileName("comments_extend.json") {
-            if let array = Parser.parseJSON(json) as? [Any] {
+        if let json = self.jsonFromFileName("comments_extend.json") {
+            if let array = Parser.redditAny(from: json) as? [Any] {
                 if array.count == 2 {
                     if let listing = array[0] as? Listing {
-                        let numberOfLinks = listing.children.reduce(0, combine: { (value: Int, link: Thing) -> Int in
+                        let numberOfLinks = listing.children.reduce(0, { (value: Int, link: Thing) -> Int in
                             return link is Link ? 1 + value : value
                         })
                         XCTAssert(numberOfLinks == 1)
@@ -80,8 +80,8 @@ class ExtendCommentsTest: XCTestCase {
                     if let listing = array[1] as? Listing {
                         let incomming = listing.children
                             .flatMap({ $0 as? Comment })
-                            .reduce([], combine: {
-                                return $0 + extendAllRepliesAndDepth($1, depth: 1)
+                            .reduce([], {
+                                return $0 + extendAllReplies(in: $1, current: 1)
                             })
                         
                         incomming.forEach({
@@ -89,7 +89,7 @@ class ExtendCommentsTest: XCTestCase {
                             for _ in 0 ..< ($0.1 - 1) {
                                 b += "  "
                             }
-                            print("\(b)\($0.0.dynamicType) - \($0.0.id)")
+                            print("\(b)\(type(of: $0.0)) - \($0.0.id)")
                         })
                         
                         XCTAssert(gt_type.count == incomming.count, "list is mulformed.")
@@ -98,7 +98,7 @@ class ExtendCommentsTest: XCTestCase {
                         print(gt_type.count)
                         for i in 0 ..< gt_type.count {
                             let (c, d) = gt_type[i]
-                            XCTAssert(c == incomming[i].0.dynamicType, "data type error.")
+                            XCTAssert(c == type(of: incomming[i].0), "data type error.")
                             XCTAssert(d == incomming[i].1, "element's depth is wrong.")
                         }
                     } else {

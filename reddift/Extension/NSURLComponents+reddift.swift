@@ -8,8 +8,8 @@
 
 import Foundation
 
-extension NSURLComponents {
-    func dictionary() -> [String:String] {
+extension URLComponents {
+    var dictionary: [String:String] {
         var parameters: [String:String] = [:]
         if #available(OSX 10.10, *) {
             if let queryItems = self.queryItems {

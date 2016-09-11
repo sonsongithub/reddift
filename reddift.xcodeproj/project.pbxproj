@@ -114,8 +114,6 @@
 		14364CA51BEDA0E200FECE58 /* GTMNSString+HTML.h in Headers */ = {isa = PBXBuildFile; fileRef = 14BCBCB51BCE1E7500A1FFEB /* GTMNSString+HTML.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14364CA61BEDA0E600FECE58 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BCBCB61BCE1E7500A1FFEB /* GTMNSString+HTML.m */; };
 		14364CA71BEDA0E700FECE58 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BCBCB61BCE1E7500A1FFEB /* GTMNSString+HTML.m */; };
-		14364CA81BEDA0EC00FECE58 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */; };
-		14364CA91BEDA0EC00FECE58 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */; };
 		14364CAA1BEDA0F800FECE58 /* OAuth2Authorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1E1ADD721700237350 /* OAuth2Authorizer.swift */; };
 		14364CAB1BEDA0F800FECE58 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14447EC71B16234A004FB58E /* Token.swift */; };
 		14364CAC1BEDA0F800FECE58 /* OAuth2Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1F1ADD721700237350 /* OAuth2Token.swift */; };
@@ -166,13 +164,11 @@
 		14364CD91BEDA10300FECE58 /* HttpStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D51AF98F13005D0E31 /* HttpStatus.swift */; };
 		14364CDA1BEDA10800FECE58 /* Dictionary+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B1216E1BAA56D800238059 /* Dictionary+reddift.swift */; };
 		14364CDB1BEDA10800FECE58 /* NSBundle+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE181ADD721700237350 /* NSBundle+reddift.swift */; };
-		14364CDC1BEDA10800FECE58 /* NSError+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE191ADD721700237350 /* NSError+reddift.swift */; };
 		14364CDD1BEDA10800FECE58 /* NSMutableURLRequest+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1A1ADD721700237350 /* NSMutableURLRequest+reddift.swift */; };
 		14364CDE1BEDA10800FECE58 /* NSURLComponents+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D21AF96AD5005D0E31 /* NSURLComponents+reddift.swift */; };
 		14364CDF1BEDA10800FECE58 /* NSAttributedString+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F0163A1BD3D190003CF077 /* NSAttributedString+reddift.swift */; };
 		14364CE01BEDA10900FECE58 /* Dictionary+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B1216E1BAA56D800238059 /* Dictionary+reddift.swift */; };
 		14364CE11BEDA10900FECE58 /* NSBundle+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE181ADD721700237350 /* NSBundle+reddift.swift */; };
-		14364CE21BEDA10900FECE58 /* NSError+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE191ADD721700237350 /* NSError+reddift.swift */; };
 		14364CE31BEDA10900FECE58 /* NSMutableURLRequest+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1A1ADD721700237350 /* NSMutableURLRequest+reddift.swift */; };
 		14364CE41BEDA10900FECE58 /* NSURLComponents+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D21AF96AD5005D0E31 /* NSURLComponents+reddift.swift */; };
 		14364CE51BEDA10900FECE58 /* NSAttributedString+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F0163A1BD3D190003CF077 /* NSAttributedString+reddift.swift */; };
@@ -276,6 +272,12 @@
 		143FF1781BFC1DC2001AE88F /* FrontCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143FF1771BFC1DC2001AE88F /* FrontCollectionViewController.swift */; };
 		143FF1791BFC38F4001AE88F /* CellContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC321AF35C170065BC5E /* CellContent.swift */; };
 		143FF17A1BFC38FF001AE88F /* UZTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EBF91AF35B620065BC5E /* UZTextViewCell.swift */; };
+		14437BB01D657D1000DAAAA8 /* MiniKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14437BAF1D657D1000DAAAA8 /* MiniKeychain.swift */; };
+		14437BB21D657D3C00DAAAA8 /* MiniKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14437BAF1D657D1000DAAAA8 /* MiniKeychain.swift */; };
+		14437BB31D657D3D00DAAAA8 /* MiniKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14437BAF1D657D1000DAAAA8 /* MiniKeychain.swift */; };
+		14437BB41D657D3D00DAAAA8 /* MiniKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14437BAF1D657D1000DAAAA8 /* MiniKeychain.swift */; };
+		14437BB51D657D3E00DAAAA8 /* MiniKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14437BAF1D657D1000DAAAA8 /* MiniKeychain.swift */; };
+		14437BB61D657D3F00DAAAA8 /* MiniKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14437BAF1D657D1000DAAAA8 /* MiniKeychain.swift */; };
 		14447EC81B16234A004FB58E /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14447EC71B16234A004FB58E /* Token.swift */; };
 		14447EC91B16234A004FB58E /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14447EC71B16234A004FB58E /* Token.swift */; };
 		14447ECA1B16234A004FB58E /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14447EC71B16234A004FB58E /* Token.swift */; };
@@ -284,6 +286,8 @@
 		14624D021B3D184400A5D8F5 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14624D001B3D184400A5D8F5 /* Response.swift */; };
 		14624D031B3D184400A5D8F5 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14624D001B3D184400A5D8F5 /* Response.swift */; };
 		14624D041B3D184400A5D8F5 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14624D001B3D184400A5D8F5 /* Response.swift */; };
+		14695A011CE4E8E7004035CA /* expired_token.json in Resources */ = {isa = PBXBuildFile; fileRef = 146959FF1CE4E8E7004035CA /* expired_token.json */; };
+		14695A021CE4E8E7004035CA /* expired_token.json.sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 14695A001CE4E8E7004035CA /* expired_token.json.sample.json */; };
 		147868B21BF41DFE00D493B5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147868B11BF41DFE00D493B5 /* User.swift */; };
 		147868B31BF41DFE00D493B5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147868B11BF41DFE00D493B5 /* User.swift */; };
 		147868B41BF41DFE00D493B5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147868B11BF41DFE00D493B5 /* User.swift */; };
@@ -374,10 +378,8 @@
 		14B5EC361AF35C220065BC5E /* reddift_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 14B5EC341AF35C220065BC5E /* reddift_config.json */; };
 		14B5EC371AF35C220065BC5E /* reddift_config.json.sample in Resources */ = {isa = PBXBuildFile; fileRef = 14B5EC351AF35C220065BC5E /* reddift_config.json.sample */; };
 		14B5EC381AF35C4B0065BC5E /* NSBundle+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE181ADD721700237350 /* NSBundle+reddift.swift */; };
-		14B5EC391AF35C4B0065BC5E /* NSError+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE191ADD721700237350 /* NSError+reddift.swift */; };
 		14B5EC3A1AF35C4B0065BC5E /* NSMutableURLRequest+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1A1ADD721700237350 /* NSMutableURLRequest+reddift.swift */; };
 		14B5EC3B1AF35C4B0065BC5E /* NSBundle+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE181ADD721700237350 /* NSBundle+reddift.swift */; };
-		14B5EC3C1AF35C4B0065BC5E /* NSError+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE191ADD721700237350 /* NSError+reddift.swift */; };
 		14B5EC3D1AF35C4B0065BC5E /* NSMutableURLRequest+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1A1ADD721700237350 /* NSMutableURLRequest+reddift.swift */; };
 		14B5EC3E1AF35C4F0065BC5E /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1C1ADD721700237350 /* Session.swift */; };
 		14B5EC3F1AF35C4F0065BC5E /* Session+helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F76FF41AECE01800A70AA5 /* Session+helper.swift */; };
@@ -389,11 +391,9 @@
 		14B5EC451AF35C560065BC5E /* OAuth2Authorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1E1ADD721700237350 /* OAuth2Authorizer.swift */; };
 		14B5EC461AF35C560065BC5E /* OAuth2Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1F1ADD721700237350 /* OAuth2Token.swift */; };
 		14B5EC471AF35C560065BC5E /* OAuth2TokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE201ADD721700237350 /* OAuth2TokenRepository.swift */; };
-		14B5EC501AF40ECF0065BC5E /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */; };
 		14B5EC5A1AF410740065BC5E /* UZCursorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC551AF410740065BC5E /* UZCursorView.m */; };
 		14B5EC5B1AF410740065BC5E /* UZLoupeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC571AF410740065BC5E /* UZLoupeView.m */; };
 		14B5EC5C1AF410740065BC5E /* UZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC591AF410740065BC5E /* UZTextView.m */; };
-		14B5EC5F1AF412640065BC5E /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */; };
 		14B5EC601AF4B9D60065BC5E /* ParseThingObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */; };
 		14B5EC611AF4B9D60065BC5E /* ParseResponseObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */; };
 		14B5EC631AF4B9F00065BC5E /* create_token.json in Resources */ = {isa = PBXBuildFile; fileRef = 1440D4F91AE7C9D500211DAD /* create_token.json */; };
@@ -424,6 +424,19 @@
 		14D2E2211B14C8BF00253AC0 /* Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D2E21F1B14C8BF00253AC0 /* Thing.swift */; };
 		14D2E2221B14C8BF00253AC0 /* Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D2E21F1B14C8BF00253AC0 /* Thing.swift */; };
 		14D2E2231B14C8BF00253AC0 /* Thing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D2E21F1B14C8BF00253AC0 /* Thing.swift */; };
+		14E446C91D462CCA002AEA20 /* HttpStatusWithBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E446C81D462CCA002AEA20 /* HttpStatusWithBody.swift */; };
+		14E446CA1D462CCA002AEA20 /* HttpStatusWithBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E446C81D462CCA002AEA20 /* HttpStatusWithBody.swift */; };
+		14E446CB1D462CCA002AEA20 /* HttpStatusWithBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E446C81D462CCA002AEA20 /* HttpStatusWithBody.swift */; };
+		14E446CC1D462CCA002AEA20 /* HttpStatusWithBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E446C81D462CCA002AEA20 /* HttpStatusWithBody.swift */; };
+		14E446CD1D462CCA002AEA20 /* HttpStatusWithBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E446C81D462CCA002AEA20 /* HttpStatusWithBody.swift */; };
+		14E446CE1D462CCA002AEA20 /* HttpStatusWithBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E446C81D462CCA002AEA20 /* HttpStatusWithBody.swift */; };
+		14E446D01D462D27002AEA20 /* ReddiftError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E446CF1D462D27002AEA20 /* ReddiftError.swift */; };
+		14E446D11D462D27002AEA20 /* ReddiftError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E446CF1D462D27002AEA20 /* ReddiftError.swift */; };
+		14E446D21D462D27002AEA20 /* ReddiftError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E446CF1D462D27002AEA20 /* ReddiftError.swift */; };
+		14E446D31D462D27002AEA20 /* ReddiftError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E446CF1D462D27002AEA20 /* ReddiftError.swift */; };
+		14E446D41D462D27002AEA20 /* ReddiftError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E446CF1D462D27002AEA20 /* ReddiftError.swift */; };
+		14E446D51D462D27002AEA20 /* ReddiftError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E446CF1D462D27002AEA20 /* ReddiftError.swift */; };
+		14E447E51D013D2C00AC3E6B /* BackgroundFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E447E41D013D2C00AC3E6B /* BackgroundFetch.swift */; };
 		14E72CAE1B75F20300D4229D /* SessionNoAuthTestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E72CAD1B75F20300D4229D /* SessionNoAuthTestSpec.swift */; };
 		14E72CAF1B75F20300D4229D /* SessionNoAuthTestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E72CAD1B75F20300D4229D /* SessionNoAuthTestSpec.swift */; };
 		14E816CE1BF1785300AAAEFA /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E816CD1BF1785300AAAEFA /* Preference.swift */; };
@@ -439,6 +452,12 @@
 		14F0163C1BD3D190003CF077 /* NSAttributedString+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F0163A1BD3D190003CF077 /* NSAttributedString+reddift.swift */; };
 		14F0163D1BD3D190003CF077 /* NSAttributedString+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F0163A1BD3D190003CF077 /* NSAttributedString+reddift.swift */; };
 		14F0163E1BD3D190003CF077 /* NSAttributedString+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F0163A1BD3D190003CF077 /* NSAttributedString+reddift.swift */; };
+		14F134EB1D03EC0900EF7ADB /* NSURLRequest+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F134EA1D03EC0900EF7ADB /* NSURLRequest+reddift.swift */; };
+		14F134EC1D03EC0900EF7ADB /* NSURLRequest+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F134EA1D03EC0900EF7ADB /* NSURLRequest+reddift.swift */; };
+		14F134ED1D03EC0900EF7ADB /* NSURLRequest+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F134EA1D03EC0900EF7ADB /* NSURLRequest+reddift.swift */; };
+		14F134EE1D03EC0900EF7ADB /* NSURLRequest+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F134EA1D03EC0900EF7ADB /* NSURLRequest+reddift.swift */; };
+		14F134EF1D03EC0900EF7ADB /* NSURLRequest+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F134EA1D03EC0900EF7ADB /* NSURLRequest+reddift.swift */; };
+		14F134F01D03EC0900EF7ADB /* NSURLRequest+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F134EA1D03EC0900EF7ADB /* NSURLRequest+reddift.swift */; };
 		14F14EFF1BF934B600F22A4C /* SubredditKarma.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F14EFE1BF934B600F22A4C /* SubredditKarma.swift */; };
 		14F14F001BF934B600F22A4C /* SubredditKarma.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F14EFE1BF934B600F22A4C /* SubredditKarma.swift */; };
 		14F14F011BF934B600F22A4C /* SubredditKarma.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F14EFE1BF934B600F22A4C /* SubredditKarma.swift */; };
@@ -487,11 +506,9 @@
 		14F812421AF9F6B6008F6F3C /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE091ADD3DF300237350 /* Message.swift */; };
 		14F812431AF9F6B6008F6F3C /* Paginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE281ADD722500237350 /* Paginator.swift */; };
 		14F812441AF9F6BA008F6F3C /* NSBundle+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE181ADD721700237350 /* NSBundle+reddift.swift */; };
-		14F812451AF9F6BA008F6F3C /* NSError+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE191ADD721700237350 /* NSError+reddift.swift */; };
 		14F812461AF9F6BA008F6F3C /* NSMutableURLRequest+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1A1ADD721700237350 /* NSMutableURLRequest+reddift.swift */; };
 		14F812471AF9F6BA008F6F3C /* NSURLComponents+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D21AF96AD5005D0E31 /* NSURLComponents+reddift.swift */; };
 		14F812481AF9F6BA008F6F3C /* NSBundle+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE181ADD721700237350 /* NSBundle+reddift.swift */; };
-		14F812491AF9F6BA008F6F3C /* NSError+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE191ADD721700237350 /* NSError+reddift.swift */; };
 		14F8124A1AF9F6BA008F6F3C /* NSMutableURLRequest+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1A1ADD721700237350 /* NSMutableURLRequest+reddift.swift */; };
 		14F8124B1AF9F6BA008F6F3C /* NSURLComponents+reddift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427D21AF96AD5005D0E31 /* NSURLComponents+reddift.swift */; };
 		14F8124C1AF9F6BD008F6F3C /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1C1ADD721700237350 /* Session.swift */; };
@@ -508,8 +525,6 @@
 		14F812571AF9F6C1008F6F3C /* OAuth2Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE1F1ADD721700237350 /* OAuth2Token.swift */; };
 		14F812581AF9F6C1008F6F3C /* OAuth2AppOnlyToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427C71AF858D5005D0E31 /* OAuth2AppOnlyToken.swift */; };
 		14F812591AF9F6C1008F6F3C /* OAuth2TokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8DE201ADD721700237350 /* OAuth2TokenRepository.swift */; };
-		14F8125A1AF9F6C8008F6F3C /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */; };
-		14F8125B1AF9F6C8008F6F3C /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */; };
 		14F8125C1AF9F918008F6F3C /* reddift.h in Headers */ = {isa = PBXBuildFile; fileRef = 14B5EBB51AF34D580065BC5E /* reddift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		14F8125D1AFA07A2008F6F3C /* ParseThingObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */; };
 		14F8125E1AFA07A2008F6F3C /* ParseResponseObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */; };
@@ -636,7 +651,7 @@
 		143427CC1AF95E80005D0E31 /* test_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_config.json; sourceTree = "<group>"; };
 		143427CF1AF96A64005D0E31 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		143427D21AF96AD5005D0E31 /* NSURLComponents+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLComponents+reddift.swift"; sourceTree = "<group>"; };
-		143427D51AF98F13005D0E31 /* HttpStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpStatus.swift; sourceTree = "<group>"; };
+		143427D51AF98F13005D0E31 /* HttpStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HttpStatus.swift; path = ../Network/HttpStatus.swift; sourceTree = "<group>"; };
 		14364C8D1BEDA09F00FECE58 /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14364C961BEDA09F00FECE58 /* reddift-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "reddift-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14364D471BEDA9E200FECE58 /* reddiftSampleTV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = reddiftSampleTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -649,7 +664,7 @@
 		14395C041BAF96E700726263 /* Session+Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+Token.swift"; sourceTree = "<group>"; };
 		143FF1731BFC1CF4001AE88F /* TVUZTextVIewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVUZTextVIewCell.swift; sourceTree = "<group>"; };
 		143FF1751BFC1D2E001AE88F /* TVUZTextVIewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TVUZTextVIewCell.xib; sourceTree = "<group>"; };
-		143FF1771BFC1DC2001AE88F /* FrontCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrontCollectionViewController.swift; sourceTree = "<group>"; };
+		143FF1771BFC1DC2001AE88F /* FrontCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = FrontCollectionViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		1440D4F91AE7C9D500211DAD /* create_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = create_token.json; sourceTree = "<group>"; };
 		1440D4FA1AE7C9D500211DAD /* refresh_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = refresh_token.json; sourceTree = "<group>"; };
 		1440D4FC1AE7C9D500211DAD /* comments.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = comments.json; sourceTree = "<group>"; };
@@ -663,26 +678,28 @@
 		1440D5051AE7C9D500211DAD /* t3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t3.json; sourceTree = "<group>"; };
 		1440D5061AE7C9D500211DAD /* t4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t4.json; sourceTree = "<group>"; };
 		1440D5071AE7C9D500211DAD /* t5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = t5.json; sourceTree = "<group>"; };
+		14437BAF1D657D1000DAAAA8 /* MiniKeychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniKeychain.swift; path = vendor/MiniKeychain/MiniKeychain/MiniKeychain.swift; sourceTree = "<group>"; };
 		14447EC71B16234A004FB58E /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		14624D001B3D184400A5D8F5 /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		1466072A1AE7453600D726C1 /* ParseThingObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseThingObjectTest.swift; sourceTree = "<group>"; };
 		1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseResponseObjectTest.swift; sourceTree = "<group>"; };
+		146959FF1CE4E8E7004035CA /* expired_token.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = expired_token.json; sourceTree = "<group>"; };
+		14695A001CE4E8E7004035CA /* expired_token.json.sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = expired_token.json.sample.json; sourceTree = "<group>"; };
 		1471A6EF1AE5DD4C00816FE7 /* More.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = More.swift; sourceTree = "<group>"; };
 		147868B11BF41DFE00D493B5 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		147868C21BF4600300D493B5 /* UserList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = UserList.json; path = ../thing/UserList.json; sourceTree = "<group>"; };
 		147868C71BF56AAB00D493B5 /* TrophyList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TrophyList.json; sourceTree = "<group>"; };
-		147868C91BF56B6800D493B5 /* AccountTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountTest.swift; sourceTree = "<group>"; };
+		147868C91BF56B6800D493B5 /* AccountTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AccountTest.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		147EADA41AD78568007FA2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		147EADBA1AD78568007FA2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1481423F1B0F0C5300DE4F88 /* LabeledMultiDescription.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LabeledMultiDescription.json; sourceTree = "<group>"; };
 		148BB46C1AE49FBE006ED0D0 /* Listing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Listing.swift; sourceTree = "<group>"; };
-		148E79951B18033900C771E3 /* CAPTCHA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAPTCHA.swift; sourceTree = "<group>"; };
+		148E79951B18033900C771E3 /* CAPTCHA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CAPTCHA.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		149658231B1237B40071275E /* SubredditsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubredditsTest.swift; sourceTree = "<group>"; };
-		149CE2611AFAD4DF004B61C1 /* CAPTCHATest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAPTCHATest.swift; sourceTree = "<group>"; };
+		149CE2611AFAD4DF004B61C1 /* CAPTCHATest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CAPTCHATest.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		14A352011B1BA392003239F8 /* ListingsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingsTest.swift; sourceTree = "<group>"; };
 		14A352041B1BA618003239F8 /* SearchTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTest.swift; sourceTree = "<group>"; };
 		14A352071B1BA62F003239F8 /* UsersTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersTest.swift; sourceTree = "<group>"; };
-		14A3556D1B1705D8001D1FEA /* reddift.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = reddift.playground; sourceTree = "<group>"; };
 		14A94CF71B1000B800EDB844 /* MultiredditDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiredditDescription.swift; sourceTree = "<group>"; };
 		14A94CFC1B10727500EDB844 /* multidesc.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = multidesc.json; sourceTree = "<group>"; };
 		14B1216E1BAA56D800238059 /* Dictionary+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+reddift.swift"; sourceTree = "<group>"; };
@@ -691,7 +708,7 @@
 		14B5EBBB1AF34D580065BC5E /* reddift-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "reddift-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14B5EBCE1AF34E920065BC5E /* reddiftSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = reddiftSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14B5EBD11AF34E920065BC5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		14B5EBD21AF34E920065BC5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		14B5EBD21AF34E920065BC5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppDelegate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		14B5EBD71AF34E920065BC5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		14B5EBD91AF34E920065BC5E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		14B5EBDC1AF34E920065BC5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -710,20 +727,18 @@
 		14B5EC321AF35C170065BC5E /* CellContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellContent.swift; sourceTree = "<group>"; };
 		14B5EC341AF35C220065BC5E /* reddift_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reddift_config.json; sourceTree = "<group>"; };
 		14B5EC351AF35C220065BC5E /* reddift_config.json.sample */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reddift_config.json.sample; sourceTree = "<group>"; };
-		14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Keychain.swift; path = vendor/KeychainAccess/Lib/KeychainAccess/Keychain.swift; sourceTree = "<group>"; };
 		14B5EC541AF410740065BC5E /* UZCursorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UZCursorView.h; path = vendor/UZTextView/UZTextView/UZCursorView.h; sourceTree = "<group>"; };
 		14B5EC551AF410740065BC5E /* UZCursorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UZCursorView.m; path = vendor/UZTextView/UZTextView/UZCursorView.m; sourceTree = "<group>"; };
 		14B5EC561AF410740065BC5E /* UZLoupeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UZLoupeView.h; path = vendor/UZTextView/UZTextView/UZLoupeView.h; sourceTree = "<group>"; };
 		14B5EC571AF410740065BC5E /* UZLoupeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UZLoupeView.m; path = vendor/UZTextView/UZTextView/UZLoupeView.m; sourceTree = "<group>"; };
 		14B5EC581AF410740065BC5E /* UZTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UZTextView.h; path = vendor/UZTextView/UZTextView/UZTextView.h; sourceTree = "<group>"; };
 		14B5EC591AF410740065BC5E /* UZTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UZTextView.m; path = vendor/UZTextView/UZTextView/UZTextView.m; sourceTree = "<group>"; };
-		14B8DE051ADD3DF300237350 /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		14B8DE051ADD3DF300237350 /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Account.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		14B8DE061ADD3DF300237350 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
-		14B8DE081ADD3DF300237350 /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
+		14B8DE081ADD3DF300237350 /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Link.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		14B8DE091ADD3DF300237350 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		14B8DE0C1ADD3DF300237350 /* Subreddit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Subreddit.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		14B8DE181ADD721700237350 /* NSBundle+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSBundle+reddift.swift"; sourceTree = "<group>"; };
-		14B8DE191ADD721700237350 /* NSError+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+reddift.swift"; sourceTree = "<group>"; };
 		14B8DE1A1ADD721700237350 /* NSMutableURLRequest+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableURLRequest+reddift.swift"; sourceTree = "<group>"; };
 		14B8DE1C1ADD721700237350 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Session.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		14B8DE1E1ADD721700237350 /* OAuth2Authorizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2Authorizer.swift; sourceTree = "<group>"; };
@@ -739,10 +754,14 @@
 		14BEDDFD1AE44FC5004F7860 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		14C40CC31AFB26F500F0ECFB /* reddiftSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = reddiftSample.entitlements; sourceTree = "<group>"; };
 		14D2E21F1B14C8BF00253AC0 /* Thing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Thing.swift; sourceTree = "<group>"; };
+		14E446C81D462CCA002AEA20 /* HttpStatusWithBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpStatusWithBody.swift; sourceTree = "<group>"; };
+		14E446CF1D462D27002AEA20 /* ReddiftError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReddiftError.swift; sourceTree = "<group>"; };
+		14E447E41D013D2C00AC3E6B /* BackgroundFetch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = BackgroundFetch.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		14E72CAD1B75F20300D4229D /* SessionNoAuthTestSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionNoAuthTestSpec.swift; sourceTree = "<group>"; };
 		14E816CD1BF1785300AAAEFA /* Preference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
 		14EBEE981C7FF090001A9F35 /* MoreChildrenTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreChildrenTest.swift; sourceTree = "<group>"; };
 		14F0163A1BD3D190003CF077 /* NSAttributedString+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+reddift.swift"; sourceTree = "<group>"; };
+		14F134EA1D03EC0900EF7ADB /* NSURLRequest+reddift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLRequest+reddift.swift"; sourceTree = "<group>"; };
 		14F14EFE1BF934B600F22A4C /* SubredditKarma.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubredditKarma.swift; sourceTree = "<group>"; };
 		14F422601B01C84E00608939 /* Enum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
 		14F6A4331BF500F100736040 /* Trophy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trophy.swift; sourceTree = "<group>"; };
@@ -883,6 +902,14 @@
 			path = thing;
 			sourceTree = "<group>";
 		};
+		14437BB11D657D1500DAAAA8 /* MiniKeychain */ = {
+			isa = PBXGroup;
+			children = (
+				14437BAF1D657D1000DAAAA8 /* MiniKeychain.swift */,
+			);
+			name = MiniKeychain;
+			sourceTree = "<group>";
+		};
 		147EAD971AD78568007FA2F4 = {
 			isa = PBXGroup;
 			children = (
@@ -1018,6 +1045,8 @@
 		14B5EBD01AF34E920065BC5E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				146959FF1CE4E8E7004035CA /* expired_token.json */,
+				14695A001CE4E8E7004035CA /* expired_token.json.sample.json */,
 				14B5EBF41AF35B620065BC5E /* objc-header.h */,
 				14B5EC341AF35C220065BC5E /* reddift_config.json */,
 				14B5EC351AF35C220065BC5E /* reddift_config.json.sample */,
@@ -1029,18 +1058,10 @@
 		14B5EC511AF40ED20065BC5E /* vendor */ = {
 			isa = PBXGroup;
 			children = (
+				14437BB11D657D1500DAAAA8 /* MiniKeychain */,
 				14BCBCB31BCE1E7500A1FFEB /* Google */,
-				14B5EC521AF40ED80065BC5E /* Keychain */,
 			);
 			name = vendor;
-			sourceTree = "<group>";
-		};
-		14B5EC521AF40ED80065BC5E /* Keychain */ = {
-			isa = PBXGroup;
-			children = (
-				14B5EC4F1AF40ECF0065BC5E /* Keychain.swift */,
-			);
-			name = Keychain;
 			sourceTree = "<group>";
 		};
 		14B5EC531AF410560065BC5E /* Resources */ = {
@@ -1108,10 +1129,13 @@
 			children = (
 				14B1216E1BAA56D800238059 /* Dictionary+reddift.swift */,
 				14B8DE181ADD721700237350 /* NSBundle+reddift.swift */,
-				14B8DE191ADD721700237350 /* NSError+reddift.swift */,
+				14E446CF1D462D27002AEA20 /* ReddiftError.swift */,
+				143427D51AF98F13005D0E31 /* HttpStatus.swift */,
+				14E446C81D462CCA002AEA20 /* HttpStatusWithBody.swift */,
 				14B8DE1A1ADD721700237350 /* NSMutableURLRequest+reddift.swift */,
 				143427D21AF96AD5005D0E31 /* NSURLComponents+reddift.swift */,
 				14F0163A1BD3D190003CF077 /* NSAttributedString+reddift.swift */,
+				14F134EA1D03EC0900EF7ADB /* NSURLRequest+reddift.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1137,7 +1161,7 @@
 				141B91CE1B0A502400A9E6A6 /* Session+users.swift */,
 				141B91D01B0A502C00A9E6A6 /* Session+wiki.swift */,
 				14F76FF41AECE01800A70AA5 /* Session+helper.swift */,
-				143427D51AF98F13005D0E31 /* HttpStatus.swift */,
+				14E447E41D013D2C00AC3E6B /* BackgroundFetch.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1189,7 +1213,6 @@
 		14E3BAA61BBA4DA800BDDF29 /* playground */ = {
 			isa = PBXGroup;
 			children = (
-				14A3556D1B1705D8001D1FEA /* reddift.playground */,
 			);
 			name = playground;
 			sourceTree = "<group>";
@@ -1234,11 +1257,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14364CA21BEDA09F00FECE58 /* Build configuration list for PBXNativeTarget "reddift-tvOS" */;
 			buildPhases = (
+				146576321CC85E1D005ED404 /* Swiftlint */,
 				14364C881BEDA09F00FECE58 /* Sources */,
 				14364C891BEDA09F00FECE58 /* Frameworks */,
 				14364C8A1BEDA09F00FECE58 /* Headers */,
 				14364C8B1BEDA09F00FECE58 /* Resources */,
-				146576321CC85E1D005ED404 /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -1271,6 +1294,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14364D531BEDA9E300FECE58 /* Build configuration list for PBXNativeTarget "reddiftSampleTV" */;
 			buildPhases = (
+				14EBFC0E1CE630F50038C3ED /* Swiftlint */,
 				14364D431BEDA9E200FECE58 /* Sources */,
 				14364D441BEDA9E200FECE58 /* Frameworks */,
 				14364D451BEDA9E200FECE58 /* Resources */,
@@ -1327,6 +1351,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14B5EBEA1AF34E920065BC5E /* Build configuration list for PBXNativeTarget "reddiftSample" */;
 			buildPhases = (
+				14EBFC0D1CE630CF0038C3ED /* Swiftlint */,
 				14B5EBCA1AF34E920065BC5E /* Sources */,
 				14B5EBCB1AF34E920065BC5E /* Frameworks */,
 				14B5EBCC1AF34E920065BC5E /* Resources */,
@@ -1346,11 +1371,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14F812131AF9EA9F008F6F3C /* Build configuration list for PBXNativeTarget "reddift-OSX" */;
 			buildPhases = (
+				146576331CC85E32005ED404 /* Swiftlint */,
 				14F811FB1AF9EA9F008F6F3C /* Sources */,
 				14F811FC1AF9EA9F008F6F3C /* Frameworks */,
 				14F811FD1AF9EA9F008F6F3C /* Headers */,
 				14F811FE1AF9EA9F008F6F3C /* Resources */,
-				146576331CC85E32005ED404 /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -1386,7 +1411,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = sonson;
 				TargetAttributes = {
 					14364C8C1BEDA09F00FECE58 = {
@@ -1402,14 +1427,25 @@
 					};
 					14B5EBB01AF34D580065BC5E = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = JP866VWWSD;
+						DevelopmentTeamName = "Yuichi Yoshida";
+						LastSwiftMigration = 0800;
 					};
 					14B5EBBA1AF34D580065BC5E = {
 						CreatedOnToolsVersion = 6.3.1;
+						LastSwiftMigration = 0800;
 					};
 					14B5EBCD1AF34E920065BC5E = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = JP866VWWSD;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.DataProtection = {
+								enabled = 1;
+							};
 							com.apple.Keychain = {
 								enabled = 1;
 							};
@@ -1543,6 +1579,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14695A011CE4E8E7004035CA /* expired_token.json in Resources */,
 				14B5EC371AF35C220065BC5E /* reddift_config.json.sample in Resources */,
 				14B5EBD81AF34E920065BC5E /* Main.storyboard in Resources */,
 				14B5EBDD1AF34E920065BC5E /* LaunchScreen.xib in Resources */,
@@ -1551,6 +1588,7 @@
 				14B5EC051AF35B620065BC5E /* UZTextViewCell.xib in Resources */,
 				14B5EC361AF35C220065BC5E /* reddift_config.json in Resources */,
 				14B5EBDA1AF34E920065BC5E /* Images.xcassets in Resources */,
+				14695A021CE4E8E7004035CA /* expired_token.json.sample.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1639,6 +1677,34 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  echo \"SwiftLint\"\n  swiftlint\nelse\n  echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
+		14EBFC0D1CE630CF0038C3ED /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+		14EBFC0E1CE630F50038C3ED /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1647,17 +1713,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				14364CF41BEDA10F00FECE58 /* Multireddit.swift in Sources */,
+				14F134ED1D03EC0900EF7ADB /* NSURLRequest+reddift.swift in Sources */,
 				14364CEA1BEDA10F00FECE58 /* Media.swift in Sources */,
 				14364CF11BEDA10F00FECE58 /* Account.swift in Sources */,
 				14364CBF1BEDA10200FECE58 /* Session+moderation.swift in Sources */,
 				14364CF31BEDA10F00FECE58 /* Paginator.swift in Sources */,
-				14364CDC1BEDA10800FECE58 /* NSError+reddift.swift in Sources */,
+				14437BB31D657D3D00DAAAA8 /* MiniKeychain.swift in Sources */,
 				14364D0A1BEDA11600FECE58 /* helper.swift in Sources */,
 				14364CBA1BEDA10200FECE58 /* Session+links.swift in Sources */,
 				14364CEF1BEDA10F00FECE58 /* More.swift in Sources */,
 				14364CC31BEDA10200FECE58 /* Session+users.swift in Sources */,
 				14364CC61BEDA10200FECE58 /* HttpStatus.swift in Sources */,
 				14364CC01BEDA10200FECE58 /* Session+multireddit.swift in Sources */,
+				14E446CB1D462CCA002AEA20 /* HttpStatusWithBody.swift in Sources */,
 				14364CB71BEDA10200FECE58 /* Session+CAPTCHA.swift in Sources */,
 				14364CEE1BEDA10F00FECE58 /* Comment.swift in Sources */,
 				14364D0B1BEDA11600FECE58 /* Result.swift in Sources */,
@@ -1683,7 +1751,6 @@
 				14364CF01BEDA10F00FECE58 /* Subreddit.swift in Sources */,
 				14F14F011BF934B600F22A4C /* SubredditKarma.swift in Sources */,
 				14364CB41BEDA10200FECE58 /* Session.swift in Sources */,
-				14364CA81BEDA0EC00FECE58 /* Keychain.swift in Sources */,
 				14F6A4361BF500F100736040 /* Trophy.swift in Sources */,
 				14364CAB1BEDA0F800FECE58 /* Token.swift in Sources */,
 				14364CB91BEDA10200FECE58 /* Session+gold.swift in Sources */,
@@ -1696,6 +1763,7 @@
 				14364CEC1BEDA10F00FECE58 /* MediaEmbed.swift in Sources */,
 				14364CE61BEDA10F00FECE58 /* Enum.swift in Sources */,
 				14364CDA1BEDA10800FECE58 /* Dictionary+reddift.swift in Sources */,
+				14E446D21D462D27002AEA20 /* ReddiftError.swift in Sources */,
 				14364CBD1BEDA10200FECE58 /* Session+messages.swift in Sources */,
 				14364CDB1BEDA10800FECE58 /* NSBundle+reddift.swift in Sources */,
 				14364CE71BEDA10F00FECE58 /* Thing.swift in Sources */,
@@ -1754,22 +1822,24 @@
 				14364CCA1BEDA10300FECE58 /* Session+CAPTCHA.swift in Sources */,
 				14364CD01BEDA10300FECE58 /* Session+messages.swift in Sources */,
 				14364CFB1BEDA10F00FECE58 /* Listing.swift in Sources */,
+				14F134EE1D03EC0900EF7ADB /* NSURLRequest+reddift.swift in Sources */,
 				14364CE11BEDA10900FECE58 /* NSBundle+reddift.swift in Sources */,
 				14364D081BEDA10F00FECE58 /* CAPTCHA.swift in Sources */,
 				14364CB21BEDA0F900FECE58 /* OAuth2AppOnlyToken.swift in Sources */,
 				14364CD51BEDA10300FECE58 /* Session+subreddits.swift in Sources */,
 				14364D091BEDA10F00FECE58 /* Response.swift in Sources */,
-				14364CE21BEDA10900FECE58 /* NSError+reddift.swift in Sources */,
 				14364D001BEDA10F00FECE58 /* Comment.swift in Sources */,
+				14437BB41D657D3D00DAAAA8 /* MiniKeychain.swift in Sources */,
 				14364CA71BEDA0E700FECE58 /* GTMNSString+HTML.m in Sources */,
 				14364CFA1BEDA10F00FECE58 /* Config.swift in Sources */,
 				14EBEE9A1C7FF090001A9F35 /* MoreChildrenTest.swift in Sources */,
 				14364D141BEDA1D200FECE58 /* ParseCommentMarkdownTest.swift in Sources */,
+				14E446D31D462D27002AEA20 /* ReddiftError.swift in Sources */,
 				14364CFE1BEDA10F00FECE58 /* MediaEmbed.swift in Sources */,
+				14E446CC1D462CCA002AEA20 /* HttpStatusWithBody.swift in Sources */,
 				14364D161BEDA1D800FECE58 /* SessionNoAuthTestSpec.swift in Sources */,
 				14364D131BEDA1D200FECE58 /* ExtendCommentsTest.swift in Sources */,
 				14364CCE1BEDA10300FECE58 /* Session+listings.swift in Sources */,
-				14364CA91BEDA0EC00FECE58 /* Keychain.swift in Sources */,
 				14364CF81BEDA10F00FECE58 /* Enum.swift in Sources */,
 				14364D1D1BEDA1D800FECE58 /* UsersTest.swift in Sources */,
 				14364D071BEDA10F00FECE58 /* MultiredditDescription.swift in Sources */,
@@ -1814,15 +1884,14 @@
 				14624D011B3D184400A5D8F5 /* Response.swift in Sources */,
 				14B5EC451AF35C560065BC5E /* OAuth2Authorizer.swift in Sources */,
 				14B5EC471AF35C560065BC5E /* OAuth2TokenRepository.swift in Sources */,
-				14B5EC501AF40ECF0065BC5E /* Keychain.swift in Sources */,
 				14B5EC201AF35BFF0065BC5E /* Account.swift in Sources */,
 				14B5EC1B1AF35BFF0065BC5E /* MediaEmbed.swift in Sources */,
+				14E446D01D462D27002AEA20 /* ReddiftError.swift in Sources */,
 				141B91C21B0A4FCB00A9E6A6 /* Session+messages.swift in Sources */,
 				14F0163B1BD3D190003CF077 /* NSAttributedString+reddift.swift in Sources */,
 				148E79961B18033900C771E3 /* CAPTCHA.swift in Sources */,
 				14B5EC211AF35BFF0065BC5E /* Message.swift in Sources */,
 				143427D61AF98F13005D0E31 /* HttpStatus.swift in Sources */,
-				14B5EC391AF35C4B0065BC5E /* NSError+reddift.swift in Sources */,
 				141B91B41B0A4F1D00A9E6A6 /* Session+account.swift in Sources */,
 				14B5EC0E1AF35BFB0065BC5E /* helper.swift in Sources */,
 				14B5EC461AF35C560065BC5E /* OAuth2Token.swift in Sources */,
@@ -1833,6 +1902,7 @@
 				14BCBCB91BCE1E7500A1FFEB /* GTMNSString+HTML.m in Sources */,
 				14447EC81B16234A004FB58E /* Token.swift in Sources */,
 				141B91CA1B0A500500A9E6A6 /* Session+search.swift in Sources */,
+				14E446C91D462CCA002AEA20 /* HttpStatusWithBody.swift in Sources */,
 				141B91C61B0A4FE900A9E6A6 /* Session+moderation.swift in Sources */,
 				141B91BA1B0A4F8C00A9E6A6 /* Session+gold.swift in Sources */,
 				143427C81AF858D5005D0E31 /* OAuth2AppOnlyToken.swift in Sources */,
@@ -1840,6 +1910,7 @@
 				14B5EC3A1AF35C4B0065BC5E /* NSMutableURLRequest+reddift.swift in Sources */,
 				14B5EC161AF35BFF0065BC5E /* Config.swift in Sources */,
 				14F14EFF1BF934B600F22A4C /* SubredditKarma.swift in Sources */,
+				14E447E51D013D2C00AC3E6B /* BackgroundFetch.swift in Sources */,
 				14B5EC411AF35C500065BC5E /* Session+helper.swift in Sources */,
 				143427D01AF96A64005D0E31 /* Result.swift in Sources */,
 				14F6A4341BF500F100736040 /* Trophy.swift in Sources */,
@@ -1848,8 +1919,10 @@
 				141B91C41B0A4FD900A9E6A6 /* Session+misc.swift in Sources */,
 				141B91C81B0A4FF900A9E6A6 /* Session+multireddit.swift in Sources */,
 				141B91BC1B0A4F9B00A9E6A6 /* Session+links.swift in Sources */,
+				14437BB01D657D1000DAAAA8 /* MiniKeychain.swift in Sources */,
 				14395C051BAF96E700726263 /* Session+Token.swift in Sources */,
 				147868B21BF41DFE00D493B5 /* User.swift in Sources */,
+				14F134EB1D03EC0900EF7ADB /* NSURLRequest+reddift.swift in Sources */,
 				14B5EC401AF35C500065BC5E /* Session.swift in Sources */,
 				14F422611B01C84E00608939 /* Enum.swift in Sources */,
 				14B5EC1A1AF35BFF0065BC5E /* Oembed.swift in Sources */,
@@ -1901,17 +1974,16 @@
 				143427D11AF96A64005D0E31 /* Result.swift in Sources */,
 				141B91D71B0A503400A9E6A6 /* Session+listings.swift in Sources */,
 				141B91D91B0A503400A9E6A6 /* Session+messages.swift in Sources */,
-				14B5EC5F1AF412640065BC5E /* Keychain.swift in Sources */,
 				14B5EC2E1AF35BFF0065BC5E /* Account.swift in Sources */,
 				14B5EC291AF35BFF0065BC5E /* MediaEmbed.swift in Sources */,
 				14B5EC2F1AF35BFF0065BC5E /* Message.swift in Sources */,
-				14B5EC3C1AF35C4B0065BC5E /* NSError+reddift.swift in Sources */,
 				147868CA1BF56B6800D493B5 /* AccountTest.swift in Sources */,
 				141B91D61B0A503400A9E6A6 /* Session+links.swift in Sources */,
 				14624D021B3D184400A5D8F5 /* Response.swift in Sources */,
 				141B91D21B0A503400A9E6A6 /* Session+account.swift in Sources */,
 				149CE2621AFAD4DF004B61C1 /* CAPTCHATest.swift in Sources */,
 				14B5EC151AF35BFB0065BC5E /* helper.swift in Sources */,
+				14F134EC1D03EC0900EF7ADB /* NSURLRequest+reddift.swift in Sources */,
 				14B5EC431AF35C560065BC5E /* OAuth2Token.swift in Sources */,
 				14B5EC2C1AF35BFF0065BC5E /* More.swift in Sources */,
 				14E72CAE1B75F20300D4229D /* SessionNoAuthTestSpec.swift in Sources */,
@@ -1919,11 +1991,14 @@
 				141B91DD1B0A503400A9E6A6 /* Session+search.swift in Sources */,
 				14A352081B1BA62F003239F8 /* UsersTest.swift in Sources */,
 				14B5EC611AF4B9D60065BC5E /* ParseResponseObjectTest.swift in Sources */,
+				14437BB21D657D3C00DAAAA8 /* MiniKeychain.swift in Sources */,
 				141B91D31B0A503400A9E6A6 /* Session+CAPTCHA.swift in Sources */,
 				141B91DC1B0A503400A9E6A6 /* Session+multireddit.swift in Sources */,
 				14EBEE991C7FF090001A9F35 /* MoreChildrenTest.swift in Sources */,
 				14B5EC3B1AF35C4B0065BC5E /* NSBundle+reddift.swift in Sources */,
+				14E446D11D462D27002AEA20 /* ReddiftError.swift in Sources */,
 				141B91E01B0A503400A9E6A6 /* Session+wiki.swift in Sources */,
+				14E446CA1D462CCA002AEA20 /* HttpStatusWithBody.swift in Sources */,
 				14B5EC2D1AF35BFF0065BC5E /* Subreddit.swift in Sources */,
 				14F0163C1BD3D190003CF077 /* NSAttributedString+reddift.swift in Sources */,
 				14B5EC0F1AF35BFB0065BC5E /* Parser.swift in Sources */,
@@ -1976,17 +2051,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				14F8121B1AF9F6B0008F6F3C /* Result.swift in Sources */,
+				14F134EF1D03EC0900EF7ADB /* NSURLRequest+reddift.swift in Sources */,
 				14F812441AF9F6BA008F6F3C /* NSBundle+reddift.swift in Sources */,
 				141B91E21B0A503400A9E6A6 /* Session+CAPTCHA.swift in Sources */,
 				141B91E71B0A503400A9E6A6 /* Session+liveThreads.swift in Sources */,
 				141B91ED1B0A503400A9E6A6 /* Session+subreddits.swift in Sources */,
+				14437BB51D657D3E00DAAAA8 /* MiniKeychain.swift in Sources */,
 				14F812471AF9F6BA008F6F3C /* NSURLComponents+reddift.swift in Sources */,
 				14B121701BAA56D800238059 /* Dictionary+reddift.swift in Sources */,
 				14624D031B3D184400A5D8F5 /* Response.swift in Sources */,
-				14F812451AF9F6BA008F6F3C /* NSError+reddift.swift in Sources */,
-				14F8125A1AF9F6C8008F6F3C /* Keychain.swift in Sources */,
 				14F8122D1AF9F6B6008F6F3C /* Media.swift in Sources */,
 				14F8122B1AF9F6B6008F6F3C /* Listing.swift in Sources */,
+				14E446CD1D462CCA002AEA20 /* HttpStatusWithBody.swift in Sources */,
 				14F812521AF9F6C1008F6F3C /* OAuth2Authorizer.swift in Sources */,
 				141B91E81B0A503400A9E6A6 /* Session+messages.swift in Sources */,
 				14F0163D1BD3D190003CF077 /* NSAttributedString+reddift.swift in Sources */,
@@ -2025,6 +2101,7 @@
 				14F422631B01C84E00608939 /* Enum.swift in Sources */,
 				14F812341AF9F6B6008F6F3C /* Account.swift in Sources */,
 				14A94CFA1B1000B800EDB844 /* MultiredditDescription.swift in Sources */,
+				14E446D41D462D27002AEA20 /* ReddiftError.swift in Sources */,
 				14F812541AF9F6C1008F6F3C /* OAuth2AppOnlyToken.swift in Sources */,
 				14F8122E1AF9F6B6008F6F3C /* Oembed.swift in Sources */,
 				14D2E2221B14C8BF00253AC0 /* Thing.swift in Sources */,
@@ -2055,9 +2132,7 @@
 				14BCBCBE1BCE211400A1FFEB /* GTMNSString+HTML.m in Sources */,
 				140126951B0AC443003CA6C1 /* Multireddit.swift in Sources */,
 				141B91F81B0A503500A9E6A6 /* Session+misc.swift in Sources */,
-				14F812491AF9F6BA008F6F3C /* NSError+reddift.swift in Sources */,
 				141B91F31B0A503500A9E6A6 /* Session+gold.swift in Sources */,
-				14F8125B1AF9F6C8008F6F3C /* Keychain.swift in Sources */,
 				14F8123A1AF9F6B6008F6F3C /* Media.swift in Sources */,
 				14447ECB1B16234A004FB58E /* Token.swift in Sources */,
 				14F812381AF9F6B6008F6F3C /* Listing.swift in Sources */,
@@ -2083,6 +2158,7 @@
 				14F812241AF9F6B1008F6F3C /* Parser.swift in Sources */,
 				149CE2631AFAD4DF004B61C1 /* CAPTCHATest.swift in Sources */,
 				14F8123E1AF9F6B6008F6F3C /* Comment.swift in Sources */,
+				14F134F01D03EC0900EF7ADB /* NSURLRequest+reddift.swift in Sources */,
 				14F8123C1AF9F6B6008F6F3C /* MediaEmbed.swift in Sources */,
 				141B91FB1B0A503500A9E6A6 /* Session+search.swift in Sources */,
 				14E72CAF1B75F20300D4229D /* SessionNoAuthTestSpec.swift in Sources */,
@@ -2090,11 +2166,14 @@
 				141B91F11B0A503500A9E6A6 /* Session+CAPTCHA.swift in Sources */,
 				14A352091B1BA62F003239F8 /* UsersTest.swift in Sources */,
 				141B91FA1B0A503500A9E6A6 /* Session+multireddit.swift in Sources */,
+				14437BB61D657D3F00DAAAA8 /* MiniKeychain.swift in Sources */,
 				14F8123F1AF9F6B6008F6F3C /* More.swift in Sources */,
 				141B91FE1B0A503500A9E6A6 /* Session+wiki.swift in Sources */,
 				14EBEE9B1C7FF090001A9F35 /* MoreChildrenTest.swift in Sources */,
 				14F8124F1AF9F6BE008F6F3C /* Session.swift in Sources */,
+				14E446D51D462D27002AEA20 /* ReddiftError.swift in Sources */,
 				14F812401AF9F6B6008F6F3C /* Subreddit.swift in Sources */,
+				14E446CE1D462CCA002AEA20 /* HttpStatusWithBody.swift in Sources */,
 				14F812431AF9F6B6008F6F3C /* Paginator.swift in Sources */,
 				14F0163E1BD3D190003CF077 /* NSAttributedString+reddift.swift in Sources */,
 				14F812511AF9F6BE008F6F3C /* HttpStatus.swift in Sources */,
@@ -2215,6 +2294,7 @@
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2250,6 +2330,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
@@ -2257,11 +2338,11 @@
 		14364D541BEDA9E300FECE58 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = reddiftSampleTV/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2277,11 +2358,11 @@
 		14364D551BEDA9E300FECE58 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = reddiftSampleTV/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2289,6 +2370,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftSample/objc-header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
@@ -2317,6 +2399,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -2360,6 +2443,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -2390,11 +2474,12 @@
 				);
 				INFOPLIST_FILE = reddift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sonson.reddift.framework;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2412,11 +2497,13 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = reddift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sonson.reddift.framework;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2439,6 +2526,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -2455,6 +2543,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -2472,12 +2562,13 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = reddiftSample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftSample/objc-header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -2492,12 +2583,14 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = reddiftSample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftSample/objc-header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -2553,6 +2646,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2609,6 +2703,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};

@@ -12,19 +12,19 @@ import reddift
 class AccountViewController: UITableViewController {
 	var names: [String] = []
 	
-	@IBAction func addAccount(sender: AnyObject) {
+	@IBAction func addAccount(_ sender: AnyObject) {
 		try! OAuth2Authorizer.sharedInstance.challengeWithAllScopes()
 	}
     
     func reload() {
-        names.removeAll(keepCapacity: false)
-        names += OAuth2TokenRepository.savedNamesInKeychain()
+        names.removeAll(keepingCapacity: false)
+        names += OAuth2TokenRepository.savedNames
         tableView.reloadData()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didSaveToken:", name: OAuth2TokenRepositoryDidSaveToken, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AccountViewController.didSaveToken(_:)), name: OAuth2TokenRepositoryDidSaveTokenName, object: nil)
         reload()
     }
 
@@ -32,55 +32,58 @@ class AccountViewController: UITableViewController {
         super.didReceiveMemoryWarning()
     }
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return names.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
-        if names.indices ~= indexPath.row {
-            let name: String = names[indexPath.row]
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as UITableViewCell
+        if names.indices ~= (indexPath as NSIndexPath).row {
+            let name = names[(indexPath as NSIndexPath).row]
             cell.textLabel?.text = name
         }
         return cell
     }
 	
-    func didSaveToken(notification: NSNotification) {
+    func didSaveToken(_ notification: Notification) {
         reload()
     }
 
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
 
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            if names.indices ~= indexPath.row {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if names.indices ~= (indexPath as NSIndexPath).row {
                 do {
-                    let name: String = names[indexPath.row]
-                    try OAuth2TokenRepository.removeFromKeychainTokenWithName(name)
-                    names.removeAtIndex(indexPath.row)
+                    let name = names[(indexPath as NSIndexPath).row]
+                    try OAuth2TokenRepository.removeToken(of: name)
+                    names.remove(at: (indexPath as NSIndexPath).row)
                     tableView.beginUpdates()
-                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                    tableView.deleteRows(at: [indexPath], with: .fade)
                     tableView.endUpdates()
                 } catch { print(error) }
             }
         }
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToUserViewController" {
-            if let con = segue.destinationViewController as? UserViewController {
+            if let con = segue.destination as? UserViewController {
                 if let selectedIndexPath = tableView.indexPathForSelectedRow {
-                    if names.indices ~= selectedIndexPath.row {
-                        let name: String = names[selectedIndexPath.row]
+                    if names.indices ~= (selectedIndexPath as NSIndexPath).row {
+                        let name = names[(selectedIndexPath as NSIndexPath).row]
                         do {
-                            let token: OAuth2Token = try OAuth2TokenRepository.restoreFromKeychainWithName(name)
+                            let token = try OAuth2TokenRepository.token(of: name)
                             con.session = Session(token: token)
+//                            con.session?.setDummyExpiredToken()
+                            UserDefaults.standard.set(name, forKey: "name")
+                            UserDefaults.standard.synchronize()
                         } catch { print(error) }
                     }
                 }

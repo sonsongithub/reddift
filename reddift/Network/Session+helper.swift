@@ -15,19 +15,23 @@ Function to eliminate codes to parse http response object.
 This function filters response object to handle errors.
 Returns Result<Error> object when any error happned.
 */
-func response2Data(response: Response) -> Result<NSData> {
+func response2Data(from response: Response) -> Result<Data> {
 #if _TEST
-    if let str = String(data: response.data, encoding: NSUTF8StringEncoding) { print("response body:\n\(str)") }
+    if let str = String(data: response.data, encoding: .utf8) { print("response body:\n\(str)") }
 #endif
     if !(200..<300 ~= response.statusCode) {
         do {
-            let json = try NSJSONSerialization.JSONObjectWithData(response.data, options: NSJSONReadingOptions())
-            if let json = json as? [String:AnyObject] { return .Failure(HttpStatus(response.statusCode).errorWithJSON(json)) }
+            let json = try JSONSerialization.jsonObject(with: response.data as Data, options: [])
+            if let json = json as? JSONDictionary {
+                return .failure(HttpStatusWithBody(response.statusCode, object: json) as NSError)
+            }
         } catch { print(error) }
-        if let bodyAsString = String(data: response.data, encoding: NSUTF8StringEncoding) { return .Failure(HttpStatus(response.statusCode).errorWithString(bodyAsString)) }
-        return .Failure(HttpStatus(response.statusCode).error)
+        if let bodyAsString = String(data: response.data as Data, encoding: .utf8) {
+            return .failure(HttpStatusWithBody(response.statusCode, object: bodyAsString) as NSError)
+        }
+        return .failure(HttpStatus(response.statusCode) as NSError)
     }
-    return .Success(response.data)
+    return .success(response.data)
 }
 
 // MARK: Data -> JSON, String
@@ -36,12 +40,12 @@ func response2Data(response: Response) -> Result<NSData> {
 Parse binary data to JSON object.
 Returns Result<Error> object when any error happned.
 - parameter data: Binary data is returned from reddit.
-- returns: Result object. Result object has JSON as [String:AnyObject] or [AnyObject], otherwise error object.
+- returns: Result object. Result object has JSON as JSONDictionary or [AnyObject], otherwise error object.
 */
-func data2Json(data: NSData) -> Result<JSON> {
+func data2Json(from data: Data) -> Result<JSONAny> {
     do {
-        if data.length == 0 { return Result(value:[:]) } else {
-            let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))
+        if data.count == 0 { return Result(value:[:]) } else {
+            let json = try JSONSerialization.jsonObject(with: data, options: [])
             return Result(value:json)
         }
     } catch {
@@ -56,15 +60,14 @@ func data2Json(data: NSData) -> Result<JSON> {
  - parameter data: Binary data is returned from reddit.
  - returns: Result object. Result object has String, otherwise error object.
  */
-func data2String(data: NSData) -> Result<String> {
-    if data.length == 0 {
+func data2String(from data: Data) -> Result<String> {
+    if data.count == 0 {
         return Result(value: "")
     }
-    let decoded = NSString(data:data, encoding:NSUTF8StringEncoding)
-    if let decoded = decoded as? String {
+    if let decoded = String(data:data, encoding:.utf8) {
         return Result(value: decoded)
     }
-    return Result(error:ReddiftError.ParseJSON.error)
+    return Result(error:ReddiftError.dataIsNotUTF8String as NSError)
 }
 
 // MARK: JSON -> RedditAny
@@ -75,8 +78,8 @@ Returns Result<Error> object when any error happned.
 - parameter json: JSON object is returned from reddit.
 - returns: Result object. Result object has a list of Thing object, otherwise error object.
 */
-func json2CommentAndMore(json: JSON) -> Result<[Thing]> {
-    let (list, error) = Parser.parseCommentAndMoreJSON(json)
+func json2CommentAndMore(from json: JSONAny) -> Result<[Thing]> {
+    let (list, error) = Parser.commentAndMore(from: json)
     if let error = error {
         return Result(error: error)
     }
@@ -89,11 +92,11 @@ Returns Result<Error> object when any error happned.
 - parameter json: JSON object is returned from reddit.
 - returns: Result object. Result object has Account object, otherwise error object.
 */
-func json2Account(json: JSON) -> Result<Account> {
+func json2Account(from json: JSONAny) -> Result<Account> {
     if let object = json as? JSONDictionary {
-        return resultFromOptional(Account(data:object), error: ReddiftError.ParseThingT2.error)
+        return Result(fromOptional: Account(json:object), error: ReddiftError.accountJsonObjectIsMalformed as NSError)
     }
-    return resultFromOptional(nil, error: ReddiftError.Malformed.error)
+    return Result(fromOptional: nil, error: ReddiftError.accountJsonObjectIsNotDictionary as NSError)
 }
 
 /**
@@ -102,11 +105,11 @@ func json2Account(json: JSON) -> Result<Account> {
  - parameter data: JSON object is returned from reddit.
  - returns: Result object. Result object has Preference object, otherwise error object.
  */
-func json2Preference(json: JSON) -> Result<Preference> {
+func json2Preference(from json: JSONAny) -> Result<Preference> {
     if let object = json as? JSONDictionary {
         return Result(value: Preference(json: object))
     }
-    return resultFromOptional(nil, error: ReddiftError.Malformed.error)
+    return Result(fromOptional: nil, error: ReddiftError.preferenceJsonObjectIsNotDictionary as NSError)
 }
 
 /**
@@ -115,9 +118,9 @@ func json2Preference(json: JSON) -> Result<Preference> {
  - parameter data: Binary data is returned from reddit.
  - returns: Result object. Result object has any Thing or Listing object, otherwise error object.
  */
-func json2RedditAny(json: JSON) -> Result<RedditAny> {
-    let object: Any? = Parser.parseJSON(json)
-    return resultFromOptional(object, error: ReddiftError.ParseThing.error)
+func json2RedditAny(from json: JSONAny) -> Result<RedditAny> {
+    let object: Any? = Parser.redditAny(from: json)
+    return Result(fromOptional: object, error: ReddiftError.failedToParseThingFromJsonObject as NSError)
 }
 
 /**
@@ -127,13 +130,13 @@ func json2RedditAny(json: JSON) -> Result<RedditAny> {
  - parameter json: JSON object, like above sample.
  - returns: Result object. When parsing is succeeded, object contains list which consists of Thing.
  */
-func json2Comment(json: JSON) -> Result<Comment> {
+func json2Comment(from json: JSONAny) -> Result<Comment> {
     if let json = json as? JSONDictionary, let j = json["json"] as? JSONDictionary, let data = j["data"] as? JSONDictionary, let things = data["things"] as? JSONArray {
         // No error?
         if things.count == 1 {
             for thing in things {
                 if let thing = thing as? JSONDictionary {
-                    let obj: Any? = Parser.parseJSON(thing)
+                    let obj: Any? = Parser.redditAny(from: thing)
                     if let comment = obj as? Comment {
                         return Result(value: comment)
                     }
@@ -144,32 +147,31 @@ func json2Comment(json: JSON) -> Result<Comment> {
         // Error happened.
         for obj in errors {
             if let errorStrings = obj as? [String] {
-                return Result(error:NSError.errorWithCode(ReddiftError.ReturnedCommentError.rawValue, errorStrings.joinWithSeparator(",")))
+                print(errorStrings)
+                return Result(error: ReddiftError.commentJsonObjectIsMalformed as NSError)
             }
         }
     }
-    return Result(error:ReddiftError.ParseCommentError.error)
+    return Result(error: ReddiftError.commentJsonObjectIsMalformed as NSError)
 }
 
 // MARK: RedditAny -> Objects
 
-func redditAny2Object<T>(redditAny: RedditAny) -> Result<T> {
+func redditAny2Object<T>(from redditAny: RedditAny) -> Result<T> {
     if let obj = redditAny as? T {
         return Result(value: obj)
     }
-    return Result(error: ReddiftError.Malformed.error)
+    return Result(error: ReddiftError.failedToParseThingFromRedditAny as NSError)
 }
 
-
-func redditAny2Object(redditAny: RedditAny) -> Result<[Multireddit]> {
+func redditAny2MultiredditArray(from redditAny: RedditAny) -> Result<[Multireddit]> {
     if let array = redditAny as? [Any] {
         return Result(value:array.flatMap({$0 as? Multireddit}))
     }
-    return Result(error: ReddiftError.Malformed.error)
+    return Result(error: ReddiftError.failedToParseMultiredditArrayFromRedditAny as NSError)
 }
 
-
-func redditAny2Object(redditAny: RedditAny) -> Result<(Listing, Listing)> {
+func redditAny2ListingTuple(from redditAny: RedditAny) -> Result<(Listing, Listing)> {
     if let array = redditAny as? [RedditAny] {
         if array.count == 2 {
             if let listing0 = array[0] as? Listing, let listing1 = array[1] as? Listing {
@@ -177,5 +179,13 @@ func redditAny2Object(redditAny: RedditAny) -> Result<(Listing, Listing)> {
             }
         }
     }
-    return Result(error: ReddiftError.Malformed.error)
+    return Result(error: ReddiftError.failedToParseListingPairFromRedditAny as NSError)
+}
+
+// MARK: Convert from data and response
+public func accountInResult(from data: Data?, response: URLResponse?, error: NSError? = nil) -> Result<Account> {
+    return Result(from: Response(data: data, urlResponse: response), optional:nil)
+        .flatMap(response2Data)
+        .flatMap(data2Json)
+        .flatMap(json2Account)
 }

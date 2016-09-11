@@ -42,23 +42,29 @@ public class OAuth2Authorizer {
     
     - parameter scopes: Scope you want to get authorizing. You can check all scopes at https://www.reddit.com/dev/api/oauth.
     */
-    public func challengeWithScopes(scopes: [String]) throws {
-        let commaSeparatedScopeString = scopes.joinWithSeparator(",")
+    public func challengeWithScopes(_ scopes: [String]) throws {
+        let commaSeparatedScopeString = scopes.joined(separator: ",")
         
         let length = 64
         let mutableData = NSMutableData(length: Int(length))
         if let data = mutableData {
-            let _ = SecRandomCopyBytes(kSecRandomDefault, length, UnsafeMutablePointer<UInt8>(data.mutableBytes))
-            self.state = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.EncodingEndLineWithLineFeed)
-            guard let authorizationURL = NSURL(string:"https://www.reddit.com/api/v1/authorize.compact?client_id=" + Config.sharedInstance.clientID + "&response_type=code&state=" + self.state + "&redirect_uri=" + Config.sharedInstance.redirectURI + "&duration=permanent&scope=" + commaSeparatedScopeString)
-                else { throw ReddiftError.ChallengeOAuth2Session.error }
+            let a = OpaquePointer(data.mutableBytes)
+            let ptr = UnsafeMutablePointer<UInt8>(a)
+            let _ = SecRandomCopyBytes(kSecRandomDefault, length, ptr)
+            self.state = data.base64EncodedString(options: .endLineWithLineFeed)
+            guard let authorizationURL = URL(string:"https://www.reddit.com/api/v1/authorize.compact?client_id=" + Config.sharedInstance.clientID + "&response_type=code&state=" + self.state + "&redirect_uri=" + Config.sharedInstance.redirectURI + "&duration=permanent&scope=" + commaSeparatedScopeString)
+                else { throw ReddiftError.canNotCreateURLRequestForOAuth2Page as NSError }
 #if os(iOS)
-                UIApplication.sharedApplication().openURL(authorizationURL)
+                if #available (iOS 10.0, *) {
+                    UIApplication.shared.open(authorizationURL, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(authorizationURL)
+                }
 #elseif os(OSX)
-                NSWorkspace.sharedWorkspace().openURL(authorizationURL)
+                NSWorkspace.shared().open(authorizationURL)
 #endif
         } else {
-            throw ReddiftError.ChallengeOAuth2Session.error
+            throw ReddiftError.canNotAllocateDataToCreateURLForOAuth2 as NSError
         }
     }
     
@@ -69,19 +75,19 @@ public class OAuth2Authorizer {
     - parameter completion: Callback block is execeuted when the access token has been acquired using URL.
     - returns: Returns if the URL object is parsed correctly.
     */
-    public func receiveRedirect(url: NSURL, completion: (Result<OAuth2Token>) -> Void) -> Bool {
+    public func receiveRedirect(_ url: URL, completion: @escaping (Result<OAuth2Token>) -> Void) -> Bool {
         var parameters: [String:String] = [:]
         let currentState = self.state
         self.state = ""
         if url.scheme == Config.sharedInstance.redirectURIScheme {
-            if let temp = NSURLComponents(URL: url, resolvingAgainstBaseURL: true)?.dictionary() {
+            if let temp = URLComponents(url: url, resolvingAgainstBaseURL: true)?.dictionary {
                 parameters = temp
             }
         }
-        if let code = parameters["code"], state = parameters["state"] {
+        if let code = parameters["code"], let state = parameters["state"] {
             if code.characters.count > 0 && state == currentState {
                 do {
-                    try OAuth2Token.getOAuth2Token(code, completion:completion)
+                    try OAuth2Token.getOAuth2Token(code, completion: completion)
                     return true
                 } catch {
                     print(error)

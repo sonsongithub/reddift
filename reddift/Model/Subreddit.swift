@@ -453,7 +453,7 @@ public struct Subreddit: SubredditURLPath, Thing {
     - parameter data: Dictionary, must be generated parsing "t5".
     - returns: Subreddit object as Thing.
     */
-    public init(data: JSONDictionary) {
+    public init(json data: JSONDictionary) {
         id = data["id"] as? String ?? ""
         bannerImg = data["banner_img"] as? String ?? ""
         userSrThemeEnabled = data["user_sr_theme_enabled"] as? Bool ?? false

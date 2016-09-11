@@ -8,24 +8,13 @@
 
 import Foundation
 
-private let allowedCharacterSet = NSCharacterSet(charactersInString: "!$&'()*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~")
-
-extension String {
-    /**
-    Returns string by replacing NOT ASCII characters with a percent escaped string using UTF8.
-    */
-    private func stringByAddingPercentEscapesUsingUTF8() -> String {
-        return (self as NSString).stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacterSet) ?? self
-    }
-}
-
 /**
 Returns string by replacing NOT ASCII characters with a percent escaped string using UTF8.
 If an argument is nil, returns vacant string.
 */
-private func convertObjectToEscapedURLString(object: AnyObject?) -> String {
+private func convertObjectToEscapedURLString(_ object: AnyObject?) -> String {
     if let urlstring = object as? String {
-        return urlstring.stringByAddingPercentEscapesUsingUTF8()
+        return urlstring.addPercentEncoding
     } else {
         return ""
     }
@@ -260,7 +249,7 @@ public struct Link: Thing {
         subreddit = ""
         selftextHtml = ""
         selftext = ""
-        likes = .None
+        likes = .none
         linkFlairText = ""
         gilded = 0
         archived = false
@@ -291,8 +280,8 @@ public struct Link: Thing {
         visited = false
         numReports = 0
         distinguished = false
-        media = Media(json:([:]))
-        mediaEmbed = MediaEmbed(json:([:]))
+        media = Media(json: [:])
+        mediaEmbed = MediaEmbed(json: [:])
         
         userReports = []
         secureMedia = nil
@@ -307,7 +296,7 @@ public struct Link: Thing {
     - parameter data: Dictionary, must be generated parsing "t3".
     - returns: Link object as Thing.
     */
-    public init(data: JSONDictionary) {
+    public init(json data: JSONDictionary) {
         id = data["id"] as? String ?? ""
         domain = data["domain"] as? String ?? ""
         bannedBy = data["banned_by"] as? String ?? ""
@@ -317,9 +306,9 @@ public struct Link: Thing {
         let tempSelftext = data["selftext"] as? String ?? ""
         selftext = tempSelftext.gtm_stringByUnescapingFromHTML()
         if let temp = data["likes"] as? Bool {
-            likes = temp ? .Up : .Down
+            likes = temp ? .up : .down
         } else {
-            likes = .None
+            likes = .none
         }
         linkFlairText = data["link_flair_text"] as? String ?? ""
         gilded = data["gilded"] as? Int ?? 0
@@ -354,8 +343,8 @@ public struct Link: Thing {
         visited = data["visited"] as? Bool ?? false
         numReports = data["num_reports"] as? Int ?? 0
         distinguished = data["distinguished"] as? Bool ?? false
-        media = Media(json:(data["media"] as? JSONDictionary ?? [:]))
-        mediaEmbed = MediaEmbed(json:(data["media_embed"] as? JSONDictionary ?? [:]))
+        media = Media(json: data["media"] as? JSONDictionary ?? [:])
+        mediaEmbed = MediaEmbed(json: data["media_embed"] as? JSONDictionary ?? [:])
         
         userReports = []
         secureMedia = nil

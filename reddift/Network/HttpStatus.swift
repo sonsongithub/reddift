@@ -10,250 +10,234 @@
 
 import Foundation
 
-/**
-The type of http response.
-*/
-enum HttpStatus: Int {
-    case Continue = 100
-    case SwitchingProtocols = 101
-    case Processing = 102
-    case OK = 200
-    case Created = 201
-    case Accepted = 202
-    case NonAuthoritativeInformation = 203
-    case NoContent = 204
-    case ResetContent = 205
-    case PartialContent = 206
-    case MultiStatus = 207
-    case AlreadyReported = 208
-    case IMUsed = 226
-    case MultipleChoices = 300
-    case NotModified = 304
-    case UseProxy = 305
-    case SwitchProxy = 306
-    case TemporaryRedirect = 307
-    case PermanentRedirect = 308
-    case BadRequest = 400
-    case Unauthorized = 401
-    case PaymentRequired = 402
-    case Forbidden = 403
-    case NotFound = 404
-    case MethodNotAllowed = 405
-    case NotAcceptable = 406
-    case ProxyAuthenticationRequired = 407
-    case RequestTimeout = 408
-    case Conflict = 409
-    case Gone = 410
-    case LengthRequired = 411
-    case PreconditionFailed = 412
-    case RequestEntityTooLarge = 413
-    case RequestURITooLong = 414
-    case UnsupportedMediaType = 415
-    case RequestedRangeNotSatisfiable = 416
-    case ExpectationFailed = 417
-    case ImATeapot = 418
-    case AuthenticationTimeout = 419
-    case MethodFailure = 420
-    case MisdirectedRequest = 421
-    case UnprocessableEntity = 422
-    case Locked = 423
-    case FailedDependency = 424
-    case UpgradeRequired = 426
-    case PreconditionRequired = 428
-    case TooManyRequests = 429
-    case RequestHeaderFieldsTooLarge = 431
-    case LoginTimeout = 440
-    case NoResponse = 444
-    case RetryWith = 449
-    case BlockedByWindowsParentalControls = 450
-    case RequestHeaderTooLarge = 494
-    case CertError = 495
-    case NoCert = 496
-    case HTTPToHTTPS = 497
-    case TokenExpiredinvalid = 498
-    case ClientClosedRequest = 499
-    case InternalServerError = 500
-    case NotImplemented = 501
-    case BadGateway = 502
-    case ServiceUnavailable = 503
-    case GatewayTimeout = 504
-    case HTTPVersionNotSupported = 505
-    case VariantAlsoNegotiates = 506
-    case InsufficientStorage = 507
-    case LoopDetected = 508
-    case BandwidthLimitExceeded = 509
-    case NotExtended = 510
-    case NetworkAuthenticationRequired = 511
-    case NetworkReadTimeoutError = 598
-    case NetworkConnectTimeoutError = 599
-    case Unknown = -1
+public enum HttpStatus: Int, Error {
+    case `continue`                         = 100
+    case switchingProtocols                 = 101
+    case processing                         = 102
+    case ok                                 = 200
+    case created                            = 201
+    case accepted                           = 202
+    case nonAuthoritativeInformation        = 203
+    case noContent                          = 204
+    case resetContent                       = 205
+    case partialContent                     = 206
+    case multiStatus                        = 207
+    case alreadyReported                    = 208
+    case imUsed                             = 226
+    case multipleChoices                    = 300
+    case notModified                        = 304
+    case useProxy                           = 305
+    case switchProxy                        = 306
+    case temporaryRedirect                  = 307
+    case permanentRedirect                  = 308
+    case badRequest                         = 400
+    case unauthorized                       = 401
+    case paymentRequired                    = 402
+    case forbidden                          = 403
+    case notFound                           = 404
+    case methodNotAllowed                   = 405
+    case notAcceptable                      = 406
+    case proxyAuthenticationRequired        = 407
+    case requestTimeout                     = 408
+    case conflict                           = 409
+    case gone                               = 410
+    case lengthRequired                     = 411
+    case preconditionFailed                 = 412
+    case requestEntityTooLarge              = 413
+    case requestURITooLong                  = 414
+    case unsupportedMediaType               = 415
+    case requestedRangeNotSatisfiable       = 416
+    case expectationFailed                  = 417
+    case imaTeapot                          = 418
+    case authenticationTimeout              = 419
+    case methodFailure                      = 420
+    case misdirectedRequest                 = 421
+    case unprocessableEntity                = 422
+    case locked                             = 423
+    case failedDependency                   = 424
+    case upgradeRequired                    = 426
+    case preconditionRequired               = 428
+    case tooManyRequests                    = 429
+    case requestHeaderFieldsTooLarge        = 431
+    case loginTimeout                       = 440
+    case noResponse                         = 444
+    case retryWith                          = 449
+    case blockedByWindowsParentalControls   = 450
+    case requestHeaderTooLarge              = 494
+    case certError                          = 495
+    case noCert                             = 496
+    case httpToHTTPS                        = 497
+    case tokenExpiredinvalid                = 498
+    case clientClosedRequest                = 499
+    case internalServerError                = 500
+    case notImplemented                     = 501
+    case badGateway                         = 502
+    case serviceUnavailable                 = 503
+    case gatewayTimeout                     = 504
+    case httpVersionNotSupported            = 505
+    case variantAlsoNegotiates              = 506
+    case insufficientStorage                = 507
+    case loopDetected                       = 508
+    case bandwidthLimitExceeded             = 509
+    case notExtended                        = 510
+    case networkAuthenticationRequired      = 511
+    case networkReadTimeoutError            = 598
+    case networkConnectTimeoutError         = 599
+    case unknown                            = -1
     
     init(_ statusCode: Int) {
-        let status = HttpStatus(rawValue:statusCode)
-        if let status: HttpStatus = status {
-            self = status
-        } else {
-            self = .Unknown
-        }
+        self = HttpStatus(rawValue:statusCode) ?? .unknown
     }
     
-    func errorWithJSON(json: [String:AnyObject]) -> NSError {
-        return NSError(domain:Config.sharedInstance.bundleIdentifier, code:self.rawValue, userInfo:json)
+    public var _code: Int {
+        return self.rawValue
     }
     
-    func errorWithString(string: String) -> NSError {
-        return NSError.errorWithCode(self.rawValue, string)
-    }
-
-    var error: NSError {
-        return NSError.errorWithCode(self.rawValue, self.description)
-    }
-
     var description: String {
         switch self {
-        case .Continue:
+        case .continue:
             return "Continue"
-        case .SwitchingProtocols:
+        case .switchingProtocols:
             return "Switching Protocols"
-        case .Processing:
+        case .processing:
             return "Processing"
-        case .OK:
+        case .ok:
             return "OK"
-        case .Created:
+        case .created:
             return "Created"
-        case .Accepted:
+        case .accepted:
             return "Accepted"
-        case .NonAuthoritativeInformation:
+        case .nonAuthoritativeInformation:
             return "Non-Authoritative Information"
-        case .NoContent:
+        case .noContent:
             return "No Content"
-        case .ResetContent:
+        case .resetContent:
             return "Reset Content"
-        case .PartialContent:
+        case .partialContent:
             return "Partial Content"
-        case .MultiStatus:
+        case .multiStatus:
             return "Multi-Status"
-        case .AlreadyReported:
+        case .alreadyReported:
             return "Already Reported"
-        case .IMUsed:
+        case .imUsed:
             return "IM Used"
-        case .MultipleChoices:
+        case .multipleChoices:
             return "Multiple Choices"
-        case .NotModified:
+        case .notModified:
             return "Not Modified"
-        case .UseProxy:
+        case .useProxy:
             return "Use Proxy"
-        case .SwitchProxy:
+        case .switchProxy:
             return "Switch Proxy"
-        case .TemporaryRedirect:
+        case .temporaryRedirect:
             return "Temporary Redirect"
-        case .PermanentRedirect:
+        case .permanentRedirect:
             return "Permanent Redirect"
-        case .BadRequest:
+        case .badRequest:
             return "Bad Request"
-        case .Unauthorized:
+        case .unauthorized:
             return "Unauthorized"
-        case .PaymentRequired:
+        case .paymentRequired:
             return "Payment Required"
-        case .Forbidden:
+        case .forbidden:
             return "Forbidden"
-        case .NotFound:
+        case .notFound:
             return "NotFound"
-        case .MethodNotAllowed:
+        case .methodNotAllowed:
             return "Method Not Allowed"
-        case .NotAcceptable:
+        case .notAcceptable:
             return "Not Acceptable"
-        case .ProxyAuthenticationRequired:
+        case .proxyAuthenticationRequired:
             return "Proxy Authentication Required"
-        case .RequestTimeout:
+        case .requestTimeout:
             return "Request Timeout"
-        case .Conflict:
+        case .conflict:
             return "Conflict"
-        case .Gone:
+        case .gone:
             return "Gone"
-        case .LengthRequired:
+        case .lengthRequired:
             return "Length Required"
-        case .PreconditionFailed:
+        case .preconditionFailed:
             return "Precondition Failed"
-        case .RequestEntityTooLarge:
+        case .requestEntityTooLarge:
             return "Request Entity Too Large"
-        case .RequestURITooLong:
+        case .requestURITooLong:
             return "Request-URI Too Long"
-        case .UnsupportedMediaType:
+        case .unsupportedMediaType:
             return "Unsupported Media Type"
-        case .RequestedRangeNotSatisfiable:
+        case .requestedRangeNotSatisfiable:
             return "Requested Range Not Satisfiable"
-        case .ExpectationFailed:
+        case .expectationFailed:
             return "Expectation Failed"
-        case .ImATeapot:
+        case .imaTeapot:
             return "I'm a teapot"
-        case .AuthenticationTimeout:
+        case .authenticationTimeout:
             return "Authentication Timeout"
-        case .MethodFailure:
+        case .methodFailure:
             return "Method Failure"
-        case .MisdirectedRequest:
+        case .misdirectedRequest:
             return "Misdirected Request"
-        case .UnprocessableEntity:
+        case .unprocessableEntity:
             return "Unprocessable Entity"
-        case .Locked:
+        case .locked:
             return "Locked"
-        case .FailedDependency:
+        case .failedDependency:
             return "Failed Dependency"
-        case .UpgradeRequired:
+        case .upgradeRequired:
             return "Upgrade Required"
-        case .PreconditionRequired:
+        case .preconditionRequired:
             return "Precondition Required"
-        case .TooManyRequests:
+        case .tooManyRequests:
             return "Too Many Requests"
-        case .RequestHeaderFieldsTooLarge:
+        case .requestHeaderFieldsTooLarge:
             return "Request Header Fields Too Large"
-        case .LoginTimeout:
+        case .loginTimeout:
             return "Login Timeout"
-        case .NoResponse:
+        case .noResponse:
             return "No Response"
-        case .RetryWith:
+        case .retryWith:
             return "Retry With"
-        case .BlockedByWindowsParentalControls:
+        case .blockedByWindowsParentalControls:
             return "Blocked by Windows Parental Controls"
-        case .RequestHeaderTooLarge:
+        case .requestHeaderTooLarge:
             return "Request Header Too Large"
-        case .CertError:
+        case .certError:
             return "Cert Error"
-        case .NoCert:
+        case .noCert:
             return "No Cert"
-        case .HTTPToHTTPS:
+        case .httpToHTTPS:
             return "HTTP to HTTPS"
-        case .TokenExpiredinvalid:
+        case .tokenExpiredinvalid:
             return "Token expired/invalid"
-        case .ClientClosedRequest:
+        case .clientClosedRequest:
             return "Client Closed Request"
-        case .InternalServerError:
+        case .internalServerError:
             return "Internal Server Error"
-        case .NotImplemented:
+        case .notImplemented:
             return "Not Implemented"
-        case .BadGateway:
+        case .badGateway:
             return "Bad Gateway"
-        case .ServiceUnavailable:
+        case .serviceUnavailable:
             return "Service Unavailable"
-        case .GatewayTimeout:
+        case .gatewayTimeout:
             return "Gateway Timeout"
-        case .HTTPVersionNotSupported:
+        case .httpVersionNotSupported:
             return "HTTP Version Not Supported"
-        case .VariantAlsoNegotiates:
+        case .variantAlsoNegotiates:
             return "Variant Also Negotiates"
-        case .InsufficientStorage:
+        case .insufficientStorage:
             return "Insufficient Storage"
-        case .LoopDetected:
+        case .loopDetected:
             return "Loop Detected"
-        case .BandwidthLimitExceeded:
+        case .bandwidthLimitExceeded:
             return "Bandwidth Limit Exceeded"
-        case .NotExtended:
+        case .notExtended:
             return "Not Extended"
-        case .NetworkAuthenticationRequired:
+        case .networkAuthenticationRequired:
             return "Network Authentication Required"
-        case .NetworkReadTimeoutError:
+        case .networkReadTimeoutError:
             return "Network read timeout error"
-        case .NetworkConnectTimeoutError:
+        case .networkConnectTimeoutError:
             return "Network connect timeout error"
         default:
             return "HTTP Error - Unknown"

@@ -8,10 +8,10 @@
 
 import Foundation
 
-/// For JSON object, typically this alias means [AnyObject] or [String:AnyObject], and so on.
-public typealias JSON = Any
+/// For JSON object, typically this alias means [AnyObject] or JSONDictionary, and so on.
+public typealias JSONAny = Any
 
-/// For JSON object, typically this alias means [String:AnyObject]
+/// For JSON object, typically this alias means JSONDictionary
 public typealias JSONDictionary = Dictionary<String, AnyObject>
 
 /// For JSON object, typically this alias means [AnyObject]
@@ -21,13 +21,13 @@ public typealias JSONArray = Array<AnyObject>
 public typealias RedditAny = Any
 
 /// Session class to communicate with reddit.com using OAuth.
-public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
+public class Session: NSObject, URLSessionDelegate, URLSessionDataDelegate {
     /// Token object to access via OAuth
     public var token: Token? = nil
     /// Base URL for OAuth API
     let baseURL: String
     /// Session object to communicate a server
-    var URLSession: NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    var session = URLSession(configuration: URLSessionConfiguration.default)
     
     /// Duration until rate limit of API usage as second.
     var rateLimitDurationToReset: Double = 0
@@ -65,8 +65,8 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
 
 	- parameter response: NSURLResponse object is passed from NSURLSession.
 	*/
-    func updateRateLimitWithURLResponse(response: NSURLResponse?, verbose: Bool = false) {
-        if let response = response, let httpResponse: NSHTTPURLResponse = response as? NSHTTPURLResponse {
+    func updateRateLimit(with response: URLResponse?, verbose: Bool = false) {
+        if let httpResponse = response as? HTTPURLResponse {
             if let temp = httpResponse.allHeaderFields["x-ratelimit-reset"] as? String {
                 rateLimitDurationToReset = Double(temp) ?? 0
             }
@@ -84,44 +84,75 @@ public class Session: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate {
         }
     }
     
-    /**
-    Returns object which is generated from JSON object from reddit.com.
-    This method automatically parses JSON and generates data.
+    func handleResponse2RedditAny(_ data: Data?, response: URLResponse?, error: NSError?) -> Result<RedditAny> {
+        self.updateRateLimit(with: response)
+        return Result(from: Response(data: data, urlResponse: response), optional:error)
+            .flatMap(response2Data)
+            .flatMap(data2Json)
+            .flatMap(json2RedditAny)
+    }
     
-    - parameter response: NSURLResponse object is passed from NSURLSession.
-    - parameter completion: The completion handler to call when the load request is complete.
-    - returns: Data task which requests search to reddit.com.
-    */
-    func handleRequest(request: NSMutableURLRequest, completion: (Result<RedditAny>) -> Void) -> NSURLSessionDataTask {
-		let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-                .flatMap(json2RedditAny)
-            completion(result)
+    func handleResponse2JSON(_ data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> {
+        self.updateRateLimit(with: response)
+        return Result(from: Response(data: data, urlResponse: response), optional:error)
+            .flatMap(response2Data)
+            .flatMap(data2Json)
+    }
+    
+    /**
+     Executes the passed task after refreshing the current OAuth token.
+     
+     - parameter request: Request object is used for creating NSURLSessionDataTask. OAuth token of thie reqeust can be replaced new token when it is expired.
+     - parameter handleResponse: Closure returns Result<T> object by handling response, data and error that is returned from NSURLSession.
+     - parameter completion: The completion handler to call when the load request is complete.
+     */
+    func executeTaskAgainAfterRefresh<T>(_ request: URLRequest, handleResponse: @escaping (_ data: Data?, _ response: URLResponse?, _ error: NSError?) -> Result<T>, completion: @escaping (Result<T>) -> Void) -> Void {
+        do {
+            try self.refreshToken({ (result) -> Void in
+                switch result {
+                case .failure(let error):
+                    completion(Result(error: error as NSError))
+                case .success(let token):
+                    // http header must be updated with new OAuth token.
+                    var request = request
+                    request.setOAuth2Token(token)
+                    print("new token - \(token.accessToken) - automatically refreshed.")
+                    let task = self.session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
+                        self.updateRateLimit(with: response)
+                        completion(handleResponse(data, response, error as NSError?))
+                    })
+                    task.resume()
+                }
+            })
+        } catch { completion(Result(error: error as NSError)) }
+    }
+    
+    /**
+     Executes the passed task. It's executed after refreshing the current OAuth token if the current OAuth token is expired.
+     
+     - parameter request: Request object is used for creating NSURLSessionDataTask. OAuth token of thie reqeust can be replaced new token when it is expired.
+     - parameter handleResponse: Closure returns Result<T> object by handling response, data and error that is returned from NSURLSession.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    func executeTask<T>(_ request: URLRequest, handleResponse: @escaping ((_ data: Data?, _ response: URLResponse?, _ error: NSError?) -> Result<T>), completion: @escaping ((Result<T>) -> Void)) -> URLSessionDataTask {
+        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
+            self.updateRateLimit(with: response)
+            let result = handleResponse(data, response, error as NSError?)
+            switch result {
+            case .failure(let error):
+                guard let token = self.token else { completion(result); return; }
+                if token.refreshToken.isEmpty { completion(result); return; }
+                if error.code == HttpStatus.unauthorized.rawValue {
+                    self.executeTaskAgainAfterRefresh(request, handleResponse: handleResponse, completion: completion)
+                } else {
+                    completion(result)
+                }
+            case .success:
+                completion(result)
+            }
         })
         task.resume()
         return task
     }
-        
-    /**
-    Returns JSON object which is obtained from reddit.com.
-    
-    - parameter response: NSURLResponse object is passed from NSURLSession.
-    - parameter completion: The completion handler to call when the load request is complete.
-    - returns: Data task which requests search to reddit.com.
-    */
-    func handleAsJSONRequest(request: NSMutableURLRequest, completion: (Result<JSON>) -> Void) -> NSURLSessionDataTask {
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2Json)
-            completion(result)
-        })
-        task.resume()
-        return task
-    }
-
 }

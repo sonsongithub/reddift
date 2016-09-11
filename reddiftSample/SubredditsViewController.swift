@@ -16,7 +16,7 @@ class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpd
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        sortTypes += [.Popular, .New, .Employee, .Gold]
+        sortTypes += [.popular, .new, .employee, .gold]
         for sortType in sortTypes {
             sortTitles.append(sortType.title)
         }
@@ -38,17 +38,17 @@ class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpd
         self.definesPresentationContext = true
         
         segmentedControl = UISegmentedControl(items:sortTitles)
-        segmentedControl?.addTarget(self, action: "segmentChanged:", forControlEvents: UIControlEvents.ValueChanged)
+        segmentedControl?.addTarget(self, action: #selector(SubredditsViewController.segmentChanged(_:)), for: UIControlEvents.valueChanged)
         segmentedControl?.frame = CGRect(x: 0, y: 0, width: 300, height: 28)
         segmentedControl?.selectedSegmentIndex = 0
         
-        let space = UIBarButtonItem(barButtonSystemItem:.FlexibleSpace, target: nil, action: nil)
+        let space = UIBarButtonItem(barButtonSystemItem:.flexibleSpace, target: nil, action: nil)
         let item = UIBarButtonItem(customView:self.segmentedControl!)
         self.toolbarItems = [space, item, space]
         if self.subreddits.count == 0 {
             load()
         }
-        self.navigationController?.toolbarHidden = false
+        self.navigationController?.isToolbarHidden = false
     }
     
     func load() {
@@ -60,19 +60,17 @@ class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpd
             do {
                 try session?.getSubreddit(sortTypes[seg.selectedSegmentIndex], paginator:paginator, completion: { (result) in
                     switch result {
-                    case .Failure:
+                    case .failure:
                         print(result.error)
-                    case .Success:
+                    case .success(let listing):
                         print(result.value)
-                        if let listing = result.value as? Listing {
-                            for obj in listing.children {
-                                if let subreddit = obj as? Subreddit {
-                                    self.subreddits.append(subreddit)
-                                }
+                        for obj in listing.children {
+                            if let subreddit = obj as? Subreddit {
+                                self.subreddits.append(subreddit)
                             }
-                            self.paginator = listing.paginator
                         }
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.paginator = listing.paginator
+                        DispatchQueue.main.async(execute: { () -> Void in
                             self.tableView.reloadData()
                             self.loading = false
                         })
@@ -82,9 +80,9 @@ class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpd
         }
     }
     
-    func segmentChanged(sender: AnyObject) {
+    func segmentChanged(_ sender: AnyObject) {
         if let _ = sender as? UISegmentedControl {
-            self.subreddits.removeAll(keepCapacity: true)
+            self.subreddits.removeAll(keepingCapacity: true)
             self.tableView.reloadData()
             self.paginator = Paginator()
             load()
@@ -96,26 +94,26 @@ class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpd
 // MARK:
 
 extension SubredditsViewController {
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     }
 }
 
 // MARK:
 
 extension SubredditsViewController {
-    func presentSearchController(searchController: UISearchController) {
+    func present(_ searchController: UISearchController) {
     }
     
-    func willPresentSearchController(searchController: UISearchController) {
+    func willPresent(_ searchController: UISearchController) {
     }
     
-    func didPresentSearchController(searchController: UISearchController) {
+    func didPresent(_ searchController: UISearchController) {
     }
     
-    func willDismissSearchController(searchController: UISearchController) {
+    func willDismiss(_ searchController: UISearchController) {
     }
     
-    func didDismissSearchController(searchController: UISearchController) {
+    func didDismiss(_ searchController: UISearchController) {
         
     }
 }
@@ -123,7 +121,7 @@ extension SubredditsViewController {
 // MARK:
 
 extension SubredditsViewController {
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    @objc(updateSearchResultsForSearchController:) func updateSearchResults(for searchController: UISearchController) {
     }
 }
 
@@ -131,16 +129,16 @@ extension SubredditsViewController {
 
 extension SubredditsViewController {
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return subreddits.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as UITableViewCell
         if subreddits.indices ~= indexPath.row {
             let subreddit = subreddits[indexPath.row]
             cell.textLabel?.text = subreddit.title
@@ -154,7 +152,7 @@ extension SubredditsViewController {
 
 extension SubredditsViewController {
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if tableView == self.tableView {
             if indexPath.row == (subreddits.count - 1) {
                 if paginator != nil {
@@ -171,9 +169,9 @@ extension SubredditsViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var subreddit: Subreddit? = nil
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
         if tableView == self.tableView {
             if subreddits.indices ~= indexPath.row {
                 subreddit = self.subreddits[indexPath.row]
@@ -196,7 +194,7 @@ extension SubredditsViewController {
 //        }
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }
     

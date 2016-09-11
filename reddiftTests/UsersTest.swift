@@ -19,7 +19,7 @@ class UsersTest: SessionTestSpec {
             for sort in UserContentSortBy.cases {
                 for within in TimeFilterWithin.cases {
                     let _ = userContentsWith(username, content: content, sort: sort, timeFilterWithin: within)
-                    NSThread.sleepForTimeInterval(1)
+                    Thread.sleep(forTimeInterval: 1)
                     break
                 }
                 break
@@ -34,21 +34,21 @@ class UsersTest: SessionTestSpec {
     func testGetUserProfile() {
         let username = "reddift_test_1"
         let msg = "Get \(username)'s user profile."
-        var isSucceeded: Bool = false
-        let documentOpenExpectation = self.expectationWithDescription(msg)
+        var isSucceeded = false
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.getUserProfile(username, completion: { (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
-                case .Success(let json):
+                case .success(let json):
                     print(json)
                     isSucceeded = true
                 }
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
     }
     
@@ -58,21 +58,21 @@ class UsersTest: SessionTestSpec {
      */
     func testGetNotifications() {
         let msg = "Get notifications for me. Maybe, this test is always failed."
-        var isSucceeded: Bool = false
-        let documentOpenExpectation = self.expectationWithDescription(msg)
+        var isSucceeded = false
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
-            try self.session?.getNotifications(.New, completion: { (result) -> Void in
+            try self.session?.getNotifications(.new, completion: { (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
-                case .Success(let json):
+                case .success(let json):
                     print(json)
                     isSucceeded = true
                 }
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
     }
     
@@ -133,45 +133,46 @@ class UsersTest: SessionTestSpec {
      */
     func testGetTrophies() {
         let msg = "Get reddift_test_1's trophy."
-        var isSucceeded: Bool = false
-        let documentOpenExpectation = self.expectationWithDescription(msg)
+        var isSucceeded = false
+        let documentOpenExpectation = self.expectation(description: msg)
         do {
             try self.session?.getTrophies("reddift_test_1", completion: { (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
-                case .Success(let trophies):
+                case .success(let trophies):
                     print(trophies)
                     isSucceeded = true
                 }
                 XCTAssert(isSucceeded, msg)
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
     }
 }
 
 extension UsersTest {
     /// Get user contents with username, a type of content, sort and time filter.
-    func userContentsWith(username: String, content: UserContent, sort: UserContentSortBy, timeFilterWithin: TimeFilterWithin) -> Listing? {
+    func userContentsWith(_ username: String, content: UserContent, sort: UserContentSortBy, timeFilterWithin: TimeFilterWithin) -> Listing? {
         var listing: Listing? = nil
         let msg = "Get \(username)'s user contents."
-        let documentOpenExpectation = self.expectationWithDescription(msg)
+        let documentOpenExpectation = self.expectation(description: msg)
         var isSucceeded = false
         do {
             try self.session?.getUserContent(username, content: content, sort: sort, timeFilterWithin: timeFilterWithin, paginator: Paginator(), completion: { (result) -> Void in
                 switch result {
-                case .Failure(let error):
-                    isSucceeded = (error.code == 404)   // Return 404 code when there are not any data.
+                case .failure(let error):
+                    // Return 404 code when there are not any data.
+                    isSucceeded = (error.code == HttpStatus.notFound.rawValue)
                     print(error)
-                case .Success(let list):
+                case .success(let list):
                     listing = list
                     isSucceeded = true
                 }
                 documentOpenExpectation.fulfill()
             })
-            self.waitForExpectationsWithTimeout(self.timeoutDuration, handler: nil)
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         XCTAssert(isSucceeded, msg)
         return listing
