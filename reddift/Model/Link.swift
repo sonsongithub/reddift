@@ -333,7 +333,10 @@ public struct Link: Thing {
         permalink = data["permalink"] as? String ?? ""
         stickied = data["stickied"] as? Bool ?? false
         created = data["created"] as? Int ?? 0
-        url = convertObjectToEscapedURLString(data["url"])
+        
+        let tempUrl = data["url"] as? String ?? ""
+        url = tempUrl.gtm_stringByUnescapingFromHTML()
+        
         authorFlairText = data["author_flair_text"] as? String ?? ""
         let tempTitle = data["title"] as? String ?? ""
         title = tempTitle.gtm_stringByUnescapingFromHTML()
