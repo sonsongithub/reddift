@@ -10,25 +10,25 @@ import Foundation
 import reddift
 
 class ProfileViewController: UITableViewController {
-    var session:Session?
-    @IBOutlet var cell1:UITableViewCell?
-    @IBOutlet var cell2:UITableViewCell?
-    @IBOutlet var cell3:UITableViewCell?
-    @IBOutlet var cell4:UITableViewCell?
-    @IBOutlet var cell5:UITableViewCell?
+    var session: Session?
+    @IBOutlet var cell1: UITableViewCell?
+    @IBOutlet var cell2: UITableViewCell?
+    @IBOutlet var cell3: UITableViewCell?
+    @IBOutlet var cell4: UITableViewCell?
+    @IBOutlet var cell5: UITableViewCell?
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         do {
             try session?.getProfile({ (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     print(error.description)
-                case .Success(let account):
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                case .success(let account):
+                    DispatchQueue.main.async(execute: { () -> Void in
                         self.cell1?.detailTextLabel?.text = account.name
                         self.cell2?.detailTextLabel?.text = account.id
                         self.cell3?.detailTextLabel?.text = NSDate(timeIntervalSince1970: Double(account.created)).description
@@ -37,7 +37,6 @@ class ProfileViewController: UITableViewController {
                     })
                 }
             })
-        }
-        catch { print(error) }
+        } catch { print(error) }
     }
 }

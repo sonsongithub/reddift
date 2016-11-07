@@ -1,10 +1,9 @@
 Pod::Spec.new do |s|
   s.name             = "reddift"
-  s.version          = "1.4.0"
+  s.version          = "1.6.0"
   s.summary          = "Swift Reddit API Wrapper."
   s.description      = <<-DESC
                       reddift is Swift Reddit API Wrapper.
-
                        - Supports OAuth2(and DOES NOT support Cookie-authentication).
                        - Supports multi-accounts using KeyChain.
                        DESC

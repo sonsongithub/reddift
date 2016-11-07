@@ -12,35 +12,35 @@ import Foundation
 The sort method for listing Comment object when using "/comments/[link_id]", "/api/morechildren".
 */
 public enum CommentSort {
-	case Confidence
-	case Top
-	case New
-	case Hot
-	case Controversial
-	case Old
-	case Random
-	case Qa
+	case confidence
+	case top
+	case new
+	case hot
+	case controversial
+	case old
+	case random
+	case qa
 	
 	/**
 	Returns string to create a path of URL.
 	*/
-	public var path:String {
-		switch self{
-		case .Confidence:
+	public var path: String {
+		switch self {
+		case .confidence:
 			return "/confidence"
-		case .Top:
+		case .top:
 			return "/top"
-		case .New:
+		case .new:
 			return "/new"
-		case .Hot:
+		case .hot:
 			return "/hot"
-		case .Controversial:
+		case .controversial:
 			return "/controversial"
-		case .Old:
+		case .old:
 			return "/old"
-		case .Random:
+		case .random:
 			return "/random"
-		case .Qa:
+		case .qa:
 			return "/qa"
 		}
 	}
@@ -48,44 +48,44 @@ public enum CommentSort {
 	/**
 	Returns string to show titles.
 	*/
-	public var type:String {
-		switch self{
-		case .Confidence:
+	public var type: String {
+		switch self {
+		case .confidence:
 			return "confidence"
-		case .Top:
+		case .top:
 			return "top"
-		case .New:
+		case .new:
 			return "new"
-		case .Hot:
+		case .hot:
 			return "hot"
-		case .Controversial:
+		case .controversial:
 			return "controversial"
-		case .Old:
+		case .old:
 			return "old"
-		case .Random:
+		case .random:
 			return "random"
-		case .Qa:
+		case .qa:
 			return "qa"
 		}
 	}
     
-    public var description:String {
-        switch self{
-        case .Confidence:
+    public var description: String {
+        switch self {
+        case .confidence:
             return "Sort by Confidence"
-        case .Top:
+        case .top:
             return "Sort by Top"
-        case .New:
+        case .new:
             return "Sort by New"
-        case .Hot:
+        case .hot:
             return "Sort by Hot"
-        case .Controversial:
+        case .controversial:
             return "Sort by Controversial"
-        case .Old:
+        case .old:
             return "Sort by time?"
-        case .Random:
+        case .random:
             return "Random"
-        case .Qa:
+        case .qa:
             return "Sort by Quality?"
         }
     }
@@ -96,49 +96,51 @@ The type of filtering content by timeline.
 */
 public enum TimeFilterWithin {
 	/// Contents within an hour
-	case Hour
+	case hour
 	/// Contents within a day
-	case Day
+	case day
 	/// Contents within a week
-	case Week
+	case week
 	/// Contents within a month
-	case Month
+	case month
 	/// Contents within a year
-	case Year
+	case year
 	/// All contents
-	case All
+	case all
+    
+    static let cases: [TimeFilterWithin] = [.hour, .day, .week, .month, .year, .all]
 	
 	/// String for URL parameter
-	public var param:String {
-		switch self{
-		case .Hour:
+	public var param: String {
+		switch self {
+		case .hour:
 			return "hour"
-		case .Day:
+		case .day:
 			return "day"
-		case .Week:
+		case .week:
 			return "week"
-		case .Month:
+		case .month:
 			return "month"
-		case .Year:
+		case .year:
 			return "year"
-		case .All:
+		case .all:
 			return "all"
 		}
     }
     
-    public var description:String {
-        switch self{
-        case .Hour:
+    public var description: String {
+        switch self {
+        case .hour:
             return "Within an hour"
-        case .Day:
+        case .day:
             return "Within a day"
-        case .Week:
+        case .week:
             return "Within a week"
-        case .Month:
+        case .month:
             return "Within a month"
-        case .Year:
+        case .year:
             return "Within a year"
-        case .All:
+        case .all:
             return "All"
         }
     }
@@ -148,33 +150,33 @@ public enum TimeFilterWithin {
 The sort method for listing Link object, reddift original.
 */
 public enum LinkSortType {
-    case Controversial
-    case Top
-    case Hot
-    case New
+    case controversial
+    case top
+    case hot
+    case new
     
-    public var path:String {
-        switch self{
-        case .Controversial:
+    public var path: String {
+        switch self {
+        case .controversial:
             return "/controversial"
-        case .Top:
+        case .top:
             return "/top"
-        case .Hot:
+        case .hot:
             return "/hot"
-        case .New:
+        case .new:
             return "/new"
         }
     }
     
-    public var description:String {
-        switch self{
-        case .Controversial:
+    public var description: String {
+        switch self {
+        case .controversial:
             return "Sort by Controversial"
-        case .Top:
+        case .top:
             return "Sort by Top"
-        case .Hot:
+        case .hot:
             return "Sort by Hot"
-        case .New:
+        case .new:
             return "Sort by New"
         }
     }
@@ -184,23 +186,23 @@ public enum LinkSortType {
 The sort method for search Link object, "/r/[subreddit]/search" or "/search".
 */
 public enum SearchSortBy {
-	case Relevance
-	case New
-	case Hot
-	case Top
-	case Comments
+	case relevance
+	case new
+	case hot
+	case top
+	case comments
 	
-	var path:String {
-		switch self{
-		case .Relevance:
+	var path: String {
+		switch self {
+		case .relevance:
 			return "relevance"
-		case .New:
+		case .new:
 			return "new"
-		case .Hot:
+		case .hot:
 			return "hot"
-		case .Top:
+		case .top:
 			return "top"
-		case .Comments:
+		case .comments:
 			return "comments"
 		}
 	}
@@ -210,17 +212,17 @@ public enum SearchSortBy {
 The sort method for listing user's subreddit object, "/subreddits/mine/[where]".
 */
 public enum SubredditsMineWhere {
-	case Contributor
-	case Moderator
-	case Subscriber
+	case contributor
+	case moderator
+	case subscriber
 	
-	public var path:String {
-		switch self{
-		case .Contributor:
+	public var path: String {
+		switch self {
+		case .contributor:
 			return "/subreddits/mine/contributor"
-		case .Moderator:
+		case .moderator:
 			return "/subreddits/mine/moderator"
-		case .Subscriber:
+		case .subscriber:
 			return "/subreddits/mine/subscriber"
 		}
 	}
@@ -230,34 +232,39 @@ public enum SubredditsMineWhere {
 The sort method for listing user's subreddit object, "/subreddits/[where]".
 */
 public enum SubredditsWhere {
-	case Popular
-	case New
-	case Employee
-	case Gold
+	case popular
+	case new
+	case employee
+	case gold
+    case `default`
 	
-	public var path:String {
-		switch self{
-		case .Popular:
-			return "/subreddits/popular"
-		case .New:
-			return "/subreddits/new"
-		case .Employee:
-			return "/subreddits/employee"
-		case .Gold:
-			return "/subreddits/gold"
+	public var path: String {
+		switch self {
+		case .popular:
+			return "/subreddits/popular.json"
+		case .new:
+			return "/subreddits/new.json"
+		case .employee:
+			return "/subreddits/employee.json"
+		case .gold:
+            return "/subreddits/gold.json"
+        case .default:
+            return "/subreddits/default.json"
 		}
 	}
 	
-	public var title:String {
-		switch self{
-		case .Popular:
+	public var title: String {
+		switch self {
+		case .popular:
 			return "Popular"
-		case .New:
+		case .new:
 			return "New"
-		case .Employee:
+		case .employee:
 			return "Employee"
-		case .Gold:
-			return "Gold"
+		case .gold:
+            return "Gold"
+        case .default:
+            return "Default"
 		}
 	}
 }
@@ -266,28 +273,28 @@ public enum SubredditsWhere {
 The type of a message box.
 */
 public enum MessageWhere {
-	case Inbox
-	case Unread
-	case Sent
+	case inbox
+	case unread
+	case sent
 	
-	public var  path:String {
-		switch self{
-		case .Inbox:
+	public var  path: String {
+		switch self {
+		case .inbox:
 			return "/inbox"
-		case .Unread:
+		case .unread:
 			return "/unread"
-		case .Sent:
+		case .sent:
 			return "/sent"
 		}
 	}
 	
-	public var  description:String {
-		switch self{
-		case .Inbox:
+	public var  description: String {
+		switch self {
+		case .inbox:
 			return "inbox"
-		case .Unread:
+		case .unread:
 			return "unread"
-		case .Sent:
+		case .sent:
 			return "sent"
 		}
 	}
@@ -297,32 +304,34 @@ public enum MessageWhere {
 The type of users' contents for "/user/username/where" method.
 */
 public enum UserContent {
-	case Overview
-	case Submitted
-	case Comments
-	case Liked
-	case Disliked
-	case Hidden
-	case Saved
-	case Gilded
+	case overview
+	case submitted
+	case comments
+	case liked
+	case disliked
+	case hidden
+	case saved
+	case gilded
+    
+    static let cases: [UserContent] = [.overview, .submitted, .comments, .liked, .disliked, .hidden, .saved, .gilded]
 	
-	var path:String {
-		switch self{
-		case .Overview:
+	var path: String {
+		switch self {
+		case .overview:
 			return "/overview"
-		case .Submitted:
+		case .submitted:
 			return "/submitted"
-		case .Comments:
+		case .comments:
 			return "/comments"
-		case .Liked:
+		case .liked:
 			return "/liked"
-		case .Disliked:
+		case .disliked:
 			return "/disliked"
-		case .Hidden:
+		case .hidden:
 			return "/hidden"
-		case .Saved:
+		case .saved:
 			return "/saved"
-		case .Gilded:
+		case .gilded:
 			return "/glided"
 		}
 	}
@@ -332,20 +341,22 @@ public enum UserContent {
 The type of ordering users' contents for "/user/username/where" method.
 */
 public enum UserContentSortBy {
-	case Hot
-	case New
-	case Top
-	case Controversial
-	
-	var param:String {
-		switch self{
-		case .Hot:
+	case hot
+	case new
+	case top
+	case controversial
+    
+    static let cases: [UserContentSortBy] = [.hot, .new, .top, .controversial]
+    
+	var param: String {
+		switch self {
+		case .hot:
 			return "hot"
-		case .New:
+		case .new:
 			return "new"
-		case .Top:
+		case .top:
 			return "top"
-		case .Controversial:
+		case .controversial:
 			return "controversial"
 		}
 	}
@@ -354,8 +365,8 @@ public enum UserContentSortBy {
 /**
 The type of voting direction.
 */
-public enum VoteDirection : Int {
-	case Up     =  1
-	case No     =  0
-	case Down   = -1
+public enum VoteDirection: Int {
+	case up     =  1
+	case none   =  0
+	case down   = -1
 }

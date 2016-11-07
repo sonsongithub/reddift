@@ -10,15 +10,15 @@ import Foundation
 import reddift
 
 class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISearchControllerDelegate, UIViewControllerPreviewingDelegate {
-    var searchController:UISearchController? = nil
-    var searchResultViewController:SearchResultViewController? = nil
+    var searchController: UISearchController? = nil
+    var searchResultViewController: SearchResultViewController? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
 		
 		self.title = self.subreddit?.title
         
-		sortTypes += [.Controversial, .Top]
+		sortTypes += [.controversial, .top]
 		for sortType in sortTypes {
 			sortTitles.append(sortType.path)
 		}
@@ -34,8 +34,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
         
         if let subreddit = self.subreddit {
             searchController?.searchBar.placeholder = subreddit.title
-        }
-        else {
+        } else {
             searchController?.searchBar.placeholder = "Search from all"
         }
         
@@ -46,11 +45,11 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
         self.definesPresentationContext = true
 		
 		segmentedControl = UISegmentedControl(items:sortTitles)
-		segmentedControl?.addTarget(self, action: "segmentChanged:", forControlEvents: UIControlEvents.ValueChanged)
+		segmentedControl?.addTarget(self, action: #selector(LinkViewController.segmentChanged(_:)), for: UIControlEvents.valueChanged)
 		segmentedControl?.frame = CGRect(x: 0, y: 0, width: 300, height: 28)
 		segmentedControl?.selectedSegmentIndex = 0
 		
-		let space = UIBarButtonItem(barButtonSystemItem:.FlexibleSpace, target: nil, action: nil)
+		let space = UIBarButtonItem(barButtonSystemItem:.flexibleSpace, target: nil, action: nil)
 		let item = UIBarButtonItem(customView:self.segmentedControl!)
 		self.toolbarItems = [space, item, space]
 		if self.links.count == 0 {
@@ -59,19 +58,19 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
         
         // support 3d touch
         if #available(iOS 9, *) {
-            if traitCollection.forceTouchCapability == .Available {
-                registerForPreviewingWithDelegate(self, sourceView: self.tableView)
+            if traitCollection.forceTouchCapability == .available {
+                registerForPreviewing(with: self, sourceView: self.tableView)
             }
         }
     }
     
-    @available(iOS, introduced=9.0)
-    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation: CGPoint) -> UIViewController? {
-        let point = previewingContext.sourceView.convertPoint(viewControllerForLocation, toView: self.tableView)
-        if let indexPath = tableView.indexPathForRowAtPoint(point) {
-            if contents.indices ~= indexPath.row {
+    @available(iOS, introduced:9.0)
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation: CGPoint) -> UIViewController? {
+        let point = previewingContext.sourceView.convert(viewControllerForLocation, to: self.tableView)
+        if let indexPath = tableView.indexPathForRow(at: point) {
+            if contents.indices ~= (indexPath as NSIndexPath).row {
                 let link = self.links[indexPath.row]
-                if let con = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController {
+                if let con = self.storyboard?.instantiateViewController(withIdentifier: "CommentViewController") as? CommentViewController {
                     con.session = session
                     con.subreddit = subreddit
                     con.link = link
@@ -82,9 +81,9 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
         return nil
     }
     
-    @available(iOS, introduced=9.0)
-    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController: UIViewController) {
-        showViewController(commitViewController, sender: self)
+    @available(iOS, introduced:9.0)
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit commitViewController: UIViewController) {
+        show(commitViewController, sender: self)
     }
     
     func load() {
@@ -94,42 +93,41 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
             }
             loading = true
             do {
-                try session?.getList(paginator, subreddit:subreddit, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.All, completion: { (result) in
+                try session?.getList(paginator, subreddit:subreddit, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.all, completion: { (result) in
                     switch result {
-                    case .Failure:
+                    case .failure:
                         print(result.error)
-                    case .Success(let listing):
+                    case .success(let listing):
                         self.links += listing.children.flatMap({$0 as? Link})
                         self.paginator = listing.paginator
                         self.updateStrings()
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        DispatchQueue.main.async(execute: { () -> Void in
                             self.tableView.reloadData()
                             self.loading = false
                         })
                     }
                 })
-            }
-            catch { print(error) }
+            } catch { print(error) }
         }
     }
     
-    func segmentChanged(sender:AnyObject) {
+    func segmentChanged(_ sender: AnyObject) {
         if let _ = sender as? UISegmentedControl {
-            self.links.removeAll(keepCapacity: true)
+            self.links.removeAll(keepingCapacity: true)
             self.tableView.reloadData()
             self.paginator = Paginator()
             load()
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.navigationController?.toolbarHidden = false
+        self.navigationController?.isToolbarHidden = false
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToCommentViewController" {
-            if let con = segue.destinationViewController as? CommentViewController {
+            if let con = segue.destination as? CommentViewController {
                 if let selectedIndexPath = tableView.indexPathForSelectedRow {
                     if links.indices ~= selectedIndexPath.row {
                         let link = links[selectedIndexPath.row]
@@ -141,7 +139,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
             }
         }
         if segue.identifier == "ToSubmitViewController" {
-            if let nav = segue.destinationViewController as? UINavigationController {
+            if let nav = segue.destination as? UINavigationController {
                 if let con = nav.visibleViewController as? SubmitViewController {
                     con.session = session
                     con.subreddit = subreddit
@@ -154,26 +152,26 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
 // MARK:
 
 extension LinkViewController {
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     }
 }
 
 // MARK:
 
 extension LinkViewController {
-    func presentSearchController(searchController: UISearchController) {
+    func present(_ searchController: UISearchController) {
     }
     
-    func willPresentSearchController(searchController: UISearchController) {
+    func willPresent(_ searchController: UISearchController) {
     }
     
-    func didPresentSearchController(searchController: UISearchController) {
+    func didPresent(_ searchController: UISearchController) {
     }
     
-    func willDismissSearchController(searchController: UISearchController) {
+    func willDismiss(_ searchController: UISearchController) {
     }
     
-    func didDismissSearchController(searchController: UISearchController) {
+    func didDismiss(_ searchController: UISearchController) {
         
     }
 }
@@ -181,7 +179,7 @@ extension LinkViewController {
 // MARK:
 
 extension LinkViewController {
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    @objc(updateSearchResultsForSearchController:) func updateSearchResults(for searchController: UISearchController) {
     }
 }
 
@@ -189,19 +187,19 @@ extension LinkViewController {
 
 extension LinkViewController {
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return links.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as UITableViewCell
         if let cell = cell as? UZTextViewCell {
-            if contents.indices ~= indexPath.row {
-                cell.textView?.attributedString = contents[indexPath.row].attributedString
+            if contents.indices ~= (indexPath as NSIndexPath).row {
+                cell.textView?.attributedString = contents[(indexPath as NSIndexPath).row].attributedString
             }
         }
         return cell
@@ -213,9 +211,9 @@ extension LinkViewController {
 
 extension LinkViewController {
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if tableView == self.tableView {
-            if indexPath.row == (contents.count - 1) {
+            if (indexPath as NSIndexPath).row == (contents.count - 1) {
                 if !paginator.isVacant {
                     load()
                 }
@@ -223,30 +221,30 @@ extension LinkViewController {
         }
         if let searchResultViewController = searchResultViewController {
             if tableView == searchResultViewController.tableView {
-                if indexPath.row == (searchResultViewController.contents.count - 1) {
+                if (indexPath as NSIndexPath).row == (searchResultViewController.contents.count - 1) {
                     searchResultViewController.reload()
                 }
             }
         }
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var link:Link? = nil
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var link: Link? = nil
+        tableView.deselectRow(at: indexPath, animated: true)
         if tableView == self.tableView {
-            if contents.indices ~= indexPath.row {
+            if contents.indices ~= (indexPath as NSIndexPath).row {
                 link = self.links[indexPath.row]
             }
         }
         if let searchResultViewController = searchResultViewController {
             if tableView == searchResultViewController.tableView {
-                if searchResultViewController.contents.indices ~= indexPath.row {
+                if searchResultViewController.contents.indices ~= (indexPath as NSIndexPath).row {
                     link = searchResultViewController.links[indexPath.row]
                 }
             }
         }
         if let link = link {
-            if let con = self.storyboard?.instantiateViewControllerWithIdentifier("CommentViewController") as? CommentViewController {
+            if let con = self.storyboard?.instantiateViewController(withIdentifier: "CommentViewController") as? CommentViewController {
                 con.session = session
                 con.subreddit = subreddit
                 con.link = link
@@ -255,16 +253,16 @@ extension LinkViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView == self.tableView {
-            if contents.indices ~= indexPath.row {
-                return contents[indexPath.row].textHeight
+            if contents.indices ~= (indexPath as NSIndexPath).row {
+                return contents[(indexPath as NSIndexPath).row].textHeight
             }
         }
         if let searchResultViewController = searchResultViewController {
             if tableView == searchResultViewController.tableView {
-                if searchResultViewController.contents.indices ~= indexPath.row {
-                    return searchResultViewController.contents[indexPath.row].textHeight
+                if searchResultViewController.contents.indices ~= (indexPath as NSIndexPath).row {
+                    return searchResultViewController.contents[(indexPath as NSIndexPath).row].textHeight
                 }
             }
         }

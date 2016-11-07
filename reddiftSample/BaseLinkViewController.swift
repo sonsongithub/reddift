@@ -10,27 +10,27 @@ import Foundation
 import reddift
 
 class BaseLinkViewController: UITableViewController, UISearchBarDelegate {
-    var session:Session? = nil
-    var subreddit:Subreddit? = nil
-    var paginator:Paginator = Paginator()
+    var session: Session? = nil
+    var subreddit: Subreddit? = nil
+    var paginator = Paginator()
     var loading = false
-    var task:NSURLSessionDataTask? = nil
-    var segmentedControl:UISegmentedControl? = nil
+    var task: URLSessionDataTask? = nil
+    var segmentedControl: UISegmentedControl? = nil
     
-    var sortTitles:[String] = []
-    var sortTypes:[LinkSortType] = []
+    var sortTitles: [String] = []
+    var sortTypes: [LinkSortType] = []
     
-    var links:[Link] = []
-    var contents:[CellContent] = []
+    var links: [Link] = []
+    var contents: [CellContent] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let nib:UINib = UINib(nibName: "UZTextViewCell", bundle: nil)
-        self.tableView.registerNib(nib, forCellReuseIdentifier: "Cell")
+        let nib = UINib(nibName: "UZTextViewCell", bundle: nil)
+        self.tableView.register(nib, forCellReuseIdentifier: "Cell")
     }
     
     func updateStrings() {
-        contents.removeAll(keepCapacity:true)
-        contents = links.map{CellContent(string:$0.title, width:self.view.frame.size.width - 25)}
+        contents.removeAll(keepingCapacity:true)
+        contents = links.map {CellContent(string:$0.title, width:self.view.frame.size.width - 25)}
     }
 }

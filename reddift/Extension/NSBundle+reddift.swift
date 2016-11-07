@@ -8,19 +8,19 @@
 
 import Foundation
 
-extension NSBundle {
+extension Bundle {
     /**
     Returns object from default info.plist.
     
     - parameter key: key for value
     - returns: Value
     */
-    class func infoValueFromMainBundleForKey(key:String) -> AnyObject? {
-        if let obj:AnyObject = self.mainBundle().localizedInfoDictionary?[key] {
-            return obj
+    class func infoValueInMainBundle(for key: String) -> AnyObject? {
+        if let obj = self.main.localizedInfoDictionary?[key] {
+            return obj as AnyObject
         }
-        if let obj:AnyObject = self.mainBundle().infoDictionary?[key] {
-            return obj
+        if let obj = self.main.infoDictionary?[key] {
+            return obj as AnyObject
         }
         return nil
     }

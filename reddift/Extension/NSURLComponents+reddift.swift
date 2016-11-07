@@ -8,16 +8,18 @@
 
 import Foundation
 
-extension NSURLComponents {
-    func dictionary() -> [String:String] {
-        var parameters:[String:String] = [:]
+extension URLComponents {
+    var dictionary: [String:String] {
+        var parameters: [String:String] = [:]
         if #available(OSX 10.10, *) {
             if let queryItems = self.queryItems {
                 for queryItem in queryItems {
                     #if os(iOS)
                         parameters[queryItem.name] = queryItem.value
                     #elseif os(OSX)
-                        parameters[queryItem.name] = queryItem.value!
+                        if let value = queryItem.value {
+                            parameters[queryItem.name] = value
+                        }
                     #endif
                 }
             }

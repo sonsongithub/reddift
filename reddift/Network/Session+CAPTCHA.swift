@@ -23,17 +23,15 @@ Parse simple string response for "/api/needs_captcha"
 
 - returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
 */
-func data2Bool(data: NSData) -> Result<Bool> {
-    let decoded = NSString(data:data, encoding:NSUTF8StringEncoding)
-    if let decoded = decoded {
+func data2Bool(_ data: Data) -> Result<Bool> {
+    if let decoded = String(data:data, encoding:.utf8) {
         if decoded == "true" {
             return Result(value:true)
-        }
-        else if decoded == "false" {
+        } else if decoded == "false" {
             return Result(value:false)
         }
     }
-    return Result(error:ReddiftError.CheckNeedsCAPTHCA.error)
+    return Result(error:ReddiftError.needsCAPTCHAResponseIsInvalid as NSError)
 }
 
 /**
@@ -43,13 +41,13 @@ Parse simple string response for "/api/needs_captcha"
 
 - returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
 */
-func data2Image(data: NSData) -> Result<CAPTCHAImage> {
+func data2Image(_ data: Data) -> Result<CAPTCHAImage> {
 #if os(iOS) || os(tvOS)
     let captcha = UIImage(data: data)
 #elseif os(OSX)
     let captcha = NSImage(data: data)
 #endif
-    return resultFromOptional(captcha, error: ReddiftError.GetCAPTCHAImage.error)
+    return Result(fromOptional: captcha, error: ReddiftError.imageOfCAPTCHAIsInvalid as NSError)
 }
 
 /**
@@ -59,7 +57,7 @@ Parse JSON contains "iden" for CAPTHA.
 - parameter json: JSON object, like above sample.
 - returns: Result object. When parsing is succeeded, object contains iden as String.
 */
-func idenJSON2String(json: JSON) -> Result<String> {
+func idenJSON2String(_ json: JSONAny) -> Result<String> {
     if let json = json as? JSONDictionary {
         if let j = json["json"] as? JSONDictionary {
             if let data = j["data"] as? JSONDictionary {
@@ -69,7 +67,7 @@ func idenJSON2String(json: JSON) -> Result<String> {
             }
         }
     }
-    return Result(error:ReddiftError.GetCAPTCHAIden.error)
+    return Result(error:ReddiftError.identifierOfCAPTCHAIsMalformed as NSError)
 }
 
 extension Session {
@@ -78,19 +76,17 @@ extension Session {
     
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
-    */
-    public func checkNeedsCAPTCHA(completion:(Result<Bool>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/needs_captcha", method:"GET", token:token)
-            else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+     */
+    @discardableResult
+    public func checkNeedsCAPTCHA(_ completion: @escaping (Result<Bool>) -> Void) throws -> URLSessionDataTask {
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/needs_captcha", method:"GET", token:token)
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
+        let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Bool> in
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Bool)
-            completion(result)
-        })
-        task.resume()
-        return task
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
     }
     
     /**
@@ -100,21 +96,19 @@ extension Session {
     
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
-    */
-    public func getIdenForNewCAPTCHA(completion:(Result<String>) -> Void) throws -> NSURLSessionDataTask {
-        let parameter:[String:String] = ["api_type":"json"]
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/new_captcha", parameter:parameter, method:"POST", token:token)
-            else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+     */
+    @discardableResult
+    public func getIdenForNewCAPTCHA(_ completion: @escaping (Result<String>) -> Void) throws -> URLSessionDataTask {
+        let parameter = ["api_type":"json"]
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/new_captcha", parameter:parameter, method:"POST", token:token)
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
+        let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<String> in
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(idenJSON2String)
-            completion(result)
-        })
-        task.resume()
-        return task
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
     }
     
     /**
@@ -127,19 +121,17 @@ extension Session {
     - parameter iden: Code to get a new CAPTCHA. Use Session.getIdenForNewCAPTCHA.
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
-    */
-    public func getCAPTCHA(iden:String, completion:(Result<CAPTCHAImage>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/captcha/" + iden, method:"GET", token:token)
-            else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+     */
+    @discardableResult
+    public func getCAPTCHA(_ iden: String, completion: @escaping (Result<CAPTCHAImage>) -> Void) throws -> URLSessionDataTask {
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/captcha/" + iden, method:"GET", token:token)
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
+        let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<CAPTCHAImage> in
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Image)
-            completion(result)
-        })
-        task.resume()
-        return task
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
     }
     
     /**
@@ -150,20 +142,18 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getCAPTCHA(completion:(Result<CAPTCHAImage>) -> Void) throws -> Void {
+    public func getCAPTCHA(_ completion: @escaping (Result<CAPTCHAImage>) -> Void) throws -> Void {
         do {
             try getIdenForNewCAPTCHA { (result) -> Void in
                 switch result {
-                case .Failure(let error):
+                case .failure(let error):
                     completion(Result(error: error))
-                case .Success(let iden):
+                case .success(let iden):
                     do {
                         try self.getCAPTCHA(iden, completion:completion)
-                    }
-                    catch { completion(Result(error: error as NSError)) }
+                    } catch { completion(Result(error: error as NSError)) }
                 }
             }
-        }
-        catch { completion(Result(error: error as NSError)) }
+        } catch { completion(Result(error: error as NSError)) }
     }
 }

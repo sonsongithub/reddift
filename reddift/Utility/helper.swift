@@ -8,27 +8,22 @@
 
 import Foundation
 
-extension Dictionary {
-    /**
-    Update value with key.
-    */
-	mutating func update(other:Dictionary) {
-		for (key,value) in other {
-			self.updateValue(value, forKey:key)
-		}
-	}
+extension Bool {
+    var string: String {
+        return self ? "true" : "false"
+    }
 }
 
-private var time_buffer:timeval = timeval(tv_sec: 0, tv_usec: 0)
+private var timeBuffer = timeval(tv_sec: 0, tv_usec: 0)
 
 func tic() {
-    gettimeofday(&time_buffer, nil)
+    gettimeofday(&timeBuffer, nil)
 }
 
 func toc() {
-    var time_buffer2:timeval = timeval(tv_sec: 0, tv_usec: 0)
+    var time_buffer2 = timeval(tv_sec: 0, tv_usec: 0)
     gettimeofday(&time_buffer2, nil)
-    let diff = time_buffer2.tv_sec - time_buffer.tv_sec
-    let diff_u = time_buffer2.tv_usec - time_buffer.tv_usec
+    let diff = time_buffer2.tv_sec - timeBuffer.tv_sec
+    let diff_u = time_buffer2.tv_usec - timeBuffer.tv_usec
     print("\(diff * 1000000 + diff_u)[msec]")
 }

@@ -9,13 +9,12 @@
 import XCTest
 
 extension XCTestCase {
-    func jsonFromFileName(name:String) -> AnyObject? {
-        if let path = NSBundle(forClass: self.classForCoder).pathForResource(name, ofType:nil) {
-            if let data = NSData(contentsOfFile: path) {
+    func jsonFromFileName(_ name: String) -> Any? {
+        if let path = Bundle(for: self.classForCoder).path(forResource: name, ofType:nil) {
+            if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
                 do {
-                    return try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions())
-                }
-                catch {
+                    return try JSONSerialization.jsonObject(with: data, options: [])
+                } catch {
                     XCTFail((error as NSError).description)
                     return nil
                 }
@@ -34,12 +33,12 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingT1JsonFile() {
         print("Each property of t1 has been loaded correctly")
         if let json = self.jsonFromFileName("t1.json") as? JSONDictionary {
-            let object = Comment(data:json)
+            let object = Comment(json:json)
             
             XCTAssert(object.subredditId == "t5_2qizd")
             XCTAssert(object.bannedBy == "")
             XCTAssert(object.linkId == "t3_32wnhw")
-            XCTAssert(object.likes == "")
+            XCTAssert(object.likes == .up)
             XCTAssert(object.userReports.count == 0)
             XCTAssert(object.saved == false)
             XCTAssert(object.id == "cqfhkcb")
@@ -86,7 +85,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingT2JsonFile() {
         print("Each property of t2 has been loaded correctly")
         if let json = self.jsonFromFileName("t2.json") as? JSONDictionary {
-            let object = Account(data:json)
+            let object = Account(json: json)
             XCTAssert(object.hasMail == false)
             XCTAssert(object.name == "sonson_twit")
             XCTAssert(object.created == 1427126074)
@@ -109,13 +108,13 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingT3JsonFile() {
         print("Each property of t3 has been loaded correctly")
         if let json = self.jsonFromFileName("t3.json") as? JSONDictionary {
-            let object = Link(data:json)
+            let object = Link(json:json)
             XCTAssert(object.domain == "self.redditdev")
             XCTAssert(object.bannedBy == "")
             XCTAssert(object.subreddit == "redditdev")
             XCTAssert(object.selftextHtml == "<!-- SC_OFF --><div class=\"md\"><p>So this is the code I ran:</p>\n\n<pre><code>r = praw.Reddit(&quot;/u/habnpam sflkajsfowifjsdlkfj test test test&quot;)\n\n\nfor c in praw.helpers.comment_stream(reddit_session=r, subreddit=&quot;helpmefind&quot;, limit=500, verbosity=1):\n    print(c.author)\n</code></pre>\n\n<hr/>\n\n<p>From what I understand, comment_stream() gets the most recent comments. So if we specify the limit to be 100, it will initially get the 100 newest comment, and then constantly update to get new comments.  It seems to works appropriately for every subreddit except <a href=\"/r/helpmefind\">/r/helpmefind</a>. For <a href=\"/r/helpmefind\">/r/helpmefind</a>, it fetches around 30 comments, regardless of the limit.</p>\n</div><!-- SC_ON -->")
             XCTAssert(object.selftext == "So this is the code I ran:\n\n    r = praw.Reddit(\"/u/habnpam sflkajsfowifjsdlkfj test test test\")\n    \n\n    for c in praw.helpers.comment_stream(reddit_session=r, subreddit=\"helpmefind\", limit=500, verbosity=1):\n        print(c.author)\n\n\n---\n\nFrom what I understand, comment_stream() gets the most recent comments. So if we specify the limit to be 100, it will initially get the 100 newest comment, and then constantly update to get new comments.  It seems to works appropriately for every subreddit except /r/helpmefind. For /r/helpmefind, it fetches around 30 comments, regardless of the limit.")
-            XCTAssertTrue((object.likes == nil), "check likes's value.")
+            XCTAssertTrue((object.likes == .none), "check likes's value.")
             XCTAssert(object.userReports.count == 0)
             XCTAssertTrue((object.secureMedia == nil), "check secure_media's value.")
             XCTAssert(object.linkFlairText == "")
@@ -171,8 +170,7 @@ class ParseThingObjectTest: XCTestCase {
                 XCTAssert(media.oembed.providerName == "Imgur")
                 XCTAssert(media.oembed.thumbnailUrl == "http://i.imgur.com/nN5D1BT.gif")
                 XCTAssert(media.oembed.type == "video")
-            }
-            else {
+            } else {
                 XCTFail("media has not been load correctly.")
             }
             
@@ -183,8 +181,7 @@ class ParseThingObjectTest: XCTestCase {
                 XCTAssert(media_embed.width == 320)
                 XCTAssert(media_embed.height == 568)
                 XCTAssert(media_embed.scrolling == false)
-            }
-            else {
+            } else {
                 XCTFail("media has not been load correctly.")
             }
         }
@@ -193,7 +190,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingT4JsonFile() {
         print("Each property of t4 has been loaded correctly")
         if let json = self.jsonFromFileName("t4.json") as? JSONDictionary {
-            let object = Message(data:json)
+            let object = Message(json: json)
             XCTAssert(object.body == "Hello! [Hola!](https://www.reddit.com/r/reddit.com/wiki/templat.....")
             XCTAssert(object.wasComment == false)
             XCTAssert(object.firstMessage == "")
@@ -218,7 +215,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingT5JsonFile() {
         print("Each property of t5 has been loaded correctly")
         if let json = self.jsonFromFileName("t5.json") as? JSONDictionary {
-            let object = Subreddit(data:json)
+            let object = Subreddit(json:json)
             XCTAssert(object.bannerImg == "")
             XCTAssert(object.userSrThemeEnabled == true)
             XCTAssert(object.submitTextHtml == "<!-- SC_OFF --><div class=\"md\"><p><strong>GIFs are banned.</strong>\nIf you want to post a GIF, please <a href=\"http://imgur.com\">rehost it as a GIFV</a> instead. <a href=\"http://www.reddit.com/r/woahdude/wiki/html5\">(Read more)</a></p>\n\n<p><strong>Link flair is mandatory.</strong>\nClick &quot;Add flair&quot; button after you submit. The button will be located under your post title. <a href=\"http://www.reddit.com/r/woahdude/wiki/index#wiki_flair_is_mandatory\">(read more)</a></p>\n\n<p><strong>XPOST labels are banned.</strong>\nCrossposts are fine, just don&#39;t label them as such. <a href=\"http://www.reddit.com/r/woahdude/wiki/index#wiki_.5Bxpost.5D_tags.2Flabels_are_banned\">(read more)</a></p>\n\n<p><strong>Trippy or Mesmerizing content only!</strong>\nWhat is WoahDude-worthy content? <a href=\"http://www.reddit.com/r/woahdude/wiki/index#wiki_what_is_.22woahdude_material.22.3F\">(Read more)</a></p>\n</div><!-- SC_ON -->")
@@ -261,7 +258,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingMoreJsonFile() {
         print("Each property of more has been loaded correctly")
         if let json = self.jsonFromFileName("more.json") as? JSONDictionary {
-            let object = More(data:json)
+            let object = More(json:json)
             XCTAssert(object.count == 0)
             XCTAssert(object.parentId == "t1_cp88kh5")
             XCTAssert(object.children == ["cpddp7v", "cp8jvj8", "cp8cv4b"])
@@ -284,9 +281,9 @@ class ParseThingObjectTest: XCTestCase {
             XCTAssert(object.subreddits == ["redditdev", "swift"])
             XCTAssert(object.createdUtc == 1431999881)
             XCTAssert(object.keyColor == "#cee3f8")
-            XCTAssert(object.visibility == MultiredditVisibility.Private)
-            XCTAssert(object.iconName == MultiredditIconName.None)
-            XCTAssert(object.weightingScheme == MultiredditWeightingScheme.Classic)
+            XCTAssert(object.visibility == .private)
+            XCTAssert(object.iconName == .none)
+            XCTAssert(object.weightingScheme == .classic)
             XCTAssert(object.path == "/user/sonson_twit/m/english")
             XCTAssert(object.descriptionMd == "")
         }
@@ -304,13 +301,13 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingNeedsCAPTHCAResponseStringTest() {
         print("is true or false")
         var isSucceeded = false
-        if let path = NSBundle(forClass: self.classForCoder).pathForResource("api_needs_captcha.json", ofType:nil) {
-            if let data = NSData(contentsOfFile: path) {
+        if let path = Bundle(for: self.classForCoder).path(forResource: "api_needs_captcha.json", ofType:nil) {
+            if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
                 let result = data2Bool(data)
                 switch result {
-                case .Failure:
+                case .failure:
                     print(result.error!.description)
-                case .Success:
+                case .success:
                     isSucceeded = true
                 }
             }
@@ -324,9 +321,9 @@ class ParseThingObjectTest: XCTestCase {
         if let thing = self.jsonFromFileName("api_new_captcha.json") as? JSONDictionary {
             let result = idenJSON2String(thing)
             switch result {
-            case .Failure(let error):
+            case .failure(let error):
                 print(error.description)
-            case .Success:
+            case .success:
                 isSucceeded = true
             }
         }

@@ -23,7 +23,7 @@ Parse JSON dictionary object to the list of Multireddit.
 
 - returns: Result object. Result object has any Thing or Listing object, otherwise error object.
 */
-func json2Multireddit(json: JSON) -> Result<Multireddit> {
+func json2Multireddit(_ json: JSONAny) -> Result<Multireddit> {
     if let json = json as? JSONDictionary {
         if let kind = json["kind"] as? String {
             if kind == "LabeledMulti" {
@@ -34,14 +34,13 @@ func json2Multireddit(json: JSON) -> Result<Multireddit> {
             }
         }
     }
-    return Result(error: ReddiftError.ParseThing.error)
+    return Result(error: ReddiftError.multiredditJsonObjectIsNotDictionary as NSError)
 }
 
 extension Session {
     /**
     Create a new multireddit. Responds with 409 Conflict if it already exists.
     
-    - parameter multipath: Multireddit url path
     - parameter displayName: A string no longer than 50 characters.
     - parameter descriptionMd: Raw markdown text.
     - parameter iconName: Icon name as MultiIconName.
@@ -51,50 +50,141 @@ extension Session {
     - parameter weightingScheme: One of `classic` or `fresh`.
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
-    */
-    func createMultireddit(displayName:String, descriptionMd:String, iconName:MultiredditIconName = .None, keyColor:RedditColor = RedditColor.whiteColor(), visibility:MultiredditVisibility = .Private, weightingScheme:String = "classic", completion:(Result<Multireddit>) -> Void) throws -> NSURLSessionDataTask {
-        guard let token = self.token
-            else { throw ReddiftError.URLError.error }
+     */
+    @discardableResult
+    public func createMultireddit(_ displayName: String, descriptionMd: String, iconName: MultiredditIconName = .none, keyColor: RedditColor = RedditColor.white, visibility: MultiredditVisibility = .private, weightingScheme: String = "classic", completion: @escaping (Result<Multireddit>) -> Void) throws -> URLSessionDataTask {
+        guard let token = self.token else { throw ReddiftError.tokenIsNotAvailable as NSError }
         
         let multipath = "/user/\(token.name)/m/\(displayName)"
-        var json:[String:AnyObject] = [:]
-        let names:[[String:String]] = []
-        json["description_md"] = descriptionMd
-        json["display_name"] = displayName
-        json["icon_name"] = ""
-        json["key_color"] = "#FFFFFF"
-        json["subreddits"] = names
-        json["visibility"] = "private"
-        json["weighting_scheme"] = "classic"
-        
-        var jsonStringOptional:String? = nil
+        let names: [[String:String]] = []
+        let json = [
+            "description_md" : descriptionMd,
+            "display_name" : displayName,
+            "icon_name" : "",
+            "key_color" : "#FFFFFF",
+            "subreddits" : names,
+            "visibility" : "private",
+            "weighting_scheme" : "classic"
+        ] as [String : Any]
         
         do {
-            let data:NSData = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
-            jsonStringOptional = NSString(data: data, encoding: NSUTF8StringEncoding) as String?
-        }
-        catch { throw error }
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
+            guard let jsonString = String(data:data, encoding:.utf8)
+                else { throw ReddiftError.failedToCreateJSONForMultireadditPosting as NSError }
         
-        if let jsonString = jsonStringOptional {
-            let parameter:[String:String] = ["model":jsonString]
-            guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multipath, parameter:parameter, method:"POST", token:token)
-                else { throw ReddiftError.URLError.error }
-            let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-                self.updateRateLimitWithURLResponse(response)
-                let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            let parameter = ["model":jsonString]
+            guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/" + multipath, parameter:parameter, method:"POST", token:token)
+                else { throw ReddiftError.canNotCreateURLRequest as NSError }
+            let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Multireddit> in
+                return Result(from: Response(data: data, urlResponse: response), optional:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
                     .flatMap(json2Multireddit)
-                completion(result)
-            })
-            task.resume()
-            return task
-        }
-        else {
-            throw ReddiftError.MultiredditDidFailToCreateJSON.error
-        }
+            }
+            return executeTask(request, handleResponse: closure, completion: completion)
+        } catch { throw error }
     }
     
+    /**
+     Fetch a multi's data and subreddit list by name.
+     This API does not work.
+     
+     - parameter multi: Multireddit object to be deleted.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    @discardableResult
+    public func getMultireddit(_ multi: Multireddit, completion: @escaping (Result<[Multireddit]>) -> Void) throws -> URLSessionDataTask {
+        let parameter = ["multipath":multi.path, "expand_srs":"true"]
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/" + multi.path, parameter:parameter, method:"GET", token:token)
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
+        let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[Multireddit]> in
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2RedditAny)
+                .flatMap(redditAny2MultiredditArray)
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
+    }
+    
+    /**
+     Delete the multi.
+     
+     - parameter multi: Multireddit object to be deleted.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    @discardableResult
+    public func deleteMultireddit(_ multi: Multireddit, completion: @escaping (Result<String>) -> Void) throws -> URLSessionDataTask {
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/" + multi.path, method:"DELETE", token:token)
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
+        let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<String> in
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
+                .flatMap(response2Data)
+                .flatMap(data2String)
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
+    }
+    
+    /**
+    Update the multireddit. Responds with 409 Conflict if it already exists.
+     
+    - parameter multi: Multireddit object to be updated.
+    - parameter completion: The completion handler to call when the load request is complete.
+    - returns: Data task which requests search to reddit.com.
+     */
+    @discardableResult
+    public func updateMultireddit(_ multi: Multireddit, completion: @escaping (Result<Multireddit>) -> Void) throws -> URLSessionDataTask {
+        let multipath = multi.path
+        let names: [[String:String]] = []
+        let json = [
+            "description_md" : multi.descriptionMd,
+            "display_name" : multi.name,
+            "icon_name" : multi.iconName.rawValue,
+            "key_color" : "#FFFFFF",
+            "subreddits" : names,
+            "visibility" : multi.visibility.rawValue,
+            "weighting_scheme" : "classic"
+        ] as [String : Any]
+        do {
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
+            if let jsonString = String(data:data, encoding:.utf8) {
+                let parameter = ["model":jsonString as String]
+                guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/" + multipath, parameter:parameter, method:"PUT", token:token)
+                    else { throw ReddiftError.canNotCreateURLRequest as NSError }
+                let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Multireddit> in
+                    return Result(from: Response(data: data, urlResponse: response), optional:error)
+                        .flatMap(response2Data)
+                        .flatMap(data2Json)
+                        .flatMap(json2Multireddit)
+                }
+                return executeTask(request, handleResponse: closure, completion: completion)
+            } else { throw ReddiftError.failedToCreateJSONForMultireadditPosting as NSError }
+        } catch { throw error }
+    }
+    
+    /**
+    Fetch a list of public multis belonging to username.
+    - parameter username: A valid, existing reddit username
+    - parameter expandSrs: Boolean value, default is false.
+    - parameter completion: The completion handler to call when the load request is complete.
+    - returns: Data task which requests search to reddit.com.
+     */
+    @discardableResult
+    public func getPublicMultiredditOfUsername(_ username: String, expandSrs: Bool = false, completion: @escaping (Result<[Multireddit]>) -> Void) throws -> URLSessionDataTask {
+        let parameter = ["expand_srs":expandSrs ? "true" : "false", "username":username]
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/user/" + username, parameter:parameter, method:"GET", token:token)
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
+        let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[Multireddit]> in
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+                .flatMap(json2RedditAny)
+                .flatMap(redditAny2MultiredditArray)
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
+    }
 
     /**
     Convert "/user/sonson_twit/m/testmultireddit12" to "/user/sonson_twit/m/[newName]".
@@ -103,13 +193,11 @@ extension Session {
     - parameter newName: New display name for path.
     - returns: new path as String.
     */
-    func createNewPath(currentPath:String, newName:String) throws -> String {
+    public func createNewPath(_ currentPath: String, newName: String) throws -> String {
         do {
-            let regex = try NSRegularExpression(pattern:"/[^/]+?$", options: .CaseInsensitive)
-            return regex.stringByReplacingMatchesInString(currentPath, options: [], range: NSMakeRange(0, currentPath.characters.count), withTemplate: "/" + newName)
-        } catch {
-            throw error
-        }
+            let regex = try NSRegularExpression(pattern:"/[^/]+?$", options: .caseInsensitive)
+            return regex.stringByReplacingMatches(in: currentPath, options: [], range: NSRange(location:0, length:currentPath.characters.count), withTemplate: "/" + newName)
+        } catch { throw error }
     }
     
     /**
@@ -119,26 +207,24 @@ extension Session {
     - parameter multi: Multireddit object to be copied.
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
-    */
-    func copyMultireddit(multi:Multireddit, newDisplayName:String, completion:(Result<Multireddit>) -> Void) throws -> NSURLSessionDataTask {
+     */
+    @discardableResult
+    public func copyMultireddit(_ multi: Multireddit, newDisplayName: String, completion: @escaping (Result<Multireddit>) -> Void) throws -> URLSessionDataTask {
         do {
-            let parameter:[String:String] = [
+            let parameter = [
                 "display_name" : newDisplayName,
                 "from" : multi.path,
                 "to" : try createNewPath(multi.path, newName:newDisplayName)
             ]
-            guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/copy", parameter:parameter, method:"POST", token:token)
-                else { throw ReddiftError.URLError.error }
-            let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-                self.updateRateLimitWithURLResponse(response)
-                let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/copy", parameter:parameter, method:"POST", token:token)
+                else { throw ReddiftError.canNotCreateURLRequest as NSError }
+            let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Multireddit> in
+                return Result(from: Response(data: data, urlResponse: response), optional:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
                     .flatMap(json2Multireddit)
-                completion(result)
-            })
-            task.resume()
-            return task
+            }
+            return executeTask(request, handleResponse: closure, completion: completion)
         } catch { throw error }
     }
     
@@ -148,169 +234,154 @@ extension Session {
     - parameter multi: Multireddit object to be copied.
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
-    */
-    func renameMultireddit(multi:Multireddit, newDisplayName:String, completion:(Result<Multireddit>) -> Void) throws -> NSURLSessionDataTask {
+     */
+    @discardableResult
+    public func renameMultireddit(_ multi: Multireddit, newDisplayName: String, completion: @escaping (Result<Multireddit>) -> Void) throws -> URLSessionDataTask {
         do {
-            let parameter:[String:String] = [
+            let parameter = [
                 "display_name" : newDisplayName,
                 "from" : multi.path,
                 "to" : try createNewPath(multi.path, newName:newDisplayName)
             ]
-            guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/rename", parameter:parameter, method:"POST", token:token)
-                else { throw ReddiftError.URLError.error }
-            let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-                self.updateRateLimitWithURLResponse(response)
-                let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+            guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/rename", parameter:parameter, method:"POST", token:token)
+                else { throw ReddiftError.canNotCreateURLRequest as NSError }
+            let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Multireddit> in
+                return Result(from: Response(data: data, urlResponse: response), optional:error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
                     .flatMap(json2Multireddit)
-                completion(result)
-            })
-            task.resume()
-            return task
-        }
-        catch { throw error }
+            }
+            return executeTask(request, handleResponse: closure, completion: completion)
+        } catch { throw error }
     }
 
-    /**
-    Delete the multi.
-    
-    - parameter multi: Multireddit object to be deleted.
-    - parameter completion: The completion handler to call when the load request is complete.
-    - returns: Data task which requests search to reddit.com.
-    */
-    func deleteMultireddit(multi:Multireddit, completion:(Result<String>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multi.path, method:"DELETE", token:token)
-            else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                .flatMap(response2Data)
-                .flatMap(data2String)
-            completion(result)
-        })
-        task.resume()
-        return task
-    }
-    
-    /**
-    Update the multireddit. Responds with 409 Conflict if it already exists.
-    
-    - parameter multi: Multireddit object to be updated.
-    - parameter completion: The completion handler to call when the load request is complete.
-    - returns: Data task which requests search to reddit.com.
-    */
-    func updateMultireddit(multi:Multireddit, completion:(Result<Multireddit>) -> Void) throws -> NSURLSessionDataTask {
-        let multipath = multi.path
-        let names:[[String:String]] = []
-        let json:[String:AnyObject] = [
-            "description_md" : multi.descriptionMd,
-            "display_name" : multi.name,
-            "icon_name" : multi.iconName.rawValue,
-            "key_color" : "#FFFFFF",
-            "subreddits" : names,
-            "visibility" : multi.visibility.rawValue,
-            "weighting_scheme" : "classic"
-        ]
-        do {
-            let data:NSData = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
-            if let jsonString = NSString(data: data, encoding: NSUTF8StringEncoding) {
-                let parameter:[String:String] = ["model":jsonString as String]
-                guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multipath, parameter:parameter, method:"PUT", token:token)
-                    else { throw ReddiftError.URLError.error }
-                let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-                    self.updateRateLimitWithURLResponse(response)
-                    let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
-                        .flatMap(response2Data)
-                        .flatMap(data2Json)
-                        .flatMap(json2Multireddit)
-                    completion(result)
-                })
-                task.resume()
-                return task
-            }
-            else {
-                throw ReddiftError.MultiredditDidFailToCreateJSON.error
-            }
-        } catch {
-            throw error
-        }
-    }
     
     /**
     Add a subreddit to multireddit.
     
-    - parameter multireddit:
+    - parameter multireddit: multireddit object
     - parameter subreddit:
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
-    */
-    func addSubredditToMultireddit(multireddit:Multireddit, subredditDisplayName:String, completion:(Result<String>) -> Void) throws -> NSURLSessionDataTask {
+     */
+    @discardableResult
+    public func addSubredditToMultireddit(_ multireddit: Multireddit, subredditDisplayName: String, completion: @escaping (Result<String>) -> Void) throws -> URLSessionDataTask {
         let jsonString = "{\"name\":\"\(subredditDisplayName)\"}"
         let srname = subredditDisplayName
         let parameter = ["model":jsonString, "srname":srname]
     
-        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multireddit.path + "/r/" + srname, parameter:parameter, method:"PUT", token:token)
-            else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/" + multireddit.path + "/r/" + srname, parameter:parameter, method:"PUT", token:token)
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
+        let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<String> in
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
-                .flatMap({(json:JSON) -> Result<String> in
+                .flatMap({(json: JSONAny) -> Result<String> in
                     if let json = json as? JSONDictionary {
                         if let subreddit = json["name"] as? String {
                             return Result(value: subreddit)
                         }
+                        return Result(error: ReddiftError.multiredditJsonObjectIsMalformed as NSError)
                     }
-                    return Result(error: ReddiftError.ParseThing.error)
+                    return Result(error: ReddiftError.multiredditJsonObjectIsNotDictionary as NSError)
                 })
-            completion(result)
-        })
-        task.resume()
-        return task
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
     }
 
+    /**
+     Remove a subreddit from multireddit.
+     
+     - parameter multireddit: multireddit object
+     - parameter subreddit: displayname of subreddit to be removed.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    @discardableResult
+    public func removeSubredditFromMultireddit(_ multireddit: Multireddit, subredditDisplayName: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
+        let jsonString = "{\"name\":\"\(subredditDisplayName)\"}"
+        let srname = subredditDisplayName
+        let parameter = ["model":jsonString, "srname":srname]
+        
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/" + multireddit.path + "/r/" + srname, parameter:parameter, method:"DELETE", token:token)
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
+        let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
+                .flatMap(response2Data)
+                .flatMap(data2Json)
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
+    }
+    
     /**
     Get users own multireddit.
     
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
-    */
-    func getMineMultireddit(completion:(Result<RedditAny>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/mine", method:"GET", token:token)
-            else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+     */
+    @discardableResult
+    public func getMineMultireddit(_ completion: @escaping (Result<[Multireddit]>) -> Void) throws -> URLSessionDataTask {
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/mine", method:"GET", token:token)
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
+        let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[Multireddit]> in
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
-            completion(result)
-        })
-        task.resume()
-        return task
+                .flatMap(redditAny2MultiredditArray)
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
     }
     
     /**
     Get the description of the specified Multireddit.
     
-    - parameter multireddit:
+    - parameter multireddit: multireddit object
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
-    */
-    func getMultiredditDescription(multireddit:Multireddit, completion:(Result<RedditAny>) -> Void) throws -> NSURLSessionDataTask {
-        guard let request:NSMutableURLRequest = NSMutableURLRequest.mutableOAuthRequestWithBaseURL(baseURL, path:"/api/multi/" + multireddit.path + "/description", method:"GET", token:token)
-            else { throw ReddiftError.URLError.error }
-        let task = URLSession.dataTaskWithRequest(request, completionHandler: { (data:NSData?, response:NSURLResponse?, error:NSError?) -> Void in
-            self.updateRateLimitWithURLResponse(response)
-            let result = resultFromOptionalError(Response(data: data, urlResponse: response), optionalError:error)
+     */
+    @discardableResult
+    public func getMultiredditDescription(_ multireddit: Multireddit, completion: @escaping (Result<MultiredditDescription>) -> Void) throws -> URLSessionDataTask {
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/" + multireddit.path + "/description", method:"GET", token:token)
+            else { throw ReddiftError.canNotCreateURLRequest as NSError }
+        let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<MultiredditDescription> in
+            return Result(from: Response(data: data, urlResponse: response), optional:error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
-            completion(result)
-        })
-        task.resume()
-        return task
+                .flatMap(redditAny2Object)
+        }
+        return executeTask(request, handleResponse: closure, completion: completion)
+    }
+    
+    /**
+     Put the description of the specified Multireddit.
+     
+     - parameter multireddit: multireddit object
+     - parameter description: description as Markdown format.
+     - parameter modhash: a modhash, default is blank string.
+     - parameter completion: The completion handler to call when the load request is complete.
+     - returns: Data task which requests search to reddit.com.
+     */
+    @discardableResult
+    public func putMultiredditDescription(_ multireddit: Multireddit, description: String, modhash: String = "", completion: @escaping (Result<MultiredditDescription>) -> ()) throws -> URLSessionDataTask {
+        let json = ["body_md":description]
+        do {
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
+            guard let jsonString = String(data:data, encoding:.utf8)
+                else { throw ReddiftError.failedToCreateJSONForMultireadditPosting as NSError }
+            
+            let parameter = ["model":jsonString]
+            guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/" + multireddit.path + "/description/", parameter:parameter, method:"PUT", token:token)
+                else { throw ReddiftError.canNotCreateURLRequest as NSError }
+            let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<MultiredditDescription> in
+                return Result(from: Response(data: data, urlResponse: response), optional:error)
+                    .flatMap(response2Data)
+                    .flatMap(data2Json)
+                    .flatMap(json2RedditAny)
+                    .flatMap(redditAny2Object)
+            }
+            return executeTask(request, handleResponse: closure, completion: completion)
+        } catch { throw error }
     }
 }

@@ -9,7 +9,7 @@
 import XCTest
 
 class ParseCommentMarkdownTest: XCTestCase {
-    var json:AnyObject? = nil
+    var json: Any? = nil
     
     override func setUp() {
         super.setUp()
@@ -26,7 +26,7 @@ class ParseCommentMarkdownTest: XCTestCase {
         print("test data : comment_parse_data.json")
         
         /// Start to test
-        self.measureBlock {
+        self.measure {
         }
     }
     

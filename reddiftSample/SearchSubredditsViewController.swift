@@ -12,44 +12,43 @@ import reddift
 class SearchSubredditsViewController: BaseSubredditsViewController {
     var previousQuery = ""
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let text = searchBar.text {
             searchWithQuery(text)
         }
     }
     
-    func searchWithQuery(query:String) {
+    func searchWithQuery(_ query: String) {
         if loading {
             return
         }
         loading = true
         if previousQuery != query {
             paginator = nil
-            subreddits.removeAll(keepCapacity: false)
+            subreddits.removeAll(keepingCapacity: false)
             self.tableView.reloadData()
         }
         
         previousQuery = query
         do {
-            try session?.getSubredditSearch(query, paginator: paginator, completion: { (result) -> Void in
+            try session?.getSubredditSearch(query, paginator: paginator!, completion: { (result) -> Void in
                 self.loading = false
                 switch result {
-                case .Failure:
-                    print(result.error)
-                case .Success(let listing):
+                case .failure:
+                    print(result.error!)
+                case .success(let listing):
                     for obj in listing.children {
                         if let subreddit = obj as? Subreddit {
                             self.subreddits.append(subreddit)
                         }
                     }
                     self.paginator = listing.paginator
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    DispatchQueue.main.async(execute: { () -> Void in
                         self.tableView.reloadData()
                     })
                 }
             })
-        }
-        catch { print(error) }
+        } catch { print(error) }
     }
     
     func reload() {
@@ -68,16 +67,16 @@ class SearchSubredditsViewController: BaseSubredditsViewController {
 
 extension SearchSubredditsViewController {
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return subreddits.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as UITableViewCell
         if subreddits.indices ~= indexPath.row {
             cell.textLabel?.text = subreddits[indexPath.row].title
         }
@@ -85,4 +84,3 @@ extension SearchSubredditsViewController {
     }
     
 }
-
