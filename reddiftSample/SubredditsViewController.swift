@@ -61,9 +61,9 @@ class SubredditsViewController: BaseSubredditsViewController, UISearchResultsUpd
                 try session?.getSubreddit(sortTypes[seg.selectedSegmentIndex], paginator:paginator, completion: { (result) in
                     switch result {
                     case .failure:
-                        print(result.error)
+                        print(result.error!)
                     case .success(let listing):
-                        print(result.value)
+                        print(result.value!)
                         for obj in listing.children {
                             if let subreddit = obj as? Subreddit {
                                 self.subreddits.append(subreddit)
@@ -177,7 +177,7 @@ extension SubredditsViewController {
                 subreddit = self.subreddits[indexPath.row]
             }
         }
-        print(subreddit)
+        print(subreddit!)
 //        if let searchResultViewController = searchResultViewController {
 //            if tableView == searchResultViewController.tableView {
 //                if indices(searchResultViewController.contents) ~= indexPath.row {

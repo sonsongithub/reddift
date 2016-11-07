@@ -35,7 +35,7 @@ class SearchSubredditsViewController: BaseSubredditsViewController {
                 self.loading = false
                 switch result {
                 case .failure:
-                    print(result.error)
+                    print(result.error!)
                 case .success(let listing):
                     for obj in listing.children {
                         if let subreddit = obj as? Subreddit {

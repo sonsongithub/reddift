@@ -77,7 +77,7 @@ class UserViewController: UITableViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print(session)
+        print("\(session)")
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

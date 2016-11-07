@@ -47,7 +47,7 @@ class ListingsTest: SessionTestSpec {
                 var isSucceeded = false
                 switch result {
                 case .failure:
-                    print(result.error)
+                    print("\(result.error)")
                 case .success(let tuple):
                     isSucceeded = (tuple.0.children.count == 1)
                     isSucceeded = isSucceeded && (tuple.0.children[0] is Link)
@@ -121,7 +121,7 @@ class ListingsTest: SessionTestSpec {
                         var isSucceeded = false
                         switch result {
                         case .failure:
-                            print(result.error)
+                            print("\(result.error)")
                         case .success(let tuple):
                             isSucceeded = true
                             for obj in tuple.1.children {

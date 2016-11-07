@@ -24,7 +24,7 @@ class SubredditsListViewController: UITableViewController {
                 try session?.getUserRelatedSubreddit(.subscriber, paginator:paginator, completion: { (result) -> Void in
                     switch result {
                     case .failure:
-                        print(result.error)
+                        print(result.error!)
                     case .success(let listing):
                         self.subreddits += listing.children.flatMap({$0 as? Subreddit})
                         self.paginator = listing.paginator

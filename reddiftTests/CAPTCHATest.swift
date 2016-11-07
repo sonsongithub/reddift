@@ -35,6 +35,7 @@ class CAPTCHATest: SessionTestSpec {
         self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
     }
     
+    // now, CAPTCHA API does not work.....?
     func testGetIdenForNewCAPTCHA() {
         let msg = "is String"
         print(msg)
@@ -55,6 +56,7 @@ class CAPTCHATest: SessionTestSpec {
         self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
     }
     
+    // now, CAPTCHA API does not work.....?
     func testSizeOfNewImageGeneratedUsingIden() {
         let msg = "is 120x50"
         print(msg)

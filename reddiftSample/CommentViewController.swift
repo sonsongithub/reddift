@@ -171,7 +171,7 @@ class CommentViewController: UITableViewController, UZTextViewCellDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.isToolbarHidden = false
-        print(UIApplication.shared.keyWindow?.frame)
+        print(UIApplication.shared.keyWindow!.frame)
     }
     
     override func viewWillAppear(_ animated: Bool) {
