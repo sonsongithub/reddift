@@ -11,7 +11,7 @@ import Foundation
 /// import to use NSFont/UIFont
 #if os(iOS) || os(tvOS)
     import UIKit
-#elseif os(OSX)
+#elseif os(macOS)
     import Cocoa
 #endif
 
@@ -19,7 +19,7 @@ import Foundation
 #if os(iOS) || os(tvOS)
     private typealias _Font = UIFont
     private typealias _Color = UIColor
-#elseif os(OSX)
+#elseif os(macOS)
     private typealias _Font = NSFont
     private typealias _Color = NSColor
 #endif
@@ -45,7 +45,7 @@ extension NSParagraphStyle {
 #if os(iOS) || os(tvOS)
         guard let paragraphStyle = NSParagraphStyle.default.mutableCopy() as? NSMutableParagraphStyle
             else { return NSParagraphStyle.default }
-#elseif os(OSX)
+#elseif os(macOS)
         guard let paragraphStyle = NSParagraphStyle.default().mutableCopy() as? NSMutableParagraphStyle
             else { return NSParagraphStyle.default() }
 #endif
@@ -142,7 +142,7 @@ extension NSAttributedString {
     public func reconstruct(with normalFont: UIFont, color: UIColor, linkColor: UIColor, codeBackgroundColor: UIColor = UIColor.lightGray) -> NSAttributedString {
         return __reconstruct(with: normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
     }
-#elseif os(OSX)
+#elseif os(macOS)
     /**
     Reconstructs attributed string for rendering it.
     - parameter normalFont : Specified NSFont you want to use when the object is rendered.
@@ -211,7 +211,7 @@ extension NSAttributedString {
             let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor.pointSize) ?? normalFont
             let superscriptFont = _Font(descriptor: normalFont.fontDescriptor, size: normalFont.fontDescriptor.pointSize/2)
             let paragraphStyle = NSParagraphStyle.defaultReddiftParagraphStyle(with: normalFont.fontDescriptor.pointSize)
-        #elseif os(OSX)
+        #elseif os(macOS)
             let traits = normalFont.fontDescriptor.symbolicTraits
             let italicFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits(traits & NSFontSymbolicTraits(NSFontItalicTrait))
             let boldFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits(traits & NSFontSymbolicTraits(NSFontBoldTrait))

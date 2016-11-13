@@ -767,7 +767,7 @@
 		14F6A4331BF500F100736040 /* Trophy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trophy.swift; sourceTree = "<group>"; };
 		14F76FF41AECE01800A70AA5 /* Session+helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Session+helper.swift"; sourceTree = "<group>"; };
 		14F812001AF9EA9F008F6F3C /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		14F8120A1AF9EA9F008F6F3C /* reddift-OSXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "reddift-OSXTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		14F8120A1AF9EA9F008F6F3C /* reddift-macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "reddift-macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -929,7 +929,7 @@
 				14B5EBBB1AF34D580065BC5E /* reddift-iOSTests.xctest */,
 				14B5EBCE1AF34E920065BC5E /* reddiftSample.app */,
 				14F812001AF9EA9F008F6F3C /* reddift.framework */,
-				14F8120A1AF9EA9F008F6F3C /* reddift-OSXTests.xctest */,
+				14F8120A1AF9EA9F008F6F3C /* reddift-macOSTests.xctest */,
 				14364C8D1BEDA09F00FECE58 /* reddift.framework */,
 				14364C961BEDA09F00FECE58 /* reddift-tvOSTests.xctest */,
 				14364D471BEDA9E200FECE58 /* reddiftSampleTV.app */,
@@ -1367,9 +1367,9 @@
 			productReference = 14B5EBCE1AF34E920065BC5E /* reddiftSample.app */;
 			productType = "com.apple.product-type.application";
 		};
-		14F811FF1AF9EA9F008F6F3C /* reddift-OSX */ = {
+		14F811FF1AF9EA9F008F6F3C /* reddift-macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 14F812131AF9EA9F008F6F3C /* Build configuration list for PBXNativeTarget "reddift-OSX" */;
+			buildConfigurationList = 14F812131AF9EA9F008F6F3C /* Build configuration list for PBXNativeTarget "reddift-macOS" */;
 			buildPhases = (
 				146576331CC85E32005ED404 /* Swiftlint */,
 				14F811FB1AF9EA9F008F6F3C /* Sources */,
@@ -1381,14 +1381,14 @@
 			);
 			dependencies = (
 			);
-			name = "reddift-OSX";
+			name = "reddift-macOS";
 			productName = "reddift-OSX";
 			productReference = 14F812001AF9EA9F008F6F3C /* reddift.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		14F812091AF9EA9F008F6F3C /* reddift-OSXTests */ = {
+		14F812091AF9EA9F008F6F3C /* reddift-macOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 14F812161AF9EA9F008F6F3C /* Build configuration list for PBXNativeTarget "reddift-OSXTests" */;
+			buildConfigurationList = 14F812161AF9EA9F008F6F3C /* Build configuration list for PBXNativeTarget "reddift-macOSTests" */;
 			buildPhases = (
 				14F812061AF9EA9F008F6F3C /* Sources */,
 				14F812071AF9EA9F008F6F3C /* Frameworks */,
@@ -1399,9 +1399,9 @@
 			dependencies = (
 				14F8120D1AF9EA9F008F6F3C /* PBXTargetDependency */,
 			);
-			name = "reddift-OSXTests";
+			name = "reddift-macOSTests";
 			productName = "reddift-OSXTests";
-			productReference = 14F8120A1AF9EA9F008F6F3C /* reddift-OSXTests.xctest */;
+			productReference = 14F8120A1AF9EA9F008F6F3C /* reddift-macOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -1476,8 +1476,8 @@
 				14B5EBBA1AF34D580065BC5E /* reddift-iOSTests */,
 				14364C8C1BEDA09F00FECE58 /* reddift-tvOS */,
 				14364C951BEDA09F00FECE58 /* reddift-tvOSTests */,
-				14F811FF1AF9EA9F008F6F3C /* reddift-OSX */,
-				14F812091AF9EA9F008F6F3C /* reddift-OSXTests */,
+				14F811FF1AF9EA9F008F6F3C /* reddift-macOS */,
+				14F812091AF9EA9F008F6F3C /* reddift-macOSTests */,
 				14B5EBCD1AF34E920065BC5E /* reddiftSample */,
 				14364D461BEDA9E200FECE58 /* reddiftSampleTV */,
 			);
@@ -2218,7 +2218,7 @@
 		};
 		14F8120D1AF9EA9F008F6F3C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 14F811FF1AF9EA9F008F6F3C /* reddift-OSX */;
+			target = 14F811FF1AF9EA9F008F6F3C /* reddift-macOS */;
 			targetProxy = 14F8120C1AF9EA9F008F6F3C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -2789,7 +2789,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		14F812131AF9EA9F008F6F3C /* Build configuration list for PBXNativeTarget "reddift-OSX" */ = {
+		14F812131AF9EA9F008F6F3C /* Build configuration list for PBXNativeTarget "reddift-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				14F812141AF9EA9F008F6F3C /* Debug */,
@@ -2798,7 +2798,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		14F812161AF9EA9F008F6F3C /* Build configuration list for PBXNativeTarget "reddift-OSXTests" */ = {
+		14F812161AF9EA9F008F6F3C /* Build configuration list for PBXNativeTarget "reddift-macOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				14F812171AF9EA9F008F6F3C /* Debug */,

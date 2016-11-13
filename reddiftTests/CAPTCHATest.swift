@@ -58,11 +58,11 @@ class CAPTCHATest: SessionTestSpec {
     
     // now, CAPTCHA API does not work.....?
 //    func testSizeOfNewImageGeneratedUsingIden() {
-//        let msg = "is 120x50"
+//        let msg = "is 120x50" 
 //        print(msg)
 //#if os(iOS) || os(tvOS)
 //        var size: CGSize? = nil
-//#elseif os(OSX)
+//#elseif os(macOS)
 //        var size: NSSize? = nil
 //#endif
 //        let documentOpenExpectation = self.expectation(description: msg)
@@ -89,7 +89,7 @@ class CAPTCHATest: SessionTestSpec {
 //        if let size = size {
 //#if os(iOS)
 //            XCTAssert(size == CGSize(width: 120, height: 50), msg)
-//#elseif os(OSX)
+//#elseif os(macOS)
 //            XCTAssert(size == NSSize(width: 120, height: 50), msg)
 //#endif
 //        } else {

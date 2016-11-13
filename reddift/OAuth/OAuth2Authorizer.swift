@@ -10,7 +10,7 @@ import Foundation
 
 #if os(iOS)
     import UIKit
-#elseif os(OSX)
+#elseif os(macOS)
     import Cocoa
 #endif
 
@@ -60,7 +60,7 @@ public class OAuth2Authorizer {
                 } else {
                     UIApplication.shared.openURL(authorizationURL)
                 }
-#elseif os(OSX)
+#elseif os(macOS)
                 NSWorkspace.shared().open(authorizationURL)
 #endif
         } else {

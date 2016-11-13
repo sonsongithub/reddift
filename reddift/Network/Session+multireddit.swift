@@ -11,7 +11,7 @@ import Foundation
 #if os(iOS) || os(tvOS)
     import UIKit
     public typealias RedditColor = UIColor
-#elseif os(OSX)
+#elseif os(macOS)
     import Cocoa
     public typealias RedditColor = NSColor
 #endif
