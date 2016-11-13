@@ -185,20 +185,6 @@ extension Session {
         }
         return executeTask(request, handleResponse: closure, completion: completion)
     }
-
-    /**
-    Convert "/user/sonson_twit/m/testmultireddit12" to "/user/sonson_twit/m/[newName]".
-    
-    - parameter currentPath: Input string.
-    - parameter newName: New display name for path.
-    - returns: new path as String.
-    */
-    public func createNewPath(_ currentPath: String, newName: String) throws -> String {
-        do {
-            let regex = try NSRegularExpression(pattern:"/[^/]+?$", options: .caseInsensitive)
-            return regex.stringByReplacingMatches(in: currentPath, options: [], range: NSRange(location:0, length:currentPath.characters.count), withTemplate: "/" + newName)
-        } catch { throw error }
-    }
     
     /**
     Copy the mulitireddit.
@@ -214,7 +200,7 @@ extension Session {
             let parameter = [
                 "display_name" : newDisplayName,
                 "from" : multi.path,
-                "to" : try createNewPath(multi.path, newName:newDisplayName)
+                "to" : try multi.multiredditPathReplacingNameWith(newDisplayName)
             ]
             guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/copy", parameter:parameter, method:"POST", token:token)
                 else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -241,7 +227,7 @@ extension Session {
             let parameter = [
                 "display_name" : newDisplayName,
                 "from" : multi.path,
-                "to" : try createNewPath(multi.path, newName:newDisplayName)
+                "to" : try multi.multiredditPathReplacingNameWith(newDisplayName)
             ]
             guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/multi/rename", parameter:parameter, method:"POST", token:token)
                 else { throw ReddiftError.canNotCreateURLRequest as NSError }
