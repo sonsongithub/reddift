@@ -42,8 +42,13 @@ extension NSParagraphStyle {
     - returns: Paragraphyt style, which is created.
     */
     static func defaultReddiftParagraphStyle(with fontSize: CGFloat) -> NSParagraphStyle {
+#if os(iOS) || os(tvOS)
         guard let paragraphStyle = NSParagraphStyle.default.mutableCopy() as? NSMutableParagraphStyle
             else { return NSParagraphStyle.default }
+#elseif os(OSX)
+        guard let paragraphStyle = NSParagraphStyle.default().mutableCopy() as? NSMutableParagraphStyle
+            else { return NSParagraphStyle.default() }
+#endif
         paragraphStyle.lineBreakMode = .byWordWrapping
         paragraphStyle.alignment = .left
         paragraphStyle.maximumLineHeight = fontSize + 2
@@ -146,7 +151,7 @@ extension NSAttributedString {
     - parameter codeBackgroundColor : Specified NSColor of background of strings that are included in <code>.
     - returns : NSAttributedString object.
     */
-    public func reconstruct(with normalFont: NSFont, color: NSColor, linkColor: NSColor, codeBackgroundColor: NSColor = NSColor.lightGray()) -> NSAttributedString {
+    public func reconstruct(with normalFont: NSFont, color: NSColor, linkColor: NSColor, codeBackgroundColor: NSColor = NSColor.lightGray) -> NSAttributedString {
         return __reconstruct(with: normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
     }
 #endif
