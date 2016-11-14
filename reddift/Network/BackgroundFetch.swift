@@ -6,6 +6,7 @@
 //  Copyright © 2016年 sonson. All rights reserved.
 //
 
+#if os(iOS)
 
 import UIKit
 import Foundation
@@ -90,3 +91,5 @@ public class BackgroundFetch: NSObject, URLSessionDelegate {
         taskHandler(nil, nil, error as NSError?)
     }
 }
+
+#endif
