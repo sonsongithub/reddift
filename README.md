@@ -27,14 +27,24 @@ reddift is Swift Reddit API Wrapper.
 Now, it's under developing.
 You have to pay attention to use this library.
 
-#### 1. Create application(installed app) at reddit.com
+#### 1. Check out source code.
+
+```
+# check out reddift and its submodules.
+> git clone --recursive https://github.com/sonsongithub/reddift.git
+```
+
+#### 2. Create application(installed app) at reddit.com
 
 Create new installed app via preference page at reddit.com.
-And then, check your app's ```cliend_id``` and fill out ```redirect uri``` for OAuth2.
+And then, check your app's ```cliend_id``` and fill out ```redirect_uri``` for OAuth2.
+For example, ```redirect_uri``` is set to ```myapp://response```.
+In following sample, ```redirect_uri``` is set to ```reddift://response```.
 
 ![installedapp](https://cloud.githubusercontent.com/assets/33768/7569703/7aa0cd84-f845-11e4-8860-2c953c9522a2.png)
 
-#### 2. Set up ````reddift_config.json````
+
+#### 3. Set up ````reddift_config.json````
 
 This JSON file saves application information to use OAuth.
 Rename ```reddift_config.json.sample``` to ```reddift_config.json```.
@@ -49,15 +59,43 @@ reddift generates http's user-agent property using this JSON and application's i
       "client_id": "<YOUR ID>"
     }
 
-#### 3. Set up your URI on Xcode
+#### 4. Set up your URI on Xcode
 
-In Xcode, register ```URL Type``` which uses ```redirect_uri``` in order to receive call back from Safari.
+In Xcode, set up URL Types in order to receive call back from Safari.
+Set ```URL Schemes``` to ```redirect_uri``` that you set at reddit.com. 
+You don't have to include ```://response``` to this form.
 These URI must be identical.
 If they are not identical, reddit.com does not authorize your OAuth request.
+In following sample, ```URL Schemes``` is set to ```reddift```.
 
 ![reddit2](https://cloud.githubusercontent.com/assets/33768/7277677/52a1d1f0-e94c-11e4-9125-18c3acf13c0b.png)
 
-## Getting started
+## How to build test
+
+#### 1. Register user script app
+
+Test uses Application Only OAuth to remove user interaction from test process.
+If you want to run tests of reddift, you have to create another "Script" type application(personal use script) at reddit.com.
+
+![userscript](https://cloud.githubusercontent.com/assets/33768/7569704/7ad7bf10-f845-11e4-8e10-89487a65d5d4.png)
+
+#### 2. Fill out ````test_config.json````
+
+At first, rename ````test_config.json.sample```` to ````test_config.json````.
+Fill each following value using above preference pain of reddit.com.
+
+    {
+      "username": "test user account",
+      "password": "test user password",
+      "client_id": "test app client ID(must be script type app)",
+      "secret": "test app secret"
+    }
+
+#### 3. Start test
+
+Cmd + U.
+
+## Create you app.
 
 #### Get something & Error handling
 
@@ -117,7 +155,7 @@ You can get contents from reddit via ```Session``` object like following codes.
         }
     })
 
-#### Application Only OAuth
+#### Use Application Only OAuth
 
 You can use ```OAuth2AppOnlyToken``` when you want to write a code for test or personal script tool(such as CLI).
 ```OAuth2AppOnlyToken``` enabled to access reddit without human action in order to authorize in web browser apps.
@@ -140,31 +178,6 @@ Do not use ```Oauth2AppOnlyToken``` in installed app in terms of security.
 #### Further more,
 
 In more detail, See my sample application, test code or Playground code included in this repository.
-
-## How to build test
-
-#### 1. Register user script app
-
-Test uses Application Only OAuth to remove user interaction from test process.
-If you want to test reddift, you have to create another "Script" type application(personal use script) at reddit.com.
-
-![userscript](https://cloud.githubusercontent.com/assets/33768/7569704/7ad7bf10-f845-11e4-8e10-89487a65d5d4.png)
-
-#### 2. Fill out ````test_config.json````
-
-At first, rename ````test_config.json.sample```` to ````test_config.json````.
-Fill each following value using above preference pain of reddit.com.
-
-    {
-      "username": "test user account",
-      "password": "test user password",
-      "client_id": "test app client ID(must be script type app)",
-      "secret": "test app secret"
-    }
-
-#### 3. Start test
-
-Cmd + U.
 
 ## Playground
 
