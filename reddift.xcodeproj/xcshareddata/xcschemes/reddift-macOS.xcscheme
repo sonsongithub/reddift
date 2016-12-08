@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "14F811FF1AF9EA9F008F6F3C"
                BuildableName = "reddift.framework"
-               BlueprintName = "reddift-OSX"
+               BlueprintName = "reddift-macOS"
                ReferencedContainer = "container:reddift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "14F812091AF9EA9F008F6F3C"
-               BuildableName = "reddift-OSXTests.xctest"
-               BlueprintName = "reddift-OSXTests"
+               BuildableName = "reddift-macOSTests.xctest"
+               BlueprintName = "reddift-macOSTests"
                ReferencedContainer = "container:reddift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,8 +47,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "14F812091AF9EA9F008F6F3C"
-               BuildableName = "reddift-OSXTests.xctest"
-               BlueprintName = "reddift-OSXTests"
+               BuildableName = "reddift-macOSTests.xctest"
+               BlueprintName = "reddift-macOSTests"
                ReferencedContainer = "container:reddift.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -58,7 +58,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "14F811FF1AF9EA9F008F6F3C"
             BuildableName = "reddift.framework"
-            BlueprintName = "reddift-OSX"
+            BlueprintName = "reddift-macOS"
             ReferencedContainer = "container:reddift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -80,7 +80,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "14F811FF1AF9EA9F008F6F3C"
             BuildableName = "reddift.framework"
-            BlueprintName = "reddift-OSX"
+            BlueprintName = "reddift-macOS"
             ReferencedContainer = "container:reddift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -98,7 +98,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "14F811FF1AF9EA9F008F6F3C"
             BuildableName = "reddift.framework"
-            BlueprintName = "reddift-OSX"
+            BlueprintName = "reddift-macOS"
             ReferencedContainer = "container:reddift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

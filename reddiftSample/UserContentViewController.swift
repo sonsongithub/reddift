@@ -50,7 +50,7 @@ class UserContentViewController: UITableViewController {
                 try session?.getUserContent(name, content:userContent, sort:.new, timeFilterWithin:.all, paginator:Paginator(), completion: { (result) -> Void in
                     switch result {
                     case .failure:
-                        print(result.error)
+                        print(result.error ?? "Error?")
                     case .success(let listing):
                         self.source += listing.children
                         self.updateStrings()
@@ -84,7 +84,7 @@ class UserContentViewController: UITableViewController {
                     try session?.getInfo([comment.linkId], completion: { (result) -> Void in
                         switch result {
                         case .failure:
-                            print(result.error)
+                            print(result.error ?? "Error?")
                         case .success(let listing):
                             if listing.children.count == 1 {
                                 if let link = listing.children[0] as? Link {

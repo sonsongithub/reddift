@@ -96,7 +96,7 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
                 try session?.getList(paginator, subreddit:subreddit, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.all, completion: { (result) in
                     switch result {
                     case .failure:
-                        print(result.error)
+                        print(result.error ?? "error?")
                     case .success(let listing):
                         self.links += listing.children.flatMap({$0 as? Link})
                         self.paginator = listing.paginator

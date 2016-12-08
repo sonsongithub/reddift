@@ -11,12 +11,12 @@ import Foundation
 extension URLComponents {
     var dictionary: [String:String] {
         var parameters: [String:String] = [:]
-        if #available(OSX 10.10, *) {
+        if #available(macOS 10.10, *) {
             if let queryItems = self.queryItems {
                 for queryItem in queryItems {
                     #if os(iOS)
                         parameters[queryItem.name] = queryItem.value
-                    #elseif os(OSX)
+                    #elseif os(macOS)
                         if let value = queryItem.value {
                             parameters[queryItem.name] = value
                         }

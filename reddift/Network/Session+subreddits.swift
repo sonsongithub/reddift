@@ -8,6 +8,12 @@
 
 import Foundation
 
+extension Bool {
+    var string: String {
+        return self ? "true" : "false"
+    }
+}
+
 /**
  The type of subreddit user
  */

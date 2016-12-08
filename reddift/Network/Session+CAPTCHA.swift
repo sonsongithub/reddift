@@ -11,7 +11,7 @@ import Foundation
 #if os(iOS) || os(tvOS)
     import UIKit
     public typealias CAPTCHAImage = UIImage
-#elseif os(OSX)
+#elseif os(macOS)
     import Cocoa
     public typealias CAPTCHAImage = NSImage
 #endif
@@ -44,7 +44,7 @@ Parse simple string response for "/api/needs_captcha"
 func data2Image(_ data: Data) -> Result<CAPTCHAImage> {
 #if os(iOS) || os(tvOS)
     let captcha = UIImage(data: data)
-#elseif os(OSX)
+#elseif os(macOS)
     let captcha = NSImage(data: data)
 #endif
     return Result(fromOptional: captcha, error: ReddiftError.imageOfCAPTCHAIsInvalid as NSError)

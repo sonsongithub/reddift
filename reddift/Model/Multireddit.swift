@@ -143,4 +143,24 @@ public struct Multireddit: SubredditURLPath {
         created = json["created"] as? TimeInterval ?? 0
         createdUtc = json["created_utc"] as? TimeInterval ?? 0
     }
+    
+    /**
+     Create new multireddit path as String from "/user/sonson_twit/m/testmultireddit12" replacing its name with "newMultiredditName". For example, returns ""/user/sonson_twit/m/newmulti" when path is "/user/sonson_twit/m/testmultireddit12" and newMultiredditName is "newmulti".
+     
+     - parameter newMultiredditName: New display name for path.
+     - returns: new path as String.
+     */
+    public func multiredditPathReplacingNameWith(_ newMultiredditName: String) throws -> String {
+        do {
+            let regex = try NSRegularExpression(pattern:"^/user/(.+?)/m/", options: .caseInsensitive)
+            if let match = regex.firstMatch(in: self.path, options: [], range: NSRange(location:0, length:self.path.characters.count)) {
+                if match.numberOfRanges > 1 {
+                    let range = match.rangeAt(1)
+                    let userName = (self.path as NSString).substring(with: range)
+                    return "/user/\(userName)/m/\(newMultiredditName)"
+                }
+            }
+            throw NSError(domain: "", code: 0, userInfo: nil)
+        } catch { throw error }
+    }
 }
