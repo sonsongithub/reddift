@@ -2270,7 +2270,7 @@
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2298,7 +2298,7 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2318,7 +2318,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
@@ -2336,7 +2336,7 @@
 				SDKROOT = appletvos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
@@ -2356,6 +2356,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftSample/objc-header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
@@ -2377,6 +2378,7 @@
 				SDKROOT = appletvos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftSample/objc-header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
@@ -2425,6 +2427,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2463,6 +2466,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2490,7 +2494,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sonson.reddift.framework;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2515,7 +2519,7 @@
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2538,7 +2542,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -2556,7 +2560,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -2632,7 +2636,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2660,7 +2664,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2692,7 +2696,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -2719,7 +2723,7 @@
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
