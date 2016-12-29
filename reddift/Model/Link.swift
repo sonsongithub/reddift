@@ -240,6 +240,12 @@ public struct Link: Thing {
     */
     public let distinguished: Bool
 	
+	/**
+	A JSON representation of this object. This is set when the object is created through JSON, which it is by this library.
+	WATCH OUT IF USING THIS MANUALLY
+	*/
+	public var JSONData: JSONDictionary?
+	
     public init(id: String) {
         self.id = id
         self.name = "\(Link.kind)_\(self.id)"
@@ -288,6 +294,7 @@ public struct Link: Thing {
         reportReasons = []
         modReports = []
         secureMediaEmbed = nil
+		JSONData = nil
     }
     
     /**
@@ -354,5 +361,6 @@ public struct Link: Thing {
         reportReasons = []
         modReports = []
         secureMediaEmbed = nil
+		JSONData = data
     }
 }
