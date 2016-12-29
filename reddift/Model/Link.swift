@@ -75,7 +75,7 @@ public struct Link: Thing {
     how the logged-in user has voted on the link - True = upvoted, False = downvoted, null = no vote
     example:
     */
-    public let likes: VoteDirection
+    public var likes: VoteDirection
     /**
     example: []
     */

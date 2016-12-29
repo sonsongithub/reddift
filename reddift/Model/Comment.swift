@@ -59,7 +59,7 @@ public struct Comment: Thing {
     how the logged-in user has voted on the link - True = upvoted, False = downvoted, null = no vote
     example:
     */
-    public let likes: VoteDirection
+    public var likes: VoteDirection
     /**
     example: {"kind"=>"Listing", "data"=>{"modhash"=>nil, "children"=>[{"kind"=>"more", "data"=>{"count"=>0, "parent_id"=>"t1_cqfhkcb", "children"=>["cqfmmpp"], "name"=>"t1_cqfmmpp", "id"=>"cqfmmpp"}}], "after"=>nil, "before"=>nil}}
     */
