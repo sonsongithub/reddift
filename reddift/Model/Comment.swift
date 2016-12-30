@@ -254,6 +254,7 @@ public struct Comment: Thing {
         modReports = link.modReports
         numReports = link.numReports
         ups = link.ups
+	stickied = false
     }
     
     /**
