@@ -171,6 +171,15 @@ public struct Comment: Thing {
 	   if the comment is stickied
    	*/
    	public let  stickied:Bool
+	/**
+	the title of the comment's parrent post IF this object is created by the inbox
+	*/
+	public let  linkTitle:String
+	
+	/**
+	if the comment is unread in the inbox
+	*/
+	public var  new:Bool
     
     public var isExpandable: Bool {
         get {
@@ -219,6 +228,8 @@ public struct Comment: Thing {
         numReports = 0
         ups = 0
         stickied = false
+		linkTitle = ""
+		new = false
     }
     
     public init(link: Link) {
@@ -254,7 +265,9 @@ public struct Comment: Thing {
         modReports = link.modReports
         numReports = link.numReports
         ups = link.ups
-	stickied = false
+		stickied = false
+		linkTitle = ""
+		new = false
     }
     
     /**
@@ -300,6 +313,8 @@ public struct Comment: Thing {
         numReports = data["num_reports"] as? Int ?? 0
         ups = data["ups"] as? Int ?? 0
         stickied = data["stickied"] as? Bool ?? false
+		linkTitle = data["link_title"] as? String ?? ""
+		new = data["new"] as? Bool ?? false
         if let temp = data["replies"] as? JSONDictionary {
             if let obj = Parser.redditAny(from: temp) as? Listing {
                 replies = obj
