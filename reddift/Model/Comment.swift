@@ -180,6 +180,12 @@ public struct Comment: Thing {
 	if the comment is unread in the inbox
 	*/
 	public var  new:Bool
+	
+	/**
+	if the message is a comment, then the permalink to the comment with ?context=3 appended to the end, otherwise an empty string
+	example:
+	*/
+	public let  context:String
     
     public var isExpandable: Bool {
         get {
@@ -230,6 +236,7 @@ public struct Comment: Thing {
         stickied = false
 		linkTitle = ""
 		new = false
+		context = ""
     }
     
     public init(link: Link) {
@@ -268,6 +275,7 @@ public struct Comment: Thing {
 		stickied = false
 		linkTitle = ""
 		new = false
+		context = ""
     }
     
     /**
@@ -315,6 +323,7 @@ public struct Comment: Thing {
         stickied = data["stickied"] as? Bool ?? false
 		linkTitle = data["link_title"] as? String ?? ""
 		new = data["new"] as? Bool ?? false
+		context = data["context"] as? String ?? ""
         if let temp = data["replies"] as? JSONDictionary {
             if let obj = Parser.redditAny(from: temp) as? Listing {
                 replies = obj
