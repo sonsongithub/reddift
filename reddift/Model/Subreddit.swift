@@ -362,6 +362,18 @@ public struct Subreddit: SubredditURLPath, Thing {
     example: true
     */
     public let userIsSubscriber: Bool
+
+    /**
+    show thumbnail images of content
+    example: false
+    */
+    public let showMedia: Bool
+
+    /**
+    expand media previews on comments pages
+    example: false
+    */
+    public let showMediaPreview: Bool
     
     public var path: String {
         return "/r/\(displayName)"
@@ -405,6 +417,8 @@ public struct Subreddit: SubredditURLPath, Thing {
         subredditType = ""
         submissionType = ""
         userIsSubscriber = false
+        showMedia = false
+        showMediaPreview = false
     }
 
     public init(id: String) {
@@ -445,6 +459,8 @@ public struct Subreddit: SubredditURLPath, Thing {
         subredditType = ""
         submissionType = ""
         userIsSubscriber = false
+        showMedia = false
+        showMediaPreview = false
     }
     
     /**
@@ -495,5 +511,7 @@ public struct Subreddit: SubredditURLPath, Thing {
         subredditType = data["subreddit_type"] as? String ?? ""
         submissionType = data["submission_type"] as? String ?? ""
         userIsSubscriber = data["user_is_subscriber"] as? Bool ?? false
+        showMedia = data["show_media"] as? Bool ?? false
+        showMediaPreview = data["show_media_preview"] as? Bool ?? false
     }
 }
