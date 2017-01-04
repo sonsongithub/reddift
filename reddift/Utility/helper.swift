@@ -7,3 +7,10 @@
 //
 
 import Foundation
+
+/// Shared color class
+#if os(iOS) || os(tvOS)
+    public typealias ReddiftColor = UIColor
+#elseif os(macOS)
+    public typealias ReddiftColor = NSColor
+#endif
