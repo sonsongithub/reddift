@@ -18,6 +18,20 @@ class LinkViewController: BaseLinkViewController, UISearchResultsUpdating, UISea
 		
 		self.title = self.subreddit?.title
         
+        // code to write a test data, t5.json.
+//        if let subreddit = self.subreddit {
+//            do {
+//                try self.session?.about(subreddit.displayName, completion: { (result) in
+//                    switch result {
+//                    case .failure:
+//                        print(result.error ?? "error?")
+//                    case .success(let r):
+//                        print(r)
+//                    }
+//                })
+//            } catch { print(error) }
+//        }
+        
 		sortTypes += [.controversial, .top]
 		for sortType in sortTypes {
 			sortTitles.append(sortType.path)
