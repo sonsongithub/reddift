@@ -375,6 +375,22 @@ public struct Subreddit: SubredditURLPath, Thing {
     */
     public let showMediaPreview: Bool
     
+    /**
+    enabled to use wiki of the subreddit.
+    example: false
+     */
+    public let wikiEnabled: Bool
+    
+    /**
+    */
+    public let userIsMuted: Bool
+    
+    public let language: String
+    
+    public let keyColor: ReddiftColor
+    
+    public let quarantine: Bool
+    
     public var path: String {
         return "/r/\(displayName)"
     }
@@ -419,6 +435,11 @@ public struct Subreddit: SubredditURLPath, Thing {
         userIsSubscriber = false
         showMedia = false
         showMediaPreview = false
+        wikiEnabled = false
+        userIsMuted = false
+        language = "en"
+        keyColor = ReddiftColor.white
+        quarantine = false
     }
 
     public init(id: String) {
@@ -461,6 +482,11 @@ public struct Subreddit: SubredditURLPath, Thing {
         userIsSubscriber = false
         showMedia = false
         showMediaPreview = false
+        wikiEnabled = false
+        userIsMuted = false
+        language = "en"
+        keyColor = ReddiftColor.white
+        quarantine = false
     }
     
     /**
@@ -513,5 +539,10 @@ public struct Subreddit: SubredditURLPath, Thing {
         userIsSubscriber = data["user_is_subscriber"] as? Bool ?? false
         showMedia = data["show_media"] as? Bool ?? false
         showMediaPreview = data["show_media_preview"] as? Bool ?? false
+        wikiEnabled = data["wiki_enabled"] as? Bool ?? false
+        userIsMuted = data["user_is_muted"] as? Bool ?? false
+        language = data["lang"] as? String ?? "en"
+        keyColor = ReddiftColor.white
+        quarantine = data["quarantine"] as? Bool ?? false
     }
 }
