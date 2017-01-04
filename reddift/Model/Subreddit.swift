@@ -9,9 +9,9 @@
 import Foundation
 
 extension ReddiftColor {
-    public class func color(with hexStr: String) -> ReddiftColor {
-        let hexStr = hexStr.replacingOccurrences(of: "#", with: "")
-        let scanner = Scanner(string: hexStr)
+    public class func color(with hexString: String) -> ReddiftColor {
+        let hexString = hexString.replacingOccurrences(of: "#", with: "")
+        let scanner = Scanner(string: hexString)
         var color: UInt32 = 0
         if scanner.scanHexInt32(&color) {
             let r = CGFloat((color & 0xFF0000) >> 16) / 255.0
@@ -20,6 +20,19 @@ extension ReddiftColor {
             return ReddiftColor(red: r, green: g, blue: b, alpha: 1)
         } else {
             return ReddiftColor.white
+        }
+    }
+    
+    public func hexString(_ includeAlpha: Bool = false) -> String {
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        self.getRed(&r, green: &g, blue: &b, alpha: &a)
+        if (includeAlpha) {
+            return String(format: "#%02X%02X%02X%02X", Int(r * 255), Int(g * 255), Int(b * 255), Int(a * 255))
+        } else {
+            return String(format: "#%02X%02X%02X", Int(r * 255), Int(g * 255), Int(b * 255))
         }
     }
 }
