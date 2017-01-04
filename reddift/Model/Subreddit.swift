@@ -8,6 +8,22 @@
 
 import Foundation
 
+extension ReddiftColor {
+    public class func color(with hexStr: String) -> ReddiftColor {
+        let hexStr = hexStr.replacingOccurrences(of: "#", with: "")
+        let scanner = Scanner(string: hexStr)
+        var color: UInt32 = 0
+        if scanner.scanHexInt32(&color) {
+            let r = CGFloat((color & 0xFF0000) >> 16) / 255.0
+            let g = CGFloat((color & 0x00FF00) >> 8) / 255.0
+            let b = CGFloat(color & 0x0000FF) / 255.0
+            return ReddiftColor(red: r, green: g, blue: b, alpha: 1)
+        } else {
+            return ReddiftColor.white
+        }
+    }
+}
+
 /// Protocol to integrate a code for subreddit and multireddit.
 public protocol SubredditURLPath {
     var path: String {get}
@@ -542,7 +558,8 @@ public struct Subreddit: SubredditURLPath, Thing {
         wikiEnabled = data["wiki_enabled"] as? Bool ?? false
         userIsMuted = data["user_is_muted"] as? Bool ?? false
         language = data["lang"] as? String ?? "en"
-        keyColor = ReddiftColor.white
+        let colorHex = data["key_color"] as? String ?? "#FFFFFF"
+        keyColor = ReddiftColor.color(with: colorHex)
         quarantine = data["quarantine"] as? Bool ?? false
     }
 }

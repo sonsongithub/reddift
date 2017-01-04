@@ -253,7 +253,7 @@ class ParseThingObjectTest: XCTestCase {
             XCTAssert(object.submitTextLabel == "Submit Self-Post")
             
             XCTAssert(object.language == "en")
-            XCTAssert(object.keyColor == ReddiftColor.white)
+            XCTAssert(object.keyColor == ReddiftColor.color(with: "#545452"))
             
             XCTAssert(object.name == "t5_2qh1f")
             XCTAssert(object.created == 1201261386)
