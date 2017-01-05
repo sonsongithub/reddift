@@ -643,6 +643,7 @@
 		1424A8961AFE199700EF08CD /* api_comment_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = api_comment_response.json; sourceTree = "<group>"; };
 		142750A51C7F598100EAF307 /* moreChildren.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = moreChildren.json; sourceTree = "<group>"; };
 		142903551E1DB782002EAD2E /* ReddiftColorTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReddiftColorTest.swift; sourceTree = "<group>"; };
+		1429035B1E1DC3C4002EAD2E /* reddift.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = reddift.playground; path = playground/reddift.playground; sourceTree = "<group>"; };
 		142983F81AE4C47300846DD3 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		142984001AE4E0EA00846DD3 /* Oembed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Oembed.swift; sourceTree = "<group>"; };
 		142984051AE5A5CD00846DD3 /* MediaEmbed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaEmbed.swift; sourceTree = "<group>"; };
@@ -1218,6 +1219,7 @@
 		14E3BAA61BBA4DA800BDDF29 /* playground */ = {
 			isa = PBXGroup;
 			children = (
+				1429035B1E1DC3C4002EAD2E /* reddift.playground */,
 			);
 			name = playground;
 			sourceTree = "<group>";
