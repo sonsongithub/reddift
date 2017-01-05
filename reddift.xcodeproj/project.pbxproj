@@ -95,6 +95,9 @@
 		142750A71C7F5A8D00EAF307 /* moreChildren.json in Resources */ = {isa = PBXBuildFile; fileRef = 142750A51C7F598100EAF307 /* moreChildren.json */; };
 		142750A81C7F5A8F00EAF307 /* moreChildren.json in Resources */ = {isa = PBXBuildFile; fileRef = 142750A51C7F598100EAF307 /* moreChildren.json */; };
 		142750A91C7F5A8F00EAF307 /* moreChildren.json in Resources */ = {isa = PBXBuildFile; fileRef = 142750A51C7F598100EAF307 /* moreChildren.json */; };
+		142903581E1DB88D002EAD2E /* ReddiftColorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142903551E1DB782002EAD2E /* ReddiftColorTest.swift */; };
+		142903591E1DB88E002EAD2E /* ReddiftColorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142903551E1DB782002EAD2E /* ReddiftColorTest.swift */; };
+		1429035A1E1DB88F002EAD2E /* ReddiftColorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142903551E1DB782002EAD2E /* ReddiftColorTest.swift */; };
 		143427BE1AF57752005D0E31 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427BD1AF57752005D0E31 /* SearchResultViewController.swift */; };
 		143427C01AF5AB4E005D0E31 /* BaseLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427BF1AF5AB4E005D0E31 /* BaseLinkViewController.swift */; };
 		143427C21AF74597005D0E31 /* SubredditsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143427C11AF74597005D0E31 /* SubredditsViewController.swift */; };
@@ -639,6 +642,8 @@
 		1424A8931AFDC7CD00EF08CD /* LinksTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinksTest.swift; sourceTree = "<group>"; };
 		1424A8961AFE199700EF08CD /* api_comment_response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = api_comment_response.json; sourceTree = "<group>"; };
 		142750A51C7F598100EAF307 /* moreChildren.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = moreChildren.json; sourceTree = "<group>"; };
+		142903551E1DB782002EAD2E /* ReddiftColorTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReddiftColorTest.swift; sourceTree = "<group>"; };
+		1429035B1E1DC3C4002EAD2E /* reddift.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = reddift.playground; path = playground/reddift.playground; sourceTree = "<group>"; };
 		142983F81AE4C47300846DD3 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		142984001AE4E0EA00846DD3 /* Oembed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Oembed.swift; sourceTree = "<group>"; };
 		142984051AE5A5CD00846DD3 /* MediaEmbed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaEmbed.swift; sourceTree = "<group>"; };
@@ -988,6 +993,7 @@
 				1466072C1AE7454B00D726C1 /* ParseResponseObjectTest.swift */,
 				140CC3FA1AFCB20A00E9CBB5 /* ExtendCommentsTest.swift */,
 				14375DD71BB40273007DF229 /* ParseCommentMarkdownTest.swift */,
+				142903551E1DB782002EAD2E /* ReddiftColorTest.swift */,
 			);
 			name = Unit;
 			sourceTree = "<group>";
@@ -1213,6 +1219,7 @@
 		14E3BAA61BBA4DA800BDDF29 /* playground */ = {
 			isa = PBXGroup;
 			children = (
+				1429035B1E1DC3C4002EAD2E /* reddift.playground */,
 			);
 			name = playground;
 			sourceTree = "<group>";
@@ -1798,6 +1805,7 @@
 				14364CB11BEDA0F900FECE58 /* OAuth2Token.swift in Sources */,
 				14364CD11BEDA10300FECE58 /* Session+misc.swift in Sources */,
 				14364D121BEDA1D200FECE58 /* ParseResponseObjectTest.swift in Sources */,
+				142903591E1DB88E002EAD2E /* ReddiftColorTest.swift in Sources */,
 				14364CCB1BEDA10300FECE58 /* Session+flair.swift in Sources */,
 				14364CF91BEDA10F00FECE58 /* Thing.swift in Sources */,
 				14364D041BEDA10F00FECE58 /* Message.swift in Sources */,
@@ -1961,6 +1969,7 @@
 				141B91D51B0A503400A9E6A6 /* Session+gold.swift in Sources */,
 				143427D41AF96AD5005D0E31 /* NSURLComponents+reddift.swift in Sources */,
 				14B5EC251AF35BFF0065BC5E /* Listing.swift in Sources */,
+				142903581E1DB88D002EAD2E /* ReddiftColorTest.swift in Sources */,
 				14447EC91B16234A004FB58E /* Token.swift in Sources */,
 				14F422621B01C84E00608939 /* Enum.swift in Sources */,
 				141B91DB1B0A503400A9E6A6 /* Session+moderation.swift in Sources */,
@@ -2136,6 +2145,7 @@
 				14F8123A1AF9F6B6008F6F3C /* Media.swift in Sources */,
 				14447ECB1B16234A004FB58E /* Token.swift in Sources */,
 				14F812381AF9F6B6008F6F3C /* Listing.swift in Sources */,
+				1429035A1E1DB88F002EAD2E /* ReddiftColorTest.swift in Sources */,
 				14F422641B01C84E00608939 /* Enum.swift in Sources */,
 				148E79991B18033900C771E3 /* CAPTCHA.swift in Sources */,
 				147868B71BF41DFE00D493B5 /* User.swift in Sources */,
@@ -2270,7 +2280,7 @@
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2298,7 +2308,7 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2318,7 +2328,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
@@ -2336,7 +2346,7 @@
 				SDKROOT = appletvos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
@@ -2356,6 +2366,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftSample/objc-header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
@@ -2377,6 +2388,7 @@
 				SDKROOT = appletvos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftSample/objc-header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
@@ -2425,6 +2437,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2463,6 +2476,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2490,7 +2504,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sonson.reddift.framework;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2515,7 +2529,7 @@
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2538,7 +2552,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sonson.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -2556,7 +2570,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -2632,7 +2646,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2660,7 +2674,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2692,7 +2706,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -2719,7 +2733,7 @@
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/reddiftTests/objc-header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0.1;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

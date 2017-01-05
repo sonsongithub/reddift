@@ -15,13 +15,11 @@ import Foundation
     import Cocoa
 #endif
 
-/// Shared font and color class
+/// Shared font class
 #if os(iOS) || os(tvOS)
     private typealias _Font = UIFont
-    private typealias _Color = UIColor
 #elseif os(macOS)
     private typealias _Font = NSFont
-    private typealias _Color = NSColor
 #endif
 
 /// Enum, attributes for NSAttributedString
@@ -165,7 +163,7 @@ extension NSAttributedString {
      - parameter codeBackgroundColor : Specified NSColor/UIColor of background of strings that are included in <code>.
      - returns : NSAttributedString object.
      */
-    private func __reconstruct(with normalFont: _Font, color: _Color, linkColor: _Color, codeBackgroundColor: _Color) -> NSAttributedString {
+    private func __reconstruct(with normalFont: _Font, color: ReddiftColor, linkColor: ReddiftColor, codeBackgroundColor: ReddiftColor) -> NSAttributedString {
         let attributes = self.attributesForReddift
         let (italicFont, boldFont, codeFont, superscriptFont, _) = createDerivativeFonts(normalFont)
         

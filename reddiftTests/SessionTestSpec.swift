@@ -37,7 +37,7 @@ class SessionTestSpec: XCTestCase {
     let pollingInterval: TimeInterval = 1
     
     /// interval between tests for prevent test code from using API over limit rate.
-    let testInterval: TimeInterval = 5
+    var testInterval: TimeInterval = 5
     
     /// shared session object
     var session: Session? = nil
