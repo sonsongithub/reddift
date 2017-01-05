@@ -19,10 +19,10 @@ extension MultiredditTest {
                 switch result {
                 case .failure(let error):
                     print(error.description)
+                    XCTFail(msg)
                 case .success(let multireddits):
                     list.append(contentsOf: multireddits)
                 }
-                XCTAssert(list.count > 0, msg)
                 documentOpenExpectation.fulfill()
             })
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
@@ -104,6 +104,8 @@ class MultiredditTest: SessionTestSpec {
     
     override func setUp() {
         super.setUp()
+        
+        testInterval = 15
         
         /// Save number of own multireddits before test starts.
         self.defaultMultiredditNameList = getOwnMultireddit().map({$0.name})
