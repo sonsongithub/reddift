@@ -10,8 +10,7 @@ func getReleated(with session: Session) {
             case .failure(let error):
                 print(error)
             case .success(let listing1, let listing2):
-                listing1.children.flatMap { $0 as? Link }.forEach {
-                    print($0.title) }
+                listing1.children.flatMap { $0 as? Link }.forEach { print($0.title) }
                 listing2.children.flatMap { $0 as? Link }.forEach { print($0.title) }
             }
         }
@@ -106,6 +105,7 @@ if let (username, password, clientID, secret) = (Bundle.main.url(forResource: "t
                     print(error)
                 case .success(let token):
                     let session = Session(token: token)
+                    getProfile(with: session)
                     getSubreddits(with: session)
                     getLinksBy(with: session)
                     getReleated(with: session)
