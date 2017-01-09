@@ -185,7 +185,7 @@ You can play with reddift in Playground.
 In more detail, check reddift.playground package.
 Before using, you have to copy ```test_config.json``` into ```./reddift.playground/Resources``` in order to specify user account and your application informatin because reddift on Playground uses "Application Only OAuth".
 
-![playground](https://cloud.githubusercontent.com/assets/33768/9929315/deb40d78-5d66-11e5-908f-0445ad57ef90.png)
+![playground](https://cloud.githubusercontent.com/assets/33768/21675684/01d132d2-d376-11e6-9c12-77c034a74c9d.png)
 
 ## Dependency
 

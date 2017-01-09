@@ -1,5 +1,5 @@
 
-import Foundation
+import Cocoa
 import PlaygroundSupport
 import reddift
 
@@ -10,8 +10,7 @@ func getReleated(with session: Session) {
             case .failure(let error):
                 print(error)
             case .success(let listing1, let listing2):
-                listing1.children.flatMap { $0 as? Link }.forEach {
-                    print($0.title) }
+                listing1.children.flatMap { $0 as? Link }.forEach { print($0.title) }
                 listing2.children.flatMap { $0 as? Link }.forEach { print($0.title) }
             }
         }
@@ -91,29 +90,38 @@ func getSubreddits(with session: Session) {
     } catch { print(error) }
 }
 
-if let (username, password, clientID, secret) = (Bundle.main.url(forResource: "test_config.json", withExtension:nil)
-    .flatMap { NSData(contentsOf: $0) }
-    .flatMap {
-        do {
-            return try JSONSerialization.jsonObject(with: $0 as Data, options:[]) as? [String:String]
-        } catch { return nil }
-    }
-    .flatMap { getAccountInfo(from: $0) }) {
-        do {
-            try OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:({ (result) -> Void in
-                switch result {
-                case .failure(let error):
-                    print(error)
-                case .success(let token):
-                    let session = Session(token: token)
-                    getSubreddits(with: session)
-                    getLinksBy(with: session)
-                    getReleated(with: session)
-                    searchContents(with: session)
-                    searchSubreddits(with: session)
-                }
-            }))
-        } catch { print(error) }
+func loadAccount() -> (String, String, String, String)? {
+    return (Bundle.main.url(forResource: "test_config.json", withExtension:nil)
+        .flatMap { (url) -> Data? in
+            do {
+                return try Data(contentsOf: url)
+            } catch { return nil }
+        }
+        .flatMap {
+            do {
+                return try JSONSerialization.jsonObject(with: $0, options:[]) as? [String:String]
+            } catch { return nil }
+        }
+        .flatMap { getAccountInfo(from: $0) })
+}
+
+if let (username, password, clientID, secret) = loadAccount() {
+    do {
+        try OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:({ (result) -> Void in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let token):
+                let session = Session(token: token)
+                getProfile(with: session)
+                getSubreddits(with: session)
+                getLinksBy(with: session)
+                getReleated(with: session)
+                searchContents(with: session)
+                searchSubreddits(with: session)
+            }
+        }))
+    } catch { print(error) }
 }
 
 let anonymouseSession = Session()

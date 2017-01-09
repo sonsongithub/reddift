@@ -23,7 +23,7 @@ private func convertObjectToEscapedURLString(_ object: AnyObject?) -> String {
 /**
 Link content.
 */
-public struct Link: Thing {
+public struct Link: Thing, Created, Votable {
     /// identifier of Thing like 15bfi0.
     public let id: String
     /// name of Thing, that is fullname, like t3_15bfi0.

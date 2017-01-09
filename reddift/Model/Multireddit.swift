@@ -76,7 +76,7 @@ public enum MultiredditWeightingScheme: String {
 /**
 Multireddit class.
 */
-public struct Multireddit: SubredditURLPath {
+public struct Multireddit: SubredditURLPath, Created {
     public var descriptionMd: String
     public var displayName: String
     public var iconName: MultiredditIconName
@@ -92,8 +92,8 @@ public struct Multireddit: SubredditURLPath {
     public let iconUrl: String
     public let canEdit: Bool
     public let copiedFrom: String
-    public let created: TimeInterval
-    public let createdUtc: TimeInterval
+    public let created: Int
+    public let createdUtc: Int
     
     public init(name: String) {
         self.descriptionMd = ""
@@ -140,8 +140,8 @@ public struct Multireddit: SubredditURLPath {
         iconUrl = json["icon_url"] as? String ?? ""
         canEdit = json["can_edit"] as? Bool ?? false
         copiedFrom = json["copied_from"] as? String ?? ""
-        created = json["created"] as? TimeInterval ?? 0
-        createdUtc = json["created_utc"] as? TimeInterval ?? 0
+        created = json["created"] as? Int ?? 0
+        createdUtc = json["created_utc"] as? Int ?? 0
     }
     
     /**

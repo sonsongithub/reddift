@@ -29,7 +29,7 @@ extension ReddiftColor {
         var b: CGFloat = 0
         var a: CGFloat = 0
         self.getRed(&r, green: &g, blue: &b, alpha: &a)
-        if (includeAlpha) {
+        if includeAlpha {
             return String(format: "#%02X%02X%02X%02X", Int(r * 255), Int(g * 255), Int(b * 255), Int(a * 255))
         } else {
             return String(format: "#%02X%02X%02X", Int(r * 255), Int(g * 255), Int(b * 255))
@@ -45,7 +45,7 @@ public protocol SubredditURLPath {
 /**
 Subreddit object.
 */
-public struct Subreddit: SubredditURLPath, Thing {
+public struct Subreddit: SubredditURLPath, Thing, Created {
     /// identifier of Thing like 15bfi0.
     public let id: String
     /// name of Thing, that is fullname, like t3_15bfi0.
@@ -334,12 +334,12 @@ public struct Subreddit: SubredditURLPath, Thing {
     
     example: 1254666760
     */
-    public let  created: Int
+    public let created: Int
     /**
     The relative URL of the subreddit.  Ex: "/r/pics/"
     example: /r/woahdude/
     */
-    public let  url: String
+    public let url: String
     /**
     
     example: false
