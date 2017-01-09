@@ -46,12 +46,64 @@ import reddift
 //    print(error)
 //}
 
+private let detector: NSRegularExpression! = {
+    do {
+        return try NSRegularExpression(pattern: "<\\/a>(\\w+)[\\w\\(\\)\\|\\s]*?<\\/h3>\\s+<table>(.*?)<\\/table>", options: .dotMatchesLineSeparators)
+    } catch {
+        assert(false, "Fatal error: \(#file) \(#line) \(error)")
+        return nil
+    }
+}()
+
+private let entryDetector: NSRegularExpression! = {
+    do {
+        return try NSRegularExpression(pattern: "<tr>\\s<td align=\"left\">(.+?)<\\/td>\\s<td align=\"left\">(.+?)<\\/td>\\s<td align=\"left\">(.+?)<\\/td>\\s<\\/tr>", options: .dotMatchesLineSeparators)
+    } catch {
+        assert(false, "Fatal error: \(#file) \(#line) \(error)")
+        return nil
+    }
+}()
+
+private let tagDetector: NSRegularExpression! = {
+    do {
+        return try NSRegularExpression(pattern: "<.+?>", options: [])
+    } catch {
+        assert(false, "Fatal error: \(#file) \(#line) \(error)")
+        return nil
+    }
+}()
+
+extension String {
+    
+    func removeHTMLTag() -> String {
+        return self.replacingOccurrences(of: "<.+?>", with: "", options: .regularExpression, range: self.startIndex..<self.endIndex)
+    }
+}
+
+print(Date(timeIntervalSinceNow: 0))
 guard let apiUrl = URL(string: "https://github.com/reddit/reddit/wiki/JSON") else { abort() }
 let request = URLRequest(url: apiUrl)
 let task = URLSession(configuration: URLSessionConfiguration.default).dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
     if let data = data {
         if let str = String(data: data, encoding: .utf8) {
-            print(str)
+            let source: [(String, String)] = detector.matches(in: str, options: [], range: NSRange(location: 0, length: str.characters.count))
+            .map({
+                let title = (str as NSString).substring(with: $0.rangeAt(1))
+                let html = (str as NSString).substring(with: $0.rangeAt(2))
+                return (title, html)
+            })
+            let r: [[(String, String, String)]] = source.map({ (title, html) -> [(String, String, String)] in
+                let entries: [(String, String, String)] = entryDetector.matches(in: html, options: [], range: NSRange(location: 0, length: html.characters.count))
+                .map({
+                    let type = (html as NSString).substring(with: $0.rangeAt(1)).removeHTMLTag()
+                    let name = (html as NSString).substring(with: $0.rangeAt(2)).removeHTMLTag()
+                    let description = (html as NSString).substring(with: $0.rangeAt(3)).removeHTMLTag()
+                    return (type, name, description)
+                })
+                return entries
+            })
+            let b = r.flatMap({$0})
+            print(b)
         }
     }
 })
