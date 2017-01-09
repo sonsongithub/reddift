@@ -34,7 +34,7 @@ public func extendAllReplies(in comment: Thing, current depth: Int) -> ([(Thing,
 /**
 Comment object.
 */
-public struct Comment: Thing {
+public struct Comment: Thing, Created, Votable {
     /// identifier of Thing like 15bfi0.
     public let id: String
     /// name of Thing, that is fullname, like t3_15bfi0.
@@ -167,10 +167,11 @@ public struct Comment: Thing {
     example: 1
     */
     public let ups: Int
+    
     /**
 	   if the comment is stickied
    	*/
-   	public let  stickied:Bool
+   	public let stickied: Bool
     
     public var isExpandable: Bool {
         get {

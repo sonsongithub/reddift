@@ -11,7 +11,7 @@ import Foundation
 /**
 Message object.
 */
-public struct Message: Thing {
+public struct Message: Thing, Created {
     /// identifier of Thing like 15bfi0.
     public let id: String
     /// name of Thing, that is fullname, like t3_15bfi0.
@@ -43,7 +43,7 @@ public struct Message: Thing {
     
     example: 1427126074
     */
-    public let  created: Int
+    public let created: Int
     /**
     
     example: sonson_twit
