@@ -106,9 +106,9 @@ Concretely, you can access either value evaluating enum state like a following c
 
     // do not use "!" in your code
     switch(result) {
-    case .Failure(let error):
+    case .failure(let error):
         println(error)
-    case .Success(let listing):
+    case .success(let listing):
         // do something to listing
     }
 
@@ -123,9 +123,9 @@ Specifically, following sample code saves token as user name at reddit.com.
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         return OAuth2Authorizer.sharedInstance.receiveRedirect(url, completion:{(result) -> Void in
             switch result {
-            case .Failure(let error):
+            case .failure(let error):
                 print(error)
-            case .Success(let token):
+            case .success(let token):
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     OAuth2TokenRepository.saveIntoKeychainToken(token, name:token.name)
                 })
@@ -138,9 +138,9 @@ See following section about getting response or error handling.
 
 	let result = OAuth2TokenRepository.restoreFromKeychainWithName(name)
 	switch result {
-	case .Failure(let error):
+	case .failure(let error):
 	    print(error.description)
-	case .Success(let token):
+	case .success(let token):
 	    con.session = Session(token: token)
 	}
 
@@ -148,9 +148,9 @@ You can get contents from reddit via ```Session``` object like following codes.
 
     session?.getList(paginator, subreddit:subreddit, sort:sortTypes[seg.selectedSegmentIndex], timeFilterWithin:.All, completion: { (result) in
         switch result {
-        case .Failure(let error):
+        case .failure(let error):
             print(error)
-        case .Success(let listing):
+        case .success(let listing):
             self.links.appendContentsOf(listing.children.flatMap{$0 as? Link})
         }
     })
@@ -168,9 +168,9 @@ Do not use ```Oauth2AppOnlyToken``` in installed app in terms of security.
         secret: secret,
         completion:( { (result) -> Void in
         switch result {
-        case .Failure(let error):
+        case .failure(let error):
             print(error)
-        case .Success(let token):
+        case .success(let token):
             self.session = Session(token: token)
         }
     }))
@@ -185,7 +185,7 @@ You can play with reddift in Playground.
 In more detail, check reddift.playground package.
 Before using, you have to copy ```test_config.json``` into ```./reddift.playground/Resources``` in order to specify user account and your application informatin because reddift on Playground uses "Application Only OAuth".
 
-![playground](https://cloud.githubusercontent.com/assets/33768/9929315/deb40d78-5d66-11e5-908f-0445ad57ef90.png)
+![playground](https://cloud.githubusercontent.com/assets/33768/21675684/01d132d2-d376-11e6-9c12-77c034a74c9d.png)
 
 ## Dependency
 

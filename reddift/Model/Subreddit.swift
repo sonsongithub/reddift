@@ -8,6 +8,35 @@
 
 import Foundation
 
+extension ReddiftColor {
+    public class func color(with hexString: String) -> ReddiftColor {
+        let hexString = hexString.replacingOccurrences(of: "#", with: "")
+        let scanner = Scanner(string: hexString)
+        var color: UInt32 = 0
+        if scanner.scanHexInt32(&color) {
+            let r = CGFloat((color & 0xFF0000) >> 16) / 255.0
+            let g = CGFloat((color & 0x00FF00) >> 8) / 255.0
+            let b = CGFloat(color & 0x0000FF) / 255.0
+            return ReddiftColor(red: r, green: g, blue: b, alpha: 1)
+        } else {
+            return ReddiftColor.white
+        }
+    }
+    
+    public func hexString(_ includeAlpha: Bool = false) -> String {
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        self.getRed(&r, green: &g, blue: &b, alpha: &a)
+        if (includeAlpha) {
+            return String(format: "#%02X%02X%02X%02X", Int(r * 255), Int(g * 255), Int(b * 255), Int(a * 255))
+        } else {
+            return String(format: "#%02X%02X%02X", Int(r * 255), Int(g * 255), Int(b * 255))
+        }
+    }
+}
+
 /// Protocol to integrate a code for subreddit and multireddit.
 public protocol SubredditURLPath {
     var path: String {get}
@@ -362,6 +391,34 @@ public struct Subreddit: SubredditURLPath, Thing {
     example: true
     */
     public let userIsSubscriber: Bool
+
+    /**
+    show thumbnail images of content
+    example: false
+    */
+    public let showMedia: Bool
+
+    /**
+    expand media previews on comments pages
+    example: false
+    */
+    public let showMediaPreview: Bool
+    
+    /**
+    enabled to use wiki of the subreddit.
+    example: false
+     */
+    public let wikiEnabled: Bool
+    
+    /**
+    */
+    public let userIsMuted: Bool
+    
+    public let language: String
+    
+    public let keyColor: ReddiftColor
+    
+    public let quarantine: Bool
     
     public var path: String {
         return "/r/\(displayName)"
@@ -412,6 +469,13 @@ public struct Subreddit: SubredditURLPath, Thing {
         submissionType = ""
         userIsSubscriber = false
 		JSONData = nil
+        showMedia = false
+        showMediaPreview = false
+        wikiEnabled = false
+        userIsMuted = false
+        language = "en"
+        keyColor = ReddiftColor.white
+        quarantine = false
     }
 
     public init(id: String) {
@@ -453,6 +517,13 @@ public struct Subreddit: SubredditURLPath, Thing {
         submissionType = ""
         userIsSubscriber = false
 		JSONData = nil
+        showMedia = false
+        showMediaPreview = false
+        wikiEnabled = false
+        userIsMuted = false
+        language = "en"
+        keyColor = ReddiftColor.white
+        quarantine = false
     }
     
     /**
@@ -504,5 +575,13 @@ public struct Subreddit: SubredditURLPath, Thing {
         submissionType = data["submission_type"] as? String ?? ""
         userIsSubscriber = data["user_is_subscriber"] as? Bool ?? false
 		JSONData = data
+        showMedia = data["show_media"] as? Bool ?? false
+        showMediaPreview = data["show_media_preview"] as? Bool ?? false
+        wikiEnabled = data["wiki_enabled"] as? Bool ?? false
+        userIsMuted = data["user_is_muted"] as? Bool ?? false
+        language = data["lang"] as? String ?? "en"
+        let colorHex = data["key_color"] as? String ?? "#FFFFFF"
+        keyColor = ReddiftColor.color(with: colorHex)
+        quarantine = data["quarantine"] as? Bool ?? false
     }
 }
