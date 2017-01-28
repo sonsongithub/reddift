@@ -515,6 +515,13 @@
 		144B59771E3C823500C88DB9 /* test_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 144B58341E3C815300C88DB9 /* test_config.json */; };
 		144B59781E3C823600C88DB9 /* test_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 144B58341E3C815300C88DB9 /* test_config.json */; };
 		144B59791E3C823600C88DB9 /* test_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 144B58341E3C815300C88DB9 /* test_config.json */; };
+		144B5B381E3C8FBA00C88DB9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144B5B371E3C8FBA00C88DB9 /* AppDelegate.swift */; };
+		144B5B3A1E3C8FBA00C88DB9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144B5B391E3C8FBA00C88DB9 /* ViewController.swift */; };
+		144B5B3D1E3C8FBA00C88DB9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 144B5B3B1E3C8FBA00C88DB9 /* Main.storyboard */; };
+		144B5B3F1E3C8FBA00C88DB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 144B5B3E1E3C8FBA00C88DB9 /* Assets.xcassets */; };
+		144B5B421E3C8FBA00C88DB9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 144B5B401E3C8FBA00C88DB9 /* LaunchScreen.storyboard */; };
+		144B5B471E3C8FE400C88DB9 /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; };
+		144B5B481E3C8FE400C88DB9 /* reddift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		14B5EBBC1AF34D590065BC5E /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; };
 		14F8120B1AF9EA9F008F6F3C /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F812001AF9EA9F008F6F3C /* reddift.framework */; };
 /* End PBXBuildFile section */
@@ -526,6 +533,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 14364C8C1BEDA09F00FECE58;
 			remoteInfo = "reddift-tvOS";
+		};
+		144B5B491E3C8FE400C88DB9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 147EAD981AD78568007FA2F4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 14B5EBB01AF34D580065BC5E;
+			remoteInfo = "reddift-iOS";
 		};
 		14B5EBBD1AF34D590065BC5E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -542,6 +556,20 @@
 			remoteInfo = "reddift-OSX";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		144B5B4B1E3C8FE400C88DB9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				144B5B481E3C8FE400C88DB9 /* reddift.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		141036D41E239F420029C657 /* data.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = data.playground; path = playground/data.playground; sourceTree = "<group>"; };
@@ -657,6 +685,13 @@
 		144B59301E3C821800C88DB9 /* SessionTestSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionTestSpec.swift; path = test/SessionTestSpec.swift; sourceTree = SOURCE_ROOT; };
 		144B59311E3C821800C88DB9 /* SubredditsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SubredditsTest.swift; path = test/SubredditsTest.swift; sourceTree = SOURCE_ROOT; };
 		144B59321E3C821800C88DB9 /* UsersTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UsersTest.swift; path = test/UsersTest.swift; sourceTree = SOURCE_ROOT; };
+		144B5B351E3C8FBA00C88DB9 /* application.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = application.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		144B5B371E3C8FBA00C88DB9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		144B5B391E3C8FBA00C88DB9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		144B5B3C1E3C8FBA00C88DB9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		144B5B3E1E3C8FBA00C88DB9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		144B5B411E3C8FBA00C88DB9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		144B5B431E3C8FBA00C88DB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14B5EBB11AF34D580065BC5E /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14B5EBBB1AF34D580065BC5E /* reddift-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "reddift-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14F812001AF9EA9F008F6F3C /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -676,6 +711,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				14364C971BEDA09F00FECE58 /* reddift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		144B5B321E3C8FBA00C88DB9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				144B5B471E3C8FE400C88DB9 /* reddift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -901,9 +944,23 @@
 			name = MiniKeychain;
 			sourceTree = "<group>";
 		};
+		144B5B361E3C8FBA00C88DB9 /* application */ = {
+			isa = PBXGroup;
+			children = (
+				144B5B371E3C8FBA00C88DB9 /* AppDelegate.swift */,
+				144B5B391E3C8FBA00C88DB9 /* ViewController.swift */,
+				144B5B3B1E3C8FBA00C88DB9 /* Main.storyboard */,
+				144B5B3E1E3C8FBA00C88DB9 /* Assets.xcassets */,
+				144B5B401E3C8FBA00C88DB9 /* LaunchScreen.storyboard */,
+				144B5B431E3C8FBA00C88DB9 /* Info.plist */,
+			);
+			path = application;
+			sourceTree = "<group>";
+		};
 		147EAD971AD78568007FA2F4 = {
 			isa = PBXGroup;
 			children = (
+				144B5B361E3C8FBA00C88DB9 /* application */,
 				144B56661E3C7CE700C88DB9 /* framework */,
 				14E3BAA61BBA4DA800BDDF29 /* playground */,
 				147EADB81AD78568007FA2F4 /* test */,
@@ -920,6 +977,7 @@
 				14F8120A1AF9EA9F008F6F3C /* reddift-macOSTests.xctest */,
 				14364C8D1BEDA09F00FECE58 /* reddift.framework */,
 				14364C961BEDA09F00FECE58 /* reddift-tvOSTests.xctest */,
+				144B5B351E3C8FBA00C88DB9 /* application.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1069,6 +1127,25 @@
 			productReference = 14364C961BEDA09F00FECE58 /* reddift-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		144B5B341E3C8FBA00C88DB9 /* application */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 144B5B461E3C8FBA00C88DB9 /* Build configuration list for PBXNativeTarget "application" */;
+			buildPhases = (
+				144B5B311E3C8FBA00C88DB9 /* Sources */,
+				144B5B321E3C8FBA00C88DB9 /* Frameworks */,
+				144B5B331E3C8FBA00C88DB9 /* Resources */,
+				144B5B4B1E3C8FE400C88DB9 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				144B5B4A1E3C8FE400C88DB9 /* PBXTargetDependency */,
+			);
+			name = application;
+			productName = application;
+			productReference = 144B5B351E3C8FBA00C88DB9 /* application.app */;
+			productType = "com.apple.product-type.application";
+		};
 		14B5EBB01AF34D580065BC5E /* reddift-iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14B5EBC41AF34D590065BC5E /* Build configuration list for PBXNativeTarget "reddift-iOS" */;
@@ -1149,7 +1226,7 @@
 		147EAD981AD78568007FA2F4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0710;
+				LastSwiftUpdateCheck = 0820;
 				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = sonson;
 				TargetAttributes = {
@@ -1160,6 +1237,11 @@
 					};
 					14364C951BEDA09F00FECE58 = {
 						CreatedOnToolsVersion = 7.1;
+					};
+					144B5B341E3C8FBA00C88DB9 = {
+						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = JP866VWWSD;
+						ProvisioningStyle = Automatic;
 					};
 					14B5EBB01AF34D580065BC5E = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -1193,6 +1275,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				144B5B341E3C8FBA00C88DB9 /* application */,
 				14B5EBB01AF34D580065BC5E /* reddift-iOS */,
 				14B5EBBA1AF34D580065BC5E /* reddift-iOSTests */,
 				14364C8C1BEDA09F00FECE58 /* reddift-tvOS */,
@@ -1241,6 +1324,16 @@
 				144B591D1E3C81E600C88DB9 /* create_token.json in Resources */,
 				144B58B61E3C81D900C88DB9 /* t4.json in Resources */,
 				144B58E81E3C81DF00C88DB9 /* comments_extend.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		144B5B331E3C8FBA00C88DB9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				144B5B421E3C8FBA00C88DB9 /* LaunchScreen.storyboard in Resources */,
+				144B5B3F1E3C8FBA00C88DB9 /* Assets.xcassets in Resources */,
+				144B5B3D1E3C8FBA00C88DB9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1523,6 +1616,15 @@
 				144B57DC1E3C7D5E00C88DB9 /* Votable.swift in Sources */,
 				144B56FE1E3C7D5200C88DB9 /* Session+liveThreads.swift in Sources */,
 				144B57AC1E3C7D5E00C88DB9 /* Paginator.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		144B5B311E3C8FBA00C88DB9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				144B5B3A1E3C8FBA00C88DB9 /* ViewController.swift in Sources */,
+				144B5B381E3C8FBA00C88DB9 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1842,6 +1944,11 @@
 			target = 14364C8C1BEDA09F00FECE58 /* reddift-tvOS */;
 			targetProxy = 14364C981BEDA09F00FECE58 /* PBXContainerItemProxy */;
 		};
+		144B5B4A1E3C8FE400C88DB9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 14B5EBB01AF34D580065BC5E /* reddift-iOS */;
+			targetProxy = 144B5B491E3C8FE400C88DB9 /* PBXContainerItemProxy */;
+		};
 		14B5EBBE1AF34D590065BC5E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 14B5EBB01AF34D580065BC5E /* reddift-iOS */;
@@ -1853,6 +1960,25 @@
 			targetProxy = 14F8120C1AF9EA9F008F6F3C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		144B5B3B1E3C8FBA00C88DB9 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				144B5B3C1E3C8FBA00C88DB9 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		144B5B401E3C8FBA00C88DB9 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				144B5B411E3C8FBA00C88DB9 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		14364C9E1BEDA09F00FECE58 /* Debug */ = {
@@ -1952,6 +2078,44 @@
 			};
 			name = Release;
 		};
+		144B5B441E3C8FBA00C88DB9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = JP866VWWSD;
+				INFOPLIST_FILE = application/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sonson.reddift.application;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		144B5B451E3C8FBA00C88DB9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = JP866VWWSD;
+				INFOPLIST_FILE = application/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sonson.reddift.application;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		147EADBD1AD78568007FA2F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2048,6 +2212,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = JP866VWWSD;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -2078,6 +2243,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = JP866VWWSD;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -2278,6 +2444,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		144B5B461E3C8FBA00C88DB9 /* Build configuration list for PBXNativeTarget "application" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				144B5B441E3C8FBA00C88DB9 /* Debug */,
+				144B5B451E3C8FBA00C88DB9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		147EAD9B1AD78568007FA2F4 /* Build configuration list for PBXProject "reddift" */ = {
 			isa = XCConfigurationList;
