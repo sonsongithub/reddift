@@ -7,6 +7,11 @@
 //
 
 import Foundation
+#if os(iOS) || os(tvOS)
+    import UIKit
+#elseif os(macOS)
+    import Cocoa
+#endif
 
 extension ReddiftColor {
     public class func color(with hexString: String) -> ReddiftColor {
