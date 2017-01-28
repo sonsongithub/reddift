@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   }
 
   s.subspec 'MiniKeychain' do |subspec|
-    subspec.source_files = 'reddift/vendor/MiniKeychain/MiniKeychain/MiniKeychain.swift'
+    subspec.source_files = 'framework/vendor/MiniKeychain/MiniKeychain/MiniKeychain.swift'
   end
 
   s.social_media_url = 'https://twitter.com/sonson_twit'
@@ -27,5 +27,5 @@ Pod::Spec.new do |s|
   s.tvos.deployment_target = "9.0"
   s.requires_arc = true
 
-  s.source_files = 'reddift/*/*.swift', 'reddift/vendor/Google/*.{h,m}'
+  s.source_files = 'framework/*/*.swift', 'framework/vendor/Google/*.{h,m}'
 end
