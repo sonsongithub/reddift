@@ -1,9 +1,9 @@
 //
 //  ViewController.swift
-//  application
+//  reddift
 //
-//  Created by sonson on 2017/01/28.
-//  Copyright © 2017年 sonson. All rights reserved.
+//  Created by sonson on 2015/09/01.
+//  Copyright (c) 2015年 sonson. All rights reserved.
 //
 
 import UIKit
@@ -22,4 +22,3 @@ class ViewController: UIViewController {
 
 
 }
-
