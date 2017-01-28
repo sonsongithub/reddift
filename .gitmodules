@@ -1,0 +1,3 @@
+[submodule "framework/vendor/MiniKeychain"]
+	path = framework/vendor/MiniKeychain
+	url = https://github.com/sonsongithub/MiniKeychain.git
