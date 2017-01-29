@@ -4,18 +4,21 @@
 [![Platform](https://img.shields.io/cocoapods/p/reddift.svg?style=flat)](http://cocoadocs.org/docsets/reddift)
 
 # reddift
-reddift is Swift Reddit API Wrapper.
+reddift is Swift Reddit API Wrapper framework, and includes a browser is developed using the framework.
 
  * Supports OAuth2(is not supported on tvOS currently).
  * Supports multi-accounts.
  * Includes a sample application(iOS only).
 
-## Sample on iOS
-![sc02](https://cloud.githubusercontent.com/assets/33768/7570674/e68381c0-f84c-11e4-914b-532f9fd06e19.png)　
-![sc01](https://cloud.githubusercontent.com/assets/33768/7570673/e653f39c-f84c-11e4-98c7-2c3e9ef872ad.png)
+## Browser
 
-## Sample on tvOS
-![simulator screen shot 2015 11 18 14 48 05](https://cloud.githubusercontent.com/assets/33768/11233653/71979ba6-8e03-11e5-9ca5-077bcf2abfa5.png)
+ * It's a typical browser of reddit.com.
+ * This application uses "reddift framework" in order to access reddit.com.
+ * Includes almost all of functions, such as image thumbnails, browsing comments, search subreddits and so on.
+ * If you need more features to this, please send pull requests to me.
+
+![reddift-comments](https://cloud.githubusercontent.com/assets/33768/22405496/0c84f384-e687-11e6-9658-5ebf9d39a082.gif) 
+![reddift-images](https://cloud.githubusercontent.com/assets/33768/22405518/62246ed2-e687-11e6-9f4a-ce45c1d5bd71.gif)
 
 ## Document
 
