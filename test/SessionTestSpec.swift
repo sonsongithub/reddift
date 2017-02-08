@@ -15,7 +15,9 @@ extension Array {
     func checkAllElementsIncludedIn<T: Equatable>(_ array: [T]) -> Bool {
         var result = true
         for obj in self {
-            result = result && (array.index(of: obj as! T) != nil)
+            if let obj = obj as? T {
+                result = result && (array.index(of: obj) != nil)
+            }
         }
         return result
     }

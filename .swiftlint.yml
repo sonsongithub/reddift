@@ -12,16 +12,16 @@ excluded:
 - reddiftSampleTV
 
 file_length:
-  warning: 800
-  error: 1000
+  warning: 2000
+  error: 4000
 
 line_length:
-  warning: 800
-  error: 1000
+  warning: 10000
+  error: 20000
 
 type_body_length:
-  warning: 600
-  error: 800
+  warning: 1000
+  error: 2000
 
 variable_name:
   max_length:

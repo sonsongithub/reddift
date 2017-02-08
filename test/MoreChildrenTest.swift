@@ -47,7 +47,7 @@ class MoreChildrenTest: SessionTestSpec {
             do {
                 let documentOpenExpectation = self.expectation(description: "")
                 try session?.getMoreChildren($0.children, link: link, sort: .new, completion: { (result) -> Void in
-                    switch(result) {
+                    switch result {
                     case .failure(let error):
                         print(error)
                         check = false

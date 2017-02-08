@@ -519,6 +519,8 @@
 		144B5B471E3C8FE400C88DB9 /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; };
 		144B5B481E3C8FE400C88DB9 /* reddift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		14B5EBBC1AF34D590065BC5E /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; };
+		14B963BE1E4AF193007C2BC4 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B963BB1E4AF193007C2BC4 /* FLAnimatedImage.m */; };
+		14B963BF1E4AF193007C2BC4 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B963BD1E4AF193007C2BC4 /* FLAnimatedImageView.m */; };
 		14F8120B1AF9EA9F008F6F3C /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F812001AF9EA9F008F6F3C /* reddift.framework */; };
 		14FD7D641E3C940600F4A7F9 /* AccountListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7D621E3C940600F4A7F9 /* AccountListViewController.swift */; };
 		14FD7D651E3C940600F4A7F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7D631E3C940600F4A7F9 /* AppDelegate.swift */; };
@@ -595,8 +597,6 @@
 		14FD7DF51E3C944500F4A7F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7DD61E3C944500F4A7F9 /* ViewController.swift */; };
 		14FD7DF61E3C944500F4A7F9 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7DD71E3C944500F4A7F9 /* WebViewController.swift */; };
 		14FD7DFA1E3C953C00F4A7F9 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7DF91E3C953C00F4A7F9 /* GTMNSString+HTML.m */; };
-		14FD7E001E3C955A00F4A7F9 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7DFD1E3C955A00F4A7F9 /* FLAnimatedImage.m */; };
-		14FD7E011E3C955A00F4A7F9 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7DFF1E3C955A00F4A7F9 /* FLAnimatedImageView.m */; };
 		14FD7E081E3C956800F4A7F9 /* UZCursorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7E031E3C956800F4A7F9 /* UZCursorView.m */; };
 		14FD7E091E3C956800F4A7F9 /* UZLoupeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7E051E3C956800F4A7F9 /* UZLoupeView.m */; };
 		14FD7E0A1E3C956800F4A7F9 /* UZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7E071E3C956800F4A7F9 /* UZTextView.m */; };
@@ -770,6 +770,10 @@
 		144B5B4C1E3C90FA00C88DB9 /* application-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "application-Bridging-Header.h"; sourceTree = "<group>"; };
 		14B5EBB11AF34D580065BC5E /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14B5EBBB1AF34D580065BC5E /* reddift-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "reddift-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		14B963BA1E4AF193007C2BC4 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImage.h; path = vendor/FLAnimatedImage/FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImage.h; sourceTree = "<group>"; };
+		14B963BB1E4AF193007C2BC4 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImage.m; path = vendor/FLAnimatedImage/FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImage.m; sourceTree = "<group>"; };
+		14B963BC1E4AF193007C2BC4 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageView.h; path = vendor/FLAnimatedImage/FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImageView.h; sourceTree = "<group>"; };
+		14B963BD1E4AF193007C2BC4 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImageView.m; path = vendor/FLAnimatedImage/FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImageView.m; sourceTree = "<group>"; };
 		14F812001AF9EA9F008F6F3C /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14F8120A1AF9EA9F008F6F3C /* reddift-macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "reddift-macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14FD7D621E3C940600F4A7F9 /* AccountListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountListViewController.swift; sourceTree = "<group>"; };
@@ -850,10 +854,6 @@
 		14FD7DF71E3C953C00F4A7F9 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMDefines.h; path = vendor/Google/GTMDefines.h; sourceTree = "<group>"; };
 		14FD7DF81E3C953C00F4A7F9 /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GTMNSString+HTML.h"; path = "vendor/Google/GTMNSString+HTML.h"; sourceTree = "<group>"; };
 		14FD7DF91E3C953C00F4A7F9 /* GTMNSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GTMNSString+HTML.m"; path = "vendor/Google/GTMNSString+HTML.m"; sourceTree = "<group>"; };
-		14FD7DFC1E3C955A00F4A7F9 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImage.h; path = vendor/FLAnimatedImage/FLAnimatedImage/FLAnimatedImage.h; sourceTree = "<group>"; };
-		14FD7DFD1E3C955A00F4A7F9 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImage.m; path = vendor/FLAnimatedImage/FLAnimatedImage/FLAnimatedImage.m; sourceTree = "<group>"; };
-		14FD7DFE1E3C955A00F4A7F9 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageView.h; path = vendor/FLAnimatedImage/FLAnimatedImage/FLAnimatedImageView.h; sourceTree = "<group>"; };
-		14FD7DFF1E3C955A00F4A7F9 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImageView.m; path = vendor/FLAnimatedImage/FLAnimatedImage/FLAnimatedImageView.m; sourceTree = "<group>"; };
 		14FD7E021E3C956800F4A7F9 /* UZCursorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UZCursorView.h; path = vendor/UZTextView/UZTextView/UZCursorView.h; sourceTree = "<group>"; };
 		14FD7E031E3C956800F4A7F9 /* UZCursorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UZCursorView.m; path = vendor/UZTextView/UZTextView/UZCursorView.m; sourceTree = "<group>"; };
 		14FD7E041E3C956800F4A7F9 /* UZLoupeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UZLoupeView.h; path = vendor/UZTextView/UZTextView/UZLoupeView.h; sourceTree = "<group>"; };
@@ -1308,10 +1308,10 @@
 				14FD7E051E3C956800F4A7F9 /* UZLoupeView.m */,
 				14FD7E061E3C956800F4A7F9 /* UZTextView.h */,
 				14FD7E071E3C956800F4A7F9 /* UZTextView.m */,
-				14FD7DFC1E3C955A00F4A7F9 /* FLAnimatedImage.h */,
-				14FD7DFD1E3C955A00F4A7F9 /* FLAnimatedImage.m */,
-				14FD7DFE1E3C955A00F4A7F9 /* FLAnimatedImageView.h */,
-				14FD7DFF1E3C955A00F4A7F9 /* FLAnimatedImageView.m */,
+				14B963BA1E4AF193007C2BC4 /* FLAnimatedImage.h */,
+				14B963BB1E4AF193007C2BC4 /* FLAnimatedImage.m */,
+				14B963BC1E4AF193007C2BC4 /* FLAnimatedImageView.h */,
+				14B963BD1E4AF193007C2BC4 /* FLAnimatedImageView.m */,
 				14FD7DF71E3C953C00F4A7F9 /* GTMDefines.h */,
 				14FD7DF81E3C953C00F4A7F9 /* GTMNSString+HTML.h */,
 				14FD7DF91E3C953C00F4A7F9 /* GTMNSString+HTML.m */,
@@ -1906,13 +1906,11 @@
 			files = (
 				14FD7D811E3C941900F4A7F9 /* CommentViewController.swift in Sources */,
 				14FD7D8A1E3C941900F4A7F9 /* ImageViewPageController.swift in Sources */,
-				14FD7E001E3C955A00F4A7F9 /* FLAnimatedImage.m in Sources */,
 				14FD7DED1E3C944500F4A7F9 /* ThumbnailLinkCell.swift in Sources */,
 				14FD7D8C1E3C941900F4A7F9 /* ImageViewPageModalAnimator.swift in Sources */,
 				14FD7DEE1E3C944500F4A7F9 /* ThumbnailLinkContainer.swift in Sources */,
 				14FD7E0A1E3C956800F4A7F9 /* UZTextView.m in Sources */,
 				14FD7D861E3C941900F4A7F9 /* ImageDownloader.swift in Sources */,
-				14FD7E011E3C955A00F4A7F9 /* FLAnimatedImageView.m in Sources */,
 				14FD7DAF1E3C943400F4A7F9 /* MoreContainer.swift in Sources */,
 				14FD7D821E3C941900F4A7F9 /* ContentInfoView.swift in Sources */,
 				14FD7D851E3C941900F4A7F9 /* FrontViewController.swift in Sources */,
@@ -1921,7 +1919,9 @@
 				14FD7DD81E3C944500F4A7F9 /* ReddiftAPPError.swift in Sources */,
 				14FD7DAA1E3C943400F4A7F9 /* MediaLinkCell.swift in Sources */,
 				14FD7D7C1E3C941900F4A7F9 /* CommentCell.swift in Sources */,
+				14B963BE1E4AF193007C2BC4 /* FLAnimatedImage.m in Sources */,
 				14FD7DE81E3C944500F4A7F9 /* TabSelectViewController.swift in Sources */,
+				14B963BF1E4AF193007C2BC4 /* FLAnimatedImageView.m in Sources */,
 				14FD7DDC1E3C944500F4A7F9 /* String+reddift.swift in Sources */,
 				14FD7DDE1E3C944500F4A7F9 /* SubredditListCategoryTargetType.swift in Sources */,
 				14FD7E0C1E3C957600F4A7F9 /* YouTubeGetVideoInfoAPIParser.swift in Sources */,
