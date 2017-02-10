@@ -17,7 +17,7 @@ public struct MultiredditDescription {
     
     public init(json: JSONDictionary) {
         let tempBodyHtml = json["body_html"] as? String ?? ""
-        bodyHtml = tempBodyHtml.gtm_stringByUnescapingFromHTML()
+        bodyHtml = tempBodyHtml.unescapeHTML
         bodyMd = json["body_md"] as? String ?? ""
     }
 }

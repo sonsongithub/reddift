@@ -302,9 +302,9 @@ public struct Link: Thing, Created, Votable {
         bannedBy = data["banned_by"] as? String ?? ""
         subreddit = data["subreddit"] as? String ?? ""
         let tempSelftextHtml = data["selftext_html"] as? String ?? ""
-        selftextHtml = tempSelftextHtml.gtm_stringByUnescapingFromHTML()
+        selftextHtml = tempSelftextHtml.unescapeHTML
         let tempSelftext = data["selftext"] as? String ?? ""
-        selftext = tempSelftext.gtm_stringByUnescapingFromHTML()
+        selftext = tempSelftext.unescapeHTML
         if let temp = data["likes"] as? Bool {
             likes = temp ? .up : .down
         } else {
@@ -329,17 +329,17 @@ public struct Link: Thing, Created, Votable {
         saved = data["saved"] as? Bool ?? false
         isSelf = data["is_self"] as? Bool ?? false
         let tempName = data["name"] as? String ?? ""
-        name = tempName.gtm_stringByUnescapingFromHTML()
+        name = tempName.unescapeHTML
         permalink = data["permalink"] as? String ?? ""
         stickied = data["stickied"] as? Bool ?? false
         created = data["created"] as? Int ?? 0
         
         let tempUrl = data["url"] as? String ?? ""
-        url = tempUrl.gtm_stringByUnescapingFromHTML()
+        url = tempUrl.unescapeHTML
         
         authorFlairText = data["author_flair_text"] as? String ?? ""
         let tempTitle = data["title"] as? String ?? ""
-        title = tempTitle.gtm_stringByUnescapingFromHTML()
+        title = tempTitle.unescapeHTML
         createdUtc = data["created_utc"] as? Int ?? 0
         ups = data["ups"] as? Int ?? 0
         upvoteRatio = data["upvote_ratio"] as? Double ?? 0

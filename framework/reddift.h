@@ -18,7 +18,4 @@ FOUNDATION_EXPORT double reddiftVersionNumber;
 //! Project version string for reddift.
 FOUNDATION_EXPORT const unsigned char reddiftVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <reddift/PublicHeader.h>
-#import "GTMDefines.h"
-#import "GTMNSString+HTML.h"
-
+// In this header, you should import all the public headers of your framework using statements like #import <reddift/PublicHeader.h
