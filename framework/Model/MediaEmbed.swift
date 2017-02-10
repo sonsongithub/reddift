@@ -30,7 +30,7 @@ public struct MediaEmbed {
 		height = json["height"] as? Int ?? 0
         width = json["width"] as? Int ?? 0
 		let tempContent = json["content"] as? String ?? ""
-        content = tempContent.gtm_stringByUnescapingFromHTML()
+        content = tempContent.unescapeHTML
 		scrolling = json["scrolling"] as? Bool ?? false
     }
     
