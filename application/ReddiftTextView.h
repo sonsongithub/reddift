@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UZTextView.h"
+#import <UZTextView/UZTextView.h>
 
 @class ReddiftTextView;
 

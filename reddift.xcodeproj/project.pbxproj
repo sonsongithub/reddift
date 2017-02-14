@@ -8,12 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		14364C971BEDA09F00FECE58 /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14364C8D1BEDA09F00FECE58 /* reddift.framework */; };
-		1436ADEA1E4DC8AA00399707 /* UnescapeHTMLSpecialChars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1436ADE81E4DC83400399707 /* UnescapeHTMLSpecialChars.swift */; };
-		1436ADEB1E4DC8AB00399707 /* UnescapeHTMLSpecialChars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1436ADE81E4DC83400399707 /* UnescapeHTMLSpecialChars.swift */; };
-		1436ADEC1E4DC8AC00399707 /* UnescapeHTMLSpecialChars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1436ADE81E4DC83400399707 /* UnescapeHTMLSpecialChars.swift */; };
-		1436ADED1E4DC8B300399707 /* UnescapeHTMLSpecialChars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1436ADE81E4DC83400399707 /* UnescapeHTMLSpecialChars.swift */; };
-		1436ADEE1E4DC8B400399707 /* UnescapeHTMLSpecialChars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1436ADE81E4DC83400399707 /* UnescapeHTMLSpecialChars.swift */; };
-		1436ADEF1E4DC8B400399707 /* UnescapeHTMLSpecialChars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1436ADE81E4DC83400399707 /* UnescapeHTMLSpecialChars.swift */; };
 		144B56761E3C7D3700C88DB9 /* helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144B56731E3C7D3700C88DB9 /* helper.swift */; };
 		144B56771E3C7D3700C88DB9 /* helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144B56731E3C7D3700C88DB9 /* helper.swift */; };
 		144B56781E3C7D3700C88DB9 /* helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144B56731E3C7D3700C88DB9 /* helper.swift */; };
@@ -512,9 +506,19 @@
 		144B5B3F1E3C8FBA00C88DB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 144B5B3E1E3C8FBA00C88DB9 /* Assets.xcassets */; };
 		144B5B471E3C8FE400C88DB9 /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; };
 		144B5B481E3C8FE400C88DB9 /* reddift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1485328B1E536E2800702442 /* HTMLSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148532891E536DFB00702442 /* HTMLSpecialCharacters.swift */; };
+		1485328C1E536E2900702442 /* HTMLSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148532891E536DFB00702442 /* HTMLSpecialCharacters.swift */; };
+		1485328D1E536E2900702442 /* HTMLSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148532891E536DFB00702442 /* HTMLSpecialCharacters.swift */; };
+		1485328E1E536E2900702442 /* HTMLSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148532891E536DFB00702442 /* HTMLSpecialCharacters.swift */; };
+		148532901E536E2B00702442 /* HTMLSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148532891E536DFB00702442 /* HTMLSpecialCharacters.swift */; };
+		148532911E536E2B00702442 /* HTMLSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148532891E536DFB00702442 /* HTMLSpecialCharacters.swift */; };
+		148532971E53701D00702442 /* YouTubeGetVideoInfoAPIParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148532941E53701D00702442 /* YouTubeGetVideoInfoAPIParser.framework */; };
+		148532981E53702E00702442 /* FLAnimatedImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148532921E53701D00702442 /* FLAnimatedImage.framework */; };
+		148532991E53702E00702442 /* FLAnimatedImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 148532921E53701D00702442 /* FLAnimatedImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1485329A1E53702E00702442 /* UZTextView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148532931E53701D00702442 /* UZTextView.framework */; };
+		1485329B1E53702E00702442 /* UZTextView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 148532931E53701D00702442 /* UZTextView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1485329D1E53702E00702442 /* YouTubeGetVideoInfoAPIParser.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 148532941E53701D00702442 /* YouTubeGetVideoInfoAPIParser.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		14B5EBBC1AF34D590065BC5E /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; };
-		14B963BE1E4AF193007C2BC4 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B963BB1E4AF193007C2BC4 /* FLAnimatedImage.m */; };
-		14B963BF1E4AF193007C2BC4 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B963BD1E4AF193007C2BC4 /* FLAnimatedImageView.m */; };
 		14F8120B1AF9EA9F008F6F3C /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F812001AF9EA9F008F6F3C /* reddift.framework */; };
 		14FD7D641E3C940600F4A7F9 /* AccountListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7D621E3C940600F4A7F9 /* AccountListViewController.swift */; };
 		14FD7D651E3C940600F4A7F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7D631E3C940600F4A7F9 /* AppDelegate.swift */; };
@@ -590,11 +594,6 @@
 		14FD7DF41E3C944500F4A7F9 /* UZTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7DD51E3C944500F4A7F9 /* UZTextViewCell.swift */; };
 		14FD7DF51E3C944500F4A7F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7DD61E3C944500F4A7F9 /* ViewController.swift */; };
 		14FD7DF61E3C944500F4A7F9 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7DD71E3C944500F4A7F9 /* WebViewController.swift */; };
-		14FD7DFA1E3C953C00F4A7F9 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7DF91E3C953C00F4A7F9 /* GTMNSString+HTML.m */; };
-		14FD7E081E3C956800F4A7F9 /* UZCursorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7E031E3C956800F4A7F9 /* UZCursorView.m */; };
-		14FD7E091E3C956800F4A7F9 /* UZLoupeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7E051E3C956800F4A7F9 /* UZLoupeView.m */; };
-		14FD7E0A1E3C956800F4A7F9 /* UZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7E071E3C956800F4A7F9 /* UZTextView.m */; };
-		14FD7E0C1E3C957600F4A7F9 /* YouTubeGetVideoInfoAPIParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7E0B1E3C957600F4A7F9 /* YouTubeGetVideoInfoAPIParser.swift */; };
 		14FD7E0F1E3C97BE00F4A7F9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14FD7E0D1E3C97BE00F4A7F9 /* LaunchScreen.xib */; };
 		14FD7E121E3C97CF00F4A7F9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14FD7E101E3C97CF00F4A7F9 /* Main.storyboard */; };
 /* End PBXBuildFile section */
@@ -637,7 +636,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				1485329B1E53702E00702442 /* UZTextView.framework in Embed Frameworks */,
+				1485329D1E53702E00702442 /* YouTubeGetVideoInfoAPIParser.framework in Embed Frameworks */,
 				144B5B481E3C8FE400C88DB9 /* reddift.framework in Embed Frameworks */,
+				148532991E53702E00702442 /* FLAnimatedImage.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -649,7 +651,6 @@
 		1429035B1E1DC3C4002EAD2E /* reddift.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = reddift.playground; path = playground/reddift.playground; sourceTree = "<group>"; };
 		14364C8D1BEDA09F00FECE58 /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14364C961BEDA09F00FECE58 /* reddift-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "reddift-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1436ADE81E4DC83400399707 /* UnescapeHTMLSpecialChars.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UnescapeHTMLSpecialChars.swift; path = framework/vendor/UnescapeHTMLSpecialChars/Sources/UnescapeHTMLSpecialChars/UnescapeHTMLSpecialChars.swift; sourceTree = "<group>"; };
 		144B56731E3C7D3700C88DB9 /* helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = helper.swift; path = framework/Utility/helper.swift; sourceTree = "<group>"; };
 		144B56741E3C7D3700C88DB9 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = framework/Utility/Parser.swift; sourceTree = "<group>"; };
 		144B56751E3C7D3700C88DB9 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Result.swift; path = framework/Utility/Result.swift; sourceTree = "<group>"; };
@@ -760,12 +761,12 @@
 		144B5B3E1E3C8FBA00C88DB9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		144B5B431E3C8FBA00C88DB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		144B5B4C1E3C90FA00C88DB9 /* application-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "application-Bridging-Header.h"; sourceTree = "<group>"; };
+		148532891E536DFB00702442 /* HTMLSpecialCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTMLSpecialCharacters.swift; path = framework/vendor/HTMLSpecialCharacters/Sources/HTMLSpecialCharacters.swift; sourceTree = "<group>"; };
+		148532921E53701D00702442 /* FLAnimatedImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAnimatedImage.framework; path = Carthage/Build/iOS/FLAnimatedImage.framework; sourceTree = SOURCE_ROOT; };
+		148532931E53701D00702442 /* UZTextView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UZTextView.framework; path = Carthage/Build/iOS/UZTextView.framework; sourceTree = SOURCE_ROOT; };
+		148532941E53701D00702442 /* YouTubeGetVideoInfoAPIParser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YouTubeGetVideoInfoAPIParser.framework; path = Carthage/Build/iOS/YouTubeGetVideoInfoAPIParser.framework; sourceTree = SOURCE_ROOT; };
 		14B5EBB11AF34D580065BC5E /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14B5EBBB1AF34D580065BC5E /* reddift-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "reddift-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		14B963BA1E4AF193007C2BC4 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImage.h; path = vendor/FLAnimatedImage/FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImage.h; sourceTree = "<group>"; };
-		14B963BB1E4AF193007C2BC4 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImage.m; path = vendor/FLAnimatedImage/FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImage.m; sourceTree = "<group>"; };
-		14B963BC1E4AF193007C2BC4 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageView.h; path = vendor/FLAnimatedImage/FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImageView.h; sourceTree = "<group>"; };
-		14B963BD1E4AF193007C2BC4 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImageView.m; path = vendor/FLAnimatedImage/FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImageView.m; sourceTree = "<group>"; };
 		14F812001AF9EA9F008F6F3C /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14F8120A1AF9EA9F008F6F3C /* reddift-macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "reddift-macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14FD7D621E3C940600F4A7F9 /* AccountListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountListViewController.swift; sourceTree = "<group>"; };
@@ -843,16 +844,6 @@
 		14FD7DD51E3C944500F4A7F9 /* UZTextViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UZTextViewCell.swift; sourceTree = "<group>"; };
 		14FD7DD61E3C944500F4A7F9 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		14FD7DD71E3C944500F4A7F9 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
-		14FD7DF71E3C953C00F4A7F9 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMDefines.h; path = vendor/Google/GTMDefines.h; sourceTree = "<group>"; };
-		14FD7DF81E3C953C00F4A7F9 /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GTMNSString+HTML.h"; path = "vendor/Google/GTMNSString+HTML.h"; sourceTree = "<group>"; };
-		14FD7DF91E3C953C00F4A7F9 /* GTMNSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GTMNSString+HTML.m"; path = "vendor/Google/GTMNSString+HTML.m"; sourceTree = "<group>"; };
-		14FD7E021E3C956800F4A7F9 /* UZCursorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UZCursorView.h; path = vendor/UZTextView/UZTextView/UZCursorView.h; sourceTree = "<group>"; };
-		14FD7E031E3C956800F4A7F9 /* UZCursorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UZCursorView.m; path = vendor/UZTextView/UZTextView/UZCursorView.m; sourceTree = "<group>"; };
-		14FD7E041E3C956800F4A7F9 /* UZLoupeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UZLoupeView.h; path = vendor/UZTextView/UZTextView/UZLoupeView.h; sourceTree = "<group>"; };
-		14FD7E051E3C956800F4A7F9 /* UZLoupeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UZLoupeView.m; path = vendor/UZTextView/UZTextView/UZLoupeView.m; sourceTree = "<group>"; };
-		14FD7E061E3C956800F4A7F9 /* UZTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UZTextView.h; path = vendor/UZTextView/UZTextView/UZTextView.h; sourceTree = "<group>"; };
-		14FD7E071E3C956800F4A7F9 /* UZTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UZTextView.m; path = vendor/UZTextView/UZTextView/UZTextView.m; sourceTree = "<group>"; };
-		14FD7E0B1E3C957600F4A7F9 /* YouTubeGetVideoInfoAPIParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YouTubeGetVideoInfoAPIParser.swift; path = vendor/YouTubeGetVideoInfoAPIParser/YouTubeGetVideoInfoAPIParser/YouTubeGetVideoInfoAPIParser.swift; sourceTree = "<group>"; };
 		14FD7E0E1E3C97BE00F4A7F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		14FD7E111E3C97CF00F4A7F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		14FD7E131E3C981F00F4A7F9 /* application.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = application.entitlements; sourceTree = "<group>"; };
@@ -878,6 +869,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				148532981E53702E00702442 /* FLAnimatedImage.framework in Frameworks */,
+				148532971E53701D00702442 /* YouTubeGetVideoInfoAPIParser.framework in Frameworks */,
+				1485329A1E53702E00702442 /* UZTextView.framework in Frameworks */,
 				144B5B471E3C8FE400C88DB9 /* reddift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -915,12 +909,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1436ADE71E4DC81E00399707 /* UnescapeHTMLSpecialChars */ = {
+		1436ADE71E4DC81E00399707 /* HTMLSpecialCharacters */ = {
 			isa = PBXGroup;
 			children = (
-				1436ADE81E4DC83400399707 /* UnescapeHTMLSpecialChars.swift */,
+				148532891E536DFB00702442 /* HTMLSpecialCharacters.swift */,
 			);
-			name = UnescapeHTMLSpecialChars;
+			name = HTMLSpecialCharacters;
 			sourceTree = "<group>";
 		};
 		14375DDA1BB40280007DF229 /* comment */ = {
@@ -1088,7 +1082,7 @@
 		144B58171E3C7D7800C88DB9 /* vendor */ = {
 			isa = PBXGroup;
 			children = (
-				1436ADE71E4DC81E00399707 /* UnescapeHTMLSpecialChars */,
+				1436ADE71E4DC81E00399707 /* HTMLSpecialCharacters */,
 				144B58191E3C7D8100C88DB9 /* MiniKeychain */,
 			);
 			name = vendor;
@@ -1105,8 +1099,10 @@
 		144B5B361E3C8FBA00C88DB9 /* application */ = {
 			isa = PBXGroup;
 			children = (
+				148532921E53701D00702442 /* FLAnimatedImage.framework */,
+				148532931E53701D00702442 /* UZTextView.framework */,
+				148532941E53701D00702442 /* YouTubeGetVideoInfoAPIParser.framework */,
 				14FD7E131E3C981F00F4A7F9 /* application.entitlements */,
-				14FD7DFB1E3C953F00F4A7F9 /* vendor */,
 				14FD7D621E3C940600F4A7F9 /* AccountListViewController.swift */,
 				14FD7D631E3C940600F4A7F9 /* AppDelegate.swift */,
 				14FD7D661E3C941900F4A7F9 /* BaseCommentCell.swift */,
@@ -1286,27 +1282,6 @@
 				141036D41E239F420029C657 /* data.playground */,
 			);
 			name = playground;
-			sourceTree = "<group>";
-		};
-		14FD7DFB1E3C953F00F4A7F9 /* vendor */ = {
-			isa = PBXGroup;
-			children = (
-				14FD7E0B1E3C957600F4A7F9 /* YouTubeGetVideoInfoAPIParser.swift */,
-				14FD7E021E3C956800F4A7F9 /* UZCursorView.h */,
-				14FD7E031E3C956800F4A7F9 /* UZCursorView.m */,
-				14FD7E041E3C956800F4A7F9 /* UZLoupeView.h */,
-				14FD7E051E3C956800F4A7F9 /* UZLoupeView.m */,
-				14FD7E061E3C956800F4A7F9 /* UZTextView.h */,
-				14FD7E071E3C956800F4A7F9 /* UZTextView.m */,
-				14B963BA1E4AF193007C2BC4 /* FLAnimatedImage.h */,
-				14B963BB1E4AF193007C2BC4 /* FLAnimatedImage.m */,
-				14B963BC1E4AF193007C2BC4 /* FLAnimatedImageView.h */,
-				14B963BD1E4AF193007C2BC4 /* FLAnimatedImageView.m */,
-				14FD7DF71E3C953C00F4A7F9 /* GTMDefines.h */,
-				14FD7DF81E3C953C00F4A7F9 /* GTMNSString+HTML.h */,
-				14FD7DF91E3C953C00F4A7F9 /* GTMNSString+HTML.m */,
-			);
-			name = vendor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1738,7 +1713,6 @@
 				144B57811E3C7D5E00C88DB9 /* Media.swift in Sources */,
 				144B56841E3C7D3700C88DB9 /* Result.swift in Sources */,
 				144B57691E3C7D5E00C88DB9 /* Created.swift in Sources */,
-				1436ADEB1E4DC8AB00399707 /* UnescapeHTMLSpecialChars.swift in Sources */,
 				144B57091E3C7D5200C88DB9 /* Session+misc.swift in Sources */,
 				144B570F1E3C7D5200C88DB9 /* Session+moderation.swift in Sources */,
 				144B56DF1E3C7D5200C88DB9 /* Session+flair.swift in Sources */,
@@ -1789,6 +1763,7 @@
 				144B57751E3C7D5E00C88DB9 /* Link.swift in Sources */,
 				144B57E91E3C7D6A00C88DB9 /* Dictionary+reddift.swift in Sources */,
 				144B57151E3C7D5200C88DB9 /* Session+multireddit.swift in Sources */,
+				1485328D1E536E2900702442 /* HTMLSpecialCharacters.swift in Sources */,
 				144B576F1E3C7D5E00C88DB9 /* Enum.swift in Sources */,
 				144B57631E3C7D5E00C88DB9 /* Config.swift in Sources */,
 				144B56C71E3C7D5100C88DB9 /* HttpStatus.swift in Sources */,
@@ -1815,6 +1790,7 @@
 				144B595A1E3C821F00C88DB9 /* ParseCommentMarkdownTest.swift in Sources */,
 				144B56961E3C7D4900C88DB9 /* OAuth2Authorizer.swift in Sources */,
 				144B571C1E3C7D5200C88DB9 /* Session+search.swift in Sources */,
+				1485328E1E536E2900702442 /* HTMLSpecialCharacters.swift in Sources */,
 				144B595E1E3C821F00C88DB9 /* SearchTest.swift in Sources */,
 				144B57521E3C7D5E00C88DB9 /* Account.swift in Sources */,
 				144B56A21E3C7D4900C88DB9 /* OAuth2TokenRepository.swift in Sources */,
@@ -1859,7 +1835,6 @@
 				144B57D61E3C7D5E00C88DB9 /* User.swift in Sources */,
 				144B58081E3C7D6A00C88DB9 /* NSURLComponents+reddift.swift in Sources */,
 				144B57EA1E3C7D6A00C88DB9 /* Dictionary+reddift.swift in Sources */,
-				1436ADEE1E4DC8B400399707 /* UnescapeHTMLSpecialChars.swift in Sources */,
 				144B59571E3C821F00C88DB9 /* ListingsTest.swift in Sources */,
 				144B57B21E3C7D5E00C88DB9 /* Preference.swift in Sources */,
 				144B56D41E3C7D5100C88DB9 /* Session+account.swift in Sources */,
@@ -1893,7 +1868,6 @@
 				14FD7DED1E3C944500F4A7F9 /* ThumbnailLinkCell.swift in Sources */,
 				14FD7D8C1E3C941900F4A7F9 /* ImageViewPageModalAnimator.swift in Sources */,
 				14FD7DEE1E3C944500F4A7F9 /* ThumbnailLinkContainer.swift in Sources */,
-				14FD7E0A1E3C956800F4A7F9 /* UZTextView.m in Sources */,
 				14FD7D861E3C941900F4A7F9 /* ImageDownloader.swift in Sources */,
 				14FD7DAF1E3C943400F4A7F9 /* MoreContainer.swift in Sources */,
 				14FD7D821E3C941900F4A7F9 /* ContentInfoView.swift in Sources */,
@@ -1903,17 +1877,13 @@
 				14FD7DD81E3C944500F4A7F9 /* ReddiftAPPError.swift in Sources */,
 				14FD7DAA1E3C943400F4A7F9 /* MediaLinkCell.swift in Sources */,
 				14FD7D7C1E3C941900F4A7F9 /* CommentCell.swift in Sources */,
-				14B963BE1E4AF193007C2BC4 /* FLAnimatedImage.m in Sources */,
 				14FD7DE81E3C944500F4A7F9 /* TabSelectViewController.swift in Sources */,
-				14B963BF1E4AF193007C2BC4 /* FLAnimatedImageView.m in Sources */,
 				14FD7DDC1E3C944500F4A7F9 /* String+reddift.swift in Sources */,
 				14FD7DDE1E3C944500F4A7F9 /* SubredditListCategoryTargetType.swift in Sources */,
-				14FD7E0C1E3C957600F4A7F9 /* YouTubeGetVideoInfoAPIParser.swift in Sources */,
 				14FD7DF31E3C944500F4A7F9 /* UserViewController.swift in Sources */,
 				14FD7DB21E3C943400F4A7F9 /* MoviePlayView.swift in Sources */,
 				14FD7DDD1E3C944500F4A7F9 /* SubredditCellar.swift in Sources */,
 				14FD7DA81E3C943400F4A7F9 /* LoadingCommentCell.swift in Sources */,
-				14FD7E081E3C956800F4A7F9 /* UZCursorView.m in Sources */,
 				14FD7DAB1E3C943400F4A7F9 /* MediaLinkContainer.swift in Sources */,
 				14FD7D651E3C940600F4A7F9 /* AppDelegate.swift in Sources */,
 				14FD7DA61E3C943400F4A7F9 /* LinkContainer.swift in Sources */,
@@ -1934,10 +1904,8 @@
 				14FD7DF11E3C944500F4A7F9 /* URL+reddift.swift in Sources */,
 				14FD7D881E3C941900F4A7F9 /* ImageURLContainer.swift in Sources */,
 				14FD7D641E3C940600F4A7F9 /* AccountListViewController.swift in Sources */,
-				14FD7DFA1E3C953C00F4A7F9 /* GTMNSString+HTML.m in Sources */,
 				14FD7DEC1E3C944500F4A7F9 /* Thumbnail.swift in Sources */,
 				14FD7D7B1E3C941900F4A7F9 /* CloseCommentCell.swift in Sources */,
-				14FD7E091E3C956800F4A7F9 /* UZLoupeView.m in Sources */,
 				14FD7DA71E3C943400F4A7F9 /* LinkContainerCellar.swift in Sources */,
 				14FD7DB31E3C943400F4A7F9 /* NewsokurCategoryViewController.swift in Sources */,
 				14FD7D831E3C941900F4A7F9 /* ContentToolbar.swift in Sources */,
@@ -1973,7 +1941,6 @@
 				144B577F1E3C7D5E00C88DB9 /* Media.swift in Sources */,
 				144B56821E3C7D3700C88DB9 /* Result.swift in Sources */,
 				144B57671E3C7D5E00C88DB9 /* Created.swift in Sources */,
-				1436ADEA1E4DC8AA00399707 /* UnescapeHTMLSpecialChars.swift in Sources */,
 				144B57071E3C7D5200C88DB9 /* Session+misc.swift in Sources */,
 				144B570D1E3C7D5200C88DB9 /* Session+moderation.swift in Sources */,
 				144B56DD1E3C7D5200C88DB9 /* Session+flair.swift in Sources */,
@@ -2024,6 +1991,7 @@
 				144B57731E3C7D5E00C88DB9 /* Link.swift in Sources */,
 				144B57E71E3C7D6A00C88DB9 /* Dictionary+reddift.swift in Sources */,
 				144B57131E3C7D5200C88DB9 /* Session+multireddit.swift in Sources */,
+				1485328B1E536E2800702442 /* HTMLSpecialCharacters.swift in Sources */,
 				144B576D1E3C7D5E00C88DB9 /* Enum.swift in Sources */,
 				144B57611E3C7D5E00C88DB9 /* Config.swift in Sources */,
 				144B56C51E3C7D5100C88DB9 /* HttpStatus.swift in Sources */,
@@ -2050,6 +2018,7 @@
 				144B594A1E3C821D00C88DB9 /* ParseCommentMarkdownTest.swift in Sources */,
 				144B56941E3C7D4900C88DB9 /* OAuth2Authorizer.swift in Sources */,
 				144B571A1E3C7D5200C88DB9 /* Session+search.swift in Sources */,
+				1485328C1E536E2900702442 /* HTMLSpecialCharacters.swift in Sources */,
 				144B594E1E3C821D00C88DB9 /* SearchTest.swift in Sources */,
 				144B57501E3C7D5E00C88DB9 /* Account.swift in Sources */,
 				144B56A01E3C7D4900C88DB9 /* OAuth2TokenRepository.swift in Sources */,
@@ -2094,7 +2063,6 @@
 				144B57D41E3C7D5E00C88DB9 /* User.swift in Sources */,
 				144B58061E3C7D6A00C88DB9 /* NSURLComponents+reddift.swift in Sources */,
 				144B57E81E3C7D6A00C88DB9 /* Dictionary+reddift.swift in Sources */,
-				1436ADED1E4DC8B300399707 /* UnescapeHTMLSpecialChars.swift in Sources */,
 				144B59471E3C821D00C88DB9 /* ListingsTest.swift in Sources */,
 				144B57B01E3C7D5E00C88DB9 /* Preference.swift in Sources */,
 				144B56D21E3C7D5100C88DB9 /* Session+account.swift in Sources */,
@@ -2127,7 +2095,6 @@
 				144B57831E3C7D5E00C88DB9 /* Media.swift in Sources */,
 				144B56861E3C7D3700C88DB9 /* Result.swift in Sources */,
 				144B576B1E3C7D5E00C88DB9 /* Created.swift in Sources */,
-				1436ADEC1E4DC8AC00399707 /* UnescapeHTMLSpecialChars.swift in Sources */,
 				144B570B1E3C7D5200C88DB9 /* Session+misc.swift in Sources */,
 				144B57111E3C7D5200C88DB9 /* Session+moderation.swift in Sources */,
 				144B56E11E3C7D5200C88DB9 /* Session+flair.swift in Sources */,
@@ -2178,6 +2145,7 @@
 				144B57771E3C7D5E00C88DB9 /* Link.swift in Sources */,
 				144B57EB1E3C7D6A00C88DB9 /* Dictionary+reddift.swift in Sources */,
 				144B57171E3C7D5200C88DB9 /* Session+multireddit.swift in Sources */,
+				148532911E536E2B00702442 /* HTMLSpecialCharacters.swift in Sources */,
 				144B57711E3C7D5E00C88DB9 /* Enum.swift in Sources */,
 				144B57651E3C7D5E00C88DB9 /* Config.swift in Sources */,
 				144B56C91E3C7D5100C88DB9 /* HttpStatus.swift in Sources */,
@@ -2204,6 +2172,7 @@
 				144B596A1E3C821F00C88DB9 /* ParseCommentMarkdownTest.swift in Sources */,
 				144B56981E3C7D4900C88DB9 /* OAuth2Authorizer.swift in Sources */,
 				144B571E1E3C7D5200C88DB9 /* Session+search.swift in Sources */,
+				148532901E536E2B00702442 /* HTMLSpecialCharacters.swift in Sources */,
 				144B596E1E3C821F00C88DB9 /* SearchTest.swift in Sources */,
 				144B57541E3C7D5E00C88DB9 /* Account.swift in Sources */,
 				144B56A41E3C7D4900C88DB9 /* OAuth2TokenRepository.swift in Sources */,
@@ -2248,7 +2217,6 @@
 				144B57D81E3C7D5E00C88DB9 /* User.swift in Sources */,
 				144B580A1E3C7D6A00C88DB9 /* NSURLComponents+reddift.swift in Sources */,
 				144B57EC1E3C7D6A00C88DB9 /* Dictionary+reddift.swift in Sources */,
-				1436ADEF1E4DC8B400399707 /* UnescapeHTMLSpecialChars.swift in Sources */,
 				144B59671E3C821F00C88DB9 /* ListingsTest.swift in Sources */,
 				144B57B41E3C7D5E00C88DB9 /* Preference.swift in Sources */,
 				144B56D61E3C7D5100C88DB9 /* Session+account.swift in Sources */,
@@ -2426,6 +2394,10 @@
 				CODE_SIGN_ENTITLEMENTS = application/application.entitlements;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = JP866VWWSD;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = application/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2449,6 +2421,10 @@
 				CODE_SIGN_ENTITLEMENTS = application/application.entitlements;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = JP866VWWSD;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = application/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

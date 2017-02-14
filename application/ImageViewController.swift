@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FLAnimatedImage
 
 let ImageViewControllerDidChangeCurrentImageName = Notification.Name(rawValue: "ImageViewControllerDidChangeCurrentImage")
 

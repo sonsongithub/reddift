@@ -1,15 +1,6 @@
 [submodule "framework/vendor/MiniKeychain"]
 	path = framework/vendor/MiniKeychain
 	url = https://github.com/sonsongithub/MiniKeychain.git
-[submodule "application/vendor/FLAnimatedImage"]
-	path = application/vendor/FLAnimatedImage
-	url = https://github.com/sonsongithub/FLAnimatedImage.git
-[submodule "application/vendor/UZTextView"]
-	path = application/vendor/UZTextView
-	url = https://github.com/sonsongithub/UZTextView.git
-[submodule "application/vendor/YouTubeGetVideoInfoAPIParser"]
-	path = application/vendor/YouTubeGetVideoInfoAPIParser
-	url = https://github.com/sonsongithub/YouTubeGetVideoInfoAPIParser.git
-[submodule "framework/vendor/UnescapeHTMLSpecialChars"]
-	path = framework/vendor/UnescapeHTMLSpecialChars
-	url = https://github.com/sonsongithub/UnescapeHTMLSpecialChars.git
+[submodule "framework/vendor/HTMLSpecialCharacters"]
+	path = framework/vendor/HTMLSpecialCharacters
+	url = https://github.com/sonsongithub/HTMLSpecialCharacters.git

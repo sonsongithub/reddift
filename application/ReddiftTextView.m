@@ -10,9 +10,6 @@
 
 #import <CoreText/CoreText.h>
 
-#import "UZLoupeView.h"
-#import "UZCursorView.h"
-
 #define TAP_MARGIN 15
 
 @implementation ReddiftTextView
