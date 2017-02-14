@@ -10,6 +10,3 @@
 [submodule "application/vendor/YouTubeGetVideoInfoAPIParser"]
 	path = application/vendor/YouTubeGetVideoInfoAPIParser
 	url = https://github.com/sonsongithub/YouTubeGetVideoInfoAPIParser.git
-[submodule "framework/vendor/UnescapeHTMLSpecialChars"]
-	path = framework/vendor/UnescapeHTMLSpecialChars
-	url = https://github.com/sonsongithub/UnescapeHTMLSpecialChars.git
