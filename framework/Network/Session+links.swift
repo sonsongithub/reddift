@@ -26,7 +26,7 @@ extension Session {
      */
     @discardableResult
     public func postComment(_ text: String, parentName: String, completion: @escaping (Result<Comment>) -> Void) throws -> URLSessionDataTask {
-        let parameter = ["thing_id":parentName, "api_type":"json", "text":text]
+        let parameter = ["thing_id": parentName, "api_type": "json", "text": text]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/comment", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Comment> in
@@ -47,7 +47,7 @@ extension Session {
      */
     @discardableResult
     public func deleteCommentOrLink(_ name: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let parameter = ["id":name]
+        let parameter = ["id": name]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/del", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
@@ -63,7 +63,7 @@ extension Session {
      */
     @discardableResult
     public func setVote(_ direction: VoteDirection, name: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let parameter = ["dir":String(direction.rawValue), "id":name]
+        let parameter = ["dir": String(direction.rawValue), "id": name]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/vote", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
@@ -80,7 +80,7 @@ extension Session {
      */
     @discardableResult
     public func setSave(_ save: Bool, name: String, category: String = "", completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        var parameter = ["id":name]
+        var parameter = ["id": name]
         if !category.isEmpty {
             parameter["category"] = category
         }
@@ -100,7 +100,7 @@ extension Session {
      */
     @discardableResult
     public func setHide(_ hide: Bool, name: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let parameter = ["id":name]
+        let parameter = ["id": name]
         let path = hide ? "/api/hide" : "/api/unhide"
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:path, parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -118,7 +118,7 @@ extension Session {
     @discardableResult
     public func getInfo(_ names: [String], completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedNameString = names.joined(separator: ",")
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/info", parameter:["id":commaSeparatedNameString], method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/info", parameter:["id": commaSeparatedNameString], method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
@@ -147,7 +147,7 @@ extension Session {
     @discardableResult
     public func setNSFW(_ mark: Bool, thing: Thing, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let path = mark ? "/api/marknsfw" : "/api/unmarknsfw"
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:path, parameter:["id":thing.name], method:"POST", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path:path, parameter:["id": thing.name], method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         return executeTask(request, handleResponse: handleResponse2JSON, completion: completion)
     }
@@ -181,10 +181,10 @@ extension Session {
     @discardableResult
     public func report(_ thing: Thing, reason: String, otherReason: String, completion: @escaping (Result<RedditAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = [
-            "api_type"    :"json",
-            "reason"      :reason,
-            "other_reason":otherReason,
-            "thing_id"    :thing.name
+            "api_type": "json",
+            "reason": reason,
+            "other_reason": otherReason,
+            "thing_id": thing.name
         ]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/report", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -205,15 +205,15 @@ extension Session {
     @discardableResult
     public func submitLink(_ subreddit: Subreddit, title: String, URL: String, captcha: String, captchaIden: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = [
-            "api_type" : "json",
-            "captcha" : captcha,
-            "iden" : captchaIden,
-            "kind" : "link",
-            "resubmit" : "true",
-            "sendreplies" : "true",
-            "sr" : subreddit.displayName,
-            "title" : title,
-            "url" : URL
+            "api_type": "json",
+            "captcha": captcha,
+            "iden": captchaIden,
+            "kind": "link",
+            "resubmit": "true",
+            "sendreplies": "true",
+            "sr": subreddit.displayName,
+            "title": title,
+            "url": URL
         ]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -235,15 +235,15 @@ extension Session {
     @discardableResult
     public func submitText(_ subreddit: Subreddit, title: String, text: String, captcha: String, captchaIden: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = [
-            "api_type" : "json",
-            "captcha" : captcha,
-            "iden" : captchaIden,
-            "kind" : "self",
-            "resubmit" : "true",
-            "sendreplies" : "true",
-            "sr" : subreddit.displayName,
-            "text" : text,
-            "title" : title
+            "api_type": "json",
+            "captcha": captcha,
+            "iden": captchaIden,
+            "kind": "self",
+            "resubmit": "true",
+            "sendreplies": "true",
+            "sr": subreddit.displayName,
+            "text": text,
+            "title": title
         ]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -268,10 +268,10 @@ extension Session {
     public func getMoreChildren(_ children: [String], link: Link, sort: CommentSort, id: String? = nil, completion: @escaping (Result<[Thing]>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedChildren = children.joined(separator: ",")
         var parameter = [
-            "children":commaSeparatedChildren,
-            "link_id":link.name,
-            "sort":sort.type,
-            "api_type":"json"
+            "children": commaSeparatedChildren,
+            "link_id": link.name,
+            "sort": sort.type,
+            "api_type": "json"
         ]
         if let id = id {
             parameter["id"] = id

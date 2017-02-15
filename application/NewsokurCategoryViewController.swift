@@ -38,7 +38,7 @@ class NewsokurCategoryViewController: SubredditListCategoryViewController {
         guard let url = URL(string: "https://api.reddift.net/newsokur.json")
             else { return }
         let request = URLRequest(url: url)
-        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
+        let task = session.dataTask(with: request, completionHandler: { (data: Data?, _, _) -> Void in
             if let data = data {
                 (self.categoryLists, self.categoryTitles, self.lastUpdateDate) = SubredditListItem.ReddiftJSON2List(data: data as NSData, showsNSFW: true)
             }

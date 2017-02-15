@@ -11,9 +11,9 @@ import Foundation
 let MediaLinkCellSingleImageSize = false
 
 class MediaLinkCell: LinkCell, ImageViewAnimator {
-    var titleTextViewHeightConstraint: NSLayoutConstraint? = nil
-    var thumbnailViewHeightConstraint: NSLayoutConstraint? = nil
-    var thumbnailView: ImageLinkThumbnailView? = nil
+    var titleTextViewHeightConstraint: NSLayoutConstraint?
+    var thumbnailViewHeightConstraint: NSLayoutConstraint?
+    var thumbnailView: ImageLinkThumbnailView?
     
     func targetImageView(thumbnail: Thumbnail) -> UIImageView? {
         if let container = container as? LinkContainer, let thumbnailView = thumbnailView {
@@ -155,16 +155,16 @@ class MediaLinkCell: LinkCell, ImageViewAnimator {
     
     func setupHorizontalConstraints(thumbnailView: ImageLinkThumbnailView) {
         let views: [String: Any] = [
-            "titleTextView":    titleTextView,
-            "contentInfoView":  contentInfoView,
-            "contentToolbar":   contentToolbar,
-            "thumbnailView":    thumbnailView,
+            "titleTextView": titleTextView,
+            "contentInfoView": contentInfoView,
+            "contentToolbar": contentToolbar,
+            "thumbnailView": thumbnailView,
             ]
         
         let metric: [String: Any] = [
-            "thumbnailHeight":          thumbnailView.height,
-            "left":                     LinkCell.titleLeftMargin,
-            "right":                    LinkCell.titleRightMargin
+            "thumbnailHeight": thumbnailView.height,
+            "left": LinkCell.titleLeftMargin,
+            "right": LinkCell.titleRightMargin
         ]
         
         ["thumbnailView", "contentInfoView", "contentToolbar"].forEach({

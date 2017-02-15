@@ -25,9 +25,9 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
     let replyButton = UIButton(type: .custom)
     let actionButton = UIButton(type: .custom)
     
-    var textViewHeight: NSLayoutConstraint? = nil
-    var thumbnailViewHeight: NSLayoutConstraint? = nil
-    var toolbarHeight: NSLayoutConstraint? = nil
+    var textViewHeight: NSLayoutConstraint?
+    var thumbnailViewHeight: NSLayoutConstraint?
+    var toolbarHeight: NSLayoutConstraint?
     
     static let iconWidth                = CGFloat(20)
     static let iconHeight               = CGFloat(20)
@@ -63,11 +63,11 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
         })
         
         let views = [
-            "upVote":upVoteButton,
-            "downVote":downVoteButton,
-            "save":saveButton,
-            "reply":replyButton,
-            "action":actionButton
+            "upVote": upVoteButton,
+            "downVote": downVoteButton,
+            "save": saveButton,
+            "reply": replyButton,
+            "action": actionButton
         ]
         
         views.forEach({$1.setImage(UIImage(named: $0), for: [])})
@@ -110,11 +110,11 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
         textView.backgroundColor = UIColor.white
         
         let views = [
-            "topInformationView":topInformationView,
-            "textView":textView,
-            "thumbnailView":thumbnailView,
-            "toolbar":toolbar,
-            "verticalBar":verticalBar
+            "topInformationView": topInformationView,
+            "textView": textView,
+            "thumbnailView": thumbnailView,
+            "toolbar": toolbar,
+            "verticalBar": verticalBar
         ]
         
         let metric = [
@@ -151,7 +151,6 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
         let varticalBarWidth = NSLayoutConstraint(item: verticalBar, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: CommentCell.verticalBarWidth)
         verticalBar.addConstraint(varticalBarWidth)
         self.varticalBarWidth = varticalBarWidth
-        
 
         let varticalBarLeftMargin = NSLayoutConstraint(item: verticalBar, attribute: .left, relatedBy: .equal, toItem: self.contentView, attribute: .left, multiplier: 1, constant: -CommentCell.verticalBarWidth)
         self.contentView.addConstraint(varticalBarLeftMargin)

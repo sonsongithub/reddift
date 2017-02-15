@@ -176,18 +176,18 @@ class LinkCell: UITableViewCell {
         titleTextView.translatesAutoresizingMaskIntoConstraints = false
         
         let views: [String : Any] = [
-            "titleTextView":            titleTextView,
-            "contentInfoView":          contentInfoView,
-            "contentToolbar":           contentToolbar,
+            "titleTextView": titleTextView,
+            "contentInfoView": contentInfoView,
+            "contentToolbar": contentToolbar,
             ]
         
         let metric = [
-            "left":                     LinkCell.titleLeftMargin,
-            "right":                    LinkCell.titleRightMargin,
-            "contentInfoViewHeight":    ContentInfoView.height,
-            "contentToolbarHeight":     ContentToolbar.height,
-            "verticalTopMargin":        LinkCell.verticalTopMargin,
-            "verticalBottomMargin":     LinkCell.verticalBotttomMargin
+            "left": LinkCell.titleLeftMargin,
+            "right": LinkCell.titleRightMargin,
+            "contentInfoViewHeight": ContentInfoView.height,
+            "contentToolbarHeight": ContentToolbar.height,
+            "verticalTopMargin": LinkCell.verticalTopMargin,
+            "verticalBottomMargin": LinkCell.verticalBotttomMargin
         ]
         
         ["contentInfoView", "contentToolbar"].forEach({

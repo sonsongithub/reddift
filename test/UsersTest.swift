@@ -129,7 +129,6 @@ class UsersTest: SessionTestSpec {
         XCTAssert(finalFriendsNames.hasSameElements(initialFriendsNames))
     }
     
-    
     /**
      Test procedure
      1. Get reddift_test_1's trophies.

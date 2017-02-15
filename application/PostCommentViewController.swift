@@ -14,7 +14,7 @@ let PostCommentViewControllerDidSendCommentName = Notification.Name(rawValue: "P
 class PostCommentViewController: UIViewController, FromFieldViewDelegate {
     let thing: Thing
     let textView = UITextView(frame: CGRect.zero)
-    var bottomSpaceConstraint: NSLayoutConstraint? = nil
+    var bottomSpaceConstraint: NSLayoutConstraint?
     let fromFieldView = FromFieldView(frame: CGRect.zero)
     let fieldHeight = CGFloat(44)
     

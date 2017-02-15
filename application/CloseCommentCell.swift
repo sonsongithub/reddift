@@ -34,8 +34,8 @@ class CloseCommentCell: BaseCommentCell {
         verticalBar.backgroundColor = UIColor.lightGray
         
         let views = [
-            "topInformationView":topInformationView,
-            "verticalBar":verticalBar
+            "topInformationView": topInformationView,
+            "verticalBar": verticalBar
         ]
         
         let metric = [
@@ -57,7 +57,6 @@ class CloseCommentCell: BaseCommentCell {
         let varticalBarWidth = NSLayoutConstraint(item: verticalBar, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: CommentCell.verticalBarWidth)
         verticalBar.addConstraint(varticalBarWidth)
         self.varticalBarWidth = varticalBarWidth
-        
         
         let varticalBarLeftMargin = NSLayoutConstraint(item: verticalBar, attribute: .left, relatedBy: .equal, toItem: self.contentView, attribute: .left, multiplier: 1, constant: -CommentCell.verticalBarWidth)
         self.contentView.addConstraint(varticalBarLeftMargin)

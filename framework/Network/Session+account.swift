@@ -63,9 +63,9 @@ extension Session {
     public func getFriends(_ paginator: Paginator, count: Int = 0, limit: Int = 1, completion: @escaping (Result<RedditAny>) -> Void) throws -> URLSessionDataTask {
         do {
             let parameter = paginator.dictionaryByAdding(parameters: [
-                "limit"    : "\(limit)",
-                "show"     : "all",
-                "count"    : "\(count)"
+                "limit": "\(limit)",
+                "show": "all",
+                "count": "\(count)"
                 //          "sr_detail": "true",
                 ])
             guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/prefs/friends", parameter:parameter, method:"GET", token:token)
@@ -92,9 +92,9 @@ extension Session {
     public func getBlocked(_ paginator: Paginator, count: Int = 0, limit: Int = 25, completion: @escaping (Result<[User]>) -> Void) throws -> URLSessionDataTask {
         do {
             let parameter = paginator.dictionaryByAdding(parameters: [
-                "limit"    : "\(limit)",
-                "show"     : "all",
-                "count"    : "\(count)"
+                "limit": "\(limit)",
+                "show": "all",
+                "count": "\(count)"
                 //          "sr_detail": "true",
                 ])
             guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/prefs/blocked", parameter:parameter, method:"GET", token:token)

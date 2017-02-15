@@ -6,9 +6,8 @@
 //  Copyright © 2016年 sonson. All rights reserved.
 //
 
-
 class ThumbnailLinkCell: LinkCell, ImageDownloadable, ImageViewAnimator {
-    var titleTextViewHeightConstraint: NSLayoutConstraint? = nil
+    var titleTextViewHeightConstraint: NSLayoutConstraint?
     let thumbnailImageView = UIImageView(frame: CGRect.zero)
     let activityIndicatorViewOnThumbnail = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     let titleAndThumbnailBaseView = UIView(frame: CGRect.zero)
@@ -96,8 +95,8 @@ class ThumbnailLinkCell: LinkCell, ImageDownloadable, ImageViewAnimator {
         activityIndicatorViewOnThumbnail.translatesAutoresizingMaskIntoConstraints = false
         
         let views = [
-            "thumbnailImageView" : thumbnailImageView,
-            "titleTextView" : titleTextView
+            "thumbnailImageView": thumbnailImageView,
+            "titleTextView": titleTextView
             ] as [String : Any]
         let metrics = [
             "horizontalCenterMargin": ThumbnailLinkCell.horizontalCenterMargin
@@ -142,16 +141,16 @@ class ThumbnailLinkCell: LinkCell, ImageDownloadable, ImageViewAnimator {
         
         let views = [
             "titleAndThumbnailBaseView": titleAndThumbnailBaseView,
-            "contentInfoView":           contentInfoView,
-            "contentToolbar":            contentToolbar,
+            "contentInfoView": contentInfoView,
+            "contentToolbar": contentToolbar,
             ]
         let metric = [
-            "horizontalLeftMargin":  ThumbnailLinkCell.horizontalLeftMargin,
+            "horizontalLeftMargin": ThumbnailLinkCell.horizontalLeftMargin,
             "horizontalRightMargin": ThumbnailLinkCell.horizontalRightMargin,
-            "verticalTopMargin":     LinkCell.verticalTopMargin,
-            "verticalBottomMargin":  LinkCell.verticalBotttomMargin,
+            "verticalTopMargin": LinkCell.verticalTopMargin,
+            "verticalBottomMargin": LinkCell.verticalBotttomMargin,
             "contentInfoViewHeight": ContentInfoView.height,
-            "contentToolbarHeight":  ContentToolbar.height
+            "contentToolbarHeight": ContentToolbar.height
         ]
         
         ["contentInfoView", "contentToolbar"].forEach({

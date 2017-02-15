@@ -245,7 +245,7 @@ public struct OAuth2Token: Token {
                 })
             switch result {
             case .success(let profile):
-                let json = ["name":profile.name, "access_token":self.accessToken, "token_type":self.tokenType, "expires_in":self.expiresIn, "expires_date":self.expiresDate, "scope":self.scope, "refresh_token":self.refreshToken] as [String : Any]
+                let json = ["name": profile.name, "access_token": self.accessToken, "token_type": self.tokenType, "expires_in": self.expiresIn, "expires_date": self.expiresDate, "scope": self.scope, "refresh_token": self.refreshToken] as [String : Any]
                 completion(OAuth2Token.tokenWithJSON(json))
             case .failure(let error):
                 completion(Result(error: error))

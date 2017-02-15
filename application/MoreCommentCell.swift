@@ -17,9 +17,8 @@ class MoreCommentCell: UITableViewCell {
         }
     }
     
-    @IBOutlet var leftMarginVarticalBar: NSLayoutConstraint? = nil
-    @IBOutlet var widthOfVerticalBar: NSLayoutConstraint? = nil
-
+    @IBOutlet var leftMarginVarticalBar: NSLayoutConstraint?
+    @IBOutlet var widthOfVerticalBar: NSLayoutConstraint?
 
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -42,7 +42,7 @@ class SessionTestSpec: XCTestCase {
     var testInterval: TimeInterval = 5
     
     /// shared session object
-    var session: Session? = nil
+    var session: Session?
     
     override func setUp() {
         super.setUp()

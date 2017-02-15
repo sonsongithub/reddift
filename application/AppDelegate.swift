@@ -11,7 +11,7 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, ImageCache {
-    var session: Session? = nil
+    var session: Session?
     var window: UIWindow?
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -89,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ImageCache {
             let html = ""
             do {
                 if let data = html.data(using: .unicode) {
-                    let attr = try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
+                    let attr = try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
                     print(attr)
                 }
             } catch {

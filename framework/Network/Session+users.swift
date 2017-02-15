@@ -69,7 +69,7 @@ extension Session {
     @discardableResult
     public func unfriend(_ username: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameters = [
-            "id":username
+            "id": username
         ]
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"api/v1/me/friends/" + username, parameter:parameters, method:"DELETE", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -146,9 +146,9 @@ extension Session {
     @discardableResult
     public func friend(_ name: String, note: String, banMessageMd: String, container: String, duration: Int, type: FriendType, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameters = [
-            "container":container,
-            "name":name,
-            "type":"friend"
+            "container": container,
+            "name": name,
+            "type": "friend"
 //            "uh":modhash
         ]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/friend", parameter:parameters, method:"POST", token:token)
@@ -184,7 +184,7 @@ extension Session {
     @discardableResult
     public func unfriend(_ name: String = "", id: String = "", type: FriendType, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         var parameters = [
-            "type":type.rawValue
+            "type": type.rawValue
 //            "uh":modhash
         ]
         
@@ -210,10 +210,10 @@ extension Session {
     @discardableResult
     public func getNotifications(_ sort: NotificationSort, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameters = [
-            "count":"30",
+            "count": "30",
 //            "start_date":"",
 //            "end_date":"",
-            "sort":sort.rawValue
+            "sort": sort.rawValue
         ]
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"/api/v1/me/notifications", parameter:parameters, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -283,10 +283,10 @@ extension Session {
     @discardableResult
     public func getUserContent(_ username: String, content: UserContent, sort: UserContentSortBy, timeFilterWithin: TimeFilterWithin, paginator: Paginator, limit: Int = 25, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let parameter = paginator.dictionaryByAdding(parameters: [
-            "limit"    : "\(limit)",
+            "limit": "\(limit)",
 //          "sr_detail": "true",
-            "sort"     : sort.param,
-            "show"     : "given"
+            "sort": sort.param,
+            "show": "given"
             ])
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/user/" + username + content.path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }

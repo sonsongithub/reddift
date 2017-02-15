@@ -58,7 +58,7 @@ class SubredditListCategoryViewController: UITableViewController {
         let session: URLSession = URLSession(configuration: URLSessionConfiguration.default)
         
         let request = URLRequest(url: targetType.url)
-        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
+        let task = session.dataTask(with: request, completionHandler: { (data: Data?, _, _) -> Void in
             if let data = data {
                 (self.categoryLists, self.categoryTitles, self.lastUpdateDate) = SubredditListItem.ReddiftJSON2List(data: data as NSData, showsNSFW: true)
             }

@@ -61,11 +61,11 @@ class ContentInfoView: UIView {
     let nameButton: UIButton = UIButton.init(type: .custom)
     let domainLabel: UILabel = UILabel.init(frame: CGRect.zero)
     
-    var dateLabelWidthContraint: NSLayoutConstraint? = nil
-    var nameButtonWidthContraint: NSLayoutConstraint? = nil
-    var domainLabelWidthContraint: NSLayoutConstraint? = nil
+    var dateLabelWidthContraint: NSLayoutConstraint?
+    var nameButtonWidthContraint: NSLayoutConstraint?
+    var domainLabelWidthContraint: NSLayoutConstraint?
     
-    var delegate: ContentInfoViewDelegate? = nil
+    var delegate: ContentInfoViewDelegate?
     
     /// Text color of all strings.
     var textColor = ContentInfoView.defaultTextColor {
@@ -143,7 +143,7 @@ class ContentInfoView: UIView {
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-labelHorizontalMargin-[dateLabel]-labelHorizontalMargin-[nameButton]-(>=0)-[domainLabel]-labelHorizontalMargin-|",
                 options: NSLayoutFormatOptions(),
                 metrics: metric,
-                views: ["dateLabel":dateLabel, "nameButton":nameButton, "domainLabel":domainLabel])
+                views: ["dateLabel": dateLabel, "nameButton": nameButton, "domainLabel": domainLabel])
         )
         
         self.dateLabelWidthContraint = setupHorizontalContraintsToLabel(view: dateLabel)
@@ -218,7 +218,7 @@ class ContentInfoView: UIView {
                 withVisualFormat: "V:|-0-[view]-0-|",
                 options: NSLayoutFormatOptions(),
                 metrics: nil,
-                views: ["view":view]
+                views: ["view": view]
             )
         )
 //        let constraintCenterY = NSLayoutConstraint(

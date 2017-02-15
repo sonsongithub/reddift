@@ -68,7 +68,7 @@ class TabManager {
 class TabSelectViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     var cellSize: CGSize = CGSize.zero
     var createNewTabAnimation = false
-    var animatingView: UIView? = nil
+    var animatingView: UIView?
     
     /**
      Singleton model.
@@ -117,10 +117,10 @@ class TabSelectViewController: UICollectionViewController, UICollectionViewDeleg
             let targetRect = animatingView!.superview!.convert(cellImageView.frame, from: cellImageView.superview)
             UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.animatingView!.frame = targetRect
-                }, completion: { (success) -> Void in
+                }, completion: { (_) -> Void in
                     UIView.animate(withDuration: 0.2, animations: { () -> Void in
                         self.animatingView!.alpha = 0
-                    }, completion: { (success) -> Void in
+                    }, completion: { (_) -> Void in
                         self.animatingView!.removeFromSuperview()
                 })
             })
@@ -165,7 +165,7 @@ class TabSelectViewController: UICollectionViewController, UICollectionViewDeleg
                 
                 UIView.animate(withDuration: 0.3, animations: { () -> Void in
                     v.frame = self.navigationController!.view.frame
-                    }, completion: { (success) -> Void in
+                    }, completion: { (_) -> Void in
                         self.dismiss(animated: false, completion: { () -> Void in
                             v.removeFromSuperview()
                         })

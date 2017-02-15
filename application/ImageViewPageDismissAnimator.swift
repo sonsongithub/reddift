@@ -103,7 +103,7 @@ class ImageViewPageDismissAnimator: NSObject, UIViewControllerAnimatedTransition
                 animatingView.frame = endFrame
                 animatingView.center = CGPoint(x: destinationFrame.midX, y: destinationFrame.midY)
                 animatingView.transform = CGAffineTransform(scaleX: ratioOfDestinationFrameToStartFrame, y: ratioOfDestinationFrameToStartFrame)
-        }) { (success) in
+        }) { (_) in
             destinationView.isHidden = false
             animatingView.removeFromSuperview()
             transitionContext.completeTransition(true)

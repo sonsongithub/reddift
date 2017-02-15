@@ -19,15 +19,15 @@ protocol MoviePlayerViewToolbarDelegate: class {
 class MoviePlayerViewToolbar: UIToolbar {
     let slider = UISlider(frame: CGRect(x: 0, y: 0, width: 180, height: 44))
     let timeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 120, height: 44))
-    var sliderBarItem: UIBarButtonItem? = nil
-    var playButtonBarItem: UIBarButtonItem? = nil
-    var pausebuttonBarItem: UIBarButtonItem? = nil
-    var timeLabelItem: UIBarButtonItem? = nil
-    var sliderWidthConstraint: NSLayoutConstraint? = nil
+    var sliderBarItem: UIBarButtonItem?
+    var playButtonBarItem: UIBarButtonItem?
+    var pausebuttonBarItem: UIBarButtonItem?
+    var timeLabelItem: UIBarButtonItem?
+    var sliderWidthConstraint: NSLayoutConstraint?
     let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
     
-    weak var toolbarDelegate: MoviePlayerViewToolbarDelegate? = nil
+    weak var toolbarDelegate: MoviePlayerViewToolbarDelegate?
     var movieDuration: CMTime = CMTime(seconds: 0, preferredTimescale: 300)
     
     deinit {

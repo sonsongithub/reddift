@@ -355,7 +355,6 @@ class LinksTest: SessionTestSpec {
         }
     }
     
-    
     func testToSaveComment() {
         
         print("Test to save specified Comment.")

@@ -9,7 +9,7 @@
 import UIKit
 
 class UZTextViewCell: UITableViewCell {
-    @IBOutlet var textView: UZTextView? = nil
+    @IBOutlet var textView: UZTextView?
 
     override func awakeFromNib() {
         super.awakeFromNib()

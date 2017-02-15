@@ -109,7 +109,7 @@ extension NSAttributedString {
                 NSLinkAttributeName,
                 in: NSRange(location:0, length:self.length),
                 options: [],
-                using: { (value: Any?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
+                using: { (value: Any?, _, _) -> Void in
                 if let value = value {
                     values.append(value as AnyObject)
                 }
@@ -153,7 +153,6 @@ extension NSAttributedString {
         return __reconstruct(with: normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
     }
 #endif
-    
     
     /**
      Reconstruct attributed string, intrinsic function. This function is for encapsulating difference of font and color class.
@@ -229,13 +228,13 @@ extension NSAttributedString {
     private var attributesForReddift: [Attribute] {
         var attributes: [Attribute] = []
         
-        self.enumerateAttribute(NSLinkAttributeName, in: NSRange(location:0, length:self.length), options: [], using: { (value: Any?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
+        self.enumerateAttribute(NSLinkAttributeName, in: NSRange(location:0, length:self.length), options: [], using: { (value: Any?, range: NSRange, _) -> Void in
             if let URL = value as? URL {
                 attributes.append(Attribute.link(URL, range.location, range.length))
             }
             })
         
-        self.enumerateAttribute(NSFontAttributeName, in: NSRange(location:0, length:self.length), options: [], using: { (value: Any?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
+        self.enumerateAttribute(NSFontAttributeName, in: NSRange(location:0, length:self.length), options: [], using: { (value: Any?, range: NSRange, _) -> Void in
             if let font = value as? _Font {
                 switch font.fontName {
                 case "TimesNewRomanPS-BoldItalicMT":

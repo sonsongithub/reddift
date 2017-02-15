@@ -97,9 +97,9 @@ class MultiredditTest: SessionTestSpec {
     let nameForCopy = "copied"
     let nameForRename = "renamed"
     
-    var createdMultireddit: Multireddit? = nil
-    var copiedMultireddit: Multireddit? = nil
-    var renamedMultireddit: Multireddit? = nil
+    var createdMultireddit: Multireddit?
+    var copiedMultireddit: Multireddit?
+    var renamedMultireddit: Multireddit?
     var defaultMultiredditNameList: [String] = []
     
     override func setUp() {

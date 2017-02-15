@@ -21,7 +21,7 @@ class ImageViewController: UIViewController, Page, ImageDownloadable, ImageViewD
     var maximumZoomScale: CGFloat = 0
     var minimumZoomScale: CGFloat = 0
     var imageURL = URL(string: "https://api.sonson.jp")!
-    var task: URLSessionDataTask? = nil
+    var task: URLSessionDataTask?
     var isOpenedBy3DTouch = false
     
     private var _alphaWithoutMainContent: CGFloat = 1
@@ -91,7 +91,7 @@ class ImageViewController: UIViewController, Page, ImageDownloadable, ImageViewD
     func toggleDarkMode(isDark: Bool) {
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.scrollView.backgroundColor = isDark ? UIColor.black : UIColor.white
-            }, completion: { (success) -> Void in
+            }, completion: { (_) -> Void in
         })
     }
 
@@ -180,8 +180,8 @@ extension ImageViewController {
         self.view.addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[scrollView]-0-|", options: NSLayoutFormatOptions(), metrics: [:], views: ["scrollView":scrollView]))
-        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[scrollView]-1-|", options: NSLayoutFormatOptions(), metrics: [:], views: ["scrollView":scrollView]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[scrollView]-0-|", options: NSLayoutFormatOptions(), metrics: [:], views: ["scrollView": scrollView]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[scrollView]-1-|", options: NSLayoutFormatOptions(), metrics: [:], views: ["scrollView": scrollView]))
     }
     
     func setupSubviews() {

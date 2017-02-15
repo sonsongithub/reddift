@@ -99,7 +99,7 @@ extension Session {
      */
     @discardableResult
     public func getIdenForNewCAPTCHA(_ completion: @escaping (Result<String>) -> Void) throws -> URLSessionDataTask {
-        let parameter = ["api_type":"json"]
+        let parameter = ["api_type": "json"]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/new_captcha", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<String> in
@@ -142,7 +142,7 @@ extension Session {
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
     */
-    public func getCAPTCHA(_ completion: @escaping (Result<CAPTCHAImage>) -> Void) throws -> Void {
+    public func getCAPTCHA(_ completion: @escaping (Result<CAPTCHAImage>) -> Void) throws {
         do {
             try getIdenForNewCAPTCHA { (result) -> Void in
                 switch result {

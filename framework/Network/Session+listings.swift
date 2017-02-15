@@ -47,7 +47,7 @@ extension Session {
      */
     @discardableResult
     public func getArticles(_ link: Link, sort: CommentSort, comments: [String]? = nil, depth: Int? = nil, limit: Int? = nil, context: Int? = nil, completion: @escaping (Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
-        var parameter = ["sort":sort.type, "showmore":"True"]
+        var parameter = ["sort": sort.type, "showmore": "True"]
         if let depth = depth {
             parameter["depth"] = "\(depth)"
         }
@@ -115,10 +115,10 @@ extension Session {
     @discardableResult
     func getList(_ paginator: Paginator, subreddit: SubredditURLPath?, privateSortType: PrivateLinkSortBy, timeFilterWithin: TimeFilterWithin, limit: Int = 25, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let parameter = paginator.dictionaryByAdding(parameters: [
-            "limit"    : "\(limit)",
-            "show"     : "all",
+            "limit": "\(limit)",
+            "show": "all",
 //          "sr_detail": "true",
-            "t"        : timeFilterWithin.param
+            "t": timeFilterWithin.param
         ])
         var path = "\(privateSortType.path).json"
         if let subreddit = subreddit { path = "\(subreddit.path)\(privateSortType.path).json" }
@@ -177,9 +177,9 @@ extension Session {
     @discardableResult
     func getNewOrHotList(_ paginator: Paginator, subreddit: SubredditURLPath?, type: String, limit: Int = 25, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let parameter = paginator.dictionaryByAdding(parameters: [
-            "limit"    : "\(limit)",
+            "limit": "\(limit)",
             //            "sr_detail": "true",
-            "show"     : "all",
+            "show": "all",
             ])
         var path = "\(type).json"
         if let subreddit = subreddit { path = "\(subreddit.path)/\(type).json" }
@@ -233,9 +233,9 @@ extension Session {
     @discardableResult
     public func getRelatedArticles(_ paginator: Paginator, thing: Thing, limit: Int = 25, completion: @escaping (Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
         let parameter = paginator.dictionaryByAdding(parameters: [
-            "limit"    : "\(limit)",
+            "limit": "\(limit)",
             //            "sr_detail": "true",
-            "show"     : "all",
+            "show": "all",
         ])
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/related/" + thing.id, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -261,9 +261,9 @@ extension Session {
     @discardableResult
     public func getDuplicatedArticles(_ paginator: Paginator, thing: Thing, limit: Int = 25, completion: @escaping  (Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
         let parameter = paginator.dictionaryByAdding(parameters: [
-            "limit"    : "\(limit)",
+            "limit": "\(limit)",
 //            "sr_detail": "true",
-            "show"     : "all"
+            "show": "all"
         ])
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/duplicates/" + thing.id, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }

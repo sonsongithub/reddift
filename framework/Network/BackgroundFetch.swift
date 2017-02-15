@@ -14,8 +14,8 @@ import Foundation
 /// Session class to communicate with reddit.com using OAuth.
 public class BackgroundFetch: NSObject, URLSessionDelegate {
     let session: Session
-    var taskURLSession: URLSession? = nil
-    var tokenURLSession: URLSession? = nil
+    var taskURLSession: URLSession?
+    var tokenURLSession: URLSession?
     var firstTry = true
     let taskHandler: ((_ response: HTTPURLResponse?, _ dataURL: URL?, _ error: NSError?) -> Void)
     var request: URLRequest

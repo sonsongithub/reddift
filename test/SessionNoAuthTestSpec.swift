@@ -19,7 +19,7 @@ class SessionNoAuthTestSpec: XCTestCase {
     let testInterval: TimeInterval = 1
     
     /// shared session object
-    var session: Session? = nil
+    var session: Session?
     
     override func setUp() {
         super.setUp()

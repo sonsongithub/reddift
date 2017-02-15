@@ -201,7 +201,7 @@ extension ImageDownloadable {
             if existsCachedImage(of: url) { return }
             let https_url = url.httpsSchemaURL
             let request = URLRequest(url: https_url)
-            let task = sessionForImageDownloadable().dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+            let task = sessionForImageDownloadable().dataTask(with: request, completionHandler: { (data, _, error) -> Void in
                 do {
                     if let data = data {
                         try self.save(data, of: url)

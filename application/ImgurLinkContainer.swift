@@ -37,10 +37,10 @@ class ImgurLinkContainer: MediaLinkContainer {
         var request = URLRequest(url: https_url)
         request.addValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/601.1.56 (KHTML, like Gecko) Version/9.0 Safari/601.1.56", forHTTPHeaderField: "User-Agent")
         let session: URLSession = URLSession(configuration: sessionConfiguration)
-        let task = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+        let task = session.dataTask(with: request, completionHandler: { (data, _, error) -> Void in
             self.pageLoaded = true
             if let error = error {
-                NotificationCenter.default.post(name: LinkContainerDidLoadImageName, object: nil, userInfo: ["error":error as NSError])
+                NotificationCenter.default.post(name: LinkContainerDidLoadImageName, object: nil, userInfo: ["error": error as NSError])
             }
             if let data = data, let decoded = String(data: data, encoding: .utf8) {
                 if !decoded.is404OfImgurcom {
@@ -50,7 +50,7 @@ class ImgurLinkContainer: MediaLinkContainer {
                     })
                 }
             } else {
-                NotificationCenter.default.post(name: LinkContainerDidLoadImageName, object: nil, userInfo: ["error":"can not decode html"])
+                NotificationCenter.default.post(name: LinkContainerDidLoadImageName, object: nil, userInfo: ["error": "can not decode html"])
             }
         })
         task.resume()

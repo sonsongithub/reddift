@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 extension NSLayoutConstraint {
     
     func setMultiplier(multiplier: CGFloat) {
@@ -33,10 +32,10 @@ extension NSLayoutConstraint {
 }
 
 class TabViewCell: UICollectionViewCell {
-    @IBOutlet var screenImageView: UIImageView? = nil
-    @IBOutlet var numberLabel: UILabel? = nil
-    @IBOutlet var widthRatio: NSLayoutConstraint? = nil
-    @IBOutlet var aspectRatio: NSLayoutConstraint? = nil
+    @IBOutlet var screenImageView: UIImageView?
+    @IBOutlet var numberLabel: UILabel?
+    @IBOutlet var widthRatio: NSLayoutConstraint?
+    @IBOutlet var aspectRatio: NSLayoutConstraint?
     
     override func awakeFromNib() {
         super.awakeFromNib()

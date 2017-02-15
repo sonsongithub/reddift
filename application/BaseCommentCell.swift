@@ -13,9 +13,9 @@ class BaseCommentCell: UITableViewCell {
     
     let verticalBar: UIView = UIView(frame: CGRect.zero)
     
-    var topInformationViewHeight: NSLayoutConstraint? = nil
-    var varticalBarWidth: NSLayoutConstraint? = nil
-    var varticalBarLeftMargin: NSLayoutConstraint? = nil
+    var topInformationViewHeight: NSLayoutConstraint?
+    var varticalBarWidth: NSLayoutConstraint?
+    var varticalBarLeftMargin: NSLayoutConstraint?
     
     let authorButton = UIButton(type: .custom)
     let voteLabel = UILabel(frame: CGRect.zero)
@@ -23,16 +23,16 @@ class BaseCommentCell: UITableViewCell {
     let childlenLabel = UILabel(frame: CGRect.zero)
     let toggleButton = UIButton(type: .custom)
     
-    var authorButtonWidth: NSLayoutConstraint? = nil
-    var authorButtonHeight: NSLayoutConstraint? = nil
-    var voteLabellWidth: NSLayoutConstraint? = nil
-    var voteLabelHeight: NSLayoutConstraint? = nil
-    var dateLabelWidth: NSLayoutConstraint? = nil
-    var dateLabelHeight: NSLayoutConstraint? = nil
-    var childlenLabelWidth: NSLayoutConstraint? = nil
-    var childlenLabelHeight: NSLayoutConstraint? = nil
-    var toggleButtonWidth: NSLayoutConstraint? = nil
-    var toggleButtonHeight: NSLayoutConstraint? = nil
+    var authorButtonWidth: NSLayoutConstraint?
+    var authorButtonHeight: NSLayoutConstraint?
+    var voteLabellWidth: NSLayoutConstraint?
+    var voteLabelHeight: NSLayoutConstraint?
+    var dateLabelWidth: NSLayoutConstraint?
+    var dateLabelHeight: NSLayoutConstraint?
+    var childlenLabelWidth: NSLayoutConstraint?
+    var childlenLabelHeight: NSLayoutConstraint?
+    var toggleButtonWidth: NSLayoutConstraint?
+    var toggleButtonHeight: NSLayoutConstraint?
     
     static let verticalBarWidth         = CGFloat(3)
     
@@ -43,7 +43,7 @@ class BaseCommentCell: UITableViewCell {
     static let expandIconWidth          = CGFloat(20)
     static let expandIconHeight         = CGFloat(20)
     
-    weak var parentCommentViewController: CommentViewController? = nil
+    weak var parentCommentViewController: CommentViewController?
     
     func didPushToggleButton(sender: Any) {
         if let cc = parentCommentViewController {
@@ -124,12 +124,12 @@ class BaseCommentCell: UITableViewCell {
     func prepareInformationView() {
         
         let views = [
-            "topInformationView":topInformationView,
-            "authorButton":authorButton,
-            "voteLabel":voteLabel,
-            "dateLabel":dateLabel,
-            "childlenLabel":childlenLabel,
-            "toggleButton":toggleButton
+            "topInformationView": topInformationView,
+            "authorButton": authorButton,
+            "voteLabel": voteLabel,
+            "dateLabel": dateLabel,
+            "childlenLabel": childlenLabel,
+            "toggleButton": toggleButton
         ]
         
         let metric = [

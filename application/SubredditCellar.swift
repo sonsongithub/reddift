@@ -134,7 +134,7 @@ class SubredditCellar: LinkContainerCellar {
                 }
             })
         } catch {
-            let nserror = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey:"\(error)"])
+            let nserror = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "\(error)"])
             postNotification(name: LinkContainerCellarDidLoadName, userInfo: [LinkContainerCellar.errorKey: nserror, LinkContainerCellar.providerKey: self])
         }
     }

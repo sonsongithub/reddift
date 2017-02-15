@@ -10,8 +10,8 @@ import reddift
 import UIKit
 
 class CommentViewController: UITableViewController, UIViewControllerPreviewingDelegate, UZTextViewDelegate, UIViewControllerTransitioningDelegate, ImageViewAnimator {
-    var link: Link? = nil
-    var previewingView: UIView? = nil
+    var link: Link?
+    var previewingView: UIView?
     
     var cellar: CommentContainerCellar = CommentContainerCellar(link: nil)
     

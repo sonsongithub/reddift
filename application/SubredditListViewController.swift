@@ -40,7 +40,7 @@ class SubredditListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = list[indexPath.row]
-        NotificationCenter.default.post(name: SubredditSelectTabBarControllerDidOpenSubredditName, object: nil, userInfo: ["subreddit":item.subreddit])
+        NotificationCenter.default.post(name: SubredditSelectTabBarControllerDidOpenSubredditName, object: nil, userInfo: ["subreddit": item.subreddit])
         dismiss(animated: true, completion: nil)
     }
     

@@ -22,7 +22,7 @@ private func prepareHTML(html: String, constrainedBy width: CGFloat, fontSize: C
     let html = html.preprocessedHTMLStringBeforeNSAttributedStringParsing
     do {
         if let data = html.data(using: .unicode) {
-            let attr = try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
+            let attr = try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
             
             let isAA = (asciiArtDetector.firstMatch(in: attr.string, options: [], range: attr.string.fullRange) != nil)
             
@@ -119,7 +119,7 @@ class CommentContainer: CommentContainable {
     
     func extractURLsFromBody() -> [ImageURLContainer] {
         var list: [ImageURLContainer] = []
-        body.enumerateAttribute(NSLinkAttributeName, in: NSRange(location:0, length:body.length), options: NSAttributedString.EnumerationOptions(), using: { (value: Any?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
+        body.enumerateAttribute(NSLinkAttributeName, in: NSRange(location:0, length:body.length), options: NSAttributedString.EnumerationOptions(), using: { (value: Any?, _, _) -> Void in
             if let url = value as? URL {
                 if url.isImageURL {
                     list.append(ImageURLInComment(sourceURL: url, parentID: self.thing.id))

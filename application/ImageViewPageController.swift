@@ -20,7 +20,7 @@ let ImageViewPageControllerDidStartDraggingThumbnailName = Notification.Name(raw
 class ImageViewPageController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIGestureRecognizerDelegate {
     var thumbnails: [Thumbnail] = []
     var currentIndex = 0
-    var imageViewController: ImageViewDestination? = nil
+    var imageViewController: ImageViewDestination?
     let navigationBar = UINavigationBar(frame: CGRect.zero)
     let item: UINavigationItem = UINavigationItem(title:"")
 
@@ -30,8 +30,8 @@ class ImageViewPageController: UIPageViewController, UIPageViewControllerDataSou
         view.backgroundColor = UIColor.white
         navigationBar.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(navigationBar)
-        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[navigationBar]-0-|", options: NSLayoutFormatOptions(), metrics: [:], views: ["navigationBar":navigationBar]))
-        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[navigationBar(==64)]", options: NSLayoutFormatOptions(), metrics: [:], views: ["navigationBar":navigationBar]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[navigationBar]-0-|", options: NSLayoutFormatOptions(), metrics: [:], views: ["navigationBar": navigationBar]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[navigationBar(==64)]", options: NSLayoutFormatOptions(), metrics: [:], views: ["navigationBar": navigationBar]))
         navigationBar.pushItem(item, animated: false)
         navigationBar.topItem?.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(ImageViewPageController.close(sender:)))
         isNavigationBarHidden = true
@@ -90,7 +90,7 @@ class ImageViewPageController: UIPageViewController, UIPageViewControllerDataSou
     init(thumbnails: [Thumbnail], index: Int) {
         self.thumbnails = thumbnails
         self.currentIndex = index
-        super.init(transitionStyle: UIPageViewControllerTransitionStyle.scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.horizontal, options:[UIPageViewControllerOptionInterPageSpacingKey:12])
+        super.init(transitionStyle: UIPageViewControllerTransitionStyle.scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.horizontal, options:[UIPageViewControllerOptionInterPageSpacingKey: 12])
         self.dataSource = self
         self.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(ImageViewPageController.didMoveCurrentImage(notification:)), name: ImageViewControllerDidChangeCurrentImageName, object: nil)
@@ -122,7 +122,7 @@ class ImageViewPageController: UIPageViewController, UIPageViewControllerDataSou
         vc.setTitle(string: thumbnails[index].url.absoluteString)
         
         if let con = con {
-            vc.setViewControllers([con], direction: .forward, animated: false, completion: { (result) -> Void in })
+            vc.setViewControllers([con], direction: .forward, animated: false, completion: { (_) -> Void in })
         }
         return vc
     }
@@ -159,7 +159,6 @@ class ImageViewPageController: UIPageViewController, UIPageViewControllerDataSou
             if thumbnails.count <= index {
                 return nil
             }
-            
             
             switch self.thumbnails[index] {
             case .Image(_, _):

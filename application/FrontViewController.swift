@@ -10,14 +10,14 @@ import reddift
 import UIKit
 
 class FrontViewController: UITableViewController, UIViewControllerPreviewingDelegate, UITextFieldDelegate, UIViewControllerTransitioningDelegate, ImageViewAnimator {
-    @IBOutlet var titleTextField: UITextField? = nil
+    @IBOutlet var titleTextField: UITextField?
     var searchController = SearchController(style: .plain)
     var cellar: LinkContainerCellar = LinkContainerCellar()
-    @IBOutlet var rightListButton: UIBarButtonItem? = nil
-    @IBOutlet var leftAccountButton: UIBarButtonItem? = nil
+    @IBOutlet var rightListButton: UIBarButtonItem?
+    @IBOutlet var leftAccountButton: UIBarButtonItem?
     var refresh = UIRefreshControl()
     
-    var searchControllerViewBottomSpaceConstraint: NSLayoutConstraint? = nil
+    var searchControllerViewBottomSpaceConstraint: NSLayoutConstraint?
     
 //    func hideThumbnail(thumbnail: Thumbnail?) {
 //        let imageIncludingCells = self.tableView.visibleCells.flatMap({$0 as? ImageViewAnimator})
@@ -94,21 +94,21 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
     func didTapActionNotification(notification: Notification) {
         if let userInfo = notification.userInfo, let link = userInfo["link"] as? Link, let contents = userInfo["contents"] as? LinkContainable {
             let controller = UIAlertController(title: link.title, message: link.url, preferredStyle: .actionSheet)
-            let shareAction = UIAlertAction(title: "Share", style: .default, handler: { (action) -> Void in
+            let shareAction = UIAlertAction(title: "Share", style: .default, handler: { (_) -> Void in
                 let sharedURL = URL(string: link.url)!
                 let activityController = UIActivityViewController(activityItems: [sharedURL], applicationActivities: nil)
                 self.present(activityController, animated: true, completion: nil)
             })
             controller.addAction(shareAction)
-            let reportAction = UIAlertAction(title: "Report", style: .default, handler: { (action) -> Void in
+            let reportAction = UIAlertAction(title: "Report", style: .default, handler: { (_) -> Void in
                 contents.report()
             })
             controller.addAction(reportAction)
-            let hideAction = UIAlertAction(title: "Hide", style: .destructive, handler: { (action) -> Void in
+            let hideAction = UIAlertAction(title: "Hide", style: .destructive, handler: { (_) -> Void in
                 contents.hide()
             })
             controller.addAction(hideAction)
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) -> Void in
             })
             controller.addAction(cancelAction)
             self.present(controller, animated: true, completion: nil)
@@ -311,7 +311,6 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
 //        print(con.link)
 //        con.link = Link(id: "2zbpqj")
 //        self.navigationController?.pushViewController(con, animated: true)
-        
         
     }
     
@@ -519,8 +518,8 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
             searchController.view.translatesAutoresizingMaskIntoConstraints = false
             
             let views: [String:UIView] = [
-                "v1":searchController.view,
-                "v2":self.navigationController!.view
+                "v1": searchController.view,
+                "v2": self.navigationController!.view
             ]
             
             navigationController.view.addConstraints(
@@ -579,7 +578,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
             DispatchQueue.main.async(execute: { () -> Void in
                 // authentication expired?
                 let alert = UIAlertController(title: "Error", message: "Authentication failed. Do you want to try again?", preferredStyle: .alert)
-                let actionOK = UIAlertAction(title: "Try", style: .default, handler: { (action) -> Void in
+                let actionOK = UIAlertAction(title: "Try", style: .default, handler: { (_) -> Void in
                     // reload
                 })
                 alert.addAction(actionOK)
@@ -589,6 +588,5 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
             })
         }
     }
-    
     
 }

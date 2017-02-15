@@ -71,9 +71,9 @@ extension Session {
     @discardableResult
     public func searchRedditNames(_ query: String, exact: Bool = false, includeOver18: Bool = false, completion: @escaping (Result<[String]>) -> Void) throws -> URLSessionDataTask {
         let parameter = [
-            "query":query,
-            "exact":exact.string,
-            "include_over_18":includeOver18.string
+            "query": query,
+            "exact": exact.string,
+            "include_over_18": includeOver18.string
         ]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/search_reddit_names", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -120,7 +120,7 @@ extension Session {
      */
     @discardableResult
     public func searchSubredditsByTopic(_ query: String, completion: @escaping (Result<[String]>) -> Void) throws -> URLSessionDataTask {
-        let parameter = ["query":query]
+        let parameter = ["query": query]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/subreddits_by_topic", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[String]> in
@@ -174,9 +174,9 @@ extension Session {
     @discardableResult
     public func about(_ subreddit: Subreddit, aboutWhere: SubredditAbout, user: String = "", count: Int = 0, limit: Int = 25, completion: @escaping (Result<[User]>) -> Void) throws -> URLSessionDataTask {
         let parameter = [
-            "count"    : "\(count)",
-            "limit"    : "\(limit)",
-            "show"     : "all",
+            "count": "\(count)",
+            "limit": "\(limit)",
+            "show": "all",
 //          "sr_detail": "true",
 //          "user"     :"username"
             ]
@@ -202,7 +202,7 @@ extension Session {
      */
     @discardableResult
     public func setSubscribeSubreddit(_ subreddit: Subreddit, subscribe: Bool, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        var parameter = ["sr":subreddit.name]
+        var parameter = ["sr": subreddit.name]
         parameter["action"] = (subscribe) ? "sub" : "unsub"
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/subscribe", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
@@ -276,7 +276,7 @@ extension Session {
      */
     @discardableResult
     public func getSubredditSearch(_ query: String, paginator: Paginator, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
-        let parameter = paginator.dictionaryByAdding(parameters: ["q":query])
+        let parameter = paginator.dictionaryByAdding(parameters: ["q": query])
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/subreddits/search", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
@@ -299,7 +299,7 @@ extension Session {
      */
     @discardableResult
     public func getSubredditSearchWithErrorHandling(_ query: String, paginator: Paginator, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
-        let parameter = paginator.dictionaryByAdding(parameters: ["q":query])
+        let parameter = paginator.dictionaryByAdding(parameters: ["q": query])
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/subreddits/search", parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in

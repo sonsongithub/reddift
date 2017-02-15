@@ -43,8 +43,8 @@ class SearchController: UITableViewController {
     var loadingSubredditSearch = false
     var loadingSuggests = false
     
-    var subreddit: Subreddit? = nil
-    var timer: Timer? = nil
+    var subreddit: Subreddit?
+    var timer: Timer?
     
     /// Shared session configuration
     var sessionConfiguration: URLSessionConfiguration {
@@ -106,7 +106,7 @@ class SearchController: UITableViewController {
             var request = URLRequest(url: url)
             request.addValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/601.1.56 (KHTML, like Gecko) Version/9.0 Safari/601.1.56", forHTTPHeaderField: "User-Agent")
             let session: URLSession = URLSession(configuration: self.sessionConfiguration)
-            let task = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+            let task = session.dataTask(with: request, completionHandler: { (data, _, _) -> Void in
                 self.loadingSuggests = false
                 if let data = data, let string = String(data: data, encoding: .utf8) {
                     do {
@@ -151,7 +151,7 @@ class SearchController: UITableViewController {
     func close(sender: AnyObject) {
         UIView.animate(withDuration: 0.3, animations: {
             self.view.alpha = 0
-            }) { (success) in
+            }) { (_) in
                 self.view.removeFromSuperview()
         }
     }
@@ -194,17 +194,17 @@ class SearchController: UITableViewController {
         case .name:
             if 0..<subredditNames.count ~= indexPath.row {
                 let subreddit = subredditNames[indexPath.row]
-                NotificationCenter.default.post(name: SearchControllerDidOpenSubredditName, object: nil, userInfo: [SearchController.subredditKey:subreddit])
+                NotificationCenter.default.post(name: SearchControllerDidOpenSubredditName, object: nil, userInfo: [SearchController.subredditKey: subreddit])
             }
         case .topic:
             if 0..<subredditSearch.count ~= indexPath.row {
                 let subreddit = subredditSearch[indexPath.row]
-                NotificationCenter.default.post(name: SearchControllerDidOpenSubredditName, object: nil, userInfo: [SearchController.subredditKey:subreddit])
+                NotificationCenter.default.post(name: SearchControllerDidOpenSubredditName, object: nil, userInfo: [SearchController.subredditKey: subreddit])
             }
         case .suggest:
             if 0..<suggests.count ~= indexPath.row {
                 let query = suggests[indexPath.row]
-                NotificationCenter.default.post(name: SearchControllerDidSearchSubredditName, object: nil, userInfo: [SearchController.queryKey:query])
+                NotificationCenter.default.post(name: SearchControllerDidSearchSubredditName, object: nil, userInfo: [SearchController.queryKey: query])
             }
         }
     }

@@ -112,14 +112,14 @@ class CommentContainerCellar {
             return
         }
         moreContainer.isLoading = true
-        NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.reloadIndicesKey:[IndexPath(row: index, section: 0)]])
+        NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.reloadIndicesKey: [IndexPath(row: index, section: 0)]])
         do {
             let children = moreContainer.more.children.reversed() as [String]
             try UIApplication.appDelegate()?.session?.getArticles(link, sort:sort, comments:children, completion: { (result) -> Void in
                 moreContainer.isLoading = false
                 switch result {
                 case .failure(let error):
-                    NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.errorKey:error])
+                    NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.errorKey: error])
                 case .success(let tuple):
                     let things: [Thing] = tuple.1.children.filter {($0 is Comment) || ($0 is More)}
                     let temp = self.expandIncommingComments(things: things, width: width, depth:moreContainer.depth)
@@ -144,9 +144,9 @@ class CommentContainerCellar {
                                 insertIndices += (targetIndex + 1 ..< targetIndex + temp.count).map {IndexPath(row: $0, section: 0)}
                             }
                             NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [
-                                CommentContainerCellar.reloadIndicesKey:reloadIndices,
-                                CommentContainerCellar.insertIndicesKey:insertIndices,
-                                CommentContainerCellar.deleteIndicesKey:deleteIndices
+                                CommentContainerCellar.reloadIndicesKey: reloadIndices,
+                                CommentContainerCellar.insertIndicesKey: insertIndices,
+                                CommentContainerCellar.deleteIndicesKey: deleteIndices
                                 ])
                         }
                     })
@@ -167,13 +167,13 @@ class CommentContainerCellar {
             return
         }
         commentContainer.isLoading = true
-        NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.reloadIndicesKey:[IndexPath(row: index, section: 0)]])
+        NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.reloadIndicesKey: [IndexPath(row: index, section: 0)]])
         do {
             try UIApplication.appDelegate()?.session?.getArticles(link, sort:.confidence, comments:[commentContainer.comment.id], completion: { (result) -> Void in
                 commentContainer.isLoading = false
                 switch result {
                 case .failure(let error):
-                    NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.errorKey:error])
+                    NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.errorKey: error])
                 case .success(let (_, listing)):
                     if listing.children.count == 1 && listing.children[0].id == commentContainer.comment.id && listing.children[0] is Comment {
                         let temp = self.expandIncommingComments(things: listing.children, width: width, depth:commentContainer.depth)
@@ -190,11 +190,11 @@ class CommentContainerCellar {
                                 if temp.count > 1 {
                                     insertIndices += (targetIndex + 1 ..< targetIndex + temp.count).map {IndexPath(row: $0, section: 0)}
                                 }
-                                NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.reloadIndicesKey:reloadIndices, CommentContainerCellar.insertIndicesKey:insertIndices])
+                                NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.reloadIndicesKey: reloadIndices, CommentContainerCellar.insertIndicesKey: insertIndices])
                             }
                         })
                     } else {
-                        NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.errorKey:NSError(domain: "", code: 0, userInfo: nil)])
+                        NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.errorKey: NSError(domain: "", code: 0, userInfo: nil)])
                     }
                 }
             })
@@ -333,7 +333,7 @@ class CommentContainerCellar {
         
         // Execute reloading table view.
         NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [
-            CommentContainerCellar.reloadIndicesKey:reloadIndices
+            CommentContainerCellar.reloadIndicesKey: reloadIndices
             ])
     }
     
@@ -352,7 +352,7 @@ class CommentContainerCellar {
                         var request = URLRequest(url: url)
                         request.addValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/601.1.56 (KHTML, like Gecko) Version/9.0 Safari/601.1.56", forHTTPHeaderField: "User-Agent")
                         let session: URLSession = URLSession(configuration: self.sessionConfiguration)
-                        let task = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+                        let task = session.dataTask(with: request, completionHandler: { (data, _, _) -> Void in
                             if let data = data, let decoded = String(data: data, encoding: .utf8) {
                                 if !decoded.is404OfImgurcom {
                                     var new = ImgurURLInComment(sourceURL: url, parentID: commentContainer.comment.id)
@@ -362,7 +362,7 @@ class CommentContainerCellar {
                                     DispatchQueue.main.async(execute: { () -> Void in
                                         if let targetIndex = self.containers.index(where: {$0 === commentContainer}) {
                                             let reloadIndices = [IndexPath(row: targetIndex, section: 0)]
-                                            NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.reloadIndicesKey:reloadIndices])
+                                            NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.reloadIndicesKey: reloadIndices])
                                         }
                                     })
                                 }

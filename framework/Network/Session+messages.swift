@@ -21,7 +21,7 @@ extension Session {
     @discardableResult
     public func markMessagesAsUnread(_ fullnames: [String], modhash: String = "", completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedFullameString = fullnames.joined(separator: ",")
-        let parameter = ["id":commaSeparatedFullameString]
+        let parameter = ["id": commaSeparatedFullameString]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/unread_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
@@ -41,7 +41,7 @@ extension Session {
     @discardableResult
     public func markMessagesAsRead(_ fullnames: [String], modhash: String = "", completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedFullameString = fullnames.joined(separator: ",")
-        let parameter = ["id":commaSeparatedFullameString]
+        let parameter = ["id": commaSeparatedFullameString]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/read_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
@@ -81,7 +81,7 @@ extension Session {
     @discardableResult
     public func collapseMessages(_ fullnames: [String], modhash: String = "", completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedFullameString = fullnames.joined(separator: ",")
-        let parameter = ["id":commaSeparatedFullameString]
+        let parameter = ["id": commaSeparatedFullameString]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/collapse_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
@@ -102,7 +102,7 @@ extension Session {
     @discardableResult
     public func uncollapseMessages(_ fullnames: [String], modhash: String = "", completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let commaSeparatedFullameString = fullnames.joined(separator: ",")
-        let parameter = ["id":commaSeparatedFullameString]
+        let parameter = ["id": commaSeparatedFullameString]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/uncollapse_message", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
@@ -121,7 +121,7 @@ extension Session {
      */
     @discardableResult
     public func blockViaInbox(_ fullname: String, modhash: String = "", completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let parameter = ["id":fullname]
+        let parameter = ["id": fullname]
         guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"/api/block", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
@@ -140,7 +140,7 @@ extension Session {
      */
     @discardableResult
     public func unblockViaInbox(_ fullname: String, modhash: String = "", completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        let parameter = ["id":fullname]
+        let parameter = ["id": fullname]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/unblock_subreddit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
@@ -190,13 +190,13 @@ extension Session {
     @discardableResult
     public func composeMessage(_ to: Account, subject: String, text: String, fromSubreddit: Subreddit, captcha: String, captchaIden: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = [
-            "api_type" : "json",
-            "captcha" : captcha,
-            "iden" : captchaIden,
-            "from_sr" : fromSubreddit.displayName,
-            "text" : text,
-            "subject" : subject,
-            "to" : to.id
+            "api_type": "json",
+            "captcha": captcha,
+            "iden": captchaIden,
+            "from_sr": fromSubreddit.displayName,
+            "text": text,
+            "subject": subject,
+            "to": to.id
         ]
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/submit", parameter:parameter, method:"POST", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }

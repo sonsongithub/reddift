@@ -35,5 +35,4 @@ class SearchTest: SessionTestSpec {
         XCTAssert(links.count > 0, msg)
     }
     
-    
 }

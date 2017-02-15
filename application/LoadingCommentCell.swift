@@ -9,7 +9,7 @@
 import UIKit
 
 class LoadingCommentCell: UITableViewCell {
-    @IBOutlet var activityIndicator: UIActivityIndicatorView? = nil
+    @IBOutlet var activityIndicator: UIActivityIndicatorView?
     
     override func awakeFromNib() {
         activityIndicator?.startAnimating()

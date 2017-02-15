@@ -36,7 +36,6 @@ class ExtendCommentsTest: XCTestCase {
         (More.self, 3)
     ]
     
-    
     /**
      test data
      Comment - cohjrv4

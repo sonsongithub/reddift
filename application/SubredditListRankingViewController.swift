@@ -81,7 +81,7 @@ class SubredditListRankingViewController: UITableViewController {
         let session: URLSession = URLSession(configuration: URLSessionConfiguration.default)
         let url = targetType.url
         let request = URLRequest(url: url)
-        let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
+        let task = session.dataTask(with: request, completionHandler: { (data: Data?, _, _) -> Void in
             if let data = data {
                 let (subscribersRankingList, growthRankingList, recentActivityList, lastUpdateDate) = SubredditListItem.SubredditListJSON2List(data: data as NSData)
                 self.lastUpdateDate = lastUpdateDate
@@ -125,7 +125,6 @@ class SubredditListRankingViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let list = self.list[orderType.jsonKey] else { return 0 }
@@ -135,7 +134,7 @@ class SubredditListRankingViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let list = self.list[orderType.jsonKey] else { return }
         let subredditListItem = list[indexPath.row]
-        NotificationCenter.default.post(name: SubredditSelectTabBarControllerDidOpenSubredditName, object: nil, userInfo: ["subreddit":subredditListItem.subreddit])
+        NotificationCenter.default.post(name: SubredditSelectTabBarControllerDidOpenSubredditName, object: nil, userInfo: ["subreddit": subredditListItem.subreddit])
         dismiss(animated: true, completion: nil)
     }
 

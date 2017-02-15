@@ -23,7 +23,7 @@ public typealias RedditAny = Any
 /// Session class to communicate with reddit.com using OAuth.
 public class Session: NSObject, URLSessionDelegate, URLSessionDataDelegate {
     /// Token object to access via OAuth
-    public var token: Token? = nil
+    public var token: Token?
     /// Base URL for OAuth API
     let baseURL: String
     /// Session object to communicate a server
@@ -106,7 +106,7 @@ public class Session: NSObject, URLSessionDelegate, URLSessionDataDelegate {
      - parameter handleResponse: Closure returns Result<T> object by handling response, data and error that is returned from NSURLSession.
      - parameter completion: The completion handler to call when the load request is complete.
      */
-    func executeTaskAgainAfterRefresh<T>(_ request: URLRequest, handleResponse: @escaping (_ data: Data?, _ response: URLResponse?, _ error: NSError?) -> Result<T>, completion: @escaping (Result<T>) -> Void) -> Void {
+    func executeTaskAgainAfterRefresh<T>(_ request: URLRequest, handleResponse: @escaping (_ data: Data?, _ response: URLResponse?, _ error: NSError?) -> Result<T>, completion: @escaping (Result<T>) -> Void) {
         do {
             try self.refreshToken({ (result) -> Void in
                 switch result {

@@ -9,7 +9,7 @@
 import XCTest
 
 class ParseCommentMarkdownTest: XCTestCase {
-    var json: Any? = nil
+    var json: Any?
     
     override func setUp() {
         super.setUp()

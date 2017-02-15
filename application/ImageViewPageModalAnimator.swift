@@ -129,7 +129,7 @@ class ImageViewPageModalAnimator: NSObject, UIViewControllerAnimatedTransitionin
                         animatingView.transform = CGAffineTransform.identity
                         animatingView.frame = endFrame
                         pageViewController.alphaWithoutMainContent = 1
-            }) { (success) in
+            }) { (_) in
                 animatingView.removeFromSuperview()
                 destinationView.isHidden = false
                 thumbnailView.isHidden = false

@@ -241,10 +241,10 @@ class ImageLinkThumbnailView: UIView, ImageDownloadable {
 
     func setAutolayoutWhenImageView_1() {
         let metrics = [
-            "margin" : ImageLinkThumbnailView.verticalMargin
+            "margin": ImageLinkThumbnailView.verticalMargin
         ]
         let views = [
-            "v1" : imageViews[0]
+            "v1": imageViews[0]
         ]
         self.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[v1]-0-|",
@@ -265,11 +265,11 @@ class ImageLinkThumbnailView: UIView, ImageDownloadable {
     
     func setAutolayoutWhenImageView_2() {
         let metrics = [
-            "margin" : ImageLinkThumbnailView.verticalMargin
+            "margin": ImageLinkThumbnailView.verticalMargin
         ]
         let views = [
-            "v1" : imageViews[0],
-            "v2" : imageViews[1]
+            "v1": imageViews[0],
+            "v2": imageViews[1]
         ]
         
         for j in 1 ..< numberOfThumbnails {
@@ -292,12 +292,12 @@ class ImageLinkThumbnailView: UIView, ImageDownloadable {
     
     func setAutolayoutWhenImageView_3() {
         let metrics = [
-            "margin" : ImageLinkThumbnailView.verticalMargin
+            "margin": ImageLinkThumbnailView.verticalMargin
         ]
         let views = [
-            "v1" : imageViews[0],
-            "v2" : imageViews[1],
-            "v3" : imageViews[2]
+            "v1": imageViews[0],
+            "v2": imageViews[1],
+            "v3": imageViews[2]
         ]
         
         for j in 1 ..< numberOfThumbnails {
@@ -321,13 +321,13 @@ class ImageLinkThumbnailView: UIView, ImageDownloadable {
     
     func setAutolayoutWhenImageView_4() {
         let metrics = [
-            "margin" : ImageLinkThumbnailView.verticalMargin
+            "margin": ImageLinkThumbnailView.verticalMargin
         ]
         let views = [
-            "v1" : imageViews[0],
-            "v2" : imageViews[1],
-            "v3" : imageViews[2],
-            "v4" : imageViews[3]
+            "v1": imageViews[0],
+            "v2": imageViews[1],
+            "v3": imageViews[2],
+            "v4": imageViews[3]
         ]
         
         for j in 1 ..< numberOfThumbnails {
@@ -365,14 +365,14 @@ class ImageLinkThumbnailView: UIView, ImageDownloadable {
     
     func setAutolayoutWhenImageView_5() {
         let metrics = [
-            "margin" : ImageLinkThumbnailView.verticalMargin
+            "margin": ImageLinkThumbnailView.verticalMargin
         ]
         let views = [
-            "v1" : imageViews[0],
-            "v2" : imageViews[1],
-            "v3" : imageViews[2],
-            "v4" : imageViews[3],
-            "v5" : imageViews[4]
+            "v1": imageViews[0],
+            "v2": imageViews[1],
+            "v3": imageViews[2],
+            "v4": imageViews[3],
+            "v5": imageViews[4]
         ]
         
         for j in 1 ..< 2 {
@@ -383,7 +383,6 @@ class ImageLinkThumbnailView: UIView, ImageDownloadable {
             let con = NSLayoutConstraint(item: imageViews[j-1], attribute: .width, relatedBy: .equal, toItem: imageViews[j], attribute: .width, multiplier: 1, constant: 0)
             self.addConstraint(con)
         }
-        
         
         self.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[v1]-margin-[v2]-0-|",
@@ -397,7 +396,6 @@ class ImageLinkThumbnailView: UIView, ImageDownloadable {
                                            metrics: metrics,
                                            views: views)
         )
-        
         
         [imageViews[0], imageViews[1]].forEach({
             let con = NSLayoutConstraint(item: $0, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0)

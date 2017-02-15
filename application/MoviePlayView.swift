@@ -28,7 +28,7 @@ func searchMp4(infos: [FormatStreamMap]) -> FormatStreamMap? {
 }
 
 class MoviePlayView: UIView {
-    var videoTimeObserver: Any? = nil
+    var videoTimeObserver: Any?
     let movieURL: URL
     var duration = CMTime()
     var presentationSize = CGSize.zero
@@ -79,7 +79,7 @@ class MoviePlayView: UIView {
             let request = URLRequest(url: infoURL)
             let session = URLSession(configuration: sessionConfiguration)
             print("Start loading metadata... \(infoURL.absoluteString)")
-            let task = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+            let task = session.dataTask(with: request, completionHandler: { (data, _, error) -> Void in
                 do {
                     guard let data = data else { throw NSError(domain: "", code: 0, userInfo: nil) }
                     guard let result = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String else { throw NSError(domain: "", code: 0, userInfo: nil) }
@@ -123,7 +123,7 @@ class MoviePlayView: UIView {
         videoTimeObserver = player.addPeriodicTimeObserver(
             forInterval: CMTimeMake(150, 600),
             queue: DispatchQueue.main) {
-                (time) -> Void in
+                (_) -> Void in
                 let currentTime = player.currentTime()
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(name: MoviePlayViewUpdateTime, object: nil, userInfo: ["Time": currentTime])
