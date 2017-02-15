@@ -98,6 +98,15 @@ Fill each following value using above preference pain of reddit.com.
 
 Cmd + U.
 
+## How to build browser sample
+
+You have build dependent frameworks using `carthage` before building a sample application using Xcode.
+
+    # before open xcode project file.
+    > carthage update --platform iOS
+    
+And, you get to edit URI types and reddift_config.json as same as the framework.
+
 ## Create you app.
 
 #### Get something & Error handling
