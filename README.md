@@ -37,6 +37,13 @@ You have to pay attention to use this library.
 > git clone --recursive https://github.com/sonsongithub/reddift.git
 ```
 
+Check that these libraries are checked out at each path correctly.
+
+```
+/framework/vendor/HTMLSpecialCharacters
+/framework/vendor/MiniKeychain
+```
+
 #### 2. Create application(installed app) at reddit.com
 
 Create new installed app via preference page at reddit.com.
@@ -100,10 +107,18 @@ Cmd + U.
 
 ## How to build browser sample
 
-You have build dependent frameworks using `carthage` before building a sample application using Xcode.
+You have to build dependent frameworks using `carthage` before building a sample application using Xcode.
 
     # before open xcode project file.
     > carthage update --platform iOS
+
+`carthage` works corretly, you can get following frameworks at each path.
+    
+```
+/Carthage/Build/iOS/FLAnimatedImage.framework
+/Carthage/Build/iOS/YouTubeGetVideoInfoAPIParser.framework
+/Carthage/Build/iOS/UZTextView.framework
+```
     
 And, you get to edit URI types and reddift_config.json as same as the framework.
 
