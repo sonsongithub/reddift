@@ -61,7 +61,7 @@ class ParseThingObjectTest: XCTestCase {
             XCTAssert(object.created == 1429284845)
             XCTAssert(object.authorFlairText == "")
             XCTAssert(object.createdUtc == 1429281245)
-            XCTAssert(object.distinguished == false)
+            XCTAssert(object.distinguished == .none)
             XCTAssert(object.modReports.count == 0)
             XCTAssert(object.numReports == 0)
             XCTAssert(object.ups == 1)
@@ -151,7 +151,7 @@ class ParseThingObjectTest: XCTestCase {
             XCTAssert(object.upvoteRatio == 0.75)
             XCTAssert(object.visited == false)
             XCTAssert(object.numReports == 0)
-            XCTAssert(object.distinguished == false)
+            XCTAssert(object.distinguished == .none)
             
             // media
             XCTAssertTrue((object.media != nil), "check media's value.")
