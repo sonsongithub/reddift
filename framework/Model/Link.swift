@@ -236,9 +236,10 @@ public struct Link: Thing, Created, Votable {
     */
     public let numReports: Int
     /**
-    example: false
+    How the link is distinguished from other comments.
+    example: .admin
     */
-    public let distinguished: Bool
+    public let distinguished: DistinguishType
 	
     public init(id: String) {
         self.id = id
@@ -279,7 +280,7 @@ public struct Link: Thing, Created, Votable {
         upvoteRatio = 0
         visited = false
         numReports = 0
-        distinguished = false
+        distinguished = .none
         media = Media(json: [:])
         mediaEmbed = MediaEmbed(json: [:])
         
@@ -345,7 +346,18 @@ public struct Link: Thing, Created, Votable {
         upvoteRatio = data["upvote_ratio"] as? Double ?? 0
         visited = data["visited"] as? Bool ?? false
         numReports = data["num_reports"] as? Int ?? 0
-        distinguished = data["distinguished"] as? Bool ?? false
+        
+        if let distinguishedString = data["distinguished"] as? String {
+            switch distinguishedString {
+                case "admin": distinguished = .admin
+                case "moderator": distinguished = .moderator
+                case "special": distinguished = .special
+                default: distinguished = .none
+            }
+        } else {
+            distinguished = .none
+        }
+        
         media = Media(json: data["media"] as? JSONDictionary ?? [:])
         mediaEmbed = MediaEmbed(json: data["media_embed"] as? JSONDictionary ?? [:])
         

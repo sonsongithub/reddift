@@ -370,3 +370,13 @@ public enum VoteDirection: Int {
 	case none   =  0
 	case down   = -1
 }
+
+/**
+How a Thing is distinguished from other things.
+*/
+public enum DistinguishType {
+    case none
+    case moderator
+    case admin
+    case special
+}
