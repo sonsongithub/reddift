@@ -22,7 +22,9 @@ extension URLRequest {
             if let url = self.url {
                 command += " '\(url.absoluteString)'"
             }
-            command += " -X \(self.httpMethod)"
+            if let httpMethod = self.httpMethod {
+                command += " -X \(httpMethod)"
+            }
             if let data = self.httpBody {
                 if var str = String(data: data, encoding: .utf8) {
                     str = str.replacingOccurrences(of: "\"", with: "\\\"")

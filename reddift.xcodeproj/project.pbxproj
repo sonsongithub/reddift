@@ -512,12 +512,22 @@
 		1485328E1E536E2900702442 /* HTMLSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148532891E536DFB00702442 /* HTMLSpecialCharacters.swift */; };
 		148532901E536E2B00702442 /* HTMLSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148532891E536DFB00702442 /* HTMLSpecialCharacters.swift */; };
 		148532911E536E2B00702442 /* HTMLSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148532891E536DFB00702442 /* HTMLSpecialCharacters.swift */; };
-		148532971E53701D00702442 /* YouTubeGetVideoInfoAPIParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148532941E53701D00702442 /* YouTubeGetVideoInfoAPIParser.framework */; };
-		148532981E53702E00702442 /* FLAnimatedImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148532921E53701D00702442 /* FLAnimatedImage.framework */; };
-		148532991E53702E00702442 /* FLAnimatedImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 148532921E53701D00702442 /* FLAnimatedImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1485329A1E53702E00702442 /* UZTextView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148532931E53701D00702442 /* UZTextView.framework */; };
-		1485329B1E53702E00702442 /* UZTextView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 148532931E53701D00702442 /* UZTextView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1485329D1E53702E00702442 /* YouTubeGetVideoInfoAPIParser.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 148532941E53701D00702442 /* YouTubeGetVideoInfoAPIParser.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1492BC841EDAA05800A4470C /* FLAnimatedImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BC7F1EDAA05800A4470C /* FLAnimatedImage.framework */; };
+		1492BC851EDAA05800A4470C /* FLAnimatedImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BC7F1EDAA05800A4470C /* FLAnimatedImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1492BC861EDAA05800A4470C /* HTMLSpecialCharacters.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BC801EDAA05800A4470C /* HTMLSpecialCharacters.framework */; };
+		1492BC871EDAA05800A4470C /* HTMLSpecialCharacters.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BC801EDAA05800A4470C /* HTMLSpecialCharacters.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1492BC881EDAA05800A4470C /* MiniKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BC811EDAA05800A4470C /* MiniKeychain.framework */; };
+		1492BC891EDAA05800A4470C /* MiniKeychain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BC811EDAA05800A4470C /* MiniKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1492BC8A1EDAA05900A4470C /* UZTextView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BC821EDAA05800A4470C /* UZTextView.framework */; };
+		1492BC8B1EDAA05900A4470C /* UZTextView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BC821EDAA05800A4470C /* UZTextView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1492BC8C1EDAA05900A4470C /* YouTubeGetVideoInfoAPIParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BC831EDAA05800A4470C /* YouTubeGetVideoInfoAPIParser.framework */; };
+		1492BC8D1EDAA05900A4470C /* YouTubeGetVideoInfoAPIParser.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BC831EDAA05800A4470C /* YouTubeGetVideoInfoAPIParser.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1492BC8F1EDAA07E00A4470C /* HTMLSpecialCharacters.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BC801EDAA05800A4470C /* HTMLSpecialCharacters.framework */; };
+		1492BC901EDAA07E00A4470C /* MiniKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BC811EDAA05800A4470C /* MiniKeychain.framework */; };
+		1492BCB21EDAA85600A4470C /* HTMLSpecialCharacters.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BCB01EDAA85600A4470C /* HTMLSpecialCharacters.framework */; };
+		1492BCB31EDAA85600A4470C /* MiniKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BCB11EDAA85600A4470C /* MiniKeychain.framework */; };
+		1492BCB71EDAA87900A4470C /* HTMLSpecialCharacters.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BCB51EDAA87900A4470C /* HTMLSpecialCharacters.framework */; };
+		1492BCB81EDAA87900A4470C /* MiniKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BCB61EDAA87900A4470C /* MiniKeychain.framework */; };
 		14B5EBBC1AF34D590065BC5E /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; };
 		14F8120B1AF9EA9F008F6F3C /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F812001AF9EA9F008F6F3C /* reddift.framework */; };
 		14FD7D641E3C940600F4A7F9 /* AccountListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7D621E3C940600F4A7F9 /* AccountListViewController.swift */; };
@@ -636,10 +646,12 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				1485329B1E53702E00702442 /* UZTextView.framework in Embed Frameworks */,
-				1485329D1E53702E00702442 /* YouTubeGetVideoInfoAPIParser.framework in Embed Frameworks */,
+				1492BC8B1EDAA05900A4470C /* UZTextView.framework in Embed Frameworks */,
 				144B5B481E3C8FE400C88DB9 /* reddift.framework in Embed Frameworks */,
-				148532991E53702E00702442 /* FLAnimatedImage.framework in Embed Frameworks */,
+				1492BC871EDAA05800A4470C /* HTMLSpecialCharacters.framework in Embed Frameworks */,
+				1492BC8D1EDAA05900A4470C /* YouTubeGetVideoInfoAPIParser.framework in Embed Frameworks */,
+				1492BC851EDAA05800A4470C /* FLAnimatedImage.framework in Embed Frameworks */,
+				1492BC891EDAA05800A4470C /* MiniKeychain.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -762,9 +774,15 @@
 		144B5B431E3C8FBA00C88DB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		144B5B4C1E3C90FA00C88DB9 /* application-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "application-Bridging-Header.h"; sourceTree = "<group>"; };
 		148532891E536DFB00702442 /* HTMLSpecialCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTMLSpecialCharacters.swift; path = framework/vendor/HTMLSpecialCharacters/Sources/HTMLSpecialCharacters.swift; sourceTree = "<group>"; };
-		148532921E53701D00702442 /* FLAnimatedImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAnimatedImage.framework; path = Carthage/Build/iOS/FLAnimatedImage.framework; sourceTree = SOURCE_ROOT; };
-		148532931E53701D00702442 /* UZTextView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UZTextView.framework; path = Carthage/Build/iOS/UZTextView.framework; sourceTree = SOURCE_ROOT; };
-		148532941E53701D00702442 /* YouTubeGetVideoInfoAPIParser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YouTubeGetVideoInfoAPIParser.framework; path = Carthage/Build/iOS/YouTubeGetVideoInfoAPIParser.framework; sourceTree = SOURCE_ROOT; };
+		1492BC7F1EDAA05800A4470C /* FLAnimatedImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAnimatedImage.framework; path = Carthage/Build/iOS/FLAnimatedImage.framework; sourceTree = "<group>"; };
+		1492BC801EDAA05800A4470C /* HTMLSpecialCharacters.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HTMLSpecialCharacters.framework; path = Carthage/Build/iOS/HTMLSpecialCharacters.framework; sourceTree = "<group>"; };
+		1492BC811EDAA05800A4470C /* MiniKeychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MiniKeychain.framework; path = Carthage/Build/iOS/MiniKeychain.framework; sourceTree = "<group>"; };
+		1492BC821EDAA05800A4470C /* UZTextView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UZTextView.framework; path = Carthage/Build/iOS/UZTextView.framework; sourceTree = "<group>"; };
+		1492BC831EDAA05800A4470C /* YouTubeGetVideoInfoAPIParser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YouTubeGetVideoInfoAPIParser.framework; path = Carthage/Build/iOS/YouTubeGetVideoInfoAPIParser.framework; sourceTree = "<group>"; };
+		1492BCB01EDAA85600A4470C /* HTMLSpecialCharacters.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HTMLSpecialCharacters.framework; path = Carthage/Build/tvOS/HTMLSpecialCharacters.framework; sourceTree = "<group>"; };
+		1492BCB11EDAA85600A4470C /* MiniKeychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MiniKeychain.framework; path = Carthage/Build/tvOS/MiniKeychain.framework; sourceTree = "<group>"; };
+		1492BCB51EDAA87900A4470C /* HTMLSpecialCharacters.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HTMLSpecialCharacters.framework; path = Carthage/Build/Mac/HTMLSpecialCharacters.framework; sourceTree = "<group>"; };
+		1492BCB61EDAA87900A4470C /* MiniKeychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MiniKeychain.framework; path = Carthage/Build/Mac/MiniKeychain.framework; sourceTree = "<group>"; };
 		14B5EBB11AF34D580065BC5E /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14B5EBBB1AF34D580065BC5E /* reddift-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "reddift-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14F812001AF9EA9F008F6F3C /* reddift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = reddift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -854,6 +872,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1492BCB21EDAA85600A4470C /* HTMLSpecialCharacters.framework in Frameworks */,
+				1492BCB31EDAA85600A4470C /* MiniKeychain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -869,10 +889,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				148532981E53702E00702442 /* FLAnimatedImage.framework in Frameworks */,
-				148532971E53701D00702442 /* YouTubeGetVideoInfoAPIParser.framework in Frameworks */,
-				1485329A1E53702E00702442 /* UZTextView.framework in Frameworks */,
+				1492BC8A1EDAA05900A4470C /* UZTextView.framework in Frameworks */,
 				144B5B471E3C8FE400C88DB9 /* reddift.framework in Frameworks */,
+				1492BC861EDAA05800A4470C /* HTMLSpecialCharacters.framework in Frameworks */,
+				1492BC8C1EDAA05900A4470C /* YouTubeGetVideoInfoAPIParser.framework in Frameworks */,
+				1492BC841EDAA05800A4470C /* FLAnimatedImage.framework in Frameworks */,
+				1492BC881EDAA05800A4470C /* MiniKeychain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -880,6 +902,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1492BC8F1EDAA07E00A4470C /* HTMLSpecialCharacters.framework in Frameworks */,
+				1492BC901EDAA07E00A4470C /* MiniKeychain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -895,6 +919,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1492BCB71EDAA87900A4470C /* HTMLSpecialCharacters.framework in Frameworks */,
+				1492BCB81EDAA87900A4470C /* MiniKeychain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -970,7 +996,7 @@
 			path = thing;
 			sourceTree = "<group>";
 		};
-		144B56661E3C7CE700C88DB9 /* framework */ = {
+		144B56661E3C7CE700C88DB9 /* reddift */ = {
 			isa = PBXGroup;
 			children = (
 				144B58301E3C7DB400C88DB9 /* reddift.h */,
@@ -981,7 +1007,7 @@
 				144B566F1E3C7D1500C88DB9 /* Model */,
 				144B566E1E3C7D0A00C88DB9 /* Extension */,
 			);
-			name = framework;
+			name = reddift;
 			sourceTree = "<group>";
 		};
 		144B566E1E3C7D0A00C88DB9 /* Extension */ = {
@@ -1099,9 +1125,6 @@
 		144B5B361E3C8FBA00C88DB9 /* application */ = {
 			isa = PBXGroup;
 			children = (
-				148532921E53701D00702442 /* FLAnimatedImage.framework */,
-				148532931E53701D00702442 /* UZTextView.framework */,
-				148532941E53701D00702442 /* YouTubeGetVideoInfoAPIParser.framework */,
 				14FD7E131E3C981F00F4A7F9 /* application.entitlements */,
 				14FD7D621E3C940600F4A7F9 /* AccountListViewController.swift */,
 				14FD7D631E3C940600F4A7F9 /* AppDelegate.swift */,
@@ -1190,8 +1213,11 @@
 		147EAD971AD78568007FA2F4 = {
 			isa = PBXGroup;
 			children = (
+				1492BCB41EDAA87800A4470C /* macOS-Frameworks */,
+				1492BCAF1EDAA85600A4470C /* tvOS-Frameworks */,
+				1492BC8E1EDAA06100A4470C /* iOS-framework */,
 				144B5B361E3C8FBA00C88DB9 /* application */,
-				144B56661E3C7CE700C88DB9 /* framework */,
+				144B56661E3C7CE700C88DB9 /* reddift */,
 				14E3BAA61BBA4DA800BDDF29 /* playground */,
 				147EADB81AD78568007FA2F4 /* test */,
 				147EADA11AD78568007FA2F4 /* Products */,
@@ -1232,6 +1258,36 @@
 				144B58341E3C815300C88DB9 /* test_config.json */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1492BC8E1EDAA06100A4470C /* iOS-framework */ = {
+			isa = PBXGroup;
+			children = (
+				1492BC7F1EDAA05800A4470C /* FLAnimatedImage.framework */,
+				1492BC801EDAA05800A4470C /* HTMLSpecialCharacters.framework */,
+				1492BC811EDAA05800A4470C /* MiniKeychain.framework */,
+				1492BC821EDAA05800A4470C /* UZTextView.framework */,
+				1492BC831EDAA05800A4470C /* YouTubeGetVideoInfoAPIParser.framework */,
+			);
+			name = "iOS-framework";
+			sourceTree = "<group>";
+		};
+		1492BCAF1EDAA85600A4470C /* tvOS-Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1492BCB01EDAA85600A4470C /* HTMLSpecialCharacters.framework */,
+				1492BCB11EDAA85600A4470C /* MiniKeychain.framework */,
+			);
+			name = "tvOS-Frameworks";
+			sourceTree = "<group>";
+		};
+		1492BCB41EDAA87800A4470C /* macOS-Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1492BCB51EDAA87900A4470C /* HTMLSpecialCharacters.framework */,
+				1492BCB61EDAA87900A4470C /* MiniKeychain.framework */,
+			);
+			name = "macOS-Frameworks";
 			sourceTree = "<group>";
 		};
 		14A351FF1B1B9E63003239F8 /* Unit */ = {
@@ -1318,6 +1374,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14364CA21BEDA09F00FECE58 /* Build configuration list for PBXNativeTarget "reddift-tvOS" */;
 			buildPhases = (
+				1492BCBA1EDAAA0600A4470C /* Carthage */,
 				146576321CC85E1D005ED404 /* Swiftlint */,
 				14364C881BEDA09F00FECE58 /* Sources */,
 				14364C891BEDA09F00FECE58 /* Frameworks */,
@@ -1357,6 +1414,7 @@
 			buildConfigurationList = 144B5B461E3C8FBA00C88DB9 /* Build configuration list for PBXNativeTarget "application" */;
 			buildPhases = (
 				1436ADF71E5446BB00399707 /* Swiftlint */,
+				1492BCB91EDAA95E00A4470C /* Carthage */,
 				144B5B311E3C8FBA00C88DB9 /* Sources */,
 				144B5B321E3C8FBA00C88DB9 /* Frameworks */,
 				144B5B331E3C8FBA00C88DB9 /* Resources */,
@@ -1376,6 +1434,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14B5EBC41AF34D590065BC5E /* Build configuration list for PBXNativeTarget "reddift-iOS" */;
 			buildPhases = (
+				1492BCBB1EDAAA1800A4470C /* Carthage */,
 				14E4D64C1C94473F00442A4A /* Swiftlint */,
 				14B5EBAC1AF34D580065BC5E /* Sources */,
 				14B5EBAD1AF34D580065BC5E /* Frameworks */,
@@ -1414,6 +1473,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14F812131AF9EA9F008F6F3C /* Build configuration list for PBXNativeTarget "reddift-macOS" */;
 			buildPhases = (
+				1492BCBC1EDAAA2600A4470C /* Carthage */,
 				146576331CC85E32005ED404 /* Swiftlint */,
 				14F811FB1AF9EA9F008F6F3C /* Sources */,
 				14F811FC1AF9EA9F008F6F3C /* Frameworks */,
@@ -1747,6 +1807,73 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  echo \"SwiftLint\"\n  swiftlint autocorrect\nelse\n  echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+		1492BCB91EDAA95E00A4470C /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/FLAnimatedImage.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/UZTextView.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/YouTubeGetVideoInfoAPIParser.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/HTMLSpecialCharacters.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/MiniKeychain.framework",
+			);
+			name = Carthage;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		1492BCBA1EDAAA0600A4470C /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/tvOS/HTMLSpecialCharacters.framework",
+				"$(SRCROOT)/Carthage/Build/tvOS/MiniKeychain.framework",
+			);
+			name = Carthage;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		1492BCBB1EDAAA1800A4470C /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/HTMLSpecialCharacters.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/MiniKeychain.framework",
+			);
+			name = Carthage;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		1492BCBC1EDAAA2600A4470C /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/Mac/HTMLSpecialCharacters.framework",
+				"$(SRCROOT)/Carthage/Build/Mac/MiniKeychain.framework",
+			);
+			name = Carthage;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 		14E4D64C1C94473F00442A4A /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2358,6 +2485,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = framework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2387,6 +2518,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = framework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2596,6 +2731,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -2627,6 +2766,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = framework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2694,6 +2837,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2727,6 +2874,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = framework/Info.plist;
