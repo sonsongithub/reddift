@@ -216,12 +216,20 @@ extension Session {
      new sorts the subreddits based on their creation date, newest first.
     - parameter subredditsWhere: Chooses the order in which the subreddits are displayed among SubredditsWhere.
     - parameter paginator: Paginator object for paging.
+	- parameter limit: The maximum number of subreddits to return. Default is nil (25 subs) max w/o pagination is 100
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getSubreddit(_ subredditWhere: SubredditsWhere, paginator: Paginator?, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
-        let parameter = paginator?.dictionaryByAdding(parameters: [:])
+	public func getSubreddit(_ subredditWhere: SubredditsWhere, paginator: Paginator?, limit: Int? = nil, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
+		var parameter = paginator?.dictionaryByAdding(parameters: [:])
+		if let limit = limit {
+			if parameter != nil {
+				parameter!["limit"] = "\(limit)"
+			}else {
+				parameter = ["limit" : "\(limit)"]
+			}
+		}
         guard let request = URLRequest.requestForOAuth(with: baseURL, path:subredditWhere.path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
@@ -249,12 +257,17 @@ extension Session {
     
     - parameter mine: The type of relationship with the user as SubredditsMineWhere.
     - parameter paginator: Paginator object for paging contents.
+	- parameter limit: The maximum number of subreddits to return. Default is nil (25 subs) max w/o pagination is 100
     - parameter completion: The completion handler to call when the load request is complete.
     - returns: Data task which requests search to reddit.com.
      */
     @discardableResult
-    public func getUserRelatedSubreddit(_ mine: SubredditsMineWhere, paginator: Paginator, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:mine.path, parameter:paginator.parameterDictionary, method:"GET", token:token)
+	public func getUserRelatedSubreddit(_ mine: SubredditsMineWhere, paginator: Paginator,  limit: Int? = nil, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
+		var parameter = paginator.parameterDictionary
+		if let limit = limit {
+			parameter["limit"] = "\(limit)"
+		}
+		guard let request = URLRequest.requestForOAuth(with: baseURL, path:mine.path, parameter:parameter, method:"GET", token:token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
             return Result(from: Response(data: data, urlResponse: response), optional:error)
