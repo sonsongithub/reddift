@@ -1,6 +1,0 @@
-[submodule "framework/vendor/MiniKeychain"]
-	path = framework/vendor/MiniKeychain
-	url = https://github.com/sonsongithub/MiniKeychain.git
-[submodule "framework/vendor/HTMLSpecialCharacters"]
-	path = framework/vendor/HTMLSpecialCharacters
-	url = https://github.com/sonsongithub/HTMLSpecialCharacters.git
