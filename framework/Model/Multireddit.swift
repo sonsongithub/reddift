@@ -155,7 +155,7 @@ public struct Multireddit: SubredditURLPath, Created {
             let regex = try NSRegularExpression(pattern:"^/user/(.+?)/m/", options: .caseInsensitive)
             if let match = regex.firstMatch(in: self.path, options: [], range: NSRange(location:0, length:self.path.characters.count)) {
                 if match.numberOfRanges > 1 {
-                    let range = match.rangeAt(1)
+                    let range = match.range(at: 1)
                     let userName = (self.path as NSString).substring(with: range)
                     return "/user/\(userName)/m/\(newMultiredditName)"
                 }

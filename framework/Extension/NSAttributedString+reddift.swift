@@ -93,7 +93,7 @@ extension URLComponents {
     public var hasImageFileExtension: Bool {
         let path = self.path
             if let r = regexForHasImageFileExtension.firstMatch(in: path, options: [], range: NSRange(location: 0, length: path.characters.count)) {
-                return r.rangeAt(1).length > 0
+                return r.range(at: 1).length > 0
             }
         return false
     }
@@ -106,7 +106,7 @@ extension NSAttributedString {
         get {
             var values: [AnyObject] = []
             self.enumerateAttribute(
-                NSLinkAttributeName,
+                NSAttributedStringKey.link,
                 in: NSRange(location:0, length:self.length),
                 options: [],
                 using: { (value: Any?, _, _) -> Void in
@@ -170,24 +170,24 @@ extension NSAttributedString {
         
         // You can set default paragraph style, here.
         // output.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSRange(0, output.length))
-        output.addAttribute(NSFontAttributeName, value: normalFont, range: NSRange(location: 0, length: output.length))
-        output.addAttribute(NSForegroundColorAttributeName, value: color, range: NSRange(location: 0, length: output.length))
+        output.addAttribute(NSAttributedStringKey.font, value: normalFont, range: NSRange(location: 0, length: output.length))
+        output.addAttribute(NSAttributedStringKey.foregroundColor, value: color, range: NSRange(location: 0, length: output.length))
         attributes.forEach {
             switch $0 {
             case .link(let URL, let loc, let len):
-                output.addAttribute(NSLinkAttributeName, value:URL, range: NSRange(location: loc, length: len))
-                output.addAttribute(NSForegroundColorAttributeName, value: linkColor, range: NSRange(location: loc, length: len))
+                output.addAttribute(NSAttributedStringKey.link, value:URL, range: NSRange(location: loc, length: len))
+                output.addAttribute(NSAttributedStringKey.foregroundColor, value: linkColor, range: NSRange(location: loc, length: len))
             case .bold(let loc, let len):
-                output.addAttribute(NSFontAttributeName, value:boldFont, range: NSRange(location: loc, length: len))
+                output.addAttribute(NSAttributedStringKey.font, value:boldFont, range: NSRange(location: loc, length: len))
             case .italic(let loc, let len):
-                output.addAttribute(NSFontAttributeName, value:italicFont, range: NSRange(location: loc, length: len))
+                output.addAttribute(NSAttributedStringKey.font, value:italicFont, range: NSRange(location: loc, length: len))
             case .superscript(let loc, let len):
-                output.addAttribute(NSFontAttributeName, value:superscriptFont, range: NSRange(location: loc, length: len))
+                output.addAttribute(NSAttributedStringKey.font, value:superscriptFont, range: NSRange(location: loc, length: len))
             case .strike(let loc, let len):
-                output.addAttribute(NSStrikethroughStyleAttributeName, value:NSNumber(value:1), range: NSRange(location: loc, length: len))
+                output.addAttribute(NSAttributedStringKey.strikethroughStyle, value:NSNumber(value:1), range: NSRange(location: loc, length: len))
             case .code(let loc, let len):
-                output.addAttribute(NSFontAttributeName, value:codeFont, range: NSRange(location: loc, length: len))
-                output.addAttribute(NSBackgroundColorAttributeName, value: codeBackgroundColor, range: NSRange(location: loc, length: len))
+                output.addAttribute(NSAttributedStringKey.font, value:codeFont, range: NSRange(location: loc, length: len))
+                output.addAttribute(NSAttributedStringKey.backgroundColor, value: codeBackgroundColor, range: NSRange(location: loc, length: len))
             }
         }
         return output
@@ -228,13 +228,13 @@ extension NSAttributedString {
     private var attributesForReddift: [Attribute] {
         var attributes: [Attribute] = []
         
-        self.enumerateAttribute(NSLinkAttributeName, in: NSRange(location:0, length:self.length), options: [], using: { (value: Any?, range: NSRange, _) -> Void in
+        self.enumerateAttribute(NSAttributedStringKey.link, in: NSRange(location:0, length:self.length), options: [], using: { (value: Any?, range: NSRange, _) -> Void in
             if let URL = value as? URL {
                 attributes.append(Attribute.link(URL, range.location, range.length))
             }
             })
         
-        self.enumerateAttribute(NSFontAttributeName, in: NSRange(location:0, length:self.length), options: [], using: { (value: Any?, range: NSRange, _) -> Void in
+        self.enumerateAttribute(NSAttributedStringKey.font, in: NSRange(location:0, length:self.length), options: [], using: { (value: Any?, range: NSRange, _) -> Void in
             if let font = value as? _Font {
                 switch font.fontName {
                 case "TimesNewRomanPS-BoldItalicMT":

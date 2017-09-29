@@ -124,7 +124,7 @@ class ListingsTest: SessionTestSpec {
                         var isSucceeded = false
                         switch result {
                         case .failure:
-                            print("\(result.error)")
+                            print("\(String(describing: result.error))")
                         case .success(let tuple):
                             isSucceeded = true
                             for obj in tuple.1.children {

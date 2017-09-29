@@ -14,23 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "14B5EBB01AF34D580065BC5E"
-               BuildableName = "reddift.framework"
-               BlueprintName = "reddift-iOS"
-               ReferencedContainer = "container:reddift.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "14B5EBBA1AF34D580065BC5E"
-               BuildableName = "reddift-iOSTests.xctest"
-               BlueprintName = "reddift-iOSTests"
+               BlueprintIdentifier = "144B5B341E3C8FBA00C88DB9"
+               BuildableName = "application.app"
+               BlueprintName = "application"
                ReferencedContainer = "container:reddift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -43,23 +29,13 @@
       language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "14B5EBBA1AF34D580065BC5E"
-               BuildableName = "reddift-iOSTests.xctest"
-               BlueprintName = "reddift-iOSTests"
-               ReferencedContainer = "container:reddift.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "14B5EBB01AF34D580065BC5E"
-            BuildableName = "reddift.framework"
-            BlueprintName = "reddift-iOS"
+            BlueprintIdentifier = "144B5B341E3C8FBA00C88DB9"
+            BuildableName = "application.app"
+            BlueprintName = "application"
             ReferencedContainer = "container:reddift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -77,15 +53,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "14B5EBB01AF34D580065BC5E"
-            BuildableName = "reddift.framework"
-            BlueprintName = "reddift-iOS"
+            BlueprintIdentifier = "144B5B341E3C8FBA00C88DB9"
+            BuildableName = "application.app"
+            BlueprintName = "application"
             ReferencedContainer = "container:reddift.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -95,15 +72,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "14B5EBB01AF34D580065BC5E"
-            BuildableName = "reddift.framework"
-            BlueprintName = "reddift-iOS"
+            BlueprintIdentifier = "144B5B341E3C8FBA00C88DB9"
+            BuildableName = "application.app"
+            BlueprintName = "application"
             ReferencedContainer = "container:reddift.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
