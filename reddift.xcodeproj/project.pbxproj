@@ -500,6 +500,10 @@
 		144B5B3F1E3C8FBA00C88DB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 144B5B3E1E3C8FBA00C88DB9 /* Assets.xcassets */; };
 		144B5B471E3C8FE400C88DB9 /* reddift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; };
 		144B5B481E3C8FE400C88DB9 /* reddift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 14B5EBB11AF34D580065BC5E /* reddift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		14530EB11F8044F0007AB870 /* HTMLSpecialCharacters.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BCB01EDAA85600A4470C /* HTMLSpecialCharacters.framework */; };
+		14530EB21F8044F2007AB870 /* MiniKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BCB11EDAA85600A4470C /* MiniKeychain.framework */; };
+		14530EB51F80469F007AB870 /* HTMLSpecialCharacters.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BCB51EDAA87900A4470C /* HTMLSpecialCharacters.framework */; };
+		14530EB61F80469F007AB870 /* MiniKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BCB61EDAA87900A4470C /* MiniKeychain.framework */; };
 		14641CC31F7D5A8D007B29DE /* HTMLSpecialCharacters.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BC801EDAA05800A4470C /* HTMLSpecialCharacters.framework */; };
 		14641CC41F7D5A8D007B29DE /* MiniKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BC811EDAA05800A4470C /* MiniKeychain.framework */; };
 		1492BC841EDAA05800A4470C /* FLAnimatedImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1492BC7F1EDAA05800A4470C /* FLAnimatedImage.framework */; };
@@ -870,6 +874,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				14364C971BEDA09F00FECE58 /* reddift.framework in Frameworks */,
+				14530EB11F8044F0007AB870 /* HTMLSpecialCharacters.framework in Frameworks */,
+				14530EB21F8044F2007AB870 /* MiniKeychain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -919,6 +925,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				14F8120B1AF9EA9F008F6F3C /* reddift.framework in Frameworks */,
+				14530EB51F80469F007AB870 /* HTMLSpecialCharacters.framework in Frameworks */,
+				14530EB61F80469F007AB870 /* MiniKeychain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1514,11 +1522,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14B5EBC71AF34D590065BC5E /* Build configuration list for PBXNativeTarget "reddift-iOSTests" */;
 			buildPhases = (
+				14641CC51F7D5DD6007B29DE /* Carthage */,
 				1436ADFC1E5451C800399707 /* Swiftlint */,
 				14B5EBB71AF34D580065BC5E /* Sources */,
 				14B5EBB81AF34D580065BC5E /* Frameworks */,
 				14B5EBB91AF34D580065BC5E /* Resources */,
-				14641CC51F7D5DD6007B29DE /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1554,6 +1562,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14F812161AF9EA9F008F6F3C /* Build configuration list for PBXNativeTarget "reddift-macOSTests" */;
 			buildPhases = (
+				14530EAE1F804315007AB870 /* Carthage */,
 				1436ADFF1E5453D300399707 /* Swiftlint */,
 				14F812061AF9EA9F008F6F3C /* Sources */,
 				14F812071AF9EA9F008F6F3C /* Frameworks */,
@@ -1582,10 +1591,11 @@
 					14364C8C1BEDA09F00FECE58 = {
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = JP866VWWSD;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 					};
 					14364C951BEDA09F00FECE58 = {
 						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0900;
 					};
 					144B5B341E3C8FBA00C88DB9 = {
 						CreatedOnToolsVersion = 8.2;
@@ -1842,7 +1852,23 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint autocorrect\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
-		14641CC51F7D5DD6007B29DE /* ShellScript */ = {
+		14530EAE1F804315007AB870 /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/Mac/HTMLSpecialCharacters.framework",
+				"$(SRCROOT)/Carthage/Build/Mac/MiniKeychain.framework",
+			);
+			name = Carthage;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		14641CC51F7D5DD6007B29DE /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1851,6 +1877,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/HTMLSpecialCharacters.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/MiniKeychain.framework",
 			);
+			name = Carthage;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2563,7 +2590,8 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2596,7 +2624,8 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2609,6 +2638,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = test/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
@@ -2618,7 +2651,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/test/objc-header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 			};
 			name = Debug;
@@ -2628,6 +2662,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = test/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
@@ -2638,7 +2676,8 @@
 				SDKROOT = appletvos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/test/objc-header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 			};
 			name = Release;
@@ -2992,8 +3031,8 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3024,8 +3063,8 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
