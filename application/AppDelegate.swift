@@ -89,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ImageCache {
             let html = ""
             do {
                 if let data = html.data(using: .unicode) {
-                    let attr = try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
+                    let attr = try NSAttributedString(data: data, options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
                     print(attr)
                 }
             } catch {

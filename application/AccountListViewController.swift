@@ -47,7 +47,7 @@ class AccountListViewController: UITableViewController {
         }
     }
     
-    func didSaveToken(notification: NSNotification) {
+    @objc func didSaveToken(notification: NSNotification) {
         reloadNames()
     }
     

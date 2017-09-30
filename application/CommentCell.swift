@@ -175,7 +175,7 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
     }
     
     override func prepareForReuse() {
-        print("prepareForReuse - \(self.reuseIdentifier) - \(numberOfThumbnails)")
+        print("prepareForReuse - \(String(describing: self.reuseIdentifier)) - \(numberOfThumbnails)")
         super.prepareForReuse()
     }
     
@@ -183,7 +183,7 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
         self.numberOfThumbnails = numberOfThumbnails
         super.init(style: .default, reuseIdentifier: CommentThumbnailView.identifier(numberOfThumbnails: numberOfThumbnails))
         prepareSubviews()
-        print("init - \(numberOfThumbnails) - \(self.reuseIdentifier)")
+        print("init - \(numberOfThumbnails) - \(self.reuseIdentifier!)")
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -220,19 +220,19 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
     
     // MARK: - User action
     
-    func tapReplyButton(sender: Any) {
+    @objc func tapReplyButton(sender: Any) {
         if let container = self.commentContainer {
             NotificationCenter.default.post(name: CommentCellReplyNotificationName, object: nil, userInfo: ["comment": container.comment, "container": container])
         }
     }
     
-    func tapActionButton(sender: Any) {
+    @objc func tapActionButton(sender: Any) {
         if let container = self.commentContainer {
             NotificationCenter.default.post(name: CommentCellActionNotificationName, object: nil, userInfo: ["comment": container.comment, "container": container])
         }
     }
     
-    func tapUpVoteButton(sender: Any) {
+    @objc func tapUpVoteButton(sender: Any) {
         if let commentContainer = self.commentContainer {
             switch commentContainer.comment.likes {
             case .up:
@@ -247,7 +247,7 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
         }
     }
     
-    func tapDownVoteButton(sender: Any) {
+    @objc func tapDownVoteButton(sender: Any) {
         if let commentContainer = self.commentContainer {
             switch commentContainer.comment.likes {
             case .up:
@@ -263,7 +263,7 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
         }
     }
     
-    func tapSaveButton(sender: Any) {
+    @objc func tapSaveButton(sender: Any) {
         if let commentContainer = self.commentContainer {
             self.updateSaveButtonWith(!commentContainer.comment.saved)
             commentContainer.save(saved: !commentContainer.comment.saved)
@@ -275,7 +275,7 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
     func urlAt(_ location: CGPoint, peekView: UIView) -> (URL, CGRect)? {
         let tappedLocation = peekView.convert(location, to: textView)
         if let attr = textView.attributes(at: tappedLocation) {
-            if let url = attr[NSLinkAttributeName] as? URL, let rect = attr[UZTextViewClickedRect] as? CGRect {
+            if let url = attr[NSAttributedStringKey.link] as? URL, let rect = attr[UZTextViewClickedRect] as? CGRect {
                 let tappedLocation = textView.convert(rect, to: peekView)
                 return (url, tappedLocation)
             }

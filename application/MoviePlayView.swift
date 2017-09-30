@@ -131,7 +131,7 @@ class MoviePlayView: UIView {
         }
     }
     
-    func waitForInitializingMovie(timer: Timer) {
+    @objc func waitForInitializingMovie(timer: Timer) {
         print(playerLayer.isReadyForDisplay)
         if let player = playerLayer.player, let item = player.currentItem {
             let s = item.presentationSize

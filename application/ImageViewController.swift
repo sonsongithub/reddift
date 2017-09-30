@@ -64,7 +64,7 @@ class ImageViewController: UIViewController, Page, ImageDownloadable, ImageViewD
         self.scrollView.addGestureRecognizer(rec)
     }
     
-    func didTapGesture(recognizer: UITapGestureRecognizer) {
+    @objc func didTapGesture(recognizer: UITapGestureRecognizer) {
         if let imageViewPageController = self.parentImageViewPageController {
             imageViewPageController.navigationBar.isHidden = !imageViewPageController.navigationBar.isHidden
         }
@@ -330,7 +330,7 @@ extension ImageViewController {
         }
     }
     
-    func didFinishDownloading(notification: NSNotification) {
+    @objc func didFinishDownloading(notification: NSNotification) {
         if let userInfo = notification.userInfo, let obj = userInfo[ImageDownloadableSenderKey] as? ImageViewController, let url = userInfo[ImageDownloadableUrlKey] as? URL {
             if obj == self {
                 if let _  = userInfo[ImageDownloadableErrorKey] as? NSError {

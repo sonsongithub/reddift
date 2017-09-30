@@ -95,7 +95,7 @@ class MediaLinkCell: LinkCell, ImageViewAnimator {
     
     // MARK: - Action
     
-    override func didTapTitleGesture(recognizer: UITapGestureRecognizer) {
+    @objc override func didTapTitleGesture(recognizer: UITapGestureRecognizer) {
         let location = recognizer.location(in: self.contentView)
         if titleTextView.frame.contains(location) {
             if let container = container {
@@ -105,7 +105,7 @@ class MediaLinkCell: LinkCell, ImageViewAnimator {
         }
     }
     
-    func didTapThumbnailGesture(recognizer: UITapGestureRecognizer) {
+    @objc func didTapThumbnailGesture(recognizer: UITapGestureRecognizer) {
         let location = recognizer.location(in: thumbnailView)
         if let thumbnailView = self.thumbnailView, let container = container {
             for i in 0..<thumbnailView.imageViews.count {

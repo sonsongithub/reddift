@@ -41,7 +41,7 @@ class CommentViewController: UITableViewController, UIViewControllerPreviewingDe
     
     // MARK: - Notification
     
-    func didChangeThumbnailPage(notification: Notification) {
+    @objc func didChangeThumbnailPage(notification: Notification) {
         if let userInfo = notification.userInfo, let thumbnail = userInfo["thumbnail"] as? Thumbnail {
             if let index = cellar.containers.index(where: { $0.thing.id == thumbnail.parentID }) {
                 let rect = tableView.rectForRow(at: IndexPath(row: index, section: 0))
@@ -56,7 +56,7 @@ class CommentViewController: UITableViewController, UIViewControllerPreviewingDe
         }
     }
     
-    func didUpdateCommentContainer(notification: Notification) {
+    @objc func didUpdateCommentContainer(notification: Notification) {
         if let userInfo = notification.userInfo, let commentContainer = userInfo["contents"] as? CommentContainer {
             if let index = self.cellar.containers.index(where: {commentContainer.thing.id == $0.thing.id}) {
                 let indices = [IndexPath(row: index, section: 0)]
@@ -67,14 +67,14 @@ class CommentViewController: UITableViewController, UIViewControllerPreviewingDe
         }
     }
     
-    func didChangedDraggingThumbnail(notification: Notification) {
+    @objc func didChangedDraggingThumbnail(notification: Notification) {
         if let userInfo = notification.userInfo, let thumbnail = userInfo["thumbnail"] as? Thumbnail {
             self.imageViews().forEach({$0.isHidden = false})
             self.targetImageView(thumbnail: thumbnail)?.isHidden = true
         }
     }
     
-    func didTapActionNotification(notification: Notification) {
+    @objc func didTapActionNotification(notification: Notification) {
         if let userInfo = notification.userInfo, let _ = userInfo["container"] as? CommentContainer, let comment = userInfo["comment"] as? Comment, let link = link, let url = URL(string: "\(link.url)/\(comment.id)") {
             let sharedURL = url
             let activityController = UIActivityViewController(activityItems: [sharedURL], applicationActivities: nil)
@@ -82,7 +82,7 @@ class CommentViewController: UITableViewController, UIViewControllerPreviewingDe
         }
     }
     
-    func didTapReplyNotification(notification: Notification) {
+    @objc func didTapReplyNotification(notification: Notification) {
         if let userInfo = notification.userInfo, let comment = userInfo["comment"] as? Comment {
             print(comment.id)
             let nav = PostCommentViewController.controller(with: comment)
@@ -90,7 +90,7 @@ class CommentViewController: UITableViewController, UIViewControllerPreviewingDe
         }
     }
     
-    func didLoadComments(notification: NSNotification) {
+    @objc func didLoadComments(notification: NSNotification) {
         if let userInfo = notification.userInfo {
             let reloadData = userInfo[CommentContainerCellar.initialLoadKey] as? Bool ?? false
             let insertIndices = userInfo[CommentContainerCellar.insertIndicesKey] as? [IndexPath] ?? []
@@ -116,7 +116,7 @@ class CommentViewController: UITableViewController, UIViewControllerPreviewingDe
         }
     }
     
-    func didSendCommentNotification(notification: Notification) {
+    @objc func didSendCommentNotification(notification: Notification) {
         if let userInfo = notification.userInfo {
             if let newComment = userInfo["newComment"] as? Comment {
                 if let parentComment = userInfo["parent"] as? Comment {
@@ -269,7 +269,7 @@ class CommentViewController: UITableViewController, UIViewControllerPreviewingDe
         }
     }
     
-    func didTapThumbnail(notification: Notification) {
+    @objc func didTapThumbnail(notification: Notification) {
         if let userInfo = notification.userInfo {
             if let thumbnail = userInfo["Thumbnail"] as? Thumbnail {
                 let controller = createImageViewPageControllerWith(cellar.thumbnails, openThumbnail: thumbnail)
@@ -351,13 +351,13 @@ class CommentViewController: UITableViewController, UIViewControllerPreviewingDe
 
 extension CommentViewController {
     func textView(_ textView: UZTextView, didLongTapLinkAttribute value: Any?) {
-        if let dict = value as? [String: Any], let url = dict[NSLinkAttributeName] as? URL {
+        if let dict = value as? [String: Any], let url = dict[NSAttributedStringKey.link.rawValue] as? URL {
             print(url)
         }
     }
     
     func textView(_ textView: UZTextView, didClickLinkAttribute value: Any?) {
-        if let dict = value as? [String: Any], let url = dict[NSLinkAttributeName] as? URL {
+        if let dict = value as? [String: Any], let url = dict[NSAttributedStringKey.link.rawValue] as? URL {
             print(url)
         }
     }

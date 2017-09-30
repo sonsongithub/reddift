@@ -45,7 +45,7 @@ class BaseCommentCell: UITableViewCell {
     
     weak var parentCommentViewController: CommentViewController?
     
-    func didPushToggleButton(sender: Any) {
+    @objc func didPushToggleButton(sender: Any) {
         if let cc = parentCommentViewController {
             cc.didPushToggleButtonOnCell(self)
         }

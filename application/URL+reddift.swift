@@ -87,8 +87,8 @@ extension URL {
         } else {
             // youtu.be
             if let id_result = regexForYoutube.firstMatch(in: self.absoluteString as String, options: [], range:NSRange(location:0, length:(self.absoluteString as NSString).length)) {
-                if id_result.rangeAt( 3).length > 0 {
-                    return (self.absoluteString as NSString).substring(with: id_result.rangeAt( 3))
+                if id_result.range( at: 3).length > 0 {
+                    return (self.absoluteString as NSString).substring(with: id_result.range( at: 3))
                 }
             }
         }
@@ -115,9 +115,9 @@ extension URL {
     
     func extractGfycatContentID(urlString: String) -> String? {
         if let result = regexForGfycatMovieURL.firstMatch(in: urlString as String, options: [], range:NSRange(location:0, length:(urlString as NSString).length)) {
-            if result.rangeAt(3).length > 0 {
-                print((urlString as NSString).substring(with: result.rangeAt(3)))
-                return (urlString as NSString).substring(with: result.rangeAt(3))
+            if result.range(at: 3).length > 0 {
+                print((urlString as NSString).substring(with: result.range(at: 3)))
+                return (urlString as NSString).substring(with: result.range(at: 3))
             }
         }
         return nil

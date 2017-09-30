@@ -98,7 +98,7 @@ extension String {
     func extractImgurImageURLFromAlbum(parentID: String) -> [Thumbnail] {
         guard let result = regexForImageJSON.firstMatch(in: self, options: [], range: NSRange(location:0, length:self.characters.count)) else { return [] }
         
-        let json = (self as NSString).substring(with: result.rangeAt( 1))
+        let json = (self as NSString).substring(with: result.range(at: 1))
         let script = "var dict = \(json)"
         let js = JSContext()
         guard let _ = js?.evaluateScript(script), let dict = js?.objectForKeyedSubscript("dict").toDictionary() else { return [] }
@@ -122,7 +122,7 @@ extension String {
      */
     func extractImgurImageURLFromSingleImage(parentID: String) -> [Thumbnail] {
         guard let result = imgurImageURLFromHeaderMetaTag.firstMatch(in: self, options: [], range: NSRange(location:0, length:self.characters.count)) else { return [] }
-        let range = result.rangeAt(3)
+        let range = result.range(at: 3)
         let urlstring = (self as NSString).substring(with: range)
         return [URL(string: urlstring)].flatMap({$0}).flatMap({
             Thumbnail.Image(imageURL: $0, parentID: parentID)
@@ -134,13 +134,13 @@ extension String {
         var movieURL: URL?
         
         if let result = imgurImageURLFromHeaderMetaTag.firstMatch(in: self, options: [], range: NSRange(location:0, length:self.characters.count)) {
-            let range = result.rangeAt(3)
+            let range = result.range(at: 3)
             let urlstring = (self as NSString).substring(with: range)
             thumbnailURL = URL(string: urlstring)
         }
         
         if let result = imgurVideoURLFromHeaderMetaTag.firstMatch(in: self, options: [], range: NSRange(location:0, length:self.characters.count)) {
-            let range = result.rangeAt(3)
+            let range = result.range(at: 3)
             let urlstring = (self as NSString).substring(with: range)
             movieURL = URL(string: urlstring)
         }

@@ -114,7 +114,7 @@ class SearchController: UITableViewController {
                         let results = regex.matches(in: string, options: [], range: NSRange(location: 0, length: string.characters.count))
                         let incomming: [String] = results.flatMap({
                             if $0.numberOfRanges == 2 {
-                                return (string as NSString).substring(with: $0.rangeAt( 1))
+                                return (string as NSString).substring(with: $0.range(at: 1))
                             }
                             return nil
                         })

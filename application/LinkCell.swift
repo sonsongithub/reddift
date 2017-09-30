@@ -212,7 +212,7 @@ class LinkCell: UITableViewCell {
         self.addGestureRecognizer(rec)
     }
     
-    func didTapTitleGesture(recognizer: UITapGestureRecognizer) {
+    @objc func didTapTitleGesture(recognizer: UITapGestureRecognizer) {
         let location = recognizer.location(in: self.contentView)
         if titleTextView.frame.contains(location) {
             if let container = container {
@@ -224,35 +224,35 @@ class LinkCell: UITableViewCell {
     
     // MARK: - Action
     
-    func didTapNameButton(sender: Any) {
+    @objc func didTapNameButton(sender: Any) {
         if let container = container {
             let userInfo: [String:Any] = ["name": container.link.author, "contents": container]
             NotificationCenter.default.post(name: LinkCellDidTapNameNotification, object: nil, userInfo: userInfo)
         }
     }
     
-    func didTapActionButton(sender: Any) {
+    @objc func didTapActionButton(sender: Any) {
         if let container = container {
             let userInfo: [String:Any] = ["link": container.link, "contents": container]
             NotificationCenter.default.post(name: LinkCellDidTapActionNotification, object: nil, userInfo: userInfo)
         }
     }
     
-    func didTapSaveButton(sender: Any) {
+    @objc func didTapSaveButton(sender: Any) {
         if let container = container {
             container.save(saved: !container.link.saved)
             contentToolbar.setSaved(saved: !container.link.saved)
         }
     }
     
-    func didTapCommentButton(sender: Any) {
+    @objc func didTapCommentButton(sender: Any) {
         if let container = container {
             let userInfo: [String:Any] = ["link": container.link, "contents": container]
             NotificationCenter.default.post(name: LinkCellDidTapCommentNotification, object: nil, userInfo: userInfo)
         }
     }
     
-    func tapUpVoteButton(sender: Any) {
+    @objc func tapUpVoteButton(sender: Any) {
         if let contents = self.container {
             switch contents.link.likes {
             case .up:
@@ -267,7 +267,7 @@ class LinkCell: UITableViewCell {
         }
     }
     
-    func tapDownVoteButton(sender: Any) {
+    @objc func tapDownVoteButton(sender: Any) {
         if let contents = self.container {
             switch contents.link.likes {
             case .up:

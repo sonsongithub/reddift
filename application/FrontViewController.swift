@@ -75,7 +75,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
     
     // MARK: - action
     
-    func didChangeThumbnailPage(notification: Notification) {
+    @objc func didChangeThumbnailPage(notification: Notification) {
         if let userInfo = notification.userInfo, let thumbnail = userInfo["thumbnail"] as? Thumbnail {
             if let index = cellar.containers.index(where: { $0.link.id == thumbnail.parentID }) {
                 let rect = tableView.rectForRow(at: IndexPath(row: index, section: 0))
@@ -91,7 +91,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
         }
     }
     
-    func didTapActionNotification(notification: Notification) {
+    @objc func didTapActionNotification(notification: Notification) {
         if let userInfo = notification.userInfo, let link = userInfo["link"] as? Link, let contents = userInfo["contents"] as? LinkContainable {
             let controller = UIAlertController(title: link.title, message: link.url, preferredStyle: .actionSheet)
             let shareAction = UIAlertAction(title: "Share", style: .default, handler: { (_) -> Void in
@@ -115,7 +115,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
         }
     }
     
-    func didTapCommentNotification(notification: Notification) {
+    @objc func didTapCommentNotification(notification: Notification) {
         if let userInfo = notification.userInfo, let link = userInfo["link"] as? Link {
             let commentViewController = CommentViewController(nibName: nil, bundle: nil)
             commentViewController.link = link
@@ -123,14 +123,14 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
         }
     }
     
-    func didTapNameNotification(notification: Notification) {
+    @objc func didTapNameNotification(notification: Notification) {
         if let userInfo = notification.userInfo, let name = userInfo["name"] as? String {
             let controller = UserViewController.controller(name)
             self.present(controller, animated: true, completion: nil)
         }
     }
     
-    func didTapTitleNotification(notification: Notification) {
+    @objc func didTapTitleNotification(notification: Notification) {
         if let userInfo = notification.userInfo, let link = userInfo["link"] as? Link, let url = URL(string: link.url) {
             let controller = WebViewController(nibName: nil, bundle: nil)
             controller.url = url
@@ -139,7 +139,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
         }
     }
     
-    func didTapThumbnailNotification(notification: Notification) {
+    @objc func didTapThumbnailNotification(notification: Notification) {
         if let userInfo = notification.userInfo,
             let _ = userInfo["link"] as? Link,
             let thumbnail = userInfo["thumbnail"] as? Thumbnail,
@@ -151,7 +151,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
         }
     }
     
-    func refreshDidChange(sender: AnyObject) {
+    @objc func refreshDidChange(sender: AnyObject) {
         print("refreshDidChange")
         refresh.attributedTitle = NSAttributedString(string: cellar.loadingMessage())
         DispatchQueue.main.async {
@@ -159,7 +159,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
         }
     }
     
-    func closeSearchController(sender: AnyObject) {
+    @objc func closeSearchController(sender: AnyObject) {
         titleTextField?.resignFirstResponder()
         self.navigationController?.isToolbarHidden = false
         self.navigationItem.leftBarButtonItem = self.leftAccountButton
@@ -210,7 +210,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
     
     // MARK: - Notification
     
-    func openSubreddit(notification: NSNotification) {
+    @objc func openSubreddit(notification: NSNotification) {
         if let userInfo = notification.userInfo, let subreddit = userInfo[SearchController.subredditKey] as? String {
             cellar = SubredditCellar(subreddit: subreddit, width: self.view.frame.size.width, fontSize: 18)
             self.tableView.reloadData()
@@ -220,7 +220,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
         closeSearchController(sender: self)
     }
     
-    func searchSubreddit(notification: NSNotification) {
+    @objc func searchSubreddit(notification: NSNotification) {
         if let userInfo = notification.userInfo, let query = userInfo[SearchController.queryKey] as? String {
             cellar = SearchLinkCellar(query: query, subreddit: nil, width: self.view.frame.size.width, fontSize: 18)  
             self.tableView.reloadData()
@@ -230,7 +230,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
         closeSearchController(sender: self)
     }
     
-    func didUpdateSingleImageSize(notification: NSNotification) {
+    @objc func didUpdateSingleImageSize(notification: NSNotification) {
         if let userInfo = notification.userInfo {
             if let obj = userInfo["obj"] as? MediaLinkContainer {
                 print(obj)
@@ -248,7 +248,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
         }
     }
     
-    func didLoadImage(notification: NSNotification) {
+    @objc func didLoadImage(notification: NSNotification) {
         if let userInfo = notification.userInfo, let indexPath = userInfo[MediaLinkContainerPrefetchAtIndexPathKey] as? IndexPath, let container = userInfo[MediaLinkContainerPrefetchContentKey] as? LinkContainable {
             if 0..<self.cellar.containers.count ~= indexPath.row {
                 if container === self.cellar.containers[indexPath.row] {
@@ -260,7 +260,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
         }
     }
     
-    func didLoadLinkContainerCellar(notification: NSNotification) {
+    @objc func didLoadLinkContainerCellar(notification: NSNotification) {
         if let userInfo = notification.userInfo, let atTheBeginning = userInfo[LinkContainerCellar.isAtTheBeginningKey] as? Bool {
             if atTheBeginning {
                 self.tableView.reloadData()
@@ -277,7 +277,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
         }
     }
     
-    func didChangedDraggingThumbnail(notification: Notification) {
+    @objc func didChangedDraggingThumbnail(notification: Notification) {
         if let userInfo = notification.userInfo, let thumbnail = userInfo["thumbnail"] as? Thumbnail {
             self.imageViews().forEach({$0.isHidden = false})
             self.targetImageView(thumbnail: thumbnail)?.isHidden = true
@@ -286,7 +286,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
 //        self.navigationController?.toolbar.alpha = 0
     }
     
-    func didUpdateLinkContainable(notification: Notification) {
+    @objc func didUpdateLinkContainable(notification: Notification) {
         if let userInfo = notification.userInfo, let contents = userInfo["contents"] as? LinkContainable {
             if let index = self.cellar.containers.index(where: {contents.link.id == $0.link.id}) {
                 let indices = [IndexPath(row: index, section: 0)]
@@ -490,7 +490,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
     
     // MARK: - UITextFieldDelegate
     
-    func keyboardWillChangeFrame(notification: Notification) {
+    @objc func keyboardWillChangeFrame(notification: Notification) {
         if let userInfo = notification.userInfo {
             if let rect = userInfo[UIKeyboardFrameEndUserInfoKey] as? CGRect {
                 print(rect)

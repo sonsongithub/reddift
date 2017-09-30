@@ -35,7 +35,7 @@ class FromFieldView: PostFieldView {
         NotificationCenter.default.addObserver(self, selector: #selector(FromFieldView.didUpdateToken(notification:)), name: OAuth2TokenRepositoryDidUpdateTokenName, object: nil)
     }
     
-    func didUpdateToken(notification: NSNotification) {
+    @objc func didUpdateToken(notification: NSNotification) {
         if let name = UIApplication.appDelegate()?.session?.token?.name {
             field.text = name
         } else {
@@ -43,7 +43,7 @@ class FromFieldView: PostFieldView {
         }
     }
     
-    func didTapButton(sender: Any) {
+    @objc func didTapButton(sender: Any) {
         if let delegate = delegate {
             delegate.didTapFromFieldView(sender: self)
         }

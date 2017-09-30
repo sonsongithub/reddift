@@ -22,14 +22,14 @@ private func prepareHTML(html: String, constrainedBy width: CGFloat, fontSize: C
     let html = html.preprocessedHTMLStringBeforeNSAttributedStringParsing
     do {
         if let data = html.data(using: .unicode) {
-            let attr = try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
+            let attr = try NSAttributedString(data: data, options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
             
             let isAA = (asciiArtDetector.firstMatch(in: attr.string, options: [], range: attr.string.fullRange) != nil)
             
             if isAA {
                 let font = UIFont(name: "Mona", size: fontSize)!
                 let output = NSMutableAttributedString(string: attr.string)
-                output.addAttribute(NSFontAttributeName, value: font, range: attr.string.fullRange)
+                output.addAttribute(NSAttributedStringKey.font, value: font, range: attr.string.fullRange)
                 let bodySize = UZTextView.size(for: output, withBoundWidth: CGFloat.greatestFiniteMagnitude, margin: UIEdgeInsets.zero)
                 print("--------------------------------")
                 print("boundWidth=\(width)")
@@ -119,7 +119,7 @@ class CommentContainer: CommentContainable {
     
     func extractURLsFromBody() -> [ImageURLContainer] {
         var list: [ImageURLContainer] = []
-        body.enumerateAttribute(NSLinkAttributeName, in: NSRange(location:0, length:body.length), options: NSAttributedString.EnumerationOptions(), using: { (value: Any?, _, _) -> Void in
+        body.enumerateAttribute(NSAttributedStringKey.link, in: NSRange(location:0, length:body.length), options: NSAttributedString.EnumerationOptions(), using: { (value: Any?, _, _) -> Void in
             if let url = value as? URL {
                 if url.isImageURL {
                     list.append(ImageURLInComment(sourceURL: url, parentID: self.thing.id))

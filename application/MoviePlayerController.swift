@@ -14,7 +14,7 @@ class MoviePlayerController: ImageViewController {
     let movieView: MoviePlayView
     let movieURL: URL
     
-    func didChangeStatus(notification: Notification) {
+    @objc func didChangeStatus(notification: Notification) {
         var f = movieView.frame
         f.size = movieView.presentationSize
         movieView.frame = f

@@ -35,7 +35,7 @@ class UserViewController: UIViewController {
         self.navigationItem.title = name
     }
     
-    func close(sender: Any) {
+    @objc func close(sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     

@@ -30,7 +30,7 @@ class WebViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = bar
     }
     
-    func close(sender: Any) {
+    @objc func close(sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
     

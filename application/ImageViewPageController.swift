@@ -79,7 +79,7 @@ class ImageViewPageController: UIPageViewController, UIPageViewControllerDataSou
         }
     }
     
-    func close(sender: Any) {
+    @objc func close(sender: Any) {
         dismiss(animated: true, completion: nil)
     }
 
@@ -137,7 +137,7 @@ class ImageViewPageController: UIPageViewController, UIPageViewControllerDataSou
         item.titleView = label
     }
     
-    func didMoveCurrentImage(notification: NSNotification) {
+    @objc func didMoveCurrentImage(notification: NSNotification) {
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {

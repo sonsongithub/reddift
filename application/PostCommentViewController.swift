@@ -101,11 +101,11 @@ class PostCommentViewController: UIViewController, FromFieldViewDelegate {
     func setupAccountView() {
     }
     
-    func close(sender: Any) {
+    @objc func close(sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func send(sender: Any) {
+    @objc func send(sender: Any) {
         do {
             try UIApplication.appDelegate()?.session?.postComment(self.textView.text, parentName: thing.name, completion: { (result) in
                 switch result {
@@ -131,7 +131,7 @@ class PostCommentViewController: UIViewController, FromFieldViewDelegate {
 //        self.dismiss(animated: true, completion: nil)
     }
     
-    func keyboardWillChangeFrame(notification: Notification) {
+    @objc func keyboardWillChangeFrame(notification: Notification) {
         if let userInfo = notification.userInfo {
             if let rect = userInfo[UIKeyboardFrameEndUserInfoKey] as? CGRect, let bottomSpaceConstraint = self.bottomSpaceConstraint {
                 print(rect)
