@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import HTMLSpecialCharacters
 
 /**
  Expand child comments which are included in Comment objects, recursively.

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import HTMLSpecialCharacters
 
 /**
 Multireddit description class.

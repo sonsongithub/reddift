@@ -61,7 +61,7 @@ public class OAuth2Authorizer {
                     UIApplication.shared.openURL(authorizationURL)
                 }
 #elseif os(macOS)
-                NSWorkspace.shared().open(authorizationURL)
+                NSWorkspace.shared.open(authorizationURL)
 #endif
         } else {
             throw ReddiftError.canNotAllocateDataToCreateURLForOAuth2 as NSError

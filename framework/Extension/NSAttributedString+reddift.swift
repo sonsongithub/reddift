@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import HTMLSpecialCharacters
 
 /// import to use NSFont/UIFont
 #if os(iOS) || os(tvOS)
@@ -44,8 +45,8 @@ extension NSParagraphStyle {
         guard let paragraphStyle = NSParagraphStyle.default.mutableCopy() as? NSMutableParagraphStyle
             else { return NSParagraphStyle.default }
 #elseif os(macOS)
-        guard let paragraphStyle = NSParagraphStyle.default().mutableCopy() as? NSMutableParagraphStyle
-            else { return NSParagraphStyle.default() }
+    guard let paragraphStyle = NSParagraphStyle.default.mutableCopy() as? NSMutableParagraphStyle
+        else { return NSParagraphStyle.default }
 #endif
         paragraphStyle.lineBreakMode = .byWordWrapping
         paragraphStyle.alignment = .left
@@ -210,8 +211,8 @@ extension NSAttributedString {
             let paragraphStyle = NSParagraphStyle.defaultReddiftParagraphStyle(with: normalFont.fontDescriptor.pointSize)
         #elseif os(macOS)
             let traits = normalFont.fontDescriptor.symbolicTraits
-            let italicFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits(traits & NSFontSymbolicTraits(NSFontItalicTrait))
-            let boldFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits(traits & NSFontSymbolicTraits(NSFontBoldTrait))
+            let italicFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits(NSFontDescriptor.SymbolicTraits(rawValue: traits.rawValue & NSFontSymbolicTraits(NSFontItalicTrait)))
+            let boldFontDescriptor = normalFont.fontDescriptor.withSymbolicTraits(NSFontDescriptor.SymbolicTraits(rawValue: traits.rawValue & NSFontSymbolicTraits(NSFontBoldTrait)))
             let italicFont = _Font(descriptor: italicFontDescriptor, size: normalFont.fontDescriptor.pointSize) ?? normalFont
             let boldFont = _Font(descriptor: boldFontDescriptor, size: normalFont.fontDescriptor.pointSize) ?? normalFont
             let codeFont = _Font(name: "Courier", size: normalFont.fontDescriptor.pointSize) ?? normalFont

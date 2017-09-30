@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import HTMLSpecialCharacters
 
 /**
 Returns string by replacing NOT ASCII characters with a percent escaped string using UTF8.

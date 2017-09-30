@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import HTMLSpecialCharacters
 
 /**
 Media represents the content which is embeded a link.
