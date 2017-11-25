@@ -1,9 +1,0 @@
-{
-  "expires_date": 0,
-  "scope": "edit flair history identity modconfig modflair modlog modposts modwiki mysubreddits privatemessages read report save submit subscribe vote wikiedit wikiread",
-  "expires_in": 3600,
-  "refresh_token": "",
-  "access_token": "",
-  "token_type": "",
-  "name": ""
-}
