@@ -73,7 +73,7 @@ public struct Comment: Thing, Created, Votable {
     true if this post is saved by the logged in user
     example: false
     */
-    public let saved: Bool
+    public var saved: Bool
     /**
     example: 0
     */
@@ -111,7 +111,7 @@ public struct Comment: Thing, Created, Votable {
     /**
     example: The bot has been having this problem for awhile, there have been thousands of new comments since it last worked properly, so it seems like this must be something recurring? Could it have something to do with our AutoModerator?
     */
-    public let body: String
+    public var body: String
     /**
     example: false
     */
@@ -129,7 +129,7 @@ public struct Comment: Thing, Created, Votable {
     example: &lt;div class="md"&gt;&lt;p&gt;The bot has been having this problem for awhile, there have been thousands of new comments since it last worked properly, so it seems like this must be something recurring? Could it have something to do with our AutoModerator?&lt;/p&gt;
     &lt;/div&gt;
     */
-    public let bodyHtml: String
+    public var bodyHtml: String
     /**
     subreddit of thing excluding the /r/ prefix. "pics"
     example: redditdev

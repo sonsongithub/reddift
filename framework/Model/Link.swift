@@ -61,7 +61,7 @@ public struct Link: Thing, Created, Votable {
     &lt;p&gt;From what I understand, comment_stream() gets the most recent comments. So if we specify the limit to be 100, it will initially get the 100 newest comment, and then constantly update to get new comments.  It seems to works appropriately for every subreddit except &lt;a href="/r/helpmefind"&gt;/r/helpmefind&lt;/a&gt;. For &lt;a href="/r/helpmefind"&gt;/r/helpmefind&lt;/a&gt;, it fetches around 30 comments, regardless of the limit.&lt;/p&gt;
     &lt;/div&gt;&lt;!-- SC_ON --&gt;
     */
-    public let selftextHtml: String
+    public var selftextHtml: String
     /**
     the raw text.  this is the unformatted text which includes the raw markup characters such as ** for bold. &lt;, &gt;, and &amp; are escaped. Empty if not present.
     example: So this is the code I ran:
@@ -71,7 +71,7 @@ public struct Link: Thing, Created, Votable {
     ---
     From what I understand, comment_stream() gets the most recent comments. So if we specify the limit to be 100, it will initially get the 100 newest comment, and then constantly update to get new comments.  It seems to works appropriately for every subreddit except /r/helpmefind. For /r/helpmefind, it fetches around 30 comments, regardless of the limit.
     */
-    public let selftext: String
+    public var selftext: String
     /**
     how the logged-in user has voted on the link - True = upvoted, False = downvoted, null = no vote
     example:
@@ -149,7 +149,7 @@ public struct Link: Thing, Created, Votable {
     /**
     example: false
     */
-    public let edited: Bool
+    public var edited: Bool
     /**
     the CSS class of the link's flair.
     example:
@@ -176,7 +176,7 @@ public struct Link: Thing, Created, Votable {
     true if this post is saved by the logged in user
     example: false
     */
-    public let saved: Bool
+    public var saved: Bool
     /**
     true if this link is a selfpost
     example: true
@@ -231,7 +231,7 @@ public struct Link: Thing, Created, Votable {
     /**
     example: false
     */
-    public let visited: Bool
+    public var visited: Bool
     /**
     example: 0
     */
