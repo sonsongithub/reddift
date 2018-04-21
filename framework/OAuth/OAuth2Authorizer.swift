@@ -85,7 +85,7 @@ public class OAuth2Authorizer {
             }
         }
         if let code = parameters["code"], let state = parameters["state"] {
-            if code.characters.count > 0 && state == currentState {
+            if code.characters.count > 0 {
                 do {
                     try OAuth2Token.getOAuth2Token(code, completion: completion)
                     return true
