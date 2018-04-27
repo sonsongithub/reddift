@@ -60,7 +60,7 @@ public struct Comment: Thing, Created, Votable {
     how the logged-in user has voted on the link - True = upvoted, False = downvoted, null = no vote
     example:
     */
-    public let likes: VoteDirection
+    public var likes: VoteDirection
     /**
     example: {"kind"=>"Listing", "data"=>{"modhash"=>nil, "children"=>[{"kind"=>"more", "data"=>{"count"=>0, "parent_id"=>"t1_cqfhkcb", "children"=>["cqfmmpp"], "name"=>"t1_cqfmmpp", "id"=>"cqfmmpp"}}], "after"=>nil, "before"=>nil}}
     */
@@ -73,7 +73,7 @@ public struct Comment: Thing, Created, Votable {
     true if this post is saved by the logged in user
     example: false
     */
-    public let saved: Bool
+    public var saved: Bool
     /**
     example: 0
     */
@@ -99,7 +99,7 @@ public struct Comment: Thing, Created, Votable {
     the net-score of the link.  note: A submission's score is simply the number of upvotes minus the number of downvotes. If five users like the submission and three users don't it will have a score of 2. Please note that the vote numbers are not "real" numbers, they have been "fuzzed" to prevent spam bots etc. So taking the above example, if five users upvoted the submission, and three users downvote it, the upvote/downvote numbers may say 23 upvotes and 21 downvotes, or 12 upvotes, and 10 downvotes. The points score is correct, but the vote totals are "fuzzed".
     example: 1
     */
-    public let score: Int
+    public var score: Int
     /**
     example:
     */
@@ -111,7 +111,7 @@ public struct Comment: Thing, Created, Votable {
     /**
     example: The bot has been having this problem for awhile, there have been thousands of new comments since it last worked properly, so it seems like this must be something recurring? Could it have something to do with our AutoModerator?
     */
-    public let body: String
+    public var body: String
     /**
     example: false
     */
@@ -129,7 +129,7 @@ public struct Comment: Thing, Created, Votable {
     example: &lt;div class="md"&gt;&lt;p&gt;The bot has been having this problem for awhile, there have been thousands of new comments since it last worked properly, so it seems like this must be something recurring? Could it have something to do with our AutoModerator?&lt;/p&gt;
     &lt;/div&gt;
     */
-    public let bodyHtml: String
+    public var bodyHtml: String
     /**
     subreddit of thing excluding the /r/ prefix. "pics"
     example: redditdev
@@ -172,7 +172,22 @@ public struct Comment: Thing, Created, Votable {
     /**
 	   if the comment is stickied
    	*/
-   	public let stickied: Bool
+   	public let  stickied:Bool
+	/**
+	the title of the comment's parrent post IF this object is created by the inbox
+	*/
+	public let  linkTitle:String
+	
+	/**
+	if the comment is unread in the inbox
+	*/
+	public var  new:Bool
+	
+	/**
+	if the message is a comment, then the permalink to the comment with ?context=3 appended to the end, otherwise an empty string
+	example:
+	*/
+	public let  context:String
     
     public var isExpandable: Bool {
         get {
@@ -221,6 +236,9 @@ public struct Comment: Thing, Created, Votable {
         numReports = 0
         ups = 0
         stickied = false
+		linkTitle = ""
+		new = false
+		context = ""
     }
     
     public init(link: Link) {
@@ -256,7 +274,10 @@ public struct Comment: Thing, Created, Votable {
         modReports = link.modReports
         numReports = link.numReports
         ups = link.ups
-	stickied = false
+		stickied = false
+		linkTitle = ""
+		new = false
+		context = ""
     }
     
     /**
@@ -313,6 +334,9 @@ public struct Comment: Thing, Created, Votable {
         numReports = data["num_reports"] as? Int ?? 0
         ups = data["ups"] as? Int ?? 0
         stickied = data["stickied"] as? Bool ?? false
+		linkTitle = data["link_title"] as? String ?? ""
+		new = data["new"] as? Bool ?? false
+		context = data["context"] as? String ?? ""
         if let temp = data["replies"] as? JSONDictionary {
             if let obj = Parser.redditAny(from: temp) as? Listing {
                 replies = obj
