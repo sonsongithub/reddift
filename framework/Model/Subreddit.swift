@@ -430,6 +430,12 @@ public struct Subreddit: SubredditURLPath, Thing, Created {
     public var path: String {
         return "/r/\(displayName)"
     }
+	
+	/**
+	A JSON representation of this object. This is set when the object is created through JSON, which it is by this library.
+	WATCH OUT IF USING THIS MANUALLY
+	*/
+	public var JSONData: JSONDictionary?
     
     public init(subreddit: String) {
         self.id = "dummy"
@@ -469,6 +475,7 @@ public struct Subreddit: SubredditURLPath, Thing, Created {
         subredditType = ""
         submissionType = ""
         userIsSubscriber = false
+		JSONData = nil
         showMedia = false
         showMediaPreview = false
         wikiEnabled = false
@@ -516,6 +523,7 @@ public struct Subreddit: SubredditURLPath, Thing, Created {
         subredditType = ""
         submissionType = ""
         userIsSubscriber = false
+		JSONData = nil
         showMedia = false
         showMediaPreview = false
         wikiEnabled = false
@@ -573,6 +581,7 @@ public struct Subreddit: SubredditURLPath, Thing, Created {
         subredditType = data["subreddit_type"] as? String ?? ""
         submissionType = data["submission_type"] as? String ?? ""
         userIsSubscriber = data["user_is_subscriber"] as? Bool ?? false
+		JSONData = data
         showMedia = data["show_media"] as? Bool ?? false
         showMediaPreview = data["show_media_preview"] as? Bool ?? false
         wikiEnabled = data["wiki_enabled"] as? Bool ?? false

@@ -61,7 +61,7 @@ public struct Link: Thing, Created, Votable {
     &lt;p&gt;From what I understand, comment_stream() gets the most recent comments. So if we specify the limit to be 100, it will initially get the 100 newest comment, and then constantly update to get new comments.  It seems to works appropriately for every subreddit except &lt;a href="/r/helpmefind"&gt;/r/helpmefind&lt;/a&gt;. For &lt;a href="/r/helpmefind"&gt;/r/helpmefind&lt;/a&gt;, it fetches around 30 comments, regardless of the limit.&lt;/p&gt;
     &lt;/div&gt;&lt;!-- SC_ON --&gt;
     */
-    public let selftextHtml: String
+    public var selftextHtml: String
     /**
     the raw text.  this is the unformatted text which includes the raw markup characters such as ** for bold. &lt;, &gt;, and &amp; are escaped. Empty if not present.
     example: So this is the code I ran:
@@ -71,12 +71,12 @@ public struct Link: Thing, Created, Votable {
     ---
     From what I understand, comment_stream() gets the most recent comments. So if we specify the limit to be 100, it will initially get the 100 newest comment, and then constantly update to get new comments.  It seems to works appropriately for every subreddit except /r/helpmefind. For /r/helpmefind, it fetches around 30 comments, regardless of the limit.
     */
-    public let selftext: String
+    public var selftext: String
     /**
     how the logged-in user has voted on the link - True = upvoted, False = downvoted, null = no vote
     example:
     */
-    public let likes: VoteDirection
+    public var likes: VoteDirection
     /**
     example: []
     */
@@ -121,7 +121,7 @@ public struct Link: Thing, Created, Votable {
     the net-score of the link.  note: A submission's score is simply the number of upvotes minus the number of downvotes. If five users like the submission and three users don't it will have a score of 2. Please note that the vote numbers are not "real" numbers, they have been "fuzzed" to prevent spam bots etc. So taking the above example, if five users upvoted the submission, and three users downvote it, the upvote/downvote numbers may say 23 upvotes and 21 downvotes, or 12 upvotes, and 10 downvotes. The points score is correct, but the vote totals are "fuzzed".
     example: 2
     */
-    public let score: Int
+    public var score: Int
     /**
     example:
     */
@@ -149,7 +149,7 @@ public struct Link: Thing, Created, Votable {
     /**
     example: false
     */
-    public let edited: Bool
+    public var edited: Bool
     /**
     the CSS class of the link's flair.
     example:
@@ -176,7 +176,7 @@ public struct Link: Thing, Created, Votable {
     true if this post is saved by the logged in user
     example: false
     */
-    public let saved: Bool
+    public var saved: Bool
     /**
     true if this link is a selfpost
     example: true
@@ -231,7 +231,7 @@ public struct Link: Thing, Created, Votable {
     /**
     example: false
     */
-    public let visited: Bool
+    public var visited: Bool
     /**
     example: 0
     */
@@ -241,6 +241,12 @@ public struct Link: Thing, Created, Votable {
     example: .admin
     */
     public let distinguished: DistinguishType
+	
+	/**
+	A JSON representation of this object. This is set when the object is created through JSON, which it is by this library.
+	WATCH OUT IF USING THIS MANUALLY
+	*/
+	public var JSONData: JSONDictionary?
 	
     public init(id: String) {
         self.id = id
@@ -290,6 +296,7 @@ public struct Link: Thing, Created, Votable {
         reportReasons = []
         modReports = []
         secureMediaEmbed = nil
+		JSONData = nil
     }
     
     /**
@@ -367,5 +374,6 @@ public struct Link: Thing, Created, Votable {
         reportReasons = []
         modReports = []
         secureMediaEmbed = nil
+		JSONData = data
     }
 }
