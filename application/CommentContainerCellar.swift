@@ -115,14 +115,14 @@ class CommentContainerCellar {
         NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.reloadIndicesKey: [IndexPath(row: index, section: 0)]])
         do {
             let children = moreContainer.more.children.reversed() as [String]
-            try UIApplication.appDelegate()?.session?.getArticles(link, sort:sort, comments:children, completion: { (result) -> Void in
+            try UIApplication.appDelegate()?.session?.getArticles(link, sort: sort, comments: children, completion: { (result) -> Void in
                 moreContainer.isLoading = false
                 switch result {
                 case .failure(let error):
                     NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.errorKey: error])
                 case .success(let tuple):
                     let things: [Thing] = tuple.1.children.filter {($0 is Comment) || ($0 is More)}
-                    let temp = self.expandIncommingComments(things: things, width: width, depth:moreContainer.depth)
+                    let temp = self.expandIncommingComments(things: things, width: width, depth: moreContainer.depth)
                     
                     self.prefetch(containers: temp)
                     
@@ -169,14 +169,14 @@ class CommentContainerCellar {
         commentContainer.isLoading = true
         NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.reloadIndicesKey: [IndexPath(row: index, section: 0)]])
         do {
-            try UIApplication.appDelegate()?.session?.getArticles(link, sort:.confidence, comments:[commentContainer.comment.id], completion: { (result) -> Void in
+            try UIApplication.appDelegate()?.session?.getArticles(link, sort: .confidence, comments: [commentContainer.comment.id], completion: { (result) -> Void in
                 commentContainer.isLoading = false
                 switch result {
                 case .failure(let error):
                     NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.errorKey: error])
                 case .success(let (_, listing)):
                     if listing.children.count == 1 && listing.children[0].id == commentContainer.comment.id && listing.children[0] is Comment {
-                        let temp = self.expandIncommingComments(things: listing.children, width: width, depth:commentContainer.depth)
+                        let temp = self.expandIncommingComments(things: listing.children, width: width, depth: commentContainer.depth)
                         
                         self.prefetch(containers: temp)
                         
@@ -381,7 +381,7 @@ class CommentContainerCellar {
      */
     func load(width: CGFloat) {
         do {
-            try UIApplication.appDelegate()?.session?.getArticles(link, sort:sort, comments:nil, limit:nil, completion: { (result) -> Void in
+            try UIApplication.appDelegate()?.session?.getArticles(link, sort: sort, comments: nil, limit: nil, completion: { (result) -> Void in
                 switch result {
                 case .failure(let error):
                     print(error)

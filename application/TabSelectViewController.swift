@@ -30,7 +30,7 @@ class TabManager {
     static let sharedInstance = TabManager()
 
     init() {
-        let blank = TabInfo(subreddit:"", linkID:"")
+        let blank = TabInfo(subreddit: "", linkID: "")
         list.append(blank)
     }
     
@@ -129,7 +129,7 @@ class TabSelectViewController: UICollectionViewController, UICollectionViewDeleg
     
     @IBAction func add(sender: AnyObject) {
         collectionView?.performBatchUpdates({ () -> Void in
-            let blank = TabInfo(subreddit:"", linkID:"")
+            let blank = TabInfo(subreddit: "", linkID: "")
             let insertingIndexPath = IndexPath(row: TabManager.sharedInstance.list.count, section: 0)
             TabManager.sharedInstance.list.append(blank)
             self.collectionView?.insertItems(at: [insertingIndexPath])
@@ -195,7 +195,7 @@ class TabSelectViewController: UICollectionViewController, UICollectionViewDeleg
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         let tileRatio: CGFloat = 0.6
         let rect = self.view.frame
-        cellSize = CGSize(width:ceil(rect.size.width * tileRatio), height:ceil(rect.size.height - 64))
+        cellSize = CGSize(width: ceil(rect.size.width * tileRatio), height: ceil(rect.size.height - 64))
         self.collectionView?.contentInset = UIEdgeInsets(top: 0, left: self.view.frame.size.width * (1 - tileRatio) * 0.5, bottom: 0, right: self.view.frame.size.width * (1 - tileRatio) * 0.5)
         
         let space = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)

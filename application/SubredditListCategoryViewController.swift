@@ -25,7 +25,7 @@ class SubredditListSFWCategoryViewController: SubredditListCategoryViewControlle
  */
 class SubredditListCategoryViewController: UITableViewController {
     var targetType: SubredditListCategoryTargetType = .NSFW
-    var categoryLists: [String:[SubredditListItem]] = [:]
+    var categoryLists: [String: [SubredditListItem]] = [:]
     var categoryTitles: [String] = []
     var lastUpdateDate = NSDate()
     

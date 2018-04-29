@@ -75,8 +75,8 @@ class ImageViewPageModalAnimator: NSObject, UIViewControllerAnimatedTransitionin
         
         /**< Final frame of animating image view */
         let endFrame = CGRect(
-            x:(containerView.frame.size.width - newImageSize.width * ratioOfImageToFullScreen)/2,
-            y:(containerView.frame.size.height - newImageSize.height * ratioOfImageToFullScreen)/2,
+            x: (containerView.frame.size.width - newImageSize.width * ratioOfImageToFullScreen)/2,
+            y: (containerView.frame.size.height - newImageSize.height * ratioOfImageToFullScreen)/2,
             width: newImageSize.width * ratioOfImageToFullScreen,
             height: newImageSize.height * ratioOfImageToFullScreen
         )

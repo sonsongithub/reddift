@@ -175,10 +175,10 @@ class LinkCell: UITableViewCell {
         contentToolbar.translatesAutoresizingMaskIntoConstraints = false
         titleTextView.translatesAutoresizingMaskIntoConstraints = false
         
-        let views: [String : Any] = [
+        let views: [String: Any] = [
             "titleTextView": titleTextView,
             "contentInfoView": contentInfoView,
-            "contentToolbar": contentToolbar,
+            "contentToolbar": contentToolbar
             ]
         
         let metric = [
@@ -216,7 +216,7 @@ class LinkCell: UITableViewCell {
         let location = recognizer.location(in: self.contentView)
         if titleTextView.frame.contains(location) {
             if let container = container {
-                let userInfo: [String:Any] = ["link": container.link, "contents": container]
+                let userInfo: [String: Any] = ["link": container.link, "contents": container]
                 NotificationCenter.default.post(name: LinkCellDidTapTitleNotification, object: nil, userInfo: userInfo)
             }
         }
@@ -226,14 +226,14 @@ class LinkCell: UITableViewCell {
     
     @objc func didTapNameButton(sender: Any) {
         if let container = container {
-            let userInfo: [String:Any] = ["name": container.link.author, "contents": container]
+            let userInfo: [String: Any] = ["name": container.link.author, "contents": container]
             NotificationCenter.default.post(name: LinkCellDidTapNameNotification, object: nil, userInfo: userInfo)
         }
     }
     
     @objc func didTapActionButton(sender: Any) {
         if let container = container {
-            let userInfo: [String:Any] = ["link": container.link, "contents": container]
+            let userInfo: [String: Any] = ["link": container.link, "contents": container]
             NotificationCenter.default.post(name: LinkCellDidTapActionNotification, object: nil, userInfo: userInfo)
         }
     }
@@ -247,7 +247,7 @@ class LinkCell: UITableViewCell {
     
     @objc func didTapCommentButton(sender: Any) {
         if let container = container {
-            let userInfo: [String:Any] = ["link": container.link, "contents": container]
+            let userInfo: [String: Any] = ["link": container.link, "contents": container]
             NotificationCenter.default.post(name: LinkCellDidTapCommentNotification, object: nil, userInfo: userInfo)
         }
     }

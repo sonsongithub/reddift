@@ -26,7 +26,7 @@ class Parser: NSObject {
         case "t4":
             return Message(json: data)
         case "t5":
-            return Subreddit(json:data)
+            return Subreddit(json: data)
         case "t6":
             return Trophy(json: data)
         case "more":
@@ -169,7 +169,7 @@ class Parser: NSObject {
                 }
             }
         }
-        return Listing(children:list, paginator: paginator ?? Paginator())
+        return Listing(children: list, paginator: paginator ?? Paginator())
     }
     
 	/**

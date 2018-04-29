@@ -21,7 +21,7 @@ class ListingsTest: SessionTestSpec {
                 let documentOpenExpectation = self.expectation(description: "Check whether the list which is obtained with \(sortType.description), \(filter.description) includes only Link object.")
                 var isSucceeded = false
                 do {
-                    try self.session?.getList(Paginator(), subreddit:subreddit, sort:sortType, timeFilterWithin:filter, completion: { (result) in
+                    try self.session?.getList(Paginator(), subreddit: subreddit, sort: sortType, timeFilterWithin: filter, completion: { (result) in
                         switch result {
                         case .failure(let error):
                             print(error)
@@ -99,7 +99,7 @@ class ListingsTest: SessionTestSpec {
                 print("Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
                 let documentOpenExpectation = self.expectation(description: "Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
                 let subreddit = Subreddit(subreddit: "redditdev")
-                try self.session?.getList(Paginator(), subreddit:subreddit, sort:.new, timeFilterWithin:.week, completion: { (result) in
+                try self.session?.getList(Paginator(), subreddit: subreddit, sort: .new, timeFilterWithin: .week, completion: { (result) in
                     switch result {
                     case .failure(let error):
                         print(error)
@@ -120,7 +120,7 @@ class ListingsTest: SessionTestSpec {
             do {
                 let documentOpenExpectation = self.expectation(description: "Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
                 if let link = link {
-                    try self.session?.getArticles(link, sort:sort, completion: { (result) -> Void in
+                    try self.session?.getArticles(link, sort: sort, completion: { (result) -> Void in
                         var isSucceeded = false
                         switch result {
                         case .failure:

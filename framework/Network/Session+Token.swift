@@ -33,14 +33,14 @@ extension Session {
             try currentToken.refresh({ (result) -> Void in
                 switch result {
                 case .failure(let error):
-                    completion(Result(error:error as NSError))
+                    completion(Result(error: error as NSError))
                 case .success(let newToken):
                     DispatchQueue.main.async(execute: { () -> Void in
                         self.token = newToken
                         do {
                             try OAuth2TokenRepository.save(token: newToken)
                             completion(Result(value: newToken))
-                        } catch { completion(Result(error:error as NSError)) }
+                        } catch { completion(Result(error: error as NSError)) }
                     })
                 }
             })
@@ -59,13 +59,13 @@ extension Session {
             try currentToken.revoke({ (result) -> Void in
                 switch result {
                 case .failure(let error):
-                    completion(Result(error:error as NSError))
+                    completion(Result(error: error as NSError))
                 case .success:
                     DispatchQueue.main.async(execute: { () -> Void in
                         do {
                             try OAuth2TokenRepository.removeToken(of: currentToken.name)
                             completion(Result(value: currentToken))
-                        } catch { completion(Result(error:error as NSError)) }
+                        } catch { completion(Result(error: error as NSError)) }
                     })
                 }
             })

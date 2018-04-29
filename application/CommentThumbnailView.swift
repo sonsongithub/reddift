@@ -21,7 +21,7 @@ class CommentThumbnailView: UIView, ImageDownloadable {
     
     var viewTupleForURL: [String: (UIImageView, UIActivityIndicatorView)] = [:]
     var activityIndicators: [UIActivityIndicatorView] = []
-    var activityIndicatorURLDictionary: [String:UIActivityIndicatorView] = [:]
+    var activityIndicatorURLDictionary: [String: UIActivityIndicatorView] = [:]
     let numberOfRows: Int
     var numberOfThumbnails: Int
     

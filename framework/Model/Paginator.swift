@@ -41,9 +41,9 @@ public struct Paginator {
     
     - returns: Dictionary object for paging.
     */
-    public var parameterDictionary: [String:String] {
+    public var parameterDictionary: [String: String] {
         get {
-            var dict: [String:String] = [:]
+            var dict: [String: String] = [:]
             if after.characters.count > 0 {
                 dict["after"] = after
             }
@@ -54,7 +54,7 @@ public struct Paginator {
         }
     }
     
-    public func dictionaryByAdding(parameters dict: [String:String]) -> [String:String] {
+    public func dictionaryByAdding(parameters dict: [String: String]) -> [String: String] {
         var newDict = dict
         if after.characters.count > 0 {
             newDict["after"] = after

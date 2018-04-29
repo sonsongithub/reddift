@@ -14,7 +14,7 @@ extension SubredditsTest {
         let msg = "Get own subscribing list."
         let documentOpenExpectation = self.expectation(description: msg)
         do {
-            try self.session?.getUserRelatedSubreddit(.subscriber, paginator:Paginator(), completion: { (result) -> Void in
+            try self.session?.getUserRelatedSubreddit(.subscriber, paginator: Paginator(), completion: { (result) -> Void in
                 switch result {
                 case .failure(let error):
                     print(error)
@@ -36,7 +36,7 @@ extension SubredditsTest {
         var isSucceeded = false
         let documentOpenExpectation = self.expectation(description: msg)
         do {
-            try self.session?.about(subreddit, aboutWhere:aboutWhere, completion: { (result) -> Void in
+            try self.session?.about(subreddit, aboutWhere: aboutWhere, completion: { (result) -> Void in
                 switch result {
                 case .failure(let error):
                     if error.code != HttpStatus.forbidden.rawValue { print(error) }
@@ -137,7 +137,7 @@ class SubredditsTest: SessionTestSpec {
         let msg = "Search subreddit used of \(query)"
         let documentOpenExpectation = self.expectation(description: msg)
         do {
-            try self.session?.getSubredditSearch(query, paginator:Paginator(), completion: { (result) -> Void in
+            try self.session?.getSubredditSearch(query, paginator: Paginator(), completion: { (result) -> Void in
                 switch result {
                 case .failure(let error):
                     print(error)

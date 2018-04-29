@@ -61,11 +61,11 @@ extension Session {
         if let context = context {
 			parameter["context"] = String(context)
 		}
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/comments/" + link.id + ".json", parameter:parameter, method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path: "/comments/" + link.id + ".json", parameter: parameter, method: "GET", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<(Listing, Listing)> in
             
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -94,9 +94,9 @@ extension Session {
             case .top:
                 return try getList(paginator, subreddit: subreddit, privateSortType: .top, timeFilterWithin: timeFilterWithin, limit: limit, completion: completion)
             case .new:
-                return try getNewOrHotList(paginator, subreddit: subreddit, type: "new", limit:limit, completion: completion)
+                return try getNewOrHotList(paginator, subreddit: subreddit, type: "new", limit: limit, completion: completion)
             case .hot:
-                return try getNewOrHotList(paginator, subreddit: subreddit, type: "hot", limit:limit, completion: completion)
+                return try getNewOrHotList(paginator, subreddit: subreddit, type: "hot", limit: limit, completion: completion)
             }
         } catch { throw error }
     }
@@ -122,10 +122,10 @@ extension Session {
         ])
         var path = "\(privateSortType.path).json"
         if let subreddit = subreddit { path = "\(subreddit.path)\(privateSortType.path).json" }
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:path, parameter:parameter, method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path: path, parameter: parameter, method: "GET", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -145,7 +145,7 @@ extension Session {
     @discardableResult
     func getHotList(_ paginator: Paginator, subreddit: SubredditURLPath?, limit: Int = 25, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         do {
-            return try getNewOrHotList(paginator, subreddit: subreddit, type: "hot", limit:limit, completion: completion)
+            return try getNewOrHotList(paginator, subreddit: subreddit, type: "hot", limit: limit, completion: completion)
         } catch { throw error }
     }
     
@@ -160,7 +160,7 @@ extension Session {
     @discardableResult
     func getNewList(_ paginator: Paginator, subreddit: SubredditURLPath?, limit: Int = 25, completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         do {
-            return try getNewOrHotList(paginator, subreddit: subreddit, type: "new", limit:limit, completion: completion)
+            return try getNewOrHotList(paginator, subreddit: subreddit, type: "new", limit: limit, completion: completion)
         } catch { throw error }
     }
     
@@ -179,14 +179,14 @@ extension Session {
         let parameter = paginator.dictionaryByAdding(parameters: [
             "limit": "\(limit)",
             //            "sr_detail": "true",
-            "show": "all",
+            "show": "all"
             ])
         var path = "\(type).json"
         if let subreddit = subreddit { path = "\(subreddit.path)/\(type).json" }
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:path, parameter:parameter, method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path: path, parameter: parameter, method: "GET", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -207,10 +207,10 @@ extension Session {
     public func getRandom(_ subreddit: Subreddit? = nil, completion: @escaping (Result<(Listing, Listing)>) -> Void) throws -> URLSessionDataTask {
         var path = "/random"
         if let subreddit = subreddit { path = subreddit.url + "/random" }
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:path, method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path: path, method: "GET", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<(Listing, Listing)> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -235,12 +235,12 @@ extension Session {
         let parameter = paginator.dictionaryByAdding(parameters: [
             "limit": "\(limit)",
             //            "sr_detail": "true",
-            "show": "all",
+            "show": "all"
         ])
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/related/" + thing.id + ".json", parameter:parameter, method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path: "/related/" + thing.id + ".json", parameter: parameter, method: "GET", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<(Listing, Listing)> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -265,10 +265,10 @@ extension Session {
 //            "sr_detail": "true",
             "show": "all"
         ])
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/duplicates/" + thing.id + ".json", parameter:parameter, method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path: "/duplicates/" + thing.id + ".json", parameter: parameter, method: "GET", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<(Listing, Listing)> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -287,10 +287,10 @@ extension Session {
     @discardableResult
     public func getLinksById(_ links: [Link], completion: @escaping (Result<Listing>) -> Void) throws -> URLSessionDataTask {
         let fullnameList = links.map({ (link: Link) -> String in link.name })
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/by_id/" + fullnameList.joined(separator: ",") + ".json", method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path: "/by_id/" + fullnameList.joined(separator: ",") + ".json", method: "GET", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)

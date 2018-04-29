@@ -128,7 +128,7 @@ class MoviePlayerViewToolbar: UIToolbar {
         slider.value = Float(all_seconds)
         let min = all_seconds / 60
         let sec = all_seconds % 60
-        timeLabel.text = String(format:"%02d:%02d", min, sec)
+        timeLabel.text = String(format: "%02d:%02d", min, sec)
     }
     
     // Delegate method push the play button on the toolbar
@@ -172,7 +172,7 @@ class MoviePlayerViewToolbar: UIToolbar {
         let seconds = Int(slider.value)
         let min = seconds / 60
         let sec = seconds % 60
-        timeLabel.text = String(format:"%02d:%02d", min, sec)
+        timeLabel.text = String(format: "%02d:%02d", min, sec)
     }
     
     override init(frame: CGRect) {

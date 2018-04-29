@@ -75,7 +75,7 @@ class MoviePlayView: UIView {
     
     func startToLoadMovie() {
         if let youtubeContentID = movieURL.extractYouTubeContentID(),
-            let infoURL = URL(string:"https://www.youtube.com/get_video_info?video_id=\(youtubeContentID)") {
+            let infoURL = URL(string: "https://www.youtube.com/get_video_info?video_id=\(youtubeContentID)") {
             let request = URLRequest(url: infoURL)
             let session = URLSession(configuration: sessionConfiguration)
             print("Start loading metadata... \(infoURL.absoluteString)")
@@ -97,7 +97,7 @@ class MoviePlayView: UIView {
         }
     }
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         guard let player = playerLayer.player else { return }
         switch player.status {
         case .readyToPlay:

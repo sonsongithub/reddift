@@ -16,7 +16,7 @@ class ImageViewController: UIViewController, Page, ImageDownloadable, ImageViewD
     let index: Int
     let scrollView = UIScrollView(frame: CGRect.zero)
     let mainImageView = FLAnimatedImageView(frame: CGRect.zero)
-    var indicator = UIActivityIndicatorView(activityIndicatorStyle:.gray)
+    var indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
     var maximumZoomScale: CGFloat = 0
     var minimumZoomScale: CGFloat = 0
@@ -107,7 +107,7 @@ class ImageViewController: UIViewController, Page, ImageDownloadable, ImageViewD
     }
     
     class func controllerWithIndex(index: Int, isDark: Bool, thumbnails: [Thumbnail]) -> ImageViewController {
-        let con = ImageViewController(index:index, thumbnails:thumbnails)
+        let con = ImageViewController(index: index, thumbnails: thumbnails)
         return con
     }
 }
@@ -210,7 +210,7 @@ extension ImageViewController {
 
 // MARK: UIScrollViewDelegate
 
-extension ImageViewController : UIScrollViewDelegate {
+extension ImageViewController: UIScrollViewDelegate {
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         print("scrollViewDidZoom")
         let ratio = scrollView.zoomScale / scrollView.minimumZoomScale

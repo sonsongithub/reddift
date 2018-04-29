@@ -24,14 +24,14 @@ Parse simple string response for "/api/needs_captcha"
 - returns: Result object. If data is "true" or "false", Result object has boolean, otherwise error object.
 */
 func data2Bool(_ data: Data) -> Result<Bool> {
-    if let decoded = String(data:data, encoding:.utf8) {
+    if let decoded = String(data: data, encoding: .utf8) {
         if decoded == "true" {
-            return Result(value:true)
+            return Result(value: true)
         } else if decoded == "false" {
-            return Result(value:false)
+            return Result(value: false)
         }
     }
-    return Result(error:ReddiftError.needsCAPTCHAResponseIsInvalid as NSError)
+    return Result(error: ReddiftError.needsCAPTCHAResponseIsInvalid as NSError)
 }
 
 /**
@@ -62,12 +62,12 @@ func idenJSON2String(_ json: JSONAny) -> Result<String> {
         if let j = json["json"] as? JSONDictionary {
             if let data = j["data"] as? JSONDictionary {
                 if let iden = data["iden"] as? String {
-                    return Result(value:iden)
+                    return Result(value: iden)
                 }
             }
         }
     }
-    return Result(error:ReddiftError.identifierOfCAPTCHAIsMalformed as NSError)
+    return Result(error: ReddiftError.identifierOfCAPTCHAIsMalformed as NSError)
 }
 
 extension Session {
@@ -79,10 +79,10 @@ extension Session {
      */
     @discardableResult
     public func checkNeedsCAPTCHA(_ completion: @escaping (Result<Bool>) -> Void) throws -> URLSessionDataTask {
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/needs_captcha", method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path: "/api/needs_captcha", method: "GET", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Bool> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Bool)
         }
@@ -100,10 +100,10 @@ extension Session {
     @discardableResult
     public func getIdenForNewCAPTCHA(_ completion: @escaping (Result<String>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["api_type": "json"]
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/new_captcha", parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path: "/api/new_captcha", parameter: parameter, method: "POST", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<String> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(idenJSON2String)
@@ -124,10 +124,10 @@ extension Session {
      */
     @discardableResult
     public func getCAPTCHA(_ iden: String, completion: @escaping (Result<CAPTCHAImage>) -> Void) throws -> URLSessionDataTask {
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/captcha/" + iden, method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path: "/captcha/" + iden, method: "GET", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<CAPTCHAImage> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Image)
         }
@@ -150,7 +150,7 @@ extension Session {
                     completion(Result(error: error))
                 case .success(let iden):
                     do {
-                        try self.getCAPTCHA(iden, completion:completion)
+                        try self.getCAPTCHA(iden, completion: completion)
                     } catch { completion(Result(error: error as NSError)) }
                 }
             }

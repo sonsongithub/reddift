@@ -21,7 +21,7 @@ public func extendAllReplies(in comment: Thing, current depth: Int) -> ([(Thing,
     if let comment = comment as? Comment {
         buf.append((comment, depth))
         for obj in comment.replies.children {
-            buf.append(contentsOf: extendAllReplies(in: obj, current:depth + 1))
+            buf.append(contentsOf: extendAllReplies(in: obj, current: depth + 1))
         }
     } else if let more = comment as? More {
         for id in more.children {

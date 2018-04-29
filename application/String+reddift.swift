@@ -50,7 +50,7 @@ private let regexForImageJSON: NSRegularExpression! = {
 extension NSString {
     var fullRange: NSRange {
         get {
-            return NSRange(location:0, length: self.length)
+            return NSRange(location: 0, length: self.length)
         }
     }
 }
@@ -79,7 +79,7 @@ extension String {
     */
     var fullRange: NSRange {
         get {
-            return NSRange(location:0, length: self.characters.count)
+            return NSRange(location: 0, length: self.characters.count)
         }
     }
     
@@ -88,7 +88,7 @@ extension String {
     */
     var is404OfImgurcom: Bool {
         get {
-            let results404 = regexFor404.matches(in: self, options: [], range:NSRange(location:0, length:self.characters.count))
+            let results404 = regexFor404.matches(in: self, options: [], range: NSRange(location: 0, length: self.characters.count))
             return (results404.count > 0)
         }
     }
@@ -96,7 +96,7 @@ extension String {
     /**
      */
     func extractImgurImageURLFromAlbum(parentID: String) -> [Thumbnail] {
-        guard let result = regexForImageJSON.firstMatch(in: self, options: [], range: NSRange(location:0, length:self.characters.count)) else { return [] }
+        guard let result = regexForImageJSON.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.characters.count)) else { return [] }
         
         let json = (self as NSString).substring(with: result.range(at: 1))
         let script = "var dict = \(json)"
@@ -121,7 +121,7 @@ extension String {
     /**
      */
     func extractImgurImageURLFromSingleImage(parentID: String) -> [Thumbnail] {
-        guard let result = imgurImageURLFromHeaderMetaTag.firstMatch(in: self, options: [], range: NSRange(location:0, length:self.characters.count)) else { return [] }
+        guard let result = imgurImageURLFromHeaderMetaTag.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.characters.count)) else { return [] }
         let range = result.range(at: 3)
         let urlstring = (self as NSString).substring(with: range)
         return [URL(string: urlstring)].flatMap({$0}).flatMap({
@@ -133,13 +133,13 @@ extension String {
         var thumbnailURL: URL?
         var movieURL: URL?
         
-        if let result = imgurImageURLFromHeaderMetaTag.firstMatch(in: self, options: [], range: NSRange(location:0, length:self.characters.count)) {
+        if let result = imgurImageURLFromHeaderMetaTag.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.characters.count)) {
             let range = result.range(at: 3)
             let urlstring = (self as NSString).substring(with: range)
             thumbnailURL = URL(string: urlstring)
         }
         
-        if let result = imgurVideoURLFromHeaderMetaTag.firstMatch(in: self, options: [], range: NSRange(location:0, length:self.characters.count)) {
+        if let result = imgurVideoURLFromHeaderMetaTag.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.characters.count)) {
             let range = result.range(at: 3)
             let urlstring = (self as NSString).substring(with: range)
             movieURL = URL(string: urlstring)

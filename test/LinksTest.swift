@@ -25,7 +25,7 @@ class LinksTest: SessionTestSpec {
         let documentOpenExpectation = self.expectation(description: "getTestCommentID")
         let link = Link(id: self.testLinkId)
         do {
-            try self.session?.getArticles(link, sort:.new, comments:nil, completion: { (result) -> Void in
+            try self.session?.getArticles(link, sort: .new, comments: nil, completion: { (result) -> Void in
                 switch result {
                 case .failure(let error):
                     print(error)
@@ -47,7 +47,7 @@ class LinksTest: SessionTestSpec {
         let subreddit = Subreddit(subreddit: "sandboxtest")
         let documentOpenExpectation = self.expectation(description: "getTestLinkID")
         do {
-            try self.session?.getList(Paginator(), subreddit:subreddit, sort:.new, timeFilterWithin:.week, completion: { (result) in
+            try self.session?.getList(Paginator(), subreddit: subreddit, sort: .new, timeFilterWithin: .week, completion: { (result) in
                 switch result {
                 case .failure(let error):
                     print(error)
@@ -94,7 +94,7 @@ class LinksTest: SessionTestSpec {
                 do {
                     let name = "t3_" + self.testLinkId
                     let documentOpenExpectation = self.expectation(description: "Check whether the comment is posted as a child of the specified link")
-                    try self.session?.postComment("test comment2", parentName:name, completion: { (result) -> Void in
+                    try self.session?.postComment("test comment2", parentName: name, completion: { (result) -> Void in
                         switch result {
                         case .failure(let error):
                             print(error.description)
@@ -123,7 +123,7 @@ class LinksTest: SessionTestSpec {
                 do {
                     let name = "t1_cw05r44" // old comment object ID
                     let documentOpenExpectation = self.expectation(description: "Test whether Parse class can parse returned JSON object when posting a comment to the too old comment")
-                    try self.session?.postComment("test comment3", parentName:name, completion: { (result) -> Void in
+                    try self.session?.postComment("test comment3", parentName: name, completion: { (result) -> Void in
                         switch result {
                         case .failure(let error):
                             XCTAssert(error.code == ReddiftError.commentJsonObjectIsMalformed.rawValue)
@@ -148,7 +148,7 @@ class LinksTest: SessionTestSpec {
                 do {
                     let name = "t1_" + self.testCommentId
                     let documentOpenExpectation = self.expectation(description: "the comment is posted as a child of the specified comment")
-                    try self.session?.postComment("test comment3", parentName:name, completion: { (result) -> Void in
+                    try self.session?.postComment("test comment3", parentName: name, completion: { (result) -> Void in
                         switch result {
                         case .failure(let error):
                             print(error.description)

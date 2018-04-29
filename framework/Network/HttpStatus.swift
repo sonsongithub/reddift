@@ -86,7 +86,7 @@ public enum HttpStatus: Int, Error {
     case unknown                            = -1
     
     init(_ statusCode: Int) {
-        self = HttpStatus(rawValue:statusCode) ?? .unknown
+        self = HttpStatus(rawValue: statusCode) ?? .unknown
     }
     
     public var _code: Int {

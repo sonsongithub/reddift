@@ -11,7 +11,7 @@ import Foundation
 
 let MediaLinkContainerPrefetchAtIndexPathKey = "IndexPath"
 let MediaLinkContainerPrefetchContentKey = "Content"
-let MediaLinkContainerSingleImageSizeDidUpdate = Notification.Name(rawValue:"MediaLinkContainerSingleImageSizeDidUpdate")
+let MediaLinkContainerSingleImageSizeDidUpdate = Notification.Name(rawValue: "MediaLinkContainerSingleImageSizeDidUpdate")
 
 class MediaLinkContainer: LinkContainer {
     

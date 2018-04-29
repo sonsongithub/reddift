@@ -74,7 +74,7 @@ public enum ReddiftError: Int, Error {
         return self._code
     }
     
-    public var errorUserInfo: [String : AnyObject] {
+    public var errorUserInfo: [String: AnyObject] {
         return [:]
     }
 }

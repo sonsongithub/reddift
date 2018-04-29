@@ -52,7 +52,7 @@ public class BackgroundFetch: NSObject, URLSessionDelegate {
     func handleTokenRefresh(with response: HTTPURLResponse, didFinishDownloadingToURL: URL, token: OAuth2Token) {
         if response.statusCode == HttpStatus.ok.rawValue {
             let data = try? Data(contentsOf: didFinishDownloadingToURL)
-            let result: Result<JSONDictionary> = Result(from: Response(data: data, urlResponse: response), optional:nil)
+            let result: Result<JSONDictionary> = Result(from: Response(data: data, urlResponse: response), optional: nil)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(redditAny2Object)

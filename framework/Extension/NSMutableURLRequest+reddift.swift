@@ -41,7 +41,7 @@ extension URLRequest {
         let basicAuthenticationChallenge = Config.sharedInstance.clientID + ":"
         if let data = basicAuthenticationChallenge.data(using: .utf8) {
             let base64Str = data.base64EncodedString(options: .lineLength64Characters)
-            setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
+            setValue("Basic " + base64Str, forHTTPHeaderField: "Authorization")
         } else {
             throw ReddiftError.canNotCreateDataObjectForClientIDForBasicAuthentication as NSError
         }
@@ -51,7 +51,7 @@ extension URLRequest {
         let basicAuthenticationChallenge = username + ":" + password
         if let data = basicAuthenticationChallenge.data(using: .utf8) {
             let base64Str = data.base64EncodedString(options: .lineLength64Characters)
-            setValue("Basic " + base64Str, forHTTPHeaderField:"Authorization")
+            setValue("Basic " + base64Str, forHTTPHeaderField: "Authorization")
         } else {
             throw ReddiftError.canNotCreateDataObjectForUserInfoForBasicAuthentication as NSError
         }
@@ -59,7 +59,7 @@ extension URLRequest {
     
     mutating func setOAuth2Token(_ token: Token?) {
         if let token = token {
-            setValue("bearer " + token.accessToken, forHTTPHeaderField:"Authorization")
+            setValue("bearer " + token.accessToken, forHTTPHeaderField: "Authorization")
         }
     }
     
@@ -68,7 +68,7 @@ extension URLRequest {
     }
     
     static func requestForOAuth(with baseURL: String, path: String, method: String, token: Token?) -> URLRequest? {
-        guard let URL = URL(string:baseURL + path) else { return nil }
+        guard let URL = URL(string: baseURL + path) else { return nil }
         var request = URLRequest(url: URL)
         request.setOAuth2Token(token)
         request.httpMethod = method
@@ -81,7 +81,7 @@ extension URLRequest {
     
     static func requestForOAuth(with baseURL: String, path: String, data: Data, method: String, token: Token?) -> URLRequest? {
         if method == "POST" || method == "PATCH" || method == "PUT" {
-            guard let URL = URL(string:baseURL + path) else { return nil }
+            guard let URL = URL(string: baseURL + path) else { return nil }
             var request = URLRequest(url: URL)
             request.setOAuth2Token(token)
             request.httpMethod = method
@@ -94,17 +94,17 @@ extension URLRequest {
         } else { return nil }
     }
     
-    static func requestForOAuth(with baseURL: String, path: String, parameter: [String:String]?, method: String, token: Token?) -> URLRequest? {
+    static func requestForOAuth(with baseURL: String, path: String, parameter: [String: String]?, method: String, token: Token?) -> URLRequest? {
         if method == "POST" {
-            return requestForOAuthPostMethod(with: baseURL, path:path, parameter:parameter ?? [:], method:method, token:token)
+            return requestForOAuthPostMethod(with: baseURL, path: path, parameter: parameter ?? [:], method: method, token: token)
         } else {
-            return requestForOAuthGetMethod(with: baseURL, path:path, parameter:parameter ?? [:], method:method, token:token)
+            return requestForOAuthGetMethod(with: baseURL, path: path, parameter: parameter ?? [:], method: method, token: token)
         }
     }
     
-    static func requestForOAuthGetMethod(with baseURL: String, path: String, parameter: [String:String], method: String, token: Token?) -> URLRequest? {
+    static func requestForOAuthGetMethod(with baseURL: String, path: String, parameter: [String: String], method: String, token: Token?) -> URLRequest? {
         let param = parameter.URLQuery
-        guard let URL = param.characters.isEmpty ? URL(string:baseURL + path) : URL(string:baseURL + path + "?" + param) else { return nil }
+        guard let URL = param.characters.isEmpty ? URL(string: baseURL + path) : URL(string: baseURL + path + "?" + param) else { return nil }
         var request = URLRequest(url: URL)
         request.setOAuth2Token(token)
         request.httpMethod = method
@@ -115,8 +115,8 @@ extension URLRequest {
         return request
     }
     
-    static func requestForOAuthPostMethod(with baseURL: String, path: String, parameter: [String:String], method: String, token: Token?) -> URLRequest? {
-        guard let URL = URL(string:baseURL + path) else { return nil }
+    static func requestForOAuthPostMethod(with baseURL: String, path: String, parameter: [String: String], method: String, token: Token?) -> URLRequest? {
+        guard let URL = URL(string: baseURL + path) else { return nil }
         var request = URLRequest(url: URL)
         request.setOAuth2Token(token)
         request.httpMethod = method

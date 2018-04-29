@@ -50,9 +50,9 @@ public class OAuth2Authorizer {
         if let data = mutableData {
             let a = OpaquePointer(data.mutableBytes)
             let ptr = UnsafeMutablePointer<UInt8>(a)
-            let _ = SecRandomCopyBytes(kSecRandomDefault, length, ptr)
+            _ = SecRandomCopyBytes(kSecRandomDefault, length, ptr)
             self.state = data.base64EncodedString(options: .endLineWithLineFeed)
-            guard let authorizationURL = URL(string:"https://www.reddit.com/api/v1/authorize.compact?client_id=" + Config.sharedInstance.clientID + "&response_type=code&state=" + self.state + "&redirect_uri=" + Config.sharedInstance.redirectURI + "&duration=permanent&scope=" + commaSeparatedScopeString)
+            guard let authorizationURL = URL(string: "https://www.reddit.com/api/v1/authorize.compact?client_id=" + Config.sharedInstance.clientID + "&response_type=code&state=" + self.state + "&redirect_uri=" + Config.sharedInstance.redirectURI + "&duration=permanent&scope=" + commaSeparatedScopeString)
                 else { throw ReddiftError.canNotCreateURLRequestForOAuth2Page as NSError }
 #if os(iOS)
                 if #available (iOS 10.0, *) {
@@ -76,7 +76,7 @@ public class OAuth2Authorizer {
     - returns: Returns if the URL object is parsed correctly.
     */
     public func receiveRedirect(_ url: URL, completion: @escaping (Result<OAuth2Token>) -> Void) -> Bool {
-        var parameters: [String:String] = [:]
+        var parameters: [String: String] = [:]
         let currentState = self.state
         self.state = ""
         if url.scheme == Config.sharedInstance.redirectURIScheme {

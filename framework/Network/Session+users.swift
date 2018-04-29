@@ -43,14 +43,14 @@ extension Session {
      */
     @discardableResult
     public func friend(_ username: String, note: String = "", completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
-        var json: [String:String] = [:]
+        var json: [String: String] = [:]
         if !note.isEmpty { json["note"] = note }
         do {
             let data = try JSONSerialization.data(withJSONObject: json, options: [])
-            guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"api/v1/me/friends/" + username, data:data, method:"PUT", token:token)
+            guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path: "api/v1/me/friends/" + username, data: data, method: "PUT", token: token)
                 else { throw ReddiftError.canNotCreateURLRequest as NSError }
             let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
-                return Result(from: Response(data: data, urlResponse: response), optional:error)
+                return Result(from: Response(data: data, urlResponse: response), optional: error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
             }
@@ -71,10 +71,10 @@ extension Session {
         let parameters = [
             "id": username
         ]
-        guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"api/v1/me/friends/" + username, parameter:parameters, method:"DELETE", token:token)
+        guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path: "api/v1/me/friends/" + username, parameter: parameters, method: "DELETE", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
         }
@@ -91,10 +91,10 @@ extension Session {
     public func getFriends(_ username: String? = nil, completion: @escaping (Result<[User]>) -> Void) throws -> URLSessionDataTask {
         var path = "/api/v1/me/friends"
         if let username = username { path = "/api/v1/me/friends/" + username }
-        guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:path, parameter:[:], method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path: path, parameter: [:], method: "GET", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[User]> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -111,10 +111,10 @@ extension Session {
     @discardableResult
     public func getBlocked(_ completion: @escaping (Result<[User]>) -> Void) throws -> URLSessionDataTask {
         let path = "/api/v1/me/blocked"
-        guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:path, parameter:[:], method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path: path, parameter: [:], method: "GET", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[User]> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -151,10 +151,10 @@ extension Session {
             "type": "friend"
 //            "uh":modhash
         ]
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/friend", parameter:parameters, method:"POST", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path: "/api/friend", parameter: parameters, method: "POST", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
         }
@@ -191,10 +191,10 @@ extension Session {
         if !name.isEmpty { parameters["name"] = name }
         if !id.isEmpty { parameters["id"] = id }
         
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/unfriend", parameter:parameters, method:"POST", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path: "/api/unfriend", parameter: parameters, method: "POST", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
         }
@@ -215,10 +215,10 @@ extension Session {
 //            "end_date":"",
             "sort": sort.rawValue
         ]
-        guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"/api/v1/me/notifications", parameter:parameters, method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path: "/api/v1/me/notifications", parameter: parameters, method: "GET", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
         }
@@ -239,10 +239,10 @@ extension Session {
         ]
         do {
             let data = try JSONSerialization.data(withJSONObject: json, options: [])
-            guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"/api/v1/me/notifications/\(id)", data:data, method:"PATCH", token:token)
+            guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path: "/api/v1/me/notifications/\(id)", data: data, method: "PATCH", token: token)
                 else { throw ReddiftError.canNotCreateURLRequest as NSError }
             let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
-                return Result(from: Response(data: data, urlResponse: response), optional:error)
+                return Result(from: Response(data: data, urlResponse: response), optional: error)
                     .flatMap(response2Data)
                     .flatMap(data2Json)
             }
@@ -259,10 +259,10 @@ extension Session {
     @discardableResult
     public func getTrophies(_ username: String, completion: @escaping (Result<[Trophy]>) -> Void) throws -> URLSessionDataTask {
         let path = "/api/v1/user/\(username)/trophies"
-        guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:path, method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path: path, method: "GET", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<[Trophy]> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -288,10 +288,10 @@ extension Session {
             "sort": sort.param,
             "show": "given"
             ])
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/user/" + username + content.path, parameter:parameter, method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path: "/user/" + username + content.path, parameter: parameter, method: "GET", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Listing> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)
@@ -308,10 +308,10 @@ extension Session {
      */
     @discardableResult
     public func getUserProfile(_ username: String, completion: @escaping (Result<Account>) -> Void) throws -> URLSessionDataTask {
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/user/\(username)/about", method:"GET", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path: "/user/\(username)/about", method: "GET", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<Account> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(json2RedditAny)

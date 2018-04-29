@@ -517,7 +517,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
             
             searchController.view.translatesAutoresizingMaskIntoConstraints = false
             
-            let views: [String:UIView] = [
+            let views: [String: UIView] = [
                 "v1": searchController.view,
                 "v2": self.navigationController!.view
             ]

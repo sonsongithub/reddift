@@ -33,7 +33,7 @@ class SubredditListRankingViewController: UITableViewController {
     var targetType: SubredditListRankingTargetType = .All
     var orderType: SubredditListRankingOrderType = .RecentActivity
     var type: String = ""
-    var list: [String:[SubredditListItem]] = [:]
+    var list: [String: [SubredditListItem]] = [:]
     var lastUpdateDate = NSDate()
     
     init() {

@@ -22,7 +22,7 @@ class ImageViewPageController: UIPageViewController, UIPageViewControllerDataSou
     var currentIndex = 0
     var imageViewController: ImageViewDestination?
     let navigationBar = UINavigationBar(frame: CGRect.zero)
-    let item: UINavigationItem = UINavigationItem(title:"")
+    let item: UINavigationItem = UINavigationItem(title: "")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,7 +90,7 @@ class ImageViewPageController: UIPageViewController, UIPageViewControllerDataSou
     init(thumbnails: [Thumbnail], index: Int) {
         self.thumbnails = thumbnails
         self.currentIndex = index
-        super.init(transitionStyle: UIPageViewControllerTransitionStyle.scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.horizontal, options:[UIPageViewControllerOptionInterPageSpacingKey: 12])
+        super.init(transitionStyle: UIPageViewControllerTransitionStyle.scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.horizontal, options: [UIPageViewControllerOptionInterPageSpacingKey: 12])
         self.dataSource = self
         self.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(ImageViewPageController.didMoveCurrentImage(notification:)), name: ImageViewControllerDidChangeCurrentImageName, object: nil)
@@ -102,14 +102,14 @@ class ImageViewPageController: UIPageViewController, UIPageViewControllerDataSou
     }
     
     class func controller(thumbnails: [Thumbnail], index: Int, isOpenedBy3DTouch: Bool) -> ImageViewPageController {
-        let vc = ImageViewPageController(thumbnails:thumbnails, index:index)
+        let vc = ImageViewPageController(thumbnails: thumbnails, index: index)
         
         var con: UIViewController? = nil
         
         switch thumbnails[index] {
-        case .Image(_, _):
+        case .Image:
             con = ImageViewController(index: index, thumbnails: thumbnails, isOpenedBy3DTouch: isOpenedBy3DTouch)
-        case .Movie( _, _, _):
+        case .Movie:
             con = MoviePlayerController(index: index, thumbnails: thumbnails, isOpenedBy3DTouch: isOpenedBy3DTouch)
         }
         
@@ -161,9 +161,9 @@ class ImageViewPageController: UIPageViewController, UIPageViewControllerDataSou
             }
             
             switch self.thumbnails[index] {
-            case .Image(_, _):
+            case .Image:
                 return ImageViewController(index: index, thumbnails: self.thumbnails)
-            case .Movie( _, _, _):
+            case .Movie:
                 return MoviePlayerController(index: index, thumbnails: self.thumbnails)
             }
         }
@@ -177,9 +177,9 @@ class ImageViewPageController: UIPageViewController, UIPageViewControllerDataSou
                 return nil
             }
             switch self.thumbnails[index] {
-            case .Image(_, _):
+            case .Image:
                 return ImageViewController(index: index, thumbnails: self.thumbnails)
-            case .Movie( _, _, _):
+            case .Movie:
                 return MoviePlayerController(index: index, thumbnails: self.thumbnails)
             }
         }

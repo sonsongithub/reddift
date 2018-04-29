@@ -9,8 +9,8 @@
 import Foundation
 
 extension URLComponents {
-    var dictionary: [String:String] {
-        var parameters: [String:String] = [:]
+    var dictionary: [String: String] {
+        var parameters: [String: String] = [:]
         if #available(macOS 10.10, *) {
             if let queryItems = self.queryItems {
                 for queryItem in queryItems {

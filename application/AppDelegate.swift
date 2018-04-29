@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ImageCache {
     var session: Session?
     var window: UIWindow?
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
         // handle redirect URL from reddit.com
         return OAuth2Authorizer.sharedInstance.receiveRedirect(url as URL, completion: {(result) -> Void in
             switch result {
@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ImageCache {
             case .success(let token):
                 DispatchQueue.main.async(execute: { () -> Void in
                     do {
-                        try OAuth2TokenRepository.save(token: token, of:token.name)
+                        try OAuth2TokenRepository.save(token: token, of: token.name)
                         NotificationCenter.default.post(name: OAuth2TokenRepositoryDidSaveTokenName, object: nil, userInfo: nil)
                     } catch { print(error) }
                 })
@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ImageCache {
             case .success(let token):
                 DispatchQueue.main.async(execute: { () -> Void in
                     do {
-                        try OAuth2TokenRepository.save(token: token, of:token.name)
+                        try OAuth2TokenRepository.save(token: token, of: token.name)
                         NotificationCenter.default.post(name: OAuth2TokenRepositoryDidSaveTokenName, object: nil, userInfo: nil)
                     } catch { print(error) }
                 })

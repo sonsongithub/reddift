@@ -44,7 +44,7 @@ public enum MultiredditIconName: String {
     case none = "None"
     
     init(_ name: String) {
-        self = MultiredditIconName(rawValue:name) ?? .none
+        self = MultiredditIconName(rawValue: name) ?? .none
     }
 }
 
@@ -57,7 +57,7 @@ public enum MultiredditVisibility: String {
     case hidden = "hidden"
     
     init(_ type: String) {
-        self = MultiredditVisibility(rawValue:type) ?? .private
+        self = MultiredditVisibility(rawValue: type) ?? .private
     }
 }
 
@@ -69,7 +69,7 @@ public enum MultiredditWeightingScheme: String {
     case fresh = "fresh"
     
     init(_ type: String) {
-        self = MultiredditWeightingScheme(rawValue:type) ?? .classic
+        self = MultiredditWeightingScheme(rawValue: type) ?? .classic
     }
 }
 
@@ -125,7 +125,7 @@ public struct Multireddit: SubredditURLPath, Created {
         var buf: [String] = []
         if let temp = json["subreddits"] as? [JSONDictionary] {
             for element in temp {
-                if let element = element as? [String:String], let name = element["name"] {
+                if let element = element as? [String: String], let name = element["name"] {
                     buf.append(name)
                 }
             }
@@ -152,8 +152,8 @@ public struct Multireddit: SubredditURLPath, Created {
      */
     public func multiredditPathReplacingNameWith(_ newMultiredditName: String) throws -> String {
         do {
-            let regex = try NSRegularExpression(pattern:"^/user/(.+?)/m/", options: .caseInsensitive)
-            if let match = regex.firstMatch(in: self.path, options: [], range: NSRange(location:0, length:self.path.characters.count)) {
+            let regex = try NSRegularExpression(pattern: "^/user/(.+?)/m/", options: .caseInsensitive)
+            if let match = regex.firstMatch(in: self.path, options: [], range: NSRange(location: 0, length: self.path.characters.count)) {
                 if match.numberOfRanges > 1 {
                     let range = match.range(at: 1)
                     let userName = (self.path as NSString).substring(with: range)

@@ -72,7 +72,7 @@ extension ImageCache {
         let scale = image.size.width > image.size.height ? 120 / image.size.width : 120 / image.size.height
         let size = CGSize(width: image.size.width * scale, height: image.size.height * scale)
         UIGraphicsBeginImageContext(size)
-        image.draw(in: CGRect(x:0, y:0, width:size.width, height:size.height))
+        image.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         let resizeImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         guard let output = resizeImage else { throw ReddiftAPPError.canNotCreateThumbnailImageFromOriginalImage }
@@ -182,7 +182,7 @@ extension ImageDownloadable {
     }
     
     func postNotificationForImageDownload(url: URL, sender: AnyObject, error: NSError?) {
-        var userInfo = [ImageDownloadableSenderKey: sender, ImageDownloadableUrlKey: url] as [String : Any]
+        var userInfo = [ImageDownloadableSenderKey: sender, ImageDownloadableUrlKey: url] as [String: Any]
         if let error = error {
             userInfo[ImageDownloadableErrorKey] = error
         }
