@@ -19,7 +19,7 @@ extension SubredditsTest {
                 case .failure(let error):
                     print(error)
                 case .success(let listing):
-                    list = listing.children.flatMap({$0 as? Subreddit})
+                    list = listing.children.compactMap({$0 as? Subreddit})
                 }
                 XCTAssert(list.count > 0, msg)
                 documentOpenExpectation.fulfill()
@@ -142,7 +142,7 @@ class SubredditsTest: SessionTestSpec {
                 case .failure(let error):
                     print(error)
                 case .success(let listing):
-                    subreddits.append(contentsOf: listing.children.flatMap({$0 as? Subreddit}))
+                    subreddits.append(contentsOf: listing.children.compactMap({$0 as? Subreddit}))
                 }
                 documentOpenExpectation.fulfill()
             })

@@ -166,7 +166,7 @@ func redditAny2Object<T>(from redditAny: RedditAny) -> Result<T> {
 
 func redditAny2MultiredditArray(from redditAny: RedditAny) -> Result<[Multireddit]> {
     if let array = redditAny as? [Any] {
-        return Result(value: array.flatMap({$0 as? Multireddit}))
+        return Result(value: array.compactMap({$0 as? Multireddit}))
     }
     return Result(error: ReddiftError.failedToParseMultiredditArrayFromRedditAny as NSError)
 }

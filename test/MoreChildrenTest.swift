@@ -31,7 +31,7 @@ class MoreChildrenTest: SessionTestSpec {
                 case .failure(let error):
                     print(error)
                 case .success(_, let listing):
-                    let incomming = listing.children.flatMap({ $0 as? More})
+                    let incomming = listing.children.compactMap({ $0 as? More})
                     moreList.append(contentsOf: incomming)
                 }
                 documentOpenExpectation.fulfill()

@@ -77,15 +77,14 @@ public class OAuth2Authorizer {
     */
     public func receiveRedirect(_ url: URL, completion: @escaping (Result<OAuth2Token>) -> Void) -> Bool {
         var parameters: [String: String] = [:]
-        let currentState = self.state
         self.state = ""
         if url.scheme == Config.sharedInstance.redirectURIScheme {
             if let temp = URLComponents(url: url, resolvingAgainstBaseURL: true)?.dictionary {
                 parameters = temp
             }
         }
-        if let code = parameters["code"], let state = parameters["state"] {
-            if code.characters.count > 0 {
+        if let code = parameters["code"], let _ = parameters["state"] {
+            if !code.isEmpty {
                 do {
                     try OAuth2Token.getOAuth2Token(code, completion: completion)
                     return true

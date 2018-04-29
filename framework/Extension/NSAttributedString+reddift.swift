@@ -93,7 +93,7 @@ extension URLComponents {
     /// Returns true when URL's filename has image's file extension(such as gif, jpg, png).
     public var hasImageFileExtension: Bool {
         let path = self.path
-            if let r = regexForHasImageFileExtension.firstMatch(in: path, options: [], range: NSRange(location: 0, length: path.characters.count)) {
+            if let r = regexForHasImageFileExtension.firstMatch(in: path, options: [], range: NSRange(location: 0, length: path.utf16.count)) {
                 return r.range(at: 1).length > 0
             }
         return false
@@ -115,7 +115,7 @@ extension NSAttributedString {
                     values.append(value as AnyObject)
                 }
             })
-            return values.flatMap { $0 as? URL }
+            return values.compactMap { $0 as? URL }
         }
     }
     
@@ -124,8 +124,8 @@ extension NSAttributedString {
         get {
             return self
                 .includedURL
-                .flatMap {URLComponents(url: $0, resolvingAgainstBaseURL: false)}
-                .flatMap {($0.hasImageFileExtension && $0.scheme != "applewebdata") ? $0.url : nil}
+                .compactMap {URLComponents(url: $0, resolvingAgainstBaseURL: false)}
+                .compactMap {($0.hasImageFileExtension && $0.scheme != "applewebdata") ? $0.url : nil}
         }
     }
     

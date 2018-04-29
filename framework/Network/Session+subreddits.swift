@@ -50,7 +50,7 @@ extension Session {
                 .flatMap(data2Json)
                 .flatMap({
                     if let array = $0 as? [[String: String]] {
-                        return Result(value: array.flatMap({$0["sr_name"]}))
+                        return Result(value: array.compactMap({$0["sr_name"]}))
                     }
                     return Result(error: ReddiftError.sr_nameOfRecommendedSubredditKeyNotFound as NSError)
                 })
@@ -83,7 +83,7 @@ extension Session {
                 .flatMap(data2Json)
                 .flatMap({
                     if let dict = $0 as? JSONDictionary, let array = dict["names"] as? [String] {
-                        return Result(value: array.flatMap({$0}))
+                        return Result(value: array.compactMap({$0}))
                     }
                     return Result(error: ReddiftError.nameAsResultOfSearchSubredditKeyNotFound as NSError)
                 })
@@ -129,7 +129,7 @@ extension Session {
                 .flatMap(data2Json)
                 .flatMap({
                     if let array = $0 as? [[String: String]] {
-                        return Result(value: array.flatMap({$0["name"]}))
+                        return Result(value: array.compactMap({$0["name"]}))
                     }
                     return Result(error: ReddiftError.nameAsResultOfSearchSubredditKeyNotFound as NSError)
                 })

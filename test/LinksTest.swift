@@ -204,7 +204,7 @@ class LinksTest: SessionTestSpec {
                         print(error.description)
                     case .success(let listing):
                         isSucceeded = listing.children
-                            .flatMap({(thing: Thing) -> Link? in
+                            .compactMap({(thing: Thing) -> Link? in
                             if let obj = thing as? Link {if obj.name == link.name { return obj }}
                             return nil
                             })

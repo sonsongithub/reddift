@@ -81,8 +81,8 @@ class Parser: NSObject {
                 if let data = root["data"] as? JSONDictionary {
                     if let things = data["things"] as? [JSONDictionary] {
                         let r = things
-                            .flatMap { Parser.parse($0) }
-                            .flatMap { $0 as? Thing }
+                            .compactMap { Parser.parse($0) }
+                            .compactMap { $0 as? Thing }
                         return (r, nil)
                     }
                 }
@@ -136,7 +136,7 @@ class Parser: NSObject {
     class func trophyList(from json: JSONDictionary) -> [Trophy] {
         var result: [Trophy] = []
         if let children = json["trophies"] as? [JSONDictionary] {
-            result.append(contentsOf: children.flatMap({ parse($0) as? Trophy }))
+            result.append(contentsOf: children.compactMap({ parse($0) as? Trophy }))
         }
         return result
     }

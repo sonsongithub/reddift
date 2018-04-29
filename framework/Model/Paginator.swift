@@ -44,10 +44,10 @@ public struct Paginator {
     public var parameterDictionary: [String: String] {
         get {
             var dict: [String: String] = [:]
-            if after.characters.count > 0 {
+            if !after.isEmpty {
                 dict["after"] = after
             }
-            if before.characters.count > 0 {
+            if !before.isEmpty {
                 dict["before"] = before
             }
             return dict
@@ -56,10 +56,10 @@ public struct Paginator {
     
     public func dictionaryByAdding(parameters dict: [String: String]) -> [String: String] {
         var newDict = dict
-        if after.characters.count > 0 {
+        if !after.isEmpty {
             newDict["after"] = after
         }
-        if before.characters.count > 0 {
+        if !before.isEmpty {
             newDict["before"] = before
         }
         return newDict

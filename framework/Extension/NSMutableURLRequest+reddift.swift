@@ -104,7 +104,7 @@ extension URLRequest {
     
     static func requestForOAuthGetMethod(with baseURL: String, path: String, parameter: [String: String], method: String, token: Token?) -> URLRequest? {
         let param = parameter.URLQuery
-        guard let URL = param.characters.isEmpty ? URL(string: baseURL + path) : URL(string: baseURL + path + "?" + param) else { return nil }
+        guard let URL = param.isEmpty ? URL(string: baseURL + path) : URL(string: baseURL + path + "?" + param) else { return nil }
         var request = URLRequest(url: URL)
         request.setOAuth2Token(token)
         request.httpMethod = method

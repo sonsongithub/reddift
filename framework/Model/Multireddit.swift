@@ -153,7 +153,7 @@ public struct Multireddit: SubredditURLPath, Created {
     public func multiredditPathReplacingNameWith(_ newMultiredditName: String) throws -> String {
         do {
             let regex = try NSRegularExpression(pattern: "^/user/(.+?)/m/", options: .caseInsensitive)
-            if let match = regex.firstMatch(in: self.path, options: [], range: NSRange(location: 0, length: self.path.characters.count)) {
+            if let match = regex.firstMatch(in: self.path, options: [], range: NSRange(location: 0, length: self.path.utf16.count)) {
                 if match.numberOfRanges > 1 {
                     let range = match.range(at: 1)
                     let userName = (self.path as NSString).substring(with: range)

@@ -26,7 +26,7 @@ class SearchTest: SessionTestSpec {
                 case .failure(let error):
                     print(error)
                 case .success(let listing):
-                    links.append(contentsOf: listing.children.flatMap { $0 as? Link })
+                    links.append(contentsOf: listing.children.compactMap { $0 as? Link })
                 }
                 documentOpenExpectation.fulfill()
             })
