@@ -67,9 +67,9 @@ public struct OAuth2AppOnlyToken: Token {
     */
     public static func requestForOAuth2AppOnly(username: String, password: String, clientID: String, secret: String) -> URLRequest? {
         guard let URL = URL(string: "https://ssl.reddit.com/api/v1/access_token") else { return nil }
-        var request = URLRequest(url:URL)
+        var request = URLRequest(url: URL)
         do {
-            try request.setRedditBasicAuthentication(username:clientID, password:secret)
+            try request.setRedditBasicAuthentication(username: clientID, password: secret)
             let param = "grant_type=password&username=" + username + "&password=" + password
             let data = param.data(using: .utf8)
             request.httpBody = data
@@ -91,10 +91,10 @@ public struct OAuth2AppOnlyToken: Token {
     @discardableResult
     public static func getOAuth2AppOnlyToken(username: String, password: String, clientID: String, secret: String, completion: @escaping (Result<Token>) -> Void) throws -> URLSessionDataTask {
         let session = URLSession(configuration: URLSessionConfiguration.default)
-        guard let request = requestForOAuth2AppOnly(username:username, password:password, clientID:clientID, secret:secret)
+        guard let request = requestForOAuth2AppOnly(username: username, password: password, clientID: clientID, secret: secret)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
-            let result = Result(from: Response(data: data, urlResponse: response), optional:error as NSError?)
+            let result = Result(from: Response(data: data, urlResponse: response), optional: error as NSError?)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap({(json: JSONAny) -> Result<JSONDictionary> in

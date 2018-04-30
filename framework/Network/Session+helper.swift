@@ -44,9 +44,9 @@ Returns Result<Error> object when any error happned.
 */
 func data2Json(from data: Data) -> Result<JSONAny> {
     do {
-        if data.count == 0 { return Result(value:[:]) } else {
+        if data.count == 0 { return Result(value: [:]) } else {
             let json = try JSONSerialization.jsonObject(with: data, options: [])
-            return Result(value:json)
+            return Result(value: json)
         }
     } catch {
         return Result(error: error as NSError)
@@ -64,10 +64,10 @@ func data2String(from data: Data) -> Result<String> {
     if data.count == 0 {
         return Result(value: "")
     }
-    if let decoded = String(data:data, encoding:.utf8) {
+    if let decoded = String(data: data, encoding: .utf8) {
         return Result(value: decoded)
     }
-    return Result(error:ReddiftError.dataIsNotUTF8String as NSError)
+    return Result(error: ReddiftError.dataIsNotUTF8String as NSError)
 }
 
 // MARK: JSON -> RedditAny
@@ -94,7 +94,7 @@ Returns Result<Error> object when any error happned.
 */
 func json2Account(from json: JSONAny) -> Result<Account> {
     if let object = json as? JSONDictionary {
-        return Result(fromOptional: Account(json:object), error: ReddiftError.accountJsonObjectIsMalformed as NSError)
+        return Result(fromOptional: Account(json: object), error: ReddiftError.accountJsonObjectIsMalformed as NSError)
     }
     return Result(fromOptional: nil, error: ReddiftError.accountJsonObjectIsNotDictionary as NSError)
 }
@@ -166,7 +166,7 @@ func redditAny2Object<T>(from redditAny: RedditAny) -> Result<T> {
 
 func redditAny2MultiredditArray(from redditAny: RedditAny) -> Result<[Multireddit]> {
     if let array = redditAny as? [Any] {
-        return Result(value:array.flatMap({$0 as? Multireddit}))
+        return Result(value: array.compactMap({$0 as? Multireddit}))
     }
     return Result(error: ReddiftError.failedToParseMultiredditArrayFromRedditAny as NSError)
 }
@@ -184,7 +184,7 @@ func redditAny2ListingTuple(from redditAny: RedditAny) -> Result<(Listing, Listi
 
 // MARK: Convert from data and response
 public func accountInResult(from data: Data?, response: URLResponse?, error: NSError? = nil) -> Result<Account> {
-    return Result(from: Response(data: data, urlResponse: response), optional:nil)
+    return Result(from: Response(data: data, urlResponse: response), optional: nil)
         .flatMap(response2Data)
         .flatMap(data2Json)
         .flatMap(json2Account)

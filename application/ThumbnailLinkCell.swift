@@ -97,7 +97,7 @@ class ThumbnailLinkCell: LinkCell, ImageDownloadable, ImageViewAnimator {
         let views = [
             "thumbnailImageView": thumbnailImageView,
             "titleTextView": titleTextView
-            ] as [String : Any]
+            ] as [String: Any]
         let metrics = [
             "horizontalCenterMargin": ThumbnailLinkCell.horizontalCenterMargin
         ]
@@ -142,7 +142,7 @@ class ThumbnailLinkCell: LinkCell, ImageDownloadable, ImageViewAnimator {
         let views = [
             "titleAndThumbnailBaseView": titleAndThumbnailBaseView,
             "contentInfoView": contentInfoView,
-            "contentToolbar": contentToolbar,
+            "contentToolbar": contentToolbar
             ]
         let metric = [
             "horizontalLeftMargin": ThumbnailLinkCell.horizontalLeftMargin,
@@ -201,7 +201,7 @@ class ThumbnailLinkCell: LinkCell, ImageDownloadable, ImageViewAnimator {
     
     @objc func didTapGesture(recognizer: UITapGestureRecognizer) {
         if let container = container as? ThumbnailLinkContainer {
-            let userInfo: [String:Any] = ["link": container.link, "thumbnail": container.thumbnails[0], "view": thumbnailImageView]
+            let userInfo: [String: Any] = ["link": container.link, "thumbnail": container.thumbnails[0], "view": thumbnailImageView]
             NotificationCenter.default.post(name: LinkCellDidTapThumbnailNotification, object: nil, userInfo: userInfo)
         }
     }

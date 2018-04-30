@@ -99,7 +99,7 @@ class MediaLinkCell: LinkCell, ImageViewAnimator {
         let location = recognizer.location(in: self.contentView)
         if titleTextView.frame.contains(location) {
             if let container = container {
-                let userInfo: [String:Any] = ["link": container.link]
+                let userInfo: [String: Any] = ["link": container.link]
                 NotificationCenter.default.post(name: LinkCellDidTapTitleNotification, object: nil, userInfo: userInfo)
             }
         }
@@ -110,7 +110,7 @@ class MediaLinkCell: LinkCell, ImageViewAnimator {
         if let thumbnailView = self.thumbnailView, let container = container {
             for i in 0..<thumbnailView.imageViews.count {
                 if thumbnailView.imageViews[i].frame.contains(location) {
-                    let userInfo: [String:Any] = ["link": container.link, "thumbnail": thumbnailView.thumbnails[i], "view": thumbnailView.imageViews[i]]
+                    let userInfo: [String: Any] = ["link": container.link, "thumbnail": thumbnailView.thumbnails[i], "view": thumbnailView.imageViews[i]]
                     NotificationCenter.default.post(name: LinkCellDidTapThumbnailNotification, object: nil, userInfo: userInfo)
                 }
             }
@@ -158,7 +158,7 @@ class MediaLinkCell: LinkCell, ImageViewAnimator {
             "titleTextView": titleTextView,
             "contentInfoView": contentInfoView,
             "contentToolbar": contentToolbar,
-            "thumbnailView": thumbnailView,
+            "thumbnailView": thumbnailView
             ]
         
         let metric: [String: Any] = [

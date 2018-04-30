@@ -111,8 +111,8 @@ class SearchController: UITableViewController {
                 if let data = data, let string = String(data: data, encoding: .utf8) {
                     do {
                         let regex = try NSRegularExpression(pattern: "<suggestion data=\"(.+?)\"/>", options: NSRegularExpression.Options.caseInsensitive)
-                        let results = regex.matches(in: string, options: [], range: NSRange(location: 0, length: string.characters.count))
-                        let incomming: [String] = results.flatMap({
+                        let results = regex.matches(in: string, options: [], range: NSRange(location: 0, length: string.utf16.count))
+                        let incomming: [String] = results.compactMap({
                             if $0.numberOfRanges == 2 {
                                 return (string as NSString).substring(with: $0.range(at: 1))
                             }

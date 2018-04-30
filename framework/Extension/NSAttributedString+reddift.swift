@@ -93,7 +93,7 @@ extension URLComponents {
     /// Returns true when URL's filename has image's file extension(such as gif, jpg, png).
     public var hasImageFileExtension: Bool {
         let path = self.path
-            if let r = regexForHasImageFileExtension.firstMatch(in: path, options: [], range: NSRange(location: 0, length: path.characters.count)) {
+            if let r = regexForHasImageFileExtension.firstMatch(in: path, options: [], range: NSRange(location: 0, length: path.utf16.count)) {
                 return r.range(at: 1).length > 0
             }
         return false
@@ -108,14 +108,14 @@ extension NSAttributedString {
             var values: [AnyObject] = []
             self.enumerateAttribute(
                 NSAttributedStringKey.link,
-                in: NSRange(location:0, length:self.length),
+                in: NSRange(location: 0, length: self.length),
                 options: [],
                 using: { (value: Any?, _, _) -> Void in
                 if let value = value {
                     values.append(value as AnyObject)
                 }
             })
-            return values.flatMap { $0 as? URL }
+            return values.compactMap { $0 as? URL }
         }
     }
     
@@ -124,8 +124,8 @@ extension NSAttributedString {
         get {
             return self
                 .includedURL
-                .flatMap {URLComponents(url: $0, resolvingAgainstBaseURL: false)}
-                .flatMap {($0.hasImageFileExtension && $0.scheme != "applewebdata") ? $0.url : nil}
+                .compactMap {URLComponents(url: $0, resolvingAgainstBaseURL: false)}
+                .compactMap {($0.hasImageFileExtension && $0.scheme != "applewebdata") ? $0.url : nil}
         }
     }
     
@@ -139,7 +139,7 @@ extension NSAttributedString {
     - returns : NSAttributedString object to render using UZTextView or UITextView.
     */
     public func reconstruct(with normalFont: UIFont, color: UIColor, linkColor: UIColor, codeBackgroundColor: UIColor = UIColor.lightGray) -> NSAttributedString {
-        return __reconstruct(with: normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
+        return __reconstruct(with: normalFont, color: color, linkColor: linkColor, codeBackgroundColor: codeBackgroundColor)
     }
 #elseif os(macOS)
     /**
@@ -151,7 +151,7 @@ extension NSAttributedString {
     - returns : NSAttributedString object.
     */
     public func reconstruct(with normalFont: NSFont, color: NSColor, linkColor: NSColor, codeBackgroundColor: NSColor = NSColor.lightGray) -> NSAttributedString {
-        return __reconstruct(with: normalFont, color:color, linkColor:linkColor, codeBackgroundColor:codeBackgroundColor)
+        return __reconstruct(with: normalFont, color: color, linkColor: linkColor, codeBackgroundColor: codeBackgroundColor)
     }
 #endif
     
@@ -176,18 +176,18 @@ extension NSAttributedString {
         attributes.forEach {
             switch $0 {
             case .link(let URL, let loc, let len):
-                output.addAttribute(NSAttributedStringKey.link, value:URL, range: NSRange(location: loc, length: len))
+                output.addAttribute(NSAttributedStringKey.link, value: URL, range: NSRange(location: loc, length: len))
                 output.addAttribute(NSAttributedStringKey.foregroundColor, value: linkColor, range: NSRange(location: loc, length: len))
             case .bold(let loc, let len):
-                output.addAttribute(NSAttributedStringKey.font, value:boldFont, range: NSRange(location: loc, length: len))
+                output.addAttribute(NSAttributedStringKey.font, value: boldFont, range: NSRange(location: loc, length: len))
             case .italic(let loc, let len):
-                output.addAttribute(NSAttributedStringKey.font, value:italicFont, range: NSRange(location: loc, length: len))
+                output.addAttribute(NSAttributedStringKey.font, value: italicFont, range: NSRange(location: loc, length: len))
             case .superscript(let loc, let len):
-                output.addAttribute(NSAttributedStringKey.font, value:superscriptFont, range: NSRange(location: loc, length: len))
+                output.addAttribute(NSAttributedStringKey.font, value: superscriptFont, range: NSRange(location: loc, length: len))
             case .strike(let loc, let len):
-                output.addAttribute(NSAttributedStringKey.strikethroughStyle, value:NSNumber(value:1), range: NSRange(location: loc, length: len))
+                output.addAttribute(NSAttributedStringKey.strikethroughStyle, value: NSNumber(value: 1), range: NSRange(location: loc, length: len))
             case .code(let loc, let len):
-                output.addAttribute(NSAttributedStringKey.font, value:codeFont, range: NSRange(location: loc, length: len))
+                output.addAttribute(NSAttributedStringKey.font, value: codeFont, range: NSRange(location: loc, length: len))
                 output.addAttribute(NSAttributedStringKey.backgroundColor, value: codeBackgroundColor, range: NSRange(location: loc, length: len))
             }
         }
@@ -229,13 +229,13 @@ extension NSAttributedString {
     private var attributesForReddift: [Attribute] {
         var attributes: [Attribute] = []
         
-        self.enumerateAttribute(NSAttributedStringKey.link, in: NSRange(location:0, length:self.length), options: [], using: { (value: Any?, range: NSRange, _) -> Void in
+        self.enumerateAttribute(NSAttributedStringKey.link, in: NSRange(location: 0, length: self.length), options: [], using: { (value: Any?, range: NSRange, _) -> Void in
             if let URL = value as? URL {
                 attributes.append(Attribute.link(URL, range.location, range.length))
             }
             })
         
-        self.enumerateAttribute(NSAttributedStringKey.font, in: NSRange(location:0, length:self.length), options: [], using: { (value: Any?, range: NSRange, _) -> Void in
+        self.enumerateAttribute(NSAttributedStringKey.font, in: NSRange(location: 0, length: self.length), options: [], using: { (value: Any?, range: NSRange, _) -> Void in
             if let font = value as? _Font {
                 switch font.fontName {
                 case "TimesNewRomanPS-BoldItalicMT":

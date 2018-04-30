@@ -40,7 +40,7 @@ struct Config {
     Returns scheme of redirect URI.
     */
     var redirectURIScheme: String {
-        if let scheme = URL(string:redirectURI)?.scheme {
+        if let scheme = URL(string: redirectURI)?.scheme {
             return scheme
         } else {
             return ""

@@ -75,8 +75,8 @@ class SubredditCellar: LinkContainerCellar {
      */
     func appendContentWithListing(listing: Listing, widthConstraint: CGFloat, atTheBeginning: Bool) {
         /// Create and layout Content objects.
-        let newLinks: [Link] = listing.children.flatMap({ $0 as? Link })
-        let newContainers: [LinkContainable] = newLinks.flatMap({
+        let newLinks: [Link] = listing.children.compactMap({ $0 as? Link })
+        let newContainers: [LinkContainable] = newLinks.compactMap({
             LinkContainable.createContainer(with: $0, width: width)
         })
         

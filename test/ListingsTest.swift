@@ -21,7 +21,7 @@ class ListingsTest: SessionTestSpec {
                 let documentOpenExpectation = self.expectation(description: "Check whether the list which is obtained with \(sortType.description), \(filter.description) includes only Link object.")
                 var isSucceeded = false
                 do {
-                    try self.session?.getList(Paginator(), subreddit:subreddit, sort:sortType, timeFilterWithin:filter, completion: { (result) in
+                    try self.session?.getList(Paginator(), subreddit: subreddit, sort: sortType, timeFilterWithin: filter, completion: { (result) in
                         switch result {
                         case .failure(let error):
                             print(error)
@@ -44,26 +44,26 @@ class ListingsTest: SessionTestSpec {
      Check whether the random list includes two Listings. Why this test is always failed...?
     */
     func testDownloadRandomLinks() {
-//        let documentOpenExpectation = self.expectation(description: "Check whether the random list includes two Listings.")
-//        do {
-//            try self.session?.getRandom(completion: { (result) in
-//                var isSucceeded = false
-//                switch result {
-//                case .failure:
-//                    print("\(result.error)")
-//                case .success(let tuple):
-//                    isSucceeded = (tuple.0.children.count == 1)
-//                    isSucceeded = isSucceeded && (tuple.0.children[0] is Link)
-//                    isSucceeded = isSucceeded && (tuple.1.children.count > 0)
-//                    for obj in tuple.1.children {
-//                        isSucceeded = isSucceeded && (obj is Comment)
-//                    }
-//                }
-//                XCTAssert(isSucceeded, "Check whether the random list includes two Listings. Why this test is always failed...?")
-//                documentOpenExpectation.fulfill()
-//            })
-//            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
-//        } catch { XCTFail((error as NSError).description) }
+        let documentOpenExpectation = self.expectation(description: "Check whether the random list includes two Listings.")
+        do {
+            try self.session?.getRandom(completion: { (result) in
+                var isSucceeded = false
+                switch result {
+                case .failure(let error):
+                    print(error)
+                case .success(let tuple):
+                    isSucceeded = (tuple.0.children.count == 1)
+                    isSucceeded = isSucceeded && (tuple.0.children[0] is Link)
+                    isSucceeded = isSucceeded && (tuple.1.children.count > 0)
+                    for obj in tuple.1.children {
+                        isSucceeded = isSucceeded && (obj is Comment)
+                    }
+                }
+                XCTAssert(isSucceeded, "Check whether the random list includes two Listings. Why this test is always failed...?")
+                documentOpenExpectation.fulfill()
+            })
+            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
+        } catch { XCTFail((error as NSError).description) }
     }
     
     func testDownloadRandomLinksAmongSpecifiedSubreddit() {
@@ -99,7 +99,7 @@ class ListingsTest: SessionTestSpec {
                 print("Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
                 let documentOpenExpectation = self.expectation(description: "Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
                 let subreddit = Subreddit(subreddit: "redditdev")
-                try self.session?.getList(Paginator(), subreddit:subreddit, sort:.new, timeFilterWithin:.week, completion: { (result) in
+                try self.session?.getList(Paginator(), subreddit: subreddit, sort: .new, timeFilterWithin: .week, completion: { (result) in
                     switch result {
                     case .failure(let error):
                         print(error)
@@ -120,7 +120,7 @@ class ListingsTest: SessionTestSpec {
             do {
                 let documentOpenExpectation = self.expectation(description: "Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
                 if let link = link {
-                    try self.session?.getArticles(link, sort:sort, completion: { (result) -> Void in
+                    try self.session?.getArticles(link, sort: sort, completion: { (result) -> Void in
                         var isSucceeded = false
                         switch result {
                         case .failure:

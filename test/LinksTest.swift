@@ -25,7 +25,7 @@ class LinksTest: SessionTestSpec {
         let documentOpenExpectation = self.expectation(description: "getTestCommentID")
         let link = Link(id: self.testLinkId)
         do {
-            try self.session?.getArticles(link, sort:.new, comments:nil, completion: { (result) -> Void in
+            try self.session?.getArticles(link, sort: .new, comments: nil, completion: { (result) -> Void in
                 switch result {
                 case .failure(let error):
                     print(error)
@@ -47,7 +47,7 @@ class LinksTest: SessionTestSpec {
         let subreddit = Subreddit(subreddit: "sandboxtest")
         let documentOpenExpectation = self.expectation(description: "getTestLinkID")
         do {
-            try self.session?.getList(Paginator(), subreddit:subreddit, sort:.new, timeFilterWithin:.week, completion: { (result) in
+            try self.session?.getList(Paginator(), subreddit: subreddit, sort: .new, timeFilterWithin: .week, completion: { (result) in
                 switch result {
                 case .failure(let error):
                     print(error)
@@ -94,7 +94,7 @@ class LinksTest: SessionTestSpec {
                 do {
                     let name = "t3_" + self.testLinkId
                     let documentOpenExpectation = self.expectation(description: "Check whether the comment is posted as a child of the specified link")
-                    try self.session?.postComment("test comment2", parentName:name, completion: { (result) -> Void in
+                    try self.session?.postComment("test comment2", parentName: name, completion: { (result) -> Void in
                         switch result {
                         case .failure(let error):
                             print(error.description)
@@ -123,7 +123,7 @@ class LinksTest: SessionTestSpec {
                 do {
                     let name = "t1_cw05r44" // old comment object ID
                     let documentOpenExpectation = self.expectation(description: "Test whether Parse class can parse returned JSON object when posting a comment to the too old comment")
-                    try self.session?.postComment("test comment3", parentName:name, completion: { (result) -> Void in
+                    try self.session?.postComment("test comment3", parentName: name, completion: { (result) -> Void in
                         switch result {
                         case .failure(let error):
                             XCTAssert(error.code == ReddiftError.commentJsonObjectIsMalformed.rawValue)
@@ -148,7 +148,7 @@ class LinksTest: SessionTestSpec {
                 do {
                     let name = "t1_" + self.testCommentId
                     let documentOpenExpectation = self.expectation(description: "the comment is posted as a child of the specified comment")
-                    try self.session?.postComment("test comment3", parentName:name, completion: { (result) -> Void in
+                    try self.session?.postComment("test comment3", parentName: name, completion: { (result) -> Void in
                         switch result {
                         case .failure(let error):
                             print(error.description)
@@ -204,7 +204,7 @@ class LinksTest: SessionTestSpec {
                         print(error.description)
                     case .success(let listing):
                         isSucceeded = listing.children
-                            .flatMap({(thing: Thing) -> Link? in
+                            .compactMap({(thing: Thing) -> Link? in
                             if let obj = thing as? Link {if obj.name == link.name { return obj }}
                             return nil
                             })
@@ -558,6 +558,8 @@ class LinksTest: SessionTestSpec {
             } catch { XCTFail((error as NSError).description) }
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
+        
+        Thread.sleep(forTimeInterval: testInterval)
 
         print("Check whether the specified Link is gave upvote.")
         do {
@@ -583,6 +585,8 @@ class LinksTest: SessionTestSpec {
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
         
+        Thread.sleep(forTimeInterval: testInterval)
+        
         print("Test to give a downvote to the specified Link.")
         do {
             var isSucceeded = false
@@ -602,6 +606,8 @@ class LinksTest: SessionTestSpec {
             } catch { XCTFail((error as NSError).description) }
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
+        
+        Thread.sleep(forTimeInterval: testInterval)
 
         print("Check whether the specified Link is gave downvote.")
         do {
@@ -626,6 +632,8 @@ class LinksTest: SessionTestSpec {
                 } catch { XCTFail((error as NSError).description) }
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
+        
+        Thread.sleep(forTimeInterval: testInterval)
 
         print("Test to revoke voting to the specified Link.")
         do {
@@ -646,6 +654,8 @@ class LinksTest: SessionTestSpec {
             } catch { XCTFail((error as NSError).description) }
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
+        
+        Thread.sleep(forTimeInterval: testInterval)
 
         print("Check whether the downvote to the specified Link has been revoked.")
         do {
@@ -694,6 +704,8 @@ class LinksTest: SessionTestSpec {
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
         
+        Thread.sleep(forTimeInterval: testInterval)
+        
         print("Check whether the specified Comment is gave upvote.")
         do {
             var isSucceeded = false
@@ -718,6 +730,8 @@ class LinksTest: SessionTestSpec {
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
         
+        Thread.sleep(forTimeInterval: testInterval)
+        
         print("Test to give a downvote to the specified Comment.")
         do {
             var isSucceeded = false
@@ -737,6 +751,8 @@ class LinksTest: SessionTestSpec {
             } catch { XCTFail((error as NSError).description) }
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
+        
+        Thread.sleep(forTimeInterval: testInterval)
         
         print("Check whether the specified Comment is gave downvote.")
         do {
@@ -762,6 +778,8 @@ class LinksTest: SessionTestSpec {
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
         
+        Thread.sleep(forTimeInterval: testInterval)
+        
         print("Test to revoke voting to the specified Comment.")
         do {
             var isSucceeded = false
@@ -781,6 +799,8 @@ class LinksTest: SessionTestSpec {
             } catch { XCTFail((error as NSError).description) }
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
+        
+        Thread.sleep(forTimeInterval: testInterval)
         
         print("Check whether the downvote to the specified Comment has been revoked.")
         do {

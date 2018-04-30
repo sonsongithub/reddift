@@ -1442,12 +1442,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14364CA21BEDA09F00FECE58 /* Build configuration list for PBXNativeTarget "reddift-tvOS" */;
 			buildPhases = (
-				1492BCBA1EDAAA0600A4470C /* Carthage */,
 				146576321CC85E1D005ED404 /* Swiftlint */,
 				14364C881BEDA09F00FECE58 /* Sources */,
 				14364C891BEDA09F00FECE58 /* Frameworks */,
 				14364C8A1BEDA09F00FECE58 /* Headers */,
 				14364C8B1BEDA09F00FECE58 /* Resources */,
+				1492BCBA1EDAAA0600A4470C /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -1466,6 +1466,7 @@
 				14364C921BEDA09F00FECE58 /* Sources */,
 				14364C931BEDA09F00FECE58 /* Frameworks */,
 				14364C941BEDA09F00FECE58 /* Resources */,
+				14AE43352096832F008CC0A3 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -1482,11 +1483,11 @@
 			buildConfigurationList = 144B5B461E3C8FBA00C88DB9 /* Build configuration list for PBXNativeTarget "application" */;
 			buildPhases = (
 				1436ADF71E5446BB00399707 /* Swiftlint */,
-				1492BCB91EDAA95E00A4470C /* Carthage */,
 				144B5B311E3C8FBA00C88DB9 /* Sources */,
 				144B5B321E3C8FBA00C88DB9 /* Frameworks */,
 				144B5B331E3C8FBA00C88DB9 /* Resources */,
 				144B5B4B1E3C8FE400C88DB9 /* Embed Frameworks */,
+				1492BCB91EDAA95E00A4470C /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -1502,12 +1503,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14B5EBC41AF34D590065BC5E /* Build configuration list for PBXNativeTarget "reddift-iOS" */;
 			buildPhases = (
-				1492BCBB1EDAAA1800A4470C /* Carthage */,
 				14E4D64C1C94473F00442A4A /* Swiftlint */,
 				14B5EBAC1AF34D580065BC5E /* Sources */,
 				14B5EBAD1AF34D580065BC5E /* Frameworks */,
 				14B5EBAE1AF34D580065BC5E /* Headers */,
 				14B5EBAF1AF34D580065BC5E /* Resources */,
+				1492BCBB1EDAAA1800A4470C /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -1522,11 +1523,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14B5EBC71AF34D590065BC5E /* Build configuration list for PBXNativeTarget "reddift-iOSTests" */;
 			buildPhases = (
-				14641CC51F7D5DD6007B29DE /* Carthage */,
 				1436ADFC1E5451C800399707 /* Swiftlint */,
 				14B5EBB71AF34D580065BC5E /* Sources */,
 				14B5EBB81AF34D580065BC5E /* Frameworks */,
 				14B5EBB91AF34D580065BC5E /* Resources */,
+				14641CC51F7D5DD6007B29DE /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -1542,12 +1543,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14F812131AF9EA9F008F6F3C /* Build configuration list for PBXNativeTarget "reddift-macOS" */;
 			buildPhases = (
-				1492BCBC1EDAAA2600A4470C /* Carthage */,
 				146576331CC85E32005ED404 /* Swiftlint */,
 				14F811FB1AF9EA9F008F6F3C /* Sources */,
 				14F811FC1AF9EA9F008F6F3C /* Frameworks */,
 				14F811FD1AF9EA9F008F6F3C /* Headers */,
 				14F811FE1AF9EA9F008F6F3C /* Resources */,
+				1492BCBC1EDAAA2600A4470C /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -1562,11 +1563,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14F812161AF9EA9F008F6F3C /* Build configuration list for PBXNativeTarget "reddift-macOSTests" */;
 			buildPhases = (
-				14530EAE1F804315007AB870 /* Carthage */,
 				1436ADFF1E5453D300399707 /* Swiftlint */,
 				14F812061AF9EA9F008F6F3C /* Sources */,
 				14F812071AF9EA9F008F6F3C /* Frameworks */,
 				14F812081AF9EA9F008F6F3C /* Resources */,
+				14530EAE1F804315007AB870 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -1585,7 +1586,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = sonson;
 				TargetAttributes = {
 					14364C8C1BEDA09F00FECE58 = {
@@ -1808,7 +1809,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint autocorrect\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint autocorrect\nelse\necho \"warning: SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 		1436ADFC1E5451C800399707 /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1822,7 +1823,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint autocorrect\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint autocorrect\nelse\necho \"warning: SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 		1436ADFD1E5453C100399707 /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1836,7 +1837,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint autocorrect\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint autocorrect\nelse\necho \"warning: SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 		1436ADFF1E5453D300399707 /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1850,7 +1851,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint autocorrect\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint autocorrect\nelse\necho \"warning: SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 		14530EAE1F804315007AB870 /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1882,7 +1883,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
 		146576321CC85E1D005ED404 /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1896,7 +1897,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  echo \"SwiftLint\"\n  swiftlint autocorrect\nelse\n  echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint autocorrect\nelse\necho \"warning: SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 		146576331CC85E32005ED404 /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1910,7 +1911,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  echo \"SwiftLint\"\n  swiftlint autocorrect\nelse\n  echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint autocorrect\nelse\necho \"warning: SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 		1492BCB91EDAA95E00A4470C /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1929,7 +1930,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
+			shellScript = "if [ $ARCHS = x86_64 ]; then\necho \"x86_64\"\nelse\necho \"no x86_64\"\n/usr/local/bin/carthage copy-frameworks\nfi\n";
 		};
 		1492BCBA1EDAAA0600A4470C /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1945,7 +1946,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
+			shellScript = "if [ $ARCHS = x86_64 ]; then\necho \"x86_64\"\nelse\necho \"no x86_64\"\n/usr/local/bin/carthage copy-frameworks\nfi\n";
 		};
 		1492BCBB1EDAAA1800A4470C /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1961,7 +1962,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
+			shellScript = "if [ $ARCHS = x86_64 ]; then\necho \"x86_64\"\nelse\necho \"no x86_64\"\n/usr/local/bin/carthage copy-frameworks\nfi\n";
 		};
 		1492BCBC1EDAAA2600A4470C /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1971,6 +1972,20 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/Mac/HTMLSpecialCharacters.framework",
 				"$(SRCROOT)/Carthage/Build/Mac/MiniKeychain.framework",
+			);
+			name = Carthage;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ $ARCHS = x86_64 ]; then\necho \"x86_64\"\nelse\necho \"no x86_64\"\n/usr/local/bin/carthage copy-frameworks\nfi\n";
+		};
+		14AE43352096832F008CC0A3 /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
 			);
 			name = Carthage;
 			outputPaths = (
@@ -1991,7 +2006,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  echo \"SwiftLint\"\n  swiftlint autocorrect\nelse\n  echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\necho \"SwiftLint\"\nswiftlint autocorrect\nelse\necho \"warning: SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2747,12 +2762,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -2801,12 +2818,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

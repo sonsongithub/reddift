@@ -10,7 +10,7 @@ import XCTest
 
 extension XCTestCase {
     func jsonFromFileName(_ name: String) -> Any? {
-        if let path = Bundle(for: self.classForCoder).path(forResource: name, ofType:nil) {
+        if let path = Bundle(for: self.classForCoder).path(forResource: name, ofType: nil) {
             if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
                 do {
                     return try JSONSerialization.jsonObject(with: data, options: [])
@@ -33,7 +33,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingT1JsonFile() {
         print("Each property of t1 has been loaded correctly")
         if let json = self.jsonFromFileName("t1.json") as? JSONDictionary {
-            let object = Comment(json:json)
+            let object = Comment(json: json)
             
             XCTAssert(object.subredditId == "t5_2qizd")
             XCTAssert(object.bannedBy == "")
@@ -108,7 +108,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingT3JsonFile() {
         print("Each property of t3 has been loaded correctly")
         if let json = self.jsonFromFileName("t3.json") as? JSONDictionary {
-            let object = Link(json:json)
+            let object = Link(json: json)
             XCTAssert(object.domain == "self.redditdev")
             XCTAssert(object.bannedBy == "")
             XCTAssert(object.subreddit == "redditdev")
@@ -215,7 +215,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingT5JsonFile() {
         print("Each property of t5 has been loaded correctly")
         if let json = self.jsonFromFileName("t5.json") as? JSONDictionary {
-            let object = Subreddit(json:json)
+            let object = Subreddit(json: json)
             XCTAssert(object.bannerImg == "http://b.thumbs.redditmedia.com/-LmpT3ePYhuPbM0BKJ05jfsKJQV9YtXun44_ZEuGK7o.png")
             XCTAssert(object.submitTextHtml == "<!-- SC_OFF --><div class=\"md\"><ul>\n<li>No Images.<br/></li>\n<li>Please avoid editorialising link titles — use the original article&#39;s title where possible.<br/></li>\n</ul>\n\n<p>Please consider posting to <a href=\"/r/AppleHelp\">/r/AppleHelp</a> for the following:</p>\n\n<ul>\n<li>Requests for technical help of any kind.</li>\n<li><p>Problems with software or hardware.</p></li>\n<li><p>The worth of software or hardware. (Try Mac2Sell)</p></li>\n<li><p>What software or hardware to buy. (Try MacRumors Buying Guide)</p></li>\n<li><p>When hardware will be updated.</p></li>\n</ul>\n\n<p>See the <a href=\"http://www.reddit.com/r/apple/about/sidebar\">sidebar of the subreddit</a> for other rules and guidelines.  </p>\n\n<p>If you have a question, <a href=\"http://www.reddit.com/message/compose?to=%2Fr%2Fapple\">ask the mods</a> please. </p>\n\n<p>Thank you.</p>\n</div><!-- SC_ON -->")
             XCTAssert(object.userIsBanned == false)
@@ -279,7 +279,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingMoreJsonFile() {
         print("Each property of more has been loaded correctly")
         if let json = self.jsonFromFileName("more.json") as? JSONDictionary {
-            let object = More(json:json)
+            let object = More(json: json)
             XCTAssert(object.count == 0)
             XCTAssert(object.parentId == "t1_cp88kh5")
             XCTAssert(object.children == ["cpddp7v", "cp8jvj8", "cp8cv4b"])
@@ -291,7 +291,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingLabeledMultiJsonFile() {
         print("Each property of more has been loaded correctly")
         if let json = self.jsonFromFileName("LabeledMulti.json") as? JSONDictionary {
-            let object = Multireddit(json:json)
+            let object = Multireddit(json: json)
             XCTAssert(object.canEdit == true)
             XCTAssert(object.displayName == "english")
             XCTAssert(object.name == "english")
@@ -313,7 +313,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingLabeledMultiDescriptionJsonFile() {
         print("Each property of more has been loaded correctly")
         if let json = self.jsonFromFileName("LabeledMultiDescription.json") as? JSONDictionary {
-            let object = MultiredditDescription(json:json)
+            let object = MultiredditDescription(json: json)
             XCTAssert(object.bodyHtml == "<!-- SC_OFF --><div class=\"md\"><p>updated</p>\n</div><!-- SC_ON -->")
             XCTAssert(object.bodyMd == "updated")
         }
@@ -322,7 +322,7 @@ class ParseThingObjectTest: XCTestCase {
     func testParsingNeedsCAPTHCAResponseStringTest() {
         print("is true or false")
         var isSucceeded = false
-        if let path = Bundle(for: self.classForCoder).path(forResource: "api_needs_captcha.json", ofType:nil) {
+        if let path = Bundle(for: self.classForCoder).path(forResource: "api_needs_captcha.json", ofType: nil) {
             if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
                 let result = data2Bool(data)
                 switch result {

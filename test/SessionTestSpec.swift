@@ -56,14 +56,14 @@ class SessionTestSpec: XCTestCase {
     
     /// get token using application only oauth
     func createSession() {
-        if let json = self.jsonFromFileName("test_config.json") as? [String:String] {
+        if let json = self.jsonFromFileName("test_config.json") as? [String: String] {
             if let username = json["username"],
                 let password = json["password"],
                 let clientID = json["client_id"],
                 let secret = json["secret"] {
                     let documentOpenExpectation = self.expectation(description: "Test : Getting OAuth2 access token")
                     do {
-                        try OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion:({ (result) -> Void in
+                        try OAuth2AppOnlyToken.getOAuth2AppOnlyToken(username: username, password: password, clientID: clientID, secret: secret, completion: ({ (result) -> Void in
                             switch result {
                             case .failure:
                                 XCTFail("Could not get access token from reddit.com.")

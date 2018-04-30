@@ -56,9 +56,9 @@ class ImageLinkThumbnailView: UIView, ImageDownloadable {
                 viewTupleForURL[md5] = (imageViews[i], activityIndicators[i])
                 
                 switch thumbnails[i] {
-                case .Image(_, _):
+                case .Image:
                     playIconImageViews[i].isHidden = true
-                case .Movie(_, _, _):
+                case .Movie:
                     playIconImageViews[i].isHidden = false
                 }
             }

@@ -67,7 +67,7 @@ class MoviePlayerController: ImageViewController {
     override init(index: Int, thumbnails: [Thumbnail], isOpenedBy3DTouch: Bool = false) {
         let thumbnail = thumbnails[index]
         switch thumbnail {
-        case .Image(_, _):
+        case .Image:
             movieURL = URL(string: "")!
         case .Movie(let movieURL, _, _):
             self.movieURL = movieURL

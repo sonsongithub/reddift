@@ -18,7 +18,7 @@ class UsersTest: SessionTestSpec {
         for content in UserContent.cases {
             for sort in UserContentSortBy.cases {
                 for within in TimeFilterWithin.cases {
-                    let _ = userContentsWith(username, content: content, sort: sort, timeFilterWithin: within)
+                    _ = userContentsWith(username, content: content, sort: sort, timeFilterWithin: within)
                     Thread.sleep(forTimeInterval: 1)
                     break
                 }
@@ -103,7 +103,7 @@ class UsersTest: SessionTestSpec {
         // 2-3
         // note must be blank... This is a bug of reddit.com?
         // https://github.com/sonsongithub/reddift/issues/180
-        usernames.forEach({ makeFriend($0, note:"") })
+        usernames.forEach({ makeFriend($0, note: "") })
         // 4
         let intermediateFriends = friends()
         // 5

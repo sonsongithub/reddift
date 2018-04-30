@@ -91,7 +91,7 @@ class LinkContainable: ThingContainable, ImageDownloadable {
         guard let url = URL(string: link.url) else { return LinkContainer(with: link, width: width, fontSize: fontSize) }
         
         // simple image URL
-        if let _ = regexForImageURL.firstMatch(in: link.url as String, options: [], range:NSRange(location:0, length:(link.url as NSString).length)) {
+        if let _ = regexForImageURL.firstMatch(in: link.url as String, options: [], range: NSRange(location: 0, length: (link.url as NSString).length)) {
             if let imageURL = URL(string: link.url) {
                 let thumbnail = Thumbnail.Image(imageURL: imageURL, parentID: link.id)
                 return MediaLinkContainer(link: link, width: width, fontSize: fontSize, thumbnails: [thumbnail])

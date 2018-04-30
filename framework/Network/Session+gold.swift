@@ -18,10 +18,10 @@ extension Session {
     @discardableResult
     public func gild(_ fullname: String, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["fullname": fullname]
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/v1/gold/gild/", parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path: "/api/v1/gold/gild/", parameter: parameter, method: "POST", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
         }
@@ -37,10 +37,10 @@ extension Session {
      */
     public func giveGold(_ username: String, months: Int, completion: @escaping (Result<JSONAny>) -> Void) throws -> URLSessionDataTask {
         let parameter = ["fullname": username, "months": String(months)]
-        guard let request = URLRequest.requestForOAuth(with: baseURL, path:"/api/v1/gold/give/", parameter:parameter, method:"POST", token:token)
+        guard let request = URLRequest.requestForOAuth(with: baseURL, path: "/api/v1/gold/give/", parameter: parameter, method: "POST", token: token)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let closure = {(data: Data?, response: URLResponse?, error: NSError?) -> Result<JSONAny> in
-            return Result(from: Response(data: data, urlResponse: response), optional:error)
+            return Result(from: Response(data: data, urlResponse: response), optional: error)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
         }

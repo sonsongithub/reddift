@@ -78,7 +78,7 @@ class ExtendCommentsTest: XCTestCase {
                     }
                     if let listing = array[1] as? Listing {
                         let incomming = listing.children
-                            .flatMap({ $0 as? Comment })
+                            .compactMap({ $0 as? Comment })
                             .reduce([], {
                                 return $0 + extendAllReplies(in: $1, current: 1)
                             })

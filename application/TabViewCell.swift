@@ -13,7 +13,7 @@ extension NSLayoutConstraint {
     func setMultiplier(multiplier: CGFloat) {
         
         let newConstraint = NSLayoutConstraint(
-            item: firstItem,
+            item: firstItem as Any,
             attribute: firstAttribute,
             relatedBy: relation,
             toItem: secondItem,

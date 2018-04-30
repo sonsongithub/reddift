@@ -50,7 +50,7 @@ struct SubredditListItem {
      - parameter showsNSFW: Filters NSFW contents. Returns nil when the dict's type is "nsfw" and this argument is false. Default is true.
      - returns: SubredditListItem object.
      */
-    static func objectFromDictionary(dict: [String:AnyObject], showsNSFW: Bool = true) -> SubredditListItem? {
+    static func objectFromDictionary(dict: [String: AnyObject], showsNSFW: Bool = true) -> SubredditListItem? {
         let subreddit = dict["subreddit"] as? String ?? ""
         let title = dict["title"] as? String ?? ""
         let type = dict["type"] as? String ?? ""
@@ -69,20 +69,20 @@ struct SubredditListItem {
     static func SubredditListJSON2List(data: NSData) -> ([SubredditListItem], [SubredditListItem], [SubredditListItem], NSDate) {
         do {
             let json = try JSONSerialization.jsonObject(with: data as Data, options: JSONSerialization.ReadingOptions())
-            if let dictionary = json as? [String:AnyObject] {
-                guard let data_root = dictionary["data"] as? [String:AnyObject]
+            if let dictionary = json as? [String: AnyObject] {
+                guard let data_root = dictionary["data"] as? [String: AnyObject]
                     else { throw NSError(domain: "com.sonson.reddift", code: 0, userInfo: nil) }
                 guard let lastUpdateDate = dictionary["lastUpdateDate"] as? Double
                     else { throw NSError(domain: "com.sonson.reddift", code: 0, userInfo: nil) }
-                guard let subscribers_json = data_root["Subscribers"] as? [[String:AnyObject]]
+                guard let subscribers_json = data_root["Subscribers"] as? [[String: AnyObject]]
                     else { throw NSError(domain: "com.sonson.reddift", code: 0, userInfo: nil) }
-                guard let growth_json = data_root["Growth (24Hrs)"] as? [[String:AnyObject]]
+                guard let growth_json = data_root["Growth (24Hrs)"] as? [[String: AnyObject]]
                     else { throw NSError(domain: "com.sonson.reddift", code: 0, userInfo: nil) }
-                guard let recent_json = data_root["Recent Activity"] as? [[String:AnyObject]]
+                guard let recent_json = data_root["Recent Activity"] as? [[String: AnyObject]]
                     else { throw NSError(domain: "com.sonson.reddift", code: 0, userInfo: nil) }
-                let subscribersRankingList = subscribers_json.flatMap({SubredditListItem.objectFromDictionary(dict: $0)})
-                let growthRankingList = growth_json.flatMap({SubredditListItem.objectFromDictionary(dict: $0)})
-                let recentActivityList = recent_json.flatMap({SubredditListItem.objectFromDictionary(dict: $0)})
+                let subscribersRankingList = subscribers_json.compactMap({SubredditListItem.objectFromDictionary(dict: $0)})
+                let growthRankingList = growth_json.compactMap({SubredditListItem.objectFromDictionary(dict: $0)})
+                let recentActivityList = recent_json.compactMap({SubredditListItem.objectFromDictionary(dict: $0)})
                 let date = NSDate(timeIntervalSince1970: lastUpdateDate)
                 return (subscribersRankingList, growthRankingList, recentActivityList, date)
             }
@@ -98,19 +98,19 @@ struct SubredditListItem {
      - parameter showsNSFW: Set true when you do not want filter nsfw contents.
      - returns: Tuple object which includes dictionary, list of category titles and NSDate which shows last update date. The dictionay is with category title keys and SubredditListItem list.
      */
-    static func ReddiftJSON2List(data: NSData, showsNSFW: Bool = true) -> ([String:[SubredditListItem]], [String], NSDate) {
+    static func ReddiftJSON2List(data: NSData, showsNSFW: Bool = true) -> ([String: [SubredditListItem]], [String], NSDate) {
         do {
             let json = try JSONSerialization.jsonObject(with: data as Data, options: JSONSerialization.ReadingOptions())
-            guard let dictionary = json as? [String:AnyObject]
+            guard let dictionary = json as? [String: AnyObject]
                 else { throw NSError(domain: "com.sonson.reddift", code: 0, userInfo: nil) }
             guard let lastUpdateDate = dictionary["lastUpdateDate"] as? Double
                 else { throw NSError(domain: "com.sonson.reddift", code: 0, userInfo: nil) }
-            guard let categories = dictionary["data"] as? [String:AnyObject]
+            guard let categories = dictionary["data"] as? [String: AnyObject]
                 else { throw NSError(domain: "", code: 0, userInfo: nil) }
-            var categoryLists: [String:[SubredditListItem]] = [:]
+            var categoryLists: [String: [SubredditListItem]] = [:]
             categories.keys.forEach({
-                if let list = categories[$0] as? [[String:AnyObject]] {
-                    let temp = list.flatMap({SubredditListItem.objectFromDictionary(dict: $0, showsNSFW:showsNSFW)})
+                if let list = categories[$0] as? [[String: AnyObject]] {
+                    let temp = list.compactMap({SubredditListItem.objectFromDictionary(dict: $0, showsNSFW: showsNSFW)})
                     if temp.count > 0 {
                         categoryLists[$0] = temp
                     }

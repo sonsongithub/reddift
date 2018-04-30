@@ -39,7 +39,7 @@ extension URL {
     
     var httpsSchemaURL: URL {
         get {
-            let string = regularExpressionForExchangeSchema.stringByReplacingMatches(in: self.absoluteString, options: [], range: NSRange(location: 0, length: self.absoluteString.characters.count), withTemplate: "https://")
+            let string = regularExpressionForExchangeSchema.stringByReplacingMatches(in: self.absoluteString, options: [], range: NSRange(location: 0, length: self.absoluteString.utf16.count), withTemplate: "https://")
             guard let https_url = URL(string: string) else { return self }
             return https_url
         }
@@ -86,7 +86,7 @@ extension URL {
             return extractedContentID
         } else {
             // youtu.be
-            if let id_result = regexForYoutube.firstMatch(in: self.absoluteString as String, options: [], range:NSRange(location:0, length:(self.absoluteString as NSString).length)) {
+            if let id_result = regexForYoutube.firstMatch(in: self.absoluteString as String, options: [], range: NSRange(location: 0, length: (self.absoluteString as NSString).length)) {
                 if id_result.range( at: 3).length > 0 {
                     return (self.absoluteString as NSString).substring(with: id_result.range( at: 3))
                 }
@@ -114,7 +114,7 @@ extension URL {
     }
     
     func extractGfycatContentID(urlString: String) -> String? {
-        if let result = regexForGfycatMovieURL.firstMatch(in: urlString as String, options: [], range:NSRange(location:0, length:(urlString as NSString).length)) {
+        if let result = regexForGfycatMovieURL.firstMatch(in: urlString as String, options: [], range: NSRange(location: 0, length: (urlString as NSString).length)) {
             if result.range(at: 3).length > 0 {
                 print((urlString as NSString).substring(with: result.range(at: 3)))
                 return (urlString as NSString).substring(with: result.range(at: 3))

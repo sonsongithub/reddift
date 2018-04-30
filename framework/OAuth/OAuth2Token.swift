@@ -66,7 +66,7 @@ public struct OAuth2Token: Token {
                     return Result(value: OAuth2Token(json))
             }
         }
-        return Result(error:ReddiftError.tokenJsonObjectIsNotDictionary as NSError)
+        return Result(error: ReddiftError.tokenJsonObjectIsNotDictionary as NSError)
     }
     
     /**
@@ -77,7 +77,7 @@ public struct OAuth2Token: Token {
     */
     static func requestForOAuth(_ code: String) -> URLRequest? {
         guard let URL = URL(string: OAuth2Token.baseURL + "/access_token") else { return nil }
-        var request = URLRequest(url:URL)
+        var request = URLRequest(url: URL)
         do {
             try request.setRedditBasicAuthentication()
             let param = "grant_type=authorization_code&code=" + code + "&redirect_uri=" + Config.sharedInstance.redirectURI
@@ -98,7 +98,7 @@ public struct OAuth2Token: Token {
     */
     public func requestForRefreshing() -> URLRequest? {
         guard let URL = URL(string: OAuth2Token.baseURL + "/access_token") else { return nil }
-        var request = URLRequest(url:URL)
+        var request = URLRequest(url: URL)
         do {
             try request.setRedditBasicAuthentication()
             let param = "grant_type=refresh_token&refresh_token=" + refreshToken
@@ -119,7 +119,7 @@ public struct OAuth2Token: Token {
     */
     func requestForRevoking() -> URLRequest? {
         guard let URL = URL(string: OAuth2Token.baseURL + "/revoke_token") else { return nil }
-        var request = URLRequest(url:URL)
+        var request = URLRequest(url: URL)
         do {
             try request.setRedditBasicAuthentication()
             let param = "token=" + accessToken + "&token_type_hint=access_token"
@@ -145,7 +145,7 @@ public struct OAuth2Token: Token {
         guard let request = requestForRefreshing()
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
-            let result = Result(from: Response(data: data, urlResponse: response), optional:error as NSError?)
+            let result = Result(from: Response(data: data, urlResponse: response), optional: error as NSError?)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap({(json: JSONAny) -> Result<JSONDictionary> in
@@ -180,7 +180,7 @@ public struct OAuth2Token: Token {
         guard let request = requestForRevoking()
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
-            let result = Result(from: Response(data: data, urlResponse: response), optional:error as NSError?)
+            let result = Result(from: Response(data: data, urlResponse: response), optional: error as NSError?)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
             completion(result)
@@ -202,7 +202,7 @@ public struct OAuth2Token: Token {
         guard let request = requestForOAuth(code)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
-            let result = Result(from: Response(data: data, urlResponse: response), optional:error as NSError?)
+            let result = Result(from: Response(data: data, urlResponse: response), optional: error as NSError?)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap(OAuth2Token.tokenWithJSON)
@@ -230,11 +230,11 @@ public struct OAuth2Token: Token {
      */
     @discardableResult
     func getProfile(_ completion: @escaping (Result<OAuth2Token>) -> Void) throws -> URLSessionDataTask {
-        guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path:"/api/v1/me", method:"GET", token:self)
+        guard let request = URLRequest.requestForOAuth(with: Session.OAuthEndpointURL, path: "/api/v1/me", method: "GET", token: self)
             else { throw ReddiftError.canNotCreateURLRequest as NSError }
         let session = URLSession(configuration: URLSessionConfiguration.default)
         let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
-            let result = Result(from: Response(data: data, urlResponse: response), optional:error as NSError?)
+            let result = Result(from: Response(data: data, urlResponse: response), optional: error as NSError?)
                 .flatMap(response2Data)
                 .flatMap(data2Json)
                 .flatMap({ (json: JSONAny) -> Result<Account> in
@@ -245,7 +245,7 @@ public struct OAuth2Token: Token {
                 })
             switch result {
             case .success(let profile):
-                let json = ["name": profile.name, "access_token": self.accessToken, "token_type": self.tokenType, "expires_in": self.expiresIn, "expires_date": self.expiresDate, "scope": self.scope, "refresh_token": self.refreshToken] as [String : Any]
+                let json = ["name": profile.name, "access_token": self.accessToken, "token_type": self.tokenType, "expires_in": self.expiresIn, "expires_date": self.expiresDate, "scope": self.scope, "refresh_token": self.refreshToken] as [String: Any]
                 completion(OAuth2Token.tokenWithJSON(json))
             case .failure(let error):
                 completion(Result(error: error))
