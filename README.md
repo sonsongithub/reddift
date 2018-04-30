@@ -2,6 +2,7 @@
 [![Version](http://img.shields.io/cocoapods/v/reddift.svg?style=flat)](http://cocoadocs.org/docsets/reddift)
 [![License](https://img.shields.io/cocoapods/l/reddift.svg?style=flat)](http://cocoadocs.org/docsets/reddift)
 [![Platform](https://img.shields.io/cocoapods/p/reddift.svg?style=flat)](http://cocoadocs.org/docsets/reddift)
+[![Build Status](https://travis-ci.org/sonsongithub/reddift.svg?branch=master)](https://travis-ci.org/sonsongithub/reddift)
 
 # reddift
 reddift is Swift Reddit API Wrapper framework, and includes a browser is developed using the framework.
