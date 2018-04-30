@@ -1867,7 +1867,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ $ARCHS = x86_64 ]; then\necho \"x86_64\"\nelse\necho \"no x86_64\"\n/usr/local/bin/carthage copy-frameworks\nfi";
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 		14641CC51F7D5DD6007B29DE /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1883,7 +1883,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ $ARCHS = x86_64 ]; then\necho \"x86_64\"\nelse\necho \"no x86_64\"\n/usr/local/bin/carthage copy-frameworks\nfi\n";
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
 		146576321CC85E1D005ED404 /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1992,7 +1992,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ $ARCHS = x86_64 ]; then\necho \"x86_64\"\nelse\necho \"no x86_64\"\n/usr/local/bin/carthage copy-frameworks\nfi\n";
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 		14E4D64C1C94473F00442A4A /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
