@@ -80,9 +80,9 @@ struct SubredditListItem {
                     else { throw NSError(domain: "com.sonson.reddift", code: 0, userInfo: nil) }
                 guard let recent_json = data_root["Recent Activity"] as? [[String: AnyObject]]
                     else { throw NSError(domain: "com.sonson.reddift", code: 0, userInfo: nil) }
-                let subscribersRankingList = subscribers_json.flatMap({SubredditListItem.objectFromDictionary(dict: $0)})
-                let growthRankingList = growth_json.flatMap({SubredditListItem.objectFromDictionary(dict: $0)})
-                let recentActivityList = recent_json.flatMap({SubredditListItem.objectFromDictionary(dict: $0)})
+                let subscribersRankingList = subscribers_json.compactMap({SubredditListItem.objectFromDictionary(dict: $0)})
+                let growthRankingList = growth_json.compactMap({SubredditListItem.objectFromDictionary(dict: $0)})
+                let recentActivityList = recent_json.compactMap({SubredditListItem.objectFromDictionary(dict: $0)})
                 let date = NSDate(timeIntervalSince1970: lastUpdateDate)
                 return (subscribersRankingList, growthRankingList, recentActivityList, date)
             }
@@ -110,7 +110,7 @@ struct SubredditListItem {
             var categoryLists: [String: [SubredditListItem]] = [:]
             categories.keys.forEach({
                 if let list = categories[$0] as? [[String: AnyObject]] {
-                    let temp = list.flatMap({SubredditListItem.objectFromDictionary(dict: $0, showsNSFW: showsNSFW)})
+                    let temp = list.compactMap({SubredditListItem.objectFromDictionary(dict: $0, showsNSFW: showsNSFW)})
                     if temp.count > 0 {
                         categoryLists[$0] = temp
                     }

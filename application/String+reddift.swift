@@ -70,7 +70,7 @@ extension String {
             hash.appendFormat("%02x", result[i])
         }
         
-        result.deallocate(capacity: digestLen)
+        result.deallocate()
         
         return String(format: hash as String)
     }
@@ -79,7 +79,7 @@ extension String {
     */
     var fullRange: NSRange {
         get {
-            return NSRange(location: 0, length: self.characters.count)
+            return NSRange(location: 0, length: self.utf16.count)
         }
     }
     
@@ -88,7 +88,7 @@ extension String {
     */
     var is404OfImgurcom: Bool {
         get {
-            let results404 = regexFor404.matches(in: self, options: [], range: NSRange(location: 0, length: self.characters.count))
+            let results404 = regexFor404.matches(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count))
             return (results404.count > 0)
         }
     }
@@ -96,7 +96,7 @@ extension String {
     /**
      */
     func extractImgurImageURLFromAlbum(parentID: String) -> [Thumbnail] {
-        guard let result = regexForImageJSON.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.characters.count)) else { return [] }
+        guard let result = regexForImageJSON.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) else { return [] }
         
         let json = (self as NSString).substring(with: result.range(at: 1))
         let script = "var dict = \(json)"
@@ -106,14 +106,14 @@ extension String {
             let albumItems = items["album_images"] as? [String: AnyObject],
             let images = albumItems["images"] as? [[String: AnyObject]],
             let _ = albumItems["count"] else { return [] }
-        return images.flatMap({
+        return images.compactMap({
             if let hash = $0["hash"] as? String, let ext = $0["ext"] as? String {
                 return "https://i.imgur.com/\(hash)\(ext)" as String
             }
             return nil
-        }).flatMap({
+        }).compactMap({
             URL(string: $0)
-        }).flatMap({
+        }).compactMap({
             Thumbnail.Image(imageURL: $0, parentID: parentID)
         })
     }
@@ -121,10 +121,10 @@ extension String {
     /**
      */
     func extractImgurImageURLFromSingleImage(parentID: String) -> [Thumbnail] {
-        guard let result = imgurImageURLFromHeaderMetaTag.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.characters.count)) else { return [] }
+        guard let result = imgurImageURLFromHeaderMetaTag.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) else { return [] }
         let range = result.range(at: 3)
         let urlstring = (self as NSString).substring(with: range)
-        return [URL(string: urlstring)].flatMap({$0}).flatMap({
+        return [URL(string: urlstring)].compactMap({$0}).compactMap({
             Thumbnail.Image(imageURL: $0, parentID: parentID)
         })
     }
@@ -133,13 +133,13 @@ extension String {
         var thumbnailURL: URL?
         var movieURL: URL?
         
-        if let result = imgurImageURLFromHeaderMetaTag.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.characters.count)) {
+        if let result = imgurImageURLFromHeaderMetaTag.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
             let range = result.range(at: 3)
             let urlstring = (self as NSString).substring(with: range)
             thumbnailURL = URL(string: urlstring)
         }
         
-        if let result = imgurVideoURLFromHeaderMetaTag.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.characters.count)) {
+        if let result = imgurVideoURLFromHeaderMetaTag.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
             let range = result.range(at: 3)
             let urlstring = (self as NSString).substring(with: range)
             movieURL = URL(string: urlstring)

@@ -39,7 +39,7 @@ extension URL {
     
     var httpsSchemaURL: URL {
         get {
-            let string = regularExpressionForExchangeSchema.stringByReplacingMatches(in: self.absoluteString, options: [], range: NSRange(location: 0, length: self.absoluteString.characters.count), withTemplate: "https://")
+            let string = regularExpressionForExchangeSchema.stringByReplacingMatches(in: self.absoluteString, options: [], range: NSRange(location: 0, length: self.absoluteString.utf16.count), withTemplate: "https://")
             guard let https_url = URL(string: string) else { return self }
             return https_url
         }

@@ -301,7 +301,7 @@ extension ImageViewController {
     func setImage(of url: URL) {
         do {
             let data = try cachedDataInCache(of: url)
-            guard let animatedImage: FLAnimatedImage = FLAnimatedImage(animatedGIFData: data as Data!) else {
+            guard let animatedImage: FLAnimatedImage = FLAnimatedImage(animatedGIFData: data) else {
                 if let image = UIImage(data: data as Data) {
                     mainImageView.isHidden = false
                     mainImageView.image = image

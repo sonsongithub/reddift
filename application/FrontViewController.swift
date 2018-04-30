@@ -41,7 +41,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
 //    }
     
     func targetImageView(thumbnail: Thumbnail) -> UIImageView? {
-        let imageIncludingCells = self.tableView.visibleCells.flatMap({$0 as? ImageViewAnimator})
+        let imageIncludingCells = self.tableView.visibleCells.compactMap({$0 as? ImageViewAnimator})
         for i in 0..<imageIncludingCells.count {
             if let imageView = imageIncludingCells[i].targetImageView(thumbnail: thumbnail) {
                 return imageView
@@ -52,7 +52,7 @@ class FrontViewController: UITableViewController, UIViewControllerPreviewingDele
     
     func imageViews() -> [UIImageView] {
         return self.tableView.visibleCells
-            .flatMap({$0 as? ImageViewAnimator})
+            .compactMap({$0 as? ImageViewAnimator})
             .flatMap({$0.imageViews()})
     }
     

@@ -47,7 +47,7 @@ class ImageViewPageController: UIPageViewController, UIPageViewControllerDataSou
             navigationBar.alpha = newValue
             _alphaWithoutMainContent = newValue
             view.backgroundColor = view.backgroundColor?.withAlphaComponent(_alphaWithoutMainContent)
-            guard var pages = self.viewControllers?.flatMap({ $0 as? Page}) else { return }
+            guard var pages = self.viewControllers?.compactMap({ $0 as? Page}) else { return }
             for i in 0..<pages.count {
                 pages[i].alphaWithoutMainContent = _alphaWithoutMainContent
             }

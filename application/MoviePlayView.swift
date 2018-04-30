@@ -82,7 +82,7 @@ class MoviePlayView: UIView {
             let task = session.dataTask(with: request, completionHandler: { (data, _, error) -> Void in
                 do {
                     guard let data = data else { throw NSError(domain: "", code: 0, userInfo: nil) }
-                    guard let result = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String else { throw NSError(domain: "", code: 0, userInfo: nil) }
+                    guard let result = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as String? else { throw NSError(domain: "", code: 0, userInfo: nil) }
                     let maps = try FormatStreamMapFromString(result)
                     guard let map = searchMp4(infos: maps) else { throw NSError(domain: "", code: 0, userInfo: nil) }
                     DispatchQueue.main.async { self.loadMovie(url: map.url) }

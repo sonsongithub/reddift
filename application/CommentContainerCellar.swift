@@ -37,7 +37,7 @@ class CommentContainerCellar {
     var thumbnails: [Thumbnail] {
         get {
             return containers
-                .flatMap({$0 as? CommentContainer})
+                .compactMap({$0 as? CommentContainer})
                 .flatMap({$0.thumbnails})
         }
     }
@@ -70,7 +70,7 @@ class CommentContainerCellar {
             .filter { $0 is Comment || $0 is More }
             .flatMap { reddift.extendAllReplies(in: $0, current: depth) }
         
-        let list: [CommentContainable] = incomming.flatMap({
+        let list: [CommentContainable] = incomming.compactMap({
             if $0.0 is More && $0.0.id == "_" {
                 return nil
             }
@@ -389,7 +389,7 @@ class CommentContainerCellar {
                     let listing0 = tuple.0
                     if listing0.children.count == 1 {
                         if let link = listing0.children[0] as? Link {
-                            if link.selftextHtml.characters.count > 0 {
+                            if !link.selftextHtml.isEmpty {
                                 do {
                                     let comment = Comment(link: link)
                                     let c = try CommentContainer.createContainer(with: comment, depth: 1, width: width)
