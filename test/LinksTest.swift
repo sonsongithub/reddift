@@ -558,6 +558,8 @@ class LinksTest: SessionTestSpec {
             } catch { XCTFail((error as NSError).description) }
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
+        
+        Thread.sleep(forTimeInterval: testInterval)
 
         print("Check whether the specified Link is gave upvote.")
         do {
@@ -583,6 +585,8 @@ class LinksTest: SessionTestSpec {
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
         
+        Thread.sleep(forTimeInterval: testInterval)
+        
         print("Test to give a downvote to the specified Link.")
         do {
             var isSucceeded = false
@@ -602,6 +606,8 @@ class LinksTest: SessionTestSpec {
             } catch { XCTFail((error as NSError).description) }
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
+        
+        Thread.sleep(forTimeInterval: testInterval)
 
         print("Check whether the specified Link is gave downvote.")
         do {
@@ -626,6 +632,8 @@ class LinksTest: SessionTestSpec {
                 } catch { XCTFail((error as NSError).description) }
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
+        
+        Thread.sleep(forTimeInterval: testInterval)
 
         print("Test to revoke voting to the specified Link.")
         do {
@@ -646,6 +654,8 @@ class LinksTest: SessionTestSpec {
             } catch { XCTFail((error as NSError).description) }
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
+        
+        Thread.sleep(forTimeInterval: testInterval)
 
         print("Check whether the downvote to the specified Link has been revoked.")
         do {
@@ -694,6 +704,8 @@ class LinksTest: SessionTestSpec {
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
         
+        Thread.sleep(forTimeInterval: testInterval)
+        
         print("Check whether the specified Comment is gave upvote.")
         do {
             var isSucceeded = false
@@ -718,6 +730,8 @@ class LinksTest: SessionTestSpec {
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
         
+        Thread.sleep(forTimeInterval: testInterval)
+        
         print("Test to give a downvote to the specified Comment.")
         do {
             var isSucceeded = false
@@ -737,6 +751,8 @@ class LinksTest: SessionTestSpec {
             } catch { XCTFail((error as NSError).description) }
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
+        
+        Thread.sleep(forTimeInterval: testInterval)
         
         print("Check whether the specified Comment is gave downvote.")
         do {
@@ -762,6 +778,8 @@ class LinksTest: SessionTestSpec {
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
         
+        Thread.sleep(forTimeInterval: testInterval)
+        
         print("Test to revoke voting to the specified Comment.")
         do {
             var isSucceeded = false
@@ -781,6 +799,8 @@ class LinksTest: SessionTestSpec {
             } catch { XCTFail((error as NSError).description) }
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         }
+        
+        Thread.sleep(forTimeInterval: testInterval)
         
         print("Check whether the downvote to the specified Comment has been revoked.")
         do {
