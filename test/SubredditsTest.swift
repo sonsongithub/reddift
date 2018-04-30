@@ -180,49 +180,49 @@ class SubredditsTest: SessionTestSpec {
      Test procedure
      1. Search subreddit by swift
      */
-    func testSearchSubredditsByQuery() {
-        var subredditNames: [String] = []
-        let query = "apple"
-        let msg = "Search subreddits by \(query)"
-        let documentOpenExpectation = self.expectation(description: msg)
-        do {
-            try self.session?.searchSubredditsByTopic(query, completion: { (result) -> Void in
-                switch result {
-                case .failure(let error):
-                    print(error)
-                case .success(let names):
-                    subredditNames.append(contentsOf: names)
-                }
-                documentOpenExpectation.fulfill()
-            })
-            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
-        } catch { XCTFail((error as NSError).description) }
-        XCTAssert(subredditNames.count > 0, msg)
-    }
+//    func testSearchSubredditsByQuery() {
+//        var subredditNames: [String] = []
+//        let query = "apple"
+//        let msg = "Search subreddits by \(query)"
+//        let documentOpenExpectation = self.expectation(description: msg)
+//        do {
+//            try self.session?.searchSubredditsByTopic(query, completion: { (result) -> Void in
+//                switch result {
+//                case .failure(let error):
+//                    print(error)
+//                case .success(let names):
+//                    subredditNames.append(contentsOf: names)
+//                }
+//                documentOpenExpectation.fulfill()
+//            })
+//            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
+//        } catch { XCTFail((error as NSError).description) }
+//        XCTAssert(subredditNames.count > 0, msg)
+//    }
     
     /**
      Test procedure
      1. Search subreddit by 日本
      */
-    func testSearchSubredditsByJapaneseQuery() {
-        var subredditNames: [String] = []
-        let query = "日本"
-        let msg = "Search subreddits by \(query)"
-        let documentOpenExpectation = self.expectation(description: msg)
-        do {
-            try self.session?.searchSubredditsByTopic(query, completion: { (result) -> Void in
-                switch result {
-                case .failure(let error):
-                    print(error)
-                case .success(let names):
-                    subredditNames.append(contentsOf: names)
-                }
-                documentOpenExpectation.fulfill()
-            })
-            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
-        } catch { XCTFail((error as NSError).description) }
-        XCTAssert(subredditNames.count > 0, msg)
-    }
+//    func testSearchSubredditsByJapaneseQuery() {
+//        var subredditNames: [String] = []
+//        let query = "日本"
+//        let msg = "Search subreddits by \(query)"
+//        let documentOpenExpectation = self.expectation(description: msg)
+//        do {
+//            try self.session?.searchSubredditsByTopic(query, completion: { (result) -> Void in
+//                switch result {
+//                case .failure(let error):
+//                    print(error)
+//                case .success(let names):
+//                    subredditNames.append(contentsOf: names)
+//                }
+//                documentOpenExpectation.fulfill()
+//            })
+//            self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
+//        } catch { XCTFail((error as NSError).description) }
+//        XCTAssert(subredditNames.count > 0, msg)
+//    }
     
     /**
      Test procedure
