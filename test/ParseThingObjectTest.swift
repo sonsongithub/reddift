@@ -235,7 +235,7 @@ class ParseThingObjectTest: XCTestCase {
             XCTAssert(object.iconSize == [256, 256])
             XCTAssert(object.iconImg == "http://a.thumbs.redditmedia.com/lFTF1eT170AlkGXKosQEgA7bHctvDBv5DWTKUjjCU98.png")
             XCTAssert(object.headerTitle == "")
-            print(object.description)
+//            print(object.description)
             do {
                 if let data = object.description.data(using: .utf8) {
                     try data.write(to: URL(fileURLWithPath: "/Users/sonson/Desktop/hoge.json"))

@@ -52,7 +52,7 @@ class MoreChildrenTest: SessionTestSpec {
                         print(error)
                         check = false
                     case .success(let list):
-                        print(list)
+//                        print(list)
                         if list.count == 0 {
                             check = false
                         }

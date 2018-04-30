@@ -138,8 +138,8 @@ extension SessionTestSpec {
                     switch result {
                     case .failure(let error):
                         print(error)
-                    case .success(let json):
-                        print(json)
+                    case .success:
+//                        print(json)
                         isSucceeded = true
                     }
                     XCTAssert(isSucceeded, msg)

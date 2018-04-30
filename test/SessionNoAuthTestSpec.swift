@@ -83,15 +83,16 @@ class SessionNoAuthTestSpec: XCTestCase {
                                 case .failure(let error):
                                     print(error)
                                     isSucceeded = false
-                                case .success(let listing1, let listing2):
-                                    print(listing1)
-                                    print(listing2)
-                                    for child in listing1.children {
-                                        print(type(of: child))
-                                    }
-                                    for child in listing2.children {
-                                        print(type(of: child))
-                                    }
+                                case .success:
+                                    do {}
+//                                    print(listing1)
+//                                    print(listing2)
+//                                    for child in listing1.children {
+//                                        print(type(of: child))
+//                                    }
+//                                    for child in listing2.children {
+//                                        print(type(of: child))
+//                                    }
                                 }
                                 documentOpenExpectation.fulfill()
                             })

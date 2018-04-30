@@ -88,13 +88,12 @@ class ExtendCommentsTest: XCTestCase {
                             for _ in 0 ..< ($0.1 - 1) {
                                 b += "  "
                             }
-                            print("\(b)\(type(of: $0.0)) - \($0.0.id)")
+//                            print("\(b)\(type(of: $0.0)) - \($0.0.id)")
                         })
                         
                         XCTAssert(gt_type.count == incomming.count, "list is mulformed.")
-                        print(incomming)
-                        print(gt_type)
-                        print(gt_type.count)
+//                        print(gt_type)
+//                        print(gt_type.count)
                         for i in 0 ..< gt_type.count {
                             let (c, d) = gt_type[i]
                             XCTAssert(c == type(of: incomming[i].0), "data type error.")

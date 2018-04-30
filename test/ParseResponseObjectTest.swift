@@ -12,7 +12,7 @@ import XCTest
 class response2DataObjectTest: XCTestCase {
         
     func testWhenErrorJsonWhichIsNotResponseFromRmoteIsLoaded() {
-        print("output is nil")
+//        print("output is nil")
         for fileName in ["error.json", "t1.json", "t2.json", "t3.json", "t4.json", "t5.json"] {
             var isSucceeded = false
             if let json = self.jsonFromFileName(fileName) {
@@ -25,7 +25,7 @@ class response2DataObjectTest: XCTestCase {
     }
     
     func testCommentsJsonFile() {
-        print("has 1 Link and 26 Comments")
+//        print("has 1 Link and 26 Comments")
         if let json = self.jsonFromFileName("comments.json") {
             if let objects = Parser.redditAny(from: json) as? [JSONAny] {
                 XCTAssert(objects.count == 2)
@@ -44,7 +44,7 @@ class response2DataObjectTest: XCTestCase {
     }
     
     func testLinksJsonFile() {
-        print("has 26 Links")
+//        print("has 26 Links")
         if let json = self.jsonFromFileName("links.json") {
             if let listing = Parser.redditAny(from: json) as? Listing {
                 XCTAssert(listing.children.count == 26)
@@ -56,7 +56,7 @@ class response2DataObjectTest: XCTestCase {
     }
     
     func testMessageJsonFile() {
-        print("has 4 entries, Comment, Comment, Comment, Message.")
+//        print("has 4 entries, Comment, Comment, Comment, Message.")
         if let json = self.jsonFromFileName("message.json") {
             if let listing = Parser.redditAny(from: json) as? Listing {
                 XCTAssert(listing.children.count == 4)
@@ -69,7 +69,7 @@ class response2DataObjectTest: XCTestCase {
     }
             
     func testSubredditJsonFile() {
-        print("has 5 Subreddits.")
+//        print("has 5 Subreddits.")
         if let json = self.jsonFromFileName("subreddit.json") {
             if let listing = Parser.redditAny(from: json) as? Listing {
                 XCTAssert(listing.children.count == 5)
@@ -81,7 +81,7 @@ class response2DataObjectTest: XCTestCase {
     }
 
     func testParseJSONIsResponseToPostingComment() {
-        print("To t1 object as Comment")
+//        print("To t1 object as Comment")
         var isSucceeded = false
         if let json = self.jsonFromFileName("api_comment_response.json") {
             let result = json2Comment(from: json)
@@ -96,7 +96,7 @@ class response2DataObjectTest: XCTestCase {
     }
     
     func testParseJSONWhichContainsMulti() {
-        print("Must have 2 Multi objects")
+//        print("Must have 2 Multi objects")
         if let json = self.jsonFromFileName("multi.json") {
             if let array = Parser.redditAny(from: json) as? [Any] {
                 if array.count == 0 { XCTFail("can not parse JSON") }

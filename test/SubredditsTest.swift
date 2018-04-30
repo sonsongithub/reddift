@@ -149,7 +149,7 @@ class SubredditsTest: SessionTestSpec {
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         XCTAssert(subreddits.count > 0, msg)
-        subreddits.forEach {print($0.title)}
+//        subreddits.forEach {print($0.title)}
     }
     
     /**

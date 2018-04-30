@@ -142,8 +142,8 @@ class UsersTest: SessionTestSpec {
                 switch result {
                 case .failure(let error):
                     print(error)
-                case .success(let trophies):
-                    print(trophies)
+                case .success:
+//                    print(trophies)
                     isSucceeded = true
                 }
                 XCTAssert(isSucceeded, msg)
