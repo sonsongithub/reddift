@@ -7,3 +7,7 @@ before_install:
 script:
   - carthage update HTMLSpecialCharacters MiniKeychain --platform ios --no-use-binaries
   - xcodebuild test -project reddift.xcodeproj -scheme reddift-iOS -configuration Debug -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 8" CODE_SIGNING_REQUIRED=NO
+
+branches:
+  only:
+  - master
