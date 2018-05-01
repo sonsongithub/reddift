@@ -8,4 +8,4 @@ before_install:
 
 script:
   - carthage update HTMLSpecialCharacters MiniKeychain --platform ios --no-use-binaries
-  - travis_wait bash ./build.sh
+  - bash ./build.sh
