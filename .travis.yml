@@ -1,5 +1,5 @@
 language: swift
-osx_image: xcode9.3
+osx_image: xcode8.3
 
 before_install:
   - cd test
@@ -7,5 +7,5 @@ before_install:
   - cd ../
 
 script:
-  - carthage update HTMLSpecialCharacters MiniKeychain --platform ios
-  - xcodebuild test -project reddift.xcodeproj -scheme reddift-iOS -configuration Debug -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 8"
+  - carthage update HTMLSpecialCharacters MiniKeychain --platform ios --no-use-binaries
+  - bash ./build.sh

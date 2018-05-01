@@ -17,6 +17,7 @@ class ListingsTest: SessionTestSpec {
         let subreddit = Subreddit(subreddit: "sandboxtest")
         for sortType in sortTypes {
             for filter in timeFilterTypes {
+                Thread.sleep(forTimeInterval: testInterval)
                 print("Check whether the list which is obtained with \(sortType.description), \(filter.description) includes only Link object.")
                 let documentOpenExpectation = self.expectation(description: "Check whether the list which is obtained with \(sortType.description), \(filter.description) includes only Link object.")
                 var isSucceeded = false
@@ -44,6 +45,9 @@ class ListingsTest: SessionTestSpec {
      Check whether the random list includes two Listings. Why this test is always failed...?
     */
     func testDownloadRandomLinks() {
+        
+        Thread.sleep(forTimeInterval: testInterval)
+        
         let documentOpenExpectation = self.expectation(description: "Check whether the random list includes two Listings.")
         do {
             try self.session?.getRandom(completion: { (result) in
@@ -67,6 +71,9 @@ class ListingsTest: SessionTestSpec {
     }
     
     func testDownloadRandomLinksAmongSpecifiedSubreddit() {
+        
+        Thread.sleep(forTimeInterval: testInterval)
+        
         let documentOpenExpectation = self.expectation(description: "Check whether the random list among the specified subreddit includes two Listings when using withoutLink = false.")
 
         var isSucceeded = false
@@ -96,6 +103,7 @@ class ListingsTest: SessionTestSpec {
         for sort in sortTypes {
             var link: Link? = nil
             do {
+                Thread.sleep(forTimeInterval: testInterval)
                 print("Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
                 let documentOpenExpectation = self.expectation(description: "Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
                 let subreddit = Subreddit(subreddit: "redditdev")
