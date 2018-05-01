@@ -8,4 +8,4 @@ before_install:
 
 script:
   - carthage update HTMLSpecialCharacters MiniKeychain --platform ios
-  - xcodebuild test -project reddift.xcodeproj -scheme reddift-iOS -configuration Debug -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 8"
+  - travis_wait xcodebuild test -project reddift.xcodeproj -scheme reddift-iOS -configuration Debug -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 8"
