@@ -11,7 +11,7 @@ import XCTest
 
 class ListingsTest: SessionTestSpec {
     
-    let localTestTimeInterval = Double(2)
+    let localTestTimeInterval = Double(5)
 
     func testDownloadLinks() {
         let sortTypes: [LinkSortType] = [.controversial, .top, .hot, .new]
