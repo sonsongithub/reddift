@@ -10,6 +10,8 @@ import Foundation
 import XCTest
 
 class ListingsTest: SessionTestSpec {
+    
+    let localTestTimeInterval = Double(2)
 
     func testDownloadLinks() {
         let sortTypes: [LinkSortType] = [.controversial, .top, .hot, .new]
@@ -17,6 +19,9 @@ class ListingsTest: SessionTestSpec {
         let subreddit = Subreddit(subreddit: "sandboxtest")
         for sortType in sortTypes {
             for filter in timeFilterTypes {
+
+                Thread.sleep(forTimeInterval: localTestTimeInterval)
+
                 print("Check whether the list which is obtained with \(sortType.description), \(filter.description) includes only Link object.")
                 let documentOpenExpectation = self.expectation(description: "Check whether the list which is obtained with \(sortType.description), \(filter.description) includes only Link object.")
                 var isSucceeded = false
@@ -94,6 +99,7 @@ class ListingsTest: SessionTestSpec {
     func testDownloadArticlesOfLinkWhichIsSelectedRandomlyFromTheSubreddit() {
         let sortTypes: [CommentSort] = [.confidence, .top, .new, .hot, .controversial, .old, .random, .qa]
         for sort in sortTypes {
+            Thread.sleep(forTimeInterval: localTestTimeInterval)
             var link: Link? = nil
             do {
                 print("Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
