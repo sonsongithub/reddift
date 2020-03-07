@@ -2,10 +2,9 @@ language: objective-c
 osx_image: xcode11.3
 
 before_install:
-  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then openssl aes-256-cbc -K $encrypted_7f426862c7c1_key -iv $encrypted_7f426862c7c1_iv -in ./test/test_config.json.enc -out ./test/test_config.json -d; fi'
+  - openssl aes-256-cbc -K $encrypted_7f426862c7c1_key -iv $encrypted_7f426862c7c1_iv -in ./test/test_config.json.enc -out ./test/test_config.json -d
 
 script:
-  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "Skipping tests as this is a contributor PR and does not have access to encrypted data as seen above."; exit 0; fi'
   - carthage update HTMLSpecialCharacters MiniKeychain --platform ios --no-use-binaries
   - xcodebuild test -project reddift.xcodeproj -scheme reddift-iOS -configuration Debug -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 8" CODE_SIGNING_REQUIRED=NO
 
