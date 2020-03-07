@@ -83,7 +83,7 @@ class CommentContainerCellar {
     
     func appendNewComment(_ newComment: Comment, to parentComment: Comment?, width: CGFloat) -> IndexPath? {
         if let parentComment = parentComment {
-            if let index = containers.index(where: {$0.thing.name == parentComment.name}) {
+            if let index = containers.firstIndex(where: {$0.thing.name == parentComment.name}) {
                 let contaier = containers[index]
                 do {
                     let newContainer = try CommentContainable.createContainer(with: newComment, depth: contaier.depth + 1, width: width)
@@ -127,7 +127,7 @@ class CommentContainerCellar {
                     self.prefetch(containers: temp)
                     
                     DispatchQueue.main.async(execute: { () -> Void in
-                        if let targetIndex = self.containers.index(where: {$0 === moreContainer}) {
+                        if let targetIndex = self.containers.firstIndex(where: {$0 === moreContainer}) {
                             self.containers.remove(at: targetIndex)
                             self.containers.insert(contentsOf: temp, at: targetIndex)
                             
@@ -181,7 +181,7 @@ class CommentContainerCellar {
                         self.prefetch(containers: temp)
                         
                         DispatchQueue.main.async(execute: { () -> Void in
-                            if let targetIndex = self.containers.index(where: {$0 === commentContainer}) {
+                            if let targetIndex = self.containers.firstIndex(where: {$0 === commentContainer}) {
                                 self.containers.remove(at: targetIndex)
                                 self.containers.insert(contentsOf: temp, at: targetIndex)
                                 
@@ -360,7 +360,7 @@ class CommentContainerCellar {
                                     commentContainer.urlContainer[i] = new
                                     
                                     DispatchQueue.main.async(execute: { () -> Void in
-                                        if let targetIndex = self.containers.index(where: {$0 === commentContainer}) {
+                                        if let targetIndex = self.containers.firstIndex(where: {$0 === commentContainer}) {
                                             let reloadIndices = [IndexPath(row: targetIndex, section: 0)]
                                             NotificationCenter.default.post(name: CommentContainerCellarDidLoadCommentsName, object: nil, userInfo: [CommentContainerCellar.reloadIndicesKey: reloadIndices])
                                         }

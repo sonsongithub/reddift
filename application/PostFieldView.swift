@@ -44,11 +44,11 @@ class PostFieldView: UIView {
         self.addSubview(field)
         self.addSubview(line)
         
-        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[label]-10-[field]-10-|", options: NSLayoutFormatOptions(), metrics: nil, views: views))
-        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[label]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views))
-        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[field]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views))
-        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[line]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views))
-        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[line(==0.5)]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[label]-10-[field]-10-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[label]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[field]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[line]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[line(==0.5)]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: views))
         self.addConstraint(NSLayoutConstraint(item: label, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 0.1, constant: 0))
     }
 }

@@ -172,7 +172,7 @@ class ContentToolbar: UIView {
         ["commentBaseButton", "voteBaseView", "actionButton", "saveButton"].forEach {
             self.addConstraints(
                 NSLayoutConstraint.constraints(
-                    withVisualFormat: "V:|-0-[\($0)]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views
+                    withVisualFormat: "V:|-0-[\($0)]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: views
                 )
             )
         }
@@ -180,7 +180,7 @@ class ContentToolbar: UIView {
         /// Horizontal layout
         self.addConstraints(
             NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-0-[commentBaseButton]-0-[voteBaseView]-0-[saveButton]-0-[actionButton]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views
+                withVisualFormat: "H:|-0-[commentBaseButton]-0-[voteBaseView]-0-[saveButton]-0-[actionButton]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: views
             )
         )
         
@@ -227,15 +227,15 @@ class ContentToolbar: UIView {
         }
         commentContainerView.addConstraints(
             NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-0-[commentImageView]-4-[commentLabel]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["commentImageView": commentImageView, "commentLabel": commentLabel])
+                withVisualFormat: "H:|-0-[commentImageView]-4-[commentLabel]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["commentImageView": commentImageView, "commentLabel": commentLabel])
         )
         commentContainerView.addConstraints(
             NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-0-[commentImageView]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["commentImageView": commentImageView, "commentLabel": commentLabel])
+                withVisualFormat: "V:|-0-[commentImageView]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["commentImageView": commentImageView, "commentLabel": commentLabel])
         )
         commentContainerView.addConstraints(
             NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-0-[commentLabel]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["commentImageView": commentImageView, "commentLabel": commentLabel])
+                withVisualFormat: "V:|-0-[commentLabel]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["commentImageView": commentImageView, "commentLabel": commentLabel])
         )
         commentBaseButton.addConstraint(
             NSLayoutConstraint(item: commentContainerView, attribute: .centerX, relatedBy: .equal, toItem: commentBaseButton, attribute: .centerX, multiplier: 1, constant: 0)
@@ -280,13 +280,13 @@ class ContentToolbar: UIView {
         //
         voteBaseView.addConstraints(
             NSLayoutConstraint.constraints(
-                withVisualFormat: "V:|-0-[voteInsideContainerView]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["voteInsideContainerView": voteInsideContainerView])
+                withVisualFormat: "V:|-0-[voteInsideContainerView]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["voteInsideContainerView": voteInsideContainerView])
         )
         
         // horizontal constraints
         voteInsideContainerView.addConstraints(
             NSLayoutConstraint.constraints(
-                withVisualFormat: "H:|-0-[voteImageView]-4-[voteLabel]-16-[upVoteButton]-12-[downVoteButton]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["upVoteButton": upVoteButton, "downVoteButton": downVoteButton, "voteImageView": voteImageView, "voteLabel": voteLabel])
+                withVisualFormat: "H:|-0-[voteImageView]-4-[voteLabel]-16-[upVoteButton]-12-[downVoteButton]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["upVoteButton": upVoteButton, "downVoteButton": downVoteButton, "voteImageView": voteImageView, "voteLabel": voteLabel])
         )
         
         // vertical constraints to title
@@ -311,7 +311,7 @@ class ContentToolbar: UIView {
             if let sv = $0.superview {
                 let view = $0
                 sv.addConstraints(NSLayoutConstraint.constraints(
-                    withVisualFormat: "V:|-0-[view]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["view": view])
+                    withVisualFormat: "V:|-0-[view]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["view": view])
                 )
                 
             }

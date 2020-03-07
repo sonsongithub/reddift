@@ -41,7 +41,7 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
     
     func targetImageView(thumbnail: Thumbnail) -> UIImageView? {
         if let commentContainer = commentContainer {
-            if let index = commentContainer.thumbnails.index(where: {$0.url == thumbnail.url}) {
+            if let index = commentContainer.thumbnails.firstIndex(where: {$0.url == thumbnail.url}) {
                 if 0..<thumbnailView.imageViews.count ~= index {
                     return thumbnailView.imageViews[index]
                 }
@@ -77,7 +77,7 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
         ]
         
         toolbar.addConstraints(
-            NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=0)-[upVote]-space-[downVote]-space-[save]-space-[reply]-space-[action]-space-|", options: NSLayoutFormatOptions(), metrics: metric, views: views)
+            NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=0)-[upVote]-space-[downVote]-space-[save]-space-[reply]-space-[action]-space-|", options: NSLayoutConstraint.FormatOptions(), metrics: metric, views: views)
         )
         
         upVoteButton.addTarget(self, action: #selector(tapUpVoteButton(sender:)), for: .touchUpInside)
@@ -122,7 +122,7 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
         ]
     
         self.contentView.addConstraints(
-            NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[topInformationView]-0-[textView]-toolbarTopSpace-[thumbnailView]-0-[toolbar]-0-|", options: NSLayoutFormatOptions(), metrics: metric, views: views)
+            NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[topInformationView]-0-[textView]-toolbarTopSpace-[thumbnailView]-0-[toolbar]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: metric, views: views)
         )
         
         let topInformationViewHeight = NSLayoutConstraint(item: topInformationView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: CommentCell.informationViewHeight)
@@ -138,14 +138,14 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
         self.toolbarHeight = toolbarHeight
         
         self.addConstraints(
-            NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[verticalBar]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
+            NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[verticalBar]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: views)
         )
         
         self.addConstraints(
-            NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[thumbnailView]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
+            NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[thumbnailView]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: views)
         )
         self.addConstraints(
-            NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[toolbar]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
+            NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[toolbar]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: views)
         )
         
         let varticalBarWidth = NSLayoutConstraint(item: verticalBar, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: CommentCell.verticalBarWidth)
@@ -170,7 +170,7 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
         }
         prepareToolbar()
         prepareInformationView()
-        self.contentView.bringSubview(toFront: thumbnailView)
+        self.contentView.bringSubviewToFront(thumbnailView)
         childlenLabel.isHidden = true
     }
     
@@ -186,7 +186,7 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
         print("init - \(numberOfThumbnails) - \(self.reuseIdentifier!)")
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         self.numberOfThumbnails = 0
         super.init(style: .default, reuseIdentifier: CommentThumbnailView.identifier(numberOfThumbnails: 0))
         prepareSubviews()
@@ -275,7 +275,7 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
     func urlAt(_ location: CGPoint, peekView: UIView) -> (URL, CGRect)? {
         let tappedLocation = peekView.convert(location, to: textView)
         if let attr = textView.attributes(at: tappedLocation) {
-            if let url = attr[NSAttributedStringKey.link] as? URL, let rect = attr[UZTextViewClickedRect] as? CGRect {
+            if let url = attr[NSAttributedString.Key.link] as? URL, let rect = attr[UZTextViewClickedRect] as? CGRect {
                 let tappedLocation = textView.convert(rect, to: peekView)
                 return (url, tappedLocation)
             }

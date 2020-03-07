@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ImageCache {
     var session: Session?
     var window: UIWindow?
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         // handle redirect URL from reddit.com
         return OAuth2Authorizer.sharedInstance.receiveRedirect(url as URL, completion: {(result) -> Void in
             switch result {

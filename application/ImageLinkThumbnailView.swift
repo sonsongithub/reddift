@@ -115,7 +115,7 @@ class ImageLinkThumbnailView: UIView, ImageDownloadable {
         let c = numberOfThumbnails < 5 ? numberOfThumbnails : 5
         for _ in 0 ..< c {
             let iv = UIImageView(frame: CGRect.zero)
-            let ac = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+            let ac = UIActivityIndicatorView(style: .gray)
             let icon = UIImageView(frame: CGRect.zero)
             
             iv.translatesAutoresizingMaskIntoConstraints = false
@@ -248,13 +248,13 @@ class ImageLinkThumbnailView: UIView, ImageDownloadable {
         ]
         self.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[v1]-0-|",
-                                           options: NSLayoutFormatOptions(),
+                                           options: NSLayoutConstraint.FormatOptions(),
                                            metrics: metrics,
                                            views: views)
         )
         self.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[v1]-0-|",
-                                           options: NSLayoutFormatOptions(),
+                                           options: NSLayoutConstraint.FormatOptions(),
                                            metrics: metrics,
                                            views: views)
         )
@@ -278,7 +278,7 @@ class ImageLinkThumbnailView: UIView, ImageDownloadable {
         }
         self.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[v1]-0-[v2]-0-|",
-                                           options: NSLayoutFormatOptions(),
+                                           options: NSLayoutConstraint.FormatOptions(),
                                            metrics: metrics,
                                            views: views)
         )
@@ -307,7 +307,7 @@ class ImageLinkThumbnailView: UIView, ImageDownloadable {
         
         self.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[v1]-margin-[v2]-margin-[v3]-0-|",
-                                           options: NSLayoutFormatOptions(),
+                                           options: NSLayoutConstraint.FormatOptions(),
                                            metrics: metrics,
                                            views: views)
         )
@@ -337,13 +337,13 @@ class ImageLinkThumbnailView: UIView, ImageDownloadable {
         
         self.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[v1]-margin-[v2]-0-|",
-                                           options: NSLayoutFormatOptions(),
+                                           options: NSLayoutConstraint.FormatOptions(),
                                            metrics: metrics,
                                            views: views)
         )
         self.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[v3]-margin-[v4]-0-|",
-                                           options: NSLayoutFormatOptions(),
+                                           options: NSLayoutConstraint.FormatOptions(),
                                            metrics: metrics,
                                            views: views)
         )
@@ -386,13 +386,13 @@ class ImageLinkThumbnailView: UIView, ImageDownloadable {
         
         self.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[v1]-margin-[v2]-0-|",
-                                           options: NSLayoutFormatOptions(),
+                                           options: NSLayoutConstraint.FormatOptions(),
                                            metrics: metrics,
                                            views: views)
         )
         self.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[v3]-margin-[v4]-margin-[v5]-0-|",
-                                           options: NSLayoutFormatOptions(),
+                                           options: NSLayoutConstraint.FormatOptions(),
                                            metrics: metrics,
                                            views: views)
         )

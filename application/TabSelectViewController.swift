@@ -52,7 +52,7 @@ class TabManager {
     func setScreenshot(image: UIImage) {
         let path = screenshotImagePath(index: currentIndex)
         print(path)
-        let data = UIImageJPEGRepresentation(image, 0.5) as NSData?
+        let data = image.jpegData(compressionQuality: 0.5) as NSData?
         data?.write(toFile: path, atomically: false)
     }
     
@@ -82,7 +82,7 @@ class TabSelectViewController: UICollectionViewController, UICollectionViewDeleg
     
     init() {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = UICollectionViewScrollDirection.horizontal
+        layout.scrollDirection = UICollectionView.ScrollDirection.horizontal
         layout.minimumLineSpacing = 0
         super.init(collectionViewLayout: layout)
     }
@@ -198,9 +198,9 @@ class TabSelectViewController: UICollectionViewController, UICollectionViewDeleg
         cellSize = CGSize(width: ceil(rect.size.width * tileRatio), height: ceil(rect.size.height - 64))
         self.collectionView?.contentInset = UIEdgeInsets(top: 0, left: self.view.frame.size.width * (1 - tileRatio) * 0.5, bottom: 0, right: self.view.frame.size.width * (1 - tileRatio) * 0.5)
         
-        let space = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let add = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(TabSelectViewController.add(sender:)))
-        let close = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(TabSelectViewController.close(sender:)))
+        let space = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let add = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(TabSelectViewController.add(sender:)))
+        let close = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: self, action: #selector(TabSelectViewController.close(sender:)))
         self.toolbarItems = [space, add, space, close]
     }
     

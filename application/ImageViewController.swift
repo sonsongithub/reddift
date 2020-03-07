@@ -16,7 +16,7 @@ class ImageViewController: UIViewController, Page, ImageDownloadable, ImageViewD
     let index: Int
     let scrollView = UIScrollView(frame: CGRect.zero)
     let mainImageView = FLAnimatedImageView(frame: CGRect.zero)
-    var indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    var indicator = UIActivityIndicatorView(style: .gray)
     
     var maximumZoomScale: CGFloat = 0
     var minimumZoomScale: CGFloat = 0
@@ -70,8 +70,8 @@ class ImageViewController: UIViewController, Page, ImageDownloadable, ImageViewD
         }
     }
     
-    override func willMove(toParentViewController parent: UIViewController?) {
-        super.willMove(toParentViewController: parent)
+    override func willMove(toParent parent: UIViewController?) {
+        super.willMove(toParent: parent)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -165,23 +165,23 @@ extension ImageViewController {
     func setIndicator() {
         self.view.addSubview(indicator)
         indicator.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addConstraint(NSLayoutConstraint(item: indicator, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0))
-        self.view.addConstraint(NSLayoutConstraint(item: indicator, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: indicator, attribute: NSLayoutConstraint.Attribute.centerX, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.view, attribute: NSLayoutConstraint.Attribute.centerX, multiplier: 1, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: indicator, attribute: NSLayoutConstraint.Attribute.centerY, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.view, attribute: NSLayoutConstraint.Attribute.centerY, multiplier: 1, constant: 0))
     }
     
     func setScrollView() {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.bouncesZoom = true
-        scrollView.decelerationRate = UIScrollViewDecelerationRateFast
+        scrollView.decelerationRate = UIScrollView.DecelerationRate.fast
         scrollView.delegate = self
         scrollView.isMultipleTouchEnabled = true
         
         self.view.addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[scrollView]-0-|", options: NSLayoutFormatOptions(), metrics: [:], views: ["scrollView": scrollView]))
-        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[scrollView]-1-|", options: NSLayoutFormatOptions(), metrics: [:], views: ["scrollView": scrollView]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[scrollView]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: [:], views: ["scrollView": scrollView]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[scrollView]-1-|", options: NSLayoutConstraint.FormatOptions(), metrics: [:], views: ["scrollView": scrollView]))
     }
     
     func setupSubviews() {

@@ -30,8 +30,8 @@ class ImageViewPageController: UIPageViewController, UIPageViewControllerDataSou
         view.backgroundColor = UIColor.white
         navigationBar.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(navigationBar)
-        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[navigationBar]-0-|", options: NSLayoutFormatOptions(), metrics: [:], views: ["navigationBar": navigationBar]))
-        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[navigationBar(==64)]", options: NSLayoutFormatOptions(), metrics: [:], views: ["navigationBar": navigationBar]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[navigationBar]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: [:], views: ["navigationBar": navigationBar]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[navigationBar(==64)]", options: NSLayoutConstraint.FormatOptions(), metrics: [:], views: ["navigationBar": navigationBar]))
         navigationBar.pushItem(item, animated: false)
         navigationBar.topItem?.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(ImageViewPageController.close(sender:)))
         isNavigationBarHidden = true
@@ -90,7 +90,7 @@ class ImageViewPageController: UIPageViewController, UIPageViewControllerDataSou
     init(thumbnails: [Thumbnail], index: Int) {
         self.thumbnails = thumbnails
         self.currentIndex = index
-        super.init(transitionStyle: UIPageViewControllerTransitionStyle.scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.horizontal, options: [UIPageViewControllerOptionInterPageSpacingKey: 12])
+        super.init(transitionStyle: UIPageViewController.TransitionStyle.scroll, navigationOrientation: UIPageViewController.NavigationOrientation.horizontal, options: [UIPageViewController.OptionsKey.interPageSpacing: 12])
         self.dataSource = self
         self.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(ImageViewPageController.didMoveCurrentImage(notification:)), name: ImageViewControllerDidChangeCurrentImageName, object: nil)
