@@ -357,7 +357,7 @@ class MultiredditTest: SessionTestSpec {
         addSubredditToMultireddit(targetSubreddits[0], multireddit: multireddit)
         addSubredditToMultireddit(targetSubreddits[1], multireddit: multireddit)
         
-        var candidates = getOwnMultireddit().filter({$0.name == multireddit.name})
+        let candidates = getOwnMultireddit().filter({$0.name == multireddit.name})
         if candidates.count == 0 { XCTFail("Error"); return }
         let updatedMultireddit = candidates[0]
         XCTAssert(updatedMultireddit.subreddits.hasSameElements(targetSubreddits), "error")
@@ -394,7 +394,7 @@ class MultiredditTest: SessionTestSpec {
             self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
         } catch { XCTFail((error as NSError).description) }
         
-        var candidates = getOwnMultireddit().filter({$0.name == multireddit.name})
+        let candidates = getOwnMultireddit().filter({$0.name == multireddit.name})
         if candidates.count == 0 { XCTFail("Error"); return }
         let updatedMultireddit = candidates[0]
         XCTAssert(updatedMultireddit.subreddits.hasSameElements(targetSubreddits), "error")
@@ -435,7 +435,7 @@ class MultiredditTest: SessionTestSpec {
             } catch { XCTFail((error as NSError).description) }
         }
         
-        var candidates = getOwnMultireddit().filter({$0.name == multireddit.name})
+        let candidates = getOwnMultireddit().filter({$0.name == multireddit.name})
         if candidates.count == 0 { XCTFail("Error"); return }
         let updatedMultireddit = candidates[0]
         XCTAssert(updatedMultireddit.subreddits.hasSameElements(["swift"]), "error")
@@ -477,7 +477,7 @@ class MultiredditTest: SessionTestSpec {
             } catch { XCTFail((error as NSError).description) }
         }
         
-        var candidates = getOwnMultireddit().filter({$0.name == multireddit.name})
+        let candidates = getOwnMultireddit().filter({$0.name == multireddit.name})
         if candidates.count == 0 { XCTFail("Error"); return }
         let updatedMultireddit = candidates[0]
         XCTAssert(updatedMultireddit.subreddits.hasSameElements(targetSubreddits), "error")

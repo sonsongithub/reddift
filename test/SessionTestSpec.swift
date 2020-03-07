@@ -16,7 +16,7 @@ extension Array {
         var result = true
         for obj in self {
             if let obj = obj as? T {
-                result = result && (array.index(of: obj) != nil)
+                result = result && (array.firstIndex(of: obj) != nil)
             }
         }
         return result
