@@ -43,7 +43,7 @@ class CommentViewController: UITableViewController, UIViewControllerPreviewingDe
     
     @objc func didChangeThumbnailPage(notification: Notification) {
         if let userInfo = notification.userInfo, let thumbnail = userInfo["thumbnail"] as? Thumbnail {
-            if let index = cellar.containers.index(where: { $0.thing.id == thumbnail.parentID }) {
+            if let index = cellar.containers.firstIndex(where: { $0.thing.id == thumbnail.parentID }) {
                 let rect = tableView.rectForRow(at: IndexPath(row: index, section: 0))
                 tableView.scrollRectToVisible(rect, animated: false)
                 if let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? ImageViewAnimator {
@@ -58,7 +58,7 @@ class CommentViewController: UITableViewController, UIViewControllerPreviewingDe
     
     @objc func didUpdateCommentContainer(notification: Notification) {
         if let userInfo = notification.userInfo, let commentContainer = userInfo["contents"] as? CommentContainer {
-            if let index = self.cellar.containers.index(where: {commentContainer.thing.id == $0.thing.id}) {
+            if let index = self.cellar.containers.firstIndex(where: {commentContainer.thing.id == $0.thing.id}) {
                 let indices = [IndexPath(row: index, section: 0)]
                 self.tableView.beginUpdates()
                 self.tableView.reloadRows(at: indices, with: .none)
@@ -351,13 +351,13 @@ class CommentViewController: UITableViewController, UIViewControllerPreviewingDe
 
 extension CommentViewController {
     func textView(_ textView: UZTextView, didLongTapLinkAttribute value: Any?) {
-        if let dict = value as? [String: Any], let url = dict[NSAttributedStringKey.link.rawValue] as? URL {
+        if let dict = value as? [String: Any], let url = dict[NSAttributedString.Key.link.rawValue] as? URL {
             print(url)
         }
     }
     
     func textView(_ textView: UZTextView, didClickLinkAttribute value: Any?) {
-        if let dict = value as? [String: Any], let url = dict[NSAttributedStringKey.link.rawValue] as? URL {
+        if let dict = value as? [String: Any], let url = dict[NSAttributedString.Key.link.rawValue] as? URL {
             print(url)
         }
     }

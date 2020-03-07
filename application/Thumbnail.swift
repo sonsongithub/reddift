@@ -9,8 +9,8 @@
 import Foundation
 
 enum Thumbnail {
-    case Image(imageURL: URL, parentID:String)
-    case Movie(movieURL: URL, thumbnailURL: URL, parentID:String)
+    case Image(imageURL: URL, parentID: String)
+    case Movie(movieURL: URL, thumbnailURL: URL, parentID: String)
     
     var thumbnailURL: URL {
         switch self {

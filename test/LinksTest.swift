@@ -88,8 +88,8 @@ class LinksTest: SessionTestSpec {
     func testPostingCommentToExistingLink() {
         print("Test posting a comment to existing link")
         do {
-            var comment: Comment? = nil
-            print ("Check whether the comment is posted as a child of the specified link")
+            var comment: Comment?
+            print("Check whether the comment is posted as a child of the specified link")
             do {
                 do {
                     let name = "t3_" + self.testLinkId
@@ -107,7 +107,7 @@ class LinksTest: SessionTestSpec {
                 } catch { XCTFail((error as NSError).description) }
                 self.waitForExpectations(timeout: self.timeoutDuration, handler: nil)
             }
-            print ("Test to delete the last posted comment.")
+            print("Test to delete the last posted comment.")
             do {
                 if let comment = comment {
                     self.test_deleteCommentOrLink(comment)
@@ -142,7 +142,7 @@ class LinksTest: SessionTestSpec {
     func testPostingCommentToExistingComment() {
         print("Test posting a comment to existing comment")
         do {
-            var comment: Comment? = nil
+            var comment: Comment?
             print("the comment is posted as a child of the specified comment")
             do {
                 do {

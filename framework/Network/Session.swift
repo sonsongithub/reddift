@@ -12,10 +12,10 @@ import Foundation
 public typealias JSONAny = Any
 
 /// For JSON object, typically this alias means JSONDictionary
-public typealias JSONDictionary = Dictionary<String, AnyObject>
+public typealias JSONDictionary = [String: AnyObject]
 
 /// For JSON object, typically this alias means [AnyObject]
-public typealias JSONArray = Array<AnyObject>
+public typealias JSONArray = [AnyObject]
 
 /// For reddit object.
 public typealias RedditAny = Any

@@ -167,7 +167,7 @@ class SearchController: UITableViewController {
         self.automaticallyAdjustsScrollViewInsets = false
     }
     
-    override init(style: UITableViewStyle) {
+    override init(style: UITableView.Style) {
         super.init(style: style)
         self.automaticallyAdjustsScrollViewInsets = false
     }

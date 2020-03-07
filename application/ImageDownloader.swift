@@ -103,7 +103,7 @@ extension ImageCache {
         do {
             guard let image = UIImage(data: data) else { throw ReddiftAPPError.canNotCreateImageFromData }
             let thumbnail = try self.thumbnail(of: image)
-            guard let thumbnailData = UIImagePNGRepresentation(thumbnail) else { throw ReddiftAPPError.canNotCreatePNGImageDataFromUIImage }
+            guard let thumbnailData = thumbnail.pngData() else { throw ReddiftAPPError.canNotCreatePNGImageDataFromUIImage }
             let imageURL = try imageLocationURL(from: url, in: "cache")
             let thumbnailURL = try imageLocationURL(from: url, in: "thumbnail")
             try data.write(to: imageURL)

@@ -85,7 +85,7 @@ class SubredditsTest: SessionTestSpec {
      1. Get submit text of apple subreddit.
      */
     func testGetSubredditSubmitTxt() {
-        var submitText: String? = nil
+        var submitText: String?
         let subredditName = "apple"
         let msg = "Get submit text of \(subredditName)"
         let documentOpenExpectation = self.expectation(description: msg)
@@ -110,7 +110,7 @@ class SubredditsTest: SessionTestSpec {
      */
     func testGetAbountOfSpecifiedSubreddit() {
         let subredditName = "apple"
-        var subreddit: Subreddit? = nil
+        var subreddit: Subreddit?
         let msg = "Get informations of \(subredditName)"
         let documentOpenExpectation = self.expectation(description: msg)
         do {

@@ -8,12 +8,12 @@
 
 import Foundation
 
-protocol FromFieldViewDelegate {
+protocol FromFieldViewDelegate: class {
     func didTapFromFieldView(sender: FromFieldView)
 }
 
 class FromFieldView: PostFieldView {
-    var delegate: FromFieldViewDelegate?
+    weak var delegate: FromFieldViewDelegate?
     let button = UIButton(type: .custom)
     
     override func setupSubviews() {
@@ -22,8 +22,8 @@ class FromFieldView: PostFieldView {
         let views = ["button": button]
         button.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(button)
-        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[button]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views))
-        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[button]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[button]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[button]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: views))
         button.addTarget(self, action: #selector(FromFieldView.didTapButton(sender:)), for: .touchUpInside)
         
         if let name = UIApplication.appDelegate()?.session?.token?.name {

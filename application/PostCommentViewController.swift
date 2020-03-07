@@ -71,17 +71,17 @@ class PostCommentViewController: UIViewController, FromFieldViewDelegate {
         
         textView.alwaysBounceVertical = true
         
-        self.view.addConstraints (
-            NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[textView]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
+        self.view.addConstraints(
+            NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[textView]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: views)
         )
-        let topConstraint = NSLayoutConstraint(item: self.view, attribute: .top, relatedBy: .equal, toItem: textView, attribute: .top, multiplier: 1, constant: 0)
-        let bottomSpaceConstraint = NSLayoutConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: textView, attribute: .bottom, multiplier: 1, constant: 0)
+        let topConstraint = NSLayoutConstraint(item: self.view!, attribute: .top, relatedBy: .equal, toItem: textView, attribute: .top, multiplier: 1, constant: 0)
+        let bottomSpaceConstraint = NSLayoutConstraint(item: self.view!, attribute: .bottom, relatedBy: .equal, toItem: textView, attribute: .bottom, multiplier: 1, constant: 0)
         self.bottomSpaceConstraint = bottomSpaceConstraint
         self.view.addConstraint(topConstraint)
         self.view.addConstraint(bottomSpaceConstraint)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(PostCommentViewController.keyboardWillChangeFrame(notification:)), name: .UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PostCommentViewController.keyboardWillChangeFrame(notification:)), name: .UIKeyboardDidChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PostCommentViewController.keyboardWillChangeFrame(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PostCommentViewController.keyboardWillChangeFrame(notification:)), name: UIResponder.keyboardDidChangeFrameNotification, object: nil)
         
         let str = "test\n **bold** \n"
         textView.text = str
@@ -133,7 +133,7 @@ class PostCommentViewController: UIViewController, FromFieldViewDelegate {
     
     @objc func keyboardWillChangeFrame(notification: Notification) {
         if let userInfo = notification.userInfo {
-            if let rect = userInfo[UIKeyboardFrameEndUserInfoKey] as? CGRect, let bottomSpaceConstraint = self.bottomSpaceConstraint {
+            if let rect = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect, let bottomSpaceConstraint = self.bottomSpaceConstraint {
                 print(rect)
                 let h = self.view.frame.size.height - rect.origin.y
                 bottomSpaceConstraint.constant = h

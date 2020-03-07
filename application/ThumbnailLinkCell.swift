@@ -9,7 +9,7 @@
 class ThumbnailLinkCell: LinkCell, ImageDownloadable, ImageViewAnimator {
     var titleTextViewHeightConstraint: NSLayoutConstraint?
     let thumbnailImageView = UIImageView(frame: CGRect.zero)
-    let activityIndicatorViewOnThumbnail = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    let activityIndicatorViewOnThumbnail = UIActivityIndicatorView(style: .gray)
     let titleAndThumbnailBaseView = UIView(frame: CGRect.zero)
     
     static let horizontalLeftMargin   = CGFloat(8)
@@ -68,7 +68,7 @@ class ThumbnailLinkCell: LinkCell, ImageDownloadable, ImageViewAnimator {
         super.awakeFromNib()
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
     }
@@ -101,8 +101,8 @@ class ThumbnailLinkCell: LinkCell, ImageDownloadable, ImageViewAnimator {
         let metrics = [
             "horizontalCenterMargin": ThumbnailLinkCell.horizontalCenterMargin
         ]
-        self.contentView.addConstraints (
-            NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[titleTextView]-horizontalCenterMargin-[thumbnailImageView]-0-|", options: NSLayoutFormatOptions(), metrics: metrics, views: views)
+        self.contentView.addConstraints(
+            NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[titleTextView]-horizontalCenterMargin-[thumbnailImageView]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: metrics, views: views)
         )
         
         do {
@@ -154,15 +154,15 @@ class ThumbnailLinkCell: LinkCell, ImageDownloadable, ImageViewAnimator {
         ]
         
         ["contentInfoView", "contentToolbar"].forEach({
-            self.contentView.addConstraints (
-                NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[\($0)]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
+            self.contentView.addConstraints(
+                NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[\($0)]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: views)
             )
         })
-        self.contentView.addConstraints (
-            NSLayoutConstraint.constraints(withVisualFormat: "H:|-horizontalLeftMargin-[titleAndThumbnailBaseView]-horizontalRightMargin-|", options: NSLayoutFormatOptions(), metrics: metric, views: views)
+        self.contentView.addConstraints(
+            NSLayoutConstraint.constraints(withVisualFormat: "H:|-horizontalLeftMargin-[titleAndThumbnailBaseView]-horizontalRightMargin-|", options: NSLayoutConstraint.FormatOptions(), metrics: metric, views: views)
         )
-        self.contentView.addConstraints (
-            NSLayoutConstraint.constraints(withVisualFormat: "V:|-verticalTopMargin-[titleAndThumbnailBaseView]-verticalBottomMargin-[contentInfoView(==contentInfoViewHeight)]-0-[contentToolbar(==contentToolbarHeight)]-0-|", options: NSLayoutFormatOptions(), metrics: metric, views: views)
+        self.contentView.addConstraints(
+            NSLayoutConstraint.constraints(withVisualFormat: "V:|-verticalTopMargin-[titleAndThumbnailBaseView]-verticalBottomMargin-[contentInfoView(==contentInfoViewHeight)]-0-[contentToolbar(==contentToolbarHeight)]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: metric, views: views)
         )
     }
     

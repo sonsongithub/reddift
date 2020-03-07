@@ -134,7 +134,7 @@ class AccountTest: SessionTestSpec {
 extension AccountTest {
     /// Get own Preference
     func getPreference() -> Preference? {
-        var preference: Preference? = nil
+        var preference: Preference?
         let msg = "Get own preference"
         let documentOpenExpectation = self.expectation(description: msg)
         do {

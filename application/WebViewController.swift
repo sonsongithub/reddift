@@ -19,10 +19,10 @@ class WebViewController: UIViewController {
         
         let views = ["webView": webView]
         
-        view.addConstraints (
+        view.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[webView]-0-|", options: [], metrics: nil, views: views)
         )
-        view.addConstraints (
+        view.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[webView]-0-|", options: [], metrics: nil, views: views)
         )
         

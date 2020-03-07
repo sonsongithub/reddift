@@ -59,7 +59,7 @@ class CommentThumbnailView: UIView, ImageDownloadable {
         for i in 0 ..< numberOfRows {
             var temp: [UIImageView] = []
             for _ in 0 ..< CommentThumbnailView.numberOfColumns {
-                let ac = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+                let ac = UIActivityIndicatorView(style: .gray)
                 let iv = UIImageView(frame: CGRect.zero)
                 iv.clipsToBounds = true
                 iv.image = UIImage(named: "account")
@@ -199,7 +199,7 @@ extension CommentThumbnailView {
     
     @objc func didFinishDownloading(notification: NSNotification) {
         if let userInfo = notification.userInfo, let _ = userInfo[ImageDownloadableSenderKey], let url = userInfo[ImageDownloadableUrlKey] as? URL {
-            if let _ = thumbnails.index(where: {$0.thumbnailURL == url}) {
+            if let _ = thumbnails.firstIndex(where: {$0.thumbnailURL == url}) {
                 do {
                     if let _ = userInfo[ImageDownloadableErrorKey] as? NSError {
                         try setErrorImage(of: url)

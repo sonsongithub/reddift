@@ -18,7 +18,7 @@ class MediaLinkCell: LinkCell, ImageViewAnimator {
     func targetImageView(thumbnail: Thumbnail) -> UIImageView? {
         if let container = container as? LinkContainer, let thumbnailView = thumbnailView {
             if container.link.id == thumbnail.parentID {
-                if var index = container.thumbnails.index(where: {$0.url == thumbnail.url}) {
+                if var index = container.thumbnails.firstIndex(where: {$0.url == thumbnail.url}) {
                     if thumbnailView.imageViews.count > 0 {
                         index = index >= thumbnailView.imageViews.count ? thumbnailView.imageViews.count - 1 : index
                         return thumbnailView.imageViews[index]
@@ -58,7 +58,7 @@ class MediaLinkCell: LinkCell, ImageViewAnimator {
         super.layoutSubviews()
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
     }
@@ -168,12 +168,12 @@ class MediaLinkCell: LinkCell, ImageViewAnimator {
         ]
         
         ["thumbnailView", "contentInfoView", "contentToolbar"].forEach({
-            self.contentView.addConstraints (
-                NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[\($0)]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
+            self.contentView.addConstraints(
+                NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[\($0)]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: views)
             )
         })
-        self.contentView.addConstraints (
-            NSLayoutConstraint.constraints(withVisualFormat: "H:|-left-[titleTextView]-right-|", options: NSLayoutFormatOptions(), metrics: metric, views: views)
+        self.contentView.addConstraints(
+            NSLayoutConstraint.constraints(withVisualFormat: "H:|-left-[titleTextView]-right-|", options: NSLayoutConstraint.FormatOptions(), metrics: metric, views: views)
         )
     }
     

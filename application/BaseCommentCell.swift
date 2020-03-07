@@ -159,8 +159,8 @@ class BaseCommentCell: UITableViewCell {
         
         prepareToggleButton()
         
-        topInformationView.addConstraints (
-            NSLayoutConstraint.constraints(withVisualFormat: "H:|-space-[authorButton]-space-[voteLabel]-space-[dateLabel]-(>=0)-[childlenLabel]-space-[toggleButton]-space-|", options: NSLayoutFormatOptions(), metrics: metric, views: views)
+        topInformationView.addConstraints(
+            NSLayoutConstraint.constraints(withVisualFormat: "H:|-space-[authorButton]-space-[voteLabel]-space-[dateLabel]-(>=0)-[childlenLabel]-space-[toggleButton]-space-|", options: NSLayoutConstraint.FormatOptions(), metrics: metric, views: views)
         )
         
         voteLabel.text = "+100"

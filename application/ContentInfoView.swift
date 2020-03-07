@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ContentInfoViewDelegate {
+protocol ContentInfoViewDelegate: class {
     func didTapAuthorsNameButtonOnContentInfoView(contentInfoView: ContentInfoView)
 }
 
@@ -65,7 +65,7 @@ class ContentInfoView: UIView {
     var nameButtonWidthContraint: NSLayoutConstraint?
     var domainLabelWidthContraint: NSLayoutConstraint?
     
-    var delegate: ContentInfoViewDelegate?
+    weak var delegate: ContentInfoViewDelegate?
     
     /// Text color of all strings.
     var textColor = ContentInfoView.defaultTextColor {
@@ -141,7 +141,7 @@ class ContentInfoView: UIView {
         
         self.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-labelHorizontalMargin-[dateLabel]-labelHorizontalMargin-[nameButton]-(>=0)-[domainLabel]-labelHorizontalMargin-|",
-                options: NSLayoutFormatOptions(),
+                                           options: NSLayoutConstraint.FormatOptions(),
                 metrics: metric,
                 views: ["dateLabel": dateLabel, "nameButton": nameButton, "domainLabel": domainLabel])
         )
@@ -216,7 +216,7 @@ class ContentInfoView: UIView {
         self.addConstraints(
             NSLayoutConstraint.constraints(
                 withVisualFormat: "V:|-0-[view]-0-|",
-                options: NSLayoutFormatOptions(),
+                options: NSLayoutConstraint.FormatOptions(),
                 metrics: nil,
                 views: ["view": view]
             )

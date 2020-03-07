@@ -111,7 +111,7 @@ class LinkCell: UITableViewCell {
         setup()
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
     }
@@ -191,15 +191,15 @@ class LinkCell: UITableViewCell {
         ]
         
         ["contentInfoView", "contentToolbar"].forEach({
-            self.contentView.addConstraints (
-                NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[\($0)]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
+            self.contentView.addConstraints(
+                NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[\($0)]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: views)
             )
         })
-        self.contentView.addConstraints (
-            NSLayoutConstraint.constraints(withVisualFormat: "H:|-left-[titleTextView]-right-|", options: NSLayoutFormatOptions(), metrics: metric, views: views)
+        self.contentView.addConstraints(
+            NSLayoutConstraint.constraints(withVisualFormat: "H:|-left-[titleTextView]-right-|", options: NSLayoutConstraint.FormatOptions(), metrics: metric, views: views)
         )
-        self.contentView.addConstraints (
-            NSLayoutConstraint.constraints(withVisualFormat: "V:|-verticalTopMargin-[titleTextView]-verticalBottomMargin-[contentInfoView(==contentInfoViewHeight)]-0-[contentToolbar(==contentToolbarHeight)]-0-|", options: NSLayoutFormatOptions(), metrics: metric, views: views)
+        self.contentView.addConstraints(
+            NSLayoutConstraint.constraints(withVisualFormat: "V:|-verticalTopMargin-[titleTextView]-verticalBottomMargin-[contentInfoView(==contentInfoViewHeight)]-0-[contentToolbar(==contentToolbarHeight)]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: metric, views: views)
         )
     }
     

@@ -12,9 +12,9 @@ import UIKit
  Cell for SubredditListViewController.
  It displays a subreddit title.
  */
-class SubredditListViewSubtitleCell: UITableViewCell {
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: UITableViewCellStyle.subtitle, reuseIdentifier: reuseIdentifier)
+class SubredditListViewSubtitleCell: UITableViewCell {    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: reuseIdentifier)
     }
     
     required init?(coder: NSCoder) {
@@ -27,8 +27,8 @@ class SubredditListViewSubtitleCell: UITableViewCell {
  It displays two values. Left title's color is black and right one is light gray.
  */
 class SubredditListViewRightValueCell: UITableViewCell {
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: UITableViewCellStyle.value1, reuseIdentifier: reuseIdentifier)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: UITableViewCell.CellStyle.value1, reuseIdentifier: reuseIdentifier)
     }
     
     required init?(coder: NSCoder) {

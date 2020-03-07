@@ -10,7 +10,7 @@ import Foundation
 
 class CloseCommentCell: BaseCommentCell {
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         prepareSubviews()
     }
@@ -42,16 +42,16 @@ class CloseCommentCell: BaseCommentCell {
             "toolbarTopSpace": CommentCell.toolbarTopSpace
         ]
         
-        self.contentView.addConstraints (
-            NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[topInformationView]-0-|", options: NSLayoutFormatOptions(), metrics: metric, views: views)
+        self.contentView.addConstraints(
+            NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[topInformationView]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: metric, views: views)
         )
         
         let topInformationViewHeight = NSLayoutConstraint(item: topInformationView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: CommentCell.informationViewHeight)
         topInformationView.addConstraint(topInformationViewHeight)
         self.topInformationViewHeight = topInformationViewHeight
         
-        self.addConstraints (
-            NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[verticalBar]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
+        self.addConstraints(
+            NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[verticalBar]-0-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: views)
         )
         
         let varticalBarWidth = NSLayoutConstraint(item: verticalBar, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: CommentCell.verticalBarWidth)
