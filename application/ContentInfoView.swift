@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ContentInfoViewDelegate {
+protocol ContentInfoViewDelegate: class {
     func didTapAuthorsNameButtonOnContentInfoView(contentInfoView: ContentInfoView)
 }
 

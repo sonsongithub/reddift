@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol FromFieldViewDelegate {
+protocol FromFieldViewDelegate: class {
     func didTapFromFieldView(sender: FromFieldView)
 }
 
