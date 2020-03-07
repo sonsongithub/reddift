@@ -13,7 +13,7 @@ protocol FromFieldViewDelegate {
 }
 
 class FromFieldView: PostFieldView {
-    var delegate: FromFieldViewDelegate?
+    weak var delegate: FromFieldViewDelegate?
     let button = UIButton(type: .custom)
     
     override func setupSubviews() {

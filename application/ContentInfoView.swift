@@ -65,7 +65,7 @@ class ContentInfoView: UIView {
     var nameButtonWidthContraint: NSLayoutConstraint?
     var domainLabelWidthContraint: NSLayoutConstraint?
     
-    var delegate: ContentInfoViewDelegate?
+    weak var delegate: ContentInfoViewDelegate?
     
     /// Text color of all strings.
     var textColor = ContentInfoView.defaultTextColor {

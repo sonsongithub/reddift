@@ -168,11 +168,11 @@ class MediaLinkCell: LinkCell, ImageViewAnimator {
         ]
         
         ["thumbnailView", "contentInfoView", "contentToolbar"].forEach({
-            self.contentView.addConstraints (
+            self.contentView.addConstraints(
                 NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[\($0)]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
             )
         })
-        self.contentView.addConstraints (
+        self.contentView.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-left-[titleTextView]-right-|", options: NSLayoutFormatOptions(), metrics: metric, views: views)
         )
     }

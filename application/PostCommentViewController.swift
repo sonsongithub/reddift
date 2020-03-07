@@ -71,7 +71,7 @@ class PostCommentViewController: UIViewController, FromFieldViewDelegate {
         
         textView.alwaysBounceVertical = true
         
-        self.view.addConstraints (
+        self.view.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[textView]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
         )
         let topConstraint = NSLayoutConstraint(item: self.view, attribute: .top, relatedBy: .equal, toItem: textView, attribute: .top, multiplier: 1, constant: 0)

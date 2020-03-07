@@ -296,7 +296,7 @@ class ContentToolbar: UIView {
         
         // prepare buttons
         [upVoteButton, downVoteButton, voteImageView, voteLabel].forEach {
-            var iconImage: UIImage? = nil
+            var iconImage: UIImage?
             if let button = $0 as? UIButton {
                 iconImage = button.imageView?.image
             } else if let imageView = $0 as? UIImageView {

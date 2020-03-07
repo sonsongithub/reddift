@@ -103,7 +103,7 @@ public struct OAuth2AppOnlyToken: Token {
                     }
                     return Result(error: ReddiftError.tokenJsonObjectIsNotDictionary as NSError)
                 })
-            var token: OAuth2AppOnlyToken? = nil
+            var token: OAuth2AppOnlyToken?
             switch result {
             case .success(let json):
                 var newJSON = json

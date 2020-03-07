@@ -51,9 +51,9 @@ struct Config {
         version =  Bundle.infoValueInMainBundle(for: "CFBundleShortVersionString") as? String ?? "1.0"
         bundleIdentifier = Bundle.infoValueInMainBundle(for: "CFBundleIdentifier") as? String ?? ""
         
-        var _developerName: String? = nil
-        var _redirectURI: String? = nil
-        var _clientID: String? = nil
+        var _developerName: String?
+        var _redirectURI: String?
+        var _clientID: String?
 		if let path = Bundle.main.path(forResource: "reddift_config", ofType: "json") {
 			if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
                 do {

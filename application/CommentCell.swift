@@ -76,7 +76,7 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
             "space": CommentCell.iconHorizontalSpace
         ]
         
-        toolbar.addConstraints (
+        toolbar.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=0)-[upVote]-space-[downVote]-space-[save]-space-[reply]-space-[action]-space-|", options: NSLayoutFormatOptions(), metrics: metric, views: views)
         )
         
@@ -121,7 +121,7 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
             "toolbarTopSpace": CommentCell.toolbarTopSpace
         ]
     
-        self.contentView.addConstraints (
+        self.contentView.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[topInformationView]-0-[textView]-toolbarTopSpace-[thumbnailView]-0-[toolbar]-0-|", options: NSLayoutFormatOptions(), metrics: metric, views: views)
         )
         
@@ -137,14 +137,14 @@ class CommentCell: BaseCommentCell, ImageViewAnimator {
         toolbar.addConstraint(toolbarHeight)
         self.toolbarHeight = toolbarHeight
         
-        self.addConstraints (
+        self.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[verticalBar]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
         )
         
-        self.addConstraints (
+        self.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[thumbnailView]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
         )
-        self.addConstraints (
+        self.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[toolbar]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
         )
         

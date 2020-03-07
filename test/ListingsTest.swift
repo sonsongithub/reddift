@@ -100,7 +100,7 @@ class ListingsTest: SessionTestSpec {
         let sortTypes: [CommentSort] = [.confidence, .top, .new, .hot, .controversial, .old, .random, .qa]
         for sort in sortTypes {
             Thread.sleep(forTimeInterval: localTestTimeInterval)
-            var link: Link? = nil
+            var link: Link?
             do {
                 print("Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")
                 let documentOpenExpectation = self.expectation(description: "Test to download artcles of the link which is selected randomly from redditdev subreddit, \(sort.description)")

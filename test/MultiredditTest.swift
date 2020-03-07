@@ -32,7 +32,7 @@ extension MultiredditTest {
     
     /// Create a new multireddit
     func createMultireddit(_ name: String) -> Multireddit? {
-        var createdMultireddit: Multireddit? = nil
+        var createdMultireddit: Multireddit?
         let msg = "Create a new multireddit whose name is \(name)."
         let documentOpenExpectation = self.expectation(description: msg)
         do {

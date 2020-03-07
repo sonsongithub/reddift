@@ -42,7 +42,7 @@ class CloseCommentCell: BaseCommentCell {
             "toolbarTopSpace": CommentCell.toolbarTopSpace
         ]
         
-        self.contentView.addConstraints (
+        self.contentView.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[topInformationView]-0-|", options: NSLayoutFormatOptions(), metrics: metric, views: views)
         )
         
@@ -50,7 +50,7 @@ class CloseCommentCell: BaseCommentCell {
         topInformationView.addConstraint(topInformationViewHeight)
         self.topInformationViewHeight = topInformationViewHeight
         
-        self.addConstraints (
+        self.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[verticalBar]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
         )
         

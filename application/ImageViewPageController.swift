@@ -104,7 +104,7 @@ class ImageViewPageController: UIPageViewController, UIPageViewControllerDataSou
     class func controller(thumbnails: [Thumbnail], index: Int, isOpenedBy3DTouch: Bool) -> ImageViewPageController {
         let vc = ImageViewPageController(thumbnails: thumbnails, index: index)
         
-        var con: UIViewController? = nil
+        var con: UIViewController?
         
         switch thumbnails[index] {
         case .Image:

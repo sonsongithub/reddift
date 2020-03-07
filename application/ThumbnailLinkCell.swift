@@ -101,7 +101,7 @@ class ThumbnailLinkCell: LinkCell, ImageDownloadable, ImageViewAnimator {
         let metrics = [
             "horizontalCenterMargin": ThumbnailLinkCell.horizontalCenterMargin
         ]
-        self.contentView.addConstraints (
+        self.contentView.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[titleTextView]-horizontalCenterMargin-[thumbnailImageView]-0-|", options: NSLayoutFormatOptions(), metrics: metrics, views: views)
         )
         
@@ -154,14 +154,14 @@ class ThumbnailLinkCell: LinkCell, ImageDownloadable, ImageViewAnimator {
         ]
         
         ["contentInfoView", "contentToolbar"].forEach({
-            self.contentView.addConstraints (
+            self.contentView.addConstraints(
                 NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[\($0)]-0-|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
             )
         })
-        self.contentView.addConstraints (
+        self.contentView.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "H:|-horizontalLeftMargin-[titleAndThumbnailBaseView]-horizontalRightMargin-|", options: NSLayoutFormatOptions(), metrics: metric, views: views)
         )
-        self.contentView.addConstraints (
+        self.contentView.addConstraints(
             NSLayoutConstraint.constraints(withVisualFormat: "V:|-verticalTopMargin-[titleAndThumbnailBaseView]-verticalBottomMargin-[contentInfoView(==contentInfoViewHeight)]-0-[contentToolbar(==contentToolbarHeight)]-0-|", options: NSLayoutFormatOptions(), metrics: metric, views: views)
         )
     }

@@ -157,7 +157,7 @@ class UsersTest: SessionTestSpec {
 extension UsersTest {
     /// Get user contents with username, a type of content, sort and time filter.
     func userContentsWith(_ username: String, content: UserContent, sort: UserContentSortBy, timeFilterWithin: TimeFilterWithin) -> Listing? {
-        var listing: Listing? = nil
+        var listing: Listing?
         let msg = "Get \(username)'s user contents."
         let documentOpenExpectation = self.expectation(description: msg)
         var isSucceeded = false
