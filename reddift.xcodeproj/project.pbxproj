@@ -566,7 +566,6 @@
 		14FD7DB41E3C943400F4A7F9 /* PostCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7D9F1E3C943400F4A7F9 /* PostCommentViewController.swift */; };
 		14FD7DB51E3C943400F4A7F9 /* PostFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7DA01E3C943400F4A7F9 /* PostFieldView.swift */; };
 		14FD7DB61E3C943400F4A7F9 /* reddift_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 14FD7DA11E3C943400F4A7F9 /* reddift_config.json */; };
-		14FD7DB71E3C943400F4A7F9 /* reddift_config.json.sample in Resources */ = {isa = PBXBuildFile; fileRef = 14FD7DA21E3C943400F4A7F9 /* reddift_config.json.sample */; };
 		14FD7DD81E3C944500F4A7F9 /* ReddiftAPPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7DB81E3C944500F4A7F9 /* ReddiftAPPError.swift */; };
 		14FD7DD91E3C944500F4A7F9 /* ReddiftTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7DBA1E3C944500F4A7F9 /* ReddiftTextView.m */; };
 		14FD7DDA1E3C944500F4A7F9 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7DBB1E3C944500F4A7F9 /* SearchController.swift */; };
@@ -1701,7 +1700,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14FD7DB71E3C943400F4A7F9 /* reddift_config.json.sample in Resources */,
 				14FD7E121E3C97CF00F4A7F9 /* Main.storyboard in Resources */,
 				14FD7DA91E3C943400F4A7F9 /* LoadingCommentCell.xib in Resources */,
 				14FD7DEA1E3C944500F4A7F9 /* TabViewCell.xib in Resources */,
